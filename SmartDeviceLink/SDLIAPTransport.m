@@ -175,7 +175,7 @@ int const CreateSessionRetries = 3;
 }
 
 /**
- *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device. Only check for the data session, the control session is handled separately
+ *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device.
  *
  *  @param notification Contains information about the connected accessory
  */
@@ -189,28 +189,34 @@ int const CreateSessionRetries = 3;
     }
 
     if (!self.controlSession.isSessionInProgress && !self.dataSession.isSessionInProgress) {
-        // No connection has yet been established so we will not destroy the current session as it needs to watch for accessory connections.
-        self.retryCounter = 0;
-        self.sessionSetupInProgress = NO;
         SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
+        [self sdl_closeSessions];
     } else if (accessory.connectionID == self.dataSession.connectionID) {
-        // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
+        // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
         [self sdl_destroyTransport];
     } else if (accessory.connectionID == self.controlSession.connectionID) {
-        // The data session has yet to be established so do NOT destroy the transport and DO NOT unregister for notifications from the accessory.
+        // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
-        self.retryCounter = 0;
-        self.sessionSetupInProgress = NO;
-        [self.controlSession stopSession];
-        [self.dataSession stopSession];
+        [self sdl_closeSessions];
     } else {
         SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
+        [self sdl_closeSessions];
     }
 }
 
 /**
- *  Tells the lifecycle manager that the data session has been closed.
+ *  Closes and cleans up the sessions after a control session has been closed. Since a data session has not been established, the lifecycle manager has not transitioned to state started. Do not unregister for notifications from accessory connections/disconnections otherwise the library will not be able to connect to an accessory again.
+ */
+- (void)sdl_closeSessions {
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    [self.controlSession stopSession];
+    [self.dataSession stopSession];
+}
+
+/**
+ *  Tells the lifecycle manager that the data session has been closed. The lifecycle manager will destroy it's `SDLIAPTransport` object and then create a new one to listen for a new connection to the accessory.
  */
 - (void)sdl_destroyTransport {
     self.retryCounter = 0;
@@ -246,7 +252,7 @@ int const CreateSessionRetries = 3;
 
 #pragma mark - Stream Lifecycle
 
-#pragma mark SDLTransportType Protocol
+#pragma mark SDLTransportTypeProtocol
 
 /**
  *  Sends data to Core
@@ -291,7 +297,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    if ((self.dataSession == nil || !self.dataSession.isSessionConnected) && !self.sessionSetupInProgress) {
+    if ((self.dataSession == nil || !self.dataSession.isSessionInProgress) && !self.sessionSetupInProgress) {
         // No data session has been established are not attempting to set one up, attempt to connect
         SDLLogV(@"No data session in progress. Starting setup.");
         self.sessionSetupInProgress = YES;
@@ -413,7 +419,61 @@ int const CreateSessionRetries = 3;
     [self sdl_connect:nil];
 }
 
+
+#pragma mark - Session Delegates
+
+#pragma mark Control Session
+
+/**
+ *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
+ *
+ *  @param controlSession   The control session
+ *  @param protocolString   The protocol string to be used to open the data session
+ *  @param accessory        The accessory with which to create a data session
+ */
+- (void)controlSession:(nonnull SDLIAPSession *)controlSession didGetProtocolString:(nonnull NSString *)protocolString forConnectedAccessory:(nonnull EAAccessory *)accessory {
+    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString];
+    [self.dataSession startSession];
+}
+
+/**
+ *  Called when the control session should be retried.
+ */
+- (void)retryControlSession {
+    [self sdl_retryEstablishSession];
+}
+
+#pragma mark Data Session
+
+/**
+ *  Called when the data session receives data from Core
+ *
+ *  @param dataIn The received data
+ */
+- (void)dataReceived:(nonnull NSData *)dataIn {
+    [self.delegate onDataReceived:dataIn];
+    [self sdl_backgroundTaskStart];
+}
+
+/**
+ *  Called when the data session should be retried.
+ */
+- (void)retryDataSession {
+    [self sdl_retryEstablishSession];
+}
+
+/**
+ *  Called when the data session has been established. Notify the delegate that the transport has been connected.
+ */
+- (void)transportConnected {
+    self.sessionSetupInProgress = NO;
+    [self.delegate onTransportConnected];
+}
+
+
 #pragma mark - Helpers
+
+#pragma mark Protocol Strings
 
 /**
  *  Checks if the app's info.plist contains all the required protocol strings.
@@ -455,6 +515,8 @@ int const CreateSessionRetries = 3;
 
     return nil;
 }
+
+#pragma mark Retry Delay
 
 /**
  *  Generates a random number of seconds between 1.5 and 9.5 used to delay the retry control and data session attempts.
@@ -499,6 +561,7 @@ int const CreateSessionRetries = 3;
     return appDelaySeconds;
 }
 
+
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
@@ -510,45 +573,6 @@ int const CreateSessionRetries = 3;
     self.delegate = nil;
     self.sessionSetupInProgress = NO;
     self.accessoryConnectDuringActiveSession = NO;
-}
-
-#pragma mark - iAP Session Delegates
-
-#pragma mark Control Session
-
-/**
- *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
- *
- *  @param controlSession   The control session
- *  @param protocolString   The protocol string to be used to open the data session
- *  @param accessory        The accessory with which to create a data session
- */
-- (void)controlSession:(nonnull SDLIAPSession *)controlSession didGetProtocolString:(nonnull NSString *)protocolString forConnectedAccessory:(nonnull EAAccessory *)accessory {
-    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString];
-    [self.dataSession startSession];
-}
-
-/**
- *  Called when the control session should be retried.
- */
-- (void)retryControlSession {
-    [self sdl_retryEstablishSession];
-}
-
-#pragma mark Data Session
-
-- (void)dataReceived:(nonnull NSData *)dataIn {
-    [self.delegate onDataReceived:dataIn];
-    [self sdl_backgroundTaskStart];
-}
-
-- (void)retryDataSession {
-    [self sdl_retryEstablishSession];
-}
-
-- (void)transportConnected {
-    self.sessionSetupInProgress = NO;
-    [self.delegate onTransportConnected];
 }
 
 @end
