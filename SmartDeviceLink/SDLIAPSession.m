@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
-NSTimeInterval const StreamThreadWaitSecs = 10.0;
+NSTimeInterval const IOStreamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
 
@@ -49,7 +49,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 #pragma mark - Public Stream Lifecycle
 
 - (BOOL)start {
-    SDLLogD(@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol);
+    SDLLogD(@"Opening EASession with accessory: %@", self.accessory.name);
     self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol];
     return [self sdl_startWithSession:self.easession];
 }
@@ -94,12 +94,19 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.isDataSession) {
+        if (self.ioStreamThread == nil) {
+            SDLLogV(@"Stopping data session but no thread established.");
+            self.isDataSession = NO;
+            self.easession = nil;
+            return;
+        }
+
         [self.ioStreamThread cancel];
 
-        // Waiting on the I/O threads of the data session to close
+        // Waiting for the I/O streams of the data session to close
         [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
             if (success == NO) {
-                SDLLogE(@"About to destroy a thread that has not yet closed.");
+                SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
             }
             self.ioStreamThread = nil;
             self.isDataSession = NO;
@@ -119,7 +126,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
  *  @param completionHandler Returns whether or not the data session's I/O streams were closed successfully.
  */
 - (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
-    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
+    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
         SDLLogD(@"Stream thread canceled successfully");
         return completionHandler(YES);
@@ -202,7 +209,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 
         SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        while (!NSThread.currentThread.cancelled) {
+        while (!self.ioStreamThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         }
@@ -211,6 +218,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 
         // Close I/O streams of the data session. When the streams are closed. Notify the thread that it can close
         [self sdl_closeSession];
+
         dispatch_semaphore_signal(self.canceledSemaphore);
     }
 }

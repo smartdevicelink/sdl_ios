@@ -396,7 +396,7 @@ int const CreateSessionRetries = 3;
             [self.dataSession startSession];
         } else {
             // No compatible accessory
-            SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
+            SDLLogV(@"No accessory supporting SDL was found, dismissing setup. Available accessories: %@", EAAccessoryManager.sharedAccessoryManager.connectedAccessories);
             self.sessionSetupInProgress = NO;
         }
     } else {

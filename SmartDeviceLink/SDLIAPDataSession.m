@@ -72,8 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLLogD(@"Stopping the data session");
-    [self.session stop]; // Calling stop but easession may not yet be set to `nil`
-    self.session.streamDelegate = nil; //
+    [self.session stop];
+    self.session.streamDelegate = nil;
     self.session = nil;
 }
 
