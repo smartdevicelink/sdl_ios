@@ -92,15 +92,18 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Wait for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
-    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         typeof(weakself) strongself = weakself;
         [weakself sdl_closeInputStream];
 
-        if (streamError != nil || strongself.isCancelled) {
-            completion(NO, bytesAvailable, streamError);
-        } else {
-            completion(YES, bytesAvailable, nil);
-        }
+        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+            if (streamError != nil || strongself.isCancelled) {
+                completion(NO, bytesAvailable, streamError);
+            } else {
+                completion(YES, bytesAvailable, nil);
+            }
+        });
+
         [weakself finishOperation];
     });
 
@@ -259,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
-    return self.fileWrapper.file.name;
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.fileWrapper.file.name];
 }
 
 - (NSOperationQueuePriority)queuePriority {

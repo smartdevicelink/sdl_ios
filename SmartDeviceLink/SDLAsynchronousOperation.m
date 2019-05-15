@@ -8,16 +8,21 @@
 
 #import "SDLAsynchronousOperation.h"
 
+#import "SDLLogMacros.h"
+
 @implementation SDLAsynchronousOperation {
     BOOL executing;
     BOOL finished;
 }
 
 - (void)start {
+    SDLLogV(@"Starting operation: %@", self.name);
+
     if (self.isCancelled) {
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
+        SDLLogV(@"Operation was cancelled: %@", self.name);
 
         return;
     }
@@ -28,6 +33,7 @@
 }
 
 - (void)finishOperation {
+    SDLLogV(@"Finishing Operation: %@", self.name);
     [self willChangeValueForKey:@"isExecuting"];
     executing = NO;
     [self didChangeValueForKey:@"isExecuting"];

@@ -105,11 +105,13 @@ NS_ASSUME_NONNULL_BEGIN
             strongSelf.requestFailed = YES;
         }
 
-        if (strongSelf.progressHandler != NULL) {
-            strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
-        } else if (strongSelf.responseHandler != NULL) {
-            strongSelf.responseHandler(request, response, error);
-        }
+        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+            if (strongSelf.progressHandler != NULL) {
+                strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
+            } else if (strongSelf.responseHandler != NULL) {
+                strongSelf.responseHandler(request, response, error);
+            }
+        });
 
         // If we've received responses for all requests, call the completion handler.
         if (strongSelf.requestsComplete >= strongSelf.requests.count) {

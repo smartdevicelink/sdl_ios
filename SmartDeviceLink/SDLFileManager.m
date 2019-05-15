@@ -77,7 +77,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
-    _transactionQueue.name = @"SDLFileManager Transaction Queue";
+    _transactionQueue.name = @"com.sdl.fileManager.transactionQueue";
+    _transactionQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     _transactionQueue.maxConcurrentOperationCount = 1;
     _uploadsInProgress = [[NSMutableDictionary alloc] init];
     _uploadedEphemeralFileNames = [[NSMutableSet<SDLFileName *> alloc] init];
