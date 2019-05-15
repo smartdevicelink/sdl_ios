@@ -26,6 +26,8 @@
   <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
   <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
   <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
+  <li><a href="#section-minimumProtocolVersion">minimumProtocolVersion</a></li>
+  <li><a href="#section-minimumRPCVersion">minimumRPCVersion</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -59,8 +61,8 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                          <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span><span class="p">;</span></code></pre>
+    <span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                              <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -90,8 +92,8 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                      <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span><span class="p">;</span></code></pre>
+    <span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                          <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -121,10 +123,10 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                        <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
-                    <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
-                         <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+    <span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                            <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                        <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
+                             <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -158,10 +160,10 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                    <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span>
-                    <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
-                         <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+    <span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                        <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span>
+                        <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
+                             <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -522,6 +524,43 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minimumProtocolVersion">
+      minimumProtocolVersion
+  </h3>
+  
+  <p>The minimum protocol version that will be permitted to connect. This defaults to 1.0.0. If the protocol version of the head unit connected is below this version, the app will disconnect with an EndService protocol message and will not register.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">minimumProtocolVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minimumProtocolVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minimumRPCVersion">
+      minimumRPCVersion
+  </h3>
+  
+  <p>The minimum RPC version that will be permitted to connect. This defaults to 1.0.0. If the RPC version of the head unit connected is below this version, an UnregisterAppInterface will be sent.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">minimumRPCVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minimumRPCVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

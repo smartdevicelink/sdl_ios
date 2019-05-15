@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager()
 
-@property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
@@ -66,26 +65,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
     _secureMakes = [tempMakeArray copy];
 
-    SDLAppState *initialState = SDLAppStateInactive;
-    switch ([[UIApplication sharedApplication] applicationState]) {
-        case UIApplicationStateActive: {
-            initialState = SDLAppStateActive;
-        } break;
-        case UIApplicationStateInactive: // fallthrough
-        case UIApplicationStateBackground: {
-            initialState = SDLAppStateInactive;
-        } break;
-        default: break;
-    }
-
-    _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
     _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamManagerStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -132,46 +115,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateReady];
 }
 
-- (SDLAppState *)currentAppState {
-    return self.appStateMachine.currentState;
-}
-
 - (SDLAudioStreamManagerState *)currentAudioStreamState {
     return self.audioStreamStateMachine.currentState;
 }
 
-#pragma mark - State Machines
-#pragma mark App State
-+ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_appStateTransitionDictionary {
-    return @{
-             // Will go from Inactive to Active if coming from a Phone Call.
-             // Will go from Inactive to IsRegainingActive if coming from Background.
-             SDLAppStateInactive : @[SDLAppStateActive],
-             SDLAppStateActive : @[SDLAppStateInactive]
-             };
-}
-
-- (void)sdl_appStateDidUpdate:(NSNotification*)notification {
-    if (notification.name == UIApplicationWillResignActiveNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateInactive];
-    } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateActive];
-    }
-}
-
-- (void)didEnterStateAppInactive {
-    SDLLogD(@"App became inactive");
-    [self sdl_stopAudioSession];
-}
-
-// Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
-// We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
-- (void)didEnterStateAppActive {
-    SDLLogD(@"App became active");
-    [self sdl_startAudioSession];
-}
-
-#pragma mark Audio
+#pragma mark - State Machine
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_audioStreamingStateTransitionDictionary {
     return @{
              SDLAudioStreamManagerStateStopped : @[SDLAudioStreamManagerStateStarting],

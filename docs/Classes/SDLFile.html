@@ -11,6 +11,7 @@
   <li><a href="#section-fileSize">fileSize</a></li>
   <li><a href="#section-fileType">fileType</a></li>
   <li><a href="#section-inputStream">inputStream</a></li>
+  <li><a href="#section-isStaticIcon">isStaticIcon</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithFileURL:name:persistent:">-initWithFileURL:name:persistent:</a></li>
   <li><a href="#section-+persistentFileAtFileURL:name:">+persistentFileAtFileURL:name:</a></li>
@@ -166,6 +167,28 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">inputStream</span><span class="p">:</span> <span class="kt">InputStream</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isStaticIcon">
+      isStaticIcon
+  </h3>
+  
+  <p>Describes whether or not this file is represented by static icon data. The head unit will present its representation of the static icon concept when sent this data.</p>
+
+<p>A file that represents a static icon may not be uploaded via the File Manager. It must be set using the Screen Manager.</p>
+
+<p>Support for this feature may vary by system, but it will generally be more supported in soft buttons and menus.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isStaticIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isStaticIcon</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   

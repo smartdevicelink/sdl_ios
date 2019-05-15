@@ -129,9 +129,9 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-       <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-          <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -163,10 +163,10 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-       <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-          <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-      <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -200,10 +200,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                <span class="nf">lockScreen</span><span class="p">:</span>
-                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                   <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
 
   
   
@@ -232,12 +233,13 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                <span class="nf">lockScreen</span><span class="p">:</span>
-                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                   <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-               <span class="nf">fileManager</span><span class="p">:</span>
-                   <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+                   <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
 
   
   
@@ -268,11 +270,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-       <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-          <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-   <span class="nf">streamingMedia</span><span class="p">:</span>
-       <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+       <span class="nf">streamingMedia</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -306,12 +308,12 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-       <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-          <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-   <span class="nf">streamingMedia</span><span class="p">:</span>
-       <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span>
-      <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+       <span class="nf">streamingMedia</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span>
+          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -347,12 +349,13 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                <span class="nf">lockScreen</span><span class="p">:</span>
-                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                   <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-            <span class="nf">streamingMedia</span><span class="p">:</span>
-                <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+                <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)streamingMediaConfig">streamingMediaConfig</a></span><span class="p">;</span></code></pre>
 
   
   
@@ -383,14 +386,15 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                <span class="nf">lockScreen</span><span class="p">:</span>
-                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                   <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-            <span class="nf">streamingMedia</span><span class="p">:</span>
-                <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span>
-               <span class="nf">fileManager</span><span class="p">:</span>
-                   <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span></code></pre>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+                <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)streamingMediaConfig">streamingMediaConfig</a></span>
+                   <span class="n">fileManager</span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
 
   
   

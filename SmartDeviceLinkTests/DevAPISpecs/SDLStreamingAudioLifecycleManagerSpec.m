@@ -46,7 +46,6 @@ describe(@"the streaming audio manager", ^{
         expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isAudioEncrypted)).to(equal(@NO));
         expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
-        expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
     });
 
@@ -67,7 +66,6 @@ describe(@"the streaming audio manager", ^{
             expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isAudioEncrypted)).to(equal(@NO));
-            expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
             expect(streamingLifecycleManager.currentAudioStreamState).to(match(SDLAudioStreamManagerStateStopped));
         });
 
@@ -196,8 +194,8 @@ describe(@"the streaming audio manager", ^{
                                 [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
                             });
 
-                            it(@"should suspend the video stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
+                            it(@"should not close the stream", ^{
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
                             });
                         });
                     });

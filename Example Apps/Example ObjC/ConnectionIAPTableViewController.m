@@ -7,7 +7,6 @@
 #import "ProxyManager.h"
 
 
-
 @interface ConnectionIAPTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
@@ -16,9 +15,7 @@
 @end
 
 
-
 @implementation ConnectionIAPTableViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -48,10 +45,10 @@
             [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeIAP];
         } break;
         case ProxyStateSearchingForConnection: {
-            [[ProxyManager sharedManager] reset];
+            [[ProxyManager sharedManager] stopConnection];
         } break;
         case ProxyStateConnected: {
-            [[ProxyManager sharedManager] reset];
+            [[ProxyManager sharedManager] stopConnection];
         } break;
         default: break;
     }

@@ -13,6 +13,11 @@
   <li><a href="#section-SDLAlertManeuverResponse">SDLAlertManeuverResponse</a></li>
   <li><a href="#section-SDLAlertResponse">SDLAlertResponse</a></li>
   <li><a href="#section-SDLAppInfo">SDLAppInfo</a></li>
+  <li><a href="#section-SDLAppServiceCapability">SDLAppServiceCapability</a></li>
+  <li><a href="#section-SDLAppServiceData">SDLAppServiceData</a></li>
+  <li><a href="#section-SDLAppServiceManifest">SDLAppServiceManifest</a></li>
+  <li><a href="#section-SDLAppServiceRecord">SDLAppServiceRecord</a></li>
+  <li><a href="#section-SDLAppServicesCapabilities">SDLAppServicesCapabilities</a></li>
   <li><a href="#section-SDLArtwork">SDLArtwork</a></li>
   <li><a href="#section-SDLAudioControlCapabilities">SDLAudioControlCapabilities</a></li>
   <li><a href="#section-SDLAudioControlData">SDLAudioControlData</a></li>
@@ -31,6 +36,7 @@
   <li><a href="#section-SDLChoiceSet">SDLChoiceSet</a></li>
   <li><a href="#section-SDLClimateControlCapabilities">SDLClimateControlCapabilities</a></li>
   <li><a href="#section-SDLClimateControlData">SDLClimateControlData</a></li>
+  <li><a href="#section-SDLCloudAppProperties">SDLCloudAppProperties</a></li>
   <li><a href="#section-SDLClusterModeStatus">SDLClusterModeStatus</a></li>
   <li><a href="#section-SDLConfiguration">SDLConfiguration</a></li>
   <li><a href="#section-SDLCreateInteractionChoiceSet">SDLCreateInteractionChoiceSet</a></li>
@@ -63,10 +69,17 @@
   <li><a href="#section-SDLFileManager">SDLFileManager</a></li>
   <li><a href="#section-SDLFileManagerConfiguration">SDLFileManagerConfiguration</a></li>
   <li><a href="#section-SDLFuelRange">SDLFuelRange</a></li>
+  <li><a href="#section-SDLFunctionID">SDLFunctionID</a></li>
   <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
   <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
+  <li><a href="#section-SDLGetAppServiceData">SDLGetAppServiceData</a></li>
+  <li><a href="#section-SDLGetAppServiceDataResponse">SDLGetAppServiceDataResponse</a></li>
+  <li><a href="#section-SDLGetCloudAppProperties">SDLGetCloudAppProperties</a></li>
+  <li><a href="#section-SDLGetCloudAppPropertiesResponse">SDLGetCloudAppPropertiesResponse</a></li>
   <li><a href="#section-SDLGetDTCs">SDLGetDTCs</a></li>
   <li><a href="#section-SDLGetDTCsResponse">SDLGetDTCsResponse</a></li>
+  <li><a href="#section-SDLGetFile">SDLGetFile</a></li>
+  <li><a href="#section-SDLGetFileResponse">SDLGetFileResponse</a></li>
   <li><a href="#section-SDLGetInteriorVehicleData">SDLGetInteriorVehicleData</a></li>
   <li><a href="#section-SDLGetInteriorVehicleDataResponse">SDLGetInteriorVehicleDataResponse</a></li>
   <li><a href="#section-SDLGetSystemCapability">SDLGetSystemCapability</a></li>
@@ -107,15 +120,21 @@
   <li><a href="#section-SDLManager">SDLManager</a></li>
   <li><a href="#section-SDLMassageCushionFirmness">SDLMassageCushionFirmness</a></li>
   <li><a href="#section-SDLMassageModeData">SDLMassageModeData</a></li>
+  <li><a href="#section-SDLMediaServiceData">SDLMediaServiceData</a></li>
+  <li><a href="#section-SDLMediaServiceManifest">SDLMediaServiceManifest</a></li>
   <li><a href="#section-SDLMenuCell">SDLMenuCell</a></li>
   <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
   <li><a href="#section-SDLMetadataTags">SDLMetadataTags</a></li>
   <li><a href="#section-SDLModuleData">SDLModuleData</a></li>
   <li><a href="#section-SDLMyKey">SDLMyKey</a></li>
   <li><a href="#section-SDLNavigationCapability">SDLNavigationCapability</a></li>
+  <li><a href="#section-SDLNavigationInstruction">SDLNavigationInstruction</a></li>
+  <li><a href="#section-SDLNavigationServiceData">SDLNavigationServiceData</a></li>
+  <li><a href="#section-SDLNavigationServiceManifest">SDLNavigationServiceManifest</a></li>
   <li><a href="#section-SDLNotificationConstants">SDLNotificationConstants</a></li>
   <li><a href="#section-SDLOasisAddress">SDLOasisAddress</a></li>
   <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
+  <li><a href="#section-SDLOnAppServiceData">SDLOnAppServiceData</a></li>
   <li><a href="#section-SDLOnAudioPassThru">SDLOnAudioPassThru</a></li>
   <li><a href="#section-SDLOnButtonEvent">SDLOnButtonEvent</a></li>
   <li><a href="#section-SDLOnButtonPress">SDLOnButtonPress</a></li>
@@ -131,12 +150,15 @@
   <li><a href="#section-SDLOnPermissionsChange">SDLOnPermissionsChange</a></li>
   <li><a href="#section-SDLOnRCStatus">SDLOnRCStatus</a></li>
   <li><a href="#section-SDLOnSyncPData">SDLOnSyncPData</a></li>
+  <li><a href="#section-SDLOnSystemCapabilityUpdated">SDLOnSystemCapabilityUpdated</a></li>
   <li><a href="#section-SDLOnSystemRequest">SDLOnSystemRequest</a></li>
   <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
   <li><a href="#section-SDLOnTouchEvent">SDLOnTouchEvent</a></li>
   <li><a href="#section-SDLOnVehicleData">SDLOnVehicleData</a></li>
   <li><a href="#section-SDLOnWayPointChange">SDLOnWayPointChange</a></li>
   <li><a href="#section-SDLParameterPermissions">SDLParameterPermissions</a></li>
+  <li><a href="#section-SDLPerformAppServiceInteraction">SDLPerformAppServiceInteraction</a></li>
+  <li><a href="#section-SDLPerformAppServiceInteractionResponse">SDLPerformAppServiceInteractionResponse</a></li>
   <li><a href="#section-SDLPerformAudioPassThru">SDLPerformAudioPassThru</a></li>
   <li><a href="#section-SDLPerformAudioPassThruResponse">SDLPerformAudioPassThruResponse</a></li>
   <li><a href="#section-SDLPerformInteraction">SDLPerformInteraction</a></li>
@@ -146,6 +168,8 @@
   <li><a href="#section-SDLPhoneCapability">SDLPhoneCapability</a></li>
   <li><a href="#section-SDLPinchGesture">SDLPinchGesture</a></li>
   <li><a href="#section-SDLPresetBankCapabilities">SDLPresetBankCapabilities</a></li>
+  <li><a href="#section-SDLPublishAppService">SDLPublishAppService</a></li>
+  <li><a href="#section-SDLPublishAppServiceResponse">SDLPublishAppServiceResponse</a></li>
   <li><a href="#section-SDLPutFile">SDLPutFile</a></li>
   <li><a href="#section-SDLPutFileResponse">SDLPutFileResponse</a></li>
   <li><a href="#section-SDLRDSData">SDLRDSData</a></li>
@@ -154,6 +178,7 @@
   <li><a href="#section-SDLRPCNotification">SDLRPCNotification</a></li>
   <li><a href="#section-SDLRPCNotificationNotification">SDLRPCNotificationNotification</a></li>
   <li><a href="#section-SDLRPCRequest">SDLRPCRequest</a></li>
+  <li><a href="#section-SDLRPCRequestNotification">SDLRPCRequestNotification</a></li>
   <li><a href="#section-SDLRPCResponse">SDLRPCResponse</a></li>
   <li><a href="#section-SDLRPCResponseNotification">SDLRPCResponseNotification</a></li>
   <li><a href="#section-SDLRPCStruct">SDLRPCStruct</a></li>
@@ -181,6 +206,8 @@
   <li><a href="#section-SDLSendLocationResponse">SDLSendLocationResponse</a></li>
   <li><a href="#section-SDLSetAppIcon">SDLSetAppIcon</a></li>
   <li><a href="#section-SDLSetAppIconResponse">SDLSetAppIconResponse</a></li>
+  <li><a href="#section-SDLSetCloudAppProperties">SDLSetCloudAppProperties</a></li>
+  <li><a href="#section-SDLSetCloudAppPropertiesResponse">SDLSetCloudAppPropertiesResponse</a></li>
   <li><a href="#section-SDLSetDisplayLayout">SDLSetDisplayLayout</a></li>
   <li><a href="#section-SDLSetDisplayLayoutResponse">SDLSetDisplayLayoutResponse</a></li>
   <li><a href="#section-SDLSetGlobalProperties">SDLSetGlobalProperties</a></li>
@@ -217,6 +244,7 @@
   <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
   <li><a href="#section-SDLSystemCapability">SDLSystemCapability</a></li>
   <li><a href="#section-SDLSystemCapabilityManager">SDLSystemCapabilityManager</a></li>
+  <li><a href="#section-SDLSystemRequest">SDLSystemRequest</a></li>
   <li><a href="#section-SDLTTSChunk">SDLTTSChunk</a></li>
   <li><a href="#section-SDLTemperature">SDLTemperature</a></li>
   <li><a href="#section-SDLTemplateColorScheme">SDLTemplateColorScheme</a></li>
@@ -240,10 +268,15 @@
   <li><a href="#section-SDLUpdateTurnListResponse">SDLUpdateTurnListResponse</a></li>
   <li><a href="#section-SDLVehicleDataResult">SDLVehicleDataResult</a></li>
   <li><a href="#section-SDLVehicleType">SDLVehicleType</a></li>
+  <li><a href="#section-SDLVersion">SDLVersion</a></li>
   <li><a href="#section-SDLVideoStreamingCapability">SDLVideoStreamingCapability</a></li>
   <li><a href="#section-SDLVideoStreamingFormat">SDLVideoStreamingFormat</a></li>
   <li><a href="#section-SDLVoiceCommand">SDLVoiceCommand</a></li>
   <li><a href="#section-SDLVRHelpItem">SDLVRHelpItem</a></li>
+  <li><a href="#section-SDLWeatherAlert">SDLWeatherAlert</a></li>
+  <li><a href="#section-SDLWeatherData">SDLWeatherData</a></li>
+  <li><a href="#section-SDLWeatherServiceData">SDLWeatherServiceData</a></li>
+  <li><a href="#section-SDLWeatherServiceManifest">SDLWeatherServiceManifest</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -401,7 +434,6 @@
  <ul>
  <li>alertText1</li>
  <li>alertText2</li>
- <li>alertText3</li>
  <li>ttsChunks</li>
  </ul>
  </li>
@@ -507,6 +539,277 @@
   
   
   
+  <h3 id="section-SDLAppServiceCapability">
+      SDLAppServiceCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAppServiceCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppServiceCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for required parameters.
+ *
+ *  @param updatedAppServiceRecord  Service record for a specific app service provider
+ *  @return                         A SDLAppServiceCapability object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdatedAppServiceRecord</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param updateReason             Update reason for this service record
+ *  @param updatedAppServiceRecord  Service record for a specific app service provider
+ *  @return                         A SDLAppServiceCapability object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateReason</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">)</span><span class="nv">updateReason</span> <span class="nf">updatedAppServiceRecord</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Only included in `OnSystemCapbilityUpdated`. Update reason for this service record.
+ *
+ *  SDLServiceUpdateReason, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">updateReason</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Service record for a specific app service provider.
+ *
+ *  SDLAppServiceRecord, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="n">updatedAppServiceRecord</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppServiceCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceData">
+      SDLAppServiceData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAppServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for service type and service id.
+ *
+ *  @param serviceType              The type of service that is to be offered by this app.
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for media service data.
+ *
+ *  @param mediaServiceData         The media service data
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMediaServiceData</span><span class="p">:(</span><span class="n"><a href="Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for weather service data.
+ *
+ *  @param weatherServiceData       The weather service data
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithWeatherServiceData</span><span class="p">:(</span><span class="n"><a href="Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for navigation service data.
+ *
+ *  @param navigationServiceData    The navigation service data
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNavigationServiceData</span><span class="p">:(</span><span class="n"><a href="Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceType              The type of service that is to be offered by this app.
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @param mediaServiceData         The media service data
+ *  @param weatherServiceData       The weather service data
+ *  @param navigationServiceData    The navigation service data
+ *  @return                         A SDLAppServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="nf">mediaServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span> <span class="nf">weatherServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span> <span class="nf">navigationServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
+ *
+ *  String, See `SDLAppServiceType`, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">serviceType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
+ *
+ *  String, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">serviceId</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The media service data.
+ *
+ *  SDLMediaServiceData, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="n">mediaServiceData</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The weather service data.
+ *
+ *  SDLWeatherServiceData, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="n">weatherServiceData</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The navigation service data.
+ *
+ *  SDLNavigationServiceData, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="n">navigationServiceData</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceManifest">
+      SDLAppServiceManifest
+  </h3>
+  
+  <p>This manifest contains all the information necessary for the service to be published, activated, and allow consumers to interact with it</p>
+
+  <a href="Classes/SDLAppServiceManifest.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppServiceManifest</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppServiceManifest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceRecord">
+      SDLAppServiceRecord
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAppServiceRecord.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppServiceRecord</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceID            A unique ID tied to this specific service record
+ *  @param serviceManifest      Manifest for the service that this record is for
+ *  @param servicePublished     If true, the service is published and available. If false, the service has likely just been unpublished, and should be considered unavailable
+ *  @param serviceActive        If true, the service is the active primary service of the supplied service type.
+ *  @return                     A SDLAppServiceRecord object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithServiceID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceID</span> <span class="nf">serviceManifest</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceManifest.html">SDLAppServiceManifest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceManifest</span> <span class="nf">servicePublished</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">servicePublished</span> <span class="nf">serviceActive</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">serviceActive</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
+ *
+ *  String, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">serviceID</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Manifest for the service that this record is for.
+ *
+ *  SDLAppServiceManifest, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServiceManifest.html">SDLAppServiceManifest</a></span> <span class="o">*</span><span class="n">serviceManifest</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  If true, the service is published and available. If false, the service has likely just been unpublished, and should be considered unavailable.
+ *
+ *  Boolean, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">servicePublished</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  If true, the service is the active primary service of the supplied service type. It will receive all potential RPCs that are passed through to that service type. If false, it is not the primary service of the supplied type. See servicePublished for its availability.
+ *
+ *  Boolean, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">serviceActive</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppServiceRecord</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServicesCapabilities">
+      SDLAppServicesCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAppServicesCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppServicesCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init.
+ *
+ *  @param appServices          An array of currently available services.
+ *  @return                     A SDLAppServicesCapabilities object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServices</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appServices</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item.
+ *
+ *  Array of SDLAppServiceCapability, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">appServices</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppServicesCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLArtwork">
       SDLArtwork
   </h3>
@@ -525,6 +828,11 @@
  *  @discussion An image should be templated if it is intended to be used as an icon in a button or menu.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isTemplate</span><span class="p">;</span>
+
+<span class="cm">/**
+ The Image RPC representing this artwork. Generally for use internally, you should instead pass an artwork to a Screen Manager method.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">imageRPC</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Convenience helper to create an ephemeral artwork from an image.
@@ -558,6 +866,15 @@
  *  @return An instance of this class to be passed to the file manager.
  */</span>
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to false"</span><span class="p">);</span>
+
+<span class="cm">/**
+ Create an SDLArtwork that represents a static icon. This can only be passed to the screen manager; passing this directly to the file manager will fail.
+
+ @param staticIcon The static icon to be shown on the remote system.
+
+ @return An instance of this class to be passed to a screen manager.
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Convenience helper to create a persistent artwork from an image.
@@ -614,6 +931,15 @@
  *  @return An instance of this class to be passed to the file manager.
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create an SDLArtwork that represents a static icon. This can only be passed to the screen manager; passing this directly to the file manager will fail.
+
+ @param staticIcon The static icon to be shown on the remote system.
+
+ @return An instance of this class to be passed to a screen manager.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -1296,6 +1622,98 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLClimateControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCloudAppProperties">
+      SDLCloudAppProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLCloudAppProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLCloudAppProperties</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for required parameters.
+ *
+ *  @param appID    The id of the cloud app
+ *  @return         A SDLCloudAppProperties object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param appID                The id of the cloud app
+ *  @param nicknames            An array of app names a cloud app is allowed to register with
+ *  @param enabled              If true, the cloud app will appear in the HMI's app list; if false, the cloud app will not appear in the HMI's app list
+ *  @param authToken            Used to authenticate websocket connection on app activation
+ *  @param cloudTransportType   Specifies the connection type Core should use
+ *  @param hybridAppPreference  Specifies the user preference to use the cloud app version or mobile app version when both are available
+ *  @param endpoint             The websocket endpoint
+ *  @return                     A SDLCloudAppProperties object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span> <span class="nf">nicknames</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nicknames</span> <span class="nf">enabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span> <span class="nf">authToken</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">authToken</span> <span class="nf">cloudTransportType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudTransportType</span> <span class="nf">hybridAppPreference</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">)</span><span class="nv">hybridAppPreference</span> <span class="nf">endpoint</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">endpoint</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  An array of app names a cloud app is allowed to register with. If included in a `SetCloudAppProperties` request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.
+ *
+ *  Array of Strings, Optional, String length: minlength="0" maxlength="100", Array size: minsize="0" maxsize="100"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">nicknames</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The id of the cloud app.
+ *
+ *  String, Required, maxlength="100"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appID</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  If true, the cloud app will appear in the HMI's app list; if false, the cloud app will not appear in the HMI's app list.
+ *
+ *  Boolean, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">enabled</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Used to authenticate websocket connection on app activation.
+ *
+ *  String, Optional, maxlength="65535"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">authToken</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Specifies the connection type Core should use. Currently the ones that work in SDL Core are `WS` or `WSS`, but an OEM can implement their own transport adapter to handle different values.
+ *
+ *  String, Optional, maxlength="100"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">cloudTransportType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Specifies the user preference to use the cloud app version or mobile app version when both are available.
+ *
+ *  SDLHybridAppPreference, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="n">hybridAppPreference</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The websocket endpoint.
+ *
+ *  String, Optional, maxlength="65535"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">endpoint</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLCloudAppProperties</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -2084,6 +2502,15 @@ see SDLPerformAudioPassThru</p>
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSInputStream</span> <span class="o">*</span><span class="n">inputStream</span><span class="p">;</span>
 
+<span class="cm">/**
+ Describes whether or not this file is represented by static icon data. The head unit will present its representation of the static icon concept when sent this data.
+
+ A file that represents a static icon may not be uploaded via the File Manager. It must be set using the Screen Manager.
+
+ Support for this feature may vary by system, but it will generally be more supported in soft buttons and menus.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isStaticIcon</span><span class="p">;</span>
+
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
 
 <span class="cm">/**
@@ -2268,6 +2695,32 @@ see SDLPerformAudioPassThru</p>
   
   
   
+  <h3 id="section-SDLFunctionID">
+      SDLFunctionID
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLFunctionID.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLFunctionID</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nf">functionNameForId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">functionID</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">functionIdForName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">functionName</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLFunctionID</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLGPSData">
       SDLGPSData
   </h3>
@@ -2303,6 +2756,99 @@ see SDLPerformAudioPassThru</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGenericResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetAppServiceData">
+      SDLGetAppServiceData
+  </h3>
+  
+  <p>This request asks the module for current data related to the specific service. It also includes an option to subscribe to that service for future updates.</p>
+
+  <a href="Classes/SDLGetAppServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetAppServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetAppServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetAppServiceDataResponse">
+      SDLGetAppServiceDataResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetAppServiceDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetAppServiceDataResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span>
+
+<span class="cm">/**
+ *  Convenience init.
+ *
+ *  @param serviceData  Contains all the current data of the app service
+ *  @return             A SDLGetAppServiceDataResponse object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceData</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceData.html">SDLAppServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceData</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Contains all the current data of the app service.
+ *
+ *  SDLAppServiceData, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServiceData.html">SDLAppServiceData</a></span> <span class="o">*</span><span class="n">serviceData</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetAppServiceDataResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetCloudAppProperties">
+      SDLGetCloudAppProperties
+  </h3>
+  
+  <p>RPC used to get the current properties of a cloud application.</p>
+
+  <a href="Classes/SDLGetCloudAppProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetCloudAppProperties</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetCloudAppProperties</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetCloudAppPropertiesResponse">
+      SDLGetCloudAppPropertiesResponse
+  </h3>
+  
+  <p>The response to GetCloudAppProperties</p>
+
+  <a href="Classes/SDLGetCloudAppPropertiesResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetCloudAppPropertiesResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetCloudAppPropertiesResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -2349,6 +2895,85 @@ Function Group: ProprietaryData
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetFile">
+      SDLGetFile
+  </h3>
+  
+  <p>This request is sent to the module to retrieve a file.</p>
+
+  <a href="Classes/SDLGetFile.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetFile</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetFile</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGetFileResponse">
+      SDLGetFileResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetFileResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetFileResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param offset      Optional offset in bytes for resuming partial data chunks
+ *  @param length      Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded
+ *  @param fileType    File type that is being sent in response
+ *  @param crc         Additional CRC32 checksum to protect data integrity up to 512 Mbits
+ *  @return            A SDLGetFileResponse object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithOffset</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">length</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">length</span> <span class="nf">fileType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span> <span class="nf">crc</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">crc</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Optional offset in bytes for resuming partial data chunks.
+ *
+ *  Integer, Optional, minvalue="0" maxvalue="2000000000"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">offset</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded.
+ *
+ *  Integer, Optional, minvalue="0" maxvalue="2000000000"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">length</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  File type that is being sent in response.
+ *
+ *  SDLFileType, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Additional CRC32 checksum to protect data integrity up to 512 Mbits.
+ *
+ *  Integer, Optional, minvalue="0" maxvalue="4294967295"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">crc</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGetFileResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -2407,14 +3032,36 @@ whenever new data is available for the module.</p>
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
 
+<span class="cm">/**
+ *  Convenience init
+ *
+ *  @param type The type of system capability
+ *  @return     A SDLSystemCapabilityType object
+ */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
 
 <span class="cm">/**
- They type of capability you'd like to receive in the response.
+ *  Convenience init
+ *
+ *  @param type         The type of system capability
+ *  @param subscribe    Whether or not to subscribe to updates of the supplied service capability type
+ *  @return             A SDLSystemCapabilityType object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span> <span class="nf">subscribe</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">subscribe</span><span class="p">;</span>
 
- Mandatory
+<span class="cm">/**
+ *  The type of system capability to get more information on
+ *
+ *  SDLSystemCapabilityType, Required
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">systemCapabilityType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Flag to subscribe to updates of the supplied service capability type. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.
+ *
+ *  Boolean, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">subscribe</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -3328,6 +3975,11 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areErrorsAsynchronous</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">errorsAsynchronous</span><span class="p">;</span>
 
 <span class="cm">/**
+ Whether or not assert logs will fire assertions in DEBUG mode. Assertions are always disabled in RELEASE builds. If assertions are disabled, only an error log will fire instead. Defaults to NO.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areAssertionsDisabled</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">disableAssertions</span><span class="p">;</span>
+
+<span class="cm">/**
  Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
  Do not specify Default for this parameter.
  */</span>
@@ -3673,6 +4325,11 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRegisterAppInterfaceResponse.html">SDLRegisterAppInterfaceResponse</a></span> <span class="o">*</span><span class="n">registerResponse</span><span class="p">;</span>
 
 <span class="cm">/**
+ *  The auth token, if received. This should be used to log into a user account. Primarily used for cloud apps with companion app stores.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">authToken</span><span class="p">;</span>
+
+<span class="cm">/**
  *  The manager's delegate.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLManagerDelegate.html">SDLManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
@@ -3721,6 +4378,13 @@ cases the language of the head unit changes or does not match the app language.<
 
 <span class="cp">#pragma mark Manually Send RPC Requests
 </span>
+<span class="cm">/**
+ *  Send an RPC of type `Response`, `Notification` or `Request`. Responses and notifications sent to Core do not a response back from Core. Each request sent to Core does get a response, so if you need the response and/or error, call `sendRequest:withResponseHandler:` instead.
+ *
+ *  @param rpc An RPC of type `SDLRPCResponse`, `SDLRPCNotification` or `SDLRPCRequest`
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRPC</span><span class="p">:(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">rpc</span><span class="p">;</span>
+
 <span class="cm">/**
  *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.
  *
@@ -3797,6 +4461,43 @@ cases the language of the head unit changes or does not match the app language.<
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMassageModeData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMediaServiceData">
+      SDLMediaServiceData
+  </h3>
+  
+  <p>This data is related to what a media service should provide.</p>
+
+  <a href="Classes/SDLMediaServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMediaServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMediaServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMediaServiceManifest">
+      SDLMediaServiceManifest
+  </h3>
+  
+  <p>A media service manifest.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMediaServiceManifest</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMediaServiceManifest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -4019,6 +4720,251 @@ cases the language of the head unit changes or does not match the app language.<
   
   
   
+  <h3 id="section-SDLNavigationInstruction">
+      SDLNavigationInstruction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLNavigationInstruction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLNavigationInstruction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for required parameters
+ *
+ *  @param locationDetails The location details
+ *  @param action The navigation action
+ *  @return A SDLNavigationInstruction object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param locationDetails The location details
+ *  @param action The navigation action
+ *  @param eta The estimated time of arrival
+ *  @param bearing The angle at which this instruction takes place
+ *  @param junctionType The navigation junction type
+ *  @param drivingSide Used to infer which side of the road this instruction takes place
+ *  @param details This is a string representation of this instruction, used to display instructions to the users
+ *  @param image An image representation of this instruction
+ *  @return A SDLNavigationInstruction object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="nf">eta</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">eta</span> <span class="nf">bearing</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">bearing</span> <span class="nf">junctionType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">)</span><span class="nv">junctionType</span> <span class="nf">drivingSide</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">)</span><span class="nv">drivingSide</span> <span class="nf">details</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">details</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The location details.
+ *
+ *  SDLLocationDetails, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">locationDetails</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The navigation action.
+ *
+ *  SDLNavigationAction, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="n">action</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The estimated time of arrival.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">eta</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The angle at which this instruction takes place. For example, 0 would mean straight, &lt;=45 is bearing right, &gt;= 135 is sharp right, between 45 and 135 is a regular right, and 180 is a U-Turn, etc. 
+ *
+ *  Integer, Optional, minValue="0" maxValue="359"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">bearing</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The navigation junction type.
+ *
+ *  SDLNavigationJunction, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="n">junctionType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Used to infer which side of the road this instruction takes place. For a U-Turn (action=TURN, bearing=180) this will determine which direction the turn should take place.
+ *
+ *  SDLDirection, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="n">drivingSide</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in `NavigationServiceData` for that.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">details</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  An image representation of this instruction.
+ *
+ *  SDLImage, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">image</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLNavigationInstruction</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationServiceData">
+      SDLNavigationServiceData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLNavigationServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLNavigationServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for required parameters.
+ *
+ *  @param timestamp    Timestamp of when the data was generated
+ *  @return             A SDLNavigationServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTimestamp</span><span class="p">:(</span><span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param timestamp 	                Timestamp of when the data was generated
+ *  @param origin                       The start location
+ *  @param destination                  The final destination location
+ *  @param destinationETA               The estimated time of arrival at the final destination location
+ *  @param instructions                 Array ordered with all remaining instructions
+ *  @param nextInstructionETA           The estimated time of arrival at the next destination
+ *  @param nextInstructionDistance      The distance to this instruction from current location
+ *  @param nextInstructionDistanceScale Distance till next maneuver (starting from) from previous maneuver
+ *  @param prompt                       This is a prompt message that should be conveyed to the user through either display or voice (TTS)
+ *  @return                             A SDLNavigationServiceData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTimestamp</span><span class="p">:(</span><span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span> <span class="nf">origin</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">origin</span> <span class="nf">destination</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">destination</span> <span class="nf">destinationETA</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">destinationETA</span> <span class="nf">instructions</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">instructions</span> <span class="nf">nextInstructionETA</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nextInstructionETA</span> <span class="nf">nextInstructionDistance</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">nextInstructionDistance</span> <span class="nf">nextInstructionDistanceScale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">nextInstructionDistanceScale</span> <span class="nf">prompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">prompt</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary.
+ *
+ *  SDLDateTime, Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">timestamp</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The start location.
+ *
+ *  SDLLocationDetails, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">origin</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The final destination location.
+ *
+ *  SDLLocationDetails, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">destination</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The estimated time of arrival at the final destination location.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">destinationETA</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  This array should be ordered with all remaining instructions. The start of this array should always contain the next instruction.
+ *
+ *  Array of SDLNavigationInstruction, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">instructions</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The estimated time of arrival at the next destination.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">nextInstructionETA</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The distance to this instruction from current location. This should only be updated ever .1 unit of distance. For more accuracy the consumer can use the GPS location of itself and the next instruction.
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nextInstructionDistance</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Distance till next maneuver (starting from) from previous maneuver.
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nextInstructionDistanceScale</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  This is a prompt message that should be conveyed to the user through either display or voice (TTS). This param will change often as it should represent the following: approaching instruction, post instruction, alerts that affect the current navigation session, etc.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">prompt</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLNavigationServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationServiceManifest">
+      SDLNavigationServiceManifest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLNavigationServiceManifest.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLNavigationServiceManifest</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init.
+ *
+ *  @param acceptsWayPoints Informs the subscriber if this service can actually accept way points
+ *  @return A SDLNavigationServiceManifest object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAcceptsWayPoints</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acceptsWayPoints</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Informs the subscriber if this service can actually accept way points.
+ *
+ *  Boolean, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">acceptsWayPoints</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLNavigationServiceManifest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLNotificationConstants">
       SDLNotificationConstants
   </h3>
@@ -4034,7 +4980,7 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  All of the possible SDL RPC Response notification names
 
- @return The names
+ @return All response notification names
  */</span>
 <span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allResponseNames</span><span class="p">;</span>
 
@@ -4097,6 +5043,25 @@ cases the language of the head unit changes or does not match the app language.<
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnAppInterfaceUnregistered</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLOnAppServiceData">
+      SDLOnAppServiceData
+  </h3>
+  
+  <p>This notification includes the data that is updated from the specific service.</p>
+
+  <a href="Classes/SDLOnAppServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnAppServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnAppServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
 
   
   
@@ -4487,6 +5452,25 @@ the application has subscribed.</p>
   
   
   
+  <h3 id="section-SDLOnSystemCapabilityUpdated">
+      SDLOnSystemCapabilityUpdated
+  </h3>
+  
+  <p>A notification to inform the connected device that a specific system capability has changed.</p>
+
+  <a href="Classes/SDLOnSystemCapabilityUpdated.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnSystemCapabilityUpdated</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnSystemCapabilityUpdated</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLOnSystemRequest">
       SDLOnSystemRequest
   </h3>
@@ -4601,6 +5585,71 @@ the application has subscribed.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLParameterPermissions</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPerformAppServiceInteraction">
+      SDLPerformAppServiceInteraction
+  </h3>
+  
+  <p>App service providers will likely have different actions exposed to the module and app service consumers. It will be difficult to standardize these actions by RPC versions and can easily become stale. Therefore, we introduce a best-effort attempt to take actions on a service.</p>
+
+<p>The <code>PerformAppServiceInteraction</code> request will be sent to the service that has the matching <code>appServiceId</code>. The <code>serviceUri</code> should be the fully qualified URI with all parameters that are necessary for the given action. The URI prefix and actions list will be contained in the app service provider&rsquo;s manifest. SDL takes no steps to validate an app service provider&rsquo;s action sheet JSON object. In the future, plug in libraries could be added to handle these sheets on a provider by provider basis.</p>
+
+<p>An app service consumer can also request for this service to become the active service of its respective type. If the app service consumer currently has an HMI state of HMI_FULL this request can be performed without user interaction. If the app is currently not in that state, the HMI should present the user with a choice to allow this app service provider to become the active service of its specified type. If the app service provider is not allowed to become active, the request will not be sent to it and an unsuccessful response will be sent to the requester.</p>
+
+<p>SDL should make no guarantees that:
+      1. App service providers offer URI prefix and URI Schema
+      2. App service providers will correctly respond to the requests
+      3. The requested app service provider will become the active service of that type
+      4. The <code>serviceUri</code> will be a correctly formatted URI from the app service consumer</p>
+
+  <a href="Classes/SDLPerformAppServiceInteraction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLPerformAppServiceInteraction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPerformAppServiceInteraction</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPerformAppServiceInteractionResponse">
+      SDLPerformAppServiceInteractionResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPerformAppServiceInteractionResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLPerformAppServiceInteractionResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceSpecificResult    The service can provide specific result strings to the consumer through this param.
+ *  @return                         A SDLPerformAppServiceInteractionResponse object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithServiceSpecificResult</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceSpecificResult</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The service can provide specific result strings to the consumer through this param.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">serviceSpecificResult</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPerformAppServiceInteractionResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -4796,7 +5845,7 @@ the application has subscribed.</p>
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">statusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">statusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -4934,6 +5983,62 @@ the application has subscribed.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPresetBankCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPublishAppService">
+      SDLPublishAppService
+  </h3>
+  
+  <p>Registers a service offered by this app on the module.</p>
+
+  <a href="Classes/SDLPublishAppService.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLPublishAppService</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPublishAppService</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPublishAppServiceResponse">
+      SDLPublishAppServiceResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPublishAppServiceResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLPublishAppServiceResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span>
+
+<span class="cm">/**
+ *  Convenience init.
+ *
+ *  @param appServiceRecord     If the request was successful, this object will be the current status of the service record for the published service. This will include the Core supplied service ID.
+ *  @return                     A SDLPublishAppServiceResponse object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceRecord</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">appServiceRecord</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  If the request was successful, this object will be the current status of the service record for the published service. This will include the Core supplied service ID.
+ *
+ *  SDLAppServiceRecord, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="n">appServiceRecord</span><span class="p">;</span>
+
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPublishAppServiceResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -5212,6 +6317,25 @@ the application has subscribed.</p>
   
   
   
+  <h3 id="section-SDLRPCRequestNotification">
+      SDLRPCRequestNotification
+  </h3>
+  
+  <p>A NSNotification object that makes retrieving internal SDLRPCRequest data easier</p>
+
+  <a href="Classes/SDLRPCRequestNotification.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCRequestNotification</span> <span class="p">:</span> <span class="nc">NSNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRPCRequestNotification</span> <span class="p">:</span> <span class="kt">NSNotification</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCResponse">
       SDLRPCResponse
   </h3>
@@ -5257,7 +6381,7 @@ the application has subscribed.</p>
       SDLRPCResponseNotification
   </h3>
   
-  <p>An NSNotification object that makes retrieving internal SDLRPCResponse data easier</p>
+  <p>A NSNotification object that makes retrieving internal SDLRPCResponse data easier</p>
 
   <a href="Classes/SDLRPCResponseNotification.html" class="slightly-smaller">See more</a>
   
@@ -5980,21 +7104,63 @@ Function Group: ScrollableMessage
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSendLocation</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
 
+<span class="cm">/**
+ Create a `SendLocation` request with an address object, without Lat/Long coordinates.
+
+ @param address The address information to be passed to the nav system for determining the route
+ @param addressLines The user-facing address
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @param deliveryMode How the location should be sent to the nav system
+ @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
+ @return A `SendLocation` object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAddress</span><span class="p">:(</span><span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span> <span class="nf">addressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">addressLines</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create a `SendLocation` request with Lat/Long coordinate, not an address object
+
+ @param longitude The longitudinal coordinate of the location
+ @param latitude The latitudinal coordinate of the location
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param address The user-facing address
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @return A `SendLocation` object
+ */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLongitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">longitude</span> <span class="nf">latitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">latitude</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">address</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
 
+<span class="cm">/**
+ Create a `SendLocation` request with Lat/Long coordinate and an address object and let the nav system decide how to parse it
+
+ @param longitude The longitudinal coordinate of the location
+ @param latitude The latitudinal coordinate of the location
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param displayAddressLines The user-facing address
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @param deliveryMode How the location should be sent to the nav system
+ @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
+ @param address The address information to be passed to the nav system for determining the route
+ @return A `SendLocation` object
+ */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLongitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">longitude</span> <span class="nf">latitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">latitude</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">displayAddressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">displayAddressLines</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span> <span class="nf">address</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span><span class="p">;</span>
 
 <span class="cm">/**
- * The longitudinal coordinate of the location.
+ * The longitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
- * Float, Required, -180.0 - 180.0
+ * Float, Optional, -180.0 - 180.0
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">longitudeDegrees</span><span class="p">;</span>
 
 <span class="cm">/**
- * The latitudinal coordinate of the location.
+ * The latitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
- * Float, Required, -90.0 - 90.0
+ * Float, Optional, -90.0 - 90.0
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">latitudeDegrees</span><span class="p">;</span>
 
@@ -6013,7 +7179,7 @@ Function Group: ScrollableMessage
 <span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">locationDescription</span><span class="p">;</span>
 
 <span class="cm">/**
- * Location address for display purposes only
+ * Location address for display purposes only.
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */</span>
@@ -6048,7 +7214,7 @@ Function Group: ScrollableMessage
 <span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">timeStamp</span><span class="p">;</span>
 
 <span class="cm">/**
- * Address to be used for setting destination
+ * Address to be used for setting destination. Either the latitude / longitude OR the `address` must be provided.
  *
  * Optional
  */</span>
@@ -6120,6 +7286,43 @@ Function Group: ScrollableMessage
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSetAppIconResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSetCloudAppProperties">
+      SDLSetCloudAppProperties
+  </h3>
+  
+  <p>RPC used to enable/disable a cloud application and set authentication data</p>
+
+  <a href="Classes/SDLSetCloudAppProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSetCloudAppProperties</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSetCloudAppProperties</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSetCloudAppPropertiesResponse">
+      SDLSetCloudAppPropertiesResponse
+  </h3>
+  
+  <p>The response to SetCloudAppProperties</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSetCloudAppPropertiesResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSetCloudAppPropertiesResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -6939,10 +8142,10 @@ change the settings of a specific remote control module.</p>
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
- @param configuration The configuration of this streaming media session
+ @param configuration This session's configuration
  @return A new streaming manager
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span> <span class="nf">configuration</span><span class="p">:(</span><span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span> <span class="nf">configuration</span><span class="p">:(</span><span class="n"><a href="Classes/SDLConfiguration.html">SDLConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
@@ -7366,6 +8569,15 @@ change the settings of a specific remote control module.</p>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*</span><span class="n">pcmStreamCapability</span><span class="p">;</span>
 
 <span class="cm">/**
+ * If returned, the platform supports app services
+ *
+ * @see SDLAppServicesCapabilities
+ *
+ * Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span> <span class="o">*</span><span class="n">appServicesCapabilities</span><span class="p">;</span>
+
+<span class="cm">/**
  * If returned, the platform supports navigation
  *
  * @see SDLNavigationCapability
@@ -7423,7 +8635,7 @@ change the settings of a specific remote control module.</p>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span>
 
 <span class="cm">/**
- *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values of `navigationCapability`, `phoneCapability`, `videoStreamingCapability` and `remoteControlCapability`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
+ *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
  *
  *  @param type The type of capability to retrieve
  *  @param handler The handler to be called when the retrieval is complete
@@ -7436,6 +8648,66 @@ change the settings of a specific remote control module.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSystemCapabilityManager</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemRequest">
+      SDLSystemRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSystemRequest.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSystemRequest</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
+
+<span class="cm">/**
+ Create a generic system request with a file name
+
+ @param requestType The request type to use
+ @param fileName The name of the file to use
+ @return The request
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span><span class="p">)</span><span class="nv">requestType</span> <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create an OEM_PROPRIETARY system request with a subtype and file name
+
+ @param proprietaryType The proprietary requestSubType to be used
+ @param fileName The name of the file to use
+ @return The request
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithProprietaryType</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">proprietaryType</span> <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The type of system request. Note that Proprietary requests should forward the binary data to the known proprietary module on the system.
+ *
+ *  Required
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="n">requestType</span><span class="p">;</span>
+
+<span class="cm">/**
+ A request subType used when the `requestType` is `OEM_SPECIFIC`.
+
+ Optional, Max length 255
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">requestSubType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Filename of HTTP data to store in predefined system staging area.
+ *
+ *  Required if requestType is HTTP. PROPRIETARY requestType should ignore this parameter.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fileName</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSystemRequest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   
@@ -7469,7 +8741,7 @@ change the settings of a specific remote control module.</p>
       SDLTemperature
   </h3>
   
-  <p>Struct using in Remote Control representing a temperature.</p>
+  <p>Struct representing a temperature.</p>
 
   <a href="Classes/SDLTemperature.html" class="slightly-smaller">See more</a>
   
@@ -8070,6 +9342,47 @@ See SDLSubscribeButton</p>
   
   
   
+  <h3 id="section-SDLVersion">
+      SDLVersion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVersion.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLVersion</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">major</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">minor</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">patch</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">stringVersion</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMajor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">major</span> <span class="nf">minor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">minor</span> <span class="nf">patch</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">patch</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithMajor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">major</span> <span class="nf">minor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">minor</span> <span class="nf">patch</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">patch</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">versionString</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">versionString</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSyncMsgVersion</span><span class="p">:(</span><span class="n"><a href="Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">syncMsgVersion</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithSyncMsgVersion</span><span class="p">:(</span><span class="n"><a href="Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">syncMsgVersion</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">NSComparisonResult</span><span class="p">)</span><span class="nf">compare</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isLessThanVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isGreaterThanVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isGreaterThanOrEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isLessThanOrEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLVersion</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLVideoStreamingCapability">
       SDLVideoStreamingCapability
   </h3>
@@ -8156,6 +9469,324 @@ See SDLSubscribeButton</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLVRHelpItem</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWeatherAlert">
+      SDLWeatherAlert
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLWeatherAlert.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWeatherAlert</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters
+ *
+ *  @param title        The title of the alert
+ *  @param summary      A summary for the alert
+ *  @param expires      The date the alert expires
+ *  @param regions      Regions affected
+ *  @param severity     Severity
+ *  @param timeIssued   The date the alert was issued
+ *  @return             A SDLWeatherAlert alert
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">summary</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">summary</span> <span class="nf">expires</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">expires</span> <span class="nf">regions</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">regions</span> <span class="nf">severity</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">severity</span> <span class="nf">timeIssued</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeIssued</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The title of the alert.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  A summary for the alert.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">summary</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The date the alert expires.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">expires</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Regions affected.
+ *
+ *  Array of Strings, Optional, minsize="1" maxsize="99"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">regions</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Severity of the weather alert.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">severity</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The date the alert was issued.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">timeIssued</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWeatherAlert</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWeatherData">
+      SDLWeatherData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLWeatherData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWeatherData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ *  Convenience init for all parameters
+ *
+ *  @param currentTemperature       The current temperature
+ *  @param temperatureHigh          The predicted high temperature for the day
+ *  @param temperatureLow           The predicted low temperature for the day
+ *  @param apparentTemperature      The apparent temperature
+ *  @param apparentTemperatureHigh  The predicted high apparent temperature for the day
+ *  @param apparentTemperatureLow   The predicted low apparent temperature for the day
+ *  @param weatherSummary           A summary of the weather
+ *  @param time                     The time this data refers to
+ *  @param humidity                 From 0 to 1, percentage humidity
+ *  @param cloudCover               From 0 to 1, percentage cloud cover
+ *  @param moonPhase                From 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon
+ *  @param windBearing              In degrees, true north at 0 degrees
+ *  @param windGust                 In km/hr
+ *  @param windSpeed                In km/hr
+ *  @param nearestStormBearing      In degrees, true north at 0 degrees
+ *  @param nearestStormDistance     In km
+ *  @param precipAccumulation       In cm
+ *  @param precipIntensity          In cm of water per hour
+ *  @param precipProbability        From 0 to 1, percentage chance
+ *  @param precipType               A description of the precipitation type (e.g. "rain", "snow", "sleet", "hail")
+ *  @param visibility               In km
+ *  @param weatherIcon              The weather icon image
+ *  @return                         A SDLWeatherData object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCurrentTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">currentTemperature</span> <span class="nf">temperatureHigh</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">temperatureHigh</span> <span class="nf">temperatureLow</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">temperatureLow</span> <span class="nf">apparentTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperature</span> <span class="nf">apparentTemperatureHigh</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperatureHigh</span> <span class="nf">apparentTemperatureLow</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperatureLow</span> <span class="nf">weatherSummary</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherSummary</span> <span class="nf">time</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">time</span> <span class="nf">humidity</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">humidity</span> <span class="nf">cloudCover</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudCover</span> <span class="nf">moonPhase</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">moonPhase</span> <span class="nf">windBearing</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windBearing</span> <span class="nf">windGust</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windGust</span> <span class="nf">windSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windSpeed</span> <span class="nf">nearestStormBearing</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nearestStormBearing</span> <span class="nf">nearestStormDistance</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nearestStormDistance</span> <span class="nf">precipAccumulation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipAccumulation</span> <span class="nf">precipIntensity</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipIntensity</span> <span class="nf">precipProbability</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipProbability</span> <span class="nf">precipType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipType</span> <span class="nf">visibility</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">visibility</span> <span class="nf">weatherIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherIcon</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The current temperature.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">currentTemperature</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The predicted high temperature for the day.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">temperatureHigh</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The predicted low temperature for the day.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">temperatureLow</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The apparent temperature.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperature</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The predicted high apparent temperature for the day.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperatureHigh</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The predicted low apparent temperature for the day.
+ *
+ *  SDLTemperature, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperatureLow</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  A summary of the weather.
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">weatherSummary</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The time this data refers to.
+ *
+ *  SDLDateTime, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">time</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  From 0 to 1, percentage humidity.
+ *
+ *  Float, Optional, minvalue="0" maxvalue="1"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">humidity</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  From 0 to 1, percentage cloud cover.
+ *
+ *  Float, Optional, minvalue="0" maxvalue="1"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cloudCover</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  From 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon
+ *
+ *  Float, Optional, minvalue="0" maxvalue="1"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">moonPhase</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In degrees, true north at 0 degrees.
+ *
+ *  Integer, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windBearing</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In km/hr
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windGust</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In km/hr
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windSpeed</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In degrees, true north at 0 degrees.
+ *
+ *  Integer, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nearestStormBearing</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In km
+ *
+ *  Integer, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nearestStormDistance</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In cm
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipAccumulation</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In cm of water per hour.
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipIntensity</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  From 0 to 1, percentage chance.
+ *
+ *  Float, Optional, minvalue="0" maxvalue="1"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipProbability</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  A description of the precipitation type (e.g. "rain", "snow", "sleet", "hail")
+ *
+ *  String, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">precipType</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  In km
+ *
+ *  Float, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">visibility</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The weather icon image.
+ *
+ *  SDLImage, Optional
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">weatherIcon</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWeatherData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWeatherServiceData">
+      SDLWeatherServiceData
+  </h3>
+  
+  <p>This data is related to what a weather service would provide.</p>
+
+  <a href="Classes/SDLWeatherServiceData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWeatherServiceData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWeatherServiceData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWeatherServiceManifest">
+      SDLWeatherServiceManifest
+  </h3>
+  
+  <p>A weather service manifest.</p>
+
+  <a href="Classes/SDLWeatherServiceManifest.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWeatherServiceManifest</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWeatherServiceManifest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
