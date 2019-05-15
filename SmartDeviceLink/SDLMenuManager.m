@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
-
+// @property (copy, nonatomic) NSArray<SDLMenuCell *> *deleteCells;
 @end
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
@@ -146,8 +146,21 @@ UInt32 const MenuCellIdMin = 1;
 
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
-    //Compare menus and buiild a RunScore object that contains delete commands and add commands.
+
     SDLMenuRunScore *runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
+
+    // At this point runScore should have the best possibe Delete/Add combinations as 2 arrays oldStatus, and newStatus
+    NSArray<NSNumber *> *oldStatusList = runScore.oldStatus;
+    NSArray<NSNumber *> *updatedStatusList = runScore.updatedStatus;
+
+   // NSArray<SDLMenuCell *> *oldKeeps = [self buildKeepMenuItems:oldStatusList]; //we will use this to test the subcells later
+    //NSArray<SDLMenuCell *> *newKeeps = nil;
+
+    // Build a list of DELETES and send all Delete commands
+    //[self buildDeleteMenuItems: oldStatusList]; // move this to completionHandler Delete Stuf First
+
+    //for all items in the stsus if the status is ADD comppare it to the menuList and add it at that index
+
     // Upload the artworks
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
     if (artworksToBeUploaded.count > 0) {
@@ -157,16 +170,52 @@ UInt32 const MenuCellIdMin = 1;
             }
 
             SDLLogD(@"Menu artworks uploaded");
-            [self sdl_updateWithCompletionHandler:nil];
+            [self sdl_updateCellsToDelete:[self buildDeleteMenuItems: oldStatusList] cellsToAdd:[self buildAddMenuItems:updatedStatusList] withCompletionHandler:nil];
+           //[self sdl_updateWithCompletionHandler:nil];
         }];
     }
 
-    [self sdl_updateWithCompletionHandler:nil];
+    [self sdl_updateCellsToDelete:[self buildDeleteMenuItems: oldStatusList] cellsToAdd:[self buildAddMenuItems:updatedStatusList] withCompletionHandler:nil];
+}
+
+#pragma mark - Build Deletes, Keeps, Adds
+- (NSArray<SDLMenuCell *> *)buildDeleteMenuItems:(NSArray<NSNumber *> *)oldStatusList  {
+    NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
+
+    [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
+        if(status.integerValue == 0) { // 0 means the cell was marked for Deletion
+            [deleteCells addObject:self.oldMenuCells[index]];
+        }
+    }];
+    return [deleteCells copy];
+}
+
+- (NSArray<SDLMenuCell *> *)buildAddMenuItems:(NSArray<NSNumber *> *)newStatusList  {
+    NSMutableArray<SDLMenuCell *> *addCells = [[NSMutableArray alloc] init];
+
+    [newStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
+        if(status.integerValue == 1) { // 1 means the cell was marked for add
+            [addCells addObject:self.menuCells[index]];
+        }
+    }];
+    return [addCells copy];
+}
+
+- (NSArray<SDLMenuCell *> *)buildKeepMenuItems:(NSArray<NSNumber *> *)oldStatusList  {
+    NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
+
+    [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
+        if(status.integerValue == 2) { // 2 means the cell was marked for Keep
+            [keepMenuCells addObject:self.oldMenuCells[index]];
+        }
+    }];
+
+    return [keepMenuCells copy];
 }
 
 #pragma mark - Updating System
 
-- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_updateCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells withCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
@@ -182,7 +231,7 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     __weak typeof(self) weakself = self;
-    [self sdl_sendDeleteCurrentMenu:^(NSError * _Nullable error) {
+    [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         [weakself sdl_sendCurrentMenu:^(NSError * _Nullable error) {
             weakself.inProgressUpdate = nil;
 
@@ -191,7 +240,7 @@ UInt32 const MenuCellIdMin = 1;
             }
 
             if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateWithCompletionHandler:nil];
+                [weakself sdl_updateCellsToDelete:deleteCells cellsToAdd:addCells withCompletionHandler:nil];
                 weakself.hasQueuedUpdate = NO;
             }
         }];
@@ -200,14 +249,13 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Delete Old Menu Items
 
-- (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.oldMenuCells.count == 0) {
+- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler { //update Function to only delete the cells be need to delete , pass in the List
+    if (self.oldMenuCells.count == 0 || deleteMenuCells == nil) {
         completionHandler(nil);
         return;
     }
 
-    NSArray<SDLRPCRequest *> *deleteMenuCommands = [self sdl_deleteCommandsForCells:self.oldMenuCells];
-    self.oldMenuCells = @[];
+    NSArray<SDLRPCRequest *> *deleteMenuCommands = [self sdl_deleteCommandsForCells: deleteMenuCells];
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:nil completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogW(@"Unable to delete all old menu commands");
