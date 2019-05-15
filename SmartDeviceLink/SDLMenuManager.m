@@ -272,11 +272,6 @@ UInt32 const MenuCellIdMin = 1;
             completionHandler(nil);
         }];
     }];
-//    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-//
-//    } completionHandler:^(BOOL success) {
-//
-//    }];
 }
 
 #pragma mark - Helpers
