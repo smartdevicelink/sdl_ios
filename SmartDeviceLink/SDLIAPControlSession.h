@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Stops the current control session if it is open.
  */
-- (void)stopSession;
+- (void)destroySession;
 
 @end
 

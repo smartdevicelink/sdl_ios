@@ -58,20 +58,20 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (![self.session start]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.session.accessory);
-            [self stopSession];
+            [self destroySession];
             if (self.delegate == nil) { return; }
             [self.delegate retryDataSession];
         }
     }
 }
 
-- (void)stopSession {
+- (void)destroySession {
     if (_session == nil) {
         SDLLogV(@"Attempting to stop the data session but the session is nil");
         return;
     }
 
-    SDLLogD(@"Stopping the data session");
+    SDLLogD(@"Destroying the data session");
     [self.session stop];
     self.session.streamDelegate = nil;
     self.session = nil;
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // The handler will be called on the IO thread, but the session stop method must be called on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf stopSession];
+            [strongSelf destroySession];
 
             if (self.delegate == nil) { return; }
             [self.delegate retryDataSession];
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLLogE(@"Data stream error");
         dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf stopSession];
+            [strongSelf destroySession];
             if (![strongSelf.session.protocol isEqualToString:LegacyProtocolString]) {
                 if (self.delegate == nil) { return; }
                 [self.delegate retryDataSession];
@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPDataSession dealloc");
-    _session = nil;
+    [self destroySession];
 }
 
 @end

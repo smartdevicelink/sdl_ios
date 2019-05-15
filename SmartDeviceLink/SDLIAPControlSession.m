@@ -65,7 +65,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
         if (![self.session start]) {
             SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", accessory);
-            [self stopSession];
+            [self destroySession];
             if (self.delegate == nil) { return; }
             [self.delegate retryControlSession];
         } else {
@@ -75,13 +75,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
-- (void)stopSession {
+- (void)destroySession {
     if (_session == nil) {
         SDLLogV(@"Attempting to stop the control session but the session is nil");
         return;
     }
 
-    SDLLogD(@"Stopping the control session");
+    SDLLogD(@"Destroying the control session");
     [self.session stop];
     self.session.streamDelegate = nil;
     self.session = nil;
@@ -112,7 +112,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         // End events come in pairs, only perform this once per set.
         if (strongSelf.session != nil) {
             [strongSelf.protocolIndexTimer cancel];
-            [strongSelf stopSession];
+            [strongSelf destroySession];
 
             if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate retryControlSession];
@@ -147,7 +147,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
         // Destroy the control session as it is no longer needed, and then create the data session.
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [strongSelf stopSession];
+            [strongSelf destroySession];
         });
 
         if (accessory.isConnected) {
@@ -174,7 +174,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogE(@"Control stream error");
 
         [strongSelf.protocolIndexTimer cancel];
-        [strongSelf stopSession];
+        [strongSelf destroySession];
 
         if (self.delegate == nil) { return; }
         [self.delegate retryControlSession];
@@ -253,7 +253,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPControlSession dealloc");
-    _session = nil;
+    [self destroySession];
     _protocolIndexTimer = nil;
 }
 

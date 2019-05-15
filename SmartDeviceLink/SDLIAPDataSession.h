@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Stops a current session.
  */
-- (void)stopSession;
+- (void)destroySession;
 
 @end
 

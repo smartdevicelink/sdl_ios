@@ -141,7 +141,7 @@ describe(@"SDLIAPDataSession", ^{
         context(@"That is nil", ^{
             beforeEach(^{
                 dataSession = [[SDLIAPDataSession alloc] initWithSession:nil delegate:mockDelegate];
-                [dataSession stopSession];
+                [dataSession destroySession];
             });
 
             it(@"Should not try to stop the session", ^{
@@ -152,7 +152,7 @@ describe(@"SDLIAPDataSession", ^{
         context(@"That is started", ^{
             beforeEach(^{
                 dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
-                [dataSession stopSession];
+                [dataSession destroySession];
             });
 
             it(@"Should try to stop and detroy the session", ^{

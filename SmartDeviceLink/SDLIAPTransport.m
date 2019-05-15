@@ -211,8 +211,8 @@ int const CreateSessionRetries = 3;
 - (void)sdl_closeSessions {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    [self.controlSession stopSession];
-    [self.dataSession stopSession];
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
 }
 
 /**
@@ -284,8 +284,8 @@ int const CreateSessionRetries = 3;
     // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
     [self sdl_stopEventListening];
 
-    [self.controlSession stopSession];
-    [self.dataSession stopSession];
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
 }
 
 
@@ -412,8 +412,8 @@ int const CreateSessionRetries = 3;
 - (void)sdl_retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
-    [self.controlSession stopSession];
-    [self.dataSession stopSession];
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
 
     // Search connected accessories
     [self sdl_connect:nil];
@@ -440,6 +440,7 @@ int const CreateSessionRetries = 3;
  *  Called when the control session should be retried.
  */
 - (void)retryControlSession {
+    SDLLogV(@"Retrying the control session");
     [self sdl_retryEstablishSession];
 }
 
@@ -459,6 +460,7 @@ int const CreateSessionRetries = 3;
  *  Called when the data session should be retried.
  */
 - (void)retryDataSession {
+    SDLLogV(@"Retrying the data session");
     [self sdl_retryEstablishSession];
 }
 
@@ -565,7 +567,7 @@ int const CreateSessionRetries = 3;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPTransport");
+    SDLLogV(@"SDLIAPTransport dealloc");
     [self disconnect];
     [self sdl_backgroundTaskEnd];
     self.controlSession = nil;

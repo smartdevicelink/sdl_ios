@@ -159,7 +159,7 @@ describe(@"SDLIAPControlSession", ^{
             beforeEach(^{
                 mockSession = nil;
                 controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession delegate:mockDelegate];
-                [controlSession stopSession];
+                [controlSession destroySession];
             });
 
             it(@"Should not try to stop the session", ^{
@@ -171,7 +171,7 @@ describe(@"SDLIAPControlSession", ^{
         context(@"That is started", ^{
             beforeEach(^{
                 controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession delegate:mockDelegate];
-                [controlSession stopSession];
+                [controlSession destroySession];
             });
 
             it(@"Should try to stop the session", ^{
