@@ -119,6 +119,7 @@ private extension ProxyManager {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
                 SDLLog.e("There was an error while starting up: \(String(describing: error))")
+                self.resetConnection()
                 return
             }
 
