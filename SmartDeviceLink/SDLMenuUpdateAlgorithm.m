@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
 
 #pragma mark - Update Menu Cells
 + (nullable SDLMenuRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells{
-    //Compare old and new menus //Mae sure we only have 100 or less cells
+    //Compare old and new menus, maybe make sure we have less then 100 Cells
     if(oldMenuCells.count && !updatedMenuCells.count) {
         return [[SDLMenuRunScore alloc] initWithOldStatus:@[] updatedStatus:[SDLMenuUpdateAlgorithm buildDeleteStatus:oldMenuCells] score:0];
     }
@@ -34,7 +34,25 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
         return nil;
     }
 
+    for(SDLMenuCell *cell in oldMenuCells) {
+        NSLog(@"OldCellOrder = %@", cell.title);
+    }
+    for(SDLMenuCell *cell in updatedMenuCells) {
+        NSLog(@"NewCellOrder = %@", cell.title);
+    }
+
+   // SDLMenuRunScore *bestScoreMenu = nil;
+
+   return  [SDLMenuUpdateAlgorithm startCompareAtRun:0 oldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+}
+
++ (nullable SDLMenuRunScore *)startCompareAtRun:(NSUInteger)run oldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells {
     SDLMenuRunScore *bestScoreMenu = nil;
+
+    if(run >= oldMenuCells.count) {
+        return bestScoreMenu;
+    }
+
     for (NSUInteger run = 0; run < oldMenuCells.count; run++) { //For each run
         // Set the menu status as a 1-1 array, start off will oldMenus = all Deletes, newMenu = all Adds
         NSMutableArray<NSNumber *> *oldMenuStatus = [SDLMenuUpdateAlgorithm buildDeleteStatus:oldMenuCells];
@@ -53,10 +71,8 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
             }
         }
         NSUInteger numberOfAdds = 0;
-        for(NSUInteger status = 0; status < newMenuStatus.count; status++){
-            // 0 = Delete,
-            //1 = Add,
-            //2 = Keep
+        for(NSUInteger status = 0; status < newMenuStatus.count; status++) {
+            // 0 = Delete   1 = Add    2 = Keep
             if(newMenuStatus[status].integerValue == 1) {
                 numberOfAdds++;
             }
@@ -64,9 +80,6 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
 
         NSLog(@"Run: %lu, RunScore: %lu", (unsigned long)run, (unsigned long)numberOfAdds);
         if(bestScoreMenu == nil || numberOfAdds < bestScoreMenu.score) {
-            if(bestScoreMenu != nil){
-                NSLog(@"Previosu Score: %lu", (unsigned long)bestScoreMenu.score);
-            }
             bestScoreMenu = [[SDLMenuRunScore alloc]  initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
     }
@@ -74,7 +87,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
     NSLog(@"BestScore: %lu", (unsigned long)bestScoreMenu.score);
     NSLog(@"OldMenuStatus: %@",bestScoreMenu.oldStatus);
     NSLog(@"NewMenuStatus: %@",bestScoreMenu.updatedStatus);
-    
+
     return bestScoreMenu;
 }
 

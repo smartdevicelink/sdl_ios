@@ -1222,6 +1222,8 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		752ECDB6228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 752ECDB4228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h */; };
 		752ECDB7228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB5228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m */; };
+		752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */; };
+		752ECDBB228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */; };
 		756C62762289F11F008B57A2 /* SDLMenuRunScore.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C62742289F11F008B57A2 /* SDLMenuRunScore.h */; };
 		756C62772289F11F008B57A2 /* SDLMenuRunScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 756C62752289F11F008B57A2 /* SDLMenuRunScore.m */; };
 		880245A420F79C3400ED195B /* SDLFileManagerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2855,6 +2857,8 @@
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
 		752ECDB4228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuUpdateAlgorithm.h; sourceTree = "<group>"; };
 		752ECDB5228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuUpdateAlgorithm.m; sourceTree = "<group>"; };
+		752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuRunScoreSpec.m; sourceTree = "<group>"; };
+		752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuUpdateAlgorithmSpec.m; sourceTree = "<group>"; };
 		756C62742289F11F008B57A2 /* SDLMenuRunScore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuRunScore.h; sourceTree = "<group>"; };
 		756C62752289F11F008B57A2 /* SDLMenuRunScore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuRunScore.m; sourceTree = "<group>"; };
 		880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLFileManagerConfiguration.h; sourceTree = "<group>"; };
@@ -5736,6 +5740,8 @@
 				5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */,
 				5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */,
 				5DAB5F5220989A8300A020C8 /* SDLVoiceCommandSpec.m */,
+				752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */,
+				752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -7328,6 +7334,7 @@
 				162E83801A9BDE8B00906325 /* SDLHMIPermissionsSpec.m in Sources */,
 				1EAA476C2036A52F000FE74B /* SDLLightCapabilitiesSpec.m in Sources */,
 				5D1654561D3E754F00554D93 /* SDLLifecycleManagerSpec.m in Sources */,
+				752ECDBB228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m in Sources */,
 				1EE8C43A1F347D4D00FDC2CF /* SDLRadioStateSpec.m in Sources */,
 				162E83021A9BDE8B00906325 /* SDLTouchTypeSpec.m in Sources */,
 				1EAA47722036AEF5000FE74B /* SDLLightNameSpec.m in Sources */,
@@ -7533,6 +7540,7 @@
 				5DA23FF61F2FAA31009C0313 /* SDLControlFramePayloadRPCStartServiceSpec.m in Sources */,
 				162E83201A9BDE8B00906325 /* SDLOnVehicleDataSpec.m in Sources */,
 				1EAA47762036B847000FE74B /* SDLEqualizerSettingsSpec.m in Sources */,
+				752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */,
 				162E83141A9BDE8B00906325 /* SDLOnDriverDistractionSpec.m in Sources */,
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
 				162E82DF1A9BDE8B00906325 /* SDLGlobalProperySpec.m in Sources */,
