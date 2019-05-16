@@ -243,11 +243,10 @@ UInt32 const MenuCellIdMin = 1;
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendSequentialRequests:mainMenuCommands progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^void(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
         }
-        return YES;
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
@@ -256,11 +255,10 @@ UInt32 const MenuCellIdMin = 1;
         }
 
         weakSelf.oldMenuCells = weakSelf.menuCells;
-        [weakSelf.connectionManager sendSequentialRequests:subMenuCommands progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^void(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
             if (error != nil) {
                 errors[request] = error;
             }
-            return YES;
         } completionHandler:^(BOOL success) {
             if (!success) {
                 SDLLogE(@"Failed to send sub menu commands: %@", errors);
