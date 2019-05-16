@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
-        // The handler will be called on the IO thread, but the session stop method must be called on the main thread
+        // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf destroySession];
 
@@ -122,7 +122,6 @@ NS_ASSUME_NONNULL_BEGIN
         uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
             // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
-
             NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             if (bytesRead < 0) {
                 SDLLogE(@"Failed to read from data stream");
@@ -154,6 +153,8 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         SDLLogE(@"Data stream error");
+
+        // To prevent deadlocks the handler must return to the runloop and not block the thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf destroySession];
             if (![strongSelf.session.protocol isEqualToString:LegacyProtocolString]) {
@@ -162,7 +163,6 @@ NS_ASSUME_NONNULL_BEGIN
             }
         });
 
-        // To prevent deadlocks the handler must return to the runloop and not block the thread
     };
 }
 
