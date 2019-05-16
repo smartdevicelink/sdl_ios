@@ -592,9 +592,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:rpc withResponseHandler:nil];
-    });
+    [self sdl_sendRequest:rpc withResponseHandler:nil];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -609,16 +607,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
-    });
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
-    });
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -671,8 +665,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 // this is to make sure that the transition happens on the dedicated queue
-- (void)sdl_transitionToState:(SDLState *)state {
+- (void)sdl_runOnProcessingQueue:(void (^)(void))block {
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
+        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+        block();
+    } else {
+        dispatch_sync(self.lifecycleQueue, block);
+    }
+}
 
+- (void)sdl_transitionToState:(SDLState *)state {
     if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
         || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
         [self.lifecycleStateMachine transitionToState:state];
