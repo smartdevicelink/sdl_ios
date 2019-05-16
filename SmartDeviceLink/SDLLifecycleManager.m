@@ -302,7 +302,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            dispatch_async(weakSelf.lifecycleQueue, ^{
+//            dispatch_async(weakSelf.lifecycleQueue, ^{
                 // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
                 if (error != nil || ![response.success boolValue]) {
                     SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
@@ -320,7 +320,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
                 [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
-            });
+//            });
         }];
 }
 
@@ -672,7 +672,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // this is to make sure that the transition happens on the dedicated queue
 - (void)sdl_transitionToState:(SDLState *)state {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0) {
+
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
+        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
         [self.lifecycleStateMachine transitionToState:state];
     } else {
         // once this method returns, the transition is completed
