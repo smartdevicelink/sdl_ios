@@ -44,8 +44,9 @@ describe(@"Parameter Tests", ^ {
         SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
         
         [testMessage setParameters:@"ADogAPanicInAPagoda" value:@"adogaPAnIcinaPAgoDA"];
+        expect([testMessage getParameters:@"ADogAPanicInAPagoda"]).to(equal(@"adogaPAnIcinaPAgoDA"));
 #pragma clang diagnostic pop
-        
+
         expect(testMessage.parameters[@"ADogAPanicInAPagoda"]).to(equal(@"adogaPAnIcinaPAgoDA"));
     });
     

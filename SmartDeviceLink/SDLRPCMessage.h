@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSString *name;
 
 /**
- The JSONRPC parameters
+ The JSON-RPC parameters
  */
 @property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, id> *parameters;
 
