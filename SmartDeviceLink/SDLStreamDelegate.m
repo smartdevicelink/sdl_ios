@@ -9,9 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamDelegate () {
-    dispatch_queue_t _input_stream_queue;
-}
+@interface SDLStreamDelegate ()
 
 @end
 
@@ -26,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
         _streamHasSpaceHandler = defaultStreamHasSpaceHandler;
         _streamErrorHandler = defaultStreamErrorHandler;
         _streamEndHandler = defaultStreamErrorHandler;
-
-        _input_stream_queue = dispatch_queue_create_with_target("com.sdl.streamdelegate.input", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
     }
     return self;
 }
@@ -42,9 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
         case NSStreamEventHasBytesAvailable: {
             if (_streamHasBytesHandler) {
-                dispatch_async(_input_stream_queue, ^{
-                    self.streamHasBytesHandler((NSInputStream *)stream);
-                });
+                self.streamHasBytesHandler((NSInputStream *)stream);
             }
             break;
         }

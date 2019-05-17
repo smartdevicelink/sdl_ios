@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocol () {
     UInt32 _messageID;
-    dispatch_queue_t _receiveQueue;
-    dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
 }
 
@@ -65,8 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super init]) {
         _messageID = 0;
         _hashId = SDLControlFrameInt32NotFound;
-        _receiveQueue = dispatch_queue_create_with_target("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
-        _sendQueue = dispatch_queue_create_with_target("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
         _serviceHeaders = [[NSMutableDictionary alloc] init];
@@ -354,12 +350,10 @@ NS_ASSUME_NONNULL_BEGIN
     [_prioritizedCollection addObject:data withPriority:priority];
 
     // TODO: (Joel F.)[2016-02-11] Autoreleasepool?
-    dispatch_async(_sendQueue, ^{
-        NSData *dataToTransmit = nil;
-        while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
-            [self.transport sendData:dataToTransmit];
-        };
-    });
+    NSData *dataToTransmit = nil;
+    while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
+        [self.transport sendData:dataToTransmit];
+    }
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -461,9 +455,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
 
     // Pass on the message to the message router.
-    dispatch_async(_receiveQueue, ^{
-        [self.messageRouter handleReceivedMessage:message];
-    });
+    [self.messageRouter handleReceivedMessage:message];
 
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
