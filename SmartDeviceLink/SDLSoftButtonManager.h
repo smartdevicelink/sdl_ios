@@ -35,6 +35,9 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
  */
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
+/**
+ All transitions made in-between beginUpdates and this method will occur as one RPC update.
+ */
 @property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
 
 - (instancetype)init NS_UNAVAILABLE;
