@@ -22,20 +22,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCountryCode:(nullable NSNumber<SDLInt> *)countryCode {
-    [store sdl_setObject:countryCode forName:SDLRPCParameterNameCountryCode];
+    [self.store sdl_setObject:countryCode forName:SDLRPCParameterNameCountryCode];
 }
 
 - (nullable NSNumber<SDLInt> *)countryCode {
-    return [store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSNumber.class error:nil];
 }
 
 
 - (void)setFccFacilityId:(nullable NSNumber<SDLInt> *)fccFacilityId {
-    [store sdl_setObject:fccFacilityId forName:SDLRPCParameterNameFCCFacilityId];
+    [self.store sdl_setObject:fccFacilityId forName:SDLRPCParameterNameFCCFacilityId];
 }
 
 - (nullable NSNumber<SDLInt> *)fccFacilityId {
-    return [store sdl_objectForName:SDLRPCParameterNameFCCFacilityId ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameFCCFacilityId ofClass:NSNumber.class error:nil];
 }
 
 @end

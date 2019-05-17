@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetDisplayLayout
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSetDisplayLayout]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
     return [self initWithLayout:predefinedLayout];
@@ -45,28 +48,28 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
-    [parameters sdl_setObject:displayLayout forName:SDLRPCParameterNameDisplayLayout];
+    [self.parameters sdl_setObject:displayLayout forName:SDLRPCParameterNameDisplayLayout];
 }
 
 - (NSString *)displayLayout {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameDisplayLayout ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDisplayLayout ofClass:NSString.class error:&error];
 }
 
 - (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {
-    [parameters sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
+    [self.parameters sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
 }
 
 - (nullable SDLTemplateColorScheme *)dayColorScheme {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDayColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDayColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
 }
 
 - (void)setNightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    [parameters sdl_setObject:nightColorScheme forName:SDLRPCParameterNameNightColorScheme];
+    [self.parameters sdl_setObject:nightColorScheme forName:SDLRPCParameterNameNightColorScheme];
 }
 
 - (nullable SDLTemplateColorScheme *)nightColorScheme {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNightColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameNightColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
 }
 
 @end

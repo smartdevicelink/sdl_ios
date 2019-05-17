@@ -50,7 +50,10 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameAudioControlData:someAudioData,
                                        SDLRPCParameterNameLightControlData:someLightData,
                                        SDLRPCParameterNameHmiSettingsControlData:someHMISettingsData} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLModuleData* testStruct = [[SDLModuleData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.moduleType).to(equal(SDLModuleTypeRadio));
         expect(testStruct.radioControlData).to(equal(someRadioData));

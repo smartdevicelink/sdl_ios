@@ -36,7 +36,10 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLImageFieldNameTurnIcon,
                                        SDLRPCParameterNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
                                        SDLRPCParameterNameImageResolution:resolution} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
         expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypePNG, SDLFileTypeJPEG] copy]));

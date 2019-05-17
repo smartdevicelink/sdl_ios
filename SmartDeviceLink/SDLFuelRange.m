@@ -16,19 +16,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLFuelRange
 
 - (void)setType:(nullable SDLFuelType)type {
-    [store sdl_setObject:type forName:SDLRPCParameterNameType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (nullable SDLFuelType)type {
-    return [store sdl_enumForName:SDLRPCParameterNameType error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameType error:nil];
 }
 
 - (void)setRange:(nullable NSNumber<SDLFloat> *)range {
-    [store sdl_setObject:range forName:SDLRPCParameterNameRange];
+    [self.store sdl_setObject:range forName:SDLRPCParameterNameRange];
 }
 
 - (nullable NSNumber<SDLFloat> *)range {
-    return [store sdl_objectForName:SDLRPCParameterNameRange ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRange ofClass:NSNumber.class error:nil];
 }
 
 

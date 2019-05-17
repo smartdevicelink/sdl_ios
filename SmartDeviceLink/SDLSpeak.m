@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSpeak
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSpeak]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithTTS:(NSString *)ttsText {
     NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
@@ -36,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTtsChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {
-    [parameters sdl_setObject:ttsChunks forName:SDLRPCParameterNameTTSChunks];
+    [self.parameters sdl_setObject:ttsChunks forName:SDLRPCParameterNameTTSChunks];
 }
 
 - (NSArray<SDLTTSChunk *> *)ttsChunks {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameTTSChunks ofClass:SDLTTSChunk.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameTTSChunks ofClass:SDLTTSChunk.class error:&error];
 }
 
 @end

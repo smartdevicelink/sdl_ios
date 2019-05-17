@@ -36,29 +36,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    [store sdl_setObject:text forName:SDLRPCParameterNameText];
+    [self.store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (NSString *)text {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    [store sdl_setObject:image forName:SDLRPCParameterNameImage];
+    [self.store sdl_setObject:image forName:SDLRPCParameterNameImage];
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [store sdl_setObject:position forName:SDLRPCParameterNamePosition];
+    [self.store sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:&error];
 }
 
 @end

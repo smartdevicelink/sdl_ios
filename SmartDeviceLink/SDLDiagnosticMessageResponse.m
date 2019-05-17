@@ -11,19 +11,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDiagnosticMessageResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameDiagnosticMessage]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setMessageDataResult:(NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    [parameters sdl_setObject:messageDataResult forName:SDLRPCParameterNameMessageDataResult];
+    [self.parameters sdl_setObject:messageDataResult forName:SDLRPCParameterNameMessageDataResult];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageDataResult {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameMessageDataResult ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameMessageDataResult ofClass:NSNumber.class error:&error];
 }
 
 @end

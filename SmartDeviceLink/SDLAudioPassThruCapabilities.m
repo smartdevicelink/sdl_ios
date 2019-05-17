@@ -12,30 +12,30 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLAudioPassThruCapabilities
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    [store sdl_setObject:samplingRate forName:SDLRPCParameterNameSamplingRate];
+    [self.store sdl_setObject:samplingRate forName:SDLRPCParameterNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    [store sdl_setObject:bitsPerSample forName:SDLRPCParameterNameBitsPerSample];
+    [self.store sdl_setObject:bitsPerSample forName:SDLRPCParameterNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    [store sdl_setObject:audioType forName:SDLRPCParameterNameAudioType];
+    [self.store sdl_setObject:audioType forName:SDLRPCParameterNameAudioType];
 }
 
 - (SDLAudioType)audioType {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
 }
 
 @end

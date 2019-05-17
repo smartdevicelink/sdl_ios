@@ -12,19 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnWayPointChange
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnWayPointChange]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
-    [parameters sdl_setObject:waypoints forName:SDLRPCParameterNameWayPoints];
+    [self.parameters sdl_setObject:waypoints forName:SDLRPCParameterNameWayPoints];
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameWayPoints ofClass:SDLLocationDetails.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameWayPoints ofClass:SDLLocationDetails.class error:&error];
 }
 
 @end

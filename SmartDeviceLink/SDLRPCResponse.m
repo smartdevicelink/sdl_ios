@@ -10,16 +10,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLRPCMessage ()
+
+@property (strong, nonatomic, readwrite) NSString *messageType;
+@property (strong, nonatomic) NSMutableDictionary<NSString *, id> *function;
+
+@end
+
 @implementation SDLRPCResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (instancetype)initWithName:(NSString *)name {
     self = [super initWithName:name];
     if (!self) {
         return nil;
     }
 
-    messageType = SDLRPCParameterNameResponse;
-    [store sdl_setObject:function forName:messageType];
+    self.messageType = SDLRPCParameterNameResponse;
+    [self.store sdl_setObject:self.function forName:self.messageType];
 
     return self;
 }
@@ -30,45 +39,46 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    messageType = SDLRPCParameterNameResponse;
-    [store sdl_setObject:function forName:messageType];
+    self.messageType = SDLRPCParameterNameResponse;
+    [self.store sdl_setObject:self.function forName:self.messageType];
     
     return self;
 }
+#pragma clang diagnostic pop
 
 - (NSNumber<SDLInt> *)correlationID {
     NSError *error = nil;
-    return [function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
+    return [self.function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    [function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
+    [self.function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    [parameters sdl_setObject:success forName:SDLRPCParameterNameSuccess];
+    [self.parameters sdl_setObject:success forName:SDLRPCParameterNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameSuccess ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSuccess ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    [parameters sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
+    [self.parameters sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
 }
 
 - (SDLResult)resultCode {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 - (void)setInfo:(nullable NSString *)info {
-    [parameters sdl_setObject:info forName:SDLRPCParameterNameInfo];
+    [self.parameters sdl_setObject:info forName:SDLRPCParameterNameInfo];
 }
 
 - (nullable NSString *)info {
-    return [parameters sdl_objectForName:SDLRPCParameterNameInfo ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameInfo ofClass:NSString.class error:nil];
 }
 
 @end

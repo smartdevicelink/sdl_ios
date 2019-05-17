@@ -80,7 +80,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                            }
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddSubMenu}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu* testRequest = [[SDLAddSubMenu alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));

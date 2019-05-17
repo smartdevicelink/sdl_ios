@@ -29,7 +29,10 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameReason:SDLAppInterfaceUnregisteredReasonAppUnauthorized},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnAppInterfaceUnregistered}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnAppInterfaceUnregistered* testNotification = [[SDLOnAppInterfaceUnregistered alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.reason).to(equal(SDLAppInterfaceUnregisteredReasonAppUnauthorized));
     });
