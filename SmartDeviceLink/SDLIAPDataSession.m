@@ -12,199 +12,354 @@
 #import "SDLIAPConstants.h"
 #import "SDLIAPDataSessionDelegate.h"
 #import "SDLIAPSession.h"
-#import "SDLIAPSessionDelegate.h"
 #import "SDLLogMacros.h"
-#import "SDLStreamDelegate.h"
+#import "SDLMutableDataQueue.h"
 
+NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
+NSTimeInterval const IOStreamThreadWaitSecs = 1.0;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIAPDataSession () <SDLIAPSessionDelegate>
+@interface SDLIAPDataSession ()
 
-@property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
+@property (nullable, nonatomic, strong) NSThread *ioStreamThread;
+@property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
+@property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
 
 @end
 
 @implementation SDLIAPDataSession
 
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPDataSessionDelegate>)delegate {
+- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
     SDLLogV(@"SDLIAPDataSession init");
 
-    self = [super init];
+    self = [super initWithAccessory:accessory forProtocol:protocol];
     if (!self) {
         return nil;
     }
 
-    _session = session;
     _delegate = delegate;
+    _sendDataQueue = [[SDLMutableDataQueue alloc] init];
+    _canceledSemaphore = dispatch_semaphore_create(0);
 
     return self;
 }
 
 - (void)startSession {
-    if (_session == nil) {
+    if (self.accessory == nil) {
         SDLLogW(@"Failed to setup data session");
         if (self.delegate == nil) { return; }
         [self.delegate retryDataSession];
     } else {
-        SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.session.accessory.name, self.session.protocol);
-        self.session.delegate = self;
-        SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
-        self.session.streamDelegate = ioStreamDelegate;
-        ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandler];
-        ioStreamDelegate.streamEndHandler = [self sdl_dataStreamEndedHandler];
-        ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandler];
+        SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.accessory.name, self.protocolString);
 
-        if (![self.session start]) {
-            SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.session.accessory);
+        if (![self start]) {
+            SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
             [self.delegate retryDataSession];
         }
+
+        self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
+        [self.ioStreamThread setName:IOStreamThreadName];
+        [self.ioStreamThread start];
     }
 }
 
+- (void)stop {
+    if ([NSThread isMainThread]) {
+        [self sdl_stop];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self sdl_stop];
+        });
+    }
+}
+
+- (void)sdl_stop {
+    NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
+
+    if (self.ioStreamThread == nil) {
+        SDLLogV(@"Stopping data session but no thread established.");
+        self.eaSession = nil;
+        return;
+    }
+
+    [self.ioStreamThread cancel];
+
+    // Waiting for the I/O streams of the data session to close
+    [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
+        if (success == NO) {
+            SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
+        }
+        self.ioStreamThread = nil;
+        self.eaSession = nil;
+    }];
+}
+
 - (void)destroySession {
-    if (_session == nil) {
+    if (self.accessory == nil) {
         SDLLogV(@"Attempting to stop the data session but the session is nil");
         return;
     }
 
     SDLLogD(@"Destroying the data session");
-    [self.session stop];
-    self.session.streamDelegate = nil;
-    self.session = nil;
+    [self stop];
+}
+
+/**
+ *  Wait for the data session to detroy its input and output streams. The data EASession can not be destroyed until both streams have closed.
+ *
+ *  @param canceledSemaphore When the canceled semaphore is released, the data session's input and output streams have been destroyed.
+ *  @param completionHandler Returns whether or not the data session's I/O streams were closed successfully.
+ */
+- (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
+    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadWaitSecs * NSEC_PER_SEC)));
+    if (lWait == 0) {
+        SDLLogD(@"Stream thread canceled successfully");
+        return completionHandler(YES);
+    } else {
+        SDLLogE(@"Failed to cancel stream thread");
+        return completionHandler(NO);
+    }
+}
+
+#pragma mark - data send methods
+
+- (void)sendData:(NSData *)data {
+    // Enqueue the data for transmission on the IO thread
+    [self.sendDataQueue enqueueBuffer:data.mutableCopy];
+
+    [self performSelector:@selector(sdl_dequeueAndWriteToOutputStream) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
+}
+
+- (void)sdl_dequeueAndWriteToOutputStream {
+    if ([self.ioStreamThread isCancelled]) {
+        SDLLogV(@"Attempted to send data on I/O thread but the thread is cancelled.");
+        return;
+    }
+
+    NSOutputStream *ostream = self.eaSession.outputStream;
+    if (!ostream.hasSpaceAvailable) {
+        SDLLogV(@"Attempted to send data with output stream but there is no space available.");
+        return;
+    }
+
+    NSMutableData *remainder = [self.sendDataQueue frontBuffer];
+
+    if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
+        NSUInteger bytesRemaining = remainder.length;
+        NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
+        if (bytesWritten < 0) {
+            if (ostream.streamError != nil) {
+                [self sdl_handleOutputStreamWriteError:ostream.streamError];
+            } else {
+                // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
+                SDLLogE(@"Output stream write operation failed");
+            }
+        } else if (bytesWritten == bytesRemaining) {
+            // Remove the data from the queue
+            [self.sendDataQueue popBuffer];
+        } else {
+            // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
+            [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+        }
+    }
+}
+
+- (void)sdl_handleOutputStreamWriteError:(NSError *)error {
+    SDLLogE(@"Output stream error: %@", error);
+    // TODO: We should look at the domain and the code as a tuple and decide how to handle the error based on both values. For now, if the stream is closed, we will flush the send queue and leave it as-is otherwise so that temporary error conditions can be dealt with by retrying
+    if (self.eaSession == nil ||
+        self.eaSession.outputStream == nil ||
+        self.eaSession.outputStream.streamStatus != NSStreamStatusOpen) {
+        [self.sendDataQueue removeAllObjects];
+    }
 }
 
 #pragma mark - Data Stream Handlers
 
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventOpenCompleted: {
+            [self streamDidOpen:stream];
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: {
+            [self streamHasBytesAvailable:(NSInputStream *)stream];
+            break;
+        }
+        case NSStreamEventHasSpaceAvailable: {
+            [self streamHasSpaceToWrite:(NSOutputStream *)stream];
+            break;
+        }
+        case NSStreamEventErrorOccurred: {
+            [self streamDidError:stream];
+            break;
+        }
+        case NSStreamEventEndEncountered: {
+            [self streamDidEnd:stream];
+            break;
+        }
+        case NSStreamEventNone:
+        default: {
+            break;
+        }
+    }
+}
+
+- (void)streamDidOpen:(NSStream *)stream {
+    if (stream == [self.eaSession outputStream]) {
+        SDLLogD(@"Output Stream Opened");
+        self.isOutputStreamOpen = YES;
+    } else if (stream == [self.eaSession inputStream]) {
+        SDLLogD(@"Input Stream Opened");
+        self.isInputStreamOpen = YES;
+    }
+
+    // When both streams are open, session initialization is complete. Let the delegate know.
+    if (self.isInputStreamOpen && self.isOutputStreamOpen) {
+        SDLLogV(@"Data session I/O streams opened for protocol: %@", self.protocolString);
+        if (self.delegate == nil) { return; }
+        [self.delegate transportConnected];
+    }
+}
+
 /**
  *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
- *
- *  @return A SDLStreamEndHandler handler
  */
-- (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSStream *stream) {
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+- (void)streamDidEnd:(NSStream *)stream {
+    NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
 
-        SDLLogD(@"Data stream ended");
-        if (strongSelf.session == nil) {
-            SDLLogD(@"Data session is nil");
-            return;
-        }
+    SDLLogD(@"Data stream ended");
+    if (self.accessory == nil) {
+        SDLLogD(@"Data session is nil");
+        return;
+    }
 
-        // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf destroySession];
+    // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self destroySession];
 
-            if (self.delegate == nil) { return; }
-            [self.delegate retryDataSession];
-        });
+        if (self.delegate == nil) { return; }
+        [self.delegate retryDataSession];
+    });
 
-        // To prevent deadlocks the handler must return to the runloop and not block the thread
-    };
+    // To prevent deadlocks the handler must return to the runloop and not block the thread
 }
 
 /**
  *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
- *
- *  @return A SDLStreamHasBytesHandler handler
  */
-- (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSInputStream *istream) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-        while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
-            // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
-            NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-            if (bytesRead < 0) {
-                SDLLogE(@"Failed to read from data stream");
-                break;
-            }
-
-            NSData *dataIn = [NSData dataWithBytes:buf length:(NSUInteger)bytesRead];
-            SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
-
-            if (bytesRead > 0) {
-                if (strongSelf.delegate == nil) { return; }
-                [strongSelf.delegate dataReceived:dataIn];
-            } else {
-                break;
-            }
+- (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
+    NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
+    uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
+    while (inputStream.streamStatus == NSStreamStatusOpen && inputStream.hasBytesAvailable) {
+        // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
+        NSInteger bytesRead = [inputStream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
+        if (bytesRead < 0) {
+            SDLLogE(@"Failed to read from data stream");
+            break;
         }
-    };
+
+        NSData *dataIn = [NSData dataWithBytes:buf length:(NSUInteger)bytesRead];
+        SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
+
+        if (bytesRead > 0) {
+            if (self.delegate == nil) { return; }
+            [self.delegate dataReceived:dataIn];
+        } else {
+            break;
+        }
+    }
+}
+
+- (void)streamHasSpaceToWrite:(NSOutputStream *)outputStream {
+    [self sdl_dequeueAndWriteToOutputStream];
 }
 
 /**
  *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
- *
- *  @return A SDLStreamErrorHandler handler
  */
-- (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSStream *stream) {
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+- (void)streamDidError:(NSStream *)stream {
+    NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
 
-        SDLLogE(@"Data stream error");
+    SDLLogE(@"Data session I/O streams errored for protocol: %@", self.protocolString);
 
-        // To prevent deadlocks the handler must return to the runloop and not block the thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf destroySession];
-            if (![strongSelf.session.protocol isEqualToString:LegacyProtocolString]) {
-                if (self.delegate == nil) { return; }
-                [self.delegate retryDataSession];
-            }
-        });
-
-    };
+    // To prevent deadlocks the handler must return to the runloop and not block the thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self destroySession];
+        if (![self.protocolString isEqualToString:LegacyProtocolString]) {
+            if (self.delegate == nil) { return; }
+            [self.delegate retryDataSession];
+        }
+    });
 }
 
-#pragma mark - SDLIAPSessionDelegate
+#pragma mark - background I/O for data session
 
-/**
- *  Called after both the input and output streams of the session have opened.
- *
- *  @param session The current session
- */
-- (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
-    if ([session.protocol isEqualToString:ControlProtocolString]) {
-        // Control session
+// Data session I/O thread
+- (void)sdl_accessoryEventLoop {
+    @autoreleasepool {
+        NSAssert(self.eaSession != nil, @"Session must be assigned before calling");
+        if (!self.eaSession) {
+            return;
+        }
+
+        [self startStream:self.eaSession.inputStream];
+        [self startStream:self.eaSession.outputStream];
+
+        SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
+
+        while (!self.ioStreamThread.cancelled) {
+            // Enqueued data will be written to and read from the streams in the runloop
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
+        }
+
+        SDLLogD(@"Closing the accessory event loop on thread: %@", NSThread.currentThread.name);
+
+        // Close I/O streams of the data session. When the streams are closed. Notify the thread that it can close
+        [self sdl_closeSession];
+
+        dispatch_semaphore_signal(self.canceledSemaphore);
+    }
+}
+
+// Must be called on accessoryEventLoop.
+- (void)sdl_closeSession {
+    if (!self.eaSession) {
         return;
     }
 
-    SDLLogV(@"Data session I/O streams opened for protocol: %@", session.protocol);
-    if (self.delegate == nil) { return; }
-    [self.delegate transportConnected];
+    SDLLogD(@"Closing EASession for accessory connection id: %tu, name: %@", self.eaSession.accessory.connectionID, self.eaSession.accessory.name);
+
+    [self stopStream:[self.eaSession inputStream]];
+    [self stopStream:[self.eaSession outputStream]];
 }
 
-/**
- *  Called when either the input and output streams of the session have errored. If the data session errored, do nothing.
- *
- *  @param session The current session
- */
-- (void)onSessionStreamsEnded:(SDLIAPSession *)session {
-    SDLLogV(@"Data session I/O streams errored for protocol: %@", session.protocol);
+- (void)startStream:(NSStream *)stream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioStreamThread] || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
+    [super startStream:stream];
+}
+
+- (void)stopStream:(NSStream *)stream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioStreamThread] || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
+    [super stopStream:stream];
 }
 
 #pragma mark - Getters
 
 - (NSUInteger)connectionID {
-    return self.session.accessory.connectionID;
+    return self.accessory.connectionID;
 }
 
 - (BOOL)isSessionInProgress {
-    return (self.session != nil && !self.session.isStopped);
+    return !self.isStopped;
 }
 
 - (BOOL)isSessionConnected {
-    return (self.session != nil && self.sessionInProgress);
+    return self.sessionInProgress;
 }
 
 #pragma mark - Lifecycle Destruction
