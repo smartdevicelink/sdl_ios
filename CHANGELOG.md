@@ -1,3 +1,33 @@
+# 6.2.3
+### Versions
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Bug Fixes
+* Fix all lockscreen related crashes when SDL is setup before the main window exists (https://www.github.com/smartdevicelink/sdl_ios/issues/1258).
+
+# 6.2.2
+### Versions
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Bug Fixes
+* Add an explicit exception if SDL is setup before the app's window. The app's window **must** be setup before SDL is started (https://www.github.com/smartdevicelink/sdl_ios/issues/1255).
+
+# 6.2.1
+### Versions
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+##### Enhancements
+* SmartDeviceLinkSwift updated to Swift 5.0 (https://www.github.com/smartdevicelink/sdl_ios/issues/1245).
+
+##### Bug Fixes
+* Fix `SDLAlert` documentation (https://www.github.com/smartdevicelink/sdl_ios/issues/1233).
+* Fixed the audio service being stopped when the navigation app is in `HMI_BACKGROUND` (https://www.github.com/smartdevicelink/sdl_ios/issues/1235).
+* Fix setting up the lock screen window causing rotation issues (https://www.github.com/smartdevicelink/sdl_ios/issues/1250).
+
+##### Example App
+* The example apps will now auto-reconnect if disconnected physically from the head unit (https://www.github.com/smartdevicelink/sdl_ios/issues/1237).
+* Update the example swift app to Swift 5 (https://www.github.com/smartdevicelink/sdl_ios/issues/1172, https://www.github.com/smartdevicelink/sdl_ios/issues/1243, https://www.github.com/smartdevicelink/sdl_ios/issues/1245).
+
 # 6.2.0
 ### Versions
 * Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
