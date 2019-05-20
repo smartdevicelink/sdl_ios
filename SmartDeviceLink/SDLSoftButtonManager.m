@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 
+@property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
+
 @end
 
 @implementation SDLSoftButtonManager
@@ -60,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _currentLevel = nil;
     _transactionQueue = [self sdl_newTransactionQueue];
+    _batchQueue = [NSMutableArray array];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -118,13 +121,30 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonObjects = softButtonObjects;
 
     SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
-    [self.transactionQueue cancelAllOperations];
-    [self.transactionQueue addOperation:op];
+
+    if (self.isBatchingUpdates) {
+        [self.batchQueue removeAllObjects];
+        [self.batchQueue addObject:op];
+    } else {
+        [self.transactionQueue cancelAllOperations];
+        [self.transactionQueue addOperation:op];
+    }
 }
 
 - (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
     SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.softButtonCapabilities softButtons:self.softButtonObjects mainField1:self.currentMainField1];
-    [self.transactionQueue addOperation:op];
+
+    if (self.isBatchingUpdates) {
+        for (SDLAsynchronousOperation *sbOperation in self.batchQueue) {
+            if ([sbOperation isMemberOfClass:[SDLSoftButtonTransitionOperation class]]) {
+                [self.batchQueue removeObject:sbOperation];
+            }
+        }
+
+        [self.batchQueue addObject:op];
+    } else {
+        [self.transactionQueue addOperation:op];
+    }
 }
 
 
@@ -146,7 +166,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBatchUpdates:(BOOL)batchUpdates {
     _batchUpdates = batchUpdates;
 
-    _transactionQueue.suspended = batchUpdates;
+    if (!_batchUpdates) {
+        [self.transactionQueue addOperations:[self.batchQueue copy] waitUntilFinished:NO];
+        [self.batchQueue removeAllObjects];
+    }
 }
 
 - (void)setCurrentMainField1:(nullable NSString *)currentMainField1 {

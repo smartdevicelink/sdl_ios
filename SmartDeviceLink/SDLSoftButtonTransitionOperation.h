@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param connectionManager The manager that will send the resultant RPCs
  @param capabilities The capabilites of the soft buttons on the current template
- @param softButtonObjects The soft buttons that should be sent
+ @param softButtons The soft buttons that should be sent
  @param mainField1 The primary text field of the system template
  @return The transition operation
  */

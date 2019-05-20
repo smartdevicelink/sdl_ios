@@ -12,7 +12,9 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonObject.h"
+#import "SDLSoftButtonReplaceOperation.h"
 #import "SDLSoftButtonState.h"
+#import "SDLSoftButtonTransitionOperation.h"
 #import "TestConnectionManager.h"
 
 @interface SDLSoftButtonObject()
@@ -34,6 +36,8 @@
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
+
+@property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
 
 @end
 
@@ -137,6 +141,21 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
+        describe(@"while batching", ^{
+            beforeEach(^{
+                testManager.batchUpdates = YES;
+
+                [testObject1 transitionToNextState];
+                [testObject2 transitionToNextState];
+                testManager.softButtonObjects = @[testObject2, testObject1];
+            });
+
+            it(@"should properly queue the batching updates", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+                expect(testManager.batchQueue).to(haveCount(1));
+            });
+        });
+
         it(@"should set soft buttons correctly", ^{
             expect(testManager.softButtonObjects).toNot(beNil());
             expect(testObject1.buttonId).to(equal(0));
@@ -182,10 +201,33 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        it(@"should queue an update", ^{
-            [testObject1 transitionToStateNamed:object1State2Name];
+        context(@"when batching", ^{
+            beforeEach(^{
+                testManager.batchUpdates = YES;
 
-            expect(testManager.transactionQueue.operationCount).to(equal(2)); // Replace and transition
+                SDLSoftButtonReplaceOperation *replaceOp = [[SDLSoftButtonReplaceOperation alloc] init];
+                SDLSoftButtonTransitionOperation *transitionOp = [[SDLSoftButtonTransitionOperation alloc] init];
+                testManager.batchQueue = [NSMutableArray arrayWithArray:@[replaceOp, transitionOp]];
+
+                [testObject1 transitionToStateNamed:object1State2Name];
+            });
+
+            it(@"should batch queue the update and remove the old transition operation", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+                expect(testManager.batchQueue.count).to(equal(2));
+            });
+        });
+
+        context(@"when not batching", ^{
+            beforeEach(^{
+                testManager.batchUpdates = NO;
+            });
+
+            it(@"should queue an update", ^{
+                [testObject1 transitionToStateNamed:object1State2Name];
+
+                expect(testManager.transactionQueue.operationCount).to(equal(2)); // Replace and transition
+            });
         });
     });
 
