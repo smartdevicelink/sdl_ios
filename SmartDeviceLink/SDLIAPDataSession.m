@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.accessory.name, self.protocolString);
 
-        if (![self start]) {
+        if (![super start]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }

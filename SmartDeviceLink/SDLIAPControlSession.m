@@ -52,7 +52,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
 
-        if (![self start]) {
+        if (![self sdl_start]) {
             SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
@@ -64,8 +64,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
-- (BOOL)start {
-    if (![self start]) { return NO; }
+- (BOOL)sdl_start {
+    if (![super start]) { return NO; }
     // No need for its own thread as only a small amount of data will be transmitted before control session is destroyed
     SDLLogD(@"Created the control session successfully");
     [self startStream:self.eaSession.outputStream];
@@ -187,17 +187,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
     SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
 
     // Destroy the control session as it is no longer needed, and then create the data session.
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [self destroySession];
-    });
+    [self destroySession];
 
     if (self.accessory.isConnected) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.delegate != nil) {
-                [self.delegate controlSession:self didReceiveProtocolString:indexedProtocolString];
-            }
-            [self.protocolIndexTimer cancel];
-        });
+        if (self.delegate != nil) {
+            [self.delegate controlSession:self didReceiveProtocolString:indexedProtocolString];
+        }
+        [self.protocolIndexTimer cancel];
     }
 }
 
