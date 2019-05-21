@@ -8,19 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLIAPSession;
+#import "SDLIAPSession.h"
 
 @protocol SDLIAPDataSessionDelegate;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIAPDataSession : NSObject
-
-/**
- *  The communications channel between the app and the SDL enabled accessory.
- */
-@property (nullable, strong, nonatomic, readonly) SDLIAPSession *session;
+@interface SDLIAPDataSession : SDLIAPSession
 
 /**
  *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
@@ -43,11 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Creates a new data session.
  *
- *  @param session      The new data session. If a `nil` session is passed, the delegate will be notified that it should attempt to establish a new data session.
+ *  @param accessory    The new connected accessory.
  *  @param delegate     The data session delegate
  *  @return             A SDLIAPSession object
  */
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPDataSessionDelegate>)delegate;
+- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
 /**
  *  Starts a data session.
@@ -58,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Stops a current session.
  */
 - (void)destroySession;
+
+- (void)sendData:(NSData *)data;
 
 @end
 

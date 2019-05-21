@@ -18,7 +18,6 @@
 @interface SDLIAPSession ()
 @property (nonatomic, assign) BOOL isInputStreamOpen;
 @property (nonatomic, assign) BOOL isOutputStreamOpen;
-@property (nonatomic, assign) BOOL isDataSession;
 @property (nullable, nonatomic, strong) NSThread *ioStreamThread;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
@@ -67,7 +66,7 @@ describe(@"SDLIAPSession", ^{
 
         afterEach(^{
             expect(iapSession).toNot(beNil());
-            expect(iapSession.protocol).to(match(protocol));
+            expect(iapSession.protocolString).to(match(protocol));
             expect(iapSession.accessory).to(equal(mockAccessory));
             expect(iapSession.canceledSemaphore).toNot(beNil());
             expect(iapSession.sendDataQueue).toNot(beNil());

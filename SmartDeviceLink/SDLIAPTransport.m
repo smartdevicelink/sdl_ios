@@ -16,7 +16,6 @@
 #import "SDLIAPDataSessionDelegate.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
-#import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
@@ -191,11 +190,11 @@ int const CreateSessionRetries = 3;
     if (!self.controlSession.isSessionInProgress && !self.dataSession.isSessionInProgress) {
         SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
         [self sdl_closeSessions];
-    } else if (accessory.connectionID == self.dataSession.connectionID) {
+    } else if (self.dataSession.isSessionInProgress) {
         // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
         [self sdl_destroyTransport];
-    } else if (accessory.connectionID == self.controlSession.connectionID) {
+    } else if (self.controlSession.isSessionInProgress) {
         // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
         [self sdl_closeSessions];
@@ -261,7 +260,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sendData:(NSData *)data {
     if (!self.dataSession.sessionInProgress) { return; }
-    [self.dataSession.session sendData:data];
+    [self.dataSession sendData:data];
 }
 
 /**
@@ -316,8 +315,7 @@ int const CreateSessionRetries = 3;
  *  @return                 A SDLIAPControlSession object
  */
 - (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory {
-    SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
-    return [[SDLIAPControlSession alloc] initWithSession:session delegate:self];
+    return [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
 }
 
 /**
@@ -328,8 +326,7 @@ int const CreateSessionRetries = 3;
  *  @return                 A SDLIAPDataSession object
  */
 - (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
-    return [[SDLIAPDataSession alloc] initWithSession:session delegate:self];
+    return [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocol];
 }
 
 /**
@@ -425,24 +422,24 @@ int const CreateSessionRetries = 3;
 #pragma mark Control Session
 
 /**
- *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
- *
- *  @param controlSession   The control session
- *  @param protocolString   The protocol string to be used to open the data session
- *  @param accessory        The accessory with which to create a data session
- */
-- (void)controlSession:(nonnull SDLIAPSession *)controlSession didGetProtocolString:(nonnull NSString *)protocolString forConnectedAccessory:(nonnull EAAccessory *)accessory {
-    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString];
-    [self.dataSession startSession];
-}
-
-/**
  *  Called when the control session should be retried.
  */
 - (void)retryControlSession {
     SDLLogV(@"Retrying the control session");
     [self sdl_retryEstablishSession];
 }
+
+/**
+ *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
+ *
+ *  @param controlSession   The control session
+ *  @param protocolString   The protocol string to be used to open the data session
+ */
+- (void)controlSession:(nonnull SDLIAPControlSession *)controlSession didReceiveProtocolString:(nonnull NSString *)protocolString {
+    self.dataSession = [self sdl_createDataSessionWithAccessory:controlSession.accessory forProtocol:protocolString];
+    [self.dataSession startSession];
+}
+
 
 #pragma mark Data Session
 
