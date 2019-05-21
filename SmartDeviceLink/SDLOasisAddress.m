@@ -34,75 +34,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCountryName:(nullable NSString *)countryName {
-    [store sdl_setObject:countryName forName:SDLRPCParameterNameCountryName];
+    [self.store sdl_setObject:countryName forName:SDLRPCParameterNameCountryName];
 }
 
 - (nullable NSString *)countryName {
-    return [store sdl_objectForName:SDLRPCParameterNameCountryName ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCountryName ofClass:NSString.class error:nil];
 }
 
 - (void)setCountryCode:(nullable NSString *)countryCode {
-    [store sdl_setObject:countryCode forName:SDLRPCParameterNameCountryCode];
+    [self.store sdl_setObject:countryCode forName:SDLRPCParameterNameCountryCode];
 }
 
 - (nullable NSString *)countryCode {
-    return [store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSString.class error:nil];
 }
 
 - (void)setPostalCode:(nullable NSString *)postalCode {
-    [store sdl_setObject:postalCode forName:SDLRPCParameterNamePostalCode];
+    [self.store sdl_setObject:postalCode forName:SDLRPCParameterNamePostalCode];
 }
 
 - (nullable NSString *)postalCode {
-    return [store sdl_objectForName:SDLRPCParameterNamePostalCode ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePostalCode ofClass:NSString.class error:nil];
 }
 
 - (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
-    [store sdl_setObject:administrativeArea forName:SDLRPCParameterNameAdministrativeArea];
+    [self.store sdl_setObject:administrativeArea forName:SDLRPCParameterNameAdministrativeArea];
 }
 
 - (nullable NSString *)administrativeArea {
-    return [store sdl_objectForName:SDLRPCParameterNameAdministrativeArea ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
-    [store sdl_setObject:subAdministrativeArea forName:SDLRPCParameterNameSubAdministrativeArea];
+    [self.store sdl_setObject:subAdministrativeArea forName:SDLRPCParameterNameSubAdministrativeArea];
 }
 
 - (nullable NSString *)subAdministrativeArea {
-    return [store sdl_objectForName:SDLRPCParameterNameSubAdministrativeArea ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSubAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setLocality:(nullable NSString *)locality {
-    [store sdl_setObject:locality forName:SDLRPCParameterNameLocality];
+    [self.store sdl_setObject:locality forName:SDLRPCParameterNameLocality];
 }
 
 - (nullable NSString *)locality {
-    return [store sdl_objectForName:SDLRPCParameterNameLocality ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setSubLocality:(nullable NSString *)subLocality {
-    [store sdl_setObject:subLocality forName:SDLRPCParameterNameSubLocality];
+    [self.store sdl_setObject:subLocality forName:SDLRPCParameterNameSubLocality];
 }
 
 - (nullable NSString *)subLocality {
-    return [store sdl_objectForName:SDLRPCParameterNameSubLocality ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSubLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setThoroughfare:(nullable NSString *)thoroughfare {
-    [store sdl_setObject:thoroughfare forName:SDLRPCParameterNameThoroughfare];
+    [self.store sdl_setObject:thoroughfare forName:SDLRPCParameterNameThoroughfare];
 }
 
 - (nullable NSString *)thoroughfare {
-    return [store sdl_objectForName:SDLRPCParameterNameThoroughfare ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameThoroughfare ofClass:NSString.class error:nil];
 }
 
 - (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
-    [store sdl_setObject:subThoroughfare forName:SDLRPCParameterNameSubThoroughfare];
+    [self.store sdl_setObject:subThoroughfare forName:SDLRPCParameterNameSubThoroughfare];
 }
 
 - (nullable NSString *)subThoroughfare {
-    return [store sdl_objectForName:SDLRPCParameterNameSubThoroughfare ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSubThoroughfare ofClass:NSString.class error:nil];
 }
 
 @end

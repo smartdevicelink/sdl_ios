@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetInteriorVehicleData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSetInteriorVehicleData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithModuleData:(SDLModuleData *)moduleData {
     self = [self init];
@@ -30,12 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleData:(SDLModuleData *)moduleData {
-    [parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
+    [self.parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
 }
 
 - (SDLModuleData *)moduleData {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class error:&error];
 }
 
 @end

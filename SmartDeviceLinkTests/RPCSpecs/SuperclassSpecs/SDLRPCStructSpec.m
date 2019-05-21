@@ -14,10 +14,13 @@ QuickSpecBegin(SDLRPCStructSpec)
 
 describe(@"SerializeAsDictionary Tests", ^ {
     it(@"Should serialize correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSMutableDictionary<NSString *, id> *dict = [@{@"Key":@"Value", @"Answer":@42, @"Struct":[[SDLRPCStruct alloc] initWithDictionary:[@{@"Array":@[@1, @1, @1, @1]} mutableCopy]]} mutableCopy];
         SDLRPCStruct* testStruct = [[SDLRPCStruct alloc] initWithDictionary:dict];
         
         expect([testStruct serializeAsDictionary:2]).to(equal([@{@"Key":@"Value", @"Answer":@42, @"Struct":@{@"Array":@[@1, @1, @1, @1]}} mutableCopy]));
+#pragma clang diagnostic pop
     });
 });
 

@@ -35,7 +35,10 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRPCName:@"RPCNameThing",
                                                        SDLRPCParameterNameHMIPermissions:hmiPermissions,
                                                        SDLRPCParameterNameParameterPermissions:parameterPermissions} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPermissionItem* testStruct = [[SDLPermissionItem alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.rpcName).to(equal(@"RPCNameThing"));
         expect(testStruct.hmiPermissions).to(equal(hmiPermissions));

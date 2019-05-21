@@ -12,30 +12,30 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLTouchEventCapabilities
 
 - (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
-    [store sdl_setObject:pressAvailable forName:SDLRPCParameterNamePressAvailable];
+    [self.store sdl_setObject:pressAvailable forName:SDLRPCParameterNamePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)pressAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNamePressAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
-    [store sdl_setObject:multiTouchAvailable forName:SDLRPCParameterNameMultiTouchAvailable];
+    [self.store sdl_setObject:multiTouchAvailable forName:SDLRPCParameterNameMultiTouchAvailable];
 }
 
 - (NSNumber<SDLBool> *)multiTouchAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameMultiTouchAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameMultiTouchAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
-    [store sdl_setObject:doublePressAvailable forName:SDLRPCParameterNameDoublePressAvailable];
+    [self.store sdl_setObject:doublePressAvailable forName:SDLRPCParameterNameDoublePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)doublePressAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameDoublePressAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDoublePressAvailable ofClass:NSNumber.class error:&error];
 }
 
 @end

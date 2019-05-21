@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetFile
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameGetFile]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
@@ -59,44 +62,44 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFileName:(NSString *)fileName {
-    [parameters sdl_setObject:fileName forName:SDLRPCParameterNameFilename];
+    [self.parameters sdl_setObject:fileName forName:SDLRPCParameterNameFilename];
 }
 
 - (NSString *)fileName {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:&error];
 }
 
 - (void)setAppServiceId:(nullable NSString *)appServiceId {
-    [parameters sdl_setObject:appServiceId forName:SDLRPCParameterNameAppServiceId];
+    [self.parameters sdl_setObject:appServiceId forName:SDLRPCParameterNameAppServiceId];
 }
 
 - (nullable NSString *)appServiceId {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceId ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAppServiceId ofClass:NSString.class error:nil];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
+    [self.parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_enumForName:SDLRPCParameterNameFileType error:nil];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameFileType error:nil];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
+    [self.parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
-    [parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
+    [self.parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
 }
 
 @end

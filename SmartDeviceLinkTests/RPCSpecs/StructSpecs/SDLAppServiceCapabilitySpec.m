@@ -21,7 +21,10 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testUpdateReason = SDLServiceUpdateActivated;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testUpdatedAppServiceRecord = [[SDLAppServiceRecord alloc] initWithDictionary:@{SDLRPCParameterNameServiceID:@"1234", SDLRPCParameterNameServicePublished:@YES}];
+#pragma clang diagnostic pop
     });
 
     it(@"Should set and get correctly", ^{
@@ -37,8 +40,10 @@ describe(@"Getter/Setter Tests", ^{
         NSDictionary *dict = @{SDLRPCParameterNameUpdateReason:testUpdateReason,
                                SDLRPCParameterNameUpdatedAppServiceRecord:testUpdatedAppServiceRecord
                                };
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         expect(testStruct.updateReason).to(equal(testUpdateReason));
         expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
     });

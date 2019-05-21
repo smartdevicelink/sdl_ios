@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDialNumberEnabled:(nullable NSNumber *)dialNumberEnabled {
-    [store sdl_setObject:dialNumberEnabled forName:SDLRPCParameterNameDialNumberEnabled];
+    [self.store sdl_setObject:dialNumberEnabled forName:SDLRPCParameterNameDialNumberEnabled];
 }
 
 - (nullable NSNumber *)dialNumberEnabled {
-    return [store sdl_objectForName:SDLRPCParameterNameDialNumberEnabled ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDialNumberEnabled ofClass:NSNumber.class error:nil];
 }
 
 @end

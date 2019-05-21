@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAcceptsWayPoints:(nullable NSNumber<SDLBool> *)acceptsWayPoints {
-    [store sdl_setObject:acceptsWayPoints forName:SDLRPCParameterNameAcceptsWayPoints];
+    [self.store sdl_setObject:acceptsWayPoints forName:SDLRPCParameterNameAcceptsWayPoints];
 }
 
 - (nullable NSNumber<SDLBool> *)acceptsWayPoints {
-    return [store sdl_objectForName:SDLRPCParameterNameAcceptsWayPoints ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAcceptsWayPoints ofClass:NSNumber.class error:nil];
 }
 
 @end

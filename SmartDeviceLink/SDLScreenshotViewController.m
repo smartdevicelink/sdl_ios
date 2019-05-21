@@ -8,6 +8,8 @@
 
 #import "SDLScreenshotViewController.h"
 
+#import "SDLError.h"
+
 @interface SDLScreenshotViewController ()
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -30,6 +32,42 @@
     return self;
 }
 
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+
+    if (viewController == self) {
+        return UIInterfaceOrientationMaskAll;
+    } else if (viewController != nil) {
+        return viewController.supportedInterfaceOrientations;
+    }
+
+    return UIInterfaceOrientationMaskAll;
+}
+
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+- (BOOL)shouldAutorotate {
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+
+    if (viewController == self) {
+        return YES;
+    } else if (viewController != nil) {
+        return viewController.shouldAutorotate;
+    }
+
+    return YES;
+}
+
+- (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
+    UIViewController *topController = window.rootViewController;
+
+    while (topController.presentedViewController != nil) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
+}
+
 - (void)layoutSubviews {
     self.imageView.frame = self.view.bounds;
 }
@@ -37,12 +75,11 @@
 - (void)loadScreenshotOfWindow:(UIWindow *)window {
     UIGraphicsBeginImageContextWithOptions(window.bounds.size, YES, 0.0f);
     [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
-    
+
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
     self.imageView.image = image;
 }
-
 
 @end

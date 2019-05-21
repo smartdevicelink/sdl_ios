@@ -51,7 +51,10 @@ describe(@"Getter/Setter Tests", ^{
                                            SDLRPCParameterNameImageType:imageType,
                                            SDLRPCParameterNameImageTemplate:@YES
                                            } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expectedValue = value;
             expectedImageType = imageType;

@@ -14,45 +14,48 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnHMIStatus
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnHMIStatus]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    [parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
+    [self.parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
 }
 
 - (SDLHMILevel)hmiLevel {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameHMILevel error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameHMILevel error:&error];
 }
 
 - (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
-    [parameters sdl_setObject:audioStreamingState forName:SDLRPCParameterNameAudioStreamingState];
+    [self.parameters sdl_setObject:audioStreamingState forName:SDLRPCParameterNameAudioStreamingState];
 }
 
 - (SDLAudioStreamingState)audioStreamingState {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingState error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingState error:&error];
 }
 
 - (void)setVideoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState {
-    [parameters sdl_setObject:videoStreamingState forName:SDLRPCParameterNameVideoStreamingState];
+    [self.parameters sdl_setObject:videoStreamingState forName:SDLRPCParameterNameVideoStreamingState];
 }
 
 - (nullable SDLVideoStreamingState)videoStreamingState {
-    return [parameters sdl_enumForName:SDLRPCParameterNameVideoStreamingState error:nil];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameVideoStreamingState error:nil];
 }
 
 - (void)setSystemContext:(SDLSystemContext)systemContext {
-    [parameters sdl_setObject:systemContext forName:SDLRPCParameterNameSystemContext];
+    [self.parameters sdl_setObject:systemContext forName:SDLRPCParameterNameSystemContext];
 }
 
 - (SDLSystemContext)systemContext {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameSystemContext error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameSystemContext error:&error];
 }
 
 @end

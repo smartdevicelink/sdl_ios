@@ -12,12 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPresetBankCapabilities
 
 - (void)setOnScreenPresetsAvailable:(NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    [store sdl_setObject:onScreenPresetsAvailable forName:SDLRPCParameterNameOnScreenPresetsAvailable];
+    [self.store sdl_setObject:onScreenPresetsAvailable forName:SDLRPCParameterNameOnScreenPresetsAvailable];
 }
 
 - (NSNumber<SDLBool> *)onScreenPresetsAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameOnScreenPresetsAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOnScreenPresetsAvailable ofClass:NSNumber.class error:&error];
 }
 
 @end
