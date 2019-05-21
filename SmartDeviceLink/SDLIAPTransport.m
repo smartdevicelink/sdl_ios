@@ -30,6 +30,7 @@ int const CreateSessionRetries = 3;
 @property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
+@property (assign, nonatomic) BOOL transportDisconnected;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 
@@ -46,6 +47,7 @@ int const CreateSessionRetries = 3;
     }
 
     _sessionSetupInProgress = NO;
+    _transportDisconnected = NO;
     _dataSession = nil;
     _controlSession = nil;
     _retryCounter = 0;
@@ -123,6 +125,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -220,6 +223,7 @@ int const CreateSessionRetries = 3;
 - (void)sdl_destroyTransport {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
+    self.transportDisconnected = YES;
     [self disconnect];
     [self.delegate onTransportDisconnected];
 }
@@ -296,6 +300,11 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
+    if (self.transportDisconnected) {
+        SDLLogV(@"Will not attempt to connect to an accessory becasue the data session disconnected. Waiting for lifecycle manager to create a new tranport object.");
+        return;
+    }
+
     if ((self.dataSession == nil || !self.dataSession.isSessionInProgress) && !self.sessionSetupInProgress) {
         // No data session has been established are not attempting to set one up, attempt to connect
         SDLLogV(@"No data session in progress. Starting setup.");
