@@ -76,7 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stopConnection {
-    [self.sdlManager stop];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.sdlManager stop];
+    });
+
     [self sdlex_updateProxyState:ProxyStateStopped];
 }
 

@@ -55,7 +55,10 @@ extension ProxyManager {
             return
         }
 
-        sdlManager.stop()
+        DispatchQueue.main.async { [weak self] in
+            self?.sdlManager.stop()
+        }
+
         delegate?.didChangeProxyState(.stopped)
     }
 }
