@@ -349,7 +349,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogD(@"Closing EASession for accessory connection id: %tu, name: %@", self.eaSession.accessory.connectionID, self.eaSession.accessory.name);
+    SDLLogD(@"Closing EASession for accessory connection id: %tu, name: %@", self.connectionID, self.eaSession.accessory.name);
 
     [self stopStream:[self.eaSession inputStream]];
     [self stopStream:[self.eaSession outputStream]];
