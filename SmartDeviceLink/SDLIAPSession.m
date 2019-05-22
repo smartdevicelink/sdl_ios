@@ -34,16 +34,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory forProtocol:(NSString *)protocol {
     SDLLogD(@"SDLIAPSession init with accessory:%@ for protocol:%@", accessory.name, protocol);
 
     self = [super init];
-    if (self) {
-        _accessory = accessory;
-        _protocolString = protocol;
-        _isInputStreamOpen = NO;
-        _isOutputStreamOpen = NO;
-    }
+    if (!self) { return nil; }
+
+    _accessory = accessory;
+    _protocolString = protocol;
+    _isInputStreamOpen = NO;
+    _isOutputStreamOpen = NO;
+
     return self;
 }
 
@@ -68,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stopStream:(NSStream *)stream {
-    // Verify stream is in a state that can be closed. Closing a stream that has not been opened has very, very bad effects.
+    // Verify stream is in a state that can be closed. Closing a stream that has not been opened has very bad effects.
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&
         status1 != NSStreamStatusClosed) {

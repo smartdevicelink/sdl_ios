@@ -43,15 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param protocol     The unique protocol string used to create the session with the accessory
  *  @return             A SDLIAPSession object
  */
-- (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol;
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory forProtocol:(NSString *)protocol;
 
 /**
- *  Starts a control session.
+ *  Starts a session.
  */
 - (void)startSession;
 
 /**
- *  Stops the current control session if it is open.
+ *  Stops the current session.
  */
 - (void)destroySession;
 
