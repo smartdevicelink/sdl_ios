@@ -12,34 +12,29 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLIAPSession : NSObject <NSStreamDelegate>
 
 /**
- * The input stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the input stream. The input stream is closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-
-/**
- * The output stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the output stream. The output stream has been closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
-
-/**
  *  The accessory with which to open a session.
  */
-@property (nullable, strong, nonatomic) EAAccessory *accessory;
+@property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 
 /**
  *  The unique protocol string used to create the session with the accessory.
  */
-@property (nullable, strong, nonatomic) NSString *protocolString;
-
-/**
- *  The session created between the app and the accessory.
- */
-@property (nullable, strong, nonatomic) EASession *eaSession;
+@property (nullable, strong, nonatomic, readonly) NSString *protocolString;
 
 /**
  *  Returns whether or not both the input and output streams for the session are closed.
  */
 @property (assign, readonly, getter=isStopped) BOOL stopped;
+
+/**
+ *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
+ */
+@property (assign, nonatomic, readonly) NSUInteger connectionID;
+
+/**
+ *  Returns whether the session has open I/O streams.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
 
 /**
  *  Convenience initializer for setting an accessory and protocol string.
@@ -51,30 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol;
 
 /**
- *  Creates a session with the accessory and protocol string.
- *
- *  @return Whether or not the session was created successfully.
+ *  Starts a control session.
  */
-- (BOOL)start;
+- (void)startSession;
 
 /**
- *  Stops a session by closing the input and output streams and destroying the session.
+ *  Stops the current control session if it is open.
  */
-- (void)stop;
-
-/**
- *  Opens a stream and schedules it in the run loop.
- *
- *  @param stream The stream to open
- */
-- (void)startStream:(NSStream *)stream;
-
-/**
- *  Closes a stream and removes it from the run loop.
- *
- *  @param stream The stream to close
- */
-- (void)stopStream:(NSStream *)stream;
+- (void)destroySession;
 
 @end
 

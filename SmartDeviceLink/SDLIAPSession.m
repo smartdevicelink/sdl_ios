@@ -9,6 +9,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLIAPSession ()
+/**
+ * The input stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the input stream. The input stream is closed when the stream status is `NSStreamStatusClosed`.
+ */
+@property (nonatomic, assign) BOOL isInputStreamOpen;
+
+/**
+ * The output stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the output stream. The output stream has been closed when the stream status is `NSStreamStatusClosed`.
+ */
+@property (nonatomic, assign) BOOL isOutputStreamOpen;
+
+/**
+ *  The session created between the app and the accessory.
+ */
+@property (nullable, strong, nonatomic) EASession *eaSession;
+
+@property (nullable, strong, nonatomic, readwrite) EAAccessory *accessory;
+@property (nullable, strong, nonatomic, readwrite) NSString *protocolString;
+
+@end
 
 @implementation SDLIAPSession
 
@@ -27,24 +47,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+#pragma mark - Abstract Methods
 
-#pragma mark - Public Stream Lifecycle
+- (void)startSession {}
+
+- (void)destroySession {}
+
+#pragma mark - Private Stream Lifecycle Helpers
 
 - (BOOL)start {
     SDLLogD(@"Opening EASession with accessory: %@", self.accessory.name);
     self.eaSession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocolString];
-
     return (self.eaSession != nil);
 }
-
-- (void)stop {}
-
-- (BOOL)isStopped {
-    return !self.isOutputStreamOpen && !self.isInputStreamOpen;
-}
-
-
-#pragma mark - Private Stream Lifecycle Helpers
 
 - (void)startStream:(NSStream *)stream {
     stream.delegate = self;
@@ -74,6 +89,20 @@ NS_ASSUME_NONNULL_BEGIN
 			self.isOutputStreamOpen = NO;
         }
     }
+}
+
+#pragma mark - Getters
+
+- (BOOL)isStopped {
+    return !self.isOutputStreamOpen && !self.isInputStreamOpen;
+}
+
+- (NSUInteger)connectionID {
+    return self.eaSession.accessory.connectionID;
+}
+
+- (BOOL)isSessionInProgress {
+    return !self.isStopped;
 }
 
 @end

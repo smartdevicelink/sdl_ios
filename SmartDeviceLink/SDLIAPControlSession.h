@@ -23,16 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLIAPControlSession : SDLIAPSession
 
-/**
- *  The unique ID assigned to the session between the app and accessory. If no session exists the `connectionID` will be 0.
- */
-@property (assign, nonatomic, readonly) NSUInteger connectionID;
-
-/**
- *  Returns whether the session has open I/O streams.
- */
-@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
-
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
@@ -43,16 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             A SDLIAPControlSession object
  */
 - (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate;
-
-/**
- *  Starts a control session.
- */
-- (void)startSession;
-
-/**
- *  Stops the current control session if it is open.
- */
-- (void)destroySession;
 
 @end
 

@@ -17,21 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPDataSession : SDLIAPSession
 
-/**
- *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
- */
-@property (assign, nonatomic, readonly) NSUInteger connectionID;
-
-/**
- *  Returns whether the session has open I/O streams.
- */
-@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
-
-/**
- *  Returns whether a connection has been established with the accessory.
- */
-@property (assign, nonatomic, readonly, getter=isSessionConnected) BOOL sessionConnected;
-
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -45,15 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
 /**
- *  Starts a data session.
+ *  Sends data to Core via the data session.
+ *
+ *  @param data The data to send to Core
  */
-- (void)startSession;
-
-/**
- *  Stops a current session.
- */
-- (void)destroySession;
-
 - (void)sendData:(NSData *)data;
 
 @end

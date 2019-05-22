@@ -29,6 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface SDLIAPSession (exposeIAPSessionPrivateMethods)
+
+@property (nonatomic, assign) BOOL isInputStreamOpen;
+@property (nonatomic, assign) BOOL isOutputStreamOpen;
+@property (nullable, strong, nonatomic) EASession *eaSession;
+
+- (BOOL)start;
+- (void)startStream:(NSStream *)stream;
+- (void)stopStream:(NSStream *)stream;
+
+@end
+
 @implementation SDLIAPDataSession
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
@@ -47,6 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startSession {
+    [super startSession];
+
     if (self.accessory == nil) {
         SDLLogW(@"Failed to setup data session");
         if (self.delegate == nil) { return; }
@@ -67,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)stop {
+- (void)sdl_stopStreamsAndDestroySession {
     if ([NSThread isMainThread]) {
         [self sdl_stop];
     } else {
@@ -99,13 +114,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)destroySession {
+    [super destroySession];
+    
     if (self.accessory == nil) {
         SDLLogV(@"Attempting to stop the data session but the session is nil");
         return;
     }
 
     SDLLogD(@"Destroying the data session");
-    [self stop];
+    [self sdl_stopStreamsAndDestroySession];
 }
 
 /**
@@ -346,20 +363,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopStream:(NSStream *)stream {
     NSAssert([[NSThread currentThread] isEqual:self.ioStreamThread] || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
     [super stopStream:stream];
-}
-
-#pragma mark - Getters
-
-- (NSUInteger)connectionID {
-    return self.accessory.connectionID;
-}
-
-- (BOOL)isSessionInProgress {
-    return !self.isStopped;
-}
-
-- (BOOL)isSessionConnected {
-    return self.sessionInProgress;
 }
 
 #pragma mark - Lifecycle Destruction

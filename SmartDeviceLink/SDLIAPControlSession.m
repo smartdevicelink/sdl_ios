@@ -28,6 +28,20 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @end
 
+
+@interface SDLIAPSession (exposeIAPSessionPrivateMethods)
+
+@property (nonatomic, assign) BOOL isInputStreamOpen;
+@property (nonatomic, assign) BOOL isOutputStreamOpen;
+@property (nullable, strong, nonatomic) EASession *eaSession;
+
+- (BOOL)start;
+- (void)startStream:(NSStream *)stream;
+- (void)stopStream:(NSStream *)stream;
+
+@end
+
+
 @implementation SDLIAPControlSession
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate {
@@ -45,6 +59,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 - (void)startSession {
+    [super startSession];
+
     if (self.accessory == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
         if (self.delegate == nil) { return; }
@@ -52,7 +68,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
 
-        if (![self sdl_start]) {
+        if (![self sdl_startStreams]) {
             SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
@@ -64,17 +80,18 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
-- (BOOL)sdl_start {
+- (BOOL)sdl_startStreams {
     if (![super start]) { return NO; }
+
     // No need for its own thread as only a small amount of data will be transmitted before control session is destroyed
     SDLLogD(@"Created the control session successfully");
-    [self startStream:self.eaSession.outputStream];
-    [self startStream:self.eaSession.inputStream];
+    [super startStream:self.eaSession.outputStream];
+    [super startStream:self.eaSession.inputStream];
 
     return YES;
 }
 
-- (void)stop {
+- (void)sdl_stopStreamsAndDestroySession {
     if ([NSThread isMainThread]) {
         [self sdl_stop];
     } else {
@@ -87,19 +104,21 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)sdl_stop {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
-    [self stopStream:self.eaSession.outputStream];
-    [self stopStream:self.eaSession.inputStream];
+    [super stopStream:self.eaSession.outputStream];
+    [super stopStream:self.eaSession.inputStream];
     self.eaSession = nil;
 }
 
 - (void)destroySession {
-    if (self.accessory == nil) {
+    [super destroySession];
+    
+    if (self.accessory == nil) { 
         SDLLogV(@"Attempting to stop the control session but the accessory is nil");
         return;
     }
 
     SDLLogD(@"Destroying the control session");
-    [self stop];
+    [self sdl_stopStreamsAndDestroySession];
 }
 
 /**
@@ -224,7 +243,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf stop];
+        [strongSelf sdl_stopStreamsAndDestroySession];
 
         if (strongSelf.delegate == nil) { return; }
         [strongSelf.delegate retryControlSession];
@@ -232,16 +251,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;
     return protocolIndexTimer;
-}
-
-#pragma mark - Getters
-
-- (NSUInteger)connectionID {
-    return self.accessory.connectionID;
-}
-
-- (BOOL)isSessionInProgress {
-    return !self.isStopped;
 }
 
 #pragma mark - Lifecycle Destruction
