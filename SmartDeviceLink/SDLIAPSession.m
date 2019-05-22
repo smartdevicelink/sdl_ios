@@ -53,17 +53,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stopStream:(NSStream *)stream {
-    // Verify stream is in a state that can be closed.
-    // (N.B. Closing a stream that has not been opened has very, very bad effects.)
-
-    // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
-    // Still need to remove from run loop.
+    // Verify stream is in a state that can be closed. Closing a stream that has not been opened has very, very bad effects.
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&
         status1 != NSStreamStatusClosed) {
         [stream close];
     }
 
+    // When the USB cable is disconnected, the app will will call this method after the `NSStreamEventEndEncountered` event. The stream will already be in the closed state but it still needs to be removed from the run loop.
     [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [stream setDelegate:nil];
 
