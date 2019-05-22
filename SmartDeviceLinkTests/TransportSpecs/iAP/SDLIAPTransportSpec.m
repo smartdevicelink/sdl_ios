@@ -11,6 +11,7 @@
 #import <OCMock/OCMock.h>
 
 #import "EAAccessory+OCMock.m"
+#import "SDLIAPConstants.h"
 #import "SDLIAPTransport.h"
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
@@ -26,6 +27,7 @@
 
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
+@property (assign, nonatomic) BOOL transportDisconnected;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 - (BOOL)sdl_isDataSessionActive:(nullable SDLIAPDataSession *)dataSession newAccessory:(EAAccessory *)newAccessory;
@@ -57,62 +59,49 @@ describe(@"SDLIAPTransport", ^{
         });
     });
 
-    describe(@"When an accessory connects while a data session has been created but not open", ^{
-        beforeEach(^{
-            transport.dataSession = OCMClassMock([SDLIAPDataSession class]);
-            OCMStub([transport.dataSession isSessionInProgress]).andReturn(NO);
+    describe(@"When checking if the data session is active ", ^{
+        it(@"should return that the data session is not active if the data session is nil", ^{
+            transport.dataSession = nil;
 
-            expect(transport.controlSession.session).to(beNil());
-        });
-
-        it(@"should return that a session is not active", ^{
             BOOL sessionInProgress = [transport sdl_isDataSessionActive:transport.dataSession newAccessory:mockAccessory];
             expect(sessionInProgress).to(beFalse());
         });
-    });
 
-    describe(@"When an accessory connects when a data session is already open", ^{
-        beforeEach(^{
-            transport.dataSession = OCMClassMock([SDLIAPDataSession class]);
-            OCMStub([transport.dataSession isSessionInProgress]).andReturn(YES);
+        it(@"should return that the data session is not active if the data session is not inprogress", ^{
+            SDLIAPDataSession *mockDataSession = OCMClassMock([SDLIAPDataSession class]);
+            OCMStub([mockDataSession isSessionInProgress]).andReturn(NO);
 
-            expect(transport.controlSession.session).to(beNil());
+            BOOL sessionInProgress = [transport sdl_isDataSessionActive:transport.dataSession newAccessory:mockAccessory];
+            expect(sessionInProgress).to(beFalse());
         });
 
-        it(@"should return that a session is active", ^{
-            BOOL sessionInProgress = [transport sdl_isDataSessionActive:transport.dataSession newAccessory:mockAccessory];
+        it(@"should return that the data session is not active if the data session and the new accessory have matching connection ids", ^{
+            SDLIAPDataSession *mockDataSession = OCMClassMock([SDLIAPDataSession class]);
+            OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
+            OCMStub([mockDataSession connectionID]).andReturn(5);
+
+            BOOL sessionInProgress = [transport sdl_isDataSessionActive:mockDataSession newAccessory:mockAccessory];
+            expect(sessionInProgress).to(beFalse());
+        });
+
+        it(@"should return that the data session is active if the data session and the new accessory have different connection ids", ^{
+            SDLIAPDataSession *mockDataSession = OCMClassMock([SDLIAPDataSession class]);
+            OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
+            OCMStub([mockDataSession connectionID]).andReturn(96);
+
+            BOOL sessionInProgress = [transport sdl_isDataSessionActive:mockDataSession newAccessory:mockAccessory];
             expect(sessionInProgress).to(beTrue());
         });
     });
 
-    describe(@"When an accessory connects when a data session has not been created", ^{
-        beforeEach(^{
-            transport.dataSession = nil;
-
-            expect(transport.controlSession.session).to(beNil());
-        });
-
-        it(@"should return that a session is active", ^{
-            BOOL sessionInProgress = [transport sdl_isDataSessionActive:transport.dataSession newAccessory:mockAccessory];
-            expect(sessionInProgress).to(beFalse());
-        });
-    });
-
     describe(@"When an accessory disconnects", ^{
-        __block SDLIAPSession *mockSession = nil;
         __block NSNotification *accessoryDisconnectedNotification = nil;
-        __block id<SDLIAPDataSessionDelegate> mockDelegate = nil;
 
         beforeEach(^{
-            transport.controlSession = nil;
-            mockSession = OCMClassMock([SDLIAPSession class]);
-            OCMStub([mockSession accessory]).andReturn(mockAccessory);
-            transport.dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
-
             accessoryDisconnectedNotification = [[NSNotification alloc] initWithName:EAAccessoryDidDisconnectNotification object:nil userInfo:@{EAAccessoryKey: mockAccessory}];
         });
 
-        describe(@"If an accessory connected during an active session", ^{
+        context(@"If an accessory disconnects during an active session", ^{
             beforeEach(^{
                 transport.accessoryConnectDuringActiveSession = YES;
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
@@ -123,7 +112,7 @@ describe(@"SDLIAPTransport", ^{
             });
         });
 
-        describe(@"If no accessory connected during an active session", ^{
+        context(@"If an accessory disconnects while no session is active", ^{
             beforeEach(^{
                 transport.accessoryConnectDuringActiveSession = NO;
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
@@ -134,94 +123,72 @@ describe(@"SDLIAPTransport", ^{
             });
         });
 
-        describe(@"When a data session is open", ^{
+        context(@"When a neither a data or control session is open", ^{
             beforeEach(^{
+                transport.dataSession = nil;
+                transport.controlSession = nil;
+
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
             });
 
-            it(@"It should close and destroy the open data session", ^{
-                expect(transport.dataSession).toNot(beNil());
-                expect(transport.dataSession.session).to(beNil());
-                expect(transport.dataSession.session.delegate).to(beNil());
-
-                expect(transport.sessionSetupInProgress).to(beFalse());
+            it(@"It should cleanup on disconnect", ^{
                 expect(transport.retryCounter).to(equal(0));
-                expect(transport.controlSession).to(beNil());
+                expect(transport.sessionSetupInProgress).to(beFalse());
+                expect(transport.transportDisconnected).to(beFalse());
+            });
+        });
 
+        context(@"When a data session is open", ^{
+            __block SDLIAPDataSession *mockDataSession = nil;
+
+            beforeEach(^{
+                mockDataSession = OCMClassMock([SDLIAPDataSession class]);
+                OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
+                transport.dataSession = mockDataSession;
+                transport.controlSession = nil;
+
+                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
+            });
+
+            it(@"It should cleanup on disconnect", ^{
+                expect(transport.retryCounter).to(equal(0));
+                expect(transport.sessionSetupInProgress).to(beFalse());
+                expect(transport.transportDisconnected).to(beTrue());
+            });
+
+            it(@"It should close and destroy data session", ^{
+                OCMVerify([mockDataSession destroySession]);
+            });
+
+            it(@"It should notify the lifecycle manager that the transport disconnected ", ^{
                 OCMVerify([mockTransportDelegate onTransportDisconnected]);
-                OCMVerify([mockSession stop]);
             });
         });
 
         describe(@"When a control session is open", ^{
-            __block SDLIAPSession *mockControlSession = nil;
-            __block NSNotification *accessoryDisconnectedNotification = nil;
-            __block id<SDLIAPControlSessionDelegate> mockDelegate = nil;
-
-            beforeEach(^{
-                mockDelegate = OCMProtocolMock(@protocol(SDLIAPControlSessionDelegate));
-                mockControlSession = OCMClassMock([SDLIAPSession class]);
-                OCMStub([mockControlSession accessory]).andReturn(mockAccessory);
-                transport.controlSession = [[SDLIAPControlSession alloc] initWithSession:mockControlSession delegate:mockDelegate];
-
-                transport.dataSession = nil;
-                transport.sessionSetupInProgress = YES;
-                transport.retryCounter = 1;
-                accessoryDisconnectedNotification = [[NSNotification alloc] initWithName:EAAccessoryDidDisconnectNotification object:nil userInfo:@{EAAccessoryKey: mockAccessory}];
-            });
-
-            it(@"Should not tell the delegate that the transport closed", ^{
-                OCMReject([mockTransportDelegate onTransportDisconnected]);
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-            });
-
-            it(@"It should reset the setup helpers", ^{
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-
-                expect(transport.retryCounter).to(equal(0));
-                expect(transport.sessionSetupInProgress).to(beFalse());
-            });
-
-            it(@"It should close and destroy the open control session", ^{
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-
-                OCMVerify([mockControlSession stop]);
-
-                expect(transport.controlSession).toNot(beNil());
-                expect(transport.controlSession.session).to(beNil());
-                expect(transport.dataSession).to(beNil());
-            });
-        });
-
-        describe(@"When neither a control or data session has been established/opened", ^{
-            __block NSNotification *accessoryDisconnectedNotification = nil;
-            __block SDLIAPControlSession *mockControlSession;
-            __block SDLIAPDataSession *mockDataSession;
+            __block SDLIAPControlSession *mockControlSession = nil;
 
             beforeEach(^{
                 mockControlSession = OCMClassMock([SDLIAPControlSession class]);
-                OCMStub([mockControlSession isSessionInProgress]).andReturn(NO);
+                OCMStub([mockControlSession isSessionInProgress]).andReturn(YES);
                 transport.controlSession = mockControlSession;
+                transport.dataSession = nil;
 
-                mockDataSession = OCMClassMock([SDLIAPDataSession class]);
-                OCMStub([mockDataSession isSessionInProgress]).andReturn(NO);
-                transport.dataSession = mockDataSession;
+                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
+            });
 
-                transport.sessionSetupInProgress = YES;
-                transport.retryCounter = 1;
-                accessoryDisconnectedNotification = [[NSNotification alloc] initWithName:EAAccessoryDidDisconnectNotification object:nil userInfo:@{EAAccessoryKey: mockAccessory}];
+            it(@"It should cleanup on disconnect", ^{
+                expect(transport.retryCounter).to(equal(0));
+                expect(transport.sessionSetupInProgress).to(beFalse());
+                expect(transport.transportDisconnected).to(beFalse());
+            });
+
+            it(@"It should close and destroy data session", ^{
+                OCMVerify([mockControlSession destroySession]);
             });
 
             it(@"Should not tell the delegate that the transport closed", ^{
                 OCMReject([mockTransportDelegate onTransportDisconnected]);
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-            });
-
-            it(@"It should reset the setup helpers", ^{
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-
-                expect(transport.retryCounter).to(equal(0));
-                expect(transport.sessionSetupInProgress).to(beFalse());
             });
         });
     });
