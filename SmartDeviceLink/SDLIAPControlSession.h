@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param delegate     The control session delegate
  *  @return             A SDLIAPControlSession object
  */
-- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate;
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate;
 
 @end
 

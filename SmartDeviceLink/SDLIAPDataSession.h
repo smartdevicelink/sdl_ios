@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param delegate     The data session delegate
  *  @return             A SDLIAPSession object
  */
-- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
 /**
  *  Sends data to Core via the data session.

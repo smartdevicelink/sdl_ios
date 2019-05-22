@@ -44,13 +44,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @implementation SDLIAPControlSession
 
-- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate {
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate {
     SDLLogV(@"SDLIAPControlSession init");
 
     self = [super initWithAccessory:accessory forProtocol:ControlProtocolString];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
     _protocolIndexTimer = nil;
     _delegate = delegate;
@@ -59,8 +57,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 - (void)startSession {
-    [super startSession];
-
     if (self.accessory == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
         if (self.delegate == nil) { return; }
@@ -109,9 +105,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     self.eaSession = nil;
 }
 
-- (void)destroySession {
-    [super destroySession];
-    
+- (void)destroySession {    
     if (self.accessory == nil) { 
         SDLLogV(@"Attempting to stop the control session but the accessory is nil");
         return;
@@ -129,7 +123,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [self.protocolIndexTimer start];
 }
 
-#pragma mark - SDLSessionDelegate
+#pragma mark - NSStreamDelegate
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
@@ -157,12 +151,17 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
+/**
+ *  Called when the session gets a `NSStreamEventOpenCompleted`. When both the input and output streams open, start a timer to get data from Core within a certain timeframe.
+ *
+ *  @param stream The stream that got the event code.
+ */
 - (void)streamDidOpen:(NSStream *)stream {
     if (stream == [self.eaSession outputStream]) {
-        SDLLogD(@"Output Stream Opened");
+        SDLLogD(@"Control session output stream opened");
         self.isOutputStreamOpen = YES;
     } else if (stream == [self.eaSession inputStream]) {
-        SDLLogD(@"Input Stream Opened");
+        SDLLogD(@"Control session input stream opened");
         self.isInputStreamOpen = YES;
     }
 
@@ -174,7 +173,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
+ *  Called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  */
 - (void)streamDidEnd:(NSStream *)stream {
     SDLLogD(@"Control stream ended");
@@ -188,7 +187,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
+ *  Called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
  */
 - (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
     SDLLogV(@"Control stream received data");
@@ -217,7 +216,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
+ *  Called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  */
 - (void)streamDidError:(NSStream *)stream {
     SDLLogE(@"Control stream error");

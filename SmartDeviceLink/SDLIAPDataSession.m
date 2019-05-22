@@ -44,13 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLIAPDataSession
 
-- (instancetype)initWithAccessory:(EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
     SDLLogV(@"SDLIAPDataSession init");
 
     self = [super initWithAccessory:accessory forProtocol:protocol];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
     _delegate = delegate;
     _sendDataQueue = [[SDLMutableDataQueue alloc] init];
@@ -60,8 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startSession {
-    [super startSession];
-
     if (self.accessory == nil) {
         SDLLogW(@"Failed to setup data session");
         if (self.delegate == nil) { return; }
@@ -114,8 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)destroySession {
-    [super destroySession];
-    
     if (self.accessory == nil) {
         SDLLogV(@"Attempting to stop the data session but the session is nil");
         return;
@@ -195,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark - Data Stream Handlers
+#pragma mark - NSStreamDelegate
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
@@ -226,12 +220,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+/**
+ *  Called when the session gets a `NSStreamEventOpenCompleted`. When both the input and output streams open, notify the lifecycle manager that a connection has been established with the accessory.
+ *
+ *  @param stream The stream that got the event code.
+ */
 - (void)streamDidOpen:(NSStream *)stream {
     if (stream == [self.eaSession outputStream]) {
-        SDLLogD(@"Output Stream Opened");
+        SDLLogD(@"Data session output stream opened");
         self.isOutputStreamOpen = YES;
     } else if (stream == [self.eaSession inputStream]) {
-        SDLLogD(@"Input Stream Opened");
+        SDLLogD(@"Data session input stream opened");
         self.isInputStreamOpen = YES;
     }
 
@@ -244,7 +243,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
+ *  Called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  */
 - (void)streamDidEnd:(NSStream *)stream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
@@ -267,7 +266,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
+ *  Called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
  */
 - (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
@@ -297,7 +296,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
+ *  Called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  */
 - (void)streamDidError:(NSStream *)stream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
