@@ -14,7 +14,6 @@
 #import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPDataSession.h"
 #import "SDLIAPDataSessionDelegate.h"
-#import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
