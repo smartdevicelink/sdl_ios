@@ -148,19 +148,21 @@ UInt32 const MenuCellIdMin = 1;
     // When the Adds and Deletes are removed from their respetive arrays the KEEPS should match at index in both arrays.
     _runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
 
-    // Here we create a temproaray array to store the values from the RunScore object.
+    // Here we create a temproaray array to store the values from the RunScore object. At this point the arrays with both contain Keeps.
     NSArray<NSNumber *> *deleteMenuStatus = self.runScore.oldStatus;
     NSArray<NSNumber *> *addMenuStatus = self.runScore.updatedStatus;
 
-    // The following arrays are going to be sets of ONLY cells we want DELETE and cells we want to ADD
+    // These arrays will now contain only Deletes or only Adds
     NSArray<SDLMenuCell *> *cellsToDelete = [self buildDeleteMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
     NSArray<SDLMenuCell *> *cellsToAdd = [self buildAddMenuItems:addMenuStatus compareTo:self.menuCells];
 
-    // The following arrays are going to be contain cells we wish to keep. We will use these to compare the submenus of each cell
+    // These arrays will only contain Keeps. We wil use this araay to compare submenus after we finish building the main menu
     NSArray<SDLMenuCell *> *oldKeeps = [self buildOldKeepMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
     NSArray<SDLMenuCell *> *newKeeps = [self buildKeepNewMenuItems: addMenuStatus compareTo:self.menuCells];
-    // Since we may be addnig cells to the list we need to update those cells to have a cellID
+
+    // Since we may be adding cells to the list we need to update those cells to have a cellID
     [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:ParentIdNotFound];
+
     // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
     [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
@@ -183,9 +185,9 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Build Deletes, Keeps, Adds
-- (void)sendSubMenuUpdates:(NSArray<SDLMenuCell *> *)oldKeptCells newKeepCell:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex { //add an atIndex to be able to recursive this but keep track of the index we were at to do next set
-    //for(NSUInteger index = startIndex; index < oldKeptCells.count; index++) {
+- (void)sendSubMenuUpdates:(NSArray<SDLMenuCell *> *)oldKeptCells newKeepCell:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex {
     if(oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) {
+        self.inProgressUpdate = nil;
         return;
     }
 
@@ -200,7 +202,6 @@ UInt32 const MenuCellIdMin = 1;
         NSArray<SDLMenuCell *> *oldKeeps = [self buildOldKeepMenuItems: deleteMenuStatus compareTo:oldKeptCells[startIndex].subCells];
         NSArray<SDLMenuCell *> *newKeeps = [self buildKeepNewMenuItems: addMenuStatus compareTo:newKeptCells[startIndex].subCells];
 
-        //Update IDs on subcellls to be under their parent ID
         [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:newKeptCells[startIndex].cellId];
         [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
@@ -363,7 +364,7 @@ UInt32 const MenuCellIdMin = 1;
             return;
         }
 
-        weakSelf.oldMenuCells = weakSelf.menuCells; // ASK about this what does oldMenuCells become now? Dont do this yet we need to delete // add subcells first
+        //weakSelf.oldMenuCells = weakSelf.menuCells; // ASK about this what does oldMenuCells become now? Dont do this yet we need to delete // add subcells first
         [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
             if (error != nil) {
                 errors[request] = error;
