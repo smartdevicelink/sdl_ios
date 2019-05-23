@@ -12,6 +12,7 @@
 
 @property (copy, nonatomic, readonly, nullable) NSError *error;
 
+- (void)start;
 - (void)finishOperation;
 
 @end
