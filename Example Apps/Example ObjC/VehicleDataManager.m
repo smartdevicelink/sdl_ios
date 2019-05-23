@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification;
+    SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ km", VehicleDataOdometerName, onVehicleData.odometer];
 
     if (!self.refreshUIHandler) { return; }
