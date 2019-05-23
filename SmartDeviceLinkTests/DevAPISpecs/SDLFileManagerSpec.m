@@ -1,5 +1,6 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
 #import "SDLDeleteFileResponse.h"
 #import "SDLError.h"
@@ -14,6 +15,7 @@
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLRPCResponse.h"
+#import "SDLStateMachine.h"
 #import "TestConnectionManager.h"
 #import "TestMultipleFilesConnectionManager.h"
 #import "TestFileProgressResponse.h"
@@ -31,6 +33,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
 @property (assign, nonatomic) UInt8 maxFileUploadAttempts;
 @property (assign, nonatomic) UInt8 maxArtworkUploadAttempts;
+@property (strong, nonatomic) SDLStateMachine *stateMachine;
 
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
@@ -1675,12 +1678,33 @@ describe(@"SDLFileManager reupload failed files", ^{
 
         describe(@"the file cannot be uploaded again", ^{
             it(@"should not upload a file that is nil", ^{
+                // Make sure we are in the ready state
+                testFileManager.stateMachine = OCMClassMock([SDLStateMachine class]);
+                OCMStub([testFileManager.stateMachine currentState]).andReturn(SDLFileManagerStateReady);
+                expect([testFileManager.currentState isEqualToEnum:SDLFileManagerStateReady]).to(beTrue());
+
                 testFile = nil;
                 BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(NO));
             });
 
             it(@"should not upload a file that has already been uploaded the max number of times", ^{
+                // Make sure we are in the ready state
+                testFileManager.stateMachine = OCMClassMock([SDLStateMachine class]);
+                OCMStub([testFileManager.stateMachine currentState]).andReturn(SDLFileManagerStateReady);
+                expect([testFileManager.currentState isEqualToEnum:SDLFileManagerStateReady]).to(beTrue());
+
+                testFailedFileUploadsCount[testFileName] = @4;
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+                expect(canUploadAgain).to(equal(NO));
+            });
+
+            it(@"should not upload a file if the file manager is not in state ready", ^{
+                // Make sure we are NOT in the ready state
+                testFileManager.stateMachine = OCMClassMock([SDLStateMachine class]);
+                OCMStub([testFileManager.stateMachine currentState]).andReturn(SDLFileManagerStateShutdown);
+                expect([testFileManager.currentState isEqualToEnum:SDLFileManagerStateShutdown]).to(beTrue());
+
                 testFailedFileUploadsCount[testFileName] = @4;
                 BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(NO));
@@ -1688,6 +1712,13 @@ describe(@"SDLFileManager reupload failed files", ^{
         });
 
         describe(@"the file can be uploaded again", ^{
+            beforeEach(^{
+                // Make sure we are in the ready state
+                testFileManager.stateMachine = OCMClassMock([SDLStateMachine class]);
+                OCMStub([testFileManager.stateMachine currentState]).andReturn(SDLFileManagerStateReady);
+                expect([testFileManager.currentState isEqualToEnum:SDLFileManagerStateReady]).to(beTrue());
+            });
+
             it(@"should upload a file that has not yet failed to upload", ^{
                 testFailedFileUploadsCount = [NSMutableDictionary dictionary];
                 BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
