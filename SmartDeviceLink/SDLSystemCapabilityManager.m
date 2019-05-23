@@ -289,27 +289,28 @@ typedef NSString * SDLServiceID;
  */
 - (BOOL)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
     if ([self.lastReceivedCapability isEqual:systemCapability]) {
-        return [self sdl_callSaveHandlerForCapabilityType:systemCapability.systemCapabilityType andReturnWithValue:NO handler:handler];
+        return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler];
     }
     self.lastReceivedCapability = systemCapability;
 
     SDLSystemCapabilityType systemCapabilityType = systemCapability.systemCapabilityType;
 
     if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
-        if ([self.phoneCapability isEqual:systemCapability.phoneCapability]) { return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:NO handler:handler]; }
+        if ([self.phoneCapability isEqual:systemCapability.phoneCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.phoneCapability = systemCapability.phoneCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
-        if ([self.navigationCapability isEqual:systemCapability.navigationCapability]) { return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:NO handler:handler]; }
+        if ([self.navigationCapability isEqual:systemCapability.navigationCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.navigationCapability = systemCapability.navigationCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
-        if ([self.remoteControlCapability isEqual:systemCapability.remoteControlCapability]) { return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:NO handler:handler]; }
+        if ([self.remoteControlCapability isEqual:systemCapability.remoteControlCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.remoteControlCapability = systemCapability.remoteControlCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
-        if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) { return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:NO handler:handler]; }
+        if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
-        if ([self.appServicesCapabilities isEqual:systemCapability.appServicesCapabilities]) { return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:NO handler:handler]; }
+        if ([self.appServicesCapabilities isEqual:systemCapability.appServicesCapabilities]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         [self sdl_saveAppServicesCapabilitiesUpdate:systemCapability.appServicesCapabilities];
+        systemCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:self.appServicesCapabilities];
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
         return NO;
@@ -317,13 +318,13 @@ typedef NSString * SDLServiceID;
 
     SDLLogD(@"Updated system capability manager with new data: %@", systemCapability);
 
-    return [self sdl_callSaveHandlerForCapabilityType:systemCapabilityType andReturnWithValue:YES handler:handler];
+    return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:handler];
 }
 
-- (BOOL)sdl_callSaveHandlerForCapabilityType:(SDLSystemCapabilityType)type andReturnWithValue:(BOOL)value handler:(nullable SDLUpdateCapabilityHandler)handler {
-    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
+- (BOOL)sdl_callSaveHandlerForCapability:(SDLSystemCapability *)capability andReturnWithValue:(BOOL)value handler:(nullable SDLUpdateCapabilityHandler)handler {
+    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[capability.systemCapabilityType]) {
         if (observer.block != nil) {
-            observer.block(self);
+            observer.block(capability);
         } else {
             NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
 #pragma clang diagnostic push
@@ -334,7 +335,7 @@ typedef NSString * SDLServiceID;
                 }
             } else if (numberOfParametersInSelector == 1) {
                 if ([observer.observer respondsToSelector:observer.selector]) {
-                    [observer.observer performSelector:observer.selector withObject:self];
+                    [observer.observer performSelector:observer.selector withObject:capability];
                 }
             } else {
                 @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];

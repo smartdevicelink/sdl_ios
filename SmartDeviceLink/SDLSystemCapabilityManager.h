@@ -43,11 +43,13 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
 /**
  An observer block whenever a subscription is called.
 
- @param systemCapabilityManager This manager. The user of the handler can then use the manager to pull the newest data.
+ @param capability The capability that was updated.
  */
-typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapabilityManager *systemCapabilityManager);
+typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 
-
+/**
+ A manager that handles updating and subscribing to SDL capabilities.
+ */
 @interface SDLSystemCapabilityManager : NSObject
 
 /**
