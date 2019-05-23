@@ -106,13 +106,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param notification A SDLOnVehicleData notification
  */
-- (void)vehicleDataNotification:(SDLRPCMessage *)notification {
-    if (![notification isKindOfClass:SDLOnVehicleData.class]) {
+- (void)vehicleDataNotification:(SDLRPCNotificationNotification *)notification {
+    if (![notification.notification isKindOfClass:SDLOnVehicleData.class]) {
         return;
     }
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification;
-    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
+    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ km", VehicleDataOdometerName, onVehicleData.odometer];
 
     if (!self.refreshUIHandler) { return; }
     self.refreshUIHandler();
