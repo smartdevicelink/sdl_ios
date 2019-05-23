@@ -141,59 +141,64 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapabilityManager *systemCap
 @property (nullable, strong, nonatomic, readonly) SDLAppServicesCapabilities *appServicesCapabilities;
 
 /**
- * If returned, the platform supports navigation
- *
- * @see SDLNavigationCapability
- *
- * Optional
+ If returned, the platform supports navigation
+
+ @see SDLNavigationCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLNavigationCapability *navigationCapability;
 
 /**
- * If returned, the platform supports making phone calls
- *
- * @see SDLPhoneCapability
- *
- * Optional
+ If returned, the platform supports making phone calls
+
+ @see SDLPhoneCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLPhoneCapability *phoneCapability;
 
 /**
- * If returned, the platform supports video streaming
- *
- * @see SDLVideoStreamingCapability
- *
- * Optional
+ If returned, the platform supports video streaming
+
+ @see SDLVideoStreamingCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
- * If returned, the platform supports remote control capabilities
- *
- * @see SDLRemoteControlCapabilities
- *
- * Optional
+ If returned, the platform supports remote control capabilities
+
+ @see SDLRemoteControlCapabilities
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
- *  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
- *
- *  @return nil
+ Init is unavailable. Dependencies must be injected using initWithConnectionManager:
+
+ @return nil
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates a new system capability manager with a specified connection manager
- *
- *  @param manager A connection manager to use to forward on RPCs
- *
- *  @return An instance of SDLSystemCapabilityManager
+ Creates a new system capability manager with a specified connection manager
+
+ @param manager A connection manager to use to forward on RPCs
+
+ @return An instance of SDLSystemCapabilityManager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Stops the manager. This method is used internally.
+ Starts the manager. This method is used internally.
+ */
+- (void)start;
+
+/**
+ Stops the manager. This method is used internally.
  */
 - (void)stop;
 
@@ -210,9 +215,9 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapabilityManager *systemCap
 
  @param type The type of capability to subscribe to
  @param block The block to be called when the capability is updated
- @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback
+ @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
  */
-- (id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block;
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block;
 
 /**
  * Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:
