@@ -70,6 +70,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
                 }
             }
         }
+        
         NSUInteger numberOfAdds = 0;
         for(NSUInteger status = 0; status < newMenuStatus.count; status++) {
             // 0 = Delete   1 = Add    2 = Keep
@@ -79,7 +80,11 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
         }
 
         if(numberOfAdds == 0) {
-            return  [[SDLMenuRunScore alloc]  initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
+            bestScoreMenu = [[SDLMenuRunScore alloc]  initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
+            NSLog(@"BestScore: %lu", (unsigned long)bestScoreMenu.score);
+            NSLog(@"OldMenuStatus: %@",bestScoreMenu.oldStatus);
+            NSLog(@"NewMenuStatus: %@",bestScoreMenu.updatedStatus);
+            return bestScoreMenu;
         }
 
         NSLog(@"Run: %lu, RunScore: %lu", (unsigned long)run, (unsigned long)numberOfAdds);

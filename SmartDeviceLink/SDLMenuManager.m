@@ -144,19 +144,25 @@ UInt32 const MenuCellIdMin = 1;
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
 
+    // RunScore will contain the best possible combination of ADD and Delete Commmands. There will be 2 arrays, OldCell(Deletes/Keeps) NewCells(Adds/Keeps),
+    // When the Adds and Deletes are removed from their respetive arrays the KEEPS should match at index in both arrays.
     _runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
 
-    // At this point runScore should have the best possibe Delete/Add combinations as 2 arrays oldStatus, and newStatus
-    // These 2 array are for the MAIN menu
+    // Here we create a temproaray array to store the values from the RunScore object.
     NSArray<NSNumber *> *deleteMenuStatus = self.runScore.oldStatus;
-    NSArray<NSNumber *> *addMenuStaus = self.runScore.updatedStatus;
+    NSArray<NSNumber *> *addMenuStatus = self.runScore.updatedStatus;
 
-    NSArray<SDLMenuCell *> *cellToDelete = [self buildDeleteMenuItems: deleteMenuStatus];
-    NSArray<SDLMenuCell *> *cellToAdd = [self buildAddMenuItems:addMenuStaus];
-    NSArray<SDLMenuCell *> *keeps = [self buildKeepMenuItems:deleteMenuStatus];
+    // The following arrays are going to be sets of ONLY cells we want DELETE and cells we want to ADD
+    NSArray<SDLMenuCell *> *cellsToDelete = [self buildDeleteMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
+    NSArray<SDLMenuCell *> *cellsToAdd = [self buildAddMenuItems:addMenuStatus compareTo:self.menuCells];
 
-    [self sdl_updateIdsOnMenuCells:cellToAdd parentId:ParentIdNotFound]; //Update new Cells with a new CellID
-    [self transferCellIDFromOldCells:self.oldMenuCells toKeptCells:keeps];
+    // The following arrays are going to be contain cells we wish to keep. We will use these to compare the submenus of each cell
+    NSArray<SDLMenuCell *> *oldKeeps = [self buildOldKeepMenuItems: deleteMenuStatus];
+    NSArray<SDLMenuCell *> *newKeeps = [self buildKeepNewMenuItems: addMenuStatus];
+    // Since we may be addnig cells to the list we need to update those cells to have a cellID
+    [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:ParentIdNotFound];
+    // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
+    [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // Upload the artworks
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
@@ -166,37 +172,71 @@ UInt32 const MenuCellIdMin = 1;
                 SDLLogE(@"Error uploading menu artworks: %@", error);
             }
             SDLLogD(@"Menu artworks uploaded");
-            [self sdl_updateCellsToDelete:cellToDelete cellsToAdd:cellToAdd withCompletionHandler:nil];
+            [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:nil];
         }];
     }
 
-    [self sdl_updateCellsToDelete:cellToDelete cellsToAdd:cellToAdd withCompletionHandler:nil];
+    __weak typeof(self) weakself = self;
+    [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
+        [weakself sendSubMenuUpdates:oldKeeps newKeepCell:newKeeps atIndex:0];
+    }];
 }
 
 #pragma mark - Build Deletes, Keeps, Adds
-- (NSArray<SDLMenuCell *> *)buildDeleteMenuItems:(NSArray<NSNumber *> *)oldStatusList  {
-    NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
+- (void)sendSubMenuUpdates:(NSArray<SDLMenuCell *> *)oldKeptCells newKeepCell:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex { //add an atIndex to be able to recursive this but keep track of the index we were at to do next set
+    //for(NSUInteger index = startIndex; index < oldKeptCells.count; index++) {
+    if(oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) {
+        return;
+    }
 
+    if(oldKeptCells[startIndex].subCells.count > 0) {
+        SDLMenuRunScore *tempScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:oldKeptCells[startIndex].subCells updatedMenuCells:newKeptCells[startIndex].subCells];
+        NSArray<NSNumber *> *deleteMenuStatus = tempScore.oldStatus;
+        NSArray<NSNumber *> *addMenuStatus = tempScore.updatedStatus;
+
+        NSArray<SDLMenuCell *> *cellsToDelete = [self buildDeleteMenuItems:deleteMenuStatus compareTo:oldKeptCells[startIndex].subCells];
+        NSArray<SDLMenuCell *> *cellsToAdd = [self buildAddMenuItems:addMenuStatus compareTo:newKeptCells[startIndex].subCells];
+        //Update IDs on subcellls to be under their parent ID
+        [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:newKeptCells[startIndex].cellId];
+        [self transferCellIDFromOldCells:oldKeptCells[startIndex].subCells toKeptCells:newKeptCells[startIndex].subCells];
+
+        __weak typeof(self) weakself = self;
+        [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
+            [weakself sdl_sendUpdatedMenu:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
+                [weakself sendSubMenuUpdates:oldKeptCells newKeepCell:newKeptCells atIndex:(startIndex + 1)];
+            }];
+        }];
+    } else {
+        [self sendSubMenuUpdates:oldKeptCells newKeepCell:newKeptCells atIndex:(startIndex + 1)];
+    }
+}
+
+// Main Menu
+- (NSArray<SDLMenuCell *> *)buildDeleteMenuItems:(NSArray<NSNumber *> *)oldStatusList compareTo:(NSArray<SDLMenuCell *> *)oldList {
+    NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
+    // The index of the status should corrleate 1-1 with the number of items in the menu
+    // [2,0,2,0] => [A,B,C,D] = [B,D]
     [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
         if(status.integerValue == 0) { // 0 means the cell was marked for Deletion
-            [deleteCells addObject:self.oldMenuCells[index]];
+            [deleteCells addObject:oldList[index]];
         }
     }];
     return [deleteCells copy];
 }
 
-- (NSArray<SDLMenuCell *> *)buildAddMenuItems:(NSArray<NSNumber *> *)newStatusList  {
+- (NSArray<SDLMenuCell *> *)buildAddMenuItems:(NSArray<NSNumber *> *)newStatusList compareTo:(NSArray<SDLMenuCell *> *)menuList {
     NSMutableArray<SDLMenuCell *> *addCells = [[NSMutableArray alloc] init];
-
+    // The index of the status should corrleate 1-1 with the number of items in the menu
+    // [2,1,2,1] => [A,B,C,D] = [B,D]
     [newStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
         if(status.integerValue == 1) { // 1 means the cell was marked for add
-            [addCells addObject:self.menuCells[index]];
+            [addCells addObject:menuList[index]];
         }
     }];
     return [addCells copy];
 }
 
-- (NSArray<SDLMenuCell *> *)buildKeepMenuItems:(NSArray<NSNumber *> *)oldStatusList  {
+- (NSArray<SDLMenuCell *> *)buildOldKeepMenuItems:(NSArray<NSNumber *> *)oldStatusList  {
     NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
 
     [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
@@ -208,23 +248,29 @@ UInt32 const MenuCellIdMin = 1;
     return [keepMenuCells copy];
 }
 
+- (NSArray<SDLMenuCell *> *)buildKeepNewMenuItems:(NSArray<NSNumber *> *)newStatusList  {
+    NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
 
-- (void)transferCellIDFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
-    if(oldCells.count > 0) {
-             for(NSUInteger newCellsIndex = 0; newCellsIndex < newCells.count; newCellsIndex++) {
-                 for(NSUInteger oldCellsIndex = 0; oldCellsIndex < oldCells.count; oldCellsIndex++) {
-                     if([oldCells[oldCellsIndex] isEqual:newCells[newCellsIndex]]) {
-                         self.menuCells[newCellsIndex].cellId = oldCells[oldCellsIndex].cellId;
-                }
-            }
+    [newStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
+        if(status.integerValue == 2) { // 2 means the cell was marked for Keep
+            [keepMenuCells addObject:self.menuCells[index]];
         }
-    }
+    }];
+
+    return [keepMenuCells copy];
 }
 
+- (void)transferCellIDFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
+    if (oldCells.count == 0) { return; }
+    for(NSUInteger i = 0; i < newCells.count; i++) {
+        newCells[i].cellId = oldCells[i].cellId;
+    }
+}
 
 #pragma mark - Updating System
 
 - (void)sdl_updateCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells withCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+    //create funtion to do this for subcells so we can use proper call backs.
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
@@ -258,7 +304,7 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Delete Old Menu Items
 
-- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler { //update Function to only delete the cells be need to delete , pass in the List
+- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.oldMenuCells.count == 0 || deleteMenuCells == nil) {
         completionHandler(nil);
         return;
@@ -300,8 +346,6 @@ UInt32 const MenuCellIdMin = 1;
 
     self.inProgressUpdate = [mainMenuCommands arrayByAddingObjectsFromArray:subMenuCommands];
 
-
-    //SEND the oldSSubcells and the newSuBCells for that cell to the algo and bulild a list of Deletes and Adds
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -315,7 +359,7 @@ UInt32 const MenuCellIdMin = 1;
             return;
         }
 
-        // weakSelf.oldMenuCells = weakSelf.menuCells; // ASK about this what does oldMenuCells become now? Dont do this yet we need to delete // add subcells first
+        weakSelf.oldMenuCells = weakSelf.menuCells; // ASK about this what does oldMenuCells become now? Dont do this yet we need to delete // add subcells first
         [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
             if (error != nil) {
                 errors[request] = error;
@@ -370,14 +414,6 @@ UInt32 const MenuCellIdMin = 1;
             [self sdl_updateIdsOnMenuCells:cell.subCells parentId:cell.cellId];
         }
     }
-}
-
-- (UInt32)sdl_getNextCorrelationId {
-    if (self.lastMenuId == INT32_MAX) {
-        self.lastMenuId = MenuCellIdMin;
-    }
-
-    return self.lastMenuId++;
 }
 
 #pragma mark Deletes
