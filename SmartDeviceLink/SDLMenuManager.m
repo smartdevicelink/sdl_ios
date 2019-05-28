@@ -30,6 +30,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
+#import "SDLScreenManager.h"
 #import "SDLVoiceCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -72,6 +73,7 @@ UInt32 const MenuCellIdMin = 1;
     _lastMenuId = MenuCellIdMin;
     _menuCells = @[];
     _oldMenuCells = @[];
+    _dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeOnWithCompatibility;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -107,6 +109,9 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Setters
+- (void)setDynamicMenuUpdatesMode:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
+    _dynamicMenuUpdatesMode = dynamicMenuUpdatesMode;
+}
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     if (self.currentHMILevel == nil
@@ -144,47 +149,66 @@ UInt32 const MenuCellIdMin = 1;
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
 
-    // RunScore will contain the best possible combination of ADD and Delete Commmands. There will be 2 arrays, OldCell(Deletes/Keeps) NewCells(Adds/Keeps),
-    // When the Adds and Deletes are removed from their respetive arrays the KEEPS should match at index in both arrays.
-    _runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
+    if([self checkUpdateMode: self.dynamicMenuUpdatesMode]) {
+         // RunScore will contain the best possible combination of ADDS, DELETES and KEEPS. oldStatus(Deletes/Keeps) updatedStatus(Adds/Keeps),
+        _runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
 
-    // Here we create a temproaray array to store the values from the RunScore object. At this point the arrays with both contain Keeps.
-    NSArray<NSNumber *> *deleteMenuStatus = self.runScore.oldStatus;
-    NSArray<NSNumber *> *addMenuStatus = self.runScore.updatedStatus;
+        NSArray<NSNumber *> *deleteMenuStatus = self.runScore.oldStatus;
+        NSArray<NSNumber *> *addMenuStatus = self.runScore.updatedStatus;
 
-    // These arrays will now contain only Deletes or only Adds
-    NSArray<SDLMenuCell *> *cellsToDelete = [self buildDeleteMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
-    NSArray<SDLMenuCell *> *cellsToAdd = [self buildAddMenuItems:addMenuStatus compareTo:self.menuCells];
+        NSArray<SDLMenuCell *> *cellsToDelete = [self buildDeleteMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
+        NSArray<SDLMenuCell *> *cellsToAdd = [self buildAddMenuItems:addMenuStatus compareTo:self.menuCells];
 
-    // These arrays will only contain Keeps. We wil use this araay to compare submenus after we finish building the main menu
-    NSArray<SDLMenuCell *> *oldKeeps = [self buildOldKeepMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
-    NSArray<SDLMenuCell *> *newKeeps = [self buildKeepNewMenuItems: addMenuStatus compareTo:self.menuCells];
+        // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
+        NSArray<SDLMenuCell *> *oldKeeps = [self buildOldKeepMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
+        NSArray<SDLMenuCell *> *newKeeps = [self buildKeepNewMenuItems: addMenuStatus compareTo:self.menuCells];
 
-    // Since we may be adding cells to the list we need to update those cells to have a cellID
-    [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:ParentIdNotFound];
+        // Since we may be adding cells to the list we need to update those cells to have a cellID
+        [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:ParentIdNotFound];
 
-    // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
-    [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+        // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
+        [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
-    // Upload the artworks
-    NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
-    if (artworksToBeUploaded.count > 0) {
-        [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"Error uploading menu artworks: %@", error);
-            }
-            SDLLogD(@"Menu artworks uploaded");
-            [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:nil];
+        // Upload the artworks
+        NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
+        if (artworksToBeUploaded.count > 0) {
+            [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+                if (error != nil) {
+                    SDLLogE(@"Error uploading menu artworks: %@", error);
+                }
+                SDLLogD(@"Menu artworks uploaded");
+                __weak typeof(self) weakself = self;
+                [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
+                    [weakself sendSubMenuUpdates:oldKeeps newKeepCell:newKeeps atIndex:0];
+                }];
+            }];
+        }
+
+        __weak typeof(self) weakself = self;
+        [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
+            [weakself sendSubMenuUpdates:oldKeeps newKeepCell:newKeeps atIndex:0];
         }];
-    }
+    } else {
+        self.lastMenuId = MenuCellIdMin;
+        [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
 
-    __weak typeof(self) weakself = self;
-    [self sdl_updateCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
-        [weakself sendSubMenuUpdates:oldKeeps newKeepCell:newKeeps atIndex:0];
-    }];
+        NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
+        if (artworksToBeUploaded.count > 0) {
+            [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+                if (error != nil) {
+                    SDLLogE(@"Error uploading menu artworks: %@", error);
+                }
+
+                SDLLogD(@"Menu artworks uploaded");
+                [self sdl_updateCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells withCompletionHandler:nil];
+            }];
+        }
+       [self sdl_updateCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells withCompletionHandler:nil];
+    }
 }
 
 #pragma mark - Build Deletes, Keeps, Adds
+
 - (void)sendSubMenuUpdates:(NSArray<SDLMenuCell *> *)oldKeptCells newKeepCell:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex {
     if(oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) {
         self.inProgressUpdate = nil;
@@ -275,7 +299,6 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_updateCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells withCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    //create funtion to do this for subcells so we can use proper call backs.
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
@@ -383,6 +406,20 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Helpers
+
+- (BOOL)checkUpdateMode:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
+    switch (dynamicMenuUpdatesMode) {
+        case SDLDynamicMenuUpdatesModeForceOn:
+            return true;
+            break;
+        case SDLDynamicMenuUpdatesModeForceOff:
+            return false;
+            break;
+        case SDLDynamicMenuUpdatesModeOnWithCompatibility:
+            return [self.displayCapabilities.displayName isEqualToString:@"GEN3_8_INCH"] ? false : true;
+            break;
+    }
+}
 
 #pragma mark Artworks
 

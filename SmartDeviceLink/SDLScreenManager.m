@@ -7,7 +7,6 @@
 //
 
 #import "SDLScreenManager.h"
-
 #import "SDLArtwork.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
@@ -141,6 +140,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
     self.choiceSetManager.keyboardConfiguration = keyboardConfiguration;
+}
+
+- (void)setDynamicMenuUpdatesMode:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
+    self.menuManager.dynamicMenuUpdatesMode = dynamicMenuUpdatesMode;
 }
 
 #pragma mark - Getters
