@@ -525,17 +525,17 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
  */
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(UInt8)maxUploadCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
     if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
-        SDLLogE(@"File named %@ failed to upload. The file manager has shutdown so the file will not be sent again.", file.name);
+        SDLLogW(@"File named %@ failed to upload. The file manager has shutdown so the file upload will not retry.", file.name);
         return NO;
     }
 
     if (!file) {
-        SDLLogE(@"File named %@ can not be uploaded because it is not a valid file.", file.name);
+        SDLLogE(@"File can not be uploaded because it is not a valid file.");
         return NO;
     }
 
     if ([self hasUploadedFile:file]) {
-        SDLLogE(@"File named %@ has already been uploaded.", file.name);
+        SDLLogD(@"File named %@ has already been uploaded.", file.name);
         return NO;
     }
 
