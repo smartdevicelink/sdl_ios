@@ -54,7 +54,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                     SDLRPCParameterNameLength:@123456789,
                                                    SDLRPCParameterNameCRC:@0xffffffff},
                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNamePutFile}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));

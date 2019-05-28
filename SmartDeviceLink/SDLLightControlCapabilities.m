@@ -23,22 +23,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleName:(NSString *)moduleName {
-    [store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
+    [self.store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
 }
 
 - (NSString *)moduleName {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setSupportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
-    [store sdl_setObject:supportedLights forName:SDLRPCParameterNameSupportedLights];
+    [self.store sdl_setObject:supportedLights forName:SDLRPCParameterNameSupportedLights];
 
 }
 
 - (NSArray<SDLLightCapabilities *> *)supportedLights {
     NSError *error = nil;
-    return [store sdl_objectsForName:SDLRPCParameterNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
 }
 
 

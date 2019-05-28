@@ -89,60 +89,60 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleType:(SDLModuleType)moduleType {
-    [store sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
+    [self.store sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
 
 - (SDLModuleType)moduleType {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
 - (void)setRadioControlData:(nullable SDLRadioControlData *)radioControlData {
-    [store sdl_setObject:radioControlData forName:SDLRPCParameterNameRadioControlData];
+    [self.store sdl_setObject:radioControlData forName:SDLRPCParameterNameRadioControlData];
 }
 
 - (nullable SDLRadioControlData *)radioControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioControlData ofClass:SDLRadioControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRadioControlData ofClass:SDLRadioControlData.class error:nil];
 }
 
 - (void)setClimateControlData:(nullable SDLClimateControlData *)climateControlData {
-    [store sdl_setObject:climateControlData forName:SDLRPCParameterNameClimateControlData];
+    [self.store sdl_setObject:climateControlData forName:SDLRPCParameterNameClimateControlData];
 }
 
 - (nullable SDLClimateControlData *)climateControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameClimateControlData ofClass:SDLClimateControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameClimateControlData ofClass:SDLClimateControlData.class error:nil];
 }
 
 - (void)setSeatControlData:(nullable SDLSeatControlData *)seatControlData {
-    [store sdl_setObject:seatControlData forName:SDLRPCParameterNameSeatControlData];
+    [self.store sdl_setObject:seatControlData forName:SDLRPCParameterNameSeatControlData];
 }
 
 - (nullable SDLSeatControlData *)seatControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameSeatControlData ofClass:SDLSeatControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeatControlData ofClass:SDLSeatControlData.class error:nil];
 }
 
 - (void)setAudioControlData:(nullable SDLAudioControlData *)audioControlData {
-    [store sdl_setObject:audioControlData forName:SDLRPCParameterNameAudioControlData];
+    [self.store sdl_setObject:audioControlData forName:SDLRPCParameterNameAudioControlData];
 }
 
 - (nullable SDLAudioControlData *)audioControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameAudioControlData ofClass:SDLAudioControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAudioControlData ofClass:SDLAudioControlData.class error:nil];
 }
 
 - (void)setLightControlData:(nullable SDLLightControlData *)lightControlData {
-    [store sdl_setObject:lightControlData forName:SDLRPCParameterNameLightControlData];
+    [self.store sdl_setObject:lightControlData forName:SDLRPCParameterNameLightControlData];
 }
 
 - (nullable SDLLightControlData *)lightControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameLightControlData ofClass:SDLLightControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLightControlData ofClass:SDLLightControlData.class error:nil];
 }
 
 - (void)setHmiSettingsControlData:(nullable SDLHMISettingsControlData *)hmiSettingsControlData {
-    [store sdl_setObject:hmiSettingsControlData forName:SDLRPCParameterNameHmiSettingsControlData];
+    [self.store sdl_setObject:hmiSettingsControlData forName:SDLRPCParameterNameHmiSettingsControlData];
 }
 
 - (nullable SDLHMISettingsControlData *)hmiSettingsControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlData ofClass:SDLHMISettingsControlData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlData ofClass:SDLHMISettingsControlData.class error:nil];
 }
 
 @end

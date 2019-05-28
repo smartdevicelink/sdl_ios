@@ -135,6 +135,9 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:ImagesVisibleSoftButton];
         [object transitionToNextState];
 
+        SDLSoftButtonObject *textButton = [weakself.sdlManager.screenManager softButtonObjectNamed:TextVisibleSoftButton];
+        [textButton transitionToNextState];
+
         SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
     }];
 

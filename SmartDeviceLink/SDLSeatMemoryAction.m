@@ -32,29 +32,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setId:(NSNumber<SDLInt> *)id {
-    [store sdl_setObject:id forName:SDLRPCParameterNameId];
+    [self.store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
 - (NSNumber<SDLInt> *)id {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLabel:(nullable NSString *)label {
-    [store sdl_setObject:label forName:SDLRPCParameterNameLabel];
+    [self.store sdl_setObject:label forName:SDLRPCParameterNameLabel];
 }
 
 - (nullable NSString *)label {
-    return [store sdl_objectForName:SDLRPCParameterNameLabel ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLabel ofClass:NSString.class error:nil];
 }
 
 - (void)setAction:(SDLSeatMemoryActionType)action {
-    [store sdl_setObject:action forName:SDLRPCParameterNameAction];
+    [self.store sdl_setObject:action forName:SDLRPCParameterNameAction];
 }
 
 - (SDLSeatMemoryActionType)action {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameAction error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameAction error:&error];
 }
 @end
 

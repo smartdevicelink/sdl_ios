@@ -16,11 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformAppServiceInteractionResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNamePerformAppServiceInteraction]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithServiceSpecificResult:(NSString *)serviceSpecificResult {
     self = [self init];
@@ -34,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceSpecificResult:(nullable NSString *)serviceSpecificResult {
-    [parameters sdl_setObject:serviceSpecificResult forName:SDLRPCParameterNameServiceSpecificResult];
+    [self.parameters sdl_setObject:serviceSpecificResult forName:SDLRPCParameterNameServiceSpecificResult];
 }
 
 - (nullable NSString *)serviceSpecificResult {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceSpecificResult ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceSpecificResult ofClass:NSString.class error:nil];
 }
 
 @end

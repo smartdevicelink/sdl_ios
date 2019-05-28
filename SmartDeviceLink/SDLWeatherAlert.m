@@ -32,51 +32,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTitle:(nullable NSString *)title {
-    [store sdl_setObject:title forName:SDLRPCParameterNameTitle];
+    [self.store sdl_setObject:title forName:SDLRPCParameterNameTitle];
 }
 
 - (nullable NSString *)title {
-    return [store sdl_objectForName:SDLRPCParameterNameTitle ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setSummary:(nullable NSString *)summary {
-    [store sdl_setObject:summary forName:SDLRPCParameterNameSummary];
+    [self.store sdl_setObject:summary forName:SDLRPCParameterNameSummary];
 }
 
 - (nullable NSString *)summary {
-    return [store sdl_objectForName:SDLRPCParameterNameSummary ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSummary ofClass:NSString.class error:nil];
 }
 
 - (void)setExpires:(nullable SDLDateTime *)expires {
-    [store sdl_setObject:expires forName:SDLRPCParameterNameExpires];
+    [self.store sdl_setObject:expires forName:SDLRPCParameterNameExpires];
 }
 
 - (nullable SDLDateTime *)expires {
-    return [store sdl_objectForName:SDLRPCParameterNameExpires ofClass:SDLDateTime.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameExpires ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setRegions:(nullable NSArray<NSString *> *)regions {
-    [store sdl_setObject:regions forName:SDLRPCParameterNameRegions];
+    [self.store sdl_setObject:regions forName:SDLRPCParameterNameRegions];
 }
 
 - (nullable NSArray<NSString *> *)regions {
-    return [store sdl_objectsForName:SDLRPCParameterNameRegions ofClass:NSString.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameRegions ofClass:NSString.class error:nil];
 }
 
 - (void)setSeverity:(nullable NSString *)severity {
-    [store sdl_setObject:severity forName:SDLRPCParameterNameSeverity];
+    [self.store sdl_setObject:severity forName:SDLRPCParameterNameSeverity];
 }
 
 - (nullable NSString *)severity {
-    return [store sdl_objectForName:SDLRPCParameterNameSeverity ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeverity ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeIssued:(nullable SDLDateTime *)timeIssued {
-    [store sdl_setObject:timeIssued forName:SDLRPCParameterNameTimeIssued];
+    [self.store sdl_setObject:timeIssued forName:SDLRPCParameterNameTimeIssued];
 }
 
 - (nullable SDLDateTime *)timeIssued {
-    return [store sdl_objectForName:SDLRPCParameterNameTimeIssued ofClass:SDLDateTime.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimeIssued ofClass:SDLDateTime.class error:nil];
 }
 
 @end

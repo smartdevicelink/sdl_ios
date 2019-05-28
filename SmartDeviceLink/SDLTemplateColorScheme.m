@@ -39,27 +39,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setPrimaryColor:(nullable SDLRGBColor *)primaryColor {
-    [store sdl_setObject:primaryColor forName:SDLRPCParameterNamePrimaryColor];
+    [self.store sdl_setObject:primaryColor forName:SDLRPCParameterNamePrimaryColor];
 }
 
 - (nullable SDLRGBColor *)primaryColor {
-    return [store sdl_objectForName:SDLRPCParameterNamePrimaryColor ofClass:SDLRGBColor.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePrimaryColor ofClass:SDLRGBColor.class error:nil];
 }
 
 - (void)setSecondaryColor:(nullable SDLRGBColor *)secondaryColor {
-    [store sdl_setObject:secondaryColor forName:SDLRPCParameterNameSecondaryColor];
+    [self.store sdl_setObject:secondaryColor forName:SDLRPCParameterNameSecondaryColor];
 }
 
 - (nullable SDLRGBColor *)secondaryColor {
-    return [store sdl_objectForName:SDLRPCParameterNameSecondaryColor ofClass:SDLRGBColor.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSecondaryColor ofClass:SDLRGBColor.class error:nil];
 }
 
 - (void)setBackgroundColor:(nullable SDLRGBColor *)backgroundColor {
-    [store sdl_setObject:backgroundColor forName:SDLRPCParameterNameBackgroundColor];
+    [self.store sdl_setObject:backgroundColor forName:SDLRPCParameterNameBackgroundColor];
 }
 
 - (nullable SDLRGBColor *)backgroundColor {
-    return [store sdl_objectForName:SDLRPCParameterNameBackgroundColor ofClass:SDLRGBColor.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameBackgroundColor ofClass:SDLRGBColor.class error:nil];
 }
 
 @end

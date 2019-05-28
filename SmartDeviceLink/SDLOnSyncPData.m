@@ -13,26 +13,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSyncPData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnSyncPData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setURL:(nullable NSString *)URL {
-    [parameters sdl_setObject:URL forName:SDLRPCParameterNameURLUppercase];
+    [self.parameters sdl_setObject:URL forName:SDLRPCParameterNameURLUppercase];
 }
 
 - (nullable NSString *)URL {
-    return [parameters sdl_objectForName:SDLRPCParameterNameURLUppercase ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameURLUppercase ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
-    [parameters sdl_setObject:Timeout forName:SDLRPCParameterNameTimeoutCapitalized];
+    [self.parameters sdl_setObject:Timeout forName:SDLRPCParameterNameTimeoutCapitalized];
 }
 
 - (nullable NSNumber<SDLInt> *)Timeout {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTimeoutCapitalized ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTimeoutCapitalized ofClass:NSNumber.class error:nil];
 }
 
 @end

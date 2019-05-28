@@ -146,7 +146,10 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameVIN:@"222222222722",
                                            SDLRPCParameterNameWiperStatus:SDLWiperStatusStalled},
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnVehicleData}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));
         expect(testNotification.airbagStatus).to(equal(airbag));

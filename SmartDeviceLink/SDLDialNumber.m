@@ -10,11 +10,14 @@
 
 @implementation SDLDialNumber
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameDialNumber]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithNumber:(NSString *)number {
     self = [self init];
@@ -28,12 +31,12 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    [parameters sdl_setObject:number forName:SDLRPCParameterNameNumber];
+    [self.parameters sdl_setObject:number forName:SDLRPCParameterNameNumber];
 }
 
 - (NSString *)number {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameNumber ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameNumber ofClass:NSString.class error:&error];
 }
 
 @end

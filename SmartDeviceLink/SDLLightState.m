@@ -48,37 +48,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setId:(SDLLightName)id {
-    [store sdl_setObject:id forName:SDLRPCParameterNameId];
+    [self.store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
 - (SDLLightName)id {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameId error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameId error:&error];
 }
 
 - (void)setStatus:(SDLLightStatus)status {
-    [store sdl_setObject:status forName:SDLRPCParameterNameStatus];
+    [self.store sdl_setObject:status forName:SDLRPCParameterNameStatus];
 }
 
 - (SDLLightStatus)status {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
 }
 
 - (void)setDensity:(nullable NSNumber<SDLFloat> *)density {
-    [store sdl_setObject:density forName:SDLRPCParameterNameDensity];
+    [self.store sdl_setObject:density forName:SDLRPCParameterNameDensity];
 }
 
 - (nullable NSNumber<SDLFloat> *)density {
-    return [store sdl_objectForName:SDLRPCParameterNameDensity ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDensity ofClass:NSNumber.class error:nil];
 }
 
 - (void)setColor:(nullable SDLRGBColor *)color {
-    [store sdl_setObject:color forName:SDLRPCParameterNameColor];
+    [self.store sdl_setObject:color forName:SDLRPCParameterNameColor];
 }
 
 - (nullable SDLRGBColor *)color {
-    return [store sdl_objectForName:SDLRPCParameterNameColor ofClass:SDLRGBColor.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameColor ofClass:SDLRGBColor.class error:nil];
 }
 
 @end

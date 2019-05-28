@@ -31,7 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
                                                                    SDLRPCParameterNameTimeoutCapitalized:@8357},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.URL).to(equal(@"https://www.youtube.com/watch?v=ygr5AHufBN4"));
         expect(testNotification.Timeout).to(equal(@8357));

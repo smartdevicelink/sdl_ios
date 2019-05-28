@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformAudioPassThru
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNamePerformAudioPassThru]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio {
     return [self initWithInitialPrompt:initialPrompt audioPassThruDisplayText1:audioPassThruDisplayText1 audioPassThruDisplayText2:audioPassThruDisplayText2 samplingRate:samplingRate bitsPerSample:bitsPerSample audioType:audioType maxDuration:maxDuration muteAudio:muteAudio audioDataHandler:nil];
@@ -58,71 +61,71 @@ NS_ASSUME_NONNULL_BEGIN
     
 
 - (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    [parameters sdl_setObject:initialPrompt forName:SDLRPCParameterNameInitialPrompt];
+    [self.parameters sdl_setObject:initialPrompt forName:SDLRPCParameterNameInitialPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameInitialPrompt ofClass:SDLTTSChunk.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameInitialPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setAudioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 {
-    [parameters sdl_setObject:audioPassThruDisplayText1 forName:SDLRPCParameterNameAudioPassThruDisplayText1];
+    [self.parameters sdl_setObject:audioPassThruDisplayText1 forName:SDLRPCParameterNameAudioPassThruDisplayText1];
 }
 
 - (nullable NSString *)audioPassThruDisplayText1 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText1 ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText1 ofClass:NSString.class error:nil];
 }
 
 - (void)setAudioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 {
-    [parameters sdl_setObject:audioPassThruDisplayText2 forName:SDLRPCParameterNameAudioPassThruDisplayText2];
+    [self.parameters sdl_setObject:audioPassThruDisplayText2 forName:SDLRPCParameterNameAudioPassThruDisplayText2];
 }
 
 - (nullable NSString *)audioPassThruDisplayText2 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText2 ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText2 ofClass:NSString.class error:nil];
 }
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    [parameters sdl_setObject:samplingRate forName:SDLRPCParameterNameSamplingRate];
+    [self.parameters sdl_setObject:samplingRate forName:SDLRPCParameterNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
 }
 
 - (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
-    [parameters sdl_setObject:maxDuration forName:SDLRPCParameterNameMaxDuration];
+    [self.parameters sdl_setObject:maxDuration forName:SDLRPCParameterNameMaxDuration];
 }
 
 - (NSNumber<SDLInt> *)maxDuration {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameMaxDuration ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMaxDuration ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    [parameters sdl_setObject:bitsPerSample forName:SDLRPCParameterNameBitsPerSample];
+    [self.parameters sdl_setObject:bitsPerSample forName:SDLRPCParameterNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    [parameters sdl_setObject:audioType forName:SDLRPCParameterNameAudioType];
+    [self.parameters sdl_setObject:audioType forName:SDLRPCParameterNameAudioType];
 }
 
 - (SDLAudioType)audioType {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
 }
 
 - (void)setMuteAudio:(nullable NSNumber<SDLBool> *)muteAudio {
-    [parameters sdl_setObject:muteAudio forName:SDLRPCParameterNameMuteAudio];
+    [self.parameters sdl_setObject:muteAudio forName:SDLRPCParameterNameMuteAudio];
 }
 
 - (nullable NSNumber<SDLBool> *)muteAudio {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMuteAudio ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMuteAudio ofClass:NSNumber.class error:nil];
 }
 
 @end

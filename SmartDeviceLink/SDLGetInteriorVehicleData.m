@@ -11,11 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetInteriorVehicleData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameGetInteriorVehicleData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithModuleType:(SDLModuleType)moduleType; {
     self = [self init];
@@ -53,20 +56,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleType:(SDLModuleType)moduleType {
-    [parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
+    [self.parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
 
 - (SDLModuleType)moduleType {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
-    [parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
+    [self.parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class error:nil];
 }
 
 @end

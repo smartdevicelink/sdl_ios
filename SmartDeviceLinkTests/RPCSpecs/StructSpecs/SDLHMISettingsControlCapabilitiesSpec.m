@@ -53,7 +53,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameDistanceUnitAvailable:@(YES),
                                        SDLRPCParameterNameDisplayModeUnitAvailable:@(NO)
                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"temperatureUnit"));
         expect(testStruct.distanceUnitAvailable).to(equal(@(YES)));

@@ -35,7 +35,10 @@ describe(@"SetMediaClocktimer Spec", ^ {
                                                        SDLRPCParameterNameAudioStreamingIndicator:testIndicator
                                                        },
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));

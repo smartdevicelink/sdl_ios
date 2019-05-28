@@ -50,7 +50,10 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameSiriusXMRadioAvailable : @NO,
                                        SDLRPCParameterNameSISDataAvailable:@YES
                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.moduleName).to(equal(@"someName"));
         expect(testStruct.radioEnableAvailable).to(equal(@YES));

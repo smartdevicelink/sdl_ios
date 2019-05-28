@@ -31,21 +31,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setUnit:(SDLTemperatureUnit)unit {
-    [store sdl_setObject:unit forName:SDLRPCParameterNameUnit];
+    [self.store sdl_setObject:unit forName:SDLRPCParameterNameUnit];
 }
 
 - (SDLTemperatureUnit)unit {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameUnit error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameUnit error:&error];
 }
 
 - (void)setValue:(NSNumber<SDLFloat> *)value {
-    [store sdl_setObject:value forName:SDLRPCParameterNameValue];
+    [self.store sdl_setObject:value forName:SDLRPCParameterNameValue];
 }
 
 - (NSNumber<SDLFloat> *)value {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameValue ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameValue ofClass:NSNumber.class error:&error];
 }
 
 @end

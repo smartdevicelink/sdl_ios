@@ -31,8 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
         NSDictionary *dict = @{SDLRPCParameterNameType:SDLFuelTypeLPG,
                                 SDLRPCParameterNameRange:@23
                                 };
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.type).to(equal(SDLFuelTypeLPG));
         expect(testStruct.range).to(equal(@23));
