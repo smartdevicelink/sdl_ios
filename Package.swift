@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SmartDeviceLink-iOS",
+    name: "SmartDeviceLink",
     products: [
         .library(name: "SmartDeviceLink", targets: ["SmartDeviceLink"]),
         .library(name: "SmartDeviceLinkSwift", targets: ["SmartDeviceLinkSwift"])
