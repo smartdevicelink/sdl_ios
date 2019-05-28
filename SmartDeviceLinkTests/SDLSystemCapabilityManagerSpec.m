@@ -34,7 +34,7 @@
 
 @interface SDLSystemCapabilityManager ()
 
-@property (assign, nonatomic) BOOL supportsObservers;
+@property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
 
 @end
 
@@ -372,7 +372,7 @@ describe(@"System capability manager", ^{
 
         beforeEach(^{
             blockObserverTriggeredCount = 0;
-            testSystemCapabilityManager.supportsObservers = YES;
+            testSystemCapabilityManager.supportsSubscriptions = YES;
 
             phoneObserver = [[TestSystemCapabilityObserver alloc] init];
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
@@ -384,7 +384,7 @@ describe(@"System capability manager", ^{
             __block BOOL observationSuccess = NO;
 
             beforeEach(^{
-                testSystemCapabilityManager.supportsObservers = NO;
+                testSystemCapabilityManager.supportsSubscriptions = NO;
 
                 observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
             });
