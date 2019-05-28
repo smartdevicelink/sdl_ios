@@ -372,7 +372,7 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 }
 
-#pragma mark - Setters
+#pragma mark - Keyboard Configuration
 
 - (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
     if (keyboardConfiguration == nil) {
