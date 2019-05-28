@@ -29,6 +29,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLVideoStreamingCapability.h"
 #import "TestConnectionManager.h"
+#import "TestSystemCapabilityObserver.h"
 
 
 @interface SDLSystemCapabilityManager ()
@@ -397,7 +398,7 @@ describe(@"System capability manager", ^{
             __block id blockObserver = nil;
 
             beforeEach(^{
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     blockObserverTriggeredCount++;
                 }];
 
@@ -438,7 +439,7 @@ describe(@"System capability manager", ^{
             __block id blockObserver = nil;
 
             beforeEach(^{
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     blockObserverTriggeredCount++;
                 }];
 

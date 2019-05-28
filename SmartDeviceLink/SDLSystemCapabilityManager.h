@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager);
 
 /**
- An observer block whenever a subscription is called.
+ An observer block for whenever a subscription is called.
 
  @param capability The capability that was updated.
  */
@@ -51,6 +51,11 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  A manager that handles updating and subscribing to SDL capabilities.
  */
 @interface SDLSystemCapabilityManager : NSObject
+
+/**
+ YES if subscriptions are available on the connected head unit. If NO, calls to `subscribeToCapabilityType:withBlock` and `subscribeToCapabilityType:withObserver:selector` will fail.
+ */
+@property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
 
 /**
  * @see SDLDisplayCapabilities

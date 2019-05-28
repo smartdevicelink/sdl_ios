@@ -60,7 +60,7 @@ typedef NSString * SDLServiceID;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
-@property (assign, nonatomic) BOOL supportsObservers;
+@property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
 @property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
 
 @property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
@@ -97,7 +97,7 @@ typedef NSString * SDLServiceID;
     SDLVersion *onSystemCapabilityNotificationRPCVersion = [SDLVersion versionWithString:@"5.1.0"];
     SDLVersion *headUnitRPCVersion = SDLGlobals.sharedGlobals.rpcVersion;
     if ([headUnitRPCVersion isGreaterThanOrEqualToVersion:onSystemCapabilityNotificationRPCVersion]) {
-        _supportsObservers = YES;
+        _supportsSubscriptions = YES;
     }
 }
 
@@ -123,7 +123,7 @@ typedef NSString * SDLServiceID;
     _remoteControlCapability = nil;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
-    _supportsObservers = NO;
+    _supportsSubscriptions = NO;
     for (SDLSystemCapabilityType capabilityType in [self.class sdl_systemCapabilityTypes]) {
         _capabilityObservers[capabilityType] = [NSMutableArray array];
     }
@@ -227,7 +227,7 @@ typedef NSString * SDLServiceID;
 #pragma mark - System Capabilities
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
-    if (self.supportsObservers) {
+    if (self.supportsSubscriptions) {
         // Just return the cached data because we get `onSystemCapability` callbacks
         handler(nil, self);
     } else {
@@ -252,7 +252,7 @@ typedef NSString * SDLServiceID;
 - (void)sdl_subscribeToSystemCapabilityUpdates {
     for (SDLSystemCapabilityType type in [self.class sdl_systemCapabilityTypes]) {
         SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-        if (self.supportsObservers) {
+        if (self.supportsSubscriptions) {
             getSystemCapability.subscribe = @YES;
         }
 
@@ -308,7 +308,6 @@ typedef NSString * SDLServiceID;
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
-        if ([self.appServicesCapabilities isEqual:systemCapability.appServicesCapabilities]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         [self sdl_saveAppServicesCapabilitiesUpdate:systemCapability.appServicesCapabilities];
         systemCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:self.appServicesCapabilities];
     } else {
@@ -367,7 +366,7 @@ typedef NSString * SDLServiceID;
 #pragma mark - Subscriptions
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block {
-    if (!self.supportsObservers) { return nil; }
+    if (!self.supportsSubscriptions) { return nil; }
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
     [self.capabilityObservers[type] addObject:observerObject];
@@ -376,7 +375,7 @@ typedef NSString * SDLServiceID;
 }
 
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id<NSObject>)observer selector:(SEL)selector {
-    if (!self.supportsObservers) { return NO; }
+    if (!self.supportsSubscriptions) { return NO; }
 
     NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
     if (numberOfParametersInSelector > 1) { return NO; }

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLSystemCapabilityManager;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestSystemCapabilityObserver : NSObject
