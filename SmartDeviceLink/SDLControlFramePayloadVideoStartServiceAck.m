@@ -93,7 +93,8 @@
 }
 
 - (void)sdl_parse:(NSData *)data {
-    BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
+    BsonObject payloadObject;
+    bson_object_from_bytes_len(&payloadObject, (BytePtr)data.bytes, data.length);
 
     self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
     self.height = bson_object_get_int32(&payloadObject, SDLControlFrameHeightKey);
