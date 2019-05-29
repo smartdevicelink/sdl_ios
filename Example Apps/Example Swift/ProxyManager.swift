@@ -43,9 +43,14 @@ extension ProxyManager {
     ///
     /// - Parameter connectionType: The type of transport layer to use.
     func start(with proxyTransportType: ProxyTransportType) {
-        delegate?.didChangeProxyState(ProxyState.searching)
-        sdlManager = SDLManager(configuration: proxyTransportType == .iap ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
-        startManager()
+        if sdlManager == nil {
+            delegate?.didChangeProxyState(ProxyState.searching)
+            sdlManager = SDLManager(configuration: proxyTransportType == .iap ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
+            startManager()
+        } else {
+            // Manager already created, just start it again.
+            startManager()
+        }
     }
 
     /// Attempts to close the connection between the this app and the car's head unit. The `SDLManagerDelegate`'s `managerDidDisconnect()` is called when connection is actually closed.
