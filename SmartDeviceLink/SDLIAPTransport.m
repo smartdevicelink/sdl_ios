@@ -454,10 +454,10 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session receives data from Core
  *
- *  @param dataIn The received data
+ *  @param data The received data
  */
-- (void)dataSession:(nonnull NSData *)dataIn {
-    [self.delegate onDataReceived:dataIn];
+- (void)dataSessionDidReceiveData:(nonnull NSData *)data {
+    [self.delegate onDataReceived:data];
     [self sdl_backgroundTaskStart];
 }
 

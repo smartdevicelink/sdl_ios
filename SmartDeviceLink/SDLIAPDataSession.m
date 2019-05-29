@@ -305,7 +305,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (bytesRead > 0) {
             if (self.delegate == nil) { return; }
-            [self.delegate dataReceived:dataIn];
+            [self.delegate dataSessionDidReceiveData:dataIn];
         } else {
             break;
         }
