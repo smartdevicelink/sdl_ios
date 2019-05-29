@@ -379,7 +379,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startStream:(NSStream *)stream {
-    NSAssert([[NSThread currentThread] isEqual:self.ioStreamThread] || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
+    NSAssert([[NSThread currentThread] isEqual:self.ioStreamThread] || [NSThread isMainThread], @"startStream is being called on the wrong thread!!!");
     [super startStream:stream];
 }
 
