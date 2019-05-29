@@ -86,6 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)destroySession {
     SDLLogD(@"Destroying the data session");
     [self sdl_destroySession];
+    [self.sendDataQueue removeAllObjects];
 }
 
 /**
@@ -167,26 +168,28 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
+    if (remainder == nil) {
+        SDLLogV(@"No more data to write to data session's output stream. Returning");
+        return;
+    }
 
-    if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
-        SDLLogV(@"Writing to the data session's output stream");
-        
-        NSUInteger bytesRemaining = remainder.length;
-        NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
-        if (bytesWritten < 0) {
-            if (ostream.streamError != nil) {
-                [self sdl_handleOutputStreamWriteError:ostream.streamError];
-            } else {
-                // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
-                SDLLogE(@"Output stream write operation failed");
-            }
-        } else if (bytesWritten == bytesRemaining) {
-            // Remove the data from the queue
-            [self.sendDataQueue popBuffer];
+    SDLLogV(@"Writing to the data session's output stream");
+
+    NSUInteger bytesRemaining = remainder.length;
+    NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
+    if (bytesWritten < 0) {
+        if (ostream.streamError != nil) {
+            [self sdl_handleOutputStreamWriteError:ostream.streamError];
         } else {
-            // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-            [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+            // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
+            SDLLogE(@"Output stream write operation failed");
         }
+    } else if (bytesWritten == bytesRemaining) {
+        // Remove the data from the queue
+        [self.sendDataQueue popBuffer];
+    } else {
+        // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
+        [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
     }
 }
 
