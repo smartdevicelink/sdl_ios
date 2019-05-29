@@ -62,7 +62,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     if (self.accessory == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
         if (self.delegate == nil) { return; }
-        [self.delegate retryControlSession];
+        [self.delegate controlSessionShouldRetry];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
 
@@ -70,7 +70,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
-            [self.delegate retryControlSession];
+            [self.delegate controlSessionShouldRetry];
         } else {
             SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
             self.protocolIndexTimer = [self sdl_createProtocolIndexTimer];
@@ -187,7 +187,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [self destroySession];
 
     if (self.delegate == nil) { return; }
-    [self.delegate retryControlSession];
+    [self.delegate controlSessionShouldRetry];
 }
 
 /**
@@ -229,7 +229,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [self destroySession];
 
     if (self.delegate == nil) { return; }
-    [self.delegate retryControlSession];
+    [self.delegate controlSessionShouldRetry];
 }
 
 #pragma mark - Timer
@@ -249,7 +249,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf sdl_destroySession];
 
         if (strongSelf.delegate == nil) { return; }
-        [strongSelf.delegate retryControlSession];
+        [strongSelf.delegate controlSessionShouldRetry];
     };
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;

@@ -57,7 +57,7 @@ describe(@"SDLIAPControlSession", ^{
 
             it(@"Should start correctly", ^{
                 [controlSession startSession];
-                OCMExpect([mockDelegate retryControlSession]);
+                OCMExpect([mockDelegate controlSessionShouldRetry]);
             });
         });
     });

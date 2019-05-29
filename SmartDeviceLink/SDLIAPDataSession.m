@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.accessory == nil) {
         SDLLogW(@"Failed to setup data session");
         if (self.delegate == nil) { return; }
-        [self.delegate retryDataSession];
+        [self.delegate dataSessionShouldRetry];
     } else {
         SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.accessory.name, self.protocolString);
 
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
-            [self.delegate retryDataSession];
+            [self.delegate dataSessionShouldRetry];
         }
 
         self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
@@ -280,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self destroySession];
 
         if (self.delegate == nil) { return; }
-        [self.delegate retryDataSession];
+        [self.delegate dataSessionShouldRetry];
     });
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
@@ -332,7 +332,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self destroySession];
         if (![self.protocolString isEqualToString:LegacyProtocolString]) {
             if (self.delegate == nil) { return; }
-            [self.delegate retryDataSession];
+            [self.delegate dataSessionShouldRetry];
         }
     });
 }

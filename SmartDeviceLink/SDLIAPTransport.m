@@ -432,7 +432,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the control session should be retried.
  */
-- (void)retryControlSession {
+- (void)controlSessionShouldRetry {
     SDLLogV(@"Retrying the control session");
     [self sdl_retryEstablishSession];
 }
@@ -456,7 +456,7 @@ int const CreateSessionRetries = 3;
  *
  *  @param dataIn The received data
  */
-- (void)dataReceived:(nonnull NSData *)dataIn {
+- (void)dataSession:(nonnull NSData *)dataIn {
     [self.delegate onDataReceived:dataIn];
     [self sdl_backgroundTaskStart];
 }
@@ -464,7 +464,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session should be retried.
  */
-- (void)retryDataSession {
+- (void)dataSessionShouldRetry {
     SDLLogV(@"Retrying the data session");
     [self sdl_retryEstablishSession];
 }

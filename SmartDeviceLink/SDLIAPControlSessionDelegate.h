@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLIAPControlSessionDelegate <NSObject>
 
-- (void)retryControlSession;
+- (void)controlSessionShouldRetry;
 - (void)controlSession:(SDLIAPControlSession *)controlSession didReceiveProtocolString:(NSString *)protocolString;
 
 @end

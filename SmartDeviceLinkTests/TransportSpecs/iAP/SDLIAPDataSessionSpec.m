@@ -67,7 +67,7 @@ describe(@"SDLIAPDataSession", ^{
 
             it(@"Should start correctly", ^{
                 [dataSession startSession];
-                OCMExpect([mockDelegate retryDataSession]);
+                OCMExpect([mockDelegate dataSessionShouldRetry]);
             });
         });
     });
