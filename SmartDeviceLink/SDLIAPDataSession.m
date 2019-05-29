@@ -169,6 +169,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
 
     if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
+        SDLLogV(@"Writing to the data session's output stream");
+        
         NSUInteger bytesRemaining = remainder.length;
         NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
         if (bytesWritten < 0) {

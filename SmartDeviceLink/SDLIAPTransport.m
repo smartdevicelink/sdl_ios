@@ -262,7 +262,10 @@ int const CreateSessionRetries = 3;
  *  @param data The data to be sent to Core
  */
 - (void)sendData:(NSData *)data {
-    if (!self.dataSession.sessionInProgress) { return; }
+    if (!self.dataSession.sessionInProgress) {
+        SDLLogW(@"Attempting to send data to Core but there is no data session in progress");
+        return;
+    }
     [self.dataSession sendData:data];
 }
 
