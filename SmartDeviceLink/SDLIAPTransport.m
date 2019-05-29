@@ -283,8 +283,12 @@ int const CreateSessionRetries = 3;
  *  Cleans up after a disconnected accessory by closing any open I/O streams.
  */
 - (void)disconnect {
-    // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
+    // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
     [self sdl_stopEventListening];
+
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    self.transportDisconnected = YES;
 
     [self.controlSession destroySession];
     [self.dataSession destroySession];
@@ -300,7 +304,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
     if (self.transportDisconnected) {
-        SDLLogV(@"Will not attempt to connect to an accessory becasue the data session disconnected. Waiting for lifecycle manager to create a new tranport object.");
+        SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new tranport object.");
         return;
     }
 

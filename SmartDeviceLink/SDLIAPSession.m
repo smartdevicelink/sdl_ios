@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.eaSession = nil;
-    SDLLogD(@"Session closed for: %@", self.accessory.serialNumber);
+    SDLLogD(@"Session closed with: %@", self.accessory.name);
     self.accessory.delegate = nil;
 }
 
