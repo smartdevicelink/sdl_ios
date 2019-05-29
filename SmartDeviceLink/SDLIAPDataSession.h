@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPDataSession : SDLIAPSession
 
-
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
