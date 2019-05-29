@@ -20,11 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL isOutputStreamOpen;
 
-/**
- *  The session created between the app and the accessory.
- */
-@property (nullable, strong, nonatomic) EASession *eaSession;
-
+@property (nullable, strong, nonatomic, readwrite) EASession *eaSession;
 @property (nullable, strong, nonatomic, readwrite) EAAccessory *accessory;
 @property (nullable, strong, nonatomic, readwrite) NSString *protocolString;
 
@@ -90,6 +86,17 @@ NS_ASSUME_NONNULL_BEGIN
 			self.isOutputStreamOpen = NO;
         }
     }
+}
+
+- (void)closeSession {
+    if (self.eaSession == nil) {
+        SDLLogD(@"Attempting to close session with accessory: %@, but it is already closed", self.accessory.name);
+        return;
+    }
+
+    self.eaSession = nil;
+    SDLLogD(@"Session closed for: %@", self.accessory.serialNumber);
+    self.accessory.delegate = nil;
 }
 
 #pragma mark - Getters

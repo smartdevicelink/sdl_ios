@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 
 /**
+ *  The session created between the app and the accessory.
+ */
+@property (nullable, strong, nonatomic, readonly) EASession *eaSession;
+
+/**
  *  The unique protocol string used to create the session with the accessory.
  */
 @property (nullable, strong, nonatomic, readonly) NSString *protocolString;

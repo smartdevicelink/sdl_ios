@@ -34,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isInputStreamOpen;
 @property (nonatomic, assign) BOOL isOutputStreamOpen;
-@property (nullable, strong, nonatomic) EASession *eaSession;
 
 - (BOOL)start;
 - (void)startStream:(NSStream *)stream;
 - (void)stopStream:(NSStream *)stream;
+- (void)closeSession;
 
 @end
 
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.ioStreamThread == nil) {
         SDLLogV(@"Stopping data session but no thread established.");
-        self.eaSession = nil;
+        [super closeSession];
         return;
     }
 
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
         }
         self.ioStreamThread = nil;
-        self.eaSession = nil;
+        [super closeSession];
     }];
 }
 
@@ -344,7 +344,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Must be called on accessoryEventLoop.
 - (void)sdl_closeSession {
-    if (!self.eaSession) {
+    if (self.eaSession == nil) {
         return;
     }
 

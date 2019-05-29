@@ -33,11 +33,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @property (nonatomic, assign) BOOL isInputStreamOpen;
 @property (nonatomic, assign) BOOL isOutputStreamOpen;
-@property (nullable, strong, nonatomic) EASession *eaSession;
 
 - (BOOL)start;
 - (void)startStream:(NSStream *)stream;
 - (void)stopStream:(NSStream *)stream;
+- (void)closeSession;
 
 @end
 
@@ -102,7 +102,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     [super stopStream:self.eaSession.outputStream];
     [super stopStream:self.eaSession.inputStream];
-    self.eaSession = nil;
+    [super closeSession];
 }
 
 - (void)destroySession {    
