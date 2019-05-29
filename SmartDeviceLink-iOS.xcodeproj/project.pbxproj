@@ -1004,6 +1004,9 @@
 		5D6F7A351BC5B9B60070BF37 /* SDLLockScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D6F7A361BC5B9B60070BF37 /* SDLLockScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */; };
 		5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */; };
+		5D75960D22972F830013207C /* TestSystemCapabilityObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D75960C22972F830013207C /* TestSystemCapabilityObserver.m */; };
+		5D75961122972FCA0013207C /* SDLSystemCapabilityObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D75960F22972FCA0013207C /* SDLSystemCapabilityObserver.h */; };
+		5D75961222972FCA0013207C /* SDLSystemCapabilityObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D75961022972FCA0013207C /* SDLSystemCapabilityObserver.m */; };
 		5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */; };
 		5D76E3211D39742300647CFA /* SDLViewControllerPresentable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */; };
 		5D76E3241D39767000647CFA /* SDLLockScreenPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */; };
@@ -2638,6 +2641,10 @@
 		5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenViewController.h; sourceTree = "<group>"; };
 		5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenViewController.m; sourceTree = "<group>"; };
 		5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SDLAssets.xcassets; path = Assets/SDLAssets.xcassets; sourceTree = "<group>"; };
+		5D75960B22972F830013207C /* TestSystemCapabilityObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestSystemCapabilityObserver.h; path = DevAPISpecs/TestSystemCapabilityObserver.h; sourceTree = "<group>"; };
+		5D75960C22972F830013207C /* TestSystemCapabilityObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestSystemCapabilityObserver.m; path = DevAPISpecs/TestSystemCapabilityObserver.m; sourceTree = "<group>"; };
+		5D75960F22972FCA0013207C /* SDLSystemCapabilityObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityObserver.h; sourceTree = "<group>"; };
+		5D75961022972FCA0013207C /* SDLSystemCapabilityObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityObserver.m; sourceTree = "<group>"; };
 		5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManagerSpec.m; path = DevAPISpecs/SDLLockScreenManagerSpec.m; sourceTree = "<group>"; };
 		5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLViewControllerPresentable.h; sourceTree = "<group>"; };
 		5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenPresenter.h; sourceTree = "<group>"; };
@@ -5060,6 +5067,24 @@
 			name = "Lock Screen UI";
 			sourceTree = "<group>";
 		};
+		5D75960A22972F620013207C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5D75960B22972F830013207C /* TestSystemCapabilityObserver.h */,
+				5D75960C22972F830013207C /* TestSystemCapabilityObserver.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		5D75960E22972FB90013207C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5D75960F22972FCA0013207C /* SDLSystemCapabilityObserver.h */,
+				5D75961022972FCA0013207C /* SDLSystemCapabilityObserver.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		5D76E31A1D3805E600647CFA /* LockScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -5782,6 +5807,7 @@
 		880E35B12088F73400181259 /* System Capabilities */ = {
 			isa = PBXGroup;
 			children = (
+				5D75960E22972FB90013207C /* Utilities */,
 				880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */,
 				880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */,
 			);
@@ -5791,6 +5817,7 @@
 		880E35B62088F77C00181259 /* System Capabilities */ = {
 			isa = PBXGroup;
 			children = (
+				5D75960A22972F620013207C /* Utilities */,
 				880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */,
 			);
 			name = "System Capabilities";
@@ -6315,6 +6342,7 @@
 				5D61FDB11A84238C00846EE7 /* SDLSubscribeVehicleData.h in Headers */,
 				5DB996601F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h in Headers */,
 				5DCF76F51ACDBAD300BB647B /* SDLSendLocation.h in Headers */,
+				5D75961122972FCA0013207C /* SDLSystemCapabilityObserver.h in Headers */,
 				5D61FC9E1A84238C00846EE7 /* SDLEncodedSyncPData.h in Headers */,
 				1FF7DABA1F75B2A800B46C30 /* SDLFocusableItemLocator.h in Headers */,
 				5D019276214994AC003500F6 /* NSMutableArray+Safe.h in Headers */,
@@ -7069,6 +7097,7 @@
 				88EEC5BC220A327B005AA2F9 /* SDLPublishAppServiceResponse.m in Sources */,
 				5D61FC951A84238C00846EE7 /* SDLDriverDistractionState.m in Sources */,
 				5DB996611F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m in Sources */,
+				5D75961222972FCA0013207C /* SDLSystemCapabilityObserver.m in Sources */,
 				884E702021FB983F008D53BA /* SDLAppServiceManifest.m in Sources */,
 				5D61FD961A84238C00846EE7 /* SDLShowResponse.m in Sources */,
 				5D61FD981A84238C00846EE7 /* SDLSingleTireStatus.m in Sources */,
@@ -7415,6 +7444,7 @@
 				162E837E1A9BDE8B00906325 /* SDLGPSDataSpec.m in Sources */,
 				5DAE06731BDEC6C000F9B498 /* SDLFileSpec.m in Sources */,
 				162E82E11A9BDE8B00906325 /* SDLHMIZoneCapabilitiesSpec.m in Sources */,
+				5D75960D22972F830013207C /* TestSystemCapabilityObserver.m in Sources */,
 				88B58DBD222042500011B063 /* SDLDirectionSpec.m in Sources */,
 				162E83721A9BDE8B00906325 /* SDLAudioPassThruCapabilitiesSpec.m in Sources */,
 				162E83681A9BDE8B00906325 /* SDLSpeakResponseSpec.m in Sources */,
