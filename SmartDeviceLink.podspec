@@ -44,6 +44,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLAudioControlData.h',
 'SmartDeviceLink/SDLAudioControlCapabilities.h',
 'SmartDeviceLink/SDLAudioPassThruCapabilities.h',
+'SmartDeviceLink/SDLAudioFile.h',
 'SmartDeviceLink/SDLAudioStreamingState.h',
 'SmartDeviceLink/SDLAudioStreamingIndicator.h',
 'SmartDeviceLink/SDLAudioStreamManager.h',
