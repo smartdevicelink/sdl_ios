@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isInputStreamOpen && self.isOutputStreamOpen) {
         SDLLogV(@"Data session I/O streams opened for protocol: %@", self.protocolString);
         if (self.delegate == nil) { return; }
-        [self.delegate transportConnected];
+        [self.delegate dataSessionDidConnect];
     }
 }
 

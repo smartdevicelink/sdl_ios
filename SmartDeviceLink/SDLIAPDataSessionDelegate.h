@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dataSessionShouldRetry;
 - (void)dataReceived:(NSData *)dataIn;
-- (void)transportConnected;
+- (void)dataSessionDidConnect;
 
 @end
 

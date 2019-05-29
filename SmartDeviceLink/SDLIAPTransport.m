@@ -472,7 +472,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session has been established. Notify the delegate that the transport has been connected.
  */
-- (void)transportConnected {
+- (void)dataSessionDidConnect {
     self.sessionSetupInProgress = NO;
     [self.delegate onTransportConnected];
 }
