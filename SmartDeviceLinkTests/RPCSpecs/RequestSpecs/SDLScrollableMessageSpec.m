@@ -37,7 +37,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameTimeout:@9182,
                                                                    SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameScrollableMessage}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLScrollableMessage* testRequest = [[SDLScrollableMessage alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.scrollableMessageBody).to(equal(@"thatmessagebody"));
         expect(testRequest.timeout).to(equal(@9182));

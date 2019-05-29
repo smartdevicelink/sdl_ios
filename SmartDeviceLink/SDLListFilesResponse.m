@@ -12,26 +12,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLListFilesResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameListFiles]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setFilenames:(nullable NSArray<NSString *> *)filenames {
-    [parameters sdl_setObject:filenames forName:SDLRPCParameterNameFilenames];
+    [self.parameters sdl_setObject:filenames forName:SDLRPCParameterNameFilenames];
 }
 
 - (nullable NSArray<NSString *> *)filenames {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameFilenames ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameFilenames ofClass:NSString.class error:nil];
 }
 
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
-    [parameters sdl_setObject:spaceAvailable forName:SDLRPCParameterNameSpaceAvailable];
+    [self.parameters sdl_setObject:spaceAvailable forName:SDLRPCParameterNameSpaceAvailable];
 }
 
 - (nullable NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

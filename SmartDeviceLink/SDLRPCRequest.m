@@ -9,15 +9,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLRPCMessage ()
+
+@property (strong, nonatomic) NSMutableDictionary<NSString *, id> *function;
+
+@end
+
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
     NSError *error = nil;
-    return [function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
+    return [self.function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    [function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
+    [self.function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
 }
 
 @end

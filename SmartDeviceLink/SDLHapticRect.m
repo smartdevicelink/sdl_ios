@@ -28,20 +28,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setId:(NSNumber<SDLInt> *)id {
-    [store sdl_setObject:id forName:SDLRPCParameterNameId];
+    [self.store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
 - (NSNumber<SDLInt> *)id {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setRect:(SDLRectangle *)rect {
-    [store sdl_setObject:rect forName:SDLRPCParameterNameRect];
+    [self.store sdl_setObject:rect forName:SDLRPCParameterNameRect];
 }
 
 - (SDLRectangle *)rect {
-    return [store sdl_objectForName:SDLRPCParameterNameRect ofClass:SDLRectangle.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRect ofClass:SDLRectangle.class error:nil];
 }
 
 @end

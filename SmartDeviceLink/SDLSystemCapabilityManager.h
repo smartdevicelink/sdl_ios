@@ -24,13 +24,13 @@
 @class SDLPresetBankCapabilities;
 @class SDLRemoteControlCapabilities;
 @class SDLSoftButtonCapabilities;
+@class SDLSystemCapability;
 @class SDLSystemCapabilityManager;
 @class SDLVideoStreamingCapability;
 
 @protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
-
 
 /**
  *  A completion handler called after a request for the capability type is returned from the remote system.
@@ -40,8 +40,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager);
 
+/**
+ An observer block for whenever a subscription is called.
 
+ @param capability The capability that was updated.
+ */
+typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
+
+/**
+ A manager that handles updating and subscribing to SDL capabilities.
+ */
 @interface SDLSystemCapabilityManager : NSObject
+
+/**
+ YES if subscriptions are available on the connected head unit. If NO, calls to `subscribeToCapabilityType:withBlock` and `subscribeToCapabilityType:withObserver:selector` will fail.
+ */
+@property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
 
 /**
  * @see SDLDisplayCapabilities
@@ -134,59 +148,64 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
 @property (nullable, strong, nonatomic, readonly) SDLAppServicesCapabilities *appServicesCapabilities;
 
 /**
- * If returned, the platform supports navigation
- *
- * @see SDLNavigationCapability
- *
- * Optional
+ If returned, the platform supports navigation
+
+ @see SDLNavigationCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLNavigationCapability *navigationCapability;
 
 /**
- * If returned, the platform supports making phone calls
- *
- * @see SDLPhoneCapability
- *
- * Optional
+ If returned, the platform supports making phone calls
+
+ @see SDLPhoneCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLPhoneCapability *phoneCapability;
 
 /**
- * If returned, the platform supports video streaming
- *
- * @see SDLVideoStreamingCapability
- *
- * Optional
+ If returned, the platform supports video streaming
+
+ @see SDLVideoStreamingCapability
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
- * If returned, the platform supports remote control capabilities
- *
- * @see SDLRemoteControlCapabilities
- *
- * Optional
+ If returned, the platform supports remote control capabilities
+
+ @see SDLRemoteControlCapabilities
+
+ Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
- *  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
- *
- *  @return nil
+ Init is unavailable. Dependencies must be injected using initWithConnectionManager:
+
+ @return nil
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates a new system capability manager with a specified connection manager
- *
- *  @param manager A connection manager to use to forward on RPCs
- *
- *  @return An instance of SDLSystemCapabilityManager
+ Creates a new system capability manager with a specified connection manager
+
+ @param manager A connection manager to use to forward on RPCs
+
+ @return An instance of SDLSystemCapabilityManager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Stops the manager. This method is used internally.
+ Starts the manager. This method is used internally.
+ */
+- (void)start;
+
+/**
+ Stops the manager. This method is used internally.
  */
 - (void)stop;
 
@@ -198,6 +217,37 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
  */
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
 
+/**
+ Subscribe to a particular capability type using a block callback
+
+ @param type The type of capability to subscribe to
+ @param block The block to be called when the capability is updated
+ @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
+ */
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block;
+
+/**
+ * Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:
+ *
+ * 1. No parameters e.g. `- (void)phoneCapabilityUpdated;`
+ * 2. One `SDLSystemCapability *` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
+ *
+ * This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called.
+ *
+ * @param type The type of the system capability to subscribe to
+ * @param observer The object that will have `selector` called whenever the capability is updated
+ * @param selector The selector on `observer` that will be called whenever the capability is updated
+ * @return Whether or not the subscription succeeded. `NO` if the connected system doesn't support capability subscriptions, or if the `selector` doesn't support the correct parameters (see above)
+ */
+- (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer selector:(SEL)selector;
+
+/**
+ * Unsubscribe from a particular capability type. If it was subscribed with a block, the return value should be passed to the `observer` to unsubscribe the block. If it was subscribed with a selector, the `observer` object should be passed to unsubscribe the object selector.
+ *
+ * @param type The type of the system capability to unsubscribe from
+ * @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.
+ */
+- (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer;
 
 @end
 

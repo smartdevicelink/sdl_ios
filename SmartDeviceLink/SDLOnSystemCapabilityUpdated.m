@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSystemCapabilityUpdated
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnSystemCapabilityUpdated]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithSystemCapability:(SDLSystemCapability *)systemCapability {
     self = [self init];
@@ -35,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSystemCapability:(SDLSystemCapability *)systemCapability {
-    [parameters sdl_setObject:systemCapability forName:SDLRPCParameterNameSystemCapability];
+    [self.parameters sdl_setObject:systemCapability forName:SDLRPCParameterNameSystemCapability];
 }
 
 - (SDLSystemCapability *)systemCapability {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class error:&error];
 }
 
 @end

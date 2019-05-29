@@ -61,7 +61,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameVRHelp:[@[helpItem] mutableCopy],
                                                    SDLRPCParameterNameInteractionLayout:SDLLayoutModeIconWithSearch},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));

@@ -22,21 +22,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMassageMode:(SDLMassageMode)massageMode {
-    [store sdl_setObject:massageMode forName:SDLRPCParameterNameMassageMode];
+    [self.store sdl_setObject:massageMode forName:SDLRPCParameterNameMassageMode];
 }
 
 - (SDLMassageMode)massageMode {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameMassageMode error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameMassageMode error:&error];
 }
 
 - (void)setMassageZone:(SDLMassageZone)massageZone {
-    [store sdl_setObject:massageZone forName:SDLRPCParameterNameMassageZone];
+    [self.store sdl_setObject:massageZone forName:SDLRPCParameterNameMassageZone];
 }
 
 - (SDLMassageZone)massageZone {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameMassageZone error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameMassageZone error:&error];
 }
 
 @end

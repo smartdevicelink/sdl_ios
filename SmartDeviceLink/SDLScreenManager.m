@@ -240,7 +240,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = NO;
 
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
-    [self.softButtonManager updateWithCompletionHandler:handler];
 }
 
 #pragma mark - Choice Sets

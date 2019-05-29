@@ -34,7 +34,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameURLUppercase:@"www.zombo.com",
                                                                    SDLRPCParameterNameTimeoutCapitalized:@564},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.data).to(equal([@[@"0"] mutableCopy]));
         expect(testNotification.URL).to(equal(@"www.zombo.com"));

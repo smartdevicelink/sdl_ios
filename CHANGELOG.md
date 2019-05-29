@@ -1,3 +1,10 @@
+# 6.2.3
+### Versions
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Bug Fixes
+* Fix all lockscreen related crashes when SDL is setup before the main window exists (https://www.github.com/smartdevicelink/sdl_ios/issues/1258).
+
 # 6.2.2
 ### Versions
 * Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).

@@ -404,8 +404,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             if ([self sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:self.failedFileUploadsCount]) {
                 SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
                 return [self sdl_uploadFile:file completionHandler:handler];
-            } else {
-                SDLLogE(@"File named %@ failed to upload. Max number of upload attempts reached", file.name);
             }
         }
 
@@ -526,11 +524,28 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
  *  @return                 True if the file still needs to be (re)sent to Core; false if not.
  */
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(UInt8)maxUploadCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
-    if (!file || [self hasUploadedFile:file]) {
+    if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
+        SDLLogW(@"File named %@ failed to upload. The file manager has shutdown so the file upload will not retry.", file.name);
         return NO;
     }
+
+    if (!file) {
+        SDLLogE(@"File can not be uploaded because it is not a valid file.");
+        return NO;
+    }
+
+    if ([self hasUploadedFile:file]) {
+        SDLLogD(@"File named %@ has already been uploaded.", file.name);
+        return NO;
+    }
+
     NSNumber *failedUploadCount = failedFileUploadsCount[file.name];
-    return (failedUploadCount == nil) ? YES : (failedUploadCount.integerValue < maxUploadCount);
+    BOOL canFileBeUploadedAgain = (failedUploadCount == nil) ? YES : (failedUploadCount.integerValue < maxUploadCount);
+    if (!canFileBeUploadedAgain) {
+        SDLLogE(@"File named %@ failed to upload. Max number of upload attempts reached.", file.name);
+    }
+
+    return canFileBeUploadedAgain;
 }
 
 /**

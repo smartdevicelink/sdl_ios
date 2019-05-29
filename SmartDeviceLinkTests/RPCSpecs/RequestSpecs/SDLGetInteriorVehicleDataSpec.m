@@ -31,7 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameModuleType : SDLModuleTypeRadio,
                                                                    SDLRPCParameterNameSubscribe : @YES},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetInteriorVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));
         expect(testRequest.subscribe).to(equal(@YES));

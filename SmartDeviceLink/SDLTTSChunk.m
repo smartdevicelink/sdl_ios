@@ -55,21 +55,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    [store sdl_setObject:text forName:SDLRPCParameterNameText];
+    [self.store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (NSString *)text {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    [store sdl_setObject:type forName:SDLRPCParameterNameType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLSpeechCapabilities)type {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameType error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 @end

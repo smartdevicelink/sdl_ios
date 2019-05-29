@@ -57,7 +57,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameSignalLevelStatus:SDLDeviceLevelStatusTwoBars,
                                        SDLRPCParameterNamePrimaryAudioSource:SDLPrimaryAudioSourceBluetoothStereo,
                                        SDLRPCParameterNameECallEventActive:@NO} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeviceStatus* testStruct = [[SDLDeviceStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.voiceRecOn).to(equal(@NO));
         expect(testStruct.btIconOn).to(equal(@NO));

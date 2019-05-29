@@ -74,7 +74,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameHeatedRearWindowAvailable:@YES,
                                                        SDLRPCParameterNameHeatedMirrorsAvailable:@NO
                                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.moduleName).to(equal(@"Name"));
         expect(testStruct.fanSpeedAvailable).to(equal(@YES));

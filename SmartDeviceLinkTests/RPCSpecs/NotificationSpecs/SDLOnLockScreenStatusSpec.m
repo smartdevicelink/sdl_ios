@@ -39,7 +39,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                    @"OnLockScreenStatus":SDLLockScreenStatusRequired,
                                                    @"hmiLevel":SDLHMILevelNone},
                                              SDLRPCParameterNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));

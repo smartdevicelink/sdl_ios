@@ -16,11 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendHapticData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSendHapticData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData {
     self = [self init];
@@ -34,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHapticRectData:(nullable NSArray<SDLHapticRect *> *)hapticRectData {
-    [parameters sdl_setObject:hapticRectData forName:SDLRPCParameterNameHapticRectData];
+    [self.parameters sdl_setObject:hapticRectData forName:SDLRPCParameterNameHapticRectData];
 }
 
 - (nullable NSArray<SDLHapticRect *> *)hapticRectData {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameHapticRectData ofClass:SDLHapticRect.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameHapticRectData ofClass:SDLHapticRect.class error:nil];
 }
 
 @end

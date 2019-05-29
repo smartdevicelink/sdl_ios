@@ -28,7 +28,10 @@ describe(@"Initialization tests", ^{
                                                }
                                        }
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetSystemCapability *testRequest = [[SDLGetSystemCapability alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRequest.systemCapabilityType).to(equal(SDLSystemCapabilityTypePhoneCall));
     });

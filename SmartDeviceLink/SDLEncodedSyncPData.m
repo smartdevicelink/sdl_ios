@@ -12,19 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLEncodedSyncPData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameEncodedSyncPData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setData:(NSArray<NSString *> *)data {
-    [parameters sdl_setObject:data forName:SDLRPCParameterNameData];
+    [self.parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (NSArray<NSString *> *)data {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameData ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameData ofClass:NSString.class error:&error];
 }
 
 @end

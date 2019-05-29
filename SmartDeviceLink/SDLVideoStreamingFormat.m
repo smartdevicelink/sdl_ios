@@ -26,20 +26,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLVideoStreamingProtocol)protocol {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameVideoProtocol error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameVideoProtocol error:&error];
 }
 
 - (void)setProtocol:(SDLVideoStreamingProtocol)protocol {
-    [store sdl_setObject:protocol forName:SDLRPCParameterNameVideoProtocol];
+    [self.store sdl_setObject:protocol forName:SDLRPCParameterNameVideoProtocol];
 }
 
 - (SDLVideoStreamingCodec)codec {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameVideoCodec error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameVideoCodec error:&error];
 }
 
 - (void)setCodec:(SDLVideoStreamingCodec)codec {
-    [store sdl_setObject:codec forName:SDLRPCParameterNameVideoCodec];
+    [self.store sdl_setObject:codec forName:SDLRPCParameterNameVideoCodec];
 }
 
 @end

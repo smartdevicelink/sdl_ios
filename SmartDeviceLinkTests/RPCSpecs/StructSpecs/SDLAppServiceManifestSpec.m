@@ -81,7 +81,10 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLRPCParameterNameMediaServiceManifest:testMediaServiceManifest,
                                SDLRPCParameterNameNavigationServiceManifest:testNavigationServiceManifest
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.serviceName).to(match(testServiceName));
         expect(testStruct.serviceType).to(equal(testServiceType));
