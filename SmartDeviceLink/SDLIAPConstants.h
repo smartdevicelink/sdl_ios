@@ -12,5 +12,3 @@ extern NSString *const ControlProtocolString;
 extern NSString *const IndexedProtocolStringPrefix;
 extern NSString *const LegacyProtocolString;
 extern NSString *const MultiSessionProtocolString;
-
-
