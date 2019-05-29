@@ -125,22 +125,28 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark - NSStreamDelegate
 
+/**
+ *  Handles events on the input/output streams of the open session.
+ *
+ *  @param stream       The stream (either input or output) that the event occured on
+ *  @param eventCode    The stream event code
+ */
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
         case NSStreamEventOpenCompleted: {
-            [self streamDidOpen:stream];
+            [self sdl_streamDidOpen:stream];
             break;
         }
         case NSStreamEventHasBytesAvailable: {
-            [self streamHasBytesAvailable:(NSInputStream *)stream];
+            [self sdl_streamHasBytesAvailable:(NSInputStream *)stream];
             break;
         }
         case NSStreamEventErrorOccurred: {
-            [self streamDidError:stream];
+            [self sdl_streamDidError:stream];
             break;
         }
         case NSStreamEventEndEncountered: {
-            [self streamDidEnd:stream];
+            [self sdl_streamDidEnd:stream];
             break;
         }
         case NSStreamEventNone:
@@ -156,7 +162,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @param stream The stream that got the event code.
  */
-- (void)streamDidOpen:(NSStream *)stream {
+- (void)sdl_streamDidOpen:(NSStream *)stream {
     if (stream == [self.eaSession outputStream]) {
         SDLLogD(@"Control session output stream opened");
         self.isOutputStreamOpen = YES;
@@ -175,7 +181,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  */
-- (void)streamDidEnd:(NSStream *)stream {
+- (void)sdl_streamDidEnd:(NSStream *)stream {
     SDLLogD(@"Control stream ended");
 
     // End events come in pairs, only perform this once per set.
@@ -189,7 +195,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
  */
-- (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
+- (void)sdl_streamHasBytesAvailable:(NSInputStream *)inputStream {
     SDLLogV(@"Control stream received data");
 
     // Read in the stream a single byte at a time
@@ -218,7 +224,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  */
-- (void)streamDidError:(NSStream *)stream {
+- (void)sdl_streamDidError:(NSStream *)stream {
     SDLLogE(@"Control stream error");
 
     [self.protocolIndexTimer cancel];

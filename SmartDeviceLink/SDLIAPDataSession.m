@@ -191,26 +191,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - NSStreamDelegate
 
+/**
+ *  Handles events on the input/output streams of the open session.
+ *
+ *  @param stream       The stream (either input or output) that the event occured on
+ *  @param eventCode    The stream event code
+ */
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
         case NSStreamEventOpenCompleted: {
-            [self streamDidOpen:stream];
+            [self sdl_streamDidOpen:stream];
             break;
         }
         case NSStreamEventHasBytesAvailable: {
-            [self streamHasBytesAvailable:(NSInputStream *)stream];
+            [self sdl_streamHasBytesAvailable:(NSInputStream *)stream];
             break;
         }
         case NSStreamEventHasSpaceAvailable: {
-            [self streamHasSpaceToWrite:(NSOutputStream *)stream];
+            [self sdl_streamHasSpaceToWrite];
             break;
         }
         case NSStreamEventErrorOccurred: {
-            [self streamDidError:stream];
+            [self sdl_streamDidError:stream];
             break;
         }
         case NSStreamEventEndEncountered: {
-            [self streamDidEnd:stream];
+            [self sdl_streamDidEnd:stream];
             break;
         }
         case NSStreamEventNone:
@@ -225,7 +231,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param stream The stream that got the event code.
  */
-- (void)streamDidOpen:(NSStream *)stream {
+- (void)sdl_streamDidOpen:(NSStream *)stream {
     if (stream == [self.eaSession outputStream]) {
         SDLLogD(@"Data session output stream opened");
         self.isOutputStreamOpen = YES;
@@ -245,7 +251,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  */
-- (void)streamDidEnd:(NSStream *)stream {
+- (void)sdl_streamDidEnd:(NSStream *)stream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
 
     SDLLogD(@"Data stream ended");
@@ -268,7 +274,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
  */
-- (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
+- (void)sdl_streamHasBytesAvailable:(NSInputStream *)inputStream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
     uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
     while (inputStream.streamStatus == NSStreamStatusOpen && inputStream.hasBytesAvailable) {
@@ -291,17 +297,20 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)streamHasSpaceToWrite:(NSOutputStream *)outputStream {
+/**
+ *  Called when the session gets a `NSStreamEventHasSpaceAvailable` event code. Send any queued data to Core.
+ */
+- (void)sdl_streamHasSpaceToWrite {
     [self sdl_dequeueAndWriteToOutputStream];
 }
 
 /**
  *  Called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  */
-- (void)streamDidError:(NSStream *)stream {
+- (void)sdl_streamDidError:(NSStream *)stream {
     NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
 
-    SDLLogE(@"Data session I/O streams errored for protocol: %@", self.protocolString);
+    SDLLogE(@"Data session %s stream errored", stream == self.eaSession.inputStream ? "input" : "output");
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
     dispatch_async(dispatch_get_main_queue(), ^{
