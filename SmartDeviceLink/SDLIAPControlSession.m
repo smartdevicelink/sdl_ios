@@ -28,7 +28,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @end
 
-
 @interface SDLIAPSession (exposeIAPSessionPrivateMethods)
 
 @property (nonatomic, assign) BOOL isInputStreamOpen;
@@ -41,8 +40,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @end
 
-
 @implementation SDLIAPControlSession
+
+#pragma mark - Session lifecycle
 
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate {
     SDLLogV(@"SDLIAPControlSession init");
@@ -55,6 +55,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     return self;
 }
+
+#pragma mark Start
 
 - (void)startSession {
     if (self.accessory == nil) {
@@ -87,17 +89,30 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return YES;
 }
 
-- (void)sdl_stopStreamsAndDestroySession {
+#pragma mark Stop
+
+- (void)destroySession {
+    SDLLogD(@"Destroying the control session");
+    [self sdl_destroySession];
+}
+
+/**
+ *  Makes sure the session is closed and destroyed on the main thread.
+ */
+- (void)sdl_destroySession {
     if ([NSThread isMainThread]) {
-        [self sdl_stop];
+        [self sdl_stopAndDestroySession];
     } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stop];
+            [self sdl_stopAndDestroySession];
         });
     }
 }
 
-- (void)sdl_stop {
+/**
+ *  Closes the session streams and then destroys the session.
+ */
+- (void)sdl_stopAndDestroySession {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     [super stopStream:self.eaSession.outputStream];
@@ -105,23 +120,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [super closeSession];
 }
 
-- (void)destroySession {    
-    if (self.accessory == nil) { 
-        SDLLogV(@"Attempting to stop the control session but the accessory is nil");
-        return;
-    }
-
-    SDLLogD(@"Destroying the control session");
-    [self sdl_stopStreamsAndDestroySession];
-}
-
-/**
- *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
- */
-- (void)sdl_startSessionTimer {
-    if (self.protocolIndexTimer == nil) { return; }
-    [self.protocolIndexTimer start];
-}
 
 #pragma mark - NSStreamDelegate
 
@@ -248,7 +246,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf sdl_stopStreamsAndDestroySession];
+        [strongSelf sdl_destroySession];
 
         if (strongSelf.delegate == nil) { return; }
         [strongSelf.delegate retryControlSession];
@@ -256,6 +254,14 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;
     return protocolIndexTimer;
+}
+
+/**
+ *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
+ */
+- (void)sdl_startSessionTimer {
+    if (self.protocolIndexTimer == nil) { return; }
+    [self.protocolIndexTimer start];
 }
 
 #pragma mark - Lifecycle Destruction

@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface SDLIAPSession (exposeIAPSessionPrivateMethods)
 
 @property (nonatomic, assign) BOOL isInputStreamOpen;
@@ -44,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLIAPDataSession
 
+#pragma mark - Session lifecycle
+
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
     SDLLogV(@"SDLIAPDataSession init");
 
@@ -56,6 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+
+#pragma mark Start
 
 - (void)startSession {
     if (self.accessory == nil) {
@@ -78,17 +81,30 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_stopStreamsAndDestroySession {
+#pragma mark Stop
+
+- (void)destroySession {
+    SDLLogD(@"Destroying the data session");
+    [self sdl_destroySession];
+}
+
+/**
+ *  Makes sure the session is closed and destroyed on the main thread.
+ */
+- (void)sdl_destroySession {
     if ([NSThread isMainThread]) {
-        [self sdl_stop];
+        [self sdl_stopAndDestroySession];
     } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stop];
+            [self sdl_stopAndDestroySession];
         });
     }
 }
 
-- (void)sdl_stop {
+/**
+ *  Waits for the session streams to close on the I/O Thread and then destroys the session.
+ */
+- (void)sdl_stopAndDestroySession {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.ioStreamThread == nil) {
@@ -109,16 +125,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)destroySession {
-    if (self.accessory == nil) {
-        SDLLogV(@"Attempting to stop the data session but the session is nil");
-        return;
-    }
-
-    SDLLogD(@"Destroying the data session");
-    [self sdl_stopStreamsAndDestroySession];
-}
-
 /**
  *  Wait for the data session to detroy its input and output streams. The data EASession can not be destroyed until both streams have closed.
  *
@@ -136,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark - data send methods
+#pragma mark - Sending data
 
 - (void)sendData:(NSData *)data {
     // Enqueue the data for transmission on the IO thread
@@ -145,6 +151,9 @@ NS_ASSUME_NONNULL_BEGIN
     [self performSelector:@selector(sdl_dequeueAndWriteToOutputStream) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 }
 
+/**
+ *  Sends any queued data to Core on the output stream for the session.
+ */
 - (void)sdl_dequeueAndWriteToOutputStream {
     if ([self.ioStreamThread isCancelled]) {
         SDLLogV(@"Attempted to send data on I/O thread but the thread is cancelled.");
@@ -179,6 +188,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+/**
+ *  Handles an output stream error when attempting to write to the output stream.
+ *
+ *  @param error The output stream error
+ */
 - (void)sdl_handleOutputStreamWriteError:(NSError *)error {
     SDLLogE(@"Output stream error: %@", error);
     // TODO: We should look at the domain and the code as a tuple and decide how to handle the error based on both values. For now, if the stream is closed, we will flush the send queue and leave it as-is otherwise so that temporary error conditions can be dealt with by retrying
@@ -188,6 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.sendDataQueue removeAllObjects];
     }
 }
+
 
 #pragma mark - NSStreamDelegate
 
@@ -322,7 +337,7 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-#pragma mark - background I/O for data session
+#pragma mark - Stream lifecycle
 
 // Data session I/O thread
 - (void)sdl_accessoryEventLoop {
