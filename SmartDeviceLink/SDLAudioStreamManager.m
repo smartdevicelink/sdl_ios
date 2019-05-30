@@ -131,22 +131,33 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
         audioData = file.data;
     }
 
+    // Send the audio file, which starts it playing immediately
     SDLLogD(@"Playing audio file: %@", file);
     __block BOOL success = [self.streamManager sendAudioData:audioData];
     self.playing = YES;
 
+    // Determine the length of the audio PCM data and perform a few items once the audio has finished playing
     float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         weakself.playing = NO;
         NSError *error = nil;
         if (weakself.delegate != nil) {
-            [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
+            if (file.inputFileURL != nil) {
+                [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
+            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
+                [weakself.delegate audioStreamManager:weakself dataBufferDidFinishPlayingSuccessfully:success];
+            }
         }
+
         SDLLogD(@"Ending Audio file: %@", file);
         [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
         if (weakself.delegate != nil && error != nil) {
-            [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
+            if (file.inputFileURL != nil) {
+                [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
+            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
+                [weakself.delegate audioStreamManager:weakself errorDidOccurForDataBuffer:error];
+            }
         }
     });
 }
