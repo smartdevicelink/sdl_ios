@@ -518,15 +518,16 @@ UInt32 const MenuCellIdMin = 1;
 
 - (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
-    [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
-        if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
-            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
-        } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
-        }
-    }];
 
+    for(NSUInteger cellIndex = 0; cellIndex < cells.count; cellIndex++) {
+        if(cells[cellIndex].subCells.count > 0) {
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[cellIndex] withArtwork:shouldHaveArtwork position:(UInt16)index]];
+            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cells[cellIndex].subCells withArtwork:shouldHaveArtwork]];
+        } else {
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cells[cellIndex] withArtwork:shouldHaveArtwork position:(UInt16)index]];
+        }
+    }
+    
     return [mutableCommands copy];
 }
 
