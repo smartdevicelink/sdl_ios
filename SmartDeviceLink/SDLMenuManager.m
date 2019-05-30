@@ -200,11 +200,6 @@ UInt32 const MenuCellIdMin = 1;
             [deleteCells addObject:oldList[index]];
         }
     }
-//    [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
-//        if(status.integerValue == 0) { // 0 means the cell was marked for Deletion
-//            [deleteCells addObject:oldList[index]];
-//        }
-//    }];
     return [deleteCells copy];
 }
 
@@ -217,11 +212,6 @@ UInt32 const MenuCellIdMin = 1;
             [addCells addObject:menuList[index]];
         }
     }
-//    [newStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
-//        if(status.integerValue == 1) { // 1 means the cell was marked for add
-//            [addCells addObject:menuList[index]];
-//        }
-//    }];
     return [addCells copy];
 }
 
@@ -233,12 +223,6 @@ UInt32 const MenuCellIdMin = 1;
             [keepMenuCells addObject:oldList[index]];
         }
     }
-//    [oldStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
-//        if(status.integerValue == 2) { // 2 means the cell was marked for Keep
-//            [keepMenuCells addObject:oldList[index]];
-//        }
-//    }];
-
     return [keepMenuCells copy];
 }
 
@@ -249,12 +233,6 @@ UInt32 const MenuCellIdMin = 1;
             [keepMenuCells addObject:newList[index]];
         }
     }
-//    [newStatusList enumerateObjectsUsingBlock:^(NSNumber * _Nonnull status, NSUInteger index, BOOL * _Nonnull stop) {
-//        if(status.integerValue == 2) { // 2 means the cell was marked for Keep
-//            [keepMenuCells addObject:newList[index]];
-//        }
-//    }];
-
     return [keepMenuCells copy];
 }
 
@@ -386,7 +364,7 @@ UInt32 const MenuCellIdMin = 1;
 
  @param updatedMenu The cells you will be adding
  @param menu The list of all cells. This may be different then self.menuCells since this function is called on subcell cells as well. When comparing 2 sub menu cells this function will be passed the list of all subcells on that cell.
- @param completionHandler handler 
+ @param completionHandler handler
  */
 - (void)sdl_sendUpdatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu usingMenu:(NSArray<SDLMenuCell *> *)menu withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.menuCells.count == 0) {
