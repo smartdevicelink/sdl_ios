@@ -67,6 +67,13 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
 - (void)pushWithFileURL:(NSURL *)fileURL;
 
 /**
+ Push a new audio buffer onto the queue. Call `playNextWhenReady` to start playing the pushed audio buffer.
+
+ @param data The audio buffer to be pushed onto the queue
+ */
+- (void)pushWithData:(NSData *)data;
+
+/**
  Play the next item in the queue. If an item is currently playing, it will continue playing and this item will begin playing after it is completed.
 
  When complete, this will callback on the delegate.

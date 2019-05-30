@@ -46,9 +46,14 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     return self;
 }
 
+#pragma mark - Getters
+
 - (NSArray<SDLFile *> *)queue {
     return [_mutableQueue copy];
 }
+
+#pragma mark - Pushing to the Queue
+#pragma mark Files
 
 - (void)pushWithFileURL:(NSURL *)fileURL {
     dispatch_async(_audioQueue, ^{
@@ -79,6 +84,21 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     }
 }
 
+#pragma mark Raw Data
+
+- (void)pushWithData:(NSData *)data {
+    dispatch_async(_audioQueue, ^{
+        [self sdl_pushWithData:data];
+    });
+}
+
+- (void)sdl_pushWithData:(NSData *)data {
+    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithData:data];
+    [self.mutableQueue addObject:audioFile];
+}
+
+#pragma mark Playing from the Queue
+
 - (void)playNextWhenReady {
     dispatch_async(_audioQueue, ^{
         [self sdl_playNextWhenReady];
@@ -104,8 +124,14 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     [self.mutableQueue removeObjectAtIndex:0];
 
     // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
+    NSData *audioData = nil;
+    if (file.inputFileURL != nil) {
+        audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
+    } else {
+        audioData = file.data;
+    }
+
     SDLLogD(@"Playing audio file: %@", file);
-    NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
     __block BOOL success = [self.streamManager sendAudioData:audioData];
     self.playing = YES;
 
@@ -124,6 +150,8 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
         }
     });
 }
+
+#pragma mark - Stopping Playback
 
 - (void)stop {
     dispatch_async(_audioQueue, ^{
