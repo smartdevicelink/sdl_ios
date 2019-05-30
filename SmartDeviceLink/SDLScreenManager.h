@@ -11,6 +11,7 @@
 #import "SDLInteractionMode.h"
 #import "SDLMetadataType.h"
 #import "SDLTextAlignment.h"
+#import "SDLMenuManagerConstants.h"
 
 @class SDLArtwork;
 @class SDLChoiceCell;
@@ -26,28 +27,6 @@
 @protocol SDLKeyboardDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef enum {
-    /**
-     * FORCE_ON: Forces on compatibility mode. This will force the menu manager to delete and re-add
-     * each menu item for every menu update. This mode is generally not advised due to performance issues.
-     */
-    SDLDynamicMenuUpdatesModeForceOn = 0,
-
-    /**
-     * FORCE_OFF: This mode forces the menu manager to always dynamically update menu items for each menu
-     * update. This will provide the best performance but may cause ordering issues on some SYNC Gen 3 head units.
-     */
-    SDLDynamicMenuUpdatesModeForceOff = 1,
-
-    /**
-     * ON_WITH_COMPAT_MODE: This mode checks whether the phone is connected to a SYNC Gen 3 head unit, which has known
-     * menu ordering issues. If it is, it will always delete and re-add every menu item, if not, it will dynamically update
-     * the menus.
-     */
-    SDLDynamicMenuUpdatesModeOnWithCompatibility = 2
-
-} SDLDynamicMenuUpdatesMode;
 
 /**
  The handler run when the update has completed
@@ -144,7 +123,7 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 /**
  The current status for dynamic menu updates.
  */
-@property (nonatomic, assign) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
+@property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
 
 /**
  The current list of voice commands available for the user to speak and be recognized by the IVI's voice recognition engine.

@@ -14,6 +14,7 @@
 #import "SDLImageFieldName.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuManager.h"
+#import "SDLMenuManagerConstants.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLRPCNotificationNotification.h"
@@ -285,7 +286,7 @@ describe(@"menu manager", ^{
                 expect(adds).to(haveCount(2));
             });
 
-            it(@"should send dynamic deletes first then dynamic adds case 2", ^{
+            fit(@"should send dynamic deletes first then dynamic adds case with 2 submenu cells", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -307,7 +308,7 @@ describe(@"menu manager", ^{
                 expect(submenu).to(haveCount(2));
             });
 
-            it(@"should send dynamic deletes first then dynamic adds case 3", ^{
+            it(@"should send dynamic deletes first then dynamic adds when removing one submenu cell", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -333,14 +334,15 @@ describe(@"menu manager", ^{
                 expect(submenu).to(haveCount(2));
             });
 
-            it(@"should send dynamic deletes first then dynamic adds case 4", ^{
+            it(@"should send dynamic deletes first then dynamic adds when adding one new cell", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell, textOnlyCell2];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
 
@@ -355,7 +357,7 @@ describe(@"menu manager", ^{
                 expect(submenu).to(haveCount(2));
             });
 
-            it(@"should send dynamic deletes first then dynamic adds case 5", ^{
+            it(@"should send dynamic deletes first then dynamic adds when cells stay the same", ^{
                 testManager.menuCells = @[textOnlyCell, textOnlyCell2, textAndImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];

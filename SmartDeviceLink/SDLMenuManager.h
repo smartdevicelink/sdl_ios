@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLScreenManager.h"
+#import "SDLMenuManagerConstants.h"
 
 @class SDLFileManager;
 @class SDLMenuCell;

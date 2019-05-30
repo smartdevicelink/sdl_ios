@@ -11,8 +11,8 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLMenuCell.h"
-#import "SDLMenuRunScore.h"
-#import "SDLMenuUpdateAlgorithm.h"
+#import "SDLDynamicMenuUpdateRunScore.h"
+#import "SDLDynamicMenuUpdateAlgorithm.h"
 
 QuickSpecBegin(SDLMenuUpdateAlgorithmSpec)
 
@@ -23,8 +23,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
 };
 
 describe(@"menuUpdateAlgorithm", ^{
-    __block SDLMenuRunScore *runScore = nil;
-    //__block SDLMenuUpdateAlgorithm *updatelgorithm = nil;
+    __block SDLDynamicMenuUpdateRunScore *runScore = nil;
 
     __block SDLMenuCell *oldCell1 = nil;
     __block SDLMenuCell *oldCell2 = nil;
@@ -63,22 +62,22 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell1, newCell2, newCell3, newCell4, newCell5];
 
-            runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(5));
             expect(runScore.oldStatus.count).to(equal(4));
             expect(runScore.score).to(equal(1));
 
-            expect(runScore.updatedStatus[0].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[1].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[2].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[3].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[4].integerValue).to(equal(@(MenuCellStateAdd)));
+            expect(runScore.updatedStatus[0].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[1].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[2].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[3].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[4].integerValue).to(equal(MenuCellStateAdd));
 
-            expect(runScore.oldStatus[0].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[1].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[2].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[3].integerValue).to(equal(@(MenuCellStateKeep)));
+            expect(runScore.oldStatus[0].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[1].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[2].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[3].integerValue).to(equal(MenuCellStateKeep));
         });
 
         it(@"should have a new menu status of 222 and an old menu status of 2220 on best run", ^{
@@ -86,61 +85,80 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell1, newCell2, newCell3];
 
-            runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(3));
             expect(runScore.oldStatus.count).to(equal(4));
             expect(runScore.score).to(equal(0));
 
-            expect(runScore.updatedStatus[0].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[1].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[2].integerValue).to(equal(@(MenuCellStateKeep)));
+            expect(runScore.updatedStatus[0].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[1].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[2].integerValue).to(equal(MenuCellStateKeep));
 
-            expect(runScore.oldStatus[0].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[1].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[2].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[3].integerValue).to(equal(@(MenuCellStateDelete)));
+            expect(runScore.oldStatus[0].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[1].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[2].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[3].integerValue).to(equal(MenuCellStateDelete));
         });
 
         it(@"should have a new menu status of 111 and an old menu status of 000 on best run", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell4, newCell5, newCell6];
 
-            runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(3));
             expect(runScore.oldStatus.count).to(equal(3));
             expect(runScore.score).to(equal(3));
 
-            expect(runScore.updatedStatus[0].integerValue).to(equal(@(MenuCellStateAdd)));
-            expect(runScore.updatedStatus[1].integerValue).to(equal(@(MenuCellStateAdd)));
-            expect(runScore.updatedStatus[2].integerValue).to(equal(@(MenuCellStateAdd)));
+            expect(runScore.updatedStatus[0].integerValue).to(equal(MenuCellStateAdd));
+            expect(runScore.updatedStatus[1].integerValue).to(equal(MenuCellStateAdd));
+            expect(runScore.updatedStatus[2].integerValue).to(equal(MenuCellStateAdd));
 
-            expect(runScore.oldStatus[0].integerValue).to(equal(@(MenuCellStateDelete)));
-            expect(runScore.oldStatus[1].integerValue).to(equal(@(MenuCellStateDelete)));
-            expect(runScore.oldStatus[2].integerValue).to(equal(@(MenuCellStateDelete)));
+            expect(runScore.oldStatus[0].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[1].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[2].integerValue).to(equal(MenuCellStateDelete));
         });
 
         it(@"should have a new menu status of 1212 and an old menu status of 2020 on best run", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[oldCell2, oldCell1, oldCell4, oldCell3 ];
 
-            runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(4));
             expect(runScore.oldStatus.count).to(equal(4));
             expect(runScore.score).to(equal(2));
 
-            expect(runScore.updatedStatus[0].integerValue).to(equal(@(MenuCellStateAdd)));
-            expect(runScore.updatedStatus[1].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.updatedStatus[2].integerValue).to(equal(@(MenuCellStateAdd)));
-            expect(runScore.updatedStatus[3].integerValue).to(equal(@(MenuCellStateKeep)));
+            expect(runScore.updatedStatus[0].integerValue).to(equal(MenuCellStateAdd));
+            expect(runScore.updatedStatus[1].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.updatedStatus[2].integerValue).to(equal(MenuCellStateAdd));
+            expect(runScore.updatedStatus[3].integerValue).to(equal(MenuCellStateKeep));
 
-            expect(runScore.oldStatus[0].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[1].integerValue).to(equal(@(MenuCellStateDelete)));
-            expect(runScore.oldStatus[2].integerValue).to(equal(@(MenuCellStateKeep)));
-            expect(runScore.oldStatus[3].integerValue).to(equal(@(MenuCellStateDelete)));
+            expect(runScore.oldStatus[0].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[1].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[2].integerValue).to(equal(MenuCellStateKeep));
+            expect(runScore.oldStatus[3].integerValue).to(equal(MenuCellStateDelete));
         });
+
+        it(@"should have no new menu status and an old menu status is 2222", ^{
+            NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
+            NSArray<SDLMenuCell *> *updatedMenuCells = @[];
+
+            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+
+            expect(runScore.updatedStatus.count).to(equal(0));
+            expect(runScore.oldStatus.count).to(equal(4));
+            expect(runScore.score).to(equal(0));
+
+            expect(runScore.updatedStatus.count).to(equal(0));
+
+            expect(runScore.oldStatus[0].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[1].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[2].integerValue).to(equal(MenuCellStateDelete));
+            expect(runScore.oldStatus[3].integerValue).to(equal(MenuCellStateDelete));
+        });
+
     });
 });
 

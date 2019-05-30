@@ -1229,12 +1229,13 @@
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
 		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
-		752ECDB6228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 752ECDB4228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h */; };
-		752ECDB7228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB5228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m */; };
+		752ECDB6228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 752ECDB4228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.h */; };
+		752ECDB7228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB5228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m */; };
 		752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */; };
 		752ECDBB228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */; };
-		756C62762289F11F008B57A2 /* SDLMenuRunScore.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C62742289F11F008B57A2 /* SDLMenuRunScore.h */; };
-		756C62772289F11F008B57A2 /* SDLMenuRunScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 756C62752289F11F008B57A2 /* SDLMenuRunScore.m */; };
+		755F176222A00B7C0041B9CB /* SDLMenuManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 755F176122A00B7C0041B9CB /* SDLMenuManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		756C62762289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C62742289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h */; };
+		756C62772289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 756C62752289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m */; };
 		880245A420F79C3400ED195B /* SDLFileManagerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };
@@ -2874,12 +2875,13 @@
 		5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerSpec.m; path = DevAPISpecs/SDLMenuManagerSpec.m; sourceTree = "<group>"; };
 		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandManagerSpec.m; path = DevAPISpecs/SDLVoiceCommandManagerSpec.m; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
-		752ECDB4228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuUpdateAlgorithm.h; sourceTree = "<group>"; };
-		752ECDB5228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuUpdateAlgorithm.m; sourceTree = "<group>"; };
+		752ECDB4228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLDynamicMenuUpdateAlgorithm.h; sourceTree = "<group>"; };
+		752ECDB5228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDynamicMenuUpdateAlgorithm.m; sourceTree = "<group>"; };
 		752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuRunScoreSpec.m; sourceTree = "<group>"; };
 		752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuUpdateAlgorithmSpec.m; sourceTree = "<group>"; };
-		756C62742289F11F008B57A2 /* SDLMenuRunScore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuRunScore.h; sourceTree = "<group>"; };
-		756C62752289F11F008B57A2 /* SDLMenuRunScore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuRunScore.m; sourceTree = "<group>"; };
+		755F176122A00B7C0041B9CB /* SDLMenuManagerConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuManagerConstants.h; sourceTree = "<group>"; };
+		756C62742289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLDynamicMenuUpdateRunScore.h; sourceTree = "<group>"; };
+		756C62752289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDynamicMenuUpdateRunScore.m; sourceTree = "<group>"; };
 		880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLFileManagerConfiguration.h; sourceTree = "<group>"; };
 		880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfiguration.m; sourceTree = "<group>"; };
 		880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceDataSpec.m; sourceTree = "<group>"; };
@@ -3820,15 +3822,12 @@
 		5D339CE5207C0651000CC364 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				755F175E229F14F70041B9CB /* Dynamic Menu Update Utilities */,
 				5D339CEC207C08AB000CC364 /* Cells */,
 				5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */,
 				5D339CF2207C0ACE000CC364 /* SDLMenuManager.m */,
 				5DF40B20208E761A00DD6FDA /* SDLVoiceCommandManager.h */,
 				5DF40B21208E761A00DD6FDA /* SDLVoiceCommandManager.m */,
-				756C62742289F11F008B57A2 /* SDLMenuRunScore.h */,
-				756C62752289F11F008B57A2 /* SDLMenuRunScore.m */,
-				752ECDB4228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h */,
-				752ECDB5228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -5813,6 +5812,18 @@
 			name = Menu;
 			sourceTree = "<group>";
 		};
+		755F175E229F14F70041B9CB /* Dynamic Menu Update Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				756C62742289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h */,
+				756C62752289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m */,
+				752ECDB4228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.h */,
+				752ECDB5228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m */,
+				755F176122A00B7C0041B9CB /* SDLMenuManagerConstants.h */,
+			);
+			name = "Dynamic Menu Update Utilities";
+			sourceTree = "<group>";
+		};
 		880245A120F79BDA00ED195B /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -6343,6 +6354,7 @@
 				5D61FDF11A84238C00846EE7 /* SDLUpdateTurnList.h in Headers */,
 				5DB996571F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.h in Headers */,
 				5D61FD671A84238C00846EE7 /* SDLResult.h in Headers */,
+				755F176222A00B7C0041B9CB /* SDLMenuManagerConstants.h in Headers */,
 				5D61FD351A84238C00846EE7 /* SDLPowerModeStatus.h in Headers */,
 				5D61FD971A84238C00846EE7 /* SDLSingleTireStatus.h in Headers */,
 				5D61FCE21A84238C00846EE7 /* SDLKeyboardLayout.h in Headers */,
@@ -6464,7 +6476,7 @@
 				5D61FC821A84238C00846EE7 /* SDLDeviceInfo.h in Headers */,
 				5DD60D98221C5D7D00A82A4F /* SDLVersion.h in Headers */,
 				5D61FCA91A84238C00846EE7 /* SDLFileType.h in Headers */,
-				756C62762289F11F008B57A2 /* SDLMenuRunScore.h in Headers */,
+				756C62762289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h in Headers */,
 				8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */,
 				DA8966F21E56973700413EAB /* SDLStreamingMediaManagerConstants.h in Headers */,
 				883C22C8222ED84D00939C4C /* SDLRPCFunctionNames.h in Headers */,
@@ -6606,7 +6618,7 @@
 				5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */,
 				DA9F7E831DCC047200ACAE48 /* SDLWayPointType.h in Headers */,
 				5D61FDF51A84238C00846EE7 /* SDLV1ProtocolHeader.h in Headers */,
-				752ECDB6228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.h in Headers */,
+				752ECDB6228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.h in Headers */,
 				5D92936320B3551600FCC775 /* SDLKeyboardDelegate.h in Headers */,
 				5D92936820B3601700FCC775 /* SDLChoiceSetManager.h in Headers */,
 				5DBF06351E64A9FE00A5CF03 /* SDLLogConstants.h in Headers */,
@@ -7237,7 +7249,7 @@
 				8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
-				752ECDB7228B4D6B00D945F4 /* SDLMenuUpdateAlgorithm.m in Sources */,
+				752ECDB7228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m in Sources */,
 				1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */,
 				EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
@@ -7292,7 +7304,7 @@
 				880D267E220DE5DF00B3F496 /* SDLWeatherServiceManifest.m in Sources */,
 				5D9FC2A21FD8814A00ACA5C2 /* SDLAudioFile.m in Sources */,
 				E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */,
-				756C62772289F11F008B57A2 /* SDLMenuRunScore.m in Sources */,
+				756C62772289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m in Sources */,
 				5D61FDA81A84238C00846EE7 /* SDLSpeakResponse.m in Sources */,
 				5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */,
 				1EAA474220355FF3000FE74B /* SDLLightControlCapabilities.m in Sources */,
