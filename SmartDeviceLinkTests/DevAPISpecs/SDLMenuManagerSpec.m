@@ -286,7 +286,7 @@ describe(@"menu manager", ^{
                 expect(adds).to(haveCount(2));
             });
 
-            fit(@"should send dynamic deletes first then dynamic adds case with 2 submenu cells", ^{
+            it(@"should send dynamic deletes first then dynamic adds case with 2 submenu cells", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];

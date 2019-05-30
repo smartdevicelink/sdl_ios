@@ -109,9 +109,6 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Setters
-- (void)setDynamicMenuUpdatesMode:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
-    _dynamicMenuUpdatesMode = dynamicMenuUpdatesMode;
-}
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     if (self.currentHMILevel == nil
@@ -367,7 +364,7 @@ UInt32 const MenuCellIdMin = 1;
  @param completionHandler handler
  */
 - (void)sdl_sendUpdatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu usingMenu:(NSArray<SDLMenuCell *> *)menu withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.menuCells.count == 0) {
+    if (self.menuCells.count == 0 || updatedMenu.count == 0) {
         SDLLogD(@"No main menu to send");
         completionHandler(nil);
         return;
@@ -487,6 +484,14 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark Commands / SubMenu RPCs
+/**
+ Add menu commands
+
+ @param cells that need to be added
+ @param shouldHaveArtwork artwork bool
+ @param menu a list of all cells to get index, either main menu or subcells
+ @return list of SDLRPCRequest addCommands
+ */
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork usingIndexOf:(NSArray<SDLMenuCell *> *)menu {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
@@ -527,7 +532,7 @@ UInt32 const MenuCellIdMin = 1;
             [mutableCommands addObject:[self sdl_commandForMenuCell:cells[cellIndex] withArtwork:shouldHaveArtwork position:(UInt16)index]];
         }
     }
-    
+
     return [mutableCommands copy];
 }
 

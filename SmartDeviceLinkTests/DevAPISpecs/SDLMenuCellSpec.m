@@ -8,6 +8,7 @@ QuickSpecBegin(SDLMenuCellSpec)
 
 describe(@"a menu cell", ^{
     __block SDLMenuCell *testCell = nil;
+    __block SDLMenuCell *testCell2 = nil;
 
     describe(@"initializing", ^{
         __block NSString *someTitle = nil;
@@ -52,6 +53,20 @@ describe(@"a menu cell", ^{
             expect(testCell.icon).to(equal(someArtwork));
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
+        });
+
+        it(@"should compare cells and return true if equal", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
+
+            expect([testCell isEqual:testCell2]).to(equal(true));
+        });
+
+        it(@"should compare cells and return false if not equal ", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:someArtwork subCells:someSubcells];
+
+            expect([testCell isEqual:testCell2]).to(equal(false));
         });
     });
 });
