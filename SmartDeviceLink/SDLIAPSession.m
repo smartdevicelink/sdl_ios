@@ -10,15 +10,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPSession ()
-/**
- * The input stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the input stream. The input stream is closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-
-/**
- * The output stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the output stream. The output stream has been closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
 
 @property (nullable, strong, nonatomic, readwrite) EASession *eaSession;
 @property (nullable, strong, nonatomic, readwrite) EAAccessory *accessory;
@@ -52,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Stream Lifecycle Helpers
 
-- (BOOL)start {
+- (BOOL)createSession {
     SDLLogD(@"Opening EASession with accessory: %@", self.accessory.name);
     self.eaSession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocolString];
     return (self.eaSession != nil);
@@ -88,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)closeSession {
+- (void)cleanupClosedSession {
     if (self.eaSession == nil) {
         SDLLogD(@"Attempting to close session with accessory: %@, but it is already closed", self.accessory.name);
         return;

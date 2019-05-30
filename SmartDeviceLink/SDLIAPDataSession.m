@@ -29,18 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface SDLIAPSession (exposeIAPSessionPrivateMethods)
-
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
-
-- (BOOL)start;
-- (void)startStream:(NSStream *)stream;
-- (void)stopStream:(NSStream *)stream;
-- (void)closeSession;
-
-@end
-
 @implementation SDLIAPDataSession
 
 #pragma mark - Session lifecycle
@@ -68,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.accessory.name, self.protocolString);
 
-        if (![super start]) {
+        if (![super createSession]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
             [self destroySession];
             if (self.delegate == nil) { return; }
@@ -110,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.ioStreamThread == nil) {
         SDLLogV(@"Stopping data session but no thread established.");
-        [super closeSession];
+        [super cleanupClosedSession];
         return;
     }
 
@@ -122,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
         }
         self.ioStreamThread = nil;
-        [super closeSession];
+        [super cleanupClosedSession];
     }];
 }
 
@@ -146,8 +134,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending data
 
 - (void)sendData:(NSData *)data {
-    SDLLogV(@"Sending data %lu. I/O streams open? %s", (unsigned long)data.length, self.isStopped ? "no" : "yes");
-
     // Enqueue the data for transmission on the IO thread
     [self.sendDataQueue enqueueBuffer:data.mutableCopy];
 
@@ -177,8 +163,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSUInteger bytesRemaining = remainder.length;
     NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
-
-    SDLLogV(@"%ld bytes written to data session output stream", (long)bytesWritten);
 
     if (bytesWritten < 0) {
         if (ostream.streamError != nil) {
@@ -324,7 +308,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Called when the session gets a `NSStreamEventHasSpaceAvailable` event code. Send any queued data to Core.
  */
 - (void)sdl_streamHasSpaceToWrite {
-    SDLLogV(@"NSStreamEventHasSpaceAvailable");
     [self sdl_dequeueAndWriteToOutputStream];
 }
 

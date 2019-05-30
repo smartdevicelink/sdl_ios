@@ -14,13 +14,6 @@
 #import "SDLIAPSession.h"
 #import "SDLIAPConstants.h"
 
-@interface SDLIAPSession ()
-
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
-
-@end
-
 
 QuickSpecBegin(SDLIAPSessionSpec)
 

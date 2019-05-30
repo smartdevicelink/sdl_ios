@@ -28,18 +28,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @end
 
-@interface SDLIAPSession (exposeIAPSessionPrivateMethods)
-
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
-
-- (BOOL)start;
-- (void)startStream:(NSStream *)stream;
-- (void)stopStream:(NSStream *)stream;
-- (void)closeSession;
-
-@end
-
 @implementation SDLIAPControlSession
 
 #pragma mark - Session lifecycle
@@ -79,7 +67,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 - (BOOL)sdl_startStreams {
-    if (![super start]) { return NO; }
+    if (![super createSession]) { return NO; }
 
     // No need for its own thread as only a small amount of data will be transmitted before control session is destroyed
     SDLLogD(@"Created the control session successfully");
@@ -117,7 +105,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     [super stopStream:self.eaSession.outputStream];
     [super stopStream:self.eaSession.inputStream];
-    [super closeSession];
+    [super cleanupClosedSession];
 }
 
 

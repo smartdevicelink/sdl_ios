@@ -32,6 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, readonly, getter=isStopped) BOOL stopped;
 
 /**
+ * The input stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the input stream. The input stream is closed when the stream status is `NSStreamStatusClosed`.
+ */
+@property (nonatomic, assign) BOOL isInputStreamOpen;
+
+/**
+ * The output stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the output stream. The output stream has been closed when the stream status is `NSStreamStatusClosed`.
+ */
+@property (nonatomic, assign) BOOL isOutputStreamOpen;
+
+/**
  *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
  */
 @property (assign, nonatomic, readonly) NSUInteger connectionID;
@@ -59,6 +69,33 @@ NS_ASSUME_NONNULL_BEGIN
  *  Stops the current session.
  */
 - (void)destroySession;
+
+/**
+ *  Creates a session with the accessory.
+ *
+ *  @return Whether or not the session was created successfully
+ */
+- (BOOL)createSession;
+
+/**
+ *  Starts a session input or output stream.
+ *
+ *  @param stream The stream to be started.
+ */
+- (void)startStream:(NSStream *)stream;
+
+/**
+ *  Stops a session input or output stream.
+ *
+ *  @param stream The stream to be stopped.
+ */
+- (void)stopStream:(NSStream *)stream;
+
+/**
+ *  Cleans up a closed session
+ */
+- (void)cleanupClosedSession;
+
 
 @end
 
