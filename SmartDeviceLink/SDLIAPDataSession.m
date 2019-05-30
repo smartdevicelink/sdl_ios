@@ -146,6 +146,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending data
 
 - (void)sendData:(NSData *)data {
+    SDLLogV(@"Sending data %lu. I/O streams open? %s", (unsigned long)data.length, self.isStopped ? "no" : "yes");
+
     // Enqueue the data for transmission on the IO thread
     [self.sendDataQueue enqueueBuffer:data.mutableCopy];
 
@@ -173,10 +175,11 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogV(@"Writing to the data session's output stream");
-
     NSUInteger bytesRemaining = remainder.length;
     NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
+
+    SDLLogV(@"%ld bytes written to data session output stream", (long)bytesWritten);
+
     if (bytesWritten < 0) {
         if (ostream.streamError != nil) {
             [self sdl_handleOutputStreamWriteError:ostream.streamError];
@@ -321,6 +324,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Called when the session gets a `NSStreamEventHasSpaceAvailable` event code. Send any queued data to Core.
  */
 - (void)sdl_streamHasSpaceToWrite {
+    SDLLogV(@"NSStreamEventHasSpaceAvailable");
     [self sdl_dequeueAndWriteToOutputStream];
 }
 
