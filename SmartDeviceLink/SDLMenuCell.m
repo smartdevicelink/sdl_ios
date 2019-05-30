@@ -12,7 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface SDLMenuCell()
 
 @property (assign, nonatomic) UInt32 parentCellId;
