@@ -46,6 +46,13 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     return self;
 }
 
+- (void)stop {
+    dispatch_async(_audioQueue, ^{
+        self.shouldPlayWhenReady = NO;
+        [self.mutableQueue removeAllObjects];
+    });
+}
+
 #pragma mark - Getters
 
 - (NSArray<SDLFile *> *)queue {
@@ -140,34 +147,27 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        weakself.playing = NO;
+        __strong typeof(weakself) strongSelf = weakself;
+
+        strongSelf.playing = NO;
         NSError *error = nil;
-        if (weakself.delegate != nil) {
+        if (strongSelf.delegate != nil) {
             if (file.inputFileURL != nil) {
-                [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
-            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
-                [weakself.delegate audioStreamManager:weakself dataBufferDidFinishPlayingSuccessfully:success];
+                [strongSelf.delegate audioStreamManager:strongSelf fileDidFinishPlaying:file.inputFileURL successfully:success];
+            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
+                [strongSelf.delegate audioStreamManager:strongSelf dataBufferDidFinishPlayingSuccessfully:success];
             }
         }
 
         SDLLogD(@"Ending Audio file: %@", file);
         [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
-        if (weakself.delegate != nil && error != nil) {
+        if (strongSelf.delegate != nil && error != nil) {
             if (file.inputFileURL != nil) {
-                [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
-            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
-                [weakself.delegate audioStreamManager:weakself errorDidOccurForDataBuffer:error];
+                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForFile:file.inputFileURL error:error];
+            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
+                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForDataBuffer:error];
             }
         }
-    });
-}
-
-#pragma mark - Stopping Playback
-
-- (void)stop {
-    dispatch_async(_audioQueue, ^{
-        self.shouldPlayWhenReady = NO;
-        [self.mutableQueue removeAllObjects];
     });
 }
 
