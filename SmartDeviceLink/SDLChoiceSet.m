@@ -57,7 +57,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     if (title.length == 0 || title.length > 500) {
-        SDLLogW(@"Attempted to create a choice set with a %lu length. Only 500 characters are supported", (unsigned long)title.length);
+        SDLLogW(@"Attempted to create a choice set title with a %lu length. Only 500 characters are supported", (unsigned long)title.length);
         return nil;
     }
 

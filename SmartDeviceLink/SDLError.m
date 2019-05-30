@@ -328,6 +328,12 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                  userInfo:nil];
 }
 
++ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
+    return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
+                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have either 0 or 1 parameters", NSStringFromSelector(selector)]
+                                 userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
