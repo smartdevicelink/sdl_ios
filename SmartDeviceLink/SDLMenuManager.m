@@ -251,11 +251,11 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<NSNumber *> *deleteMenuStatus = self.runScore.oldStatus;
     NSArray<NSNumber *> *addMenuStatus = self.runScore.updatedStatus;
 
-    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_buildDeleteMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
+    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_buildDeleteMenuItems:deleteMenuStatus compareTo:self.oldMenuCells];
     NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_buildAddMenuItems:addMenuStatus compareTo:self.menuCells];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
-    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_buildOldKeepMenuItems: deleteMenuStatus compareTo:self.oldMenuCells];
-    NSArray<SDLMenuCell *> *newKeeps = [self sdl_buildKeepNewMenuItems: addMenuStatus compareTo:self.menuCells];
+    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_buildOldKeepMenuItems:deleteMenuStatus compareTo:self.oldMenuCells];
+    NSArray<SDLMenuCell *> *newKeeps = [self sdl_buildKeepNewMenuItems:addMenuStatus compareTo:self.menuCells];
 
     // Cells that will be added need new ids
     [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:ParentIdNotFound];
