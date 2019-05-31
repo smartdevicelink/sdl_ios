@@ -8,6 +8,8 @@
 
 #import "SDLError.h"
 
+#import "SDLChoiceSetManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -235,6 +237,16 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
+}
+
++ (NSError *)sdl_choiceSetManager_incorrectState:(SDLChoiceManagerState *)state {
+    NSString *errorString = [NSString stringWithFormat:@"Choice Set Manager error invalid state: %@", state];
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: errorString,
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The choice set manager could be in an invalid state because the head unit doesn't support choice sets or the manager failed to set up correctly.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
 #pragma mark Transport
