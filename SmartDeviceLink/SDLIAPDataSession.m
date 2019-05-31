@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_dequeueAndWriteToOutputStream {
     if ([self.ioStreamThread isCancelled]) {
-        SDLLogV(@"Attempted to send data on I/O thread but the thread is cancelled.");
+        SDLLogW(@"Attempted to send data on I/O thread but the thread is cancelled.");
         return;
     }
 
@@ -166,7 +166,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (bytesWritten < 0) {
         if (ostream.streamError != nil) {
-            [self sdl_handleOutputStreamWriteError:ostream.streamError];
+            // Once a stream has reported an error, it cannot be re-used for read or write operations. Shut down the stream and attempt to create a new session.
+            [self sdl_streamDidError:ostream];
         } else {
             // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
             SDLLogE(@"Output stream write operation failed");
@@ -179,22 +180,6 @@ NS_ASSUME_NONNULL_BEGIN
         [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
     }
 }
-
-/**
- *  Handles an output stream error when attempting to write to the output stream.
- *
- *  @param error The output stream error
- */
-- (void)sdl_handleOutputStreamWriteError:(NSError *)error {
-    SDLLogE(@"Output stream error: %@", error);
-    // TODO: We should look at the domain and the code as a tuple and decide how to handle the error based on both values. For now, if the stream is closed, we will flush the send queue and leave it as-is otherwise so that temporary error conditions can be dealt with by retrying
-    if (self.eaSession == nil ||
-        self.eaSession.outputStream == nil ||
-        self.eaSession.outputStream.streamStatus != NSStreamStatusOpen) {
-        [self.sendDataQueue removeAllObjects];
-    }
-}
-
 
 #pragma mark - NSStreamDelegate
 
