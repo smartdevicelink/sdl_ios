@@ -307,7 +307,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
     if (self.transportDisconnected) {
-        SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new tranport object.");
+        SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new transport object.");
         return;
     }
 
