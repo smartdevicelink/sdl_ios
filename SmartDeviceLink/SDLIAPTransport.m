@@ -29,7 +29,7 @@ int const CreateSessionRetries = 3;
 @property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
-@property (assign, nonatomic) BOOL transportDisconnected;
+@property (assign, nonatomic) BOOL transportDestroyed;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 
@@ -46,7 +46,7 @@ int const CreateSessionRetries = 3;
     }
 
     _sessionSetupInProgress = NO;
-    _transportDisconnected = NO;
+    _transportDestroyed = NO;
     _dataSession = nil;
     _controlSession = nil;
     _retryCounter = 0;
@@ -222,7 +222,7 @@ int const CreateSessionRetries = 3;
 - (void)sdl_destroyTransport {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    self.transportDisconnected = YES;
+    self.transportDestroyed = YES;
     [self disconnect];
     [self.delegate onTransportDisconnected];
 }
@@ -291,7 +291,7 @@ int const CreateSessionRetries = 3;
 
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    self.transportDisconnected = YES;
+    self.transportDestroyed = YES;
 
     [self.controlSession destroySession];
     [self.dataSession destroySession];
@@ -306,7 +306,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    if (self.transportDisconnected) {
+    if (self.transportDestroyed) {
         SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new tranport object.");
         return;
     }
@@ -317,61 +317,10 @@ int const CreateSessionRetries = 3;
         self.sessionSetupInProgress = YES;
         [self sdl_establishSessionWithAccessory:accessory];
     } else if (self.dataSession.isSessionInProgress) {
-        SDLLogV(@"Data session I/O streams already opened. Ignoring attempt to create session.");
+        SDLLogW(@"Data session I/O streams already opened. Ignoring attempt to create session.");
     } else {
-        SDLLogV(@"Data session I/O streams are currently being opened. Ignoring attempt to create session.");
+        SDLLogW(@"Data session I/O streams are currently being opened. Ignoring attempt to create session.");
     }
-}
-
-/**
- *  Helper method for creating a Control session
- *
- *  @param accessory        The SDL enabled accessory
- *  @return                 A SDLIAPControlSession object
- */
-- (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory {
-    return [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
-}
-
-/**
- *  Helper method for creating a Data session
- *
- *  @param accessory        The SDL enabled accessory
- *  @param protocol         The protocol string needed to open the session
- *  @return                 A SDLIAPDataSession object
- */
-- (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    return [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocol];
-}
-
-/**
- *  Attempts to connect an accessory using the control or legacy protocols, then returns whether or not a session was created.
- *
- *  @param accessory    The accessory to attempt a connection with
- *  @return             Whether or not we succesfully created a session.
- */
-- (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
-    BOOL connecting = NO;
-
-    if (![self.class sdl_plistContainsAllSupportedProtocolStrings]) {
-        return connecting;
-    }
-
-    if ([accessory supportsProtocol:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString];
-        [self.dataSession startSession];
-        connecting = YES;
-    } else if ([accessory supportsProtocol:ControlProtocolString]) {
-        self.controlSession = [self sdl_createControlSessionWithAccessory:accessory];
-        [self.controlSession startSession];
-        connecting = YES;
-    } else if ([accessory supportsProtocol:LegacyProtocolString]) {
-        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString];
-        [self.dataSession startSession];
-        connecting = YES;
-    }
-
-    return connecting;
 }
 
 /**
@@ -384,31 +333,17 @@ int const CreateSessionRetries = 3;
     if (self.retryCounter < CreateSessionRetries) {
         self.retryCounter++;
 
+        // If the accessory is not `nil` attempt to create a session with the accessory.
         EAAccessory *sdlAccessory = accessory;
-        // If called from sdl_connectAccessory, the notification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
-        if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]) {
-            // Connection underway, exit
-            SDLLogV(@"Connection already underway");
+        if (sdlAccessory != nil && [self sdl_establishSessionWithConnectedAccessory:sdlAccessory]) {
+            // Session was created successfully with the accessory
             return;
         }
 
-        if (![self.class sdl_plistContainsAllSupportedProtocolStrings]) {
-            return;
-        }
-
-        // Determine if we can start a multi-app session or a legacy (single-app) session
-        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString];
-            [self.dataSession startSession];
-        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
-            self.controlSession = [self sdl_createControlSessionWithAccessory:sdlAccessory];
-            [self.controlSession startSession];
-        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
-            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString];
-            [self.dataSession startSession];
-        } else {
-            // No compatible accessory
-            SDLLogV(@"No accessory supporting SDL was found, dismissing setup. Available accessories: %@", EAAccessoryManager.sharedAccessoryManager.connectedAccessories);
+        // Search through the EAAccessoryManager's connected accessory list for an SDL enabled accessory and if successful create a session with the accessory.
+        BOOL sessionEstablished = [self sdl_establishSessionWithAccessory];
+        if (!sessionEstablished) {
+            SDLLogV(@"No accessory supporting SDL was found, dismissing setup. Available connected accessories: %@", EAAccessoryManager.sharedAccessoryManager.connectedAccessories);
             self.sessionSetupInProgress = NO;
         }
     } else {
@@ -451,7 +386,7 @@ int const CreateSessionRetries = 3;
  *  @param protocolString   The protocol string to be used to open the data session
  */
 - (void)controlSession:(nonnull SDLIAPControlSession *)controlSession didReceiveProtocolString:(nonnull NSString *)protocolString {
-    self.dataSession = [self sdl_createDataSessionWithAccessory:controlSession.accessory forProtocol:protocolString];
+    self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:controlSession.accessory delegate:self forProtocol:protocolString];
     [self.dataSession startSession];
 }
 
@@ -573,6 +508,89 @@ int const CreateSessionRetries = 3;
     }
 
     return appDelaySeconds;
+}
+
+#pragma mark Create Sessions
+
+/**
+ *  List of protocol strings supported by SDL enabled head units. Newer head units use the multisession protocol string which allows multiple apps to connect over 1 protocol string. Legacy head units use the control or legacy protocol string which only allows 1 app to connect over 1 protocol string.
+ *
+ *  @return A list of SDL accessory supported protocol strings ordered from most recently supported to least preferred.
+ */
++ (NSArray<NSString *> *)protocolStrings {
+    // Order of the protocol strings is important!!
+    return @[MultiSessionProtocolString, ControlProtocolString, LegacyProtocolString];
+}
+
+/**
+ *  Attempts to create a session with a connected accessory.
+ *
+ *  @param connectedAccessory  The connected accessory
+ *  @return                    True if a session was started with the connected accessory, false if not
+ */
+- (BOOL)sdl_establishSessionWithConnectedAccessory:(EAAccessory *)connectedAccessory {
+    for (NSString *protocolString in [self.class protocolStrings]) {
+        if (![connectedAccessory supportsProtocol:protocolString]) {
+            continue;
+        }
+
+        BOOL connecting = [self createSessionWithAccessory:connectedAccessory protocolString:protocolString];
+        if (connecting) {
+            return connecting;
+        }
+    }
+
+    return NO;
+}
+
+/**
+ *  Searches through the EAAccessoryManager's list of connected accessories for an SDL enabled accessory. If an accessory is found a session is attempted with the accessory.
+ *
+ *  @return True if a session was started with the connected accessory, false if no session could be created or if no SDL enabled accessory was found.
+ */
+- (BOOL)sdl_establishSessionWithAccessory {
+    for (NSString *protocolString in [self.class protocolStrings]) {
+        EAAccessory *sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:protocolString];
+        if (sdlAccessory == nil) {
+            continue;
+        }
+
+        BOOL connecting = [self createSessionWithAccessory:sdlAccessory protocolString:protocolString];
+        if (connecting) {
+            return connecting;
+        }
+    }
+
+    return NO;
+}
+
+/**
+ *  Creates a session with a passed accessory and protocol string. If the accessory supports the multisession protocol string, a data session can be created right away with the accessory. If the accessory does not support the multisession protocol string, but does support the control protocol string, two sessions must be created. First, a control session is created to get the new protocol string needed to create a data session with the accessory. Then, the control session is destroyed and the data session created with the new protocol string.
+ *
+ *  @param accessory       The connected accessory
+ *  @param protocolString  The unique protocol string used to create the session with the accessory
+ *  @return                True if a session was started with the connected accessory, false if no session could be created or if no SDL enabled accessory was found.
+ */
+- (BOOL)createSessionWithAccessory:(EAAccessory *)accessory protocolString:(NSString *)protocolString {
+    if (![self.class sdl_plistContainsAllSupportedProtocolStrings]) {
+        return NO;
+    }
+
+    if ([protocolString isEqualToString:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:MultiSessionProtocolString];
+        [self.dataSession startSession];
+        return YES;
+    } else if ([protocolString isEqualToString:ControlProtocolString]) {
+        self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
+        [self.controlSession startSession];
+        return YES;
+    } else if ([protocolString isEqualToString:LegacyProtocolString]) {
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:LegacyProtocolString];
+        [self.dataSession startSession];
+        return YES;
+    }
+
+    return NO;
 }
 
 
