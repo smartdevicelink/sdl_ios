@@ -123,6 +123,14 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     _defaultLayout = defaultLayout;
 }
 
+- (void)setHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList {
+    _helpList = helpList;
+
+    for (NSUInteger i = 0; i < _helpList.count; i++) {
+        _helpList[i].position = @(i + 1);
+    }
+}
+
 #pragma mark - Etc.
 
 - (NSString *)description {
