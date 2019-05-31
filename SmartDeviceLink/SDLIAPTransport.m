@@ -306,7 +306,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    if (self.transportDisconnected) {
+    if (self.transportDestroyed) {
         SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new transport object.");
         return;
     }
