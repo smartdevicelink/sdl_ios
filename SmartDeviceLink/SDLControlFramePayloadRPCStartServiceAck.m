@@ -115,7 +115,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject;
-    bson_object_from_bytes_len(&payloadObject, (BytePtr)data.bytes, data.length);
+    size_t retval = bson_object_from_bytes_len(&payloadObject, (BytePtr)data.bytes, data.length);
+    if (retval <= 0) {
+        return;
+    }
 
     self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
     self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
