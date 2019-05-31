@@ -109,14 +109,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    if (self.sdlManager == nil) {
-        SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
-        self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-        [self sdlex_startManager];
-    } else {
+    if (self.sdlManager != nil) {
         // Manager already created, just start it again.
         [self sdlex_startManager];
+        return;
     }
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+    [self sdlex_startManager];
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
