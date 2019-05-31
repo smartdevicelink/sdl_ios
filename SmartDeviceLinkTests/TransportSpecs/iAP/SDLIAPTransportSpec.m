@@ -27,7 +27,7 @@
 
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
-@property (assign, nonatomic) BOOL transportDisconnected;
+@property (assign, nonatomic) BOOL transportDestroyed;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 - (BOOL)sdl_isDataSessionActive:(nullable SDLIAPDataSession *)dataSession newAccessory:(EAAccessory *)newAccessory;
@@ -134,7 +134,7 @@ describe(@"SDLIAPTransport", ^{
             it(@"It should cleanup on disconnect", ^{
                 expect(transport.retryCounter).to(equal(0));
                 expect(transport.sessionSetupInProgress).to(beFalse());
-                expect(transport.transportDisconnected).to(beFalse());
+                expect(transport.transportDestroyed).to(beFalse());
             });
         });
 
@@ -153,7 +153,7 @@ describe(@"SDLIAPTransport", ^{
             it(@"It should cleanup on disconnect", ^{
                 expect(transport.retryCounter).to(equal(0));
                 expect(transport.sessionSetupInProgress).to(beFalse());
-                expect(transport.transportDisconnected).to(beTrue());
+                expect(transport.transportDestroyed).to(beTrue());
             });
 
             it(@"It should close and destroy data session", ^{
@@ -180,7 +180,7 @@ describe(@"SDLIAPTransport", ^{
             it(@"It should cleanup on disconnect", ^{
                 expect(transport.retryCounter).to(equal(0));
                 expect(transport.sessionSetupInProgress).to(beFalse());
-                expect(transport.transportDisconnected).to(beFalse());
+                expect(transport.transportDestroyed).to(beFalse());
             });
 
             it(@"It should close and destroy data session", ^{
