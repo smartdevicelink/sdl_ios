@@ -61,7 +61,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             [self.delegate controlSessionShouldRetry];
         } else {
             SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
-            self.protocolIndexTimer = [self sdl_createProtocolIndexTimer];
+            self.protocolIndexTimer = [self sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
         }
     }
 }
@@ -160,7 +160,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     // When both streams are open, session initialization is complete. Let the delegate know.
     if (self.isInputStreamOpen && self.isOutputStreamOpen) {
         SDLLogV(@"Control session I/O streams opened for protocol: %@", self.protocolString);
-        [self sdl_startSessionTimer];
+        [self sdl_startControlSessionProtocolIndexStringDataTimeoutTimer];
     }
 }
 
@@ -227,7 +227,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @return A timer
  */
-- (SDLTimer *)sdl_createProtocolIndexTimer {
+- (SDLTimer *)sdl_createControlSessionProtocolIndexStringDataTimeoutTimer {
     SDLTimer *protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
 
     __weak typeof(self) weakSelf = self;
@@ -247,7 +247,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
  */
-- (void)sdl_startSessionTimer {
+- (void)sdl_startControlSessionProtocolIndexStringDataTimeoutTimer {
     if (self.protocolIndexTimer == nil) { return; }
     [self.protocolIndexTimer start];
 }
