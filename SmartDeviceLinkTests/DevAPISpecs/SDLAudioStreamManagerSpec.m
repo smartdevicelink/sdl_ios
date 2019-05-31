@@ -87,9 +87,11 @@ describe(@"the audio stream manager", ^{
             beforeEach(^{
                 [mockAudioManager clearData];
                 [testManager playNextWhenReady];
+
+                [NSThread sleepForTimeInterval:1.0];
             });
 
-            fit(@"should be sending data", ^{
+            it(@"should be sending data", ^{
                 expect(testManager.isPlaying).toEventually(beTrue());
                 expect(mockAudioManager.dataSinceClear.length).toEventually(equal(34380));
 
