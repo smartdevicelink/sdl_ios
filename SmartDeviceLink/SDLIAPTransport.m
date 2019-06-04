@@ -334,13 +334,12 @@ int const CreateSessionRetries = 3;
         self.retryCounter++;
 
         // If the accessory is not `nil` attempt to create a session with the accessory.
-        EAAccessory *sdlAccessory = accessory;
-        if (sdlAccessory != nil && [self sdl_establishSessionWithConnectedAccessory:sdlAccessory]) {
+        if (accessory != nil && [self sdl_establishSessionWithConnectedAccessory:accessory]) {
             // Session was created successfully with the accessory
             return;
         }
 
-        // Search through the EAAccessoryManager's connected accessory list for an SDL enabled accessory and if successful create a session with the accessory.
+        // Search through the EAAccessoryManager's connected accessory list for an SDL enabled accessory and attempt to create a session with the accessory.
         BOOL sessionEstablished = [self sdl_establishSessionWithAccessory];
         if (!sessionEstablished) {
             SDLLogV(@"No accessory supporting SDL was found, dismissing setup. Available connected accessories: %@", EAAccessoryManager.sharedAccessoryManager.connectedAccessories);
