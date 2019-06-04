@@ -151,6 +151,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *speed;
 
+/**
+ * True, if GPS lat/long, time, and altitude have been purposefully shifted (requires a proprietary algorithm to unshift).
+ * False, if the GPS data is raw and un-shifted.
+ * If not provided, then value is assumed False.
+ *
+ * Optional, BOOL
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *shifted;
+
 @end
 
 NS_ASSUME_NONNULL_END

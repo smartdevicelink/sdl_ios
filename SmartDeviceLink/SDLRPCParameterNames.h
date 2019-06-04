@@ -529,6 +529,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameServiceSpecificResult;
 extern SDLRPCParameterName const SDLRPCParameterNameServiceType;
 extern SDLRPCParameterName const SDLRPCParameterNameServiceUri;
 extern SDLRPCParameterName const SDLRPCParameterNameSeverity;
+extern SDLRPCParameterName const SDLRPCParameterNameShifted;
 extern SDLRPCParameterName const SDLRPCParameterNameShortPress;
 extern SDLRPCParameterName const SDLRPCParameterNameShortPressAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameSignalLevelStatus;

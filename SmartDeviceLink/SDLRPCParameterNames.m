@@ -524,6 +524,7 @@ SDLRPCParameterName const SDLRPCParameterNameServiceType = @"serviceType";
 SDLRPCParameterName const SDLRPCParameterNameServiceUri = @"serviceUri";
 SDLRPCParameterName const SDLRPCParameterNameDisplayName = @"displayName";
 SDLRPCParameterName const SDLRPCParameterNameSeverity = @"severity";
+SDLRPCParameterName const SDLRPCParameterNameShifted = @"shifted";
 SDLRPCParameterName const SDLRPCParameterNameShortPress = @"shortPress";
 SDLRPCParameterName const SDLRPCParameterNameShortPressAvailable = @"shortPressAvailable";
 SDLRPCParameterName const SDLRPCParameterNameSignalLevelStatus = @"signalLevelStatus";

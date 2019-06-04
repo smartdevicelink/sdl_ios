@@ -38,6 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.altitude = @3000;
         testStruct.heading = @96;
         testStruct.speed = @64;
+        testStruct.shifted = @(NO);
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));
         expect(testStruct.latitudeDegrees).to(equal(@45));
@@ -57,6 +58,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));
+        expect(testStruct.shifted).to(equal(@(NO)));
+
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -77,7 +80,9 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameDimension:SDLDimension3D,
                                        SDLRPCParameterNameAltitude:@3000,
                                        SDLRPCParameterNameHeading:@96,
-                                       SDLRPCParameterNameSpeed:@64} mutableCopy];
+                                       SDLRPCParameterNameSpeed:@64,
+                                       SDLRPCParameterNameShifted:@(NO)
+                                       } mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGPSData* testStruct = [[SDLGPSData alloc] initWithDictionary:dict];
@@ -101,6 +106,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));
+        expect(testStruct.shifted).to(equal(@(NO)));
+
     });
     
     it(@"Should return nil if not set", ^ {
@@ -124,6 +131,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(beNil());
         expect(testStruct.heading).to(beNil());
         expect(testStruct.speed).to(beNil());
+        expect(testStruct.shifted).to(beNil());
+
     });
 });
 
