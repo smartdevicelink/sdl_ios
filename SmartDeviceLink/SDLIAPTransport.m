@@ -576,7 +576,7 @@ int const CreateSessionRetries = 3;
     }
 
     if ([protocolString isEqualToString:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:MultiSessionProtocolString];
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
         [self.dataSession startSession];
         return YES;
     } else if ([protocolString isEqualToString:ControlProtocolString]) {
@@ -584,7 +584,7 @@ int const CreateSessionRetries = 3;
         [self.controlSession startSession];
         return YES;
     } else if ([protocolString isEqualToString:LegacyProtocolString]) {
-        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:LegacyProtocolString];
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
         [self.dataSession startSession];
         return YES;
     }
