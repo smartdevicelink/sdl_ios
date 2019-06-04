@@ -54,17 +54,18 @@ describe(@"a menu cell", ^{
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
         });
-
-        it(@"should compare cells and return true if equal", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
+    });
+    describe(@"check cell eqality", ^{
+        it(@"should compare cells and return true if cells equal", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(true));
         });
 
         it(@"should compare cells and return false if not equal ", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:someArtwork subCells:someSubcells];
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"True" icon:nil subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:nil subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(false));
         });
