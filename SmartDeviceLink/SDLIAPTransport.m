@@ -1,63 +1,62 @@
 //  SDLIAPTransport.h
-//
 
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "SDLIAPTransport.h"
+
 #import "EAAccessory+SDLProtocols.h"
 #import "EAAccessoryManager+SDLProtocols.h"
 #import "SDLGlobals.h"
-#import "SDLIAPSession.h"
-#import "SDLIAPTransport.h"
-#import "SDLIAPTransport.h"
+#import "SDLIAPConstants.h"
+#import "SDLIAPControlSession.h"
+#import "SDLIAPControlSessionDelegate.h"
+#import "SDLIAPDataSession.h"
+#import "SDLIAPDataSessionDelegate.h"
 #import "SDLLogMacros.h"
-#import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
-NSString *const ControlProtocolString = @"com.smartdevicelink.prot0";
-NSString *const IndexedProtocolStringPrefix = @"com.smartdevicelink.prot";
-NSString *const MultiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
-
 int const CreateSessionRetries = 3;
-int const ProtocolIndexTimeoutSeconds = 10;
 
-@interface SDLIAPTransport () {
-    BOOL _alreadyDestructed;
-}
+@interface SDLIAPTransport () <SDLIAPControlSessionDelegate, SDLIAPDataSessionDelegate>
 
+@property (nullable, strong, nonatomic) SDLIAPControlSession *controlSession;
+@property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
+@property (assign, nonatomic) BOOL transportDestroyed;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
-@property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
+
 @end
 
 
 @implementation SDLIAPTransport
 
 - (instancetype)init {
-    SDLLogV(@"SDLIAPTransport Init");
-    if (self = [super init]) {
-        _alreadyDestructed = NO;
-        _sessionSetupInProgress = NO;
-        _session = nil;
-        _controlSession = nil;
-        _retryCounter = 0;
-        _protocolIndexTimer = nil;
-        _accessoryConnectDuringActiveSession = NO;
-        
-        // Get notifications if an accessory connects in future
-        [self sdl_startEventListening];
-        
-        // Wait for setup to complete before scanning for accessories
+    SDLLogV(@"SDLIAPTransport init");
+    self = [super init];
+    if (!self) {
+        return nil;
     }
-    
+
+    _sessionSetupInProgress = NO;
+    _transportDestroyed = NO;
+    _dataSession = nil;
+    _controlSession = nil;
+    _retryCounter = 0;
+    _accessoryConnectDuringActiveSession = NO;
+
+    // Get notifications if an accessory connects in future
+    [self sdl_startEventListening];
+
+    // Wait for setup to complete before scanning for accessories
+
     return self;
 }
 
@@ -68,7 +67,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_backgroundTaskStart {
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        SDLLogV(@"A background task is already running. No need to start a background task. Returning...");
+        SDLLogV(@"A background task is already running. No need to start a background task.");
         return;
     }
 
@@ -96,8 +95,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark - Notifications
 
-#pragma mark Subscription
-
 /**
  *  Registers for system notifications about connected accessories and the app life cycle.
  */
@@ -107,22 +104,18 @@ int const ProtocolIndexTimeoutSeconds = 10;
                                              selector:@selector(sdl_accessoryConnected:)
                                                  name:EAAccessoryDidConnectNotification
                                                object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_accessoryDisconnected:)
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationDidEnterBackground:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
-    
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
@@ -131,9 +124,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 #pragma mark EAAccessory Notifications
 
@@ -145,7 +138,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *newAccessory = [notification.userInfo objectForKey:EAAccessoryKey];
 
-    if ([self sdl_isSessionActive:self.session newAccessory:newAccessory]) {
+    if ([self sdl_isDataSessionActive:self.dataSession newAccessory:newAccessory]) {
         self.accessoryConnectDuringActiveSession = YES;
         return;
     }
@@ -165,12 +158,16 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Checks if the newly connected accessory connected while a data session is already opened. This can happen when a session is established over bluetooth and then the user connects to the same head unit with a USB cord.
  *
- *  @param session      The current data session, which may be nil
+ *  @param dataSession  The current data session
  *  @param newAccessory The newly connected accessory
  *  @return             True if the accessory connected while a data session is already in progress; false if not
  */
-- (BOOL)sdl_isSessionActive:(SDLIAPSession *)session newAccessory:(EAAccessory *)newAccessory {
-    if ((session != nil) && (session.accessory.connectionID != newAccessory.connectionID)) {
+- (BOOL)sdl_isDataSessionActive:(nullable SDLIAPDataSession *)dataSession newAccessory:(EAAccessory *)newAccessory {
+    if (dataSession == nil || !dataSession.isSessionInProgress) {
+        return NO;
+    }
+
+    if (dataSession.isSessionInProgress && (dataSession.connectionID != newAccessory.connectionID)) {
         SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification.");
         return YES;
     }
@@ -179,7 +176,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device. Only check for the data session, the control session is handled separately
+ *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device.
  *
  *  @param notification Contains information about the connected accessory
  */
@@ -192,22 +189,40 @@ int const ProtocolIndexTimeoutSeconds = 10;
         self.accessoryConnectDuringActiveSession = NO;
     }
 
-    if (self.controlSession == nil && self.session == nil) {
-        SDLLogV(@"Accessory (%@), disconnected, but no session is in progress", accessory.serialNumber);
-    } else if (accessory.connectionID == self.controlSession.accessory.connectionID) {
-        SDLLogV(@"Accessory (%@) disconnected during a control session", accessory.serialNumber);
-    } else if (accessory.connectionID == self.session.accessory.connectionID) {
-        SDLLogV(@"Accessory (%@) disconnected during a data session", accessory.serialNumber);
+    if (!self.controlSession.isSessionInProgress && !self.dataSession.isSessionInProgress) {
+        SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
+        [self sdl_closeSessions];
+    } else if (self.dataSession.isSessionInProgress) {
+        // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
+        SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
+        [self sdl_destroyTransport];
+    } else if (self.controlSession.isSessionInProgress) {
+        // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
+        SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
+        [self sdl_closeSessions];
     } else {
-        SDLLogV(@"Accessory (%@) disconnecting during an unknown session", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
+        [self sdl_closeSessions];
     }
-
-    [self sdl_destroySession];
 }
 
-- (void)sdl_destroySession {
+/**
+ *  Closes and cleans up the sessions after a control session has been closed. Since a data session has not been established, the lifecycle manager has not transitioned to state started. Do not unregister for notifications from accessory connections/disconnections otherwise the library will not be able to connect to an accessory again.
+ */
+- (void)sdl_closeSessions {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
+}
+
+/**
+ *  Tells the lifecycle manager that the data session has been closed. The lifecycle manager will destroy it's `SDLIAPTransport` object and then create a new one to listen for a new connection to the accessory.
+ */
+- (void)sdl_destroyTransport {
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    self.transportDestroyed = YES;
     [self disconnect];
     [self.delegate onTransportDisconnected];
 }
@@ -239,6 +254,24 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark - Stream Lifecycle
 
+#pragma mark SDLTransportTypeProtocol
+
+/**
+ *  Sends data to Core
+ *
+ *  @param data The data to be sent to Core
+ */
+- (void)sendData:(NSData *)data {
+    if (!self.dataSession.sessionInProgress) {
+        SDLLogW(@"Attempting to send data to Core but there is no data session in progress");
+        return;
+    }
+    [self.dataSession sendData:data];
+}
+
+/**
+ *  Attempts to connect to an accessory.
+ */
 - (void)connect {
     UIApplicationState state = [UIApplication sharedApplication].applicationState;
     if (state != UIApplicationStateActive) {
@@ -250,79 +283,165 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
+ *  Cleans up after a disconnected accessory by closing any open I/O streams.
+ */
+- (void)disconnect {
+    // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
+    [self sdl_stopEventListening];
+
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    self.transportDestroyed = YES;
+
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
+}
+
+
+#pragma mark Helpers
+
+/**
  *  Starts the process to connect to an accessory. If no accessory specified, scans for a valid accessory.
  *
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    if (!self.session && !self.sessionSetupInProgress) {
-        // We don't have a session are not attempting to set one up, attempt to connect
-        SDLLogV(@"Session not setup, starting setup");
+    if (self.transportDestroyed) {
+        SDLLogV(@"Will not attempt to connect to an accessory because the data session disconnected. Waiting for lifecycle manager to create a new transport object.");
+        return;
+    }
+
+    if ((self.dataSession == nil || !self.dataSession.isSessionInProgress) && !self.sessionSetupInProgress) {
+        // No data session has been established are not attempting to set one up, attempt to connect
+        SDLLogV(@"No data session in progress. Starting setup.");
         self.sessionSetupInProgress = YES;
         [self sdl_establishSessionWithAccessory:accessory];
-    } else if (self.session) {
-        // Session already established
-        SDLLogV(@"Session already established");
+    } else if (self.dataSession.isSessionInProgress) {
+        SDLLogW(@"Data session I/O streams already opened. Ignoring attempt to create session.");
     } else {
-        // Session attempting to be established
-        SDLLogV(@"Session setup already in progress");
+        SDLLogW(@"Data session I/O streams are currently being opened. Ignoring attempt to create session.");
     }
 }
 
 /**
- *  Cleans up after a disconnected accessory by closing any open input streams.
- */
-- (void)disconnect {
-    // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
-    [self sdl_stopEventListening];
-    if (self.controlSession != nil) {
-        SDLLogD(@"Disconnecting control session");
-        [self.controlSession stop];
-        self.controlSession.streamDelegate = nil;
-        self.controlSession = nil;
-    } else if (self.session != nil) {
-        SDLLogD(@"Disconnecting data session");
-        [self.session stop];
-        self.session.streamDelegate = nil;
-        self.session = nil;
-    }
-}
-
-
-#pragma mark - Creating Session Streams
-
-/**
- *  Attempt to connect an accessory using the control or legacy protocols, then return whether or not we've generated an IAP session.
+ *  Attempts to establish a session with the passed accessory. If nil is passed the accessory manager is checked for connected SDL enabled accessories.
  *
- *  @param accessory The accessory to attempt a connection with
- *  @return Whether or not we succesfully created a session.
+ *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
-- (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
-    BOOL connecting = NO;
+- (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
+    SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
+    if (self.retryCounter < CreateSessionRetries) {
+        self.retryCounter++;
+
+        // If the accessory is not `nil` attempt to create a session with the accessory.
+        if (accessory != nil && [self sdl_establishSessionWithConnectedAccessory:accessory]) {
+            // Session was created successfully with the accessory
+            return;
+        }
+
+        // Search through the EAAccessoryManager's connected accessory list for an SDL enabled accessory and attempt to create a session with the accessory.
+        BOOL sessionEstablished = [self sdl_establishSessionWithAccessory];
+        if (!sessionEstablished) {
+            SDLLogV(@"No accessory supporting SDL was found, dismissing setup. Available connected accessories: %@", EAAccessoryManager.sharedAccessoryManager.connectedAccessories);
+            self.sessionSetupInProgress = NO;
+        }
+    } else {
+        // We have surpassed the number of retries allowed
+        SDLLogW(@"Surpassed allowed retry attempts (%d), dismissing setup", CreateSessionRetries);
+        self.sessionSetupInProgress = NO;
+    }
+}
+
+/**
+ *  Stops any ongoing sessions if necessary and tries to find an accessory which which to create a session.
+ */
+- (void)sdl_retryEstablishSession {
+    // Current strategy disallows automatic retries.
+    self.sessionSetupInProgress = NO;
+    [self.controlSession destroySession];
+    [self.dataSession destroySession];
+
+    // Search connected accessories
+    [self sdl_connect:nil];
+}
+
+
+#pragma mark - Session Delegates
+
+#pragma mark Control Session
+
+/**
+ *  Called when the control session should be retried.
+ */
+- (void)controlSessionShouldRetry {
+    SDLLogV(@"Retrying the control session");
+    [self sdl_retryEstablishSession];
+}
+
+/**
+ *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
+ *
+ *  @param controlSession   The control session
+ *  @param protocolString   The protocol string to be used to open the data session
+ */
+- (void)controlSession:(nonnull SDLIAPControlSession *)controlSession didReceiveProtocolString:(nonnull NSString *)protocolString {
+    self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:controlSession.accessory delegate:self forProtocol:protocolString];
+    [self.dataSession startSession];
+}
+
+
+#pragma mark Data Session
+
+/**
+ *  Called when the data session receives data from Core
+ *
+ *  @param data The received data
+ */
+- (void)dataSessionDidReceiveData:(nonnull NSData *)data {
+    [self.delegate onDataReceived:data];
+    [self sdl_backgroundTaskStart];
+}
+
+/**
+ *  Called when the data session should be retried.
+ */
+- (void)dataSessionShouldRetry {
+    SDLLogV(@"Retrying the data session");
+    [self sdl_retryEstablishSession];
+}
+
+/**
+ *  Called when the data session has been established. Notify the delegate that the transport has been connected.
+ */
+- (void)dataSessionDidConnect {
+    self.sessionSetupInProgress = NO;
+    [self.delegate onTransportConnected];
+}
+
+
+#pragma mark - Helpers
+
+#pragma mark Protocol Strings
+
+/**
+ *  Checks if the app's info.plist contains all the required protocol strings.
+ *
+ *  @return True if the app's info.plist has all required protocol strings; false if not.
+ */
++ (BOOL)sdl_plistContainsAllSupportedProtocolStrings {
     if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
         NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
         SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
         NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
-        return connecting;
+        return NO;
     }
-
-    if ([accessory supportsProtocol:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-        [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString];
-        connecting = YES;
-    } else if ([accessory supportsProtocol:ControlProtocolString]) {
-        [self sdl_createIAPControlSessionWithAccessory:accessory];
-        connecting = YES;
-    } else if ([accessory supportsProtocol:LegacyProtocolString]) {
-        [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString];
-        connecting = YES;
-    }
-    return connecting;
+    return YES;
 }
 
 /**
- Check all required protocol strings in the info.plist dictionary.
-
- @return A missing protocol string or nil if all strings are supported.
+ *  Compares all required protocol strings against the protocol strings in the info.plist dictionary.
+ *
+ *  @return A missing protocol string or nil if all strings are supported.
  */
 + (nullable NSString *)sdl_supportsRequiredProtocolStrings {
     NSArray<NSString *> *protocolStrings = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UISupportedExternalAccessoryProtocols"];
@@ -345,378 +464,146 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return nil;
 }
 
+#pragma mark Retry Delay
+
 /**
- *  Attempt to establish a session with an accessory, or if nil is passed, to scan for one.
+ *  Generates a random number of seconds between 1.5 and 9.5 used to delay the retry control and data session attempts.
  *
- *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
+ *  @return A random number of seconds.
  */
-- (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
-    SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
-    if (self.retryCounter < CreateSessionRetries) {
-        self.retryCounter++;
-        
-        EAAccessory *sdlAccessory = accessory;
-        // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
-        if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]) {
-            // Connection underway, exit
-            SDLLogV(@"Connection already underway");
-            return;
-        }
-
-        if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
-            NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
-            SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
-            NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
-            return;
-        }
-        
-        // Determine if we can start a multi-app session or a legacy (single-app) session
-        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-            [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString];
-        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
-            [self sdl_createIAPControlSessionWithAccessory:sdlAccessory];
-        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
-            [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString];
-        } else {
-            // No compatible accessory
-            SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
-            self.sessionSetupInProgress = NO;
-        }
-    } else {
-        // We have surpassed the number of retries allowed
-        SDLLogW(@"Surpassed allowed retry attempts (%d), dismissing setup", CreateSessionRetries);
-        self.sessionSetupInProgress = NO;
-    }
-}
-
-- (void)sdl_createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
-    SDLLogD(@"Starting IAP control session (%@)", accessory);
-    self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
-    
-    if (self.controlSession) {
-        self.controlSession.delegate = self;
-        
-        if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
-        } else {
-            [self.protocolIndexTimer cancel];
-        }
-        
-        __weak typeof(self) weakSelf = self;
-        void (^elapsedBlock)(void) = ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            
-            SDLLogW(@"Control session timeout");
-            [strongSelf.controlSession stop];
-            strongSelf.controlSession.streamDelegate = nil;
-            strongSelf.controlSession = nil;
-            [strongSelf sdl_retryEstablishSession];
-        };
-        self.protocolIndexTimer.elapsedBlock = elapsedBlock;
-        
-        SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
-        controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
-        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandler];
-        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamErroredHandler];
-        self.controlSession.streamDelegate = controlStreamDelegate;
-        
-        if (![self.controlSession start]) {
-            SDLLogW(@"Control session failed to setup (%@)", accessory);
-            self.controlSession.streamDelegate = nil;
-            self.controlSession = nil;
-            [self sdl_retryEstablishSession];
-        }
-    } else {
-        SDLLogW(@"Failed to setup control session (%@)", accessory);
-        [self sdl_retryEstablishSession];
-    }
-}
-
-- (void)sdl_createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    SDLLogD(@"Starting data session (%@:%@)", protocol, accessory);
-    self.session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
-    if (self.session) {
-        self.session.delegate = self;
-        
-        SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
-        self.session.streamDelegate = ioStreamDelegate;
-        ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandler];
-        ioStreamDelegate.streamEndHandler = [self sdl_dataStreamEndedHandler];
-        ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandler];
-        
-        if (![self.session start]) {
-            SDLLogW(@"Data session failed to setup (%@)", accessory);
-            self.session.streamDelegate = nil;
-            self.session = nil;
-            [self sdl_retryEstablishSession];
-        }
-    } else {
-        SDLLogW(@"Failed to setup data session (%@)", accessory);
-        [self sdl_retryEstablishSession];
-    }
-}
-
-- (void)sdl_retryEstablishSession {
-    // Current strategy disallows automatic retries.
-    self.sessionSetupInProgress = NO;
-    if (self.session != nil) {
-        [self.session stop];
-        self.session.delegate = nil;
-        self.session = nil;
-    }
-    
-    // Search connected accessories
-    [self sdl_connect:nil];
-}
-
-// This gets called after both I/O streams of the session have opened.
-- (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
-    // Control Session Opened
-    if ([ControlProtocolString isEqualToString:session.protocol]) {
-        SDLLogD(@"Control Session Established");
-        
-        if (!self.session) {
-            [self.protocolIndexTimer start];
-        }
-    }
-    
-    // Data Session Opened
-    if (![ControlProtocolString isEqualToString:session.protocol]) {
-        self.sessionSetupInProgress = NO;
-        SDLLogD(@"Data Session Established");
-        [self.delegate onTransportConnected];
-    }
-}
-
-
-#pragma mark - Session End
-
-// Retry establishSession on Stream End events only if it was the control session and we haven't already connected on non-control protocol
-- (void)onSessionStreamsEnded:(SDLIAPSession *)session {
-    SDLLogV(@"Session streams ended (%@)", session.protocol);
-    if (!self.session && [ControlProtocolString isEqualToString:session.protocol]) {
-        [session stop];
-        [self sdl_retryEstablishSession];
-    }
-}
-
-
-#pragma mark - Data Transmission
-
-- (void)sendData:(NSData *)data {
-    if (self.session == nil || !self.session.accessory.connected) {
-        return;
-    }
-    
-    [self.session sendData:data];
-}
-
-
-#pragma mark - Stream Handlers
-#pragma mark Control Stream
-
-- (SDLStreamEndHandler)sdl_controlStreamEndedHandler {
-    __weak typeof(self) weakSelf = self;
-    
-    return ^(NSStream *stream) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Control stream ended");
-        
-        // End events come in pairs, only perform this once per set.
-        if (strongSelf.controlSession != nil) {
-            [strongSelf.protocolIndexTimer cancel];
-            [strongSelf.controlSession stop];
-            strongSelf.controlSession.streamDelegate = nil;
-            strongSelf.controlSession = nil;
-            [strongSelf sdl_retryEstablishSession];
-        }
-    };
-}
-
-- (SDLStreamHasBytesHandler)sdl_controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory {
-    __weak typeof(self) weakSelf = self;
-    
-    return ^(NSInputStream *istream) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogV(@"Control stream received data");
-        
-        // Read in the stream a single byte at a time
-        uint8_t buf[1];
-        NSInteger len = [istream read:buf maxLength:1];
-        if (len <= 0) {
-            return;
-        }
-        
-        // If we have data from the stream
-        // Determine protocol string of the data session, then create that data session
-        NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", IndexedProtocolStringPrefix, @(buf[0])];
-        SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
-        
-        // Destroy the control session
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [strongSelf.controlSession stop];
-            strongSelf.controlSession.streamDelegate = nil;
-            strongSelf.controlSession = nil;
-        });
-        
-        if (accessory.isConnected) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
-                [strongSelf.protocolIndexTimer cancel];
-            });
-        }
-
-        [strongSelf sdl_backgroundTaskStart];
-    };
-}
-
-- (SDLStreamErrorHandler)sdl_controlStreamErroredHandler {
-    __weak typeof(self) weakSelf = self;
-    
-    return ^(NSStream *stream) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogE(@"Control stream error");
-        
-        [strongSelf.protocolIndexTimer cancel];
-        [strongSelf.controlSession stop];
-        strongSelf.controlSession.streamDelegate = nil;
-        strongSelf.controlSession = nil;
-        [strongSelf sdl_retryEstablishSession];
-    };
-}
-
-
-#pragma mark Data Stream
-
-- (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSStream *stream) {
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        SDLLogD(@"Data stream ended");
-        if (strongSelf.session == nil) {
-            SDLLogD(@"Data session is nil");
-            return;
-        }
-        // The handler will be called on the IO thread, but the session stop method must be called on the main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
-            
-            [strongSelf sdl_retryEstablishSession];
-        });
-        
-        // To prevent deadlocks the handler must return to the runloop and not block the thread
-    };
-}
-
-- (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSInputStream *istream) {
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-        while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
-            // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
-            
-            NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-            if (bytesRead < 0) {
-                SDLLogE(@"Failed to read from data stream");
-                break;
-            }
-
-            NSData *dataIn = [NSData dataWithBytes:buf length:(NSUInteger)bytesRead];
-            SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
-
-            if (bytesRead > 0) {
-                [strongSelf.delegate onDataReceived:dataIn];
-            } else {
-                break;
-            }
-        }
-
-        [strongSelf sdl_backgroundTaskStart];
-    };
-}
-
-- (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSStream *stream) {
-        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogE(@"Data stream error");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
-            if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-                [strongSelf sdl_retryEstablishSession];
-            }
-        });
-        
-        // To prevent deadlocks the handler must return to the runloop and not block the thread
-    };
-}
-
 - (double)sdl_retryDelay {
     const double MinRetrySeconds = 1.5;
     const double MaxRetrySeconds = 9.5;
     double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;
-    
+
     static double appDelaySeconds = 0;
-    
+
     // HAX: This pull the app name and hashes it in an attempt to provide a more even distribution of retry delays. The evidence that this does so is anecdotal. A more ideal solution would be to use a list of known, installed SDL apps on the phone to try and deterministically generate an even delay.
     if (appDelaySeconds == 0) {
         NSString *appName = [[NSProcessInfo processInfo] processName];
         if (appName == nil) {
             appName = @"noname";
         }
-        
+
         // Run the app name through an md5 hasher
         const char *ptr = [appName UTF8String];
         unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
         CC_MD5(ptr, (unsigned int)strlen(ptr), md5Buffer);
-        
+
         // Generate a string of the hex hash
         NSMutableString *output = [NSMutableString stringWithString:@"0x"];
         for (int i = 0; i < 8; i++) {
             [output appendFormat:@"%02X", md5Buffer[i]];
         }
-        
+
         // Transform the string into a number between 0 and 1
         unsigned long long firstHalf;
         NSScanner *pScanner = [NSScanner scannerWithString:output];
         [pScanner scanHexLongLong:&firstHalf];
         double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
-        
+
         // Transform the number into a number between min and max
         appDelaySeconds = ((RetryRangeSeconds * hashBasedValueInRange0to1) + MinRetrySeconds);
     }
-    
+
     return appDelaySeconds;
+}
+
+#pragma mark Create Sessions
+
+/**
+ *  List of protocol strings supported by SDL enabled head units. Newer head units use the multisession protocol string which allows multiple apps to connect over 1 protocol string. Legacy head units use the control or legacy protocol string which only allows 1 app to connect over 1 protocol string.
+ *
+ *  @return A list of SDL accessory supported protocol strings ordered from most recently supported to least preferred.
+ */
++ (NSArray<NSString *> *)protocolStrings {
+    // Order of the protocol strings is important!!
+    return @[MultiSessionProtocolString, ControlProtocolString, LegacyProtocolString];
+}
+
+/**
+ *  Attempts to create a session with a connected accessory.
+ *
+ *  @param connectedAccessory  The connected accessory
+ *  @return                    True if a session was started with the connected accessory, false if not
+ */
+- (BOOL)sdl_establishSessionWithConnectedAccessory:(EAAccessory *)connectedAccessory {
+    for (NSString *protocolString in [self.class protocolStrings]) {
+        if (![connectedAccessory supportsProtocol:protocolString]) {
+            continue;
+        }
+
+        BOOL connecting = [self createSessionWithAccessory:connectedAccessory protocolString:protocolString];
+        if (connecting) {
+            return connecting;
+        }
+    }
+
+    return NO;
+}
+
+/**
+ *  Searches through the EAAccessoryManager's list of connected accessories for an SDL enabled accessory. If an accessory is found a session is attempted with the accessory.
+ *
+ *  @return True if a session was started with the connected accessory, false if no session could be created or if no SDL enabled accessory was found.
+ */
+- (BOOL)sdl_establishSessionWithAccessory {
+    for (NSString *protocolString in [self.class protocolStrings]) {
+        EAAccessory *sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:protocolString];
+        if (sdlAccessory == nil) {
+            continue;
+        }
+
+        BOOL connecting = [self createSessionWithAccessory:sdlAccessory protocolString:protocolString];
+        if (connecting) {
+            return connecting;
+        }
+    }
+
+    return NO;
+}
+
+/**
+ *  Creates a session with a passed accessory and protocol string. If the accessory supports the multisession protocol string, a data session can be created right away with the accessory. If the accessory does not support the multisession protocol string, but does support the control protocol string, two sessions must be created. First, a control session is created to get the new protocol string needed to create a data session with the accessory. Then, the control session is destroyed and the data session created with the new protocol string.
+ *
+ *  @param accessory       The connected accessory
+ *  @param protocolString  The unique protocol string used to create the session with the accessory
+ *  @return                True if a session was started with the connected accessory, false if no session could be created or if no SDL enabled accessory was found.
+ */
+- (BOOL)createSessionWithAccessory:(EAAccessory *)accessory protocolString:(NSString *)protocolString {
+    if (![self.class sdl_plistContainsAllSupportedProtocolStrings]) {
+        return NO;
+    }
+
+    if ([protocolString isEqualToString:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
+        [self.dataSession startSession];
+        return YES;
+    } else if ([protocolString isEqualToString:ControlProtocolString]) {
+        self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
+        [self.controlSession startSession];
+        return YES;
+    } else if ([protocolString isEqualToString:LegacyProtocolString]) {
+        self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
+        [self.dataSession startSession];
+        return YES;
+    }
+
+    return NO;
 }
 
 
 #pragma mark - Lifecycle Destruction
 
-- (void)sdl_destructObjects {
-    if (!_alreadyDestructed) {
-        [self sdl_backgroundTaskEnd];
-        _alreadyDestructed = YES;
-        self.controlSession = nil;
-        self.session = nil;
-        self.delegate = nil;
-        self.sessionSetupInProgress = NO;
-        self.accessoryConnectDuringActiveSession = NO;
-    }
-}
-
 - (void)dealloc {
+    SDLLogV(@"SDLIAPTransport dealloc");
     [self disconnect];
-    [self sdl_destructObjects];
-    SDLLogD(@"SDLIAPTransport dealloc");
+    [self sdl_backgroundTaskEnd];
+    self.controlSession = nil;
+    self.dataSession = nil;
+    self.delegate = nil;
+    self.sessionSetupInProgress = NO;
+    self.accessoryConnectDuringActiveSession = NO;
 }
 
 @end
