@@ -131,41 +131,37 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    // TODO: Maybe broken?
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
-            CGPoint storedTouchLocation = self.lastStoredTouchLocation;
-            CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
+    if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
+        CGPoint storedTouchLocation = self.lastStoredTouchLocation;
+        CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
 
-            if (CGPointEqualToPoint(storedTouchLocation, CGPointZero) ||
-                CGPointEqualToPoint(notifiedTouchLocation, CGPointZero) ||
-                CGPointEqualToPoint(storedTouchLocation, notifiedTouchLocation)) {
-                return;
-            }
-
-            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
-                [self.touchEventDelegate touchManager:self
-                           didReceivePanningFromPoint:notifiedTouchLocation
-                                              toPoint:storedTouchLocation];
-
-                self.lastNotifiedTouchLocation = storedTouchLocation;
-            }
-        } else if (self.performingTouchType == SDLPerformingTouchTypeMultiTouch) {
-            if (self.previousPinchDistance == self.currentPinchGesture.distance) {
-                return;
-            }
-
-            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
-                CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
-                [self.touchEventDelegate touchManager:self
-                         didReceivePinchAtCenterPoint:self.currentPinchGesture.center
-                                            withScale:scale];
-            }
-
-            self.previousPinchDistance = self.currentPinchGesture.distance;
+        if (CGPointEqualToPoint(storedTouchLocation, CGPointZero) ||
+            CGPointEqualToPoint(notifiedTouchLocation, CGPointZero) ||
+            CGPointEqualToPoint(storedTouchLocation, notifiedTouchLocation)) {
+            return;
         }
-    });
+
+        if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
+            [self.touchEventDelegate touchManager:self
+                       didReceivePanningFromPoint:notifiedTouchLocation
+                                          toPoint:storedTouchLocation];
+
+            self.lastNotifiedTouchLocation = storedTouchLocation;
+        }
+    } else if (self.performingTouchType == SDLPerformingTouchTypeMultiTouch) {
+        if (self.previousPinchDistance == self.currentPinchGesture.distance) {
+            return;
+        }
+
+        if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
+            CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
+            [self.touchEventDelegate touchManager:self
+                     didReceivePinchAtCenterPoint:self.currentPinchGesture.center
+                                        withScale:scale];
+        }
+
+        self.previousPinchDistance = self.currentPinchGesture.distance;
+    }
 }
 
 #pragma mark - SDLDidReceiveTouchEventNotification
