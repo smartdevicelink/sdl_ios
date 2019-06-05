@@ -69,6 +69,15 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
 /**
  Push a new audio buffer onto the queue. Call `playNextWhenReady` to start playing the pushed audio buffer.
 
+ This data must be of the required PCM format. See SDLSystemCapabilityManager.pcmStreamCapability and SDLAudioPassThruCapability.h.
+
+ This is *an example* of a PCM format used by some head units:
+ - audioType: PCM
+ - samplingRate: 16kHZ
+ - bitsPerSample: 16 bits
+
+ There is generally only one channel to the data.
+
  @param data The audio buffer to be pushed onto the queue
  */
 - (void)pushWithData:(NSData *)data;
