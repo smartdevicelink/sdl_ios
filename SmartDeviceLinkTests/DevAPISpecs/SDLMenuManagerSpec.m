@@ -7,20 +7,29 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteSubMenu.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLDisplayType.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
 #import "SDLImageFieldName.h"
+#import "SDLMediaClockFormat.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuManager.h"
 #import "SDLMenuManagerConstants.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLSystemContext.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCResponseNotification.h"
+#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLScreenManager.h"
+#import "SDLScreenParams.h"
+#import "SDLSystemContext.h"
+#import "SDLTextField.h"
 #import "TestConnectionManager.h"
+
 
 @interface SDLMenuCell()
 
@@ -54,7 +63,9 @@ describe(@"menu manager", ^{
     __block SDLMenuManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
-
+    __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
+    __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+    __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testArtwork2 = nil;
 
@@ -157,6 +168,34 @@ describe(@"menu manager", ^{
                     expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
                 });
             });
+        });
+    });
+
+    describe(@"Notificaiton Responses", ^{
+        it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
+            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+
+            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+            testSetDisplayLayoutResponse.success = @YES;
+            testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
+
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
+        });
+
+        it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{
+            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+
+            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+            testRegisterAppInterfaceResponse.success = @YES;
+            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
+
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
         });
     });
 

@@ -121,7 +121,8 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
 
 /**
- The current status for dynamic menu updates.
+ The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to SDLDynamicMenuUpdatesModeForceOn, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI. If set to SDLDynamicMenuUpdatesModeForceOff, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus. We reccomend using either SDLDynamicMenuUpdatesModeOnWithCompatibility or SDLDynamicMenuUpdatesModeForceOn. SDLDynamicMenuUpdatesModeOnWithCompatibility makes sure you have a head unit that supports dynamic updates. If the head unit does not support dynamic updates, dynamic updates will be set to off automatically.
+
  */
 @property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
 

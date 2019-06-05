@@ -146,7 +146,7 @@ UInt32 const MenuCellIdMin = 1;
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
 
-    if([self sdl_isDynamicMenuUpdateActive: self.dynamicMenuUpdatesMode]) {
+    if([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
         [self sdl_startDynamicMenuUpdate];
     } else {
         [self sdl_startNonDynamicMenuUpdate];
@@ -319,7 +319,7 @@ UInt32 const MenuCellIdMin = 1;
 
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        [weakself sdl_sendUpdatedMenu:addCells usingMenu: weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
+        [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
             weakself.inProgressUpdate = nil;
 
             if (completionHandler != nil) {
@@ -485,11 +485,12 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Commands / SubMenu RPCs
 /**
- Add menu commands
+ This method will receive the cells to be added and the updated menu array. It will then build an array of add commands using the correct index to position the new items in the correct location.
 
- @param cells that need to be added
+ @param cells that will be added to the menu, this array must contain only cells that are not already in the menu.
  @param shouldHaveArtwork artwork bool
- @param menu a list of all cells to get index, either main menu or subcells
+ @param the new menu array, this array should contain all the values the develeoper has set to be included in the new menu. This is used for placing the newly added cells in the correct locaiton.
+ e.g. If the new menu array is [A, B, C, D] but only [C, D] are new we need to pass [A, B , C , D] so C and D can be added to index 2 and 3 respectively.
  @return list of SDLRPCRequest addCommands
  */
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork usingIndexOf:(NSArray<SDLMenuCell *> *)menu {
