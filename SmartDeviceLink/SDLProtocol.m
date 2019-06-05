@@ -353,7 +353,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendDataToTransport:(NSData *)data onService:(NSInteger)priority {
     [_prioritizedCollection addObject:data withPriority:priority];
 
-    // TODO: (Joel F.)[2016-02-11] Autoreleasepool?
     NSData *dataToTransmit = nil;
     while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
         [self.transport sendData:dataToTransmit];
@@ -467,7 +466,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-// TODO: This is a v4 packet (create new delegate methods)
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // V5 Packet
     if (startServiceACK.header.version >= 5) {
