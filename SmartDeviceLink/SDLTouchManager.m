@@ -132,7 +132,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     // TODO: Maybe broken?
-//    dispatch_async(dispatch_get_main_queue(), ^{
+    //    dispatch_async(dispatch_get_main_queue(), ^{
     dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
             CGPoint storedTouchLocation = self.lastStoredTouchLocation;
@@ -196,7 +196,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             return;
         }
 
-        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
                 [self sdl_handleTouchBegan:touch];
             } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {

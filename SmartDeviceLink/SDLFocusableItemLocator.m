@@ -148,7 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param notification object with notification data
  */
 - (void)sdl_projectionViewUpdated:(NSNotification *)notification {
-    [self updateInterfaceLayout];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateInterfaceLayout];
+    });
 }
 
 @end
