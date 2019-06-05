@@ -57,7 +57,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMenuIcon:image,
                                                                    SDLRPCParameterNameKeyboardProperties:keyboard},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetGlobalProperties}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSetGlobalProperties* testRequest = [[SDLSetGlobalProperties alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.helpPrompt).to(equal([@[chunk1] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk2] mutableCopy]));

@@ -42,52 +42,52 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLocation:(SDLLocationDetails *)location {
-    [store sdl_setObject:location forName:SDLRPCParameterNameLocation];
+    [self.store sdl_setObject:location forName:SDLRPCParameterNameLocation];
 }
 
 - (SDLLocationDetails *)location {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLLocationDetails.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLLocationDetails.class error:&error];
 }
 
 - (void)setCurrentForecast:(nullable SDLWeatherData *)currentForecast {
-    [store sdl_setObject:currentForecast forName:SDLRPCParameterNameCurrentForecast];
+    [self.store sdl_setObject:currentForecast forName:SDLRPCParameterNameCurrentForecast];
 }
 
 - (nullable SDLWeatherData *)currentForecast {
-    return [store sdl_objectForName:SDLRPCParameterNameCurrentForecast ofClass:SDLWeatherData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCurrentForecast ofClass:SDLWeatherData.class error:nil];
 }
 
 - (void)setMinuteForecast:(nullable NSArray<SDLWeatherData *> *)minuteForecast {
-    [store sdl_setObject:minuteForecast forName:SDLRPCParameterNameMinuteForecast];
+    [self.store sdl_setObject:minuteForecast forName:SDLRPCParameterNameMinuteForecast];
 }
 
 - (nullable NSArray<SDLWeatherData *> *)minuteForecast {
-    return [store sdl_objectsForName:SDLRPCParameterNameMinuteForecast ofClass:SDLWeatherData.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameMinuteForecast ofClass:SDLWeatherData.class error:nil];
 }
 
 - (void)setHourlyForecast:(nullable NSArray<SDLWeatherData *> *)hourlyForecast {
-    [store sdl_setObject:hourlyForecast forName:SDLRPCParameterNameHourlyForecast];
+    [self.store sdl_setObject:hourlyForecast forName:SDLRPCParameterNameHourlyForecast];
 }
 
 - (nullable NSArray<SDLWeatherData *> *)hourlyForecast {
-    return [store sdl_objectsForName:SDLRPCParameterNameHourlyForecast ofClass:SDLWeatherData.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameHourlyForecast ofClass:SDLWeatherData.class error:nil];
 }
 
 - (void)setMultidayForecast:(nullable NSArray<SDLWeatherData *> *)multidayForecast {
-    [store sdl_setObject:multidayForecast forName:SDLRPCParameterNameMultidayForecast];
+    [self.store sdl_setObject:multidayForecast forName:SDLRPCParameterNameMultidayForecast];
 }
 
 - (nullable NSArray<SDLWeatherData *> *)multidayForecast {
-    return [store sdl_objectsForName:SDLRPCParameterNameMultidayForecast ofClass:SDLWeatherData.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameMultidayForecast ofClass:SDLWeatherData.class error:nil];
 }
 
 - (void)setAlerts:(nullable NSArray<SDLWeatherAlert *> *)alerts {
-    [store sdl_setObject:alerts forName:SDLRPCParameterNameAlerts];
+    [self.store sdl_setObject:alerts forName:SDLRPCParameterNameAlerts];
 }
 
 - (nullable NSArray<SDLWeatherAlert *> *)alerts {
-    return [store sdl_objectsForName:SDLRPCParameterNameAlerts ofClass:SDLWeatherAlert.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAlerts ofClass:SDLWeatherAlert.class error:nil];
 }
 
 @end

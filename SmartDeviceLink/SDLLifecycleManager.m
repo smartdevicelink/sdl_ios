@@ -385,6 +385,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_enter(managerGroup);
     SDLLogD(@"Setting up assistant managers");
     [self.lockScreenManager start];
+    [self.systemCapabilityManager start];
 
     dispatch_group_enter(managerGroup);
     [self.fileManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {

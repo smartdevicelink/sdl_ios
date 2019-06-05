@@ -18,11 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetCloudAppProperties
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSetCloudAppProperties]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithProperties:(SDLCloudAppProperties *)properties {
     self = [self init];
@@ -36,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setProperties:(SDLCloudAppProperties *)properties {
-    [parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
+    [self.parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
 }
 
 - (SDLCloudAppProperties *)properties {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameProperties ofClass:SDLCloudAppProperties.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameProperties ofClass:SDLCloudAppProperties.class error:&error];
 }
 
 @end

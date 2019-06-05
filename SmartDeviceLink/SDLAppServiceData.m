@@ -78,45 +78,45 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceType:(NSString *)serviceType {
-    [store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
+    [self.store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
 }
 
 - (NSString *)serviceType {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceId:(NSString *)serviceId {
-    [store sdl_setObject:serviceId forName:SDLRPCParameterNameServiceID];
+    [self.store sdl_setObject:serviceId forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceId {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 - (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
-    [store sdl_setObject:weatherServiceData forName:SDLRPCParameterNameWeatherServiceData];
+    [self.store sdl_setObject:weatherServiceData forName:SDLRPCParameterNameWeatherServiceData];
 }
 
 - (nullable SDLWeatherServiceData *)weatherServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceData ofClass:SDLWeatherServiceData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameWeatherServiceData ofClass:SDLWeatherServiceData.class error:nil];
 }
 
 - (void)setMediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData {
-    [store sdl_setObject:mediaServiceData forName:SDLRPCParameterNameMediaServiceData];
+    [self.store sdl_setObject:mediaServiceData forName:SDLRPCParameterNameMediaServiceData];
 }
 
 - (nullable SDLMediaServiceData *)mediaServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceData ofClass:SDLMediaServiceData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameMediaServiceData ofClass:SDLMediaServiceData.class error:nil];
 }
 
 - (void)setNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
-    [store sdl_setObject:navigationServiceData forName:SDLRPCParameterNameNavigationServiceData];
+    [self.store sdl_setObject:navigationServiceData forName:SDLRPCParameterNameNavigationServiceData];
 }
 
 - (nullable SDLNavigationServiceData *)navigationServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceData ofClass:SDLNavigationServiceData.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNavigationServiceData ofClass:SDLNavigationServiceData.class error:nil];
 }
 
 @end

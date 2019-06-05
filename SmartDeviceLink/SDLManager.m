@@ -17,6 +17,9 @@
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLRPCRequestNotification.h"
+#import "SDLRPCResponseNotification.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
@@ -141,6 +144,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [self.lifecycleManager sendSequentialRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
+}
+
+
+#pragma mark - RPC Subscriptions
+
+- (id)subscribeToRPC:(SDLNotificationName)rpcName withBlock:(SDLRPCUpdatedBlock)block {
+    return [[NSNotificationCenter defaultCenter] addObserverForName:rpcName object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        SDLRPCMessage *message = note.userInfo[SDLNotificationUserInfoObject];
+        block(message);
+    }];
+}
+
+- (void)subscribeToRPC:(SDLNotificationName)rpcName withObserver:(id)observer selector:(SEL)selector {
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:rpcName object:nil];
+}
+
+- (void)unsubscribeFromRPC:(SDLNotificationName)rpcName withObserver:(id)observer {
+    [[NSNotificationCenter defaultCenter] removeObserver:observer name:rpcName object:nil];
 }
 
 @end

@@ -81,7 +81,10 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameQueueCurrentTrackNumber:@(testQueueCurrentTrackNumber),
                                SDLRPCParameterNameQueueTotalTrackCount:@(testQueueTotalTrackCount)
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));

@@ -43,8 +43,10 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameMaxBitrate: maxBitrate,
                                        SDLRPCParameterNameSupportedFormats: formatArray,
                                        SDLRPCParameterNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));

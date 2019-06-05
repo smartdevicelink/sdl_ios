@@ -14,11 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddCommand
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameAddCommand]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler {
     self = [self init];
@@ -103,36 +106,36 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters / Setters
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
+    [self.parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
-    [parameters sdl_setObject:menuParams forName:SDLRPCParameterNameMenuParams];
+    [self.parameters sdl_setObject:menuParams forName:SDLRPCParameterNameMenuParams];
 }
 
 - (nullable SDLMenuParams *)menuParams {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuParams ofClass:SDLMenuParams.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuParams ofClass:SDLMenuParams.class error:nil];
 }
 
 - (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
-    [parameters sdl_setObject:vrCommands forName:SDLRPCParameterNameVRCommands];
+    [self.parameters sdl_setObject:vrCommands forName:SDLRPCParameterNameVRCommands];
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameVRCommands ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameVRCommands ofClass:NSString.class error:nil];
 }
 
 - (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
-    [parameters sdl_setObject:cmdIcon forName:SDLRPCParameterNameCommandIcon];
+    [self.parameters sdl_setObject:cmdIcon forName:SDLRPCParameterNameCommandIcon];
 }
 
 - (nullable SDLImage *)cmdIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class error:nil];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

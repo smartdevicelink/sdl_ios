@@ -38,7 +38,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameButtonName : SDLButtonNameAC,
                                                                    SDLRPCParameterNameButtonPressMode : SDLButtonPressModeShort},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameButtonPress}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));

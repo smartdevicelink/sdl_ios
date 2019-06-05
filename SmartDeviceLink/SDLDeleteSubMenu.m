@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteSubMenu
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameDeleteSubMenu]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithId:(UInt32)menuId {
     self = [self init];
@@ -30,12 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    [parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
+    [self.parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
 }
 
 @end

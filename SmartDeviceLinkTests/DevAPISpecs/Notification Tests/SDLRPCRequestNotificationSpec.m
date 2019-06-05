@@ -21,7 +21,10 @@ describe(@"A request notification", ^{
     __block NSString *testName = nil;
 
     beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRequest = [[SDLAddCommand alloc] initWithName:@"testRequest"];
+#pragma clang diagnostic pop
         testName = SDLDidReceiveAddCommandResponse;
     });
 

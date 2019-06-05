@@ -11,43 +11,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCStruct
 
-- (id)initWithDictionary:(NSDictionary<NSString *, id> *)dict {
-    if (self = [super init]) {
-        if (dict != nil) {
-            store = [dict mutableCopy];
-        } else {
-            store = [NSMutableDictionary dictionary];
-        }
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict {
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    _store = [dict mutableCopy];
+
     return self;
 }
 
-- (id)init {
-    if (self = [super init]) {
-        store = [NSMutableDictionary dictionary];
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    _store = [NSMutableDictionary dictionary];
+
     return self;
 }
 
 - (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version {
     if (version >= 2) {
-        NSString *messageType = store.keyEnumerator.nextObject;
-        NSMutableDictionary<NSString *, id> *function = store[messageType];
+        NSString *messageType = self.store.keyEnumerator.nextObject;
+        NSMutableDictionary<NSString *, id> *function = _store[messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
             NSMutableDictionary<NSString *, id> *parameters = function[SDLRPCParameterNameParameters];
             return [self.class sdl_serializeDictionary:parameters version:version];
         } else {
-            return [self.class sdl_serializeDictionary:store version:version];
+            return [self.class sdl_serializeDictionary:self.store version:version];
         }
     } else {
-        return [self.class sdl_serializeDictionary:store version:version];
+        return [self.class sdl_serializeDictionary:self.store version:version];
     }
 }
 
 - (NSString *)description {
-    return [store description];
+    return [self.store description];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (NSDictionary<NSString *, id> *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
     NSMutableDictionary<NSString *, id> *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
     for (NSString *key in dict.keyEnumerator) {
@@ -74,16 +80,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
     return ret;
 }
+#pragma clang diagnostic pop
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] init];
-    newStruct->store = [self->store mutableCopy];
+    SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] initWithDictionary:_store];
 
     return newStruct;
 }
 
 - (BOOL)isEqualToRPC:(SDLRPCStruct *)rpc {
-    return [rpc->store isEqualToDictionary:self->store];
+    return [rpc.store isEqualToDictionary:_store];
 }
 
 - (BOOL)isEqual:(id)object {

@@ -36,7 +36,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
                                        SDLRPCParameterNameCarModeStatus:SDLCarModeStatusCrash,
                                        SDLRPCParameterNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.powerModeActive).to(equal(@NO));
         expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusOk));

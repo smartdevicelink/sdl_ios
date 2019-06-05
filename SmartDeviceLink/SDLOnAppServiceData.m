@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAppServiceData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnAppServiceData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithServiceData:(SDLAppServiceData *)serviceData {
     self = [self init];
@@ -35,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceData:(SDLAppServiceData *)serviceData {
-    [parameters sdl_setObject:serviceData forName:SDLRPCParameterNameServiceData];
+    [self.parameters sdl_setObject:serviceData forName:SDLRPCParameterNameServiceData];
 }
 
 - (SDLAppServiceData *)serviceData {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceData ofClass:SDLAppServiceData.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceData ofClass:SDLAppServiceData.class error:&error];
 }
 
 @end

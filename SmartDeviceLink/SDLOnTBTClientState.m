@@ -11,19 +11,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTBTClientState
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnTBTClientState]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setState:(SDLTBTState)state {
-    [parameters sdl_setObject:state forName:SDLRPCParameterNameState];
+    [self.parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }
 
 - (SDLTBTState)state {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
 @end

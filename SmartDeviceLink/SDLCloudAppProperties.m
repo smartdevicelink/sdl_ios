@@ -44,60 +44,60 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNicknames:(nullable NSArray<NSString *> *)nicknames {
-    [store sdl_setObject:nicknames forName:SDLRPCParameterNameNicknames];
+    [self.store sdl_setObject:nicknames forName:SDLRPCParameterNameNicknames];
 }
 
 - (nullable NSArray<NSString *> *)nicknames {
-    return [store sdl_objectsForName:SDLRPCParameterNameNicknames ofClass:NSString.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameNicknames ofClass:NSString.class error:nil];
 }
 
 - (void)setAppID:(NSString *)appID {
-    [store sdl_setObject:appID forName:SDLRPCParameterNameAppId];
+    [self.store sdl_setObject:appID forName:SDLRPCParameterNameAppId];
 }
 
 - (NSString *)appID {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:&error];
 }
 
 - (void)setEnabled:(nullable NSNumber<SDLBool> *)enabled {
-    [store sdl_setObject:enabled forName:SDLRPCParameterNameEnabled];
+    [self.store sdl_setObject:enabled forName:SDLRPCParameterNameEnabled];
 }
 
 - (nullable NSNumber<SDLBool> *)enabled {
-    return [store sdl_objectForName:SDLRPCParameterNameEnabled ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameEnabled ofClass:NSNumber.class error:nil];
 }
 
 - (void)setAuthToken:(nullable NSString *)authToken {
-    [store sdl_setObject:authToken forName:SDLRPCParameterNameAuthToken];
+    [self.store sdl_setObject:authToken forName:SDLRPCParameterNameAuthToken];
 }
 
 - (nullable NSString *)authToken {
-    return [store sdl_objectForName:SDLRPCParameterNameAuthToken ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAuthToken ofClass:NSString.class error:nil];
 }
 
 - (void)setCloudTransportType:(nullable NSString *)cloudTransportType {
-    [store sdl_setObject:cloudTransportType forName:SDLRPCParameterNameCloudTransportType];
+    [self.store sdl_setObject:cloudTransportType forName:SDLRPCParameterNameCloudTransportType];
 }
 
 - (nullable NSString *)cloudTransportType {
-    return [store sdl_objectForName:SDLRPCParameterNameCloudTransportType ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCloudTransportType ofClass:NSString.class error:nil];
 }
 
 - (void)setHybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference {
-    [store sdl_setObject:hybridAppPreference forName:SDLRPCParameterNameHybridAppPreference];
+    [self.store sdl_setObject:hybridAppPreference forName:SDLRPCParameterNameHybridAppPreference];
 }
 
 - (nullable SDLHybridAppPreference)hybridAppPreference {
-    return [store sdl_enumForName:SDLRPCParameterNameHybridAppPreference error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameHybridAppPreference error:nil];
 }
 
 - (void)setEndpoint:(nullable NSString *)endpoint {
-    [store sdl_setObject:endpoint forName:SDLRPCParameterNameEndpoint];
+    [self.store sdl_setObject:endpoint forName:SDLRPCParameterNameEndpoint];
 }
 
 - (nullable NSString *)endpoint {
-    return [store sdl_objectForName:SDLRPCParameterNameEndpoint ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameEndpoint ofClass:NSString.class error:nil];
 }
 
 @end

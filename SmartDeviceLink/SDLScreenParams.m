@@ -13,20 +13,20 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLScreenParams
 
 - (void)setResolution:(SDLImageResolution *)resolution {
-    [store sdl_setObject:resolution forName:SDLRPCParameterNameResolution];
+    [self.store sdl_setObject:resolution forName:SDLRPCParameterNameResolution];
 }
 
 - (SDLImageResolution *)resolution {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameResolution ofClass:SDLImageResolution.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameResolution ofClass:SDLImageResolution.class error:&error];
 }
 
 - (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
-    [store sdl_setObject:touchEventAvailable forName:SDLRPCParameterNameTouchEventAvailable];
+    [self.store sdl_setObject:touchEventAvailable forName:SDLRPCParameterNameTouchEventAvailable];
 }
 
 - (nullable SDLTouchEventCapabilities *)touchEventAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameTouchEventAvailable ofClass:SDLTouchEventCapabilities.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameTouchEventAvailable ofClass:SDLTouchEventCapabilities.class error:nil];
 }
 
 @end

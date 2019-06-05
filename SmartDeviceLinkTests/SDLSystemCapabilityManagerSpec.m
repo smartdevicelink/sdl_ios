@@ -29,6 +29,14 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLVideoStreamingCapability.h"
 #import "TestConnectionManager.h"
+#import "TestSystemCapabilityObserver.h"
+
+
+@interface SDLSystemCapabilityManager ()
+
+@property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
+
+@end
 
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
@@ -181,7 +189,7 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When notified of a Set Display Layout Response", ^ {
+    context(@"When notified of a SetDisplayLayout Response", ^ {
         __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
         __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
         __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
@@ -216,7 +224,7 @@ describe(@"System capability manager", ^{
             testSetDisplayLayoutResponse.presetBankCapabilities = testPresetBankCapabilities;
         });
 
-        describe(@"If the Set Display Layout request fails", ^{
+        describe(@"If the SetDisplayLayout request fails", ^{
             beforeEach(^{
                 testSetDisplayLayoutResponse.success = @NO;
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
@@ -231,7 +239,7 @@ describe(@"System capability manager", ^{
             });
         });
 
-        describe(@"If the Set Display Layout request succeeds", ^{
+        describe(@"If the SetDisplayLayout request succeeds", ^{
             beforeEach(^{
                 testSetDisplayLayoutResponse.success = @YES;
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
@@ -263,8 +271,8 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When sending a Get System Capability request", ^{
-        __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
+    context(@"When sending a GetSystemCapability request", ^{
+        __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
         beforeEach(^{
@@ -347,11 +355,124 @@ describe(@"System capability manager", ^{
             SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:phoneCapability];
             SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         });
 
         it(@"should properly update phone capability", ^{
             expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(phoneCapability));
+        });
+    });
+
+    describe(@"subscribing to capability types", ^{
+        __block TestSystemCapabilityObserver *phoneObserver = nil;
+        __block TestSystemCapabilityObserver *navigationObserver = nil;
+
+        __block NSUInteger blockObserverTriggeredCount = 0;
+
+        beforeEach(^{
+            blockObserverTriggeredCount = 0;
+            testSystemCapabilityManager.supportsSubscriptions = YES;
+
+            phoneObserver = [[TestSystemCapabilityObserver alloc] init];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            navigationObserver = [[TestSystemCapabilityObserver alloc] init];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithNotification:)];
+        });
+
+        describe(@"when observers aren't supported", ^{
+            __block BOOL observationSuccess = NO;
+
+            beforeEach(^{
+                testSystemCapabilityManager.supportsSubscriptions = NO;
+
+                observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            });
+
+            it(@"should fail to subscribe", ^{
+                expect(observationSuccess).to(beFalse());
+            });
+        });
+
+        context(@"from a GetSystemCapabilitiesResponse", ^{
+            __block id blockObserver = nil;
+
+            beforeEach(^{
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
+                    blockObserverTriggeredCount++;
+                }];
+
+                SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+                testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:nil rpcResponse:testResponse];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should notify subscribers of the new data", ^{
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
+                expect(blockObserverTriggeredCount).toEventually(equal(1));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+            });
+
+            describe(@"unsubscribing", ^{
+                beforeEach(^{
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
+
+                    SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+                    testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:nil rpcResponse:testResponse];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should not notify the subscriber of the new data", ^{
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
+                    expect(blockObserverTriggeredCount).toEventually(equal(1));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                });
+            });
+        });
+
+        context(@"from an OnSystemCapabilities notification", ^{
+            __block id blockObserver = nil;
+
+            beforeEach(^{
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
+                    blockObserverTriggeredCount++;
+                }];
+
+                SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:[[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]]];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:testNotification];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should notify subscribers of the new data", ^{
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
+                expect(blockObserverTriggeredCount).toEventually(equal(1));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+            });
+
+            describe(@"unsubscribing", ^{
+                beforeEach(^{
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
+
+                    SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+                    testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:nil rpcResponse:testResponse];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should not notify the subscriber of the new data", ^{
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
+                    expect(blockObserverTriggeredCount).toEventually(equal(1));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                });
+            });
         });
     });
 

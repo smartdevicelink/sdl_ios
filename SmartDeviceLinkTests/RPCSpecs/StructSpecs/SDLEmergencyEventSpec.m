@@ -40,7 +40,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameRolloverEvent:SDLVehicleDataEventStatusYes,
                                        SDLRPCParameterNameMaximumChangeVelocity:@33,
                                        SDLRPCParameterNameMultipleEvents:SDLVehicleDataEventStatusNo} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLEmergencyEvent* testStruct = [[SDLEmergencyEvent alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.emergencyEventType).to(equal(SDLEmergencyEventTypeFrontal));
         expect(testStruct.fuelCutoffStatus).to(equal(SDLFuelCutoffStatusNormalOperation));

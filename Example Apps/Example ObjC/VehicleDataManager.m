@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     _refreshUIHandler = refreshUIHandler;
     _vehicleOdometerData = @"";
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vehicleDataNotification:) name:SDLDidReceiveVehicleDataNotification object:nil];
+    [_sdlManager subscribeToRPC:SDLDidReceiveVehicleDataNotification withObserver:self selector:@selector(vehicleDataNotification:)];
     [self sdlex_resetOdometer];
 
     return self;
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
-    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
+    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ km", VehicleDataOdometerName, onVehicleData.odometer];
 
     if (!self.refreshUIHandler) { return; }
     self.refreshUIHandler();

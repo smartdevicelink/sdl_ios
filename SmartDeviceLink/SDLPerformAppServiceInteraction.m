@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformAppServiceInteraction
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNamePerformAppServiceInteraction]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp {
     self = [self init];
@@ -48,38 +51,38 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceUri:(NSString *)serviceUri {
-    [parameters sdl_setObject:serviceUri forName:SDLRPCParameterNameServiceUri];
+    [self.parameters sdl_setObject:serviceUri forName:SDLRPCParameterNameServiceUri];
 }
 
 - (NSString *)serviceUri {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceUri ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceUri ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceID:(NSString *)serviceID {
-    [parameters sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
+    [self.parameters sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 - (void)setOriginApp:(NSString *)originApp {
-    [parameters sdl_setObject:originApp forName:SDLRPCParameterNameOriginApp];
+    [self.parameters sdl_setObject:originApp forName:SDLRPCParameterNameOriginApp];
 }
 
 - (NSString *)originApp {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameOriginApp ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameOriginApp ofClass:NSString.class error:&error];
 }
 
 - (void)setRequestServiceActive:(nullable NSNumber<SDLBool> *)requestServiceActive {
-    [parameters sdl_setObject:requestServiceActive forName:SDLRPCParameterNameRequestServiceActive];
+    [self.parameters sdl_setObject:requestServiceActive forName:SDLRPCParameterNameRequestServiceActive];
 }
 
 - (nullable NSNumber<SDLBool> *)requestServiceActive {
-    return [parameters sdl_objectForName:SDLRPCParameterNameRequestServiceActive ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameRequestServiceActive ofClass:NSNumber.class error:nil];
 }
 @end
 

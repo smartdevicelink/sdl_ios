@@ -10,11 +10,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddSubMenuResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameAddSubMenu]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

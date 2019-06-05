@@ -90,6 +90,7 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;
++ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector;
 
 @end
 

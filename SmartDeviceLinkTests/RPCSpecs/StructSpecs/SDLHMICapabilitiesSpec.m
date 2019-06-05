@@ -46,7 +46,10 @@ describe(@"SDLHMICapabilities struct", ^{
                                              SDLRPCParameterNamePhoneCall: somePhoneCallState,
                                              SDLRPCParameterNameVideoStreaming: someVideoStreamState
                                              };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testStruct = [[SDLHMICapabilities alloc] initWithDictionary:[structInitDict mutableCopy]];
+#pragma clang diagnostic pop
         });
         
         it(@"should properly set phone call", ^{

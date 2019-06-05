@@ -93,7 +93,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameIconResumed: @YES,
                                                    },
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
@@ -164,7 +167,10 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameIconResumed: NSNull.null,
                                            },
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expectAction(^{ [testResponse syncMsgVersion]; }).to(raiseException());
         expectAction(^{ [testResponse language]; }).to(raiseException());
