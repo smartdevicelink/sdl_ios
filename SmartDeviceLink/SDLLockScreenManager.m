@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
+@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
 
 @end
 
@@ -45,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     _canPresent = NO;
     _config = config;
     _presenter = presenter;
+    
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
@@ -52,6 +54,16 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
+}
+
+// Lazy init of swipe gesture
+- (UISwipeGestureRecognizer *)swipeGesture {
+    if (!_swipeGesture) {
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
+        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
+        _swipeGesture = swipeGesture;
+    }
+    return _swipeGesture;
 }
 
 - (void)start {
@@ -130,6 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.lastDriverDistractionNotification = notification.notification;
+    [self sdl_toggleLockscreenDismissalableState];
 }
 
 #pragma mark - Private Helpers
@@ -155,6 +168,18 @@ NS_ASSUME_NONNULL_BEGIN
             [self.presenter dismiss];
         }
     }
+}
+
+- (void)sdl_toggleLockscreenDismissalableState {
+    if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil) {
+        self.swipeGesture.enabled = NO;
+    } else {
+        self.swipeGesture.enabled = YES;
+    }
+}
+
+- (void)didSwipeDown:(UISwipeGestureRecognizer *)gesture {
+    [self.presenter dismiss];
 }
 
 @end
