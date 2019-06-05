@@ -27,6 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
+- (void)setLockScreenDismissalEnabled:(NSNumber<SDLBool> *)lockScreenDismissalEnabled {
+    [parameters sdl_setObject:lockScreenDismissalEnabled forName:SDLRPCParameterNameLockScreenDismissalEnabled];
+}
+
+- (NSNumber<SDLBool> *)lockScreenDismissalEnabled {
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameLockScreenDismissalEnabled ofClass:NSNumber.class error:&error];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

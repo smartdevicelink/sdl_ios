@@ -28,6 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLDriverDistractionState state;
 
+/**
+ If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users
+ the ability to interact with the app.
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *lockScreenDismissalEnabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

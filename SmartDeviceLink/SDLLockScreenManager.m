@@ -15,6 +15,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLScreenshotViewController.h"
 #import "SDLViewControllerPresentable.h"
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
+@property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 
 @end
 
@@ -47,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
 }
@@ -121,6 +124,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_checkLockScreen];
 }
 
+- (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) {
+        return;
+    }
+
+    self.lastDriverDistractionNotification = notification.notification;
+}
 
 #pragma mark - Private Helpers
 

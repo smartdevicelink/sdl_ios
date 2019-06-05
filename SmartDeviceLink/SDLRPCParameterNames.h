@@ -311,6 +311,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameLocationDescription;
 extern SDLRPCParameterName const SDLRPCParameterNameLocationDetails;
 extern SDLRPCParameterName const SDLRPCParameterNameLocationImage;
 extern SDLRPCParameterName const SDLRPCParameterNameLocationName;
+extern SDLRPCParameterName const SDLRPCParameterNameLockScreenDismissalEnabled;
 extern SDLRPCParameterName const SDLRPCParameterNameLongitudeDegrees;
 extern SDLRPCParameterName const SDLRPCParameterNameLongPress;
 extern SDLRPCParameterName const SDLRPCParameterNameLongPressAvailable;
