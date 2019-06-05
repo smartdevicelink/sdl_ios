@@ -302,25 +302,23 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-//            dispatch_async(weakSelf.lifecycleQueue, ^{
-                // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-                if (error != nil || ![response.success boolValue]) {
-                    SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                    if (weakSelf.readyHandler) {
-                        weakSelf.readyHandler(NO, error);
-                    }
-
-                    if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
-                        [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
-                    }
-
-                    return;
+            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
+            if (error != nil || ![response.success boolValue]) {
+                SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
+                if (weakSelf.readyHandler) {
+                    weakSelf.readyHandler(NO, error);
                 }
 
-                weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
-                [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
-//            });
+                if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
+                    [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
+                }
+
+                return;
+            }
+
+            weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
+            [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
         }];
 }
 
