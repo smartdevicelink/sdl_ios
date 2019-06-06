@@ -1367,7 +1367,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 
                 testConnectionManager.responses = testResponses;
 
-                waitUntilTimeout(10, ^(void (^done)(void)){
+                waitUntilTimeout(1.0, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                         // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
                         TestFileProgressResponse *testProgressResponse = testProgressResponses[fileName];

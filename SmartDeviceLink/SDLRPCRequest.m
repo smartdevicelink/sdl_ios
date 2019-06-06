@@ -26,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ (%@), id: %@\n%@", self.name, self.messageType, self.correlationID, self.parameters];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -45,21 +45,21 @@ describe(@"sending asynchronous requests", ^{
         });
 
         it(@"should correctly send all requests", ^{
+            __block NSError *testError = nil;
+            __block BOOL testSuccess = NO;
+
             testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
-
-                expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
-                expect(response).toNot(beNil());
-                expect(error).to(beNil());
-
-                [resultResponses addObject:response];
+                if (testError == nil) { testError = error; }
+                if (response != nil) { [resultResponses addObject:response]; }
             } completionHandler:^(BOOL success) {
-                expect(resultResponses).to(haveCount(3));
-                expect(success).to(beTruthy());
+                testSuccess = success;
             }];
 
             [testOperationQueue addOperation:testOperation];
             [NSThread sleepForTimeInterval:0.5];
+
+            expect(testSuccess).toEventually(beTruthy());
+            expect(testError).toEventually(beNil());
         });
     });
 

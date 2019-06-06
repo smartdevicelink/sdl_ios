@@ -44,7 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
     
     return self;
 }
+
 #pragma clang diagnostic pop
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ (%@), id: %@\n%@", self.name, self.messageType, self.correlationID, self.parameters];
+}
 
 - (NSNumber<SDLInt> *)correlationID {
     NSError *error = nil;

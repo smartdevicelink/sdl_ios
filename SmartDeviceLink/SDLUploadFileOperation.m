@@ -96,13 +96,11 @@ NS_ASSUME_NONNULL_BEGIN
         typeof(weakself) strongself = weakself;
         [weakself sdl_closeInputStream];
 
-        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-            if (streamError != nil || strongself.isCancelled) {
-                completion(NO, bytesAvailable, streamError);
-            } else {
-                completion(YES, bytesAvailable, nil);
-            }
-        });
+        if (streamError != nil || strongself.isCancelled) {
+            completion(NO, bytesAvailable, streamError);
+        } else {
+            completion(YES, bytesAvailable, nil);
+        }
 
         [weakself finishOperation];
     });

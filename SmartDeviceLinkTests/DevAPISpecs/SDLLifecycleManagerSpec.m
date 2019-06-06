@@ -255,12 +255,10 @@ describe(@"a lifecycle manager", ^{
             });
             
             describe(@"stopping the manager", ^{
-                beforeEach(^{
-                    [testManager stop];
-                });
-                
                 it(@"should simply stop", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                    [testManager stop];
+                    
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
                 });
             });
         });

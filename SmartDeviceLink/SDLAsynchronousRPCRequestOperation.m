@@ -91,31 +91,34 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendRequest:(SDLRPCRequest *)request {
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
+        if (weakSelf == nil) { return; }
 
-        if (strongSelf.isCancelled) {
-            [self sdl_abortOperationWithRequest:request];
+        if (weakSelf.isCancelled) {
+            [weakSelf sdl_abortOperationWithRequest:request];
             BLOCK_RETURN;
         }
 
-        strongSelf.requestsComplete++;
+        weakSelf.requestsComplete++;
 
         // If this request failed set our internal request failed to YES
         if (error != nil) {
-            strongSelf.requestFailed = YES;
+            weakSelf.requestFailed = YES;
         }
 
-        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-            if (strongSelf.progressHandler != NULL) {
-                strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
-            } else if (strongSelf.responseHandler != NULL) {
-                strongSelf.responseHandler(request, response, error);
-            }
-        });
+        if (weakSelf.progressHandler != NULL) {
+            float percentComplete = weakSelf.percentComplete;
+            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+                weakSelf.progressHandler(request, response, error, percentComplete);
+            });
+        } else if (weakSelf.responseHandler != NULL) {
+            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+                weakSelf.responseHandler(request, response, error);
+            });
+        }
 
         // If we've received responses for all requests, call the completion handler.
-        if (strongSelf.requestsComplete >= strongSelf.requests.count) {
-            [strongSelf finishOperation];
+        if (weakSelf.requestsComplete >= weakSelf.requests.count) {
+            [weakSelf finishOperation];
         }
     }];
 }
@@ -149,9 +152,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    if (self.completionHandler != NULL) {
-        self.completionHandler(!self.requestFailed);
-    }
+    __weak typeof(self) weakself = self;
+    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+        if (weakself.completionHandler != NULL) {
+            weakself.completionHandler(!weakself.requestFailed);
+        }
+    });
 
     [super finishOperation];
 }
