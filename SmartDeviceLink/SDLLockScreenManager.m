@@ -171,10 +171,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_toggleLockscreenDismissalableState {
+    SDLLockScreenManager *__weak weakSelf = self;
     if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil) {
-        self.swipeGesture.enabled = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SDLLockScreenManager *strongSelf = weakSelf;
+            [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
+        });
     } else {
-        self.swipeGesture.enabled = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SDLLockScreenManager *strongSelf = weakSelf;
+            [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
+        });
     }
 }
 
