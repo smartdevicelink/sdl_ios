@@ -51,8 +51,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
 
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
-@property (assign, nonatomic) UInt8 maxFileUploadAttempts;
-@property (assign, nonatomic) UInt8 maxArtworkUploadAttempts;
+@property (assign, nonatomic) NSUInteger maxFileUploadAttempts;
+@property (assign, nonatomic) NSUInteger maxArtworkUploadAttempts;
 
 @end
 
@@ -263,7 +263,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_leave(deleteFilesTask);
 
     // Wait for all files to be deleted
-    dispatch_group_notify(deleteFilesTask, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+    dispatch_group_notify(deleteFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedDeletes.count > 0) {
             return completionHandler([NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:failedDeletes]);
@@ -335,7 +335,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_leave(uploadFilesTask);
 
     // Wait for all files to be uploaded
-    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedUploads.count > 0) {
             return completionHandler([NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:failedUploads]);
@@ -401,7 +401,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         } else {
             self.failedFileUploadsCount = [self.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:self.failedFileUploadsCount];
 
-            UInt8 maxUploadCount = [file isKindOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
+            NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
             if ([self sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:self.failedFileUploadsCount]) {
                 SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
                 return [self sdl_uploadFile:file completionHandler:handler];
@@ -409,9 +409,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
 
         if (uploadCompletion != nil) {
-            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
                 uploadCompletion(success, bytesAvailable, error);
-            });
+//            });
         }
     }];
 
@@ -526,7 +526,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
  *  @param maxUploadCount   The max number of times the file is allowed to be uploaded to Core
  *  @return                 True if the file still needs to be (re)sent to Core; false if not.
  */
-- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(UInt8)maxUploadCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
+- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(NSUInteger)maxUploadCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
     if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
         SDLLogW(@"File named %@ failed to upload. The file manager has shutdown so the file upload will not retry.", file.name);
         return NO;
@@ -543,7 +543,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 
     NSNumber *failedUploadCount = failedFileUploadsCount[file.name];
-    BOOL canFileBeUploadedAgain = (failedUploadCount == nil) ? YES : (failedUploadCount.integerValue < maxUploadCount);
+    BOOL canFileBeUploadedAgain = (failedUploadCount == nil) ? YES : (failedUploadCount.unsignedIntegerValue < maxUploadCount);
     if (!canFileBeUploadedAgain) {
         SDLLogE(@"File named %@ failed to upload. Max number of upload attempts reached.", file.name);
     }

@@ -28,6 +28,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 @interface SDLFileManager ()
+
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
@@ -300,7 +301,7 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
 
-                            [NSThread sleepForTimeInterval:0.1];
+                            [NSThread sleepForTimeInterval:0.2];
 
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
                         });
@@ -365,8 +366,8 @@ describe(@"SDLFileManager", ^{
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
-                                expect(completionBytesAvailable).to(equal(2000000000));
-                                expect(@(completionSuccess)).to(equal(@NO));
+                                expect(completionBytesAvailable).toEventually(equal(2000000000));
+                                expect(@(completionSuccess)).toEventually(equal(@NO));
                                 expect(completionError).toEventuallyNot(beNil());
                             });
 
@@ -418,11 +419,11 @@ describe(@"SDLFileManager", ^{
                             SDLFile *unPersistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
                             unPersistantFile.overwrite = testUploadOverwrite;
 
-                            waitUntilTimeout(1, ^(void (^done)(void)){
+                            waitUntilTimeout(2, ^(void (^done)(void)) {
                                 [testFileManager uploadFile:unPersistantFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                     expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPutFile class]));
-                                    expect(@(success)).to(beTrue());
-                                    expect(@(bytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
+                                    expect(success).to(beTrue());
+                                    expect(bytesAvailable).to(equal(@(testFileManager.bytesAvailable)));
                                     expect(error).to(beNil());
                                     done();
                                 }];

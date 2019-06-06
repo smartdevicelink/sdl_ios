@@ -190,9 +190,7 @@ static dispatch_queue_t _logQueue = NULL;
 }
 
 - (void)sdl_syncLog:(SDLLogModel *)log {
-    dispatch_sync(self.class.logQueue, ^{
-        [self sdl_log:log];
-    });
+    [self sdl_log:log];
 }
 
 - (void)sdl_log:(SDLLogModel *)log {

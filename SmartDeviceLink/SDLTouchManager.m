@@ -184,8 +184,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
         SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
-        if (self.touchEventHandler) {
-            self.touchEventHandler(touch, touchType);
+        if (self.touchEventHandler != NULL) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.touchEventHandler(touch, touchType);
+            });
         }
 
         if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
@@ -447,10 +449,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *hitView = [self.hitTester viewForPoint:point];
-        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
             if (!hitViewHandler) { return; }
             return hitViewHandler(hitView);
-        });
+//        });
     });
 }
 

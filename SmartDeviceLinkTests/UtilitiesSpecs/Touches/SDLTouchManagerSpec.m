@@ -35,7 +35,7 @@
 
 QuickSpecBegin(SDLTouchManagerSpec)
 
-describe(@"SDLTouchManager Tests", ^{
+fdescribe(@"SDLTouchManager Tests", ^{
     __block SDLTouchManager *touchManager;
 
     context(@"initializing", ^{
@@ -1006,16 +1006,16 @@ describe(@"SDLTouchManager Tests", ^{
 
         afterEach(^{
             CGFloat timeoutTime = touchManager.tapTimeThreshold + additionalWaitTime;
-            expect(@(didCallSingleTap)).withTimeout(timeoutTime).toEventually(expectedDidCallSingleTap ? beTruthy() : beFalsy());
-            expect(@(didCallDoubleTap)).withTimeout(timeoutTime).toEventually(expectedDidCallDoubleTap ? beTruthy() : beFalsy());
-            expect(@(didCallBeginPan)).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPan ? beTruthy() : beFalsy());
-            expect(@(didCallMovePan)).withTimeout(timeoutTime).toEventually(expectedDidCallMovePan ? beTruthy() : beFalsy());
-            expect(@(didCallEndPan)).withTimeout(timeoutTime).toEventually(expectedDidCallEndPan ? beTruthy() : beFalsy());
-            expect(@(didCallCancelPan)).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPan ? beTruthy() : beFalsy());
-            expect(@(didCallBeginPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPinch ? beTruthy() : beFalsy());
-            expect(@(didCallMovePinch)).withTimeout(timeoutTime).toEventually(expectedDidCallMovePinch ? beTruthy() : beFalsy());
-            expect(@(didCallEndPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallEndPinch ? beTruthy() : beFalsy());
-            expect(@(didCallCancelPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPinch ? beTruthy() : beFalsy());
+            expect(didCallSingleTap).withTimeout(timeoutTime).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+            expect(didCallDoubleTap).withTimeout(timeoutTime).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+            expect(didCallBeginPan).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+            expect(didCallMovePan).withTimeout(timeoutTime).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+            expect(didCallEndPan).withTimeout(timeoutTime).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+            expect(didCallCancelPan).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+            expect(didCallBeginPinch).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+            expect(didCallMovePinch).withTimeout(timeoutTime).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+            expect(didCallEndPinch).withTimeout(timeoutTime).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+            expect(didCallCancelPinch).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
 
             expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
         });

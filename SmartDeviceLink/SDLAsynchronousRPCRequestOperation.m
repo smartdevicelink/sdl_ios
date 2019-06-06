@@ -107,13 +107,13 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (weakSelf.progressHandler != NULL) {
             float percentComplete = weakSelf.percentComplete;
-            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
                 weakSelf.progressHandler(request, response, error, percentComplete);
-            });
+//            });
         } else if (weakSelf.responseHandler != NULL) {
-            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
                 weakSelf.responseHandler(request, response, error);
-            });
+//            });
         }
 
         // If we've received responses for all requests, call the completion handler.
@@ -153,11 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     __weak typeof(self) weakself = self;
-    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (weakself.completionHandler != NULL) {
             weakself.completionHandler(!weakself.requestFailed);
         }
-    });
+//    });
 
     [super finishOperation];
 }

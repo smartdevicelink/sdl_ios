@@ -265,7 +265,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
     __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
@@ -470,21 +470,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.
-    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         self.readyHandler(YES, startError);
-    });
+//    });
 
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
 
 		// Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
     	if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         	[self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
     	}
-    });
+//    });
 }
 
 - (void)didEnterStateUnregistering {
@@ -598,9 +598,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
         if (handler) {
-            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
                 handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-            });
+//            });
         }
 
         return;
@@ -623,9 +623,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
         SDLLogW(@"%@", error);
         if (handler) {
-            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
                 handler(nil, nil, error);
-            });
+//            });
         }
         return;
     }
@@ -757,7 +757,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (![oldHMILevel isEqualToEnum:self.hmiLevel]
             && !(oldHMILevel == nil && self.hmiLevel == nil)) {
             [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
@@ -774,7 +774,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
             [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
         }
-    });
+//    });
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {

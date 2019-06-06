@@ -147,7 +147,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     // Determine the length of the audio PCM data and perform a few items once the audio has finished playing
     float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         __strong typeof(weakself) strongSelf = weakself;
 
         strongSelf.playing = NO;
