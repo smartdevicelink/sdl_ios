@@ -16,13 +16,13 @@
 }
 
 - (void)start {
-    SDLLogV(@"Starting operation: %@", self.name);
+    SDLLogV(@"Starting operation: %@", self);
 
     if (self.isCancelled) {
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
-        SDLLogV(@"Operation was cancelled: %@", self.name);
+        SDLLogV(@"Operation was cancelled: %@", self);
 
         return;
     }
@@ -33,7 +33,7 @@
 }
 
 - (void)finishOperation {
-    SDLLogV(@"Finishing Operation: %@", self.name);
+    SDLLogV(@"Finishing Operation: %@", self);
     [self willChangeValueForKey:@"isExecuting"];
     executing = NO;
     [self didChangeValueForKey:@"isExecuting"];
