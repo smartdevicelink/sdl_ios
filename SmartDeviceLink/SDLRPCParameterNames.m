@@ -116,6 +116,7 @@ SDLRPCParameterName const SDLRPCParameterNameCurrentTemperature = @"currentTempe
 SDLRPCParameterName const SDLRPCParameterNameCushion = @"cushion";
 SDLRPCParameterName const SDLRPCParameterNameCustomButtonId = @"customButtonID";
 SDLRPCParameterName const SDLRPCParameterNameCustomPresets = @"customPresets";
+SDLRPCParameterName const SDLRPCParameterNameCustomDataType = @"customDataType";
 SDLRPCParameterName const SDLRPCParameterNameData = @"data";
 SDLRPCParameterName const SDLRPCParameterNameDataResult = @"dataResult";
 SDLRPCParameterName const SDLRPCParameterNameDataType = @"dataType";

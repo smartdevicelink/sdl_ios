@@ -217,6 +217,17 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.vin).to(beNil());
         expect(testNotification.wiperStatus).to(beNil());
     });
+
+    it(@"should set and get generic Network data", ^{
+        SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
+
+        [testRequest setGenericNetworkData:@"speed" withVehicleDataState:@100];
+        [testRequest setGenericNetworkData:@"turnSignal" withVehicleDataState:SDLTurnSignalOff];
+
+        expect([testRequest genericNetworkData:@"speed"]).to(equal(@100));
+        expect([testRequest genericNetworkData:@"turnSignal"]).to(equal(SDLTurnSignalOff));
+
+    });
 });
 
 QuickSpecEnd

@@ -16,7 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defined published data element type
  */
-@property (strong, nonatomic) SDLVehicleDataType dataType;
+@property (strong, nonatomic) SDLVehicleDataType dataType __deprecated_msg("Use customDataType parameter");
+
+/**
+ Defined published data element type
+ */
+@property (strong, nonatomic) NSString *customDataType;
 
 /**
  Published data result code

@@ -28,6 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
+- (NSString *)customDataType {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameCustomDataType error:&error];
+}
+
+- (void)setCustomDataType:(NSString *)customDataType {
+    [self.store sdl_setObject:customDataType forName:SDLRPCParameterNameCustomDataType];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

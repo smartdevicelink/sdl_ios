@@ -288,6 +288,17 @@ describe(@"initializers", ^{
         expect(testRequest.wiperStatus).to(equal(@YES));
         #pragma clang diagnostic pop
     });
+
+    context(@"should set and get generic Network data", ^{
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
+
+        [testRequest setGenericNetworkData:@"GPS" withVehicleDataState:NO];
+        [testRequest setGenericNetworkData:@"turnSignal" withVehicleDataState:YES];
+
+        expect([testRequest genericNetworkData:@"GPS"]).to(equal(NO));
+        expect([testRequest genericNetworkData:@"turnSignal"]).to(equal(@YES));
+
+    });
 });
 
 QuickSpecEnd
