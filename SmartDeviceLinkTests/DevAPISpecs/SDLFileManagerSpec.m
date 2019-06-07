@@ -646,7 +646,7 @@ describe(@"SDLFileManager", ^{
     });
 });
 
-describe(@"SDLFileManager uploading/deleting multiple files", ^{
+fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
     __block TestMultipleFilesConnectionManager *testConnectionManager;
     __block SDLFileManager *testFileManager;
     __block NSUInteger initialSpaceAvailable;
