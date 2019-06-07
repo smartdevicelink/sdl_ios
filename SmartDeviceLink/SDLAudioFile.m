@@ -32,6 +32,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithData:(NSData *)data {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _data = data;
+
+    return self;
+}
+
 - (NSData *)data {
     if (_data.length == 0) {
         return [NSData dataWithContentsOfURL:_outputFileURL];

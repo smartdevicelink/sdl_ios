@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)startManager {
+- (void)sdlex_startManager {
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
@@ -76,7 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stopConnection {
-    [self.sdlManager stop];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.sdlManager stop];
+    });
+
     [self sdlex_updateProxyState:ProxyStateStopped];
 }
 
@@ -106,10 +109,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    if (self.sdlManager != nil) {
+        // Manager already created, just start it again.
+        [self sdlex_startManager];
+        return;
+    }
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-
-    [self startManager];
+    [self sdlex_startManager];
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {

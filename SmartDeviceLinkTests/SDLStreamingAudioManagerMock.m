@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) NSMutableData *mutableDataSinceClear;
 
-@property (assign, nonatomic, readwrite) BOOL fileFinishedPlaying;
-@property (strong, nonatomic, readwrite) NSError *fileError;
+@property (assign, nonatomic, readwrite) BOOL finishedPlaying;
+@property (strong, nonatomic, readwrite) NSError *error;
 
 @end
 
@@ -35,8 +35,8 @@
     _lastSentData = nil;
     _mutableDataSinceClear = nil;
     
-    _fileFinishedPlaying = NO;
-    _fileError = nil;
+    _finishedPlaying = NO;
+    _error = nil;
 }
 
 #pragma mark SDLStreamingAudioManagerType
@@ -62,11 +62,19 @@
 
 #pragma mark SDLAudioStreamManagerDelegate
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager fileDidFinishPlaying:(SDLAudioFile *)file successfully:(BOOL)successfully {
-    _fileFinishedPlaying = successfully;
+    _finishedPlaying = successfully;
+}
+
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager dataBufferDidFinishPlayingSuccessfully:(BOOL)successfully {
+    _finishedPlaying = successfully;
 }
 
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForFile:(SDLAudioFile *)file error:(NSError *)error {
-    _fileError = error;
+    _error = error;
+}
+
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForDataBuffer:(NSError *)error {
+    _error = error;
 }
 
 @end

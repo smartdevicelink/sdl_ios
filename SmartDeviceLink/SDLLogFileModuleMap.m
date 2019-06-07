@@ -28,11 +28,12 @@
                                  [self sdl_screenManagerTextAndGraphicModule],
                                  [self sdl_screenManagerSoftButtonModule],
                                  [self sdl_screenManagerMenuModule],
-                                 [self sdl_screenManagerChoiceSetModule]]];
+                                 [self sdl_screenManagerChoiceSetModule],
+                                 [self sdl_utilitiesModule]]];
 }
 
 + (SDLLogFileModule *)sdl_transportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLIAPDataSession", @"SDLIAPControlSession", @"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
 }
 
 + (SDLLogFileModule *)sdl_proxyModule {
