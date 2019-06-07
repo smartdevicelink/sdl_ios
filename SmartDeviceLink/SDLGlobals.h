@@ -36,7 +36,6 @@ extern NSUInteger const SDLV3MTUSize;
 @property (copy, nonatomic) dispatch_queue_t sdlTransportQueue;
 @property (copy, nonatomic) dispatch_queue_t sdlProcessingQueue;
 @property (copy, nonatomic) dispatch_queue_t sdlConcurrentQueue;
-//@property (copy, nonatomic) dispatch_queue_t sdlCallbackQueue;
 
 + (instancetype)sharedGlobals;
 

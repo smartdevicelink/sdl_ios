@@ -78,7 +78,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
     _transactionQueue.name = @"com.sdl.fileManager.transactionQueue";
-    _transactionQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
+    _transactionQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     _transactionQueue.maxConcurrentOperationCount = 1;
     _uploadsInProgress = [[NSMutableDictionary alloc] init];
     _uploadedEphemeralFileNames = [[NSMutableSet<SDLFileName *> alloc] init];
@@ -106,9 +106,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)stop {
     [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
-
-    // Clear the failed uploads tracking so failed files can be uploaded again when a new connection has been established with Core
-    _failedFileUploadsCount = [NSMutableDictionary dictionary];
 }
 
 
@@ -161,6 +158,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self.mutableRemoteFileNames removeAllObjects];
     [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
+
+    // Clear the failed uploads tracking so failed files can be uploaded again when a new connection has been established with Core
+    _failedFileUploadsCount = [NSMutableDictionary dictionary];
 
     if (self.startupCompletionHandler != nil) {
         self.startupCompletionHandler(NO, [NSError sdl_fileManager_unableToStartError]);

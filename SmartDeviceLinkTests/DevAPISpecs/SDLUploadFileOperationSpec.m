@@ -19,7 +19,7 @@ describe(@"Streaming upload of data", ^{
     __block NSData *testFileData = nil;
     __block SDLFile *testFile = nil;
     __block SDLFileWrapper *testFileWrapper = nil;
-    __block NSInteger numberOfPutFiles = 0;
+    __block NSUInteger numberOfPutFiles = 0;
 
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLUploadFileOperation *testOperation = nil;

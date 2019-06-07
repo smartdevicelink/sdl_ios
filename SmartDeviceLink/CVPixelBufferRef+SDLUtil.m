@@ -28,7 +28,7 @@ UIFont * _Nullable sdl_findFontSizeToFitText(CGSize size, NSString *text) {
             break;
         }
         
-        fontSize -= 1.0;
+        fontSize -= (CGFloat)1.0;
     } while (fontSize > 0.0);
 
     return (fontSize > 0) ? [UIFont systemFontOfSize:fontSize] : nil;

@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLTouch: ID: %ld, Location: %@, Timestamp: %@, firstFinger? %@, secondFinger? %@", (long)_identifier, _location, _timeStamp, (self.isFirstFinger ? @"YES" : @"NO"), (self.isSecondFinger ? @"YES" : @"NO")];
+    return [NSString stringWithFormat:@"SDLTouch: ID: %ld, Location: %@, Timestamp: %lu, firstFinger? %@, secondFinger? %@", (long)_identifier, NSStringFromCGPoint(_location), (unsigned long)_timeStamp, (self.isFirstFinger ? @"YES" : @"NO"), (self.isSecondFinger ? @"YES" : @"NO")];
 }
 
 @end

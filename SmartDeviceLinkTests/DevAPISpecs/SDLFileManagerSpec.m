@@ -646,7 +646,7 @@ describe(@"SDLFileManager", ^{
     });
 });
 
-fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
+describe(@"SDLFileManager uploading/deleting multiple files", ^{
     __block TestMultipleFilesConnectionManager *testConnectionManager;
     __block SDLFileManager *testFileManager;
     __block NSUInteger initialSpaceAvailable;
@@ -709,6 +709,14 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 [expectedSuccessfulFileNames addObject:testFileName];
                 testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 testConnectionManager.responses = testConnectionManagerResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
             });
 
             it(@"should not return an error when one large file is uploaded from disk", ^{
@@ -720,6 +728,14 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 [expectedSuccessfulFileNames addObject:testFileName];
                 testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 testConnectionManager.responses = testConnectionManagerResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
             });
 
             it(@"should not return an error when multiple small files are uploaded from memory", ^{
@@ -737,6 +753,14 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 }
                 expectedSpaceLeft = @(testSpaceAvailable);
                 testConnectionManager.responses = testConnectionManagerResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
             });
 
             it(@"should not return an error when a large number of small files are uploaded from memory", ^{
@@ -754,6 +778,14 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 }
                 expectedSpaceLeft = @(testSpaceAvailable);
                 testConnectionManager.responses = testConnectionManagerResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
             });
 
             it(@"should not return an error when multiple small files are uploaded from disk", ^{
@@ -771,6 +803,14 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 }
                 expectedSpaceLeft = @(testSpaceAvailable);
                 testConnectionManager.responses = testConnectionManagerResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
             });
 
             it(@"should not return an error when multiple files are uploaded from both memory and disk", ^{
@@ -793,10 +833,7 @@ fdescribe(@"SDLFileManager uploading/deleting multiple files", ^{
                 }
                 expectedSpaceLeft = @(testSpaceAvailable);
                 testConnectionManager.responses = testConnectionManagerResponses;
-            });
 
-            // TODO: This should use itBehavesLike
-            afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
