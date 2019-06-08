@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 @property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
+@property (assign, nonatomic) BOOL lockScreenDismissableEnabled;
 
 @end
 
@@ -44,26 +45,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _canPresent = NO;
+    _lockScreenDismissableEnabled = NO;
     _config = config;
     _presenter = presenter;
     
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
-}
-
-// Lazy init of swipe gesture
-- (UISwipeGestureRecognizer *)swipeGesture {
-    if (!_swipeGesture) {
-        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
-        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
-        _swipeGesture = swipeGesture;
-    }
-    return _swipeGesture;
 }
 
 - (void)start {
@@ -106,6 +97,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self.presenter.lockViewController;
 }
 
+// Lazy init of swipe gesture
+- (UISwipeGestureRecognizer *)swipeGesture {
+    if (!_swipeGesture) {
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
+        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
+        _swipeGesture = swipeGesture;
+    }
+    return _swipeGesture;
+}
 
 #pragma mark - Notification Selectors
 
@@ -171,18 +171,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_toggleLockscreenDismissalableState {
-    SDLLockScreenManager *__weak weakSelf = self;
-    if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            SDLLockScreenManager *strongSelf = weakSelf;
-            [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
-        });
+    if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
+        ![self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue]) {
+        self.lockScreenDismissableEnabled = NO;
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            SDLLockScreenManager *strongSelf = weakSelf;
-            [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
-        });
+        self.lockScreenDismissableEnabled = YES;
     }
+    [self sdl_toggleLockscreenDismissalableWithState:self.lockScreenDismissableEnabled];
+}
+
+- (void)sdl_toggleLockscreenDismissalableWithState:(BOOL)enabled {
+    if (![self.lockScreenViewController isKindOfClass:[UIViewController class]]) {
+        return;
+    }
+
+    SDLLockScreenManager *__weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SDLLockScreenManager *strongSelf = weakSelf;
+        if (enabled) {
+            [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
+        } else {
+            [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
+        }
+    });
 }
 
 - (void)didSwipeDown:(UISwipeGestureRecognizer *)gesture {

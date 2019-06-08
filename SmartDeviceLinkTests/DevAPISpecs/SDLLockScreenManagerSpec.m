@@ -10,6 +10,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 
 
@@ -85,13 +86,22 @@ describe(@"a lock screen manager", ^{
             
             describe(@"when the lock screen status becomes REQUIRED", ^{
                 __block SDLOnLockScreenStatus *testRequiredStatus = nil;
-                
+                __block SDLOnDriverDistraction *testDriverDistraction = nil;
+                __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
                 beforeEach(^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     
                     SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
                     [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+                    
+                    testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                    testDriverDistraction.lockScreenDismissalEnabled = @1;
+                    
+                    testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
                 });
                 
                 it(@"should have presented the lock screen", ^{
@@ -114,6 +124,59 @@ describe(@"a lock screen manager", ^{
                         expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).toNot(beNil());
                         expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(equal(testIcon));
                     });
+                });
+                
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled 1 bit", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        testDriverDistraction.lockScreenDismissalEnabled = @1;
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should be able to be dismissed", ^{
+                        expect(testManager.lockScreenDismissableEnabled).toEventually(equal(YES));
+                    });
+                    
+                });
+                
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled 0 bit", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+                    
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        testDriverDistraction.lockScreenDismissalEnabled = @0;
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should not be able to be dismissed", ^{
+                        expect(testManager.lockScreenDismissableEnabled).toEventually(equal(NO));
+                    });
+                    
+                });
+                
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled nil bit", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+                    
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should not be able to be dismissed", ^{
+                        expect(testManager.lockScreenDismissableEnabled).toEventually(equal(NO));
+                    });
+                    
                 });
                 
                 describe(@"then the manager is stopped", ^{
