@@ -206,6 +206,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLMediaServiceManifest.h',
 'SmartDeviceLink/SDLMediaType.h',
 'SmartDeviceLink/SDLMenuCell.h',
+'SmartDeviceLink/SDLMenuManagerConstants.h,
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMetadataType.h',
