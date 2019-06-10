@@ -64,7 +64,6 @@ typedef NSNumber *MTUBox;
 
     _sdlProcessingQueue = dispatch_queue_create("com.sdl.serialProcessing", qosSerial);
     _sdlConcurrentQueue = dispatch_queue_create("com.sdl.concurrentProcessing", qosConcurrent);
-    _sdlTransportQueue = dispatch_queue_create("com.sdl.serialTransport", qosSerial);
 
     return self;
 }

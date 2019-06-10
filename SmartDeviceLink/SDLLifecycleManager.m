@@ -265,7 +265,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
     __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), self.lifecycleQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
@@ -470,21 +470,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.
-//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        self.readyHandler(YES, startError);
-//    });
+    self.readyHandler(YES, startError);
 
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
+    [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
 
-		// Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
-    	if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
-        	[self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
-    	}
-//    });
+    // Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
+    if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
+    }
 }
 
 - (void)didEnterStateUnregistering {
@@ -623,9 +619,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
         SDLLogW(@"%@", error);
         if (handler) {
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                handler(nil, nil, error);
-//            });
+            handler(nil, nil, error);
         }
         return;
     }
@@ -757,24 +751,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        if (![oldHMILevel isEqualToEnum:self.hmiLevel]
-            && !(oldHMILevel == nil && self.hmiLevel == nil)) {
-            [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
-        }
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]
+        && !(oldHMILevel == nil && self.hmiLevel == nil)) {
+        [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    }
 
-        if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
-            && !(oldStreamingState == nil && self.audioStreamingState == nil)
-            && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
-            [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
-        }
+    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
+        && !(oldStreamingState == nil && self.audioStreamingState == nil)
+        && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+    }
 
-        if (![oldSystemContext isEqualToEnum:self.systemContext]
-            && !(oldSystemContext == nil && self.systemContext == nil)
-            && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
-            [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
-        }
-//    });
+    if (![oldSystemContext isEqualToEnum:self.systemContext]
+        && !(oldSystemContext == nil && self.systemContext == nil)
+        && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
+        [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
+    }
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {

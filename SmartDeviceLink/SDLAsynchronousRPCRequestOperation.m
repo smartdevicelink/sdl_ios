@@ -148,12 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    __weak typeof(self) weakself = self;
-//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        if (weakself.completionHandler != NULL) {
-            weakself.completionHandler(!weakself.requestFailed);
-        }
-//    });
+    if (self.completionHandler != NULL) {
+        self.completionHandler(!self.requestFailed);
+    }
 
     [super finishOperation];
 }

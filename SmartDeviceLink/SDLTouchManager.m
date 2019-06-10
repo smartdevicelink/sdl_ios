@@ -433,6 +433,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param point  Screen coordinates of the tap gesture
  */
 - (void)sdl_initializeSingleTapTimerAtPoint:(CGPoint)point {
+    if (self.singleTapTimer != nil) {
+        [self sdl_cancelSingleTapTimer];
+    }
+
     self.singleTapTimer = [NSTimer timerWithTimeInterval:self.tapTimeThreshold target:self selector:@selector(sdl_singleTapTimerCallback:) userInfo:@{@"point": [NSValue valueWithCGPoint:point]} repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:self.singleTapTimer forMode:NSRunLoopCommonModes];
 }

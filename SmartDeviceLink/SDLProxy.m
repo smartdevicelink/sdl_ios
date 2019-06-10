@@ -897,15 +897,13 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
-    // Occurs on the protocol receive serial queue
-//    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-        for (id<SDLProxyListener> listener in self.proxyListeners) {
-            if ([listener respondsToSelector:aSelector]) {
-                // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
-            }
+    // Occurs on the processing serial queue
+    for (id<SDLProxyListener> listener in self.proxyListeners) {
+        if ([listener respondsToSelector:aSelector]) {
+            // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+            ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
         }
-//    });
+    }
 }
 
 

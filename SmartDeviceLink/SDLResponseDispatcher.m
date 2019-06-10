@@ -134,9 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLResponseHandler responseHandler = self.rpcResponseHandlerMap[correlationID];
 
         if (responseHandler != NULL) {
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                responseHandler(self.rpcRequestDictionary[correlationID], nil, [NSError sdl_lifecycle_notConnectedError]);
-//            });
+            responseHandler(self.rpcRequestDictionary[correlationID], nil, [NSError sdl_lifecycle_notConnectedError]);
         }
     }
     

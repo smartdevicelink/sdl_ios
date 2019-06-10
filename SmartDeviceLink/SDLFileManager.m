@@ -409,9 +409,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
 
         if (uploadCompletion != nil) {
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                uploadCompletion(success, bytesAvailable, error);
-//            });
+            uploadCompletion(success, bytesAvailable, error);
         }
     }];
 
