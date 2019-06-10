@@ -56,6 +56,10 @@ describe(@"SDLFileManager", ^{
         testFileManager.suspended = YES;
     });
 
+    afterEach(^{
+        [testFileManager stop];
+    });
+
     describe(@"before starting", ^{
         it(@"should be in the shutdown state", ^{
             expect(testFileManager.currentState).to(match(SDLFileManagerStateShutdown));
@@ -656,6 +660,10 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
         SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
         initialSpaceAvailable = 66666;
+    });
+
+    afterEach(^{
+        [testFileManager stop];
     });
 
     context(@"When the file manager is passed multiple files to upload", ^{
@@ -1647,6 +1655,10 @@ describe(@"SDLFileManager reupload failed files", ^{
         __block TestConnectionManager *testConnectionManager = nil;
         __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
 
+        afterEach(^{
+            [testFileManager stop];
+        });
+
         it(@"should set the max upload attempts to 2 if the configuration properties are not set", ^{
             testFileManagerConfiguration = [SDLFileManagerConfiguration defaultConfiguration];
             testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
@@ -1712,6 +1724,10 @@ describe(@"SDLFileManager reupload failed files", ^{
             testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
             testFailedFileUploadsCount = [NSMutableDictionary dictionary];
             testFile = [[SDLFile alloc] initWithData:[@"someData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin" persistent:false];
+        });
+
+        afterEach(^{
+            [testFileManager stop];
         });
 
         describe(@"the file cannot be uploaded again", ^{
