@@ -107,13 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (weakSelf.progressHandler != NULL) {
             float percentComplete = weakSelf.percentComplete;
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                weakSelf.progressHandler(request, response, error, percentComplete);
-//            });
+            weakSelf.progressHandler(request, response, error, percentComplete);
         } else if (weakSelf.responseHandler != NULL) {
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                weakSelf.responseHandler(request, response, error);
-//            });
+            weakSelf.responseHandler(request, response, error);
         }
 
         // If we've received responses for all requests, call the completion handler.
