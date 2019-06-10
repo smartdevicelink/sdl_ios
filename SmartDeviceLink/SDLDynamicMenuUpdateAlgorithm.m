@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Update Menu Cells
 + (nullable SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells{
-    if(oldMenuCells.count > 0 && updatedMenuCells.count == 0) {
+    if (oldMenuCells.count > 0 && updatedMenuCells.count == 0) {
         return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[SDLDynamicMenuUpdateAlgorithm sdl_buildAllDeleteStatusesforMenu:oldMenuCells] updatedStatus:@[] score:0];
-    }else if(oldMenuCells.count == 0 && updatedMenuCells.count > 0) {
+    }else if (oldMenuCells.count == 0 && updatedMenuCells.count > 0) {
         return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:@[] updatedStatus:[SDLDynamicMenuUpdateAlgorithm sdl_buildAllAddStatusesForMenu:updatedMenuCells] score:updatedMenuCells.count];
-    } else if(oldMenuCells.count == 0 && updatedMenuCells.count == 0) {
+    } else if (oldMenuCells.count == 0 && updatedMenuCells.count == 0) {
         return nil;
     }
 
@@ -38,10 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
         NSMutableArray<NSNumber *> *newMenuStatus = [SDLDynamicMenuUpdateAlgorithm sdl_buildAllAddStatusesForMenu:updatedMenuCells];
 
         NSUInteger startIndex = 0;
-        for(NSUInteger oldCellIndex = run; oldCellIndex < oldMenuCells.count; oldCellIndex++) { //For each old item
+        for (NSUInteger oldCellIndex = run; oldCellIndex < oldMenuCells.count; oldCellIndex++) { //For each old item
             // Create inner loop to compare old cells to new cells to find a match, if a match if found we mark the index at match for both the old and the new status to keep since we do not want to send RPCs for those cases
-            for(NSUInteger newCellIndex = startIndex; newCellIndex < updatedMenuCells.count; newCellIndex++) {
-                if([oldMenuCells[oldCellIndex] isEqual:updatedMenuCells[newCellIndex]]) {
+            for (NSUInteger newCellIndex = startIndex; newCellIndex < updatedMenuCells.count; newCellIndex++) {
+                if ([oldMenuCells[oldCellIndex] isEqual:updatedMenuCells[newCellIndex]]) {
                     oldMenuStatus[oldCellIndex] = @(MenuCellStateKeep);
                     newMenuStatus[newCellIndex] = @(MenuCellStateKeep);
                     startIndex = newCellIndex + 1;
@@ -52,20 +52,20 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Add RPC are the biggest operation so we need to find the run with the least amount of Adds. We will reset the run we use each time a runscore is less than the current score.
         NSUInteger numberOfAdds = 0;
-        for(NSUInteger status = 0; status < newMenuStatus.count; status++) {
+        for (NSUInteger status = 0; status < newMenuStatus.count; status++) {
             // 0 = Delete   1 = Add    2 = Keep
-            if(newMenuStatus[status].integerValue == MenuCellStateAdd) {
+            if (newMenuStatus[status].integerValue == MenuCellStateAdd) {
                 numberOfAdds++;
             }
         }
 
         // As soon as we a run that requires 0 Adds we will use it since we cant do better then 0
-        if(numberOfAdds == 0) {
+        if (numberOfAdds == 0) {
             bestScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
             return bestScore;
         }
         // if we havent create the bestScore object or if the current score beats the old score then we will create a new bestScore
-        if(bestScore == nil || numberOfAdds < bestScore.score) {
+        if (bestScore == nil || numberOfAdds < bestScore.score) {
             bestScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
     }
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSMutableArray<NSNumber *> *)sdl_buildAllDeleteStatusesforMenu:(NSArray<SDLMenuCell *> *)oldMenu {
     NSMutableArray<NSNumber *> *oldMenuStatus = [[NSMutableArray alloc] init];
-    for(NSUInteger index = 0; index < oldMenu.count; index++) {
+    for (NSUInteger index = 0; index < oldMenu.count; index++) {
         [oldMenuStatus addObject:@(MenuCellStateDelete)];
     }
     return [oldMenuStatus mutableCopy];
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSMutableArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)newMenu {
     NSMutableArray<NSNumber *> *newMenuStatus = [[NSMutableArray alloc] init];
-    for(NSUInteger index = 0; index < newMenu.count; index++) {
+    for (NSUInteger index = 0; index < newMenu.count; index++) {
         [newMenuStatus addObject:@(MenuCellStateAdd)];
     }
     return [newMenuStatus mutableCopy];
