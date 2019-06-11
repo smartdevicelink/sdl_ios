@@ -15,31 +15,36 @@
 
 QuickSpecBegin(SDLOnPermissionsChangeSpec)
 
-SDLPermissionItem* item = [[SDLPermissionItem alloc] init];
+SDLPermissionItem *item = [[SDLPermissionItem alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] init];
+        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         testNotification.permissionItem = [@[item] mutableCopy];
-        
+        testNotification.requireEncryption = @1;
+
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
+        expect(testNotification.requireEncryption).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy]},
+                                                                 @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy],
+                                                                   SDLRPCParameterNameRequireEncryption:@1},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
-        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
+        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
         
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
+        expect(testNotification.requireEncryption).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] init];
+        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         expect(testNotification.permissionItem).to(beNil());
+        expect(testNotification.requireEncryption).to(beNil());
     });
 });
 
