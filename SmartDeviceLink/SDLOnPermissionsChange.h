@@ -22,6 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSArray<SDLPermissionItem *> *permissionItem;
 
+/**
+ Describes whether or not the app needs the encryption permission
+ 
+ Optional boolean available since core 5.1
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *requireEncryption;
+
 @end
 
 NS_ASSUME_NONNULL_END

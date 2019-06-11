@@ -40,4 +40,4 @@ SDLResult const SDLResultExpiredCertificate = @"EXPIRED_CERT";
 SDLResult const SDLResultResumeFailed = @"RESUME_FAILED";
 SDLResult const SDLResultDataNotAvailable = @"DATA_NOT_AVAILABLE";
 SDLResult const SDLResultReadOnly = @"READ_ONLY";
-
+SDLResult const SDLResultEncryptionNeeded = @"ENCRYPTION_NEEDED";

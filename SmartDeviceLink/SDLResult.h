@@ -208,3 +208,8 @@ extern SDLResult const SDLResultDataNotAvailable;
  The requested data is read only thus cannot be change via remote control .
  */
 extern SDLResult const SDLResultReadOnly;
+
+/**
+ The RPC request needs to be encrypted.
+ */
+extern SDLResult const SDLResultEncryptionNeeded;

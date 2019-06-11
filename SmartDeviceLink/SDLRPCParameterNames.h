@@ -485,6 +485,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameRequest;
 extern SDLRPCParameterName const SDLRPCParameterNameRequestServiceActive;
 extern SDLRPCParameterName const SDLRPCParameterNameRequestSubType;
 extern SDLRPCParameterName const SDLRPCParameterNameRequestType;
+extern SDLRPCParameterName const SDLRPCParameterNameRequireEncryption;
 extern SDLRPCParameterName const SDLRPCParameterNameReserved;
 extern SDLRPCParameterName const SDLRPCParameterNameResolution;
 extern SDLRPCParameterName const SDLRPCParameterNameResolutionHeight;

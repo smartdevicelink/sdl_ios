@@ -31,6 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLParameterPermissions *parameterPermissions;
 
+/**
+ Describes whether or not the RPC needs encryption
+ 
+ Optional boolean available since core 5.1
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *requireEncryption;
+
 @end
 
 NS_ASSUME_NONNULL_END
