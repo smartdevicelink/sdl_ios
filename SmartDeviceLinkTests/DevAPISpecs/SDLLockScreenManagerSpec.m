@@ -87,7 +87,6 @@ describe(@"a lock screen manager", ^{
             describe(@"when the lock screen status becomes REQUIRED", ^{
                 __block SDLOnLockScreenStatus *testRequiredStatus = nil;
                 __block SDLOnDriverDistraction *testDriverDistraction = nil;
-                __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
                 beforeEach(^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
@@ -95,13 +94,6 @@ describe(@"a lock screen manager", ^{
                     
                     SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
                     [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
-                    
-                    testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
-                    testDriverDistraction.lockScreenDismissalEnabled = @1;
-                    
-                    testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
                 });
                 
                 it(@"should have presented the lock screen", ^{
