@@ -45,7 +45,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
-@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSOperation *> *uploadsInProgress;
 @property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
@@ -80,7 +79,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _transactionQueue.name = @"com.sdl.fileManager.transactionQueue";
     _transactionQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     _transactionQueue.maxConcurrentOperationCount = 1;
-    _uploadsInProgress = [[NSMutableDictionary alloc] init];
     _uploadedEphemeralFileNames = [[NSMutableSet<SDLFileName *> alloc] init];
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
@@ -108,6 +106,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
 }
 
+- (void)dealloc {
+    if (self.currentState != SDLFileManagerStateShutdown) {
+        [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
+    }
+}
 
 #pragma mark - Getters
 
@@ -302,10 +305,20 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __block float totalBytesUploaded = 0.0;
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
+    // Wait for all files to be uploaded
+    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        if (completionHandler == nil) { return; }
+        if (failedUploads.count > 0) {
+            return completionHandler([NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:failedUploads]);
+        }
+        return completionHandler(nil);
+    });
+
     dispatch_group_enter(uploadFilesTask);
     for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
 
+        __weak typeof(self) weakself = self;
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if(!success) {
                 failedUploads[file.name] = error;
@@ -314,14 +327,16 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             // Send an update for each file sent to the remote
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
-                float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
+                float uploadPercentage = [weakself sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
                 BOOL continueWithRemainingUploads = progressHandler(file.name, uploadPercentage, error);
                 if (!continueWithRemainingUploads) {
                     // Cancel any remaining files waiting to be uploaded
                     for(SDLFile *file in files) {
-                        NSOperation *fileUploadOperation = self.uploadsInProgress[file.name];
-                        if (fileUploadOperation) {
-                            [fileUploadOperation cancel];
+                        for (SDLUploadFileOperation *op in weakself.transactionQueue.operations) {
+                            if ([op.fileWrapper.file isEqual:file]) {
+                                [op cancel];
+                                break;
+                            }
                         }
                     }
 
@@ -333,15 +348,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }];
     }
     dispatch_group_leave(uploadFilesTask);
-
-    // Wait for all files to be uploaded
-    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
-        if (completionHandler == nil) { return; }
-        if (failedUploads.count > 0) {
-            return completionHandler([NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:failedUploads]);
-        }
-        return completionHandler(nil);
-    });
 }
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
@@ -390,21 +396,17 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-        if (self.uploadsInProgress[file.name]) {
-            [self.uploadsInProgress removeObjectForKey:file.name];
-        }
-        
         if (success) {
             weakSelf.bytesAvailable = bytesAvailable;
             [weakSelf.mutableRemoteFileNames addObject:fileName];
             [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         } else {
-            self.failedFileUploadsCount = [self.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:self.failedFileUploadsCount];
+            weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
 
-            NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
-            if ([self sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:self.failedFileUploadsCount]) {
+            NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
+            if ([weakSelf sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:weakSelf.failedFileUploadsCount]) {
                 SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
-                return [self sdl_uploadFile:file completionHandler:handler];
+                return [weakSelf sdl_uploadFile:file completionHandler:handler];
             }
         }
 
@@ -415,16 +417,16 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
 
-    self.uploadsInProgress[file.name] = uploadOperation;
     [self.transactionQueue addOperation:uploadOperation];
 }
 
 #pragma mark Artworks
 
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
+    __weak typeof(self) weakself = self;
     [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
         if (completion == nil) { return; }
-        if ([self sdl_isErrorCannotOverwriteError:error]) {
+        if ([weakself sdl_isErrorCannotOverwriteError:error]) {
             // Artwork with same name already uploaded to remote
             return completion(true, artwork.name, bytesAvailable, nil);
         }
@@ -441,9 +443,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         @throw [NSException sdl_missingFilesException];
     }
 
+    __weak typeof(self) weakself = self;
     [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         if (progressHandler == nil) { return YES; }
-        if ([self sdl_isErrorCannotOverwriteError:error]) {
+        if ([weakself sdl_isErrorCannotOverwriteError:error]) {
             return progressHandler(fileName, uploadPercentage, nil);
         }
         return progressHandler(fileName, uploadPercentage, error);
@@ -458,7 +461,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         if (error != nil) {
             for (NSString *erroredArtworkName in error.userInfo) {
-                if (![self sdl_isErrorCannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
+                if (![weakself sdl_isErrorCannotOverwriteError:error.userInfo[erroredArtworkName]]) {
                     [successfulArtworkUploadNames removeObject:erroredArtworkName];
                 } else {
                     // An overwrite error means that an artwork with the same name is already uploaded to the remote

@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLUploadFileOperation ()
 
-@property (strong, nonatomic) SDLFileWrapper *fileWrapper;
+@property (strong, nonatomic, readwrite) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSInputStream *inputStream;
 
@@ -70,21 +70,22 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSInteger highestCorrelationIDReceived = -1;
 
     if (self.isCancelled) {
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
     }
 
     if (file == nil) {
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
     self.inputStream = [self sdl_openInputStreamWithFile:file];
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
         // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
+
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
     dispatch_group_t putFileGroup = dispatch_group_create();

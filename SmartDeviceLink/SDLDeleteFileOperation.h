@@ -29,6 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler;
 
+@property (copy, nonatomic, readonly) NSString *fileName;
+@property (weak, nonatomic, readonly) id<SDLConnectionManagerType> connectionManager;
+@property (copy, nonatomic, nullable, readonly) SDLFileManagerDeleteCompletionHandler completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

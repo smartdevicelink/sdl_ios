@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
+@property (nonatomic, strong, readonly) SDLFileWrapper *fileWrapper;
+
 @end
 
 NS_ASSUME_NONNULL_END

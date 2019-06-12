@@ -594,9 +594,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
         if (handler) {
-//            dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
-                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-//            });
+            handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
 
         return;

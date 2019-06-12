@@ -28,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler;
 
+@property (strong, nonatomic, readonly) NSUUID *operationId;
+@property (weak, nonatomic, readonly) id<SDLConnectionManagerType> connectionManager;
+@property (copy, nonatomic, nullable, readonly) SDLFileManagerListFilesCompletionHandler completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
