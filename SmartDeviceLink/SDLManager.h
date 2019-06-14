@@ -181,7 +181,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 #pragma mark - RPC Subscriptions
 
-typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *);
+typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
 
 /**
  * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
