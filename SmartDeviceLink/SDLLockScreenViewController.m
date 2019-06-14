@@ -70,6 +70,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_layoutViews];
 }
 
+- (void)setLockedLabelText:(NSString *_Nullable)lockedLabelText {
+    _lockedLabelText = lockedLabelText;
+    
+    [self sdl_layoutViews];
+}
 
 #pragma mark - Layout
 
@@ -87,7 +92,14 @@ NS_ASSUME_NONNULL_BEGIN
         self.arrowDownImageView.tintColor = iconColor;
 
         self.lockedLabel.textColor = iconColor;
-
+        
+        // Translations needed
+        if (self.lockedLabelText != nil) {
+            self.lockedLabel.text = self.lockedLabelText;
+        } else {
+            self.lockedLabel.text = NSLocalizedString(@"Locked for your safety", nil);
+        }
+        
         self.view.backgroundColor = self.backgroundColor;
 
         if (self.vehicleIcon != nil && self.appIcon != nil) {

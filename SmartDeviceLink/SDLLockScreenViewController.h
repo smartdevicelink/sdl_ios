@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, nullable) UIColor *backgroundColor;
 
+/**
+ *  The locked label string.  This is settable by the lock screen manager to inform in the user about the dismissable state
+ */
+@property (copy, nonatomic, nullable) NSString *lockedLabelText;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -100,8 +100,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Lazy init of swipe gesture
 - (UISwipeGestureRecognizer *)swipeGesture {
     if (!_swipeGesture) {
-        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
-        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeUp:)];
+        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionUp];
         _swipeGesture = swipeGesture;
     }
     return _swipeGesture;
@@ -177,6 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         self.lockScreenDismissableEnabled = YES;
     }
+    
     [self sdl_toggleLockscreenDismissalableWithState:self.lockScreenDismissableEnabled];
 }
 
@@ -190,13 +191,24 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLockScreenManager *strongSelf = weakSelf;
         if (enabled) {
             [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
+            
+            // If the VC is our special type, then set the locked label text. If they passed in a custom VC, there's no current way to update locked label text. If they're managing it themselves, they can grab the notification themselves.
+            // Translations needed
+            if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+                ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = NSLocalizedString(@"Swipe up to dismiss", nil);
+            }
         } else {
             [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
+            
+            // If the VC is our special type, then set the locked label text. If they passed in a custom VC, there's no current way to update locked label text. If they're managing it themselves, they can grab the notification themselves.
+            if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+                ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = nil;
+            }
         }
     });
 }
 
-- (void)didSwipeDown:(UISwipeGestureRecognizer *)gesture {
+- (void)didSwipeUp:(UISwipeGestureRecognizer *)gesture {
     [self.presenter dismiss];
 }
 
