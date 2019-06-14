@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -181,6 +182,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
+    self.requiresEncryption = onPermissionChange.requireEncryption ? YES : NO;
+    
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 

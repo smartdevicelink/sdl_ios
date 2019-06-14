@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
