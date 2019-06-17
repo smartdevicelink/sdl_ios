@@ -365,7 +365,7 @@ typedef NSString * SDLServiceID;
 
 #pragma mark - Subscriptions
 
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block {
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block {
     if (!self.supportsSubscriptions) { return nil; }
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];

@@ -224,7 +224,7 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  @param block The block to be called when the capability is updated
  @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
  */
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type usingBlock:(SDLCapabilityUpdateHandler)block;
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block;
 
 /**
  * Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:
