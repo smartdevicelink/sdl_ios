@@ -13,6 +13,7 @@
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLogConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
-    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil];
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil encryption: nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig {
-    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:nil];
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:nil encryption: nil];
 }
 
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig {
     self = [super init];
     if (!self) {
         return nil;
@@ -40,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
+    _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration unencryptedConfiguration];
 
     return self;
 }
@@ -57,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
-    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:fileManagerConfig];
+    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:fileManagerConfig encryption: nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig {

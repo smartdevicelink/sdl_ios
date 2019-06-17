@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0099882722B816A10015847D /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 0099882522B816A10015847D /* SDLEncryptionConfiguration.h */; };
+		0099882822B816A10015847D /* SDLEncryptionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0099882622B816A10015847D /* SDLEncryptionConfiguration.m */; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
 		162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */; };
 		162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */; };
@@ -1594,6 +1596,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0099882522B816A10015847D /* SDLEncryptionConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionConfiguration.h; sourceTree = "<group>"; };
+		0099882622B816A10015847D /* SDLEncryptionConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfiguration.m; sourceTree = "<group>"; };
 		162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAmbientLightStatusSpec.m; sourceTree = "<group>"; };
 		162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppHMITypeSpec.m; sourceTree = "<group>"; };
 		162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInterfaceUnregisteredReasonSpec.m; sourceTree = "<group>"; };
@@ -3184,6 +3188,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0099882422B8166F0015847D /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				0099882522B816A10015847D /* SDLEncryptionConfiguration.h */,
+				0099882622B816A10015847D /* SDLEncryptionConfiguration.m */,
+			);
+			name = Encryption;
+			sourceTree = "<group>";
+		};
 		162E81E01A9BDE8A00906325 /* RPCSpecs */ = {
 			isa = PBXGroup;
 			children = (
@@ -5512,6 +5525,7 @@
 		5DBAE0A61D355EF200CE00BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				0099882422B8166F0015847D /* Encryption */,
 				5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */,
 				5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */,
 				5D82041C1BCD8E6100D0A41B /* SDLConfiguration.h */,
@@ -6385,6 +6399,7 @@
 				5D61FC611A84238C00846EE7 /* SDLChoice.h in Headers */,
 				5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */,
 				5D92937420B5EEA200FCC775 /* SDLPreloadChoicesOperation.h in Headers */,
+				0099882722B816A10015847D /* SDLEncryptionConfiguration.h in Headers */,
 				5D7F87F31CE3C29E002DD7C4 /* SDLFileWrapper.h in Headers */,
 				5D61FC7C1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.h in Headers */,
 				5D61FDB91A84238C00846EE7 /* SDLSyncPDataResponse.h in Headers */,
@@ -7228,6 +7243,7 @@
 				88A7A3C7220CCEA100A9E435 /* SDLGetFileResponse.m in Sources */,
 				1E5AD0851F20B9290029B8AF /* SDLButtonPressResponse.m in Sources */,
 				5D82041F1BCD8E6100D0A41B /* SDLConfiguration.m in Sources */,
+				0099882822B816A10015847D /* SDLEncryptionConfiguration.m in Sources */,
 				5D61FD381A84238C00846EE7 /* SDLPredefinedLayout.m in Sources */,
 				5D3E487C1D6F888E0000BFEF /* SDLRPCResponseNotification.m in Sources */,
 				5D61FD0E1A84238C00846EE7 /* SDLOnHashChange.m in Sources */,

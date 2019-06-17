@@ -13,6 +13,7 @@
 @class SDLLockScreenConfiguration;
 @class SDLLogConfiguration;
 @class SDLStreamingMediaConfiguration;
+@class SDLEncryptionConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLFileManagerConfiguration *fileManagerConfig;
 
 /**
+ *  The encryption configuration.
+ */
+@property (copy, nonatomic, readonly) SDLEncryptionConfiguration *encryptionConfig;
+
+/**
  *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.
  *
  *  @param lifecycleConfig      The lifecycle configuration to be used.
@@ -60,9 +66,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
  *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
  *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @param encryptionConfig           The encryption configuration to be used.  If nil, the `unencryptedConfiguration` will be used.
  *  @return                     The configuration
  */
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig;
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig;
 
 /**
  *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.
