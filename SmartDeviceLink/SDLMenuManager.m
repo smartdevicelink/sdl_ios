@@ -323,13 +323,12 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    __weak typeof(self) weakself = self;
     if (self.inProgressUpdate != nil) {
         // There's an in progress update, we need to put this on hold
         self.hasQueuedUpdate = YES;
         return;
     }
-
+    __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
             weakself.inProgressUpdate = nil;
