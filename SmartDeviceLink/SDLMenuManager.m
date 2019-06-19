@@ -296,7 +296,7 @@ UInt32 const MenuCellIdMin = 1;
 
             SDLLogD(@"Menu artworks uploaded");
             // Update cells with artworks once they're uploaded
-            [self sdl_updateMenuWithCellsToDelete:self.menuCells cellsToAdd:self.menuCells completionHandler:nil];
+            [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
         }];
     }
     // Update cells without artworks
