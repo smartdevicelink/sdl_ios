@@ -111,6 +111,13 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 - (void)sendRPC:(SDLRPCMessage *)message;
 
 /**
+ *  Sends an encrypted RPC to Core
+ *
+ *  @param message A SDLRPCMessage message
+ */
+- (void)sendEncryptedRPC:(SDLRPCMessage *)message;
+
+/**
  *  Sends an RPC to Core
  *
  *  @param message     A SDLRPCMessage message

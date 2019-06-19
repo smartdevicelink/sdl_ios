@@ -264,6 +264,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendRPC:message encrypted:NO error:nil];
 }
 
+- (void)sendEncryptedRPC:(SDLRPCMessage *)message {
+    [self sendRPC:message encrypted:YES error:nil];
+}
+
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:error];

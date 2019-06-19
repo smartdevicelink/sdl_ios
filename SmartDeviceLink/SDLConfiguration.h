@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
  *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
  *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
- *  @param encryptionConfig           The encryption configuration to be used.  If nil, the `unencryptedConfiguration` will be used.
+ *  @param encryptionConfig     The encryption configuration to be used.  If nil, the `unencryptedConfiguration` will be used.
  *  @return                     The configuration
  */
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig;

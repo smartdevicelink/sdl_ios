@@ -16,6 +16,7 @@
 #import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
@@ -285,6 +286,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers");
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+    } else if (self.configuration.encryptionConfig.securityManagers != nil) {
+        [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
