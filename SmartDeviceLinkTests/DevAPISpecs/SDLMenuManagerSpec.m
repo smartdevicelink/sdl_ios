@@ -319,7 +319,6 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
 
-
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
 
@@ -336,6 +335,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Without Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[submenuCell, submenuImageCell, textOnlyCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -350,9 +350,13 @@ describe(@"menu manager", ^{
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
                 NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
 
+                NSPredicate *deletesubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteSubMenu class]];
+                NSArray *subDeletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deletesubmenuPredicate];
+
                 expect(deletes).to(haveCount(1));
-                expect(adds).to(haveCount(9));
-                expect(submenu).to(haveCount(4));
+                expect(adds).to(haveCount(6));
+                expect(submenu).to(haveCount(3));
+                expect(subDeletes).to(haveCount(1));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when removing one submenu cell", ^{
@@ -361,6 +365,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -378,10 +383,10 @@ describe(@"menu manager", ^{
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
                 NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
 
-                expect(deletes).to(haveCount(0));
-                expect(subDeletes).to(haveCount(1));
-                expect(adds).to(haveCount(10));
-                expect(submenu).to(haveCount(4));
+                expect(deletes).to(haveCount(1));
+                expect(subDeletes).to(haveCount(2));
+                expect(adds).to(haveCount(7));
+                expect(submenu).to(haveCount(3));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when adding one new cell", ^{
@@ -390,6 +395,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
 
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell, textOnlyCell2];
@@ -405,13 +411,19 @@ describe(@"menu manager", ^{
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
                 NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
 
-                expect(deletes).to(haveCount(0));
-                expect(adds).to(haveCount(11));
-                expect(submenu).to(haveCount(4));
+                NSPredicate *deleteSubCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteSubMenu class]];
+                NSArray *subDeletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteSubCommandPredicate];
+
+
+                expect(deletes).to(haveCount(1));
+                expect(adds).to(haveCount(8));
+                expect(submenu).to(haveCount(3));
+                expect(subDeletes).to(haveCount(1));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when cells stay the same", ^{
                 testManager.menuCells = @[textOnlyCell, textOnlyCell2, textAndImageCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -425,8 +437,8 @@ describe(@"menu manager", ^{
                 NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
-                expect(deletes).to(haveCount(0));
-                expect(adds).to(haveCount(6));
+                expect(deletes).to(haveCount(1));
+                expect(adds).to(haveCount(4));
             });
         });
 

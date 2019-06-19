@@ -261,6 +261,7 @@ UInt32 const MenuCellIdMin = 1;
 
     // Upload the artworks
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:cellsToAdd];
+    NSArray<SDLMenuCell *> *cellWithArtWork = [self sdl_findAllCellsWithArtwork:cellsToAdd];
     if (artworksToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
             if (error != nil) {
@@ -269,7 +270,8 @@ UInt32 const MenuCellIdMin = 1;
             SDLLogD(@"Menu artworks uploaded");
             // Update cells with artworks once they're uploaded
             __weak typeof(self) weakself = self;
-            [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
+            weakself.inProgressUpdate = nil;
+            [self sdl_updateMenuWithCellsToDelete:cellWithArtWork cellsToAdd:cellWithArtWork completionHandler:^(NSError * _Nullable error) {
                 [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
             }];
         }];
@@ -294,11 +296,22 @@ UInt32 const MenuCellIdMin = 1;
 
             SDLLogD(@"Menu artworks uploaded");
             // Update cells with artworks once they're uploaded
-            [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
+            [self sdl_updateMenuWithCellsToDelete:self.menuCells cellsToAdd:self.menuCells completionHandler:nil];
         }];
     }
     // Update cells without artworks
     [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
+}
+
+- (NSArray<SDLMenuCell *> *)sdl_findAllCellsWithArtwork:(NSArray<SDLMenuCell *> *)cells {
+    NSMutableArray<SDLMenuCell *> *cellWithArtWork = [[NSMutableArray alloc] init];
+
+    for (SDLMenuCell *cell in cells) {
+        if(cell.icon != nil) {
+            [cellWithArtWork addObject:cell];
+        }
+    }
+    return [cellWithArtWork copy];
 }
 
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
@@ -310,13 +323,13 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
+    __weak typeof(self) weakself = self;
     if (self.inProgressUpdate != nil) {
         // There's an in progress update, we need to put this on hold
         self.hasQueuedUpdate = YES;
         return;
     }
 
-    __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
             weakself.inProgressUpdate = nil;
