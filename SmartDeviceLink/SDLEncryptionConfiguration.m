@@ -10,10 +10,6 @@
 
 @implementation SDLEncryptionConfiguration
 
-+ (instancetype)unencryptedConfiguration {
-    return [[self.class alloc] initWithSecurityManagers: nil];
-}
-
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers {
     self = [super init];
     if (!self) {
@@ -24,5 +20,15 @@
     
     return self;
 }
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLEncryptionConfiguration *newConfig = [[self.class allocWithZone:zone] init];
+    newConfig.securityManagers = self.securityManagers;
+    
+    return newConfig;
+}
+
 
 @end

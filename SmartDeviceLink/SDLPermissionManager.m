@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     _currentHMILevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
+    _requiresEncryption = NO;
 
     // Set up SDL status notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
@@ -59,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
     _currentHMILevel = nil;
+    _requiresEncryption = NO;
 }
 
 

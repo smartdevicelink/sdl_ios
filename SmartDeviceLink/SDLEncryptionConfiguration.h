@@ -13,19 +13,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLEncryptionConfiguration : NSObject
+@interface SDLEncryptionConfiguration : NSObject <NSCopying>
 
 /**
  *  Set security managers which could be used. This is primarily used perhaps encrypt traffic data.
  */
 @property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
-
-/**
- Creates a unencrypted configuration.
- 
- @return The configuration
- */
-+ (instancetype)unencryptedConfiguration;
 
 /**
  Create a secure configuration for each of the security managers provided.

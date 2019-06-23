@@ -297,6 +297,22 @@ static float DefaultConnectionTimeout = 45.0;
     }
 }
 
+- (void)sendEncryptedRPC:(SDLRPCMessage *)message {
+    if ([message.getFunctionName isEqualToString:@"SubscribeButton"]) {
+        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessageEncrypted:(SDLSubscribeButton *)message];
+        if (handledRPC) { return; }
+    } else if ([message.getFunctionName isEqualToString:@"UnsubscribeButton"]) {
+        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessageEncrypted:(SDLUnsubscribeButton *)message];
+        if (handledRPC) { return; }
+    }
+    
+    @try {
+        [self.protocol sendEncryptedRPC:message];
+    } @catch (NSException *exception) {
+        SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
+    }
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message {
@@ -370,6 +386,83 @@ static float DefaultConnectionTimeout = 45.0;
         }
     }
 
+    return NO;
+}
+#pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (BOOL)sdl_adaptButtonSubscribeMessageEncrypted:(SDLSubscribeButton *)message {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            SDLSubscribeButton *playPauseMessage = [message copy];
+            playPauseMessage.buttonName = SDLButtonNamePlayPause;
+            
+            @try {
+                [self.protocol sendEncryptedRPC:message];
+                [self.protocol sendEncryptedRPC:playPauseMessage];
+            } @catch (NSException *exception) {
+                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
+            }
+            
+            return YES;
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            return NO;
+        }
+    } else { // Major version < 5
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            return NO;
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            SDLSubscribeButton *okMessage = [message copy];
+            okMessage.buttonName = SDLButtonNameOk;
+            
+            @try {
+                [self.protocol sendEncryptedRPC:okMessage];
+            } @catch (NSException *exception) {
+                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
+            }
+            
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)sdl_adaptButtonUnsubscribeMessageEncrypted:(SDLUnsubscribeButton *)message {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            SDLUnsubscribeButton *playPauseMessage = [message copy];
+            playPauseMessage.buttonName = SDLButtonNamePlayPause;
+            
+            @try {
+                [self.protocol sendEncryptedRPC:message];
+                [self.protocol sendEncryptedRPC:playPauseMessage];
+            } @catch (NSException *exception) {
+                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
+            }
+            
+            return YES;
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            return NO;
+        }
+    } else { // Major version < 5
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            return NO;
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            SDLUnsubscribeButton *okMessage = [message copy];
+            okMessage.buttonName = SDLButtonNameOk;
+            
+            @try {
+                [self.protocol sendEncryptedRPC:okMessage];
+            } @catch (NSException *exception) {
+                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
+            }
+            
+            return YES;
+        }
+    }
+    
     return NO;
 }
 #pragma clang diagnostic pop

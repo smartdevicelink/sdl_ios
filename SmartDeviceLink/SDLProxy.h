@@ -98,6 +98,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendRPC:(SDLRPCMessage *)message;
 
 /**
+ *  Sends a RPC to Core.
+ *
+ *  @param message A SDLRPCMessage object
+ */
+- (void)sendEncryptedRPC:(SDLRPCMessage *)message;
+
+/**
  * Parses a dictionary object and notifies the subscribed delegates of the messages sent by Core. Some messages are also intercepted and handled by the library.
  *
  *  @param dictionary The message data

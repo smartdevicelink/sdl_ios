@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
-    _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration unencryptedConfiguration];
+    _encryptionConfig = encryptionConfig;
 
     return self;
 }
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig streamingMedia:streamingMediaConfig fileManager:nil];
 }
 
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig {
     self = [super init];
     if (!self) {
         return nil;
@@ -75,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lifecycleConfig = lifecycleConfig;
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
+    _encryptionConfig = encryptionConfig;
 
     _streamingMediaConfig = streamingMediaConfig;
     if (_streamingMediaConfig != nil) {
@@ -102,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle:_lifecycleConfig lockScreen:_lockScreenConfig logging:_loggingConfig streamingMedia:_streamingMediaConfig fileManager:_fileManagerConfig];
+    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle:_lifecycleConfig lockScreen:_lockScreenConfig logging:_loggingConfig streamingMedia:_streamingMediaConfig fileManager:_fileManagerConfig encryption:_encryptionConfig];
     return new;
 }
 

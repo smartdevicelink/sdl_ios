@@ -12,6 +12,7 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
+#import "SDLAsynchronousEncryptedRPCRequestOperation.h"
 #import "SDLChangeRegistration.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
@@ -38,6 +39,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLPermissionItem.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
@@ -76,6 +78,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark - SDLManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
+
+typedef void (^EncryptionCompletionBlock)(BOOL);
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -567,6 +571,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
+- (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    SDLAsynchronousEncryptedRPCRequestOperation *op = [[SDLAsynchronousEncryptedRPCRequestOperation alloc] initWithConnectionManager:self requestToEncrypt:request responseHandler:handler];
+
+    [self.rpcOperationQueue addOperation:op];
+}
+
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     if (requests.count == 0) {
         completionHandler(YES);
@@ -613,7 +623,28 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
+        if ([self requestRequiresEncryption:request]) {
+            [self sdl_sendEncryptedRequest:request withResponseHandler:handler];
+        } else {
+            [self sdl_sendRequest:request withResponseHandler:handler];
+        }
+    });
+}
+
+- (void)sendEncryptedConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        SDLLogW(@"Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+            });
+        }
+        
+        return;
+    }
+    
+    dispatch_async(_lifecycleQueue, ^{
+        [self sdl_sendEncryptedRequest:request withResponseHandler:handler];
     });
 }
 
@@ -654,6 +685,47 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 }
 
+- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
+    NSParameterAssert(request != nil);
+    
+    // If, for some reason, the request is nil we should error out.
+    if (!request) {
+        NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
+        SDLLogW(@"%@", error);
+        if (handler) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                handler(nil, nil, error);
+            });
+        }
+        return;
+    }
+    
+    if ([request isKindOfClass:SDLRPCRequest.class]) {
+        // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+        NSNumber *corrID = [self sdl_getNextCorrelationId];
+        requestRPC.correlationID = corrID;
+        [self.responseDispatcher storeRequest:requestRPC handler:handler];
+        [self sdl_startEncryptionServiceWithBlock:^(BOOL success) {
+            if (success) {
+                [self.proxy sendEncryptedRPC:requestRPC];
+            } else {
+                SDLLogE(@"Attempting to send an Encrypted RPC failed, %@. The security manager failed to handshake. Returning...", requestRPC.class);
+            }
+        }];
+    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
+        [self sdl_startEncryptionServiceWithBlock:^(BOOL success) {
+            if (success) {
+                [self.proxy sendEncryptedRPC:request];
+            } else {
+                SDLLogE(@"Attempting to send an Encrypted RPC failed, %@. The security manager failed to handshake. Returning...", request.class);
+            }
+        }];
+    } else {
+        SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
+    }
+}
 
 #pragma mark Helper Methods
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
@@ -692,6 +764,52 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
  */
 - (nullable NSString *)authToken {
     return self.proxy.protocol.authToken;
+}
+
+- (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
+    NSArray<SDLPermissionItem *> *permissionItems = self.permissionManager.permissions.allValues;
+    for (uint i = 0; i < permissionItems.count; i++) {
+        if ([permissionItems[i].rpcName isEqualToString:request.name] && permissionItems[i].requireEncryption) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)sdl_startEncryptionServiceWithBlock:(EncryptionCompletionBlock)completion {
+    SDLLogV(@"Attempting to start Encryption Service");
+    if (!self.proxy.protocol) {
+        SDLLogV(@"Encryption manager is not yet started");
+        completion(NO);
+        return;
+    }
+    
+    if (!self.permissionManager || !self.permissionManager.currentHMILevel || !self.permissionManager.permissions) {
+        SDLLogV(@"Permission Manager is not ready to encrypt.");
+        completion(NO);
+        return;
+    }
+    
+    if (![self.permissionManager.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        [self sdl_sendEncryptionServiceWithBlock:completion];
+    } else {
+        SDLLogE(@"Unable to send encryption start service request\n"
+                "permissionManager: %@\n"
+                "HMI state must be LIMITED or FULL: %@\n",
+                self.permissionManager.permissions, self.permissionManager.currentHMILevel);
+        completion(NO);
+    }
+}
+
+- (void)sdl_sendEncryptionServiceWithBlock:(EncryptionCompletionBlock)completion {
+    [self.proxy.protocol startSecureServiceWithType:SDLServiceTypeRPC payload:nil completionHandler:^(BOOL success, NSError *error) {
+        if (success) {
+            completion(YES);
+        } else {
+            SDLLogE(@"TLS setup error: %@", error);
+            completion(NO);
+        }
+    }];
 }
 
 #pragma mark SDL notification observers

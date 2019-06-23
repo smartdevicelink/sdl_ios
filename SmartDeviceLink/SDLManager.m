@@ -135,6 +135,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
 }
 
+- (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self.lifecycleManager sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
+}
+
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [self.lifecycleManager sendRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
 }
