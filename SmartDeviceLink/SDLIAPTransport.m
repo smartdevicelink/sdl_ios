@@ -598,7 +598,6 @@ int const CreateSessionRetries = 3;
 - (void)dealloc {
     SDLLogV(@"SDLIAPTransport dealloc");
     [self disconnect];
-    [self sdl_backgroundTaskEnd];
     self.controlSession = nil;
     self.dataSession = nil;
     self.delegate = nil;
