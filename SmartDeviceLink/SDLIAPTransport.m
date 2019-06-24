@@ -71,9 +71,10 @@ int const CreateSessionRetries = 3;
         return;
     }
 
+    __weak typeof(self) weakself = self;
     self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
         SDLLogD(@"Background task expired");
-        [self sdl_backgroundTaskEnd];
+        [weakself sdl_backgroundTaskEnd];
     }];
 
     SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
@@ -124,7 +125,6 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
