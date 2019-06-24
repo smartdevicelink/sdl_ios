@@ -31,98 +31,128 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
- The RPC spec version supported by the connected IVI system.
-
- Optional
+ * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
+ *
+ * SDLSyncMsgVersion, Optional
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
 
 /**
- The currently active VR+TTS language on the module. See "Language" for options.
-
- Optional
+ * The currently active VR+TTS language on the module. See "Language" for options.
+ *
+ * SDLLanguage, Optional
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) SDLLanguage language;
 
 /**
- The currently active display language on the module. See "Language" for options.
-
- Since SmartDeviceLink 2.0
-
- Optional
+ * The currently active display language on the module. See "Language" for options.
+ *
+ * SDLLanguage, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
- Contains information about the display for the SDL system to which the application is currently connected.
-
- Optional
+ * Contains information about the display capabilities.
+ *
+ * SDLDisplayCapabilities, Optional
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 
 /**
- Provides information about the capabilities of a SDL HMI button.
-
- Optional, Array of length 1 - 100, of SDLButtonCapabilities
+ * Contains information about a button's capabilities.
+ *
+ * Array of SDLButtonCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
- Contains information about a SoftButton's capabilities.
-
- Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
+ * Contains information about a SoftButton's capabilities.
+ *
+ * Array of SDLSoftButtonCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 
 /**
- If returned, the platform supports custom on-screen Presets
- 
- Optional
+ * If returned, the platform supports custom on-screen Presets
+ *
+ * SDLPresetBankCapabilities, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 /**
- Specifies HMI Zones in the vehicle.
-
- Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
+ * Contains information about the HMI zone capabilities.
+ *
+ * Array of SDLHMIZoneCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
- Contains information about TTS capabilities on the SDL platform.
-
- Optional, Array of length 1 - 100, of SDLSpeechCapabilities
+ * Contains information about the TTS capabilities.
+ *
+ * Array of SDLSpeechCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 
 /**
- Contains information about the speech capabilities on the SDL platform
+ * Contains a list of prerecorded speech items present on the platform.
  *
- * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
+ * Array of SDLPrerecordedSpeech, Optional, Array of length 1 - 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
- The VR capabilities of the connected SDL platform.
-
- Optional, Array of length 1 - 100, of SDLVRCapabilities
+ * Contains information about the VR capabilities.
+ *
+ * Array of SDLVRCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
- Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}
-
- Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
+ * Describes different audio type configurations for PerformAudioPassThru, e.g. {8kHz,8-bit,PCM}. The audio is recorded in monaural.
+ *
+ * Array of SDLAudioPassThruCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 
 /**
- Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}
+ * Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}
+ *
+ * SDLAudioPassThruCapabilities, Optional
+ *
+ * @since SDL 4.1
  */
 @property (nullable, strong, nonatomic) SDLAudioPassThruCapabilities *pcmStreamCapabilities;
 
 /**
- Specifies the connected vehicle's type
+ * Specifies the connected vehicle's type.
+ *
+ * SDLVehicleType, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLVehicleType *vehicleType;
 
