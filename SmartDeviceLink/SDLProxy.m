@@ -2,7 +2,6 @@
 
 #import "SDLProxy.h"
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
