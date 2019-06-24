@@ -55,6 +55,11 @@ int const CreateSessionRetries = 3;
     // Get notifications if an accessory connects in future
     [self sdl_startEventListening];
 
+    if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+        SDLLogV(@"Application not in foreground on transport init. Starting a background task");
+        [self sdl_backgroundTaskStart];
+    }
+
     // Wait for setup to complete before scanning for accessories
 
     return self;
@@ -63,7 +68,7 @@ int const CreateSessionRetries = 3;
 #pragma mark - Background Task
 
 /**
- *  Starts a background task that allows the app to search for accessories and while the app is in the background.
+ *  Starts a background task that allows the app to search for accessories while the app is in the background.
  */
 - (void)sdl_backgroundTaskStart {
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
@@ -77,7 +82,7 @@ int const CreateSessionRetries = 3;
         [weakself sdl_backgroundTaskEnd];
     }];
 
-    SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
+    SDLLogD(@"Background task started with id: %lu", (unsigned long)self.backgroundTaskId);
 }
 
 /**
