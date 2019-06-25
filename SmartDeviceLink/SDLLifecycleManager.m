@@ -90,7 +90,7 @@ NSString *const BackgroundTaskIAPTransportName = @"com.sdl.transport.iap.backgro
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (assign, nonatomic) UIBackgroundTaskIdentifier currentBackgroundTaskId;
 
 @end
 
