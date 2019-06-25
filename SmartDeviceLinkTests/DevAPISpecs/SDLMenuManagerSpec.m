@@ -241,6 +241,7 @@ describe(@"menu manager", ^{
         });
 
         it(@"should properly update with subcells", ^{
+            OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
             testManager.menuCells = @[submenuCell];
             [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
@@ -278,12 +279,14 @@ describe(@"menu manager", ^{
                 });
             });
 
+            // No longer a valid unit test
             context(@"when the image is not on the head unit", ^{
                 beforeEach(^{
-                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                    testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOff;
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
                 });
 
-                it(@"should immediately attempt to update without the image", ^{
+                it(@"should wait till image is on head unit and attempt to update without the image", ^{
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
                     
                     NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
@@ -314,11 +317,8 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textAndImageCell];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
-
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
@@ -326,16 +326,15 @@ describe(@"menu manager", ^{
                 NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
-                expect(deletes).to(haveCount(2));
-                expect(adds).to(haveCount(3));
+                expect(deletes).to(haveCount(1));
+                expect(adds).to(haveCount(2));
             });
 
             it(@"should send dynamic deletes first then dynamic adds case with 2 submenu cells", ^{
                 testManager.menuCells = @[textOnlyCell, submenuCell, submenuImageCell];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // With Artwork
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[submenuCell, submenuImageCell, textOnlyCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -351,16 +350,14 @@ describe(@"menu manager", ^{
                 NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
 
                 expect(deletes).to(haveCount(1));
-                expect(adds).to(haveCount(9));
-                expect(submenu).to(haveCount(4));
+                expect(adds).to(haveCount(5));
+                expect(submenu).to(haveCount(2));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when removing one submenu cell", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -380,17 +377,14 @@ describe(@"menu manager", ^{
 
                 expect(deletes).to(haveCount(0));
                 expect(subDeletes).to(haveCount(1));
-                expect(adds).to(haveCount(10));
-                expect(submenu).to(haveCount(4));
+                expect(adds).to(haveCount(5));
+                expect(submenu).to(haveCount(2));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when adding one new cell", ^{
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // Without Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];  // With Artwork
-
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell, textOnlyCell2];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
@@ -406,18 +400,18 @@ describe(@"menu manager", ^{
                 NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
 
                 expect(deletes).to(haveCount(0));
-                expect(adds).to(haveCount(11));
-                expect(submenu).to(haveCount(4));
+                expect(adds).to(haveCount(6));
+                expect(submenu).to(haveCount(2));
             });
 
             it(@"should send dynamic deletes first then dynamic adds when cells stay the same", ^{
                 testManager.menuCells = @[textOnlyCell, textOnlyCell2, textAndImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textOnlyCell2, textAndImageCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
@@ -426,21 +420,23 @@ describe(@"menu manager", ^{
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
                 expect(deletes).to(haveCount(0));
-                expect(adds).to(haveCount(6));
+                expect(adds).to(haveCount(3));
             });
         });
 
         describe(@"updating when a menu already exists with dynamic updates off", ^{
             beforeEach(^{
-                testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOff;
+                 testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOff;
+                 OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
             });
 
             it(@"should send deletes first", ^{
                 testManager.menuCells = @[textOnlyCell];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Adds
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Submenu
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textAndImageCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
@@ -459,6 +455,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textAndImageCell, textOnlyCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
@@ -532,6 +529,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 testManager.menuCells = @[textOnlyCell, textOnlyCell2, textAndImageCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];

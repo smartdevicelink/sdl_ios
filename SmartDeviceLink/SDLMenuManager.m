@@ -273,16 +273,16 @@ UInt32 const MenuCellIdMin = 1;
                 [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
             }];
         }];
+    } else {
+        // Cells have no artwork to load
+        __weak typeof(self) weakself = self;
+        [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
+            [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
+        }];
     }
-    // Update cells without artworks
-    __weak typeof(self) weakself = self;
-    [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
-        [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
-    }];
 }
 
 - (void)sdl_startNonDynamicMenuUpdate {
-    self.lastMenuId = MenuCellIdMin;
     [self sdl_updateIdsOnMenuCells:self.menuCells parentId:ParentIdNotFound];
 
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
@@ -293,12 +293,12 @@ UInt32 const MenuCellIdMin = 1;
             }
 
             SDLLogD(@"Menu artworks uploaded");
-            // Update cells with artworks once they're uploaded
             [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
         }];
+    } else {
+        // Cells have no artwork to load
+        [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
     }
-    // Update cells without artworks
-    [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
 }
 
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
@@ -315,7 +315,6 @@ UInt32 const MenuCellIdMin = 1;
         self.hasQueuedUpdate = YES;
         return;
     }
-
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
