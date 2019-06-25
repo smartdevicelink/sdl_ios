@@ -314,10 +314,21 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
             // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
-            messagePayload = encryption ? [self.securityManager encryptData:rpcPayload.data withError:error] : rpcPayload.data;
+            if (encryption) {
+                NSError *encryptError = nil;
+                messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
+                
+                if (encryptError) {
+                    SDLLogE(@"Error attempting to encrypt RPC, error: %@", encryptError);
+                }
+            } else {
+                messagePayload = rpcPayload.data;
+            }
+            
             if (!messagePayload) {
                 return NO;
             }
+            
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);

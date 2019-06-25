@@ -767,11 +767,8 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 }
 
 - (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
-    NSArray<SDLPermissionItem *> *permissionItems = self.permissionManager.permissions.allValues;
-    for (uint i = 0; i < permissionItems.count; i++) {
-        if ([permissionItems[i].rpcName isEqualToString:request.name] && permissionItems[i].requireEncryption) {
-            return YES;
-        }
+    if (self.permissionManager.permissions[request.name] != nil) {
+        return self.permissionManager.permissions[request.name].requireEncryption;
     }
     return NO;
 }
