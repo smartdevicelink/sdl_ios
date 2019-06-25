@@ -72,6 +72,8 @@ SDLLifecycleState *const SDLLifecycleStateSettingUpHMI = @"SettingUpHMI";
 SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
 SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
+NSString *const BackgroundTaskIAPTransportName = @"com.sdl.transport.iap.backgroundTask";
+
 #pragma mark - SDLManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
@@ -88,6 +90,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 
 @end
 
@@ -219,6 +222,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
                           secondaryTransportManager:self.secondaryTransportManager];
     } else {
+        // start a background task so a session can be established even when the app is backgrounded.
+        [self sdl_backgroundTaskStart];
+
         // we reuse our queue to run secondary transport manager's state machine
         self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
                                                                                                      serialQueue:self.lifecycleQueue];
@@ -273,6 +279,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
         if (shouldRestart) {
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
+        } else {
+            // End any background tasks because a session will not be established
+            [self sdl_backgroundTaskEnd];
         }
     });
 }
@@ -697,6 +706,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)transportDidConnect {
     SDLLogD(@"Transport connected");
 
+    // End any background tasks since the transport connected successfully
+    [self sdl_backgroundTaskEnd];
+
     dispatch_async(self.lifecycleQueue, ^{
         [self sdl_transitionToState:SDLLifecycleStateConnected];
     });
@@ -827,6 +839,44 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (newProtocol != nil) {
         [self.streamManager startVideoWithProtocol:newProtocol];
     }
+}
+
+#pragma mark - Background Task
+
+/**
+ *  Starts a background task that allows the app to establish a session while app is backgrounded. If the app is not currently backgrounded, the background task will remain dormant until the app moves to the background.
+ */
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        SDLLogV(@"The %@ background task is already running.", BackgroundTaskIAPTransportName);
+        return;
+    }
+
+    __weak typeof(self) weakself = self;
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskIAPTransportName expirationHandler:^{
+        SDLLogD(@"The %@ background task expired", BackgroundTaskIAPTransportName);
+        [weakself sdl_backgroundTaskEnd];
+    }];
+
+    SDLLogD(@"The %@ background task started with id: %lu", BackgroundTaskIAPTransportName, (unsigned long)self.backgroundTaskId);
+}
+
+/**
+ *  Cleans up a background task when it is stopped. This should be called when:
+ *
+ *  1. The app has established a session
+ *  2. The system has called the `expirationHandler` for the background task. The system may kill the app if the background task is not ended.
+ *
+ */
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        SDLLogV(@"Background task already ended. Returning...");
+        return;
+    }
+
+    SDLLogD(@"Ending background task with id: %lu",  (unsigned long)self.backgroundTaskId);
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
 }
 
 @end
