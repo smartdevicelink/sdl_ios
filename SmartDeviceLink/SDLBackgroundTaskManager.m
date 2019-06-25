@@ -14,8 +14,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLBackgroundTaskManager ()
-@property (nonatomic, assign) NSString *backgroundTaskName;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (copy, nonatomic) NSString *backgroundTaskName;
+@property (assign, nonatomic) UIBackgroundTaskIdentifier currentBackgroundTaskId;
+
 @end
 
 @implementation SDLBackgroundTaskManager
@@ -36,18 +37,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  Starts a background task that allows the app to establish a session while app is backgrounded. If the app is not currently backgrounded, the background task will remain dormant until the app moves to the background.
  */
 - (void)startBackgroundTask {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+    if (self.currentBackgroundTaskId != UIBackgroundTaskInvalid) {
         SDLLogV(@"The %@ background task is already running.", self.backgroundTaskName);
         return;
     }
 
     __weak typeof(self) weakself = self;
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:self.backgroundTaskName expirationHandler:^{
+    self.currentBackgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:self.backgroundTaskName expirationHandler:^{
         SDLLogD(@"The %@ background task expired", self.backgroundTaskName);
         [weakself endBackgroundTask];
     }];
 
-    SDLLogD(@"The %@ background task started with id: %lu", self.backgroundTaskName, (unsigned long)self.backgroundTaskId);
+    SDLLogD(@"The %@ background task started with id: %lu", self.backgroundTaskName, (unsigned long)self.currentBackgroundTaskId);
 }
 
 /**
@@ -58,14 +59,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  */
 - (void)endBackgroundTask {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+    if (self.currentBackgroundTaskId == UIBackgroundTaskInvalid) {
         SDLLogV(@"Background task already ended. Returning...");
         return;
     }
 
-    SDLLogD(@"Ending background task with id: %lu",  (unsigned long)self.backgroundTaskId);
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-    self.backgroundTaskId = UIBackgroundTaskInvalid;
+    SDLLogD(@"Ending background task with id: %lu",  (unsigned long)self.currentBackgroundTaskId);
+    [[UIApplication sharedApplication] endBackgroundTask:self.currentBackgroundTaskId];
+    self.currentBackgroundTaskId = UIBackgroundTaskInvalid;
 }
 
 @end
