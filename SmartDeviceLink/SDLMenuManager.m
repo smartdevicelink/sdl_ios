@@ -283,7 +283,6 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)sdl_startNonDynamicMenuUpdate {
-    self.lastMenuId = MenuCellIdMin;
     [self sdl_updateIdsOnMenuCells:self.menuCells parentId:ParentIdNotFound];
 
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
@@ -319,7 +318,6 @@ UInt32 const MenuCellIdMin = 1;
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
-
             weakself.inProgressUpdate = nil;
 
             if (completionHandler != nil) {
