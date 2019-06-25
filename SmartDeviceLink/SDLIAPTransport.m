@@ -15,7 +15,6 @@
 #import "SDLIAPDataSession.h"
 #import "SDLIAPDataSessionDelegate.h"
 #import "SDLLogMacros.h"
-#import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -81,7 +80,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 }
 
 #pragma mark EAAccessory Notifications
@@ -133,7 +132,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
-    SDLLogD(@"Accessory with serial number %@ and connectionID %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
+    SDLLogD(@"Accessory with serial number: %@, and connectionID: %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
 
     if (self.accessoryConnectDuringActiveSession == YES) {
         SDLLogD(@"Switching transports from Bluetooth to USB. Will reconnect over Bluetooth after disconnecting the USB session.");
@@ -249,7 +248,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
-    SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
+    SDLLogD(@"Attempting to connect accessory named: %@, with connectionID: %lu", accessory.name, (unsigned long)accessory.connectionID);
     if (self.retryCounter < CreateSessionRetries) {
         self.retryCounter++;
 
