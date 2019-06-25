@@ -164,6 +164,12 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:observer name:rpcName object:nil];
 }
 
+#pragma mark - Lifecycle Destruction
+
+- (void)dealloc {
+    _lifecycleManager = nil;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

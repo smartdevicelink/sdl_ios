@@ -879,6 +879,12 @@ NSString *const BackgroundTaskIAPTransportName = @"com.sdl.transport.iap.backgro
     self.backgroundTaskId = UIBackgroundTaskInvalid;
 }
 
+#pragma mark - Lifecycle Destruction
+
+- (void)dealloc {
+    [self sdl_backgroundTaskEnd];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
