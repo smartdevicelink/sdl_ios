@@ -2,7 +2,6 @@
 
 #import "SDLProxy.h"
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -97,7 +96,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.transport connect];
 
         SDLLogV(@"Proxy transport initialization");
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
         
         NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
@@ -136,8 +134,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-    
+
     [_urlSession invalidateAndCancel];
     SDLLogV(@"Proxy dealloc");
 }
