@@ -13,8 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLBackgroundTaskManager : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ *  Convenience init for starting a background task with a specific name
+ *
+ *  @param backgroundTaskName  The name for the background task
+ *  @return                    A SDLBackgroundTaskManager object
+ */
 - (instancetype)initWithBackgroundTaskName:(NSString *)backgroundTaskName;
+
+/**
+ *  Starts a background task that allows the app to establish a session while app is backgrounded. If the app is not currently backgrounded, the background task will remain dormant until the app moves to the background.
+ */
 - (void)startBackgroundTask;
+
+/**
+ *  Cleans up a background task when it is stopped. This should be called when:
+ *
+ *  1. The app has established a session
+ *  2. The system has called the `expirationHandler` for the background task. The system may kill the app if the background task is not ended.
+ */
 - (void)endBackgroundTask;
 
 @end
