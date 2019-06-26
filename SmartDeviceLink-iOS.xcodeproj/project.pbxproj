@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E22CEC22C2F1B300BC6B08 /* SDLEncryptionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E22CEA22C2F1B200BC6B08 /* SDLEncryptionConfiguration.m */; };
-		00E22CED22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */; };
+		00E22CED22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00E22CF022C2F1D300BC6B08 /* SDLAsynchronousEncryptedRPCRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEE22C2F1D300BC6B08 /* SDLAsynchronousEncryptedRPCRequestOperation.h */; };
 		00E22CF122C2F1D300BC6B08 /* SDLAsynchronousEncryptedRPCRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E22CEF22C2F1D300BC6B08 /* SDLAsynchronousEncryptedRPCRequestOperation.m */; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
