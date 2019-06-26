@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
  *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
  *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
- *  @param encryptionConfig     The encryption configuration to be used.  If nil, the `unencryptedConfiguration` will be used.
+ *  @param encryptionConfig     The encryption configuration to be used.
  *  @return                     The configuration
  */
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig;
@@ -111,9 +111,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
  *  @param streamingMediaConfig The streaming media configuration to be used or nil if not used.
  *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @param encryptionConfig     The encryption configuration to be used.
  *  @return                     The configuration
  */
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig;
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig;
 
 /**
  *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and streaming media configurations.
