@@ -59,6 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentBackgroundTaskId = UIBackgroundTaskInvalid;
 }
 
+- (void)dealloc {
+    [self endBackgroundTask];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

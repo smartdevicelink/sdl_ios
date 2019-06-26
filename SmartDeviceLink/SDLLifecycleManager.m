@@ -213,7 +213,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)didEnterStateStarted {
-    // start a background task so a session can be established even when the app is backgrounded.
+    // Start a background task so a session can be established even when the app is backgrounded.
     [self.backgroundTaskManager startBackgroundTask];
 
     // Start up the internal proxy object
@@ -233,7 +233,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
                           secondaryTransportManager:self.secondaryTransportManager];
     }
-#   pragma clang diagnostic pop
+    #pragma clang diagnostic pop
 }
 
 - (void)didEnterStateStopped {
@@ -841,12 +841,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if (newProtocol != nil) {
         [self.streamManager startVideoWithProtocol:newProtocol];
     }
-}
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    [self.backgroundTaskManager endBackgroundTask];
 }
 
 @end
