@@ -13,6 +13,9 @@
 @class SDLTemplateColorScheme;
 @class SDLTTSChunk;
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Registers the application's interface with SDL. The `RegisterAppInterface` RPC declares the properties of the app, including the messaging interface version, the app name, etc. The mobile application must establish its interface registration with SDL before any other interaction with SDL can take place. The registration lasts until it is terminated either by the application calling the `SDLUnregisterAppInterface` method, or by SDL sending an `SDLOnAppInterfaceUnregistered` notification, or by loss of the underlying transport connection, or closing of the underlying message transmission protocol RPC session.
  *
@@ -26,9 +29,6 @@
  *
  * @see SDLUnregisterAppInterface, SDLOnAppInterfaceUnregistered
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLRegisterAppInterface : SDLRPCRequest
 
 /**

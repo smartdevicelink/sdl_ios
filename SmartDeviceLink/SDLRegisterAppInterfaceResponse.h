@@ -20,14 +20,13 @@
 @class SDLVehicleType;
 
 
-/**
- Response to SDLRegisterAppInterface
-
- Since SmartDeviceLink 1.0
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Response to SDLRegisterAppInterface
+ *
+ * @since SDL 1.0
+ */
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
@@ -157,35 +156,47 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLVehicleType *vehicleType;
 
 /**
- Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
-
- Optional, Array of length 1 - 100, Integer 0 - 255
+ * Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
+ *
+ * Array of Integers, Optional, Array of length 1 - 100, Value range: 0 - 255
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *supportedDiagModes;
 
 /**
- Specifies the availability of various SDL features.
-
- Optional
+ * Specifies the HMI capabilities.
+ *
+ * SDLHMICapabilities, Optional
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) SDLHMICapabilities *hmiCapabilities;
 
 /**
- The SmartDeviceLink Core version
-
- Optional, String max length 100
+ * The SmartDeviceLink version
+ *
+ * String, Optional, Max length: 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSString *sdlVersion;
 
 /**
- The software version of the system that implements SmartDeviceLink Core
-
- Optional, String max length 100
+ * The software version of the system that implements the SmartDeviceLink core.
+ *
+ * String, Optional, Max length: 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSString *systemSoftwareVersion;
 
 /**
- Whether or not the app's icon already existed on the system and was resumed. That means that the icon does not need to be sent by the app.
+ * Existence of apps icon at system. If true, apps icon was resumed at system. If false, apps icon is not resumed at system.
+ *
+ * Bool, Optional
+ *
+ * @since SDL 5.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *iconResumed;
 
