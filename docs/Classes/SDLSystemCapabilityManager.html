@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-supportsSubscriptions">supportsSubscriptions</a></li>
   <li><a href="#section-displayCapabilities">displayCapabilities</a></li>
   <li><a href="#section-hmiCapabilities">hmiCapabilities</a></li>
   <li><a href="#section-softButtonCapabilities">softButtonCapabilities</a></li>
@@ -21,16 +22,38 @@
   <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:">-initWithConnectionManager:</a></li>
+  <li><a href="#section--start">-start</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--updateCapabilityType:completionHandler:">-updateCapabilityType:completionHandler:</a></li>
+  <li><a href="#section--subscribeToCapabilityType:withBlock:">-subscribeToCapabilityType:withBlock:</a></li>
+  <li><a href="#section--subscribeToCapabilityType:withObserver:selector:">-subscribeToCapabilityType:withObserver:selector:</a></li>
+  <li><a href="#section--unsubscribeFromCapabilityType:withObserver:">-unsubscribeFromCapabilityType:withObserver:</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A manager that handles updating and subscribing to SDL capabilities.</p>
 
 
 <section class="section task-group-section">
+  <h3 id="section-supportsSubscriptions">
+      supportsSubscriptions
+  </h3>
+  
+  <p>YES if subscriptions are available on the connected head unit. If NO, calls to <code>subscribeToCapabilityType:withBlock</code> and <code>subscribeToCapabilityType:withObserver:selector</code> will fail.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">supportsSubscriptions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportsSubscriptions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-displayCapabilities">
       displayCapabilities
   </h3>
@@ -481,6 +504,24 @@
     <p>An instance of SDLSystemCapabilityManager</p>
   </div>
   
+  <h3 id="section--start">
+      -start
+  </h3>
+  
+  <p>Starts the manager. This method is used internally.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">start</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">()</span></code></pre>
+
+  
+  
+  
   <h3 id="section--stop">
       -stop
   </h3>
@@ -523,6 +564,103 @@
       <dd><p>The type of capability to retrieve</p></dd>
       <dt>handler</dt>
       <dd><p>The handler to be called when the retrieval is complete</p></dd>
+  </dl>
+  
+  <h3 id="section--subscribeToCapabilityType:withBlock:">
+      -subscribeToCapabilityType:withBlock:
+  </h3>
+  
+  <p>Subscribe to a particular capability type using a block callback</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span>
+    <span class="nf">subscribeToCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
+                    <span class="nf">withBlock</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></span><span class="p">)</span><span class="nv">block</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">toCapabilityType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSObjectProtocol</span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of capability to subscribe to</p></dd>
+      <dt>block</dt>
+      <dd><p>The block to be called when the capability is updated</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren&rsquo;t available on this head unit</p>
+  </div>
+  
+  <h3 id="section--subscribeToCapabilityType:withObserver:selector:">
+      -subscribeToCapabilityType:withObserver:selector:
+  </h3>
+  
+  <p>Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:</p>
+
+<ol>
+<li>No parameters e.g. <code>- (void)phoneCapabilityUpdated;</code></li>
+<li>One <code>SDLSystemCapability *</code> parameter e.g. <code>- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability</code></li>
+</ol>
+
+<p>This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (<code>supportsSubscriptions == YES</code>). If this method is called on a sub-v5.1.0 system (<code>supportsSubscriptions == NO</code>), the method will return <code>NO</code> and the selector will never be called.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">subscribeToCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
+                     <span class="nf">withObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">observer</span>
+                         <span class="nf">selector</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">toCapabilityType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kt">Selector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of the system capability to subscribe to</p></dd>
+      <dt>observer</dt>
+      <dd><p>The object that will have <code>selector</code> called whenever the capability is updated</p></dd>
+      <dt>selector</dt>
+      <dd><p>The selector on <code>observer</code> that will be called whenever the capability is updated</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Whether or not the subscription succeeded. <code>NO</code> if the connected system doesn&rsquo;t support capability subscriptions, or if the <code>selector</code> doesn&rsquo;t support the correct parameters (see above)</p>
+  </div>
+  
+  <h3 id="section--unsubscribeFromCapabilityType:withObserver:">
+      -unsubscribeFromCapabilityType:withObserver:
+  </h3>
+  
+  <p>Unsubscribe from a particular capability type. If it was subscribed with a block, the return value should be passed to the <code>observer</code> to unsubscribe the block. If it was subscribed with a selector, the <code>observer</code> object should be passed to unsubscribe the object selector.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">unsubscribeFromCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
+                         <span class="nf">withObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="n">fromCapabilityType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of the system capability to unsubscribe from</p></dd>
+      <dt>observer</dt>
+      <dd><p>The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.</p></dd>
   </dl>
   
 </section>

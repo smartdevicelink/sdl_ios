@@ -17,6 +17,7 @@
   <li><a href="#section-textField4Type">textField4Type</a></li>
   <li><a href="#section-softButtonObjects">softButtonObjects</a></li>
   <li><a href="#section-menu">menu</a></li>
+  <li><a href="#section-dynamicMenuUpdatesMode">dynamicMenuUpdatesMode</a></li>
   <li><a href="#section-voiceCommands">voiceCommands</a></li>
   <li><a href="#section-keyboardConfiguration">keyboardConfiguration</a></li>
   <li><a href="#section-preloadedChoices">preloadedChoices</a></li>
@@ -289,6 +290,31 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menu</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dynamicMenuUpdatesMode">
+      dynamicMenuUpdatesMode
+  </h3>
+  
+  <p>Change the mode of the dynamic menu updater to be enabled, disabled, or enabled on known compatible head units.</p>
+
+<p>The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to <code>SDLDynamicMenuUpdatesModeForceOn</code>, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.</p>
+
+<p>If set to <code>SDLDynamicMenuUpdatesModeForceOff</code>, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.</p>
+
+<p>We recommend using either <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> or <code>SDLDynamicMenuUpdatesModeForceOn</code>. <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SDLDynamicMenuUpdatesMode.html">SDLDynamicMenuUpdatesMode</a></span> <span class="n">dynamicMenuUpdatesMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">dynamicMenuUpdatesMode</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLDynamicMenuUpdatesMode.html">SDLDynamicMenuUpdatesMode</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

@@ -5,7 +5,6 @@
 <ul>
   <li><a href="#section-store">store</a></li>
   <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
-  <li><a href="#section--init">-init</a></li>
   <li><a href="#section--serializeAsDictionary:">-serializeAsDictionary:</a></li>
 </ul>
 
@@ -24,9 +23,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">store</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">store</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">store</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -53,28 +55,6 @@
       <dt>dict</dt>
       <dd><p>A dictionary</p></dd>
   </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>A SDLRPCStruct object</p>
-  </div>
-  
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Init</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
-
-  
-  
   <div>
     <h4>Return Value</h4>
     <p>A SDLRPCStruct object</p>
