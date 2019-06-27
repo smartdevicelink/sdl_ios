@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLResetGlobalProperties
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameResetGlobalProperties]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties {
     self = [self init];
@@ -31,12 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setProperties:(NSArray<SDLGlobalProperty> *)properties {
-    [parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
+    [self.parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
 }
 
 - (NSArray<SDLGlobalProperty> *)properties {
     NSError *error = nil;
-    return [parameters sdl_enumsForName:SDLRPCParameterNameProperties error:&error];
+    return [self.parameters sdl_enumsForName:SDLRPCParameterNameProperties error:&error];
 }
 
 @end

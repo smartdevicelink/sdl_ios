@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocationResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     self = [super initWithName:SDLRPCFunctionNameSendLocation];
     if (!self) {
@@ -20,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

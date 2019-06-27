@@ -7,6 +7,7 @@
 [![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink-iOS.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.com)
+[![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio)
  
 
 # SmartDeviceLink (SDL)
@@ -34,6 +35,18 @@ We're still working on creating documentation for each of these individual repos
 See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
 
 ### Installing
+
+#### Accio
+
+You can install this library using [Accio/SwiftPM](https://github.com/JamitLabs/Accio) documentation page.  Please follow the steps to install and initialization Accio into a current or new application. 
+
+In your Package.swift file , you want to add `.package(url: "https://github.com/smartdevicelink/sdl_ios.git", .from: "6.2.3"),`  to the dependencies array.  Then add  `SmartDeviceLink` to the targets dependencies array.
+
+Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
+
+###### Swift
+
+If you are building a Swift app, then add this instead `SmartDeviceLinkSwift` to the targets dependencies array.
 
 ##### Cocoapods
 

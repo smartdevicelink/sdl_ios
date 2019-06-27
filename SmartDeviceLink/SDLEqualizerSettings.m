@@ -22,29 +22,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setChannelId:(NSNumber<SDLInt> *)channelId {
-    [store sdl_setObject:channelId forName:SDLRPCParameterNameChannelId];
+    [self.store sdl_setObject:channelId forName:SDLRPCParameterNameChannelId];
 }
 
 - (NSNumber<SDLInt> *)channelId {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameChannelId ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameChannelId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setChannelName:(nullable NSString *)channelName {
-    [store sdl_setObject:channelName forName:SDLRPCParameterNameChannelName];
+    [self.store sdl_setObject:channelName forName:SDLRPCParameterNameChannelName];
 }
 
 - (nullable NSString *)channelName {
-    return [store sdl_objectForName:SDLRPCParameterNameChannelName ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameChannelName ofClass:NSString.class error:nil];
 }
 
 - (void)setChannelSetting:(NSNumber<SDLInt> *)channelSetting {
-    [store sdl_setObject:channelSetting forName:SDLRPCParameterNameChannelSetting];
+    [self.store sdl_setObject:channelSetting forName:SDLRPCParameterNameChannelSetting];
 }
 
 - (NSNumber<SDLInt> *)channelSetting {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameChannelSetting ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameChannelSetting ofClass:NSNumber.class error:&error];
 }
 
 @end

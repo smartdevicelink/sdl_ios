@@ -28,7 +28,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameMenuId:@25614},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteSubMenu}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeleteSubMenu* testRequest = [[SDLDeleteSubMenu alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.menuID).to(equal(@25614));
     });

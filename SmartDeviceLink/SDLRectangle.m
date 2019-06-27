@@ -29,39 +29,39 @@
 }
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
-    [store sdl_setObject:x forName:SDLRPCParameterNameX];
+    [self.store sdl_setObject:x forName:SDLRPCParameterNameX];
 }
 
 - (NSNumber<SDLFloat> *)x {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameX ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameX ofClass:NSNumber.class error:&error];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
-    [store sdl_setObject:y forName:SDLRPCParameterNameY];
+    [self.store sdl_setObject:y forName:SDLRPCParameterNameY];
 }
 
 - (NSNumber<SDLFloat> *)y {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameY ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameY ofClass:NSNumber.class error:&error];
 }
 
 - (void)setWidth:(NSNumber<SDLFloat> *)width {
-    [store sdl_setObject:width forName:SDLRPCParameterNameWidth];
+    [self.store sdl_setObject:width forName:SDLRPCParameterNameWidth];
 }
 
 - (NSNumber<SDLFloat> *)width {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameWidth ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHeight:(NSNumber<SDLFloat> *)height {
-    [store sdl_setObject:height forName:SDLRPCParameterNameHeight];
+    [self.store sdl_setObject:height forName:SDLRPCParameterNameHeight];
 }
 
 - (NSNumber<SDLFloat> *)height {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameHeight ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameHeight ofClass:NSNumber.class error:&error];
 }
 
 @end

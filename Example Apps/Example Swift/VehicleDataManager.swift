@@ -23,7 +23,7 @@ class VehicleDataManager: NSObject {
         super.init()
 
         resetOdometer()
-        NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
+        self.sdlManager.subscribe(to: .SDLDidReceiveVehicleData, observer: self, selector: #selector(vehicleDataNotification(_:)))
     }
 }
 

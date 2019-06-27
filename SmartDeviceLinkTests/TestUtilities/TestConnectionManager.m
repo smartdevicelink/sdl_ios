@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
+    _multipleCompletionBlocks = [NSMutableArray array];
 
     return self;
 }
@@ -50,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }];
 
-    _lastMultipleCompletionBlock = completionHandler;
+    [_multipleCompletionBlocks addObject:completionHandler];
 }
 
 - (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
@@ -59,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         progressHandler(request, nil, nil, (double)idx / (double)requests.count);
     }];
 
-    _lastMultipleCompletionBlock = completionHandler;
+    [_multipleCompletionBlocks addObject:completionHandler];
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
@@ -97,8 +98,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)respondToLastMultipleRequestsWithSuccess:(BOOL)success {
-    if (self.lastMultipleCompletionBlock != nil) {
-        self.lastMultipleCompletionBlock(success);
+    if (self.multipleCompletionBlocks.lastObject != nil) {
+        SDLMultipleRequestCompletionHandler block = [self.multipleCompletionBlocks.lastObject copy];
+        [self.multipleCompletionBlocks removeLastObject];
+        block(success);
     }
 }
 

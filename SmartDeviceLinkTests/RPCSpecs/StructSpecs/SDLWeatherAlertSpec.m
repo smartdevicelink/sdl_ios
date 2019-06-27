@@ -57,7 +57,10 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameSeverity:testSeverity,
                                SDLRPCParameterNameTimeIssued:testTimeIssued
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWeatherAlert *testStruct = [[SDLWeatherAlert alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.title).to(equal(testTitle));
         expect(testStruct.summary).to(equal(testSummary));

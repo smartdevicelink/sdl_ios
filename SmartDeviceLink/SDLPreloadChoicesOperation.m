@@ -157,8 +157,15 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         vrCommands = cell.voiceCommands;
     }
-    
-    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
+
+    NSString *menuName = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if ([self.displayCapabilities.displayType isEqualToEnum:SDLDisplayTypeGen38Inch] || [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+        menuName = cell.text;
+    }
+#pragma clang diagnostic pop
+
     if(!menuName) {
         SDLLogE(@"Could not convert SDLChoiceCell to SDLCreateInteractionChoiceSet. It will not be shown. Cell: %@", cell);
         return nil;
