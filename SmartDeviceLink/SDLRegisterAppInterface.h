@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 /**
- * Indicates if the application is a media or a non-media application. Only media applications will be able to stream audio to head units that is audible outside of the BT media source.
+ * Indicates if the application is a media or a non-media application. Media applications will appear in the head unit's media source list and can use the `MEDIA` template.
  *
  * Boolean, Required
  *
