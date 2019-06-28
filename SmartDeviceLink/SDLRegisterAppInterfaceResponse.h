@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLHMICapabilities *hmiCapabilities;
 
 /**
- * The SmartDeviceLink version
+ * The version of SDL Core running on the connected head unit
  *
  * String, Optional, Max length: 100
  *
