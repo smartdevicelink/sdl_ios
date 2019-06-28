@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLAppHMIType> *appHMIType;
 
 /**
- * ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles). This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece. If omitted, then the previous state of an app's commands, etc. will not be restored.
+ * ID used to uniquely identify a previous state of all app data that can persist through connection cycles (e.g. ignition cycles). This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly re-send each piece. If omitted, then the previous state of an app's commands, etc. will not be restored.
  *
  * When sending hashID, all RegisterAppInterface parameters should still be provided (e.g. ttsName, etc.).
  *
