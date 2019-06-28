@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
- * Contains information about the display capabilities.
+ * Contains information about the display's capabilities.
  *
  * SDLDisplayCapabilities, Optional
  *
