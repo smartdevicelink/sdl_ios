@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLBool> *isMediaApplication;
 
 /**
- * Current app's expected VR+TTS language. If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
+ * App's starting VR+TTS language. If there is a mismatch with the head unit, the app will be able to change its language with ChangeRegistration prior to app being brought into focus.
  *
  * SDLLanguage, Required
  *
