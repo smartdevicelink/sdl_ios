@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
- * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
+ * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.
  *
  * SDLSyncMsgVersion, Optional
  *
