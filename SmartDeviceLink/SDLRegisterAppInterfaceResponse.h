@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
- * Contains information about the TTS capabilities.
+ * Contains information about the text-to-speech capabilities.
  *
  * Array of SDLSpeechCapabilities, Optional, Array of length 1 - 100
  *
