@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 
 /**
- * Contains information about a button's capabilities.
+ * Contains information about the head unit button capabilities.
  *
  * Array of SDLButtonCapabilities, Optional, Array of length 1 - 100
  *
