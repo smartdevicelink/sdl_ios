@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLLanguage languageDesired;
 
 /**
- * Current app's expected display language. If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
+ * Current app's expected display language. If there is a mismatch with the head unit, the app will be able to change its language with ChangeRegistration prior to app being brought into focus.
  *
  * SDLLanguage, Required
  *
