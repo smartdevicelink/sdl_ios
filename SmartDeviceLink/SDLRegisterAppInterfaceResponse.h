@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
- * Contains information about a SoftButton's capabilities.
+ * Contains information about the head unit soft button capabilities.
  *
  * Array of SDLSoftButtonCapabilities, Optional, Array of length 1 - 100
  *
