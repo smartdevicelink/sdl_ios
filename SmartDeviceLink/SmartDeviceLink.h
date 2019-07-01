@@ -371,6 +371,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
 
+// Encryption
+#import "SDLEncryptionManager.h"
+
 // Streaming
 #import "SDLAudioStreamManager.h"
 #import "SDLAudioStreamManagerDelegate.h"

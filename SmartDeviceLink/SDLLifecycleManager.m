@@ -21,6 +21,7 @@
 #import "SDLLogMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
+#import "SDLEncryptionManager.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
@@ -146,6 +147,10 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
+    }
+    
+    if (configuration.encryptionConfig != nil) {
+        _encryptionManager = [[SDLEncryptionManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
     }
 
     // Notifications
@@ -410,7 +415,11 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 
         dispatch_group_leave(managerGroup);
     }];
-
+    
+    if (self.encryptionManager != nil) {
+        [self encryptionServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+    }
+    
     // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
         [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
@@ -571,12 +580,6 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    SDLAsynchronousEncryptedRPCRequestOperation *op = [[SDLAsynchronousEncryptedRPCRequestOperation alloc] initWithConnectionManager:self requestToEncrypt:request responseHandler:handler];
-
-    [self.rpcOperationQueue addOperation:op];
-}
-
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     if (requests.count == 0) {
         completionHandler(YES);
@@ -707,21 +710,9 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         NSNumber *corrID = [self sdl_getNextCorrelationId];
         requestRPC.correlationID = corrID;
         [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self sdl_startEncryptionServiceWithBlock:^(BOOL success) {
-            if (success) {
-                [self.proxy sendEncryptedRPC:requestRPC];
-            } else {
-                SDLLogE(@"Attempting to send an Encrypted RPC failed, %@. The security manager failed to handshake. Returning...", requestRPC.class);
-            }
-        }];
+        [self.proxy sendEncryptedRPC:requestRPC];
     } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self sdl_startEncryptionServiceWithBlock:^(BOOL success) {
-            if (success) {
-                [self.proxy sendEncryptedRPC:request];
-            } else {
-                SDLLogE(@"Attempting to send an Encrypted RPC failed, %@. The security manager failed to handshake. Returning...", request.class);
-            }
-        }];
+        [self.proxy sendEncryptedRPC:request];
     } else {
         SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }
@@ -771,42 +762,6 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         return self.permissionManager.permissions[request.name].requireEncryption;
     }
     return NO;
-}
-
-- (void)sdl_startEncryptionServiceWithBlock:(EncryptionCompletionBlock)completion {
-    SDLLogV(@"Attempting to start Encryption Service");
-    if (!self.proxy.protocol) {
-        SDLLogV(@"Encryption manager is not yet started");
-        completion(NO);
-        return;
-    }
-    
-    if (!self.permissionManager || !self.permissionManager.currentHMILevel || !self.permissionManager.permissions) {
-        SDLLogV(@"Permission Manager is not ready to encrypt.");
-        completion(NO);
-        return;
-    }
-    
-    if (![self.permissionManager.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        [self sdl_sendEncryptionServiceWithBlock:completion];
-    } else {
-        SDLLogE(@"Unable to send encryption start service request\n"
-                "permissionManager: %@\n"
-                "HMI state must be LIMITED or FULL: %@\n",
-                self.permissionManager.permissions, self.permissionManager.currentHMILevel);
-        completion(NO);
-    }
-}
-
-- (void)sdl_sendEncryptionServiceWithBlock:(EncryptionCompletionBlock)completion {
-    [self.proxy.protocol startSecureServiceWithType:SDLServiceTypeRPC payload:nil completionHandler:^(BOOL success, NSError *error) {
-        if (success) {
-            completion(YES);
-        } else {
-            SDLLogE(@"TLS setup error: %@", error);
-            completion(NO);
-        }
-    }];
 }
 
 #pragma mark SDL notification observers
@@ -943,6 +898,19 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     }
     if (newProtocol != nil) {
         [self.streamManager startVideoWithProtocol:newProtocol];
+    }
+}
+
+- (void)encryptionServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+        return;
+    }
+    
+    if (oldProtocol != nil) {
+        [self.encryptionManager stop];
+    }
+    if (newProtocol != nil) {
+        [self.encryptionManager startWithProtocol:newProtocol];
     }
 }
 

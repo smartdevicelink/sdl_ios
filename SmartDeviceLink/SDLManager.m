@@ -73,6 +73,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.hmiLevel;
 }
 
+- (SDLEncryptionManager *)encryptionManager {
+    return self.lifecycleManager.encryptionManager;
+}
+
 - (SDLFileManager *)fileManager {
     return self.lifecycleManager.fileManager;
 }
@@ -133,10 +137,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
-}
-
-- (void)sendEncryptedRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self.lifecycleManager sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {

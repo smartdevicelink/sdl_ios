@@ -105,6 +105,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLECallConfirmationStatus.h',
 'SmartDeviceLink/SDLECallInfo.h',
 'SmartDeviceLink/SDLElectronicParkBrakeStatus.h',
+'SmartDeviceLink/SDLEncryptionManager.h',
 'SmartDeviceLink/SDLEncryptionConfiguration.h',
 'SmartDeviceLink/SDLEmergencyEvent.h',
 'SmartDeviceLink/SDLEmergencyEventType.h',
