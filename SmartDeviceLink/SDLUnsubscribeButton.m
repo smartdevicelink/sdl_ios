@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLUnsubscribeButton
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameUnsubscribeButton]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName {
     self = [self init];
@@ -31,12 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
+    [self.parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 @end

@@ -29,6 +29,8 @@ describe(@"Getter/Setter Tests", ^{
         testLocation = [[SDLLocationDetails alloc] init];
         testLocation.locationName = @"testLocationName";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWeatherData *testWeatherDataA = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataA"}];
         SDLWeatherData *testWeatherDataB = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataB"}];
         SDLWeatherData *testWeatherDataC = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataC"}];
@@ -38,6 +40,7 @@ describe(@"Getter/Setter Tests", ^{
         testMultidayForecast = @[testWeatherDataA, testWeatherDataC];
 
         SDLWeatherAlert *testWeatherAlertA = [[SDLWeatherAlert alloc] initWithDictionary:@{SDLRPCParameterNameTitle:@"testWeatherAlertA"}];
+#pragma clang diagnostic pop
         testAlerts = @[testWeatherAlertA];
     });
 
@@ -66,7 +69,10 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameMultidayForecast:testMultidayForecast,
                                SDLRPCParameterNameAlerts:testAlerts
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWeatherServiceData *testStruct = [[SDLWeatherServiceData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.location).to(equal(testLocation));
         expect(testStruct.currentForecast).to(equal(testCurrentForecast));

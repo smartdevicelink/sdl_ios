@@ -12,12 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLMyKey
 
 - (void)setE911Override:(SDLVehicleDataStatus)e911Override {
-    [store sdl_setObject:e911Override forName:SDLRPCParameterNameE911Override];
+    [self.store sdl_setObject:e911Override forName:SDLRPCParameterNameE911Override];
 }
 
 - (SDLVehicleDataStatus)e911Override {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameE911Override error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameE911Override error:&error];
 }
 
 @end

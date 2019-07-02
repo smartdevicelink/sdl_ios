@@ -63,7 +63,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameEqualizerAvailable:@(NO),
                                        SDLRPCParameterNameEqualizerMaxChannelId:@12
                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAudioControlCapabilities* testStruct = [[SDLAudioControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"module"));
         expect(testStruct.sourceAvailable).to(equal(@(NO)));

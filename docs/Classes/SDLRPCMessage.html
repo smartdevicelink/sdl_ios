@@ -3,17 +3,14 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section-function">function</a></li>
-  <li><a href="#section-parameters">parameters</a></li>
-  <li><a href="#section-messageType">messageType</a></li>
   <li><a href="#section--initWithName:">-initWithName:</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--getFunctionName">-getFunctionName</a></li>
   <li><a href="#section--setFunctionName:">-setFunctionName:</a></li>
   <li><a href="#section--getParameters:">-getParameters:</a></li>
   <li><a href="#section--setParameters:value:">-setParameters:value:</a></li>
   <li><a href="#section-bulkData">bulkData</a></li>
   <li><a href="#section-name">name</a></li>
+  <li><a href="#section-parameters">parameters</a></li>
   <li><a href="#section-messageType">messageType</a></li>
 </ul>
 
@@ -23,51 +20,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section-function">
-      function
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">function</span></code></pre>
-
-  
-  
-  
-  
-  <h3 id="section-parameters">
-      parameters
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">parameters</span></code></pre>
-
-  
-  
-  
-  
-  <h3 id="section-messageType">
-      messageType
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">messageType</span></code></pre>
-
-  
-  
-  
-  
   <h3 id="section--initWithName:">
       -initWithName:
   </h3>
@@ -89,34 +41,6 @@
   <dl>
       <dt>name</dt>
       <dd><p>The name of the message</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>A SDLRPCMessage object</p>
-  </div>
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Convenience init</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>dict</dt>
-      <dd><p>A dictionary with the format @{messageType: @{parameters}}</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -257,6 +181,25 @@
   
   
   
+  <h3 id="section-parameters">
+      parameters
+  </h3>
+  
+  <p>The JSON-RPC parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">parameters</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">parameters</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-messageType">
       messageType
   </h3>
@@ -266,7 +209,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n"><a href="../Classes/SDLRPCMessage.html#/c:objc(cs)SDLRPCMessage@messageType">messageType</a></span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">messageType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

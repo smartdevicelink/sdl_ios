@@ -63,76 +63,76 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceName:(nullable NSString *)serviceName {
-    [store sdl_setObject:serviceName forName:SDLRPCParameterNameServiceName];
+    [self.store sdl_setObject:serviceName forName:SDLRPCParameterNameServiceName];
 }
 
 - (nullable NSString *)serviceName {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceName ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceName ofClass:NSString.class error:nil];
 }
 
 - (void)setServiceType:(NSString *)serviceType {
-    [store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
+    [self.store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
 }
 
 - (NSString *)serviceType {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceIcon:(nullable SDLImage *)serviceIcon {
-    [store sdl_setObject:serviceIcon forName:SDLRPCParameterNameServiceIcon];
+    [self.store sdl_setObject:serviceIcon forName:SDLRPCParameterNameServiceIcon];
 }
 
 - (nullable SDLImage *)serviceIcon {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceIcon ofClass:SDLImage.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceIcon ofClass:SDLImage.class error:nil];
 }
 
 - (void)setAllowAppConsumers:(nullable  NSNumber<SDLBool> *)allowAppConsumers {
-    [store sdl_setObject:allowAppConsumers forName:SDLRPCParameterNameAllowAppConsumers];
+    [self.store sdl_setObject:allowAppConsumers forName:SDLRPCParameterNameAllowAppConsumers];
 }
 
 - (nullable NSNumber<SDLBool> *)allowAppConsumers {
-    return [store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion {
-    [store sdl_setObject:rpcSpecVersion forName:SDLRPCParameterNameRPCSpecVersion];
+    [self.store sdl_setObject:rpcSpecVersion forName:SDLRPCParameterNameRPCSpecVersion];
 }
 
 - (nullable SDLSyncMsgVersion *)rpcSpecVersion {
-    return [store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class error:nil];
 }
 
 - (void)setHandledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
-    [store sdl_setObject:handledRPCs forName:SDLRPCParameterNameHandledRPCs];
+    [self.store sdl_setObject:handledRPCs forName:SDLRPCParameterNameHandledRPCs];
 }
 
 - (nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
-    return [store sdl_objectsForName:SDLRPCParameterNameHandledRPCs ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameHandledRPCs ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWeatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    [store sdl_setObject:weatherServiceManifest forName:SDLRPCParameterNameWeatherServiceManifest];
+    [self.store sdl_setObject:weatherServiceManifest forName:SDLRPCParameterNameWeatherServiceManifest];
 }
 
 - (nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class error:nil];
 }
 
 - (void)setMediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest {
-    [store sdl_setObject:mediaServiceManifest forName:SDLRPCParameterNameMediaServiceManifest];
+    [self.store sdl_setObject:mediaServiceManifest forName:SDLRPCParameterNameMediaServiceManifest];
 }
 
 - (nullable SDLMediaServiceManifest *)mediaServiceManifest {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class error:nil];
 }
 
 - (void)setNavigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
-    [store sdl_setObject:navigationServiceManifest forName:SDLRPCParameterNameNavigationServiceManifest];
+    [self.store sdl_setObject:navigationServiceManifest forName:SDLRPCParameterNameNavigationServiceManifest];
 }
 
 - (nullable SDLNavigationServiceManifest *)navigationServiceManifest {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceManifest ofClass:SDLNavigationServiceManifest.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNavigationServiceManifest ofClass:SDLNavigationServiceManifest.class error:nil];
 }
 
 @end

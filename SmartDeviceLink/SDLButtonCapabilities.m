@@ -11,39 +11,39 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLButtonCapabilities
 
 - (void)setName:(SDLButtonName)name {
-    [store sdl_setObject:name forName:SDLRPCParameterNameName];
+    [self.store sdl_setObject:name forName:SDLRPCParameterNameName];
 }
 
 - (SDLButtonName)name {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameName error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameName error:&error];
 }
 
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
-    [store sdl_setObject:shortPressAvailable forName:SDLRPCParameterNameShortPressAvailable];
+    [self.store sdl_setObject:shortPressAvailable forName:SDLRPCParameterNameShortPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameShortPressAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameShortPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
-    [store sdl_setObject:longPressAvailable forName:SDLRPCParameterNameLongPressAvailable];
+    [self.store sdl_setObject:longPressAvailable forName:SDLRPCParameterNameLongPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameLongPressAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLongPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
-    [store sdl_setObject:upDownAvailable forName:SDLRPCParameterNameUpDownAvailable];
+    [self.store sdl_setObject:upDownAvailable forName:SDLRPCParameterNameUpDownAvailable];
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameUpDownAvailable ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameUpDownAvailable ofClass:NSNumber.class error:&error];
 }
 
 @end

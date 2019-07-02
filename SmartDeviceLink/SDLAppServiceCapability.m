@@ -40,20 +40,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setUpdateReason:(nullable SDLServiceUpdateReason)updateReason {
-    [store sdl_setObject:updateReason forName:SDLRPCParameterNameUpdateReason];
+    [self.store sdl_setObject:updateReason forName:SDLRPCParameterNameUpdateReason];
 }
 
 - (nullable SDLServiceUpdateReason)updateReason {
-    return [store sdl_enumForName:SDLRPCParameterNameUpdateReason error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameUpdateReason error:nil];
 }
 
 - (void)setUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord {
-    [store sdl_setObject:updatedAppServiceRecord forName:SDLRPCParameterNameUpdatedAppServiceRecord];
+    [self.store sdl_setObject:updatedAppServiceRecord forName:SDLRPCParameterNameUpdatedAppServiceRecord];
 }
 
 - (SDLAppServiceRecord *)updatedAppServiceRecord {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class error:&error];
 }
 
 @end

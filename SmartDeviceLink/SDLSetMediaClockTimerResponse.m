@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetMediaClockTimerResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSetMediaClockTimer]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

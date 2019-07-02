@@ -28,19 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSendLocationEnabled:(nullable NSNumber *)sendLocationEnabled {
-    [store sdl_setObject:sendLocationEnabled forName:SDLRPCParameterNameSendLocationEnabled];
+    [self.store sdl_setObject:sendLocationEnabled forName:SDLRPCParameterNameSendLocationEnabled];
 }
 
 - (nullable NSNumber *)sendLocationEnabled {
-    return [store sdl_objectForName:SDLRPCParameterNameSendLocationEnabled ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameSendLocationEnabled ofClass:NSNumber.class error:nil];
 }
 
 - (void)setGetWayPointsEnabled:(nullable NSNumber *)getWayPointsEnabled {
-    [store sdl_setObject:getWayPointsEnabled forName:SDLRPCParameterNameGetWayPointsEnabled];
+    [self.store sdl_setObject:getWayPointsEnabled forName:SDLRPCParameterNameGetWayPointsEnabled];
 }
 
 - (nullable NSNumber *)getWayPointsEnabled {
-    return [store sdl_objectForName:SDLRPCParameterNameGetWayPointsEnabled ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameGetWayPointsEnabled ofClass:NSNumber.class error:nil];
 }
 
 @end

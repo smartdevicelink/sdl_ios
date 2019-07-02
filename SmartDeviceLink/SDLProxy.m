@@ -2,7 +2,6 @@
 
 #import "SDLProxy.h"
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -51,7 +50,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"6.2.3";
+NSString *const SDLProxyVersion = @"6.3.0";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
@@ -97,7 +96,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.transport connect];
 
         SDLLogV(@"Proxy transport initialization");
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
         
         NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
@@ -136,8 +134,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-    
+
     [_urlSession invalidateAndCancel];
     SDLLogV(@"Proxy dealloc");
 }
@@ -282,10 +279,10 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark - Message sending
 - (void)sendRPC:(SDLRPCMessage *)message {
-    if ([message.getFunctionName isEqualToString:@"SubscribeButton"]) {
+    if ([message.name isEqualToString:SDLRPCFunctionNameSubscribeButton]) {
         BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message];
         if (handledRPC) { return; }
-    } else if ([message.getFunctionName isEqualToString:@"UnsubscribeButton"]) {
+    } else if ([message.name isEqualToString:SDLRPCFunctionNameUnsubscribeButton]) {
         BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message];
         if (handledRPC) { return; }
     }
@@ -476,13 +473,16 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dict {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:[dict mutableCopy]];
-    NSString *functionName = [message getFunctionName];
-    NSString *messageType = [message messageType];
+#pragma clang diagnostic pop
+    NSString *functionName = message.name;
+    NSString *messageType = message.messageType;
 
     // If it's a response, append response
     if ([messageType isEqualToString:SDLRPCParameterNameResponse]) {
-        BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
+        BOOL notGenericResponseMessage = ![functionName isEqualToString:SDLRPCFunctionNameGenericResponse];
         if (notGenericResponseMessage) {
             functionName = [NSString stringWithFormat:@"%@Response", functionName];
         }
@@ -589,9 +589,9 @@ static float DefaultConnectionTimeout = 45.0;
     // If URL != nil, perform HTTP Post and don't pass the notification to proxy listeners
     SDLLogV(@"OnEncodedSyncPData: %@", message);
 
-    NSString *urlString = (NSString *)[message getParameters:@"URL"];
-    NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)[message getParameters:@"data"];
-    NSNumber *encodedSyncPTimeout = (NSNumber *)[message getParameters:@"Timeout"];
+    NSString *urlString = (NSString *)message.parameters[SDLRPCParameterNameURLUppercase];
+    NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)message.parameters[SDLRPCParameterNameData];
+    NSNumber *encodedSyncPTimeout = (NSNumber *)message.parameters[SDLRPCParameterNameTimeoutCapitalized];
 
     if (urlString && encodedSyncPData && encodedSyncPTimeout) {
         [self sendEncodedSyncPData:encodedSyncPData toURL:urlString withTimeout:encodedSyncPTimeout];
@@ -601,8 +601,11 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)handleSystemRequest:(NSDictionary<NSString *, id> *)dict {
     SDLLogV(@"OnSystemRequest");
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
     SDLRequestType requestType = systemRequest.requestType;
+#pragma clang diagnostic pop
 
     // Handle the various OnSystemRequest types
     if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
@@ -708,7 +711,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLRPCParameterNameHMILevel];
+    SDLHMILevel hmiLevel = (SDLHMILevel)message.parameters[SDLRPCParameterNameHMILevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -716,7 +719,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)[message getParameters:SDLRPCParameterNameState];
+    NSString *stateString = (NSString *)message.parameters[SDLRPCParameterNameState];
     BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
     _lsm.driverDistracted = state;
 

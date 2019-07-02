@@ -11,19 +11,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAppInterfaceUnregistered
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnAppInterfaceUnregistered]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    [parameters sdl_setObject:reason forName:SDLRPCParameterNameReason];
+    [self.parameters sdl_setObject:reason forName:SDLRPCParameterNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameReason error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameReason error:&error];
 }
 
 @end

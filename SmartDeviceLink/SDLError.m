@@ -8,6 +8,8 @@
 
 #import "SDLError.h"
 
+#import "SDLChoiceSetManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -237,6 +239,16 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
 }
 
++ (NSError *)sdl_choiceSetManager_incorrectState:(SDLChoiceManagerState *)state {
+    NSString *errorString = [NSString stringWithFormat:@"Choice Set Manager error invalid state: %@", state];
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: errorString,
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The choice set manager could be in an invalid state because the head unit doesn't support choice sets or the manager failed to set up correctly.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
+}
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError {
@@ -325,6 +337,12 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSException *)sdl_invalidLockscreenSetupException {
     return [NSException exceptionWithName:@"com.sdl.lockscreen.setupException"
                                    reason:@"SDL must be setup _after_ your app's window already exists"
+                                 userInfo:nil];
+}
+
++ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
+    return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
+                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have either 0 or 1 parameters", NSStringFromSelector(selector)]
                                  userInfo:nil];
 }
 

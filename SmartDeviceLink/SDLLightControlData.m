@@ -21,12 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLightState:(NSArray<SDLLightState *> *)lightState {
-    [store sdl_setObject:lightState forName:SDLRPCParameterNameLightState];
+    [self.store sdl_setObject:lightState forName:SDLRPCParameterNameLightState];
 }
 
 - (NSArray<SDLLightState *> *)lightState {
     NSError *error = nil;
-    return [store sdl_objectsForName:SDLRPCParameterNameLightState ofClass:SDLLightState.class error:&error];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameLightState ofClass:SDLLightState.class error:&error];
 }
 
 @end

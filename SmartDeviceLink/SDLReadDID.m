@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLReadDID
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameReadDID]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
     self = [self init];
@@ -31,21 +34,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [parameters sdl_setObject:ecuName forName:SDLRPCParameterNameECUName];
+    [self.parameters sdl_setObject:ecuName forName:SDLRPCParameterNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
-    [parameters sdl_setObject:didLocation forName:SDLRPCParameterNameDIDLocation];
+    [self.parameters sdl_setObject:didLocation forName:SDLRPCParameterNameDIDLocation];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)didLocation {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameDIDLocation ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameDIDLocation ofClass:NSNumber.class error:&error];
 }
 
 @end

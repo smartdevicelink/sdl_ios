@@ -122,11 +122,29 @@
 <span class="cm">/**
  Called when a file from the SDLAudioStreamManager could not play
 
- @param audioManager  A reference to the audio stream manager
+ @param audioManager A reference to the audio stream manager
  @param fileURL The URL that failed
  @param error The error that occurred
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForFile</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+
+<span class="k">@optional</span>
+
+<span class="cm">/**
+ Called when a data buffer from the SDLAudioStreamManager finishes playing
+
+ @param audioManager A reference to the audio stream manager
+ @param successfully Whether or not the data buffer played successfully
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">dataBufferDidFinishPlayingSuccessfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+
+<span class="cm">/**
+ Called when a data buffer from the SDLAudioStreamManager could not play
+
+ @param audioManager A reference to the audio stream manager
+ @param error The error that occurred
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForDataBuffer</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 

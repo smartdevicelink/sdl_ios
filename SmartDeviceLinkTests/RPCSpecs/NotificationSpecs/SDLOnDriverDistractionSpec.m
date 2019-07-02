@@ -29,7 +29,10 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOn},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
     });

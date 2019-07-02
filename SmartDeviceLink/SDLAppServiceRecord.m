@@ -31,39 +31,39 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceID:(NSString *)serviceID {
-    [store sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
+    [self.store sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceID {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceManifest:(SDLAppServiceManifest *)serviceManifest {
-    [store sdl_setObject:serviceManifest forName:SDLRPCParameterNameServiceManifest];
+    [self.store sdl_setObject:serviceManifest forName:SDLRPCParameterNameServiceManifest];
 }
 
 - (SDLAppServiceManifest *)serviceManifest {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceManifest ofClass:SDLAppServiceManifest.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceManifest ofClass:SDLAppServiceManifest.class error:&error];
 }
 
 - (void)setServicePublished:(NSNumber<SDLBool> *)servicePublished {
-    [store sdl_setObject:servicePublished forName:SDLRPCParameterNameServicePublished];
+    [self.store sdl_setObject:servicePublished forName:SDLRPCParameterNameServicePublished];
 }
 
 - (NSNumber<SDLBool> *)servicePublished {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServicePublished ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServicePublished ofClass:NSNumber.class error:&error];
 }
 
 - (void)setServiceActive:(NSNumber<SDLBool> *)serviceActive {
-    [store sdl_setObject:serviceActive forName:SDLRPCParameterNameServiceActive];
+    [self.store sdl_setObject:serviceActive forName:SDLRPCParameterNameServiceActive];
 }
 
 - (NSNumber<SDLBool> *)serviceActive {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameServiceActive ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceActive ofClass:NSNumber.class error:&error];
 }
 
 @end

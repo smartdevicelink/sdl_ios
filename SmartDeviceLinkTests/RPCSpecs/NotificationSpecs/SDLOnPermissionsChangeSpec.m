@@ -34,7 +34,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy],
                                                                    SDLRPCParameterNameRequireEncryption:@1},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
-        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
         expect(testNotification.requireEncryption).to(beTrue());
