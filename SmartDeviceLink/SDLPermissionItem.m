@@ -40,12 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRequireEncryption:(NSNumber<SDLBool> *)requireEncryption {
-    [store sdl_setObject:requireEncryption forName:SDLRPCParameterNameRequireEncryption];
+    [self.store sdl_setObject:requireEncryption forName:SDLRPCParameterNameRequireEncryption];
 }
 
 - (NSNumber<SDLBool> *)requireEncryption {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameRequireEncryption ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRequireEncryption ofClass:NSNumber.class error:&error];
 }
 
 @end
