@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLMenuManagerConstants.h"
 
 @class SDLFileManager;
 @class SDLMenuCell;
@@ -34,6 +35,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 
+@property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
 @end
 
 NS_ASSUME_NONNULL_END

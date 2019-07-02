@@ -14,11 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformInteraction
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNamePerformInteraction]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId {
     return [self initWithInteractionChoiceSetIdList:@[@(interactionChoiceSetId)]];
@@ -92,78 +95,78 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setInitialText:(NSString *)initialText {
-    [parameters sdl_setObject:initialText forName:SDLRPCParameterNameInitialText];
+    [self.parameters sdl_setObject:initialText forName:SDLRPCParameterNameInitialText];
 }
 
 - (NSString *)initialText {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameInitialText ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameInitialText ofClass:NSString.class error:&error];
 }
 
 - (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    [parameters sdl_setObject:initialPrompt forName:SDLRPCParameterNameInitialPrompt];
+    [self.parameters sdl_setObject:initialPrompt forName:SDLRPCParameterNameInitialPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameInitialPrompt ofClass:SDLTTSChunk.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameInitialPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setInteractionMode:(SDLInteractionMode)interactionMode {
-    [parameters sdl_setObject:interactionMode forName:SDLRPCParameterNameInteractionMode];
+    [self.parameters sdl_setObject:interactionMode forName:SDLRPCParameterNameInteractionMode];
 }
 
 - (SDLInteractionMode)interactionMode {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameInteractionMode error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameInteractionMode error:&error];
 }
 
 - (void)setInteractionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    [parameters sdl_setObject:interactionChoiceSetIDList forName:SDLRPCParameterNameInteractionChoiceSetIdList];
+    [self.parameters sdl_setObject:interactionChoiceSetIDList forName:SDLRPCParameterNameInteractionChoiceSetIdList];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameInteractionChoiceSetIdList ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameInteractionChoiceSetIdList ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    [parameters sdl_setObject:helpPrompt forName:SDLRPCParameterNameHelpPrompt];
+    [self.parameters sdl_setObject:helpPrompt forName:SDLRPCParameterNameHelpPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    [parameters sdl_setObject:timeoutPrompt forName:SDLRPCParameterNameTimeoutPrompt];
+    [self.parameters sdl_setObject:timeoutPrompt forName:SDLRPCParameterNameTimeoutPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
+    [self.parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    [parameters sdl_setObject:vrHelp forName:SDLRPCParameterNameVRHelp];
+    [self.parameters sdl_setObject:vrHelp forName:SDLRPCParameterNameVRHelp];
 }
 
 - (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class error:nil];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class error:nil];
 }
 
 - (void)setInteractionLayout:(nullable SDLLayoutMode)interactionLayout {
-    [parameters sdl_setObject:interactionLayout forName:SDLRPCParameterNameInteractionLayout];
+    [self.parameters sdl_setObject:interactionLayout forName:SDLRPCParameterNameInteractionLayout];
 }
 
 - (nullable SDLLayoutMode)interactionLayout {
-    return [parameters sdl_enumForName:SDLRPCParameterNameInteractionLayout error:nil];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameInteractionLayout error:nil];
 }
 
 @end

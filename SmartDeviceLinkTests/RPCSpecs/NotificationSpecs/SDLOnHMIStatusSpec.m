@@ -41,7 +41,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameSystemContext: SDLSystemContextHMIObscured,
                                                    SDLRPCParameterNameVideoStreamingState: SDLVideoStreamingStateStreamable},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnHMIStatus}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.hmiLevel).to(equal(SDLHMILevelLimited));
         expect(testNotification.audioStreamingState).to(equal(SDLAudioStreamingStateAttenuated));

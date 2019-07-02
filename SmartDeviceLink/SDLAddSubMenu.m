@@ -11,11 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddSubMenu
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameAddSubMenu]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position {
     self = [self initWithId:menuId menuName:menuName];
@@ -44,37 +47,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    [parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
+    [self.parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
-    [parameters sdl_setObject:position forName:SDLRPCParameterNamePosition];
+    [self.parameters sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (nullable NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    [parameters sdl_setObject:menuName forName:SDLRPCParameterNameMenuName];
+    [self.parameters sdl_setObject:menuName forName:SDLRPCParameterNameMenuName];
 }
 
 - (NSString *)menuName {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class error:&error];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {
-    [parameters sdl_setObject:menuIcon forName:SDLRPCParameterNameMenuIcon];
+    [self.parameters sdl_setObject:menuIcon forName:SDLRPCParameterNameMenuIcon];
 }
 
 - (nullable SDLImage *)menuIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:[SDLImage class] error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:[SDLImage class] error:nil];
 }
 
 @end

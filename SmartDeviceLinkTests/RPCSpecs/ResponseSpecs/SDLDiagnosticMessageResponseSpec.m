@@ -28,7 +28,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameMessageDataResult:@[@3, @9, @27, @81]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDiagnosticMessageResponse* testResponse = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.messageDataResult).to(equal(@[@3, @9, @27, @81]));
     });

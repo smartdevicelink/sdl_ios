@@ -12,19 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnHashChange
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnHashChange]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setHashID:(NSString *)hashID {
-    [parameters sdl_setObject:hashID forName:SDLRPCParameterNameHashId];
+    [self.parameters sdl_setObject:hashID forName:SDLRPCParameterNameHashId];
 }
 
 - (NSString *)hashID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameHashId ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHashId ofClass:NSString.class error:&error];
 }
 
 @end

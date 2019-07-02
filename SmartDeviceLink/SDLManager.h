@@ -178,6 +178,44 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler NS_SWIFT_NAME(sendSequential(requests:progressHandler:completionHandler:));
 
+
+#pragma mark - RPC Subscriptions
+
+typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
+
+/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param block The block that will be called every time an RPC of the name and type specified is received.
+ * @return An object that can be passed to `unsubscribeFromRPC:ofType:withObserver:` to unsubscribe the block.
+ */
+- (id)subscribeToRPC:(SDLNotificationName)rpcName withBlock:(SDLRPCUpdatedBlock)block NS_SWIFT_NAME(subscribe(to:block:));
+
+/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a selector callback.
+ *
+ * The selector supports the following parameters:
+ *
+ * 1. Zero parameters e.g. `- (void)registerAppInterfaceResponse`
+ * 2. One parameter e.g. `- (void)registerAppInterfaceResponse:(NSNotification *)notification;`
+ *
+ * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notifed of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.
+ * @param selector The selector on `observer` that will be called every time an RPC of the name and type specified is received.
+ */
+- (void)subscribeToRPC:(SDLNotificationName)rpcName withObserver:(id)observer selector:(SEL)selector NS_SWIFT_NAME(subscribe(to:observer:selector:));
+
+/**
+ * Unsubscribe to callbacks about a particular RPC request, notification, or response.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to unsubscribe from.
+ * @param observer The object representing a block callback or selector callback to be unsubscribed
+ */
+- (void)unsubscribeFromRPC:(SDLNotificationName)rpcName withObserver:(id)observer NS_SWIFT_NAME(unsubscribe(from:observer:));
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -69,6 +69,7 @@ describe(@"an SDLChoiceSet", ^{
             expect(testChoiceSet.timeoutPrompt).to(equal([SDLTTSChunk textChunksFromString:testTimeoutPrompt]));
             expect(testChoiceSet.helpPrompt).to(equal([SDLTTSChunk textChunksFromString:testHelpPrompt]));
             expect(testChoiceSet.helpList).to(equal(@[testHelpItem]));
+            expect(testChoiceSet.helpList.firstObject.position).to(equal(1));
             expect(testChoiceSet.delegate).to(equal(testDelegate));
             expect(testChoiceSet.choices).to(equal(@[testCell]));
         });
@@ -148,6 +149,18 @@ describe(@"an SDLChoiceSet", ^{
                     expect(testChoiceSet).to(beNil());
                 });
             });
+        });
+    });
+
+    describe(@"setting data", ^{
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+        });
+
+        it(@"should properly set help list position", ^{
+            testChoiceSet.helpList = @[testHelpItem];
+
+            expect(testHelpItem.position).to(equal(1));
         });
     });
 });

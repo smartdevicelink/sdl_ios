@@ -126,7 +126,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameMassageCushionFirmness:[@[massageCushionFirmness] mutableCopy],
                                        SDLRPCParameterNameMemory:seatMemoryAction
                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSeatControlData *testStruct = [[SDLSeatControlData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.id).to(equal(SDLSupportedSeatDriver));
         expect(testStruct.heatingEnabled).to(equal(@NO));

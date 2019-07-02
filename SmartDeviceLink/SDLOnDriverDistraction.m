@@ -12,19 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnDriverDistraction
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnDriverDistraction]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setState:(SDLDriverDistractionState)state {
-    [parameters sdl_setObject:state forName:SDLRPCParameterNameState];
+    [self.parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }
 
 - (SDLDriverDistractionState)state {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
 - (void)setLockScreenDismissalEnabled:(NSNumber<SDLBool> *)lockScreenDismissalEnabled {

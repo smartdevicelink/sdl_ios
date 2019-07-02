@@ -1,0 +1,77 @@
+<h1>SDLDynamicMenuUpdatesMode Enumeration Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLDynamicMenuUpdatesModeForceOn">SDLDynamicMenuUpdatesModeForceOn</a></li>
+  <li><a href="#section-SDLDynamicMenuUpdatesModeForceOff">SDLDynamicMenuUpdatesModeForceOff</a></li>
+  <li><a href="#section-SDLDynamicMenuUpdatesModeOnWithCompatibility">SDLDynamicMenuUpdatesModeOnWithCompatibility</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Dynamic Menu Manager Mode</p>
+
+<ul>
+<li>SDLDynamicMenuUpdatesModeForceOn: Forces on compatibility mode. This will force the menu manager to delete and re-add each menu item for every menu update. This mode is generally not advised due to performance issues.</li>
+<li>SDLDynamicMenuUpdatesModeForceOn: This mode forces the menu manager to always dynamically update menu items for each menu update. This will provide the best performance but may cause ordering issues on some SYNC Gen 3 head units.</li>
+<li>SDLDynamicMenuUpdatesModeForceOff: This mode checks whether the phone is connected to a SYNC Gen 3 head unit, which has known menu ordering issues. If it is, it will always delete and re-add every menu item, if not, it will dynamically update the menus.</li>
+</ul>
+
+
+<section class="section task-group-section">
+  <h3 id="section-SDLDynamicMenuUpdatesModeForceOn">
+      SDLDynamicMenuUpdatesModeForceOn
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLDynamicMenuUpdatesModeForceOn</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">forceOn</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDynamicMenuUpdatesModeForceOff">
+      SDLDynamicMenuUpdatesModeForceOff
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLDynamicMenuUpdatesModeForceOff</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">forceOff</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDynamicMenuUpdatesModeOnWithCompatibility">
+      SDLDynamicMenuUpdatesModeOnWithCompatibility
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLDynamicMenuUpdatesModeOnWithCompatibility</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">onWithCompatibility</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+  
+  
+  
+</section>

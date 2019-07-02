@@ -18,6 +18,8 @@
   <li><a href="#section-SDLLogFlag">SDLLogFlag</a></li>
   <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
   <li><a href="#section-SDLLogFormatType">SDLLogFormatType</a></li>
+  <li><a href="#section-SDLDynamicMenuUpdatesMode">SDLDynamicMenuUpdatesMode</a></li>
+  <li><a href="#section-MenuCellState">MenuCellState</a></li>
   <li><a href="#section-SDLPermissionGroupType">SDLPermissionGroupType</a></li>
   <li><a href="#section-SDLPermissionGroupStatus">SDLPermissionGroupStatus</a></li>
   <li><a href="#section-SDLRPCMessageType">SDLRPCMessageType</a></li>
@@ -218,7 +220,8 @@
     <span class="n">SDLChoiceSetManagerErrorPendingPresentationDeleted</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">SDLChoiceSetManagerErrorDeletionFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">SDLChoiceSetManagerErrorUploadFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
-    <span class="n">SDLChoiceSetManagerErrorFailedToCreateMenuItems</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+    <span class="n">SDLChoiceSetManagerErrorFailedToCreateMenuItems</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">SDLChoiceSetManagerErrorInvalidState</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
 <span class="p">}</span></code></pre>
 
   
@@ -363,6 +366,54 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLLogFormatType</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDynamicMenuUpdatesMode">
+      SDLDynamicMenuUpdatesMode
+  </h3>
+  
+  <p>Dynamic Menu Manager Mode</p>
+
+<ul>
+<li>SDLDynamicMenuUpdatesModeForceOn: Forces on compatibility mode. This will force the menu manager to delete and re-add each menu item for every menu update. This mode is generally not advised due to performance issues.</li>
+<li>SDLDynamicMenuUpdatesModeForceOn: This mode forces the menu manager to always dynamically update menu items for each menu update. This will provide the best performance but may cause ordering issues on some SYNC Gen 3 head units.</li>
+<li>SDLDynamicMenuUpdatesModeForceOff: This mode checks whether the phone is connected to a SYNC Gen 3 head unit, which has known menu ordering issues. If it is, it will always delete and re-add every menu item, if not, it will dynamically update the menus.</li>
+</ul>
+
+  <a href="Enums/SDLDynamicMenuUpdatesMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLDynamicMenuUpdatesMode</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLDynamicMenuUpdatesMode</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-MenuCellState">
+      MenuCellState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/MenuCellState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">MenuCellState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">MenuCellStateDelete</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">MenuCellStateAdd</span><span class="p">,</span>
+    <span class="n">MenuCellStateKeep</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">MenuCellState</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
 
   
   

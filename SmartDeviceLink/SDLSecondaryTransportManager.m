@@ -67,7 +67,7 @@ static const int TCPPortUnspecified = -1;
 @property (copy, nonatomic) dispatch_queue_t stateMachineQueue;
 
 // Instance of the protocol that runs on primary transport.
-@property (weak, nonatomic) SDLProtocol *primaryProtocol;
+@property (strong, nonatomic) SDLProtocol *primaryProtocol;
 // A class to catch Start Service ACK and Transport Config Update frames.
 @property (strong, nonatomic) SDLSecondaryTransportPrimaryProtocolHandler *primaryProtocolHandler;
 

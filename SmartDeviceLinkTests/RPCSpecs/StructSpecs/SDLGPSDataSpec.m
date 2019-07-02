@@ -78,7 +78,10 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameAltitude:@3000,
                                        SDLRPCParameterNameHeading:@96,
                                        SDLRPCParameterNameSpeed:@64} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGPSData* testStruct = [[SDLGPSData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));
         expect(testStruct.latitudeDegrees).to(equal(@45));

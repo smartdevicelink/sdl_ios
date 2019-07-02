@@ -28,7 +28,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameData:[@[@"2", @"2", @"2"] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameEncodedSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLEncodedSyncPData* testRequest = [[SDLEncodedSyncPData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.data).to(equal([@[@"2", @"2", @"2"] mutableCopy]));
     });

@@ -170,7 +170,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
 /**
- *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
+ *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback.
+ *
+ *  NOTE: See the `.audioManager` (SDLAudioStreamManager) `pushWithData:` method for a more modern API.
  *
  *  @param audioData The data in PCM audio format, to be played
  *

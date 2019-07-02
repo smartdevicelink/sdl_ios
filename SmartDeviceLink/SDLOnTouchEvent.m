@@ -12,28 +12,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTouchEvent
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnTouchEvent]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setType:(SDLTouchType)type {
-    [parameters sdl_setObject:type forName:SDLRPCParameterNameType];
+    [self.parameters sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLTouchType)type {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameType error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 - (void)setEvent:(NSArray<SDLTouchEvent *> *)event {
-    [parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
+    [self.parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
 }
 
 - (NSArray<SDLTouchEvent *> *)event {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameEvent ofClass:SDLTouchEvent.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameEvent ofClass:SDLTouchEvent.class error:&error];
 }
 
 @end

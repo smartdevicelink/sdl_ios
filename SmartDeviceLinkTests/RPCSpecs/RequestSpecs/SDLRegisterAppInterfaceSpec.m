@@ -113,7 +113,10 @@ describe(@"RegisterAppInterface Tests", ^{
                                                    SDLRPCParameterNameNightColorScheme: colorScheme,
                                                    },
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRegisterAppInterface* testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));
         expect(testRegisterAppInterface.appName).to(match(appName));
@@ -211,7 +214,10 @@ describe(@"RegisterAppInterface Tests", ^{
         });
 
         it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+#pragma clang diagnostic pop
 
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));

@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDiagnosticMessage
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameDiagnosticMessage]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSData *> *)data {
     self = [self init];
@@ -32,30 +35,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTargetID:(NSNumber<SDLInt> *)targetID {
-    [parameters sdl_setObject:targetID forName:SDLRPCParameterNameTargetId];
+    [self.parameters sdl_setObject:targetID forName:SDLRPCParameterNameTargetId];
 }
 
 - (NSNumber<SDLInt> *)targetID {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameTargetId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTargetId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMessageLength:(NSNumber<SDLInt> *)messageLength {
-    [parameters sdl_setObject:messageLength forName:SDLRPCParameterNameMessageLength];
+    [self.parameters sdl_setObject:messageLength forName:SDLRPCParameterNameMessageLength];
 }
 
 - (NSNumber<SDLInt> *)messageLength {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameMessageLength ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMessageLength ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMessageData:(NSArray<NSNumber<SDLInt> *> *)messageData {
-    [parameters sdl_setObject:messageData forName:SDLRPCParameterNameMessageData];
+    [self.parameters sdl_setObject:messageData forName:SDLRPCParameterNameMessageData];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageData {
     NSError *error = nil;
-    return [parameters sdl_objectsForName:SDLRPCParameterNameMessageData ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameMessageData ofClass:NSNumber.class error:&error];
 }
 
 @end

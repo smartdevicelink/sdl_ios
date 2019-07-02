@@ -22,21 +22,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCushion:(SDLMassageCushion)cushion {
-    [store sdl_setObject:cushion forName:SDLRPCParameterNameCushion];
+    [self.store sdl_setObject:cushion forName:SDLRPCParameterNameCushion];
 }
 
 - (SDLMassageCushion)cushion {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameCushion error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameCushion error:&error];
 }
 
 - (void)setFirmness:(NSNumber<SDLInt> *)firmness {
-    [store sdl_setObject:firmness forName:SDLRPCParameterNameFirmness];
+    [self.store sdl_setObject:firmness forName:SDLRPCParameterNameFirmness];
 }
 
 - (NSNumber<SDLInt> *)firmness {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameFirmness ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameFirmness ofClass:NSNumber.class error:&error];
 }
 
 @end

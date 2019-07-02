@@ -11,21 +11,21 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLVehicleDataResult
 
 - (void)setDataType:(SDLVehicleDataType)dataType {
-    [store sdl_setObject:dataType forName:SDLRPCParameterNameDataType];
+    [self.store sdl_setObject:dataType forName:SDLRPCParameterNameDataType];
 }
 
 - (SDLVehicleDataType)dataType {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameDataType error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameDataType error:&error];
 }
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
-    [store sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
+    [self.store sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
 }
 
 - (SDLVehicleDataResultCode)resultCode {
     NSError *error = nil;
-    return [store sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 @end

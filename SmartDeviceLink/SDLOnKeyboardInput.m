@@ -11,27 +11,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnKeyboardInput
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnKeyboardInput]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setEvent:(SDLKeyboardEvent)event {
-    [parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
+    [self.parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
 }
 
 - (SDLKeyboardEvent)event {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameEvent error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameEvent error:&error];
 }
 
 - (void)setData:(nullable NSString *)data {
-    [parameters sdl_setObject:data forName:SDLRPCParameterNameData];
+    [self.parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (nullable NSString *)data {
-    return [parameters sdl_objectForName:SDLRPCParameterNameData ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameData ofClass:NSString.class error:nil];
 }
 
 @end
