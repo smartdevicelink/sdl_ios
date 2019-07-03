@@ -310,6 +310,7 @@ SDLRPCParameterName const SDLRPCParameterNameLocationDetails = @"locationDetails
 SDLRPCParameterName const SDLRPCParameterNameLocationImage = @"locationImage";
 SDLRPCParameterName const SDLRPCParameterNameLocationName = @"locationName";
 SDLRPCParameterName const SDLRPCParameterNameLockScreenDismissalEnabled = @"lockScreenDismissalEnabled";
+SDLRPCParameterName const SDLRPCParameterNameLockScreenDismissalWarning = @"lockScreenDismissalWarning";
 SDLRPCParameterName const SDLRPCParameterNameLongitudeDegrees = @"longitudeDegrees";
 SDLRPCParameterName const SDLRPCParameterNameLongPress = @"longPress";
 SDLRPCParameterName const SDLRPCParameterNameLongPressAvailable = @"longPressAvailable";

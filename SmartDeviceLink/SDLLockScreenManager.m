@@ -182,25 +182,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_toggleLockscreenDismissalableWithState:(BOOL)enabled {
+    // If the VC is our special type, then set the locked label text and swipe gesture. If they passed in a custom VC, there's no current way to update locked label text or swipe gesture. If they're managing it themselves, they can grab the notification themselves.
     if (![self.lockScreenViewController isKindOfClass:[UIViewController class]]) {
         return;
     }
-
+    
     SDLLockScreenManager *__weak weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         SDLLockScreenManager *strongSelf = weakSelf;
         if (enabled) {
             [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
             
-            // If the VC is our special type, then set the locked label text. If they passed in a custom VC, there's no current way to update locked label text. If they're managing it themselves, they can grab the notification themselves.
-            // Translations needed
             if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
-                ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = NSLocalizedString(@"Swipe up to dismiss", nil);
+                ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = self.lastDriverDistractionNotification.lockScreenDismissalWarning;
             }
         } else {
             [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
             
-            // If the VC is our special type, then set the locked label text. If they passed in a custom VC, there's no current way to update locked label text. If they're managing it themselves, they can grab the notification themselves.
             if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
                 ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = nil;
             }
