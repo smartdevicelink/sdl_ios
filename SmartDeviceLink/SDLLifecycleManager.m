@@ -779,14 +779,16 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 #pragma mark SDL notification observers
 
 - (void)transportDidConnect {
-    SDLLogD(@"Transport connected");
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        SDLLogD(@"Transport connected");
 
-    // End any background tasks since the transport connected successfully
-    [self.backgroundTaskManager endBackgroundTask];
+        // End any background tasks since the transport connected successfully
+        [self.backgroundTaskManager endBackgroundTask];
 
-    dispatch_async(self.lifecycleQueue, ^{
-        [self sdl_transitionToState:SDLLifecycleStateConnected];
-    });
+        dispatch_async(self.lifecycleQueue, ^{
+            [self sdl_transitionToState:SDLLifecycleStateConnected];
+        });
+    }
 }
 
 - (void)transportDidDisconnect {

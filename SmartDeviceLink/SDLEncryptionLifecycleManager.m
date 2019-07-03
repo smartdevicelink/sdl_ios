@@ -133,13 +133,19 @@
 
 #pragma mark - State Machine
 - (void)didEnterStateEncryptionStarting {
-    SDLLogD(@"Encryption starting");
+    SDLLogD(@"Encryption manager is starting");
     
     [self sdl_sendEncryptionStartService];
 }
 
+- (void)didEnterStateEncryptionReady {
+    SDLLogD(@"Encryption manager is ready");
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLEncryptionDidStartNotification object:nil];
+}
+
 - (void)didEnterStateEncryptionStopped {
-    SDLLogD(@"Encryption stopped");
+    SDLLogD(@"Encryption manager stopped");
     
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLEncryptionDidStopNotification object:nil];
 }
@@ -174,7 +180,7 @@
 }
 
 - (void)sdl_handleEncryptionStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
-    SDLLogW(@"Encryption service failed to start due to NAK");
+    SDLLogW(@"Encryption service failed to start due to NACK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
 }
 
@@ -183,7 +189,7 @@
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     switch (endServiceACK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            SDLLogW(@"%@ service ended with end service ACK", (endServiceACK.header.serviceType == SDLServiceTypeRPC ? @"RPC Encryption" : @"RPC Encryption"));
+            SDLLogW(@"Encryption RPC service ended with end service ACK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
         } break;
         default: break;
@@ -193,7 +199,7 @@
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     switch (endServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeRPC ? @"RPC Encryption" : @"RPC Encryption"));
+            SDLLogW(@"Encryption RPC service ended with end service NACK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
         } break;
         default: break;
