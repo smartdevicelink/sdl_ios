@@ -350,6 +350,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameMediaServiceData;
 extern SDLRPCParameterName const SDLRPCParameterNameMediaServiceManifest;
 extern SDLRPCParameterName const SDLRPCParameterNameMediaTitle;
 extern SDLRPCParameterName const SDLRPCParameterNameMediaTrack;
+extern SDLRPCParameterName const SDLRPCParameterNameMediaImage;
 extern SDLRPCParameterName const SDLRPCParameterNameMediaType;
 extern SDLRPCParameterName const SDLRPCParameterNameMemory;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuIcon;

@@ -7,8 +7,9 @@
 //
 
 #import "SDLRPCRequest.h"
-
 #import "SDLMediaType.h"
+
+@class SDLImage;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,7 +36,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param queueTotalTrackCount     The total number of tracks in the playback queue
  *  @return                         A SDLMediaServiceData object
  */
-- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount;
+- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaImage:(nullable SDLImage *)mediaImage mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount;
+
+/**
+ * Sets the media image associated with the currently playing media
+ * Music: The album art of the current track
+ * Podcast: The podcast or chapter artwork of the current podcast episode
+ * Audiobook: The book or chapter artwork of the current audiobook
+ *
+ * SDLImage,  Optional
+ */
+@property (nullable, strong, nonatomic) SDLImage *mediaImage;
 
 /**
  *  The type of the currently playing or paused track.

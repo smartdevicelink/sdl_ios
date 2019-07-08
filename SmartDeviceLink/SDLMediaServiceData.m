@@ -10,18 +10,20 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLImage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMediaServiceData
 
-- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
+- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaImage:(nullable SDLImage *)mediaImage mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.mediaType = mediaType;
+    self.mediaImage = mediaImage;
     self.mediaTitle = mediaTitle;
     self.mediaArtist = mediaArtist;
     self.mediaAlbum = mediaAlbum;
@@ -35,6 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.queueTotalTrackCount = @(queueTotalTrackCount);
     
     return self;
+}
+
+- (void)setMediaImage:(nullable SDLImage *)mediaImage {
+    [self.store sdl_setObject:mediaImage forName:SDLRPCParameterNameMediaImage];
+}
+
+- (nullable SDLImage *)mediaImage {
+    return [self.store sdl_objectForName:SDLRPCParameterNameMediaImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setMediaType:(nullable SDLMediaType)mediaType {

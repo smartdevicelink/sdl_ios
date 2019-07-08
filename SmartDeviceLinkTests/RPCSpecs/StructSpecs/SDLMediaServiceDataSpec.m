@@ -11,11 +11,13 @@
 
 #import "SDLMediaServiceData.h"
 #import "SDLMediaType.h"
+#import "SDLImage.h"
 #import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLMediaServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
+    __block SDLImage *testMediaImage = nil;
     __block SDLMediaType testMediaType = nil;
     __block NSString *testMediaTitle = nil;
     __block NSString *testMediaArtist = nil;
@@ -31,6 +33,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testMediaType = SDLMediaTypePodcast;
+        testMediaImage = [[SDLImage alloc] initWithStaticIconName:SDLStaticIconNameKey];
         testMediaTitle = @"testMediaTitle";
         testMediaArtist = @"testMediaArtist";
         testMediaAlbum = @"testMediaAlbum";
@@ -40,6 +43,7 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should set and get correctly", ^{
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] init];
+        testStruct.mediaImage = testMediaImage;
         testStruct.mediaType = testMediaType;
         testStruct.mediaTitle = testMediaTitle;
         testStruct.mediaArtist = testMediaArtist;
@@ -53,6 +57,7 @@ describe(@"Getter/Setter Tests", ^{
         testStruct.queueCurrentTrackNumber = @(testQueueCurrentTrackNumber);
         testStruct.queueTotalTrackCount = @(testQueueTotalTrackCount);
 
+        expect(testStruct.mediaImage).to(equal(testMediaImage));
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));
         expect(testStruct.mediaArtist).to(equal(testMediaArtist));
@@ -68,7 +73,8 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLRPCParameterNameMediaType:testMediaType,
+        NSDictionary *dict = @{SDLRPCParameterNameMediaImage:testMediaImage,
+                               SDLRPCParameterNameMediaType:testMediaType,
                                SDLRPCParameterNameMediaTitle:testMediaTitle,
                                SDLRPCParameterNameMediaArtist:testMediaArtist,
                                SDLRPCParameterNameMediaAlbum:testMediaAlbum,
@@ -85,7 +91,8 @@ describe(@"Getter/Setter Tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-
+        
+        expect(testStruct.mediaImage).to(equal(testMediaImage));
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));
         expect(testStruct.mediaArtist).to(equal(testMediaArtist));
@@ -101,8 +108,9 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{
-        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgress:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
+        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaImage:testMediaImage mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgress:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
 
+        expect(testStruct.mediaImage).to(equal(testMediaImage));
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));
         expect(testStruct.mediaArtist).to(equal(testMediaArtist));
@@ -120,6 +128,7 @@ describe(@"Getter/Setter Tests", ^{
     it(@"Should return nil if not set", ^{
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] init];
 
+        expect(testStruct.mediaImage).to(beNil());
         expect(testStruct.mediaType).to(beNil());
         expect(testStruct.mediaTitle).to(beNil());
         expect(testStruct.mediaArtist).to(beNil());
