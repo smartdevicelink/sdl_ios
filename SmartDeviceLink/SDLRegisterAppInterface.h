@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Provides an abbreviated version of the app name (if needed), that will be displayed on head units that support very few characters. If not provided, the appName is used instead (and will be truncated if too long). It's recommended that this string be no longer than 5 characters.
  *
- * Legacy head units limit the number of characters an app name
+ * Legacy head units may limit the number of characters in an app name.
  *
  * String, Optional, Max length 100 chars
  *
