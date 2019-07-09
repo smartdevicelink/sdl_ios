@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration;
 
 /**
- * Convenience init for registering the application with an app name, app id and desired language.
+ * Convenience init for registering the application with an app name, app id, and desired language.
  *
  * @param appName                   The mobile application's name
  * @param appId                     An appId used to validate app with policy table entries
