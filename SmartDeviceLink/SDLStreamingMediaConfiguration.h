@@ -86,6 +86,11 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
 
 /**
+ When YES, the StreamingMediaManager will send a black screen with "Video Backgrounded String". Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
+
+/**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
 
  @return The configuration
