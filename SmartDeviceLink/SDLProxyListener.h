@@ -214,7 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
 
 /**
- *  Called when a Close Application Response is received from Core
+ *  Called when a `CloseApplication` response is received from Core
  *
  *  @param response A SDLCloseApplicationResponse object
  */

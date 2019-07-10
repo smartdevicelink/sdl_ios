@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Used by an app to set itself to a HMILevel of NONE. The app will close but is still registered. If the app is a navigation app it will not be used as the preferred mobile-nav application anymore.
+ *  Used by an app to set itself to a `HMILevel` of `NONE`. The app will close but will still be registered. If the app is a navigation app it will no longer be used as the preferred mobile-navigation application by the module.
  */
 @interface SDLCloseApplication : SDLRPCRequest
 
