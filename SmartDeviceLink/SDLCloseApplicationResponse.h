@@ -7,7 +7,6 @@
 //
 
 #import "SDLRPCResponse.h"
-#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,15 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Response to the request to close this app on the module
  */
 @interface SDLCloseApplicationResponse : SDLRPCResponse
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameCloseApplication]) {
-    }
-    return self;
-}
-#pragma clang diagnostic pop
 
 @end
 

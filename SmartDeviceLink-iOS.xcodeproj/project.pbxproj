@@ -1305,6 +1305,7 @@
 		8855F9E9220CBA9200A5C897 /* SDLGetFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 8855F9E7220CBA9200A5C897 /* SDLGetFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8855F9EA220CBA9200A5C897 /* SDLGetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9E8220CBA9200A5C897 /* SDLGetFile.m */; };
 		8855F9EC220CBFB700A5C897 /* SDLGetFileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9EB220CBFB700A5C897 /* SDLGetFileSpec.m */; };
+		8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */; };
 		88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */; };
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
@@ -2961,6 +2962,7 @@
 		8855F9E7220CBA9200A5C897 /* SDLGetFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetFile.h; sourceTree = "<group>"; };
 		8855F9E8220CBA9200A5C897 /* SDLGetFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetFile.m; sourceTree = "<group>"; };
 		8855F9EB220CBFB700A5C897 /* SDLGetFileSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetFileSpec.m; sourceTree = "<group>"; };
+		8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationSpec.m; sourceTree = "<group>"; };
 		88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPerformAppServiceInteractionResponse.h; sourceTree = "<group>"; };
 		88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponse.m; sourceTree = "<group>"; };
 		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
@@ -3412,6 +3414,7 @@
 				162E82411A9BDE8A00906325 /* SDLAlertSpec.m */,
 				1EE8C4551F38788A00FDC2CF /* SDLButtonPressSpec.m */,
 				162E82421A9BDE8A00906325 /* SDLChangeRegistrationSpec.m */,
+				8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */,
 				162E82431A9BDE8A00906325 /* SDLCreateInteractionChoiceSetSpec.m */,
 				162E82441A9BDE8A00906325 /* SDLDeleteCommandSpec.m */,
 				162E82451A9BDE8A00906325 /* SDLDeleteFileSpec.m */,
@@ -7727,6 +7730,7 @@
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
 				5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
+				8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */,
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
 				162E833E1A9BDE8B00906325 /* SDLShowSpec.m in Sources */,
 				5D6035D8202CF5C900A429C9 /* TestRequestProgressResponse.m in Sources */,
