@@ -71,11 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAutoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
-    [store sdl_setObject:autoCompleteList forName:SDLNameAutoCompleteList];
+    [self.store sdl_setObject:autoCompleteList forName:SDLRPCParameterNameAutoCompleteList];
 }
 
 - (nullable NSArray<NSString *> *)autoCompleteList {
-    return [store sdl_objectForName:SDLNameAutoCompleteList];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAutoCompleteList ofClass:NSString.class error:nil];
 }
 
 @end

@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Notify of keypress
         if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
             [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> * _Nullable updatedAutocompleteList) {
-                weakself.keyboardProperties.autoCompleteList = updatedAutocompleteList;
+                weakself.keyboardProperties.autoCompleteList = (updatedAutocompleteList.count > 0) ? updatedAutocompleteList : nil;
                 weakself.keyboardProperties.autoCompleteText = (updatedAutocompleteList.count > 0) ? updatedAutocompleteList.firstObject : nil;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
