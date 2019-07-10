@@ -1272,6 +1272,7 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
+		883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */; };
 		883C22C8222ED84D00939C4C /* SDLRPCFunctionNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883C22C9222ED84D00939C4C /* SDLRPCFunctionNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22C7222ED84D00939C4C /* SDLRPCFunctionNames.m */; };
 		883C22CB222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */; };
@@ -2928,6 +2929,7 @@
 		8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServicesCapabilities.h; sourceTree = "<group>"; };
 		8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilities.m; sourceTree = "<group>"; };
 		8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilitiesSpec.m; sourceTree = "<group>"; };
+		883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationResponseSpec.m; sourceTree = "<group>"; };
 		883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRPCFunctionNames.h; sourceTree = "<group>"; };
 		883C22C7222ED84D00939C4C /* SDLRPCFunctionNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNames.m; sourceTree = "<group>"; };
 		883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNamesSpec.m; sourceTree = "<group>"; };
@@ -3478,6 +3480,7 @@
 				162E82691A9BDE8A00906325 /* SDLAlertResponseSpec.m */,
 				1EE8C4571F387ABD00FDC2CF /* SDLButtonPressResponseSpec.m */,
 				162E826A1A9BDE8A00906325 /* SDLChangeRegistrationResponseSpec.m */,
+				883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */,
 				162E826B1A9BDE8A00906325 /* SDLCreateInteractionChoiceSetResponseSpec.m */,
 				162E826C1A9BDE8A00906325 /* SDLDeleteCommandResponseSpec.m */,
 				162E826D1A9BDE8A00906325 /* SDLDeleteFileResponseSpec.m */,
@@ -7903,6 +7906,7 @@
 				1EE8C4501F38629200FDC2CF /* SDLRemoteControlCapabilitiesSpec.m in Sources */,
 				1EAA47662035B8D3000FE74B /* SDLLightControlDataSpec.m in Sources */,
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
+				883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
 				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
