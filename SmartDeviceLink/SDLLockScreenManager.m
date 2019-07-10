@@ -142,12 +142,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
+    BOOL lockScreenDismissableEnabled = [self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue];
     if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent) {
+        if (!self.presenter.presented && self.canPresent && !lockScreenDismissableEnabled) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
+        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent && !lockScreenDismissableEnabled) {
             [self.presenter present];
         } else if (!self.config.showInOptionalState && self.presenter.presented) {
             [self.presenter dismiss];
@@ -160,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_toggleLockscreenDismissalableState {
-    BOOL lastLockScreenDismissableEnabled = self.lastDriverDistractionNotification.lockScreenDismissalEnabled;
+    BOOL lastLockScreenDismissableEnabled = [self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue];
     if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
         ![self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue]) {
         self.lockScreenDismissableEnabled = NO;
