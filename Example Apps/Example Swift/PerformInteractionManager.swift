@@ -77,15 +77,15 @@ extension PerformInteractionManager: SDLKeyboardDelegate {
         }
     }
 
-    func updateAutocomplete(withInput currentInputText: String, completionHandler: @escaping SDLKeyboardAutocompleteCompletionHandler) {
+    func updateAutocomplete(withInput currentInputText: String, autoCompleteResultsHandler resultsHandler: @escaping SDLKeyboardAutoCompleteResultsHandler) {
         if currentInputText.lowercased().hasPrefix("f") {
-            completionHandler([PICSFirstChoice])
+            resultsHandler([PICSFirstChoice])
         } else if currentInputText.lowercased().hasPrefix("s") {
-            completionHandler([PICSSecondChoice])
+            resultsHandler([PICSSecondChoice])
         } else if currentInputText.lowercased().hasPrefix("t") {
-            completionHandler([PICSThirdChoice])
+            resultsHandler([PICSThirdChoice])
         } else {
-            completionHandler(nil)
+            resultsHandler(nil)
         }
     }
 }
