@@ -141,12 +141,20 @@ NS_ASSUME_NONNULL_BEGIN
         [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
         // Notify of keypress
-        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
-            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> * _Nullable updatedAutocompleteList) {
-                weakself.keyboardProperties.autoCompleteList = (updatedAutocompleteList.count > 0) ? updatedAutocompleteList : nil;
-                weakself.keyboardProperties.autoCompleteText = (updatedAutocompleteList.count > 0) ? updatedAutocompleteList.firstObject : nil;
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:autoCompleteResultsHandler:)]) {
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data autoCompleteResultsHandler:^(NSArray<NSString *> * _Nullable updatedAutoCompleteList) {
+                weakself.keyboardProperties.autoCompleteList = (updatedAutoCompleteList.count > 0) ? updatedAutoCompleteList : nil;
+                weakself.keyboardProperties.autoCompleteText = (updatedAutoCompleteList.count > 0) ? updatedAutoCompleteList.firstObject : nil;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
+        } else if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString * _Nullable updatedAutocompleteText) {
+                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+#pragma clang diagnostic pop
         }
 
         if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {

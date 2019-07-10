@@ -17,9 +17,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This handler is called when you wish to update your autocomplete text in response to the user's input
 
- @param updatedAutocompleteList The new autocomplete list to use
+ @param updatedAutocompleteText The autocomplete results to use
  */
-typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSArray<NSString *> *_Nullable updatedAutocompleteList);
+typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSString  *_Nullable updatedAutocompleteText);
+
+/**
+ This handler is called when you wish to update your autocomplete text in response to the user's input.
+
+ @param updatedAutoCompleteList The list of autocomplete results to use
+ */
+typedef void(^SDLKeyboardAutoCompleteResultsHandler)(NSArray<NSString *> *_Nullable updatedAutoCompleteList);
 
 /**
  This handler is called when you wish to update your keyboard's limitedCharacterSet in response to the user's input
@@ -65,7 +72,9 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
  @param currentInputText The user's full current input text
  @param completionHandler A completion handler to update the autoCompleteText
  */
-- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler;
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler __deprecated_msg("Use updateAutocompleteWithInput:autoCompleteResultsHandler:");
+
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText autoCompleteResultsHandler:(SDLKeyboardAutoCompleteResultsHandler)resultsHandler;
 
 /**
  Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.
