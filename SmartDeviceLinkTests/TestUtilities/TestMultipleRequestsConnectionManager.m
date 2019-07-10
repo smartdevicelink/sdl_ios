@@ -10,7 +10,7 @@
 
 #import "SDLAddCommand.h"
 #import "SDLAddCommandResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "TestResponse.h"
 
 @implementation TestMultipleRequestsConnectionManager
@@ -24,10 +24,14 @@
     return self;
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
+    [super sendConnectionRPC:rpc];
+}
+
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [super sendConnectionRequest:request withResponseHandler:handler];
 
-    NSAssert([request.name isEqualToString:SDLNameAddCommand], @"The TestMultipleRequestsConnectionManager is only setup for SDLAddCommand");
+    NSAssert([request.name isEqualToString:SDLRPCFunctionNameAddCommand], @"The TestMultipleRequestsConnectionManager is only setup for SDLAddCommand");
 
     SDLAddCommand *addCommand = (SDLAddCommand *)request;
     TestResponse *response = self.responses[addCommand.correlationID];

@@ -5,7 +5,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLTemplateColorScheme.h"
 
@@ -43,11 +44,14 @@ describe(@"SetDisplayLayout Tests", ^ {
         });
 
         it(@"Should get correctly when initialized", ^ {
-            NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                               @{SDLNameParameters:
-                                                                     @{SDLNameDisplayLayout:@"wat"},
-                                                                 SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
+            NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                               @{SDLRPCParameterNameParameters:
+                                                                     @{SDLRPCParameterNameDisplayLayout:@"wat"},
+                                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetDisplayLayout* testRequest = [[SDLSetDisplayLayout alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expect(testRequest.displayLayout).to(equal(@"wat"));
         });

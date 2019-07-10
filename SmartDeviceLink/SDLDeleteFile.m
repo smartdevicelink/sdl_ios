@@ -5,17 +5,21 @@
 #import "SDLDeleteFile.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteFile
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteFile]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteFile]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
@@ -29,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
+    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "SDLClimateControlCapabilities.h"
 #import "SDLDefrostZone.h"
 #import "SDLVentilationMode.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLClimateControlCapabilitiesSpec)
@@ -32,6 +32,10 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.defrostZone = [@[SDLDefrostZoneFront] copy];
         testStruct.ventilationModeAvailable = @NO;
         testStruct.ventilationMode = [@[SDLVentilationModeUpper] copy];
+        testStruct.heatedSteeringWheelAvailable = @(YES);
+        testStruct.heatedWindshieldAvailable = @(NO);
+        testStruct.heatedRearWindowAvailable = @(YES);
+        testStruct.heatedMirrorsAvailable = @(NO);
         
         expect(testStruct.moduleName).to(equal(@"Name"));
         expect(testStruct.fanSpeedAvailable).to(equal(@YES));
@@ -45,22 +49,35 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.defrostZone).to(equal([@[SDLDefrostZoneFront] copy]));
         expect(testStruct.ventilationModeAvailable).to(equal(@NO));
         expect(testStruct.ventilationMode).to(equal([@[SDLVentilationModeUpper] copy]));
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@YES));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameModuleName:@"Name",
-                                                           SDLNameFanSpeedAvailable:@YES,
-                                                           SDLNameDesiredTemperatureAvailable:@NO,
-                                                           SDLNameACEnableAvailable:@NO,
-                                                           SDLNameACMaxEnableAvailable:@NO,
-                                                           SDLNameCirculateAirEnableAvailable:@YES,
-                                                           SDLNameAutoModeEnableAvailable:@NO,
-                                                           SDLNameDualModeEnableAvailable:@NO,
-                                                           SDLNameDefrostZoneAvailable:@YES,
-                                                           SDLNameDefrostZone:[@[SDLDefrostZoneFront] copy],
-                                                           SDLNameVentilationModeAvailable:@NO,
-                                                       SDLNameVentilationMode:[@[SDLVentilationModeUpper] copy]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameModuleName:@"Name",
+                                                           SDLRPCParameterNameFanSpeedAvailable:@YES,
+                                                           SDLRPCParameterNameDesiredTemperatureAvailable:@NO,
+                                                           SDLRPCParameterNameACEnableAvailable:@NO,
+                                                           SDLRPCParameterNameACMaxEnableAvailable:@NO,
+                                                           SDLRPCParameterNameCirculateAirEnableAvailable:@YES,
+                                                           SDLRPCParameterNameAutoModeEnableAvailable:@NO,
+                                                           SDLRPCParameterNameDualModeEnableAvailable:@NO,
+                                                           SDLRPCParameterNameDefrostZoneAvailable:@YES,
+                                                           SDLRPCParameterNameDefrostZone:[@[SDLDefrostZoneFront] copy],
+                                                           SDLRPCParameterNameVentilationModeAvailable:@NO,
+                                                       SDLRPCParameterNameVentilationMode:[@[SDLVentilationModeUpper] copy],
+                                                       SDLRPCParameterNameHeatedSteeringWheelAvailable:@YES,
+                                                           SDLRPCParameterNameHeatedWindshieldAvailable:@NO,
+                                                           SDLRPCParameterNameHeatedRearWindowAvailable:@YES,
+                                                       SDLRPCParameterNameHeatedMirrorsAvailable:@NO
+                                                       } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.moduleName).to(equal(@"Name"));
         expect(testStruct.fanSpeedAvailable).to(equal(@YES));
@@ -74,9 +91,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.defrostZone).to(equal([@[SDLDefrostZoneFront] copy]));
         expect(testStruct.ventilationModeAvailable).to(equal(@NO));
         expect(testStruct.ventilationMode).to(equal([@[SDLVentilationModeUpper] copy]));
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@YES));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
     });
 
     it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES];
 
         expect(testStruct.moduleName).to(equal(@"Name"));
@@ -89,6 +112,30 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.dualModeEnableAvailable).to(equal(@NO));
         expect(testStruct.defrostZoneAvailable).to(equal(@YES));
         expect(testStruct.ventilationModeAvailable).to(equal(@YES));
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@NO));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@NO));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+        #pragma clang diagnostic pop
+    });
+
+    it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
+        SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES heatedSteeringWheelAvailable:YES heatedWindshieldAvailable:NO heatedRearWindowAvailable:YES heatedMirrorsAvailable:NO];
+
+        expect(testStruct.moduleName).to(equal(@"Name"));
+        expect(testStruct.fanSpeedAvailable).to(equal(@YES));
+        expect(testStruct.desiredTemperatureAvailable).to(equal(@NO));
+        expect(testStruct.acEnableAvailable).to(equal(@NO));
+        expect(testStruct.acMaxEnableAvailable).to(equal(@YES));
+        expect(testStruct.circulateAirEnableAvailable).to(equal(@NO));
+        expect(testStruct.autoModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.dualModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.defrostZoneAvailable).to(equal(@YES));
+        expect(testStruct.ventilationModeAvailable).to(equal(@YES));
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@YES));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -106,6 +153,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.defrostZone).to(beNil());
         expect(testStruct.ventilationModeAvailable).to(beNil());
         expect(testStruct.ventilationMode).to(beNil());
+        expect(testStruct.heatedSteeringWheelAvailable).to(beNil());
+        expect(testStruct.heatedWindshieldAvailable).to(beNil());
+        expect(testStruct.heatedRearWindowAvailable).to(beNil());
+        expect(testStruct.heatedMirrorsAvailable).to(beNil());
 
     });
 });

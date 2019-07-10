@@ -7,7 +7,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLLocationCoordinate.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLLocationCoordinateSpec)
@@ -51,11 +51,13 @@ describe(@"Getter/Setter Tests", ^ {
                 someLongitude = @123.4567;
                 someLatitude = @65.4321;
                 NSDictionary *initDict = @{
-                                           SDLNameLongitudeDegrees: someLongitude,
-                                           SDLNameLatitudeDegrees: someLatitude,
+                                           SDLRPCParameterNameLongitudeDegrees: someLongitude,
+                                           SDLRPCParameterNameLatitudeDegrees: someLatitude,
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testStruct = [[SDLLocationCoordinate alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -69,13 +71,26 @@ describe(@"Getter/Setter Tests", ^ {
                 expect(testStruct.latitudeDegrees).to(beIdenticalTo(someLatitude));
             });
         });
-        
+
+        context(@"when init with initWithLatitudeDegrees:longitudeDegrees", ^{
+            it(@"should get and set correctly", ^{
+                float testLatitude = 34.5;
+                float testLongitude = 120.345;
+                SDLLocationCoordinate *testStruct = [[SDLLocationCoordinate alloc] initWithLatitudeDegrees:testLatitude longitudeDegrees:testLongitude];
+
+                expect(testStruct.latitudeDegrees).to(equal(testLatitude));
+                expect(testStruct.longitudeDegrees).to(equal(testLongitude));
+            });
+        });
+
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testStruct = [[SDLLocationCoordinate alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
             it(@"should return nil for longitude", ^{

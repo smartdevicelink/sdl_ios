@@ -12,7 +12,7 @@
 #import "SDLImageField.h"
 #import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLImageFieldSpec)
@@ -33,10 +33,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLImageFieldNameTurnIcon,
-                                       SDLNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
-                                       SDLNameImageResolution:resolution} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLImageFieldNameTurnIcon,
+                                       SDLRPCParameterNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
+                                       SDLRPCParameterNameImageResolution:resolution} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
         expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypePNG, SDLFileTypeJPEG] copy]));

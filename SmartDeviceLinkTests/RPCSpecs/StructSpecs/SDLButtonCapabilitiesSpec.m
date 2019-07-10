@@ -10,7 +10,7 @@
 
 #import "SDLButtonCapabilities.h"
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLButtonCapabilitiesSpec)
@@ -31,11 +31,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLButtonNameCustomButton,
-                                       SDLNameShortPressAvailable:@YES,
-                                       SDLNameLongPressAvailable:@YES,
-                                       SDLNameUpDownAvailable:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLButtonNameCustomButton,
+                                       SDLRPCParameterNameShortPressAvailable:@YES,
+                                       SDLRPCParameterNameLongPressAvailable:@YES,
+                                       SDLRPCParameterNameUpDownAvailable:@NO} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(SDLButtonNameCustomButton));
         expect(testStruct.shortPressAvailable).to(equal(@YES));

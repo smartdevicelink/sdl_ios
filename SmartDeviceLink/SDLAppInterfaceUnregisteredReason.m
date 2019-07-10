@@ -14,3 +14,5 @@ SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonLanguag
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonMasterReset = @"MASTER_RESET";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonFactoryDefaults = @"FACTORY_DEFAULTS";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized = @"APP_UNAUTHORIZED";
+SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonProtocolViolation = @"PROTOCOL_VIOLATION";
+SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource = @"UNSUPPORTED_HMI_RESOURCE";

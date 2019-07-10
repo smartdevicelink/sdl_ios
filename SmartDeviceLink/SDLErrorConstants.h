@@ -86,6 +86,10 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file data is nil or empty.
      */
     SDLFileManagerErrorFileDataMissing = -9,
+    /*
+     *  The file is a static icon, which cannot be uploaded
+     */
+    SDLFileManagerErrorStaticIcon = -10,
 };
 
 /**
@@ -119,4 +123,41 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
     SDLChoiceSetManagerErrorDeletionFailed = -2,
     SDLChoiceSetManagerErrorUploadFailed = -3,
+    SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4,
+    SDLChoiceSetManagerErrorInvalidState = -5
+};
+
+/**
+ *  Errors associated with transport.
+ */
+typedef NS_ENUM(NSInteger, SDLTransportError) {
+    /**
+     *  Connection cannot be established due to a reason not listed here.
+     */
+    SDLTransportErrorUnknown = -1,
+    /**
+     *  TCP connection is refused.
+     *  Probably specified port number is invalid, or SDL Core is not running on the head unit.
+     */
+    SDLTransportErrorConnectionRefused = -2,
+    /**
+     *  TCP connection cannot be established within given time.
+     *  Probably because of wrong IP address, or the connection may be blocked by a firewall.
+     */
+    SDLTransportErrorConnectionTimedOut = -3,
+    /**
+     *  TCP connection cannot be established since network is down.
+     *  Probably the phone is not connected to the correct network.
+     */
+    SDLTransportErrorNetworkDown = -4,
+};
+
+/**
+ *  Errors associated with store.
+ */
+typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
+    /**
+     *  In dictionary stored value with unexpected type
+     */
+    SDLRPCStoreErrorGetInvalidObject = -1,
 };

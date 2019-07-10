@@ -97,9 +97,10 @@ describe(@"present choice operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:response];
                 });
 
+
                 it(@"should not reset the keyboard properties and should be finished", ^{
                     expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
-                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.selectedCell).to(equal(testChoices.firstObject));
                     expect(testOp.selectedTriggerSource).to(equal(responseTriggerSource));
@@ -309,8 +310,8 @@ describe(@"present choice operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).to(beTrue());
-                        expect(testOp.isFinished).to(beTrue());
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(testOp.isFinished).toEventually(beTrue());
                     });
                 });
             });

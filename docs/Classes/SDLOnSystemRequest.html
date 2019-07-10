@@ -4,6 +4,7 @@
 
 <ul>
   <li><a href="#section-requestType">requestType</a></li>
+  <li><a href="#section-requestSubType">requestSubType</a></li>
   <li><a href="#section-url">url</a></li>
   <li><a href="#section-timeout">timeout</a></li>
   <li><a href="#section-fileType">fileType</a></li>
@@ -31,6 +32,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-requestSubType">
+      requestSubType
+  </h3>
+  
+  <p>A request subType used when the <code><a href="../Classes/SDLOnSystemRequest.html#/c:objc(cs)SDLOnSystemRequest(py)requestType">requestType</a></code> is <code>OEM_SPECIFIC</code>.</p>
+
+<p>Optional, Max length 255</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">requestSubType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestSubType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] init];
     performInteraction.initialText = self.initialText;
     performInteraction.interactionMode = SDLInteractionModeManualOnly;
-    performInteraction.interactionChoiceSetIDList = @[@0];
+    performInteraction.interactionChoiceSetIDList = @[];
     performInteraction.interactionLayout = SDLLayoutModeKeyboard;
 
     return performInteraction;

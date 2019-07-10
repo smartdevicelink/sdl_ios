@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAirbagStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
 
@@ -39,15 +39,18 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDriverAirbagDeployed:SDLVehicleDataEventStatusYes,
-                                       SDLNameDriverSideAirbagDeployed:SDLVehicleDataEventStatusNoEvent,
-                                       SDLNameDriverCurtainAirbagDeployed:SDLVehicleDataEventStatusNo,
-                                       SDLNamePassengerAirbagDeployed:SDLVehicleDataEventStatusNotSupported,
-                                       SDLNamePassengerCurtainAirbagDeployed:SDLVehicleDataEventStatusFault,
-                                       SDLNameDriverKneeAirbagDeployed:SDLVehicleDataEventStatusNo,
-                                       SDLNamePassengerSideAirbagDeployed:SDLVehicleDataEventStatusYes,
-                                       SDLNamePassengerKneeAirbagDeployed:SDLVehicleDataEventStatusNoEvent} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDriverAirbagDeployed:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNameDriverSideAirbagDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       SDLRPCParameterNameDriverCurtainAirbagDeployed:SDLVehicleDataEventStatusNo,
+                                       SDLRPCParameterNamePassengerAirbagDeployed:SDLVehicleDataEventStatusNotSupported,
+                                       SDLRPCParameterNamePassengerCurtainAirbagDeployed:SDLVehicleDataEventStatusFault,
+                                       SDLRPCParameterNameDriverKneeAirbagDeployed:SDLVehicleDataEventStatusNo,
+                                       SDLRPCParameterNamePassengerSideAirbagDeployed:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNamePassengerKneeAirbagDeployed:SDLVehicleDataEventStatusNoEvent} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.driverAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
         expect(testStruct.driverSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));

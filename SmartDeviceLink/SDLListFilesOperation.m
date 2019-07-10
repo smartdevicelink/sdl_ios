@@ -47,19 +47,20 @@ NS_ASSUME_NONNULL_BEGIN
     SDLListFiles *listFiles = [[SDLListFiles alloc] init];
 
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionManagerRequest:listFiles
-                                     withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                                         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-                                         BOOL success = [listFilesResponse.success boolValue];
-                                         NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
-                                         NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
+    [self.connectionManager sendConnectionManagerRequest:listFiles withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
+        BOOL success = [listFilesResponse.success boolValue];
+        NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
 
-                                         if (weakSelf.completionHandler != nil) {
-                                             weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
-                                         }
+        // If spaceAvailable is nil, set it to the max value
+        NSUInteger bytesAvailable = listFilesResponse.spaceAvailable != nil ? listFilesResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
 
-                                         [weakSelf finishOperation];
-                                     }];
+        if (weakSelf.completionHandler != nil) {
+            weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+        }
+
+        [weakSelf finishOperation];
+    }];
 }
 
 

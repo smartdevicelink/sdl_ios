@@ -5,24 +5,29 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnWayPointChange
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnWayPointChange]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnWayPointChange]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
-    [parameters sdl_setObject:waypoints forName:SDLNameWayPoints];
+    [self.parameters sdl_setObject:waypoints forName:SDLRPCParameterNameWayPoints];
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
-    return [parameters sdl_objectsForName:SDLNameWayPoints ofClass:SDLLocationDetails.class];
+    NSError *error = nil;
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameWayPoints ofClass:SDLLocationDetails.class error:&error];
 }
 
 @end

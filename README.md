@@ -7,6 +7,7 @@
 [![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink-iOS.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.com)
+[![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio)
  
 
 # SmartDeviceLink (SDL)
@@ -29,22 +30,32 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 
 ## SDL iOS
 
-We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the SDL Core README](https://github.com/smartdevicelink/sdl_core/blob/master/README.md) and [on Genivi](http://projects.genivi.org/smartdevicelink/about).
+We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the website](https://www.smartdevicelink.com).
 
 See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
 
-See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to see what we have planned for future versions.
-
 ### Installing
+
+#### Accio
+
+You can install this library using [Accio/SwiftPM](https://github.com/JamitLabs/Accio) documentation page.  Please follow the steps to install and initialization Accio into a current or new application. 
+
+In your Package.swift file , you want to add `.package(url: "https://github.com/smartdevicelink/sdl_ios.git", .from: "6.2.3"),`  to the dependencies array.  Then add  `SmartDeviceLink` to the targets dependencies array.
+
+Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
+
+###### Swift
+
+If you are building a Swift app, then add this instead `SmartDeviceLinkSwift` to the targets dependencies array.
 
 ##### Cocoapods
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink', '~> 6.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 6.2'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
 
 ###### Swift
-If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 6.0'`. Then run `pod install` in your terminal.
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 6.2'`. Then run `pod install` in your terminal.
 
 ##### Carthage
 
@@ -79,8 +90,11 @@ If you see a bug, please post an issue on the appropriate repository. Please see
 
 ### SDL iOS Getting Started
 
+#### Example Apps
+To use the example apps, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project, but you must then also retrieve the submodules by running `git submodule init` and `git submodule update` in your terminal while in the main directory of the project.
+
 #### Other Installation Requirements
-You may want to build the [sdl_core project](https://github.com/smartdevicelink/sdl_core) to be able to see your application connecting if you don't have an iAP enabled head unit to test.
+You can connect your application with [manticore](https://smartdevicelink.com/resources/manticore/) while running in TCP debug mode in order to test. For more information, [see the guildes](https://smartdevicelink.com/en/guides/iOS/getting-started/connecting-to-an-infotainment-system/).
 
 #### Enabling Background Capabilities
 iOS 5 introduced the capability for an iOS application to maintain a connection to an external accessory while the application is in the background. This capability must be explicitly enabled for your application.
@@ -129,13 +143,6 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.smartdevicelink.multisession</string>
 </array>
 ```
-
-#### Lock Screen Support
-If you used CocoaPods to install the SDL SDK, you must complete the following steps to add the default lock screen resources to your project:
-
-1. Select your application's build target, go to Build Phases, Copy Bundle Resources.
-2. Then in the Navigator window of Xcode, go to Target's Support Files, Pods-YourProjectName, and drag and drop the SmartDeviceLink.bundle file into Copy Bundle Resources.
-3. After the bundle is dropped into Copy Bundle Resources check "copy items if need" from the popup box and click "Finish."
 
 #### Continue Integrating
 Go through the [guide documentation](https://smartdevicelink.com/en/guides/iOS/getting-started/integration-basics/) to get started setting up your app to work with SDL!

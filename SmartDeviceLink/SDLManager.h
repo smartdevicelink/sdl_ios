@@ -15,6 +15,7 @@
 @class SDLProxy;
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -84,6 +85,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 /**
+ *  The auth token, if received. This should be used to log into a user account. Primarily used for cloud apps with companion app stores.
+ */
+@property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
+/**
  *  The manager's delegate.
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
@@ -133,6 +139,13 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 #pragma mark Manually Send RPC Requests
 
 /**
+ *  Send an RPC of type `Response`, `Notification` or `Request`. Responses and notifications sent to Core do not a response back from Core. Each request sent to Core does get a response, so if you need the response and/or error, call `sendRequest:withResponseHandler:` instead.
+ *
+ *  @param rpc An RPC of type `SDLRPCResponse`, `SDLRPCNotification` or `SDLRPCRequest`
+ */
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc;
+
+/**
  *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.
  *
  *  @param request The RPC request to send
@@ -164,6 +177,44 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  @param completionHandler A handler to call when all requests have been responded to
  */
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler NS_SWIFT_NAME(sendSequential(requests:progressHandler:completionHandler:));
+
+
+#pragma mark - RPC Subscriptions
+
+typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
+
+/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param block The block that will be called every time an RPC of the name and type specified is received.
+ * @return An object that can be passed to `unsubscribeFromRPC:ofType:withObserver:` to unsubscribe the block.
+ */
+- (id)subscribeToRPC:(SDLNotificationName)rpcName withBlock:(SDLRPCUpdatedBlock)block NS_SWIFT_NAME(subscribe(to:block:));
+
+/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a selector callback.
+ *
+ * The selector supports the following parameters:
+ *
+ * 1. Zero parameters e.g. `- (void)registerAppInterfaceResponse`
+ * 2. One parameter e.g. `- (void)registerAppInterfaceResponse:(NSNotification *)notification;`
+ *
+ * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notifed of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.
+ * @param selector The selector on `observer` that will be called every time an RPC of the name and type specified is received.
+ */
+- (void)subscribeToRPC:(SDLNotificationName)rpcName withObserver:(id)observer selector:(SEL)selector NS_SWIFT_NAME(subscribe(to:observer:selector:));
+
+/**
+ * Unsubscribe to callbacks about a particular RPC request, notification, or response.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to unsubscribe from.
+ * @param observer The object representing a block callback or selector callback to be unsubscribed
+ */
+- (void)unsubscribeFromRPC:(SDLNotificationName)rpcName withObserver:(id)observer NS_SWIFT_NAME(unsubscribe(from:observer:));
 
 @end
 

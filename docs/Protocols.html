@@ -8,6 +8,8 @@
   <li><a href="#section-SDLBool">SDLBool</a></li>
   <li><a href="#section-SDLFloat">SDLFloat</a></li>
   <li><a href="#section-SDLAudioStreamManagerDelegate">SDLAudioStreamManagerDelegate</a></li>
+  <li><a href="#section-SDLChoiceSetDelegate">SDLChoiceSetDelegate</a></li>
+  <li><a href="#section-SDLKeyboardDelegate">SDLKeyboardDelegate</a></li>
   <li><a href="#section-SDLLogTarget">SDLLogTarget</a></li>
   <li><a href="#section-SDLManagerDelegate">SDLManagerDelegate</a></li>
   <li><a href="#section-SDLSecurityType">SDLSecurityType</a></li>
@@ -26,7 +28,7 @@
       SDLInt
   </h3>
   
-  <p>A decleration that this NSNumber contains an NSInteger.</p>
+  <p>A declaration that this NSNumber contains an NSInteger.</p>
 
   
   
@@ -120,17 +122,135 @@
 <span class="cm">/**
  Called when a file from the SDLAudioStreamManager could not play
 
- @param audioManager  A reference to the audio stream manager
+ @param audioManager A reference to the audio stream manager
  @param fileURL The URL that failed
  @param error The error that occurred
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForFile</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+
+<span class="k">@optional</span>
+
+<span class="cm">/**
+ Called when a data buffer from the SDLAudioStreamManager finishes playing
+
+ @param audioManager A reference to the audio stream manager
+ @param successfully Whether or not the data buffer played successfully
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">dataBufferDidFinishPlayingSuccessfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+
+<span class="cm">/**
+ Called when a data buffer from the SDLAudioStreamManager could not play
+
+ @param audioManager A reference to the audio stream manager
+ @param error The error that occurred
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForDataBuffer</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLAudioStreamManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSetDelegate">
+      SDLChoiceSetDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLChoiceSetDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLChoiceSetDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">choiceSet</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="n">choiceSet</span> <span class="n">didSelectChoice</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*</span><span class="p">)</span><span class="n">choice</span> <span class="n">withSource</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span><span class="p">)</span><span class="n">source</span> <span class="n">atRowIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">rowIndex</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">choiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">didReceiveError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLChoiceSetDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardDelegate">
+      SDLKeyboardDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLKeyboardDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLKeyboardDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="c1">//</span>
+
+<span class="cm">/**
+ The keyboard session completed with some input.
+
+ This will be sent upon ENTRY_SUBMITTED or ENTRY_VOICE. If the event is ENTRY_VOICE, the user requested to start a voice session in order to submit input to this keyboard. This MUST be handled by you. Start an Audio Pass Thru session if supported.
+
+ @param inputText The submitted input text on the keyboard
+ @param source ENTRY_SUBMITTED if the user pressed the submit button on the keyboard, ENTRY_VOICE if the user requested that a voice session begin
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">userDidSubmitInput</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">inputText</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="n">source</span><span class="p">;</span>
+
+<span class="cm">/**
+ The keyboard session aborted.
+
+ This will be sent if the keyboard event ENTRY_CANCELLED or ENTRY_ABORTED is sent
+
+ @param event ENTRY_CANCELLED if the user cancelled the keyboard input, or ENTRY_ABORTED if the system aborted the input due to a higher priority event
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidAbortWithReason</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
+
+<span class="k">@optional</span>
+<span class="cm">/**
+ Implement this in order to provide a custom keyboard configuration to just this keyboard. To apply default settings to all keyboards, see SDLScreenManager.keyboardConfiguration
+
+ @return The custom keyboard configuration to use.
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="n"><a href="Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="n">customKeyboardConfiguration</span><span class="p">;</span>
+
+<span class="cm">/**
+ Implement this if you wish to update the KeyboardProperties.autoCompleteText as the user updates their input. This is called upon a KEYPRESS event.
+
+ @param currentInputText The user's full current input text
+ @param completionHandler A completion handler to update the autoCompleteText
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.
+
+ @param currentInputText The user's full current input text
+ @param completionHandler A completion handler to update the limitedCharacterSet
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateCharacterSetWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+
+<span class="c1">// This will be sent for any event that occurs with the event and the current input text</span>
+
+<span class="cm">/**
+ Implement this to be notified of all events occurring on the keyboard
+
+ @param event The event that occurred
+ @param currentInputText The user's full current input text
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidSendEvent</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span> <span class="nf">text</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLKeyboardDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   

@@ -1,0 +1,353 @@
+<h1>SDLMediaServiceData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:">-initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:</a></li>
+  <li><a href="#section-mediaType">mediaType</a></li>
+  <li><a href="#section-mediaTitle">mediaTitle</a></li>
+  <li><a href="#section-mediaArtist">mediaArtist</a></li>
+  <li><a href="#section-mediaAlbum">mediaAlbum</a></li>
+  <li><a href="#section-playlistName">playlistName</a></li>
+  <li><a href="#section-isExplicit">isExplicit</a></li>
+  <li><a href="#section-trackPlaybackProgress">trackPlaybackProgress</a></li>
+  <li><a href="#section-trackPlaybackDuration">trackPlaybackDuration</a></li>
+  <li><a href="#section-queuePlaybackProgress">queuePlaybackProgress</a></li>
+  <li><a href="#section-queuePlaybackDuration">queuePlaybackDuration</a></li>
+  <li><a href="#section-queueCurrentTrackNumber">queueCurrentTrackNumber</a></li>
+  <li><a href="#section-queueTotalTrackCount">queueTotalTrackCount</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This data is related to what a media service should provide.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:">
+      -initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:
+  </h3>
+  
+  <p>Convenience init</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMediaType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span><span class="p">)</span><span class="nv">mediaType</span>
+                               <span class="nf">mediaTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTitle</span>
+                              <span class="nf">mediaArtist</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaArtist</span>
+                               <span class="nf">mediaAlbum</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaAlbum</span>
+                             <span class="nf">playlistName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">playlistName</span>
+                               <span class="nf">isExplicit</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isExplicit</span>
+                    <span class="nf">trackPlaybackProgress</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">trackPlaybackProgress</span>
+                    <span class="nf">trackPlaybackDuration</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">trackPlaybackDuration</span>
+                    <span class="nf">queuePlaybackProgress</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">queuePlaybackProgress</span>
+                    <span class="nf">queuePlaybackDuration</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">queuePlaybackDuration</span>
+                  <span class="nf">queueCurrentTrackNumber</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">queueCurrentTrackNumber</span>
+                     <span class="nf">queueTotalTrackCount</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">queueTotalTrackCount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">mediaType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span><span class="p">?,</span> <span class="nv">mediaTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mediaArtist</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mediaAlbum</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playlistName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">isExplicit</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">trackPlaybackProgress</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">trackPlaybackDuration</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">queuePlaybackProgress</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">queuePlaybackDuration</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">queueCurrentTrackNumber</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">queueTotalTrackCount</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mediaType</dt>
+      <dd><p>The type of the currently playing or paused track</p></dd>
+      <dt>mediaTitle</dt>
+      <dd><p>The name of the current playing media</p></dd>
+      <dt>mediaArtist</dt>
+      <dd><p>The name of the current media artist</p></dd>
+      <dt>mediaAlbum</dt>
+      <dd><p>The name of the current media album</p></dd>
+      <dt>playlistName</dt>
+      <dd><p>The name of the playlist</p></dd>
+      <dt>isExplicit</dt>
+      <dd><p>Whether or not the content currently playing contains explicit content</p></dd>
+      <dt>trackPlaybackProgress</dt>
+      <dd><p>The current progress of the track</p></dd>
+      <dt>trackPlaybackDuration</dt>
+      <dd><p>The total duration of the track</p></dd>
+      <dt>queuePlaybackProgress</dt>
+      <dd><p>The current progress of the playback queue in seconds</p></dd>
+      <dt>queuePlaybackDuration</dt>
+      <dd><p>The total duration of the playback queue in seconds</p></dd>
+      <dt>queueCurrentTrackNumber</dt>
+      <dd><p>The current number (1 based) of the track in the playback queue</p></dd>
+      <dt>queueTotalTrackCount</dt>
+      <dd><p>The total number of tracks in the playback queue</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLMediaServiceData object</p>
+  </div>
+  
+  <h3 id="section-mediaType">
+      mediaType
+  </h3>
+  
+  <p>The type of the currently playing or paused track.</p>
+
+<p>SDLMediaType, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span> <span class="n">mediaType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mediaType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-mediaTitle">
+      mediaTitle
+  </h3>
+  
+  <p>Music: The name of the current track
+  Podcast: The name of the current episode
+  Audiobook: The name of the current chapter</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaTitle</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mediaTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-mediaArtist">
+      mediaArtist
+  </h3>
+  
+  <p>Music: The name of the current album artist
+  Podcast: The provider of the podcast (hosts, network, company)
+  Audiobook: The book author&rsquo;s name</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaArtist</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mediaArtist</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-mediaAlbum">
+      mediaAlbum
+  </h3>
+  
+  <p>Music: The name of the current album
+  Podcast: The name of the current podcast show
+  Audiobook: The name of the current book</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaAlbum</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mediaAlbum</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-playlistName">
+      playlistName
+  </h3>
+  
+  <p>Music: The name of the playlist or radio station, if the user is playing from a playlist, otherwise, Null
+  Podcast: The name of the playlist, if the user is playing from a playlist, otherwise, Null
+  Audiobook: Likely not applicable, possibly a collection or <q>playlist</q> of books</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">playlistName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">playlistName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isExplicit">
+      isExplicit
+  </h3>
+  
+  <p>Whether or not the content currently playing (e.g. the track, episode, or book) contains explicit content.</p>
+
+<p>Boolean, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">isExplicit</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isExplicit</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-trackPlaybackProgress">
+      trackPlaybackProgress
+  </h3>
+  
+  <p>Music: The current progress of the track in seconds
+  Podcast: The current progress of the episode in seconds
+  Audiobook: The current progress of the current segment (e.g. the chapter) in seconds</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">trackPlaybackProgress</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">trackPlaybackProgress</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-trackPlaybackDuration">
+      trackPlaybackDuration
+  </h3>
+  
+  <p>Music: The total duration of the track in seconds
+  Podcast: The total duration of the episode in seconds
+  Audiobook: The total duration of the current segment (e.g. the chapter) in seconds</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">trackPlaybackDuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">trackPlaybackDuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-queuePlaybackProgress">
+      queuePlaybackProgress
+  </h3>
+  
+  <p>Music: The current progress of the playback queue in seconds
+  Podcast: The current progress of the playback queue in seconds
+  Audiobook: The current progress of the playback queue (e.g. the book) in seconds</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">queuePlaybackProgress</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">queuePlaybackProgress</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-queuePlaybackDuration">
+      queuePlaybackDuration
+  </h3>
+  
+  <p>Music: The total duration of the playback queue in seconds
+  Podcast: The total duration of the playback queue in seconds
+  Audiobook: The total duration of the playback queue (e.g. the book) in seconds</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">queuePlaybackDuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">queuePlaybackDuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-queueCurrentTrackNumber">
+      queueCurrentTrackNumber
+  </h3>
+  
+  <p>Music: The current number (1 based) of the track in the playback queue
+  Podcast: The current number (1 based) of the episode in the playback queue
+  Audiobook: The current number (1 based) of the episode in the playback queue (e.g. the chapter number in the book)</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">queueCurrentTrackNumber</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">queueCurrentTrackNumber</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-queueTotalTrackCount">
+      queueTotalTrackCount
+  </h3>
+  
+  <p>Music: The total number of tracks in the playback queue
+  Podcast: The total number of episodes in the playback queue
+  Audiobook: The total number of sections in the playback queue (e.g. the number of chapters in the book)</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">queueTotalTrackCount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">queueTotalTrackCount</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -9,18 +9,22 @@
 #import "SDLGetSystemCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapabilityType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetSystemCapability
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetSystemCapability]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetSystemCapability]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithType:(SDLSystemCapabilityType)type {
     self = [self init];
@@ -33,12 +37,32 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithType:(SDLSystemCapabilityType)type subscribe:(BOOL)subscribe {
+    self = [self initWithType:type];
+    if (!self) {
+        return nil;
+    }
+
+    self.subscribe = @(subscribe);
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
-    [parameters sdl_setObject:type forName:SDLNameSystemCapabilityType];
+    [self.parameters sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [parameters sdl_objectForName:SDLNameSystemCapabilityType];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameSystemCapabilityType error:&error];
+}
+
+- (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    [self.parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
+}
+
+- (nullable NSNumber<SDLBool> *)subscribe {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class error:nil];
 }
 
 @end

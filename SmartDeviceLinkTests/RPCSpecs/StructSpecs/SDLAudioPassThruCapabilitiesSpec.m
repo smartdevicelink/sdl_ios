@@ -11,7 +11,7 @@
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLAudioType.h"
 #import "SDLBitsPerSample.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSamplingRate.h"
 
 
@@ -31,10 +31,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameSamplingRate:SDLSamplingRate22KHZ,
-                                       SDLNameBitsPerSample:SDLBitsPerSample8Bit,
-                                       SDLNameAudioType:SDLAudioTypePCM} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameSamplingRate:SDLSamplingRate22KHZ,
+                                       SDLRPCParameterNameBitsPerSample:SDLBitsPerSample8Bit,
+                                       SDLRPCParameterNameAudioType:SDLAudioTypePCM} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAudioPassThruCapabilities* testStruct = [[SDLAudioPassThruCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.samplingRate).to(equal(SDLSamplingRate22KHZ));
         expect(testStruct.bitsPerSample).to(equal(SDLBitsPerSample8Bit));

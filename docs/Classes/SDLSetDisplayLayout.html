@@ -5,7 +5,10 @@
 <ul>
   <li><a href="#section--initWithPredefinedLayout:">-initWithPredefinedLayout:</a></li>
   <li><a href="#section--initWithLayout:">-initWithLayout:</a></li>
+  <li><a href="#section--initWithPredefinedLayout:dayColorScheme:nightColorScheme:">-initWithPredefinedLayout:dayColorScheme:nightColorScheme:</a></li>
   <li><a href="#section-displayLayout">displayLayout</a></li>
+  <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
+  <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -53,6 +56,24 @@
   
   
   
+  <h3 id="section--initWithPredefinedLayout:dayColorScheme:nightColorScheme:">
+      -initWithPredefinedLayout:dayColorScheme:nightColorScheme:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPredefinedLayout</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span><span class="p">)</span><span class="nv">predefinedLayout</span> <span class="nf">dayColorScheme</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">dayColorScheme</span> <span class="nf">nightColorScheme</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">predefinedLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span><span class="p">,</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">,</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
   <h3 id="section-displayLayout">
       displayLayout
   </h3>
@@ -70,6 +91,48 @@ presets. Currently defined for GEN2</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayLayout</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dayColorScheme">
+      dayColorScheme
+  </h3>
+  
+  <p>The color scheme to be used on a head unit using a <q>light</q> or <q>day</q> color scheme. The OEM may only support this theme if their head unit only has a light color scheme.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nightColorScheme">
+      nightColorScheme
+  </h3>
+  
+  <p>The color scheme to be used on a head unit using a <q>dark</q> or <q>night</q> color scheme. The OEM may only support this theme if their head unit only has a dark color scheme.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

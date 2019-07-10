@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSubscribeButton.h"
 
 
@@ -25,11 +26,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:SDLButtonNamePreset5},
-                                             SDLNameOperationName:SDLNameSubscribeButton}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameButtonName:SDLButtonNamePreset5},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeButton}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSubscribeButton* testRequest = [[SDLSubscribeButton alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.buttonName).to(equal(SDLButtonNamePreset5));
     });

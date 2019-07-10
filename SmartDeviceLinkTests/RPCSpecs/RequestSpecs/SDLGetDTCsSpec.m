@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLGetDTCs.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetDTCsSpec)
 
@@ -25,12 +26,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameECUName:@4321,
-                                                                   SDLNameDTCMask:@22},
-                                                             SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameECUName:@4321,
+                                                                   SDLRPCParameterNameDTCMask:@22},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameEndAudioPassThru}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetDTCs* testRequest = [[SDLGetDTCs alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.ecuName).to(equal(@4321));
         expect(testRequest.dtcMask).to(equal(@22));

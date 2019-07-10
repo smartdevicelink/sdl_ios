@@ -10,9 +10,31 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Describes a location, including its coordinate, name, etc. Used in WayPoints.
+ *  Describes a location, including its coordinate, name, etc. Used in WayPoints.
  */
 @interface SDLLocationDetails : SDLRPCStruct
+
+/**
+ *  Convenience init for location coordinate.
+ *
+ *  @param coordinate       Latitude/Longitude of the location
+ *  @return                 A SDLLocationDetails object
+ */
+- (instancetype)initWithCoordinate:(SDLLocationCoordinate *)coordinate NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param coordinate Latitude/Longitude of the location
+ *  @param locationName Name of location
+ *  @param addressLines Location address for display purposes only
+ *  @param locationDescription Description intended location / establishment
+ *  @param phoneNumber Phone number of location / establishment
+ *  @param locationImage Image / icon of intended location
+ *  @param searchAddress Address to be used by navigation engines for search
+ *  @return A SDLLocationDetails object
+ */
+- (instancetype)initWithCoordinate:(SDLLocationCoordinate *)coordinate locationName:(nullable NSString *)locationName addressLines:(nullable NSArray<NSString *> *)addressLines locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString*)phoneNumber locationImage:(nullable SDLImage *)locationImage searchAddress:(nullable SDLOasisAddress *)searchAddress;
 
 /**
  * Latitude/Longitude of the location

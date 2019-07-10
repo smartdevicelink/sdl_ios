@@ -9,7 +9,8 @@
 #import "SDLSystemCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLAppServicesCapabilities.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
@@ -19,6 +20,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSystemCapability
+
+- (instancetype)initWithAppServicesCapabilities:(SDLAppServicesCapabilities *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = SDLSystemCapabilityTypeAppServices;
+    self.appServicesCapabilities = capability;
+
+    return self;
+}
 
 - (instancetype)initWithPhoneCapability:(SDLPhoneCapability *)capability {
     self = [self init];
@@ -69,45 +82,52 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
-    [store sdl_setObject:type forName:SDLNameSystemCapabilityType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [store sdl_objectForName:SDLNameSystemCapabilityType];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameSystemCapabilityType error:&error];
 }
 
-// TODO: Nav / Phone Capability
+- (void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    [self.store sdl_setObject:appServicesCapabilities forName:SDLRPCParameterNameAppServicesCapabilities];
+}
+
+- (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class error:nil];
+}
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {
-    [store sdl_setObject:navigationCapability forName:SDLNameNavigationCapability];
+    [self.store sdl_setObject:navigationCapability forName:SDLRPCParameterNameNavigationCapability];
 }
 
 - (nullable SDLNavigationCapability *)navigationCapability {
-    return [store sdl_objectForName:SDLNameNavigationCapability ofClass:SDLNavigationCapability.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNavigationCapability ofClass:SDLNavigationCapability.class error:nil];
 }
 
 - (void)setPhoneCapability:(nullable SDLPhoneCapability *)phoneCapability {
-    [store sdl_setObject:phoneCapability forName:SDLNamePhoneCapability];
+    [self.store sdl_setObject:phoneCapability forName:SDLRPCParameterNamePhoneCapability];
 }
 
 - (nullable SDLPhoneCapability *)phoneCapability {
-    return [store sdl_objectForName:SDLNamePhoneCapability ofClass:SDLPhoneCapability.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePhoneCapability ofClass:SDLPhoneCapability.class error:nil];
 }
 
 - (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    [store sdl_setObject:videoStreamingCapability forName:SDLNameVideoStreamingCapability];
+    [self.store sdl_setObject:videoStreamingCapability forName:SDLRPCParameterNameVideoStreamingCapability];
 }
 
 - (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    return [store sdl_objectForName:SDLNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class error:nil];
 }
 
 - (void)setRemoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    [store sdl_setObject:remoteControlCapability forName:SDLNameRemoteControlCapability];
+    [self.store sdl_setObject:remoteControlCapability forName:SDLRPCParameterNameRemoteControlCapability];
 }
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    return [store sdl_objectForName:SDLNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
 }
 
 @end

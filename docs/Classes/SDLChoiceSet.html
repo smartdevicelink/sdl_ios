@@ -1,0 +1,364 @@
+<h1>SDLChoiceSet Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-defaultTimeout">defaultTimeout</a></li>
+  <li><a href="#section-defaultLayout">defaultLayout</a></li>
+  <li><a href="#section-title">title</a></li>
+  <li><a href="#section-initialPrompt">initialPrompt</a></li>
+  <li><a href="#section-layout">layout</a></li>
+  <li><a href="#section-timeout">timeout</a></li>
+  <li><a href="#section-timeoutPrompt">timeoutPrompt</a></li>
+  <li><a href="#section-helpPrompt">helpPrompt</a></li>
+  <li><a href="#section-helpList">helpList</a></li>
+  <li><a href="#section-delegate">delegate</a></li>
+  <li><a href="#section-choices">choices</a></li>
+  <li><a href="#section--initWithTitle:delegate:choices:">-initWithTitle:delegate:choices:</a></li>
+  <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:</a></li>
+  <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-defaultTimeout">
+      defaultTimeout
+  </h3>
+  
+  <p>Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(py)timeout">timeout</a></code> for more details. If this is not set by you, it will default to 10 seconds.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">class</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">defaultTimeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="k">var</span> <span class="nv">defaultTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-defaultLayout">
+      defaultLayout
+  </h3>
+  
+  <p>Set this to change the default layout for all choice sets. If a layout is not set on an individual choice set object, then it will use this layout instead. See <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(py)layout">layout</a></code> for more details. If this is not set by you, it will default to <code>SDLChoiceSetLayoutList</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">class</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="n">defaultLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="k">var</span> <span class="nv">defaultLayout</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-title">
+      title
+  </h3>
+  
+  <p>Maps to PerformInteraction.initialText. The title of the choice set, and/or the initial text on a keyboard prompt.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">title</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-initialPrompt">
+      initialPrompt
+  </h3>
+  
+  <p>Maps to PerformInteraction.initialPrompt. The initial prompt spoken to the user at the start of an interaction.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">initialPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">initialPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-layout">
+      layout
+  </h3>
+  
+  <p>Maps to PerformInteraction.interactionLayout. Whether the presented choices are arranged as a set of tiles or a list.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="n">layout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">layout</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-timeout">
+      timeout
+  </h3>
+  
+  <p>Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system). Defaults to <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(cpy)defaultTimeout">defaultTimeout</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">timeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-timeoutPrompt">
+      timeoutPrompt
+  </h3>
+  
+  <p>Maps to PerformInteraction.timeoutPrompt. This text is spoken when a VR interaction times out. If this set is presented in a manual (non-voice) only interaction, this will be ignored.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">timeoutPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timeoutPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-helpPrompt">
+      helpPrompt
+  </h3>
+  
+  <p>Maps to PerformInteraction.helpPrompt. This is the spoken string when a user speaks <q>help</q> when the interaction is occurring.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">helpPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">helpPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-helpList">
+      helpList
+  </h3>
+  
+  <p>Maps to PerformInteraction.vrHelp. This is a list of help text presented to the user when they are in a voice recognition interaction from your choice set of options. If this set is presented in a touch only interaction, this will be ignored.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    that while SDLVRHelpItem&rsquo;s position will be automatically set based on position in the array, the image will need to uploaded by you before use using SDLFileManager.
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">helpList</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">helpList</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-delegate">
+      delegate
+  </h3>
+  
+  <p>The delegate of this choice set, called when the user interacts with it.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span> <span class="n">_Nullable</span> <span class="n">delegate</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-choices">
+      choices
+  </h3>
+  
+  <p>The choices to be displayed to the user within this choice set. These choices could match those already preloaded via <code>SDLScreenManager preloadChoices:withCompletionHandler:</code>.</p>
+
+<p>This is limited to 100 items. If you attempt to set more than 100 items, the set will not have any items (this array will be empty).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">choices</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">choices</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithTitle:delegate:choices:">
+      -initWithTitle:delegate:choices:
+  </h3>
+  
+  <p>Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be <code>nil</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span>
+                             <span class="nf">delegate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span>
+                              <span class="nf">choices</span><span class="p">:</span>
+                                  <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>title</dt>
+      <dd><p>The choice set&rsquo;s title</p></dd>
+      <dt>delegate</dt>
+      <dd><p>The choice set delegate called after the user has interacted with your choice set</p></dd>
+      <dt>choices</dt>
+      <dd><p>The choices to be displayed to the user for interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The choice set</p>
+  </div>
+  
+  <h3 id="section--initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:">
+      -initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:
+  </h3>
+  
+  <p>Initializer with all possible properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+          <span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span>
+               <span class="nf">delegate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span>
+                 <span class="nf">layout</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span><span class="p">)</span><span class="nv">layout</span>
+                <span class="nf">timeout</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">timeout</span>
+    <span class="nf">initialPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+    <span class="nf">timeoutPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+       <span class="nf">helpPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+             <span class="nf">vrHelpList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpList</span>
+                <span class="nf">choices</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>title</dt>
+      <dd><p>The choice set&rsquo;s title</p></dd>
+      <dt>delegate</dt>
+      <dd><p>The choice set delegate called after the user has interacted with your choice set</p></dd>
+      <dt>layout</dt>
+      <dd><p>The layout of choice options (Manual/touch only)</p></dd>
+      <dt>timeout</dt>
+      <dd><p>The timeout of a touch interaction (Manual/touch only)</p></dd>
+      <dt>initialPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when this set is displayed</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when the set times out (Voice only)</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when the user asks for <q>help</q></p></dd>
+      <dt>helpList</dt>
+      <dd><p>A table list of text and images shown to the user during a voice recognition session for this choice set (Voice only)</p></dd>
+      <dt>choices</dt>
+      <dd><p>The list of choices presented to the user either as a manual/touch interaction or via the user&rsquo;s voice</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The choice set</p>
+  </div>
+  
+  <h3 id="section--initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:">
+      -initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:
+  </h3>
+  
+  <p>Initializer with all possible properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span>
+         <span class="nf">delegate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span>
+           <span class="nf">layout</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span><span class="p">)</span><span class="nv">layout</span>
+          <span class="nf">timeout</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">timeout</span>
+    <span class="nf">initialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+    <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+       <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+       <span class="nf">vrHelpList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpList</span>
+          <span class="nf">choices</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>title</dt>
+      <dd><p>The choice set&rsquo;s title</p></dd>
+      <dt>delegate</dt>
+      <dd><p>The choice set delegate called after the user has interacted with your choice set</p></dd>
+      <dt>layout</dt>
+      <dd><p>The layout of choice options (Manual/touch only)</p></dd>
+      <dt>timeout</dt>
+      <dd><p>The timeout of a touch interaction (Manual/touch only)</p></dd>
+      <dt>initialPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when this set is displayed</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when the set times out (Voice only)</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>A voice prompt spoken to the user when the user asks for <q>help</q></p></dd>
+      <dt>helpList</dt>
+      <dd><p>A table list of text and images shown to the user during a voice recognition session for this choice set (Voice only)</p></dd>
+      <dt>choices</dt>
+      <dd><p>The list of choices presented to the user either as a manual/touch interaction or via the user&rsquo;s voice</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The choice set</p>
+  </div>
+  
+</section>

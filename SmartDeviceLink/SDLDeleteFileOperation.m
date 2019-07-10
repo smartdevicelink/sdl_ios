@@ -48,20 +48,21 @@ NS_ASSUME_NONNULL_BEGIN
     SDLDeleteFile *deleteFile = [[SDLDeleteFile alloc] initWithFileName:self.fileName];
 
     typeof(self) weakself = self;
-    [self.connectionManager sendConnectionManagerRequest:deleteFile
-                           withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                               // Pull out the parameters
-                               SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
-                               BOOL success = [deleteFileResponse.success boolValue];
-                               NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
+    [self.connectionManager sendConnectionManagerRequest:deleteFile withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        // Pull out the parameters
+        SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
+        BOOL success = [deleteFileResponse.success boolValue];
 
-                               // Callback
-                               if (weakself.completionHandler != nil) {
-                                   weakself.completionHandler(success, bytesAvailable, error);
-                               }
+        // If spaceAvailable is nil, set it to the max value
+        NSUInteger bytesAvailable = deleteFileResponse.spaceAvailable != nil ? deleteFileResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
 
-                               [weakself finishOperation];
-                           }];
+        // Callback
+        if (weakself.completionHandler != nil) {
+            weakself.completionHandler(success, bytesAvailable, error);
+        }
+
+        [weakself finishOperation];
+    }];
 }
 
 

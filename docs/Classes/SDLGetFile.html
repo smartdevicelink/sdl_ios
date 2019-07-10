@@ -1,0 +1,221 @@
+<h1>SDLGetFile Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithFileName:">-initWithFileName:</a></li>
+  <li><a href="#section--initWithFileName:appServiceId:fileType:">-initWithFileName:appServiceId:fileType:</a></li>
+  <li><a href="#section--initWithFileName:appServiceId:fileType:offset:length:">-initWithFileName:appServiceId:fileType:offset:length:</a></li>
+  <li><a href="#section-fileName">fileName</a></li>
+  <li><a href="#section-appServiceId">appServiceId</a></li>
+  <li><a href="#section-fileType">fileType</a></li>
+  <li><a href="#section-offset">offset</a></li>
+  <li><a href="#section-length">length</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This request is sent to the module to retrieve a file.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithFileName:">
+      -initWithFileName:
+  </h3>
+  
+  <p>Convenience init for required parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFileName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileName</dt>
+      <dd><p>File name that should be retrieved.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLGetFile object</p>
+  </div>
+  
+  <h3 id="section--initWithFileName:appServiceId:fileType:">
+      -initWithFileName:appServiceId:fileType:
+  </h3>
+  
+  <p>Convenience init for sending a small file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFileName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span>
+                            <span class="nf">appServiceId</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appServiceId</span>
+                                <span class="nf">fileType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appServiceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileName</dt>
+      <dd><p>File name that should be retrieved.</p></dd>
+      <dt>appServiceId</dt>
+      <dd><p>ID of the service that should have uploaded the requested file</p></dd>
+      <dt>fileType</dt>
+      <dd><p>Selected file type</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLGetFile object</p>
+  </div>
+  
+  <h3 id="section--initWithFileName:appServiceId:fileType:offset:length:">
+      -initWithFileName:appServiceId:fileType:offset:length:
+  </h3>
+  
+  <p>Convenience init for sending a large file in multiple data chunks.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFileName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span>
+                            <span class="nf">appServiceId</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appServiceId</span>
+                                <span class="nf">fileType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span>
+                                  <span class="nf">offset</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">offset</span>
+                                  <span class="nf">length</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">length</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appServiceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">?,</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">length</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileName</dt>
+      <dd><p>File name that should be retrieved.</p></dd>
+      <dt>appServiceId</dt>
+      <dd><p>ID of the service that should have uploaded the requested file</p></dd>
+      <dt>fileType</dt>
+      <dd><p>Selected file type</p></dd>
+      <dt>offset</dt>
+      <dd><p>Offset in bytes for resuming partial data chunks</p></dd>
+      <dt>length</dt>
+      <dd><p>Length in bytes for resuming partial data chunks</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLGetFile object</p>
+  </div>
+  
+  <h3 id="section-fileName">
+      fileName
+  </h3>
+  
+  <p>File name that should be retrieved.</p>
+
+<p>String, Required, Max string length 255 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appServiceId">
+      appServiceId
+  </h3>
+  
+  <p>ID of the service that should have uploaded the requested file.</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appServiceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appServiceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileType">
+      fileType
+  </h3>
+  
+  <p>Selected file type.</p>
+
+<p>SDLFileType, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-offset">
+      offset
+  </h3>
+  
+  <p>Optional offset in bytes for resuming partial data chunks.</p>
+
+<p>Integer, Optional, minvalue=<q>0</q> maxvalue=<q>2000000000</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">offset</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">offset</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-length">
+      length
+  </h3>
+  
+  <p>Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded.</p>
+
+<p>Integer, Optional, minvalue=<q>0</q> maxvalue=<q>2000000000</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">length</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">length</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

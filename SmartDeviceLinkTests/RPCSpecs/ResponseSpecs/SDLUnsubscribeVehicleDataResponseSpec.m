@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLUnsubscribeVehicleDataResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLVehicleDataResult.h"
 
 
@@ -47,6 +48,9 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.clusterModes = vehicleDataResult;
         testResponse.myKey = vehicleDataResult;
+        testResponse.electronicParkBrakeStatus = vehicleDataResult;
+        testResponse.turnSignal = vehicleDataResult;
+        testResponse.cloudAppVehicleID = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -74,39 +78,49 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameGPS:vehicleDataResult,
-                                                                   SDLNameSpeed:vehicleDataResult,
-                                                                   SDLNameRPM:vehicleDataResult,
-                                                                   SDLNameFuelLevel:vehicleDataResult,
-                                                                   SDLNameFuelLevelState:vehicleDataResult,
-                                                                   SDLNameFuelRange:vehicleDataResult,
-                                                                   SDLNameInstantFuelConsumption:vehicleDataResult,
-                                                                   SDLNameExternalTemperature:vehicleDataResult,
-                                                                   SDLNamePRNDL:vehicleDataResult,
-                                                                   SDLNameTirePressure:vehicleDataResult,
-                                                                   SDLNameOdometer:vehicleDataResult,
-                                                                   SDLNameBeltStatus:vehicleDataResult,
-                                                                   SDLNameBodyInformation:vehicleDataResult,
-                                                                   SDLNameDeviceStatus:vehicleDataResult,
-                                                                   SDLNameDriverBraking:vehicleDataResult,
-                                                                   SDLNameWiperStatus:vehicleDataResult,
-                                                                   SDLNameHeadLampStatus:vehicleDataResult,
-                                                                   SDLNameEngineOilLife:vehicleDataResult,
-                                                                   SDLNameEngineTorque:vehicleDataResult,
-                                                                   SDLNameAccelerationPedalPosition:vehicleDataResult,
-                                                                   SDLNameSteeringWheelAngle:vehicleDataResult,
-                                                                   SDLNameECallInfo:vehicleDataResult,
-                                                                   SDLNameAirbagStatus:vehicleDataResult,
-                                                                   SDLNameEmergencyEvent:vehicleDataResult,
-                                                                   SDLNameClusterModes:vehicleDataResult,
-                                                                   SDLNameMyKey:vehicleDataResult},
-                                                             SDLNameOperationName:SDLNameUnsubscribeVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameGPS:vehicleDataResult,
+                                                                   SDLRPCParameterNameSpeed:vehicleDataResult,
+                                                                   SDLRPCParameterNameRPM:vehicleDataResult,
+                                                                   SDLRPCParameterNameFuelLevel:vehicleDataResult,
+                                                                   SDLRPCParameterNameFuelLevelState:vehicleDataResult,
+                                                                   SDLRPCParameterNameFuelRange:vehicleDataResult,
+                                                                   SDLRPCParameterNameInstantFuelConsumption:vehicleDataResult,
+                                                                   SDLRPCParameterNameExternalTemperature:vehicleDataResult,
+                                                                   SDLRPCParameterNamePRNDL:vehicleDataResult,
+                                                                   SDLRPCParameterNameTirePressure:vehicleDataResult,
+                                                                   SDLRPCParameterNameOdometer:vehicleDataResult,
+                                                                   SDLRPCParameterNameBeltStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameBodyInformation:vehicleDataResult,
+                                                                   SDLRPCParameterNameDeviceStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameDriverBraking:vehicleDataResult,
+                                                                   SDLRPCParameterNameWiperStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameHeadLampStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameEngineOilLife:vehicleDataResult,
+                                                                   SDLRPCParameterNameEngineTorque:vehicleDataResult,
+                                                                   SDLRPCParameterNameAccelerationPedalPosition:vehicleDataResult,
+                                                                   SDLRPCParameterNameSteeringWheelAngle:vehicleDataResult,
+                                                                   SDLRPCParameterNameECallInfo:vehicleDataResult,
+                                                                   SDLRPCParameterNameAirbagStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameEmergencyEvent:vehicleDataResult,
+                                                                   SDLRPCParameterNameClusterModes:vehicleDataResult,
+                                                                   SDLRPCParameterNameMyKey:vehicleDataResult,
+                                                                   SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
+                                                                   SDLRPCParameterNameTurnSignal:vehicleDataResult,
+                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult
+                                                                   },
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -134,6 +148,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -165,6 +182,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(beNil());
         expect(testResponse.clusterModes).to(beNil());
         expect(testResponse.myKey).to(beNil());
+        expect(testResponse.electronicParkBrakeStatus).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
+        expect(testResponse.cloudAppVehicleID).to(beNil());
     });
 });
 

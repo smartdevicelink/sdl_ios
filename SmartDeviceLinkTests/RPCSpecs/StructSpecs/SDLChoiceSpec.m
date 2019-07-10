@@ -10,7 +10,7 @@
 
 #import "SDLChoice.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLChoiceSpec)
@@ -40,14 +40,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameChoiceId:@3,
-                                       SDLNameMenuName:@"Hello",
-                                       SDLNameVRCommands:[@[@"1", @"2"] mutableCopy],
-                                       SDLNameImage:image,
-                                       SDLNameSecondaryText:@"Arbitrary",
-                                       SDLNameTertiaryText:@"qwerty",
-                                       SDLNameSecondaryImage:secondaryImage} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameChoiceId:@3,
+                                       SDLRPCParameterNameMenuName:@"Hello",
+                                       SDLRPCParameterNameVRCommands:[@[@"1", @"2"] mutableCopy],
+                                       SDLRPCParameterNameImage:image,
+                                       SDLRPCParameterNameSecondaryText:@"Arbitrary",
+                                       SDLRPCParameterNameTertiaryText:@"qwerty",
+                                       SDLRPCParameterNameSecondaryImage:secondaryImage} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLChoice* testStruct = [[SDLChoice alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.choiceID).to(equal(@3));
         expect(testStruct.menuName).to(equal(@"Hello"));

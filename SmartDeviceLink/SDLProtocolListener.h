@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endServiceNAK   A SDLProtocolMessage object
  */
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK;
+- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK;
+- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK;
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate;
 
 #pragma mark - Older protocol handlers
 
@@ -79,6 +82,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param e    The exception
  */
 - (void)onError:(NSString *)info exception:(NSException *)e;
+
+/**
+ *  Called when an error is notified from transport.
+ *
+ *  Note: currently, this is used only by TCP transport.
+ *
+ *  @param error The type of the error
+ */
+- (void)onTransportError:(NSError *)error;
 
 @end
 

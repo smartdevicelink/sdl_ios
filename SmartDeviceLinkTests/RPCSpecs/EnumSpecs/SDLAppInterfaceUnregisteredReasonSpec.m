@@ -27,7 +27,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLAppInterfaceUnregisteredReasonMasterReset).to(equal(@"MASTER_RESET"));
         expect(SDLAppInterfaceUnregisteredReasonFactoryDefaults).to(equal(@"FACTORY_DEFAULTS"));
         expect(SDLAppInterfaceUnregisteredReasonAppUnauthorized).to(equal(@"APP_UNAUTHORIZED"));
-        //expect(SDLAppInterfaceUnregisteredReason PROTOCOL_VIOLATION).to(equal(@"PROTOCOL_VIOLATION"));
+        expect(SDLAppInterfaceUnregisteredReasonProtocolViolation).to(equal(@"PROTOCOL_VIOLATION"));
+        expect(SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource).to(equal(@"UNSUPPORTED_HMI_RESOURCE"));
     });
 });
 

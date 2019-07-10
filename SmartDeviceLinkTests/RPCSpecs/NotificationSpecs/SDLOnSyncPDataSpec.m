@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnSyncPData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnSyncPDataSpec)
 
@@ -25,12 +26,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
-                                                                   SDLNameTimeoutCapitalized:@8357},
-                                                             SDLNameOperationName:SDLNameOnSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
+                                                                   SDLRPCParameterNameTimeoutCapitalized:@8357},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.URL).to(equal(@"https://www.youtube.com/watch?v=ygr5AHufBN4"));
         expect(testNotification.Timeout).to(equal(@8357));

@@ -41,6 +41,8 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 
 /**
  *  A table for tracking all subscribers
+ *
+ *  If you update protocolDelegateTable while the protocol is running, please make sure to guard with @synchronized.
  */
 @property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 
@@ -54,7 +56,23 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 @property (nonatomic, copy) NSString *appId;
 
+/**
+ *  The auth token, if any, returned with the `StartServiceACK` for the RPC service from the module.
+ */
+@property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
 #pragma mark - Sending
+
+/**
+ *  Pre-configure protocol header for specified service type
+ *
+ *  This is used to initialize Session ID before starting a protocol.
+ *
+ *  @param header The header which is applied to the service type
+ *  @param serviceType A SDLServiceType object
+ *  @return YES if the header is successfully set, NO otherwise
+ */
+- (BOOL)storeHeader:(SDLProtocolHeader *)header forServiceType:(SDLServiceType)serviceType;
 
 /**
  *  Sends a start service message to Core
@@ -79,6 +97,11 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  @param serviceType A SDLServiceType object
  */
 - (void)endServiceWithType:(SDLServiceType)serviceType;
+
+/**
+ *  Sends a Register Secondary Transport control frame to Core
+ */
+- (void)registerSecondaryTransport;
 
 /**
  *  Sends an unencrypted RPC to Core

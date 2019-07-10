@@ -5,7 +5,7 @@
 #import "SDLImageResolution.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,19 +22,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
-    [store sdl_setObject:resolutionWidth forName:SDLNameResolutionWidth];
+    [self.store sdl_setObject:resolutionWidth forName:SDLRPCParameterNameResolutionWidth];
 }
 
 - (NSNumber<SDLInt> *)resolutionWidth {
-    return [store sdl_objectForName:SDLNameResolutionWidth];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameResolutionWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
-    [store sdl_setObject:resolutionHeight forName:SDLNameResolutionHeight];
+    [self.store sdl_setObject:resolutionHeight forName:SDLRPCParameterNameResolutionHeight];
 }
 
 - (NSNumber<SDLInt> *)resolutionHeight {
-    return [store sdl_objectForName:SDLNameResolutionHeight];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
 @end

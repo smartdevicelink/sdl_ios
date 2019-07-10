@@ -10,7 +10,8 @@
 
 #import "SDLReadDIDResponse.h"
 #import "SDLDIDResult.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLReadDIDResponseSpec)
 
@@ -26,11 +27,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameDIDResult:[@[result] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameReadDID}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameDIDResult:[@[result] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameReadDID}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLReadDIDResponse* testResponse = [[SDLReadDIDResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.didResult).to(equal([@[result] mutableCopy]));
     });

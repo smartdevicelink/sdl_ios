@@ -21,15 +21,21 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
+    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
+    _multipleCompletionBlocks = [NSMutableArray array];
 
     return self;
 }
 
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
+    [self.receivedRequests addObject:rpc];
+}
+
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
-    request.correlationID = [self test_nextCorrelationID];
-    [self.receivedRequests addObject:request];
+    SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+    requestRPC.correlationID = [self test_nextCorrelationID];
+    [self.receivedRequests addObject:requestRPC];
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -45,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }];
 
-    _lastMultipleCompletionBlock = completionHandler;
+    [_multipleCompletionBlocks addObject:completionHandler];
 }
 
 - (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
@@ -54,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         progressHandler(request, nil, nil, (double)idx / (double)requests.count);
     }];
 
-    _lastMultipleCompletionBlock = completionHandler;
+    [_multipleCompletionBlocks addObject:completionHandler];
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
@@ -92,13 +98,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)respondToLastMultipleRequestsWithSuccess:(BOOL)success {
-    if (self.lastMultipleCompletionBlock != nil) {
-        self.lastMultipleCompletionBlock(success);
+    if (self.multipleCompletionBlocks.lastObject != nil) {
+        SDLMultipleRequestCompletionHandler block = [self.multipleCompletionBlocks.lastObject copy];
+        [self.multipleCompletionBlocks removeLastObject];
+        block(success);
     }
 }
 
 - (void)reset {
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
+    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
     _lastRequestBlock = nil;
 }
 

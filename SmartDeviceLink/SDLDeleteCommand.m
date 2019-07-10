@@ -5,17 +5,21 @@
 #import "SDLDeleteCommand.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteCommand
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteCommand]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteCommand]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithId:(UInt32)commandId {
     self = [self init];
@@ -29,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
+    [self.parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 @end

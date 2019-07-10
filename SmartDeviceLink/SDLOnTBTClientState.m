@@ -4,25 +4,29 @@
 #import "SDLOnTBTClientState.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTBTClientState
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnTBTClientState]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnTBTClientState]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setState:(SDLTBTState)state {
-    [parameters sdl_setObject:state forName:SDLNameState];
+    [self.parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }
 
 - (SDLTBTState)state {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
-    return (SDLTBTState)obj;
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
 @end

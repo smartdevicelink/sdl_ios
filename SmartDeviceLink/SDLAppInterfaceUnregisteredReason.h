@@ -63,3 +63,7 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
  * @since SDL 2.0
  */
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized;
+
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonProtocolViolation;
+
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource;

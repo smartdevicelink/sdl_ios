@@ -5,7 +5,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSendLocation.h"
 
 
@@ -26,22 +27,21 @@ describe(@"Send Location RPC", ^{
     
     describe(@"when initialized with init", ^{
         beforeEach(^{
+            someLongitude = @123.4567;
+            someLatitude = @65.4321;
+            someLocation = @"Livio";
+            someLocationDescription = @"A great place to work";
+            someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
+            somePhoneNumber = @"248-591-0333";
+            someImage = [[SDLImage alloc] init];
+            someDeliveryMode = SDLDeliveryModePrompt;
+            someTime = [[SDLDateTime alloc] init];
+            someAddress = [[SDLOasisAddress alloc] init];
             testRequest = [[SDLSendLocation alloc] init];
         });
         
         context(@"when parameters are set correctly", ^{
             beforeEach(^{
-                someLongitude = @123.4567;
-                someLatitude = @65.4321;
-                someLocation = @"Livio";
-                someLocationDescription = @"A great place to work";
-                someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
-                somePhoneNumber = @"248-591-0333";
-                someImage = [[SDLImage alloc] init];
-                someDeliveryMode = SDLDeliveryModePrompt;
-                someTime = [[SDLDateTime alloc] init];
-                someAddress = [[SDLOasisAddress alloc] init];
-                
                 testRequest.longitudeDegrees = someLongitude;
                 testRequest.latitudeDegrees = someLatitude;
                 testRequest.locationName = someLocation;
@@ -55,53 +55,16 @@ describe(@"Send Location RPC", ^{
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
-            it(@"should get longitude correctly", ^{
-                expect(testRequest.longitudeDegrees).to(equal(someLongitude));
+            it(@"should get parameters correctly", ^{
                 expect(testRequest.longitudeDegrees).to(beIdenticalTo(someLongitude));
-            });
-            
-            it(@"should get latitude correctly", ^{
-                expect(testRequest.latitudeDegrees).to(equal(someLatitude));
                 expect(testRequest.latitudeDegrees).to(beIdenticalTo(someLatitude));
-            });
-            
-            it(@"should get location correctly", ^{
-                expect(testRequest.locationName).to(equal(someLocation));
                 expect(testRequest.locationName).to(beIdenticalTo(someLocation));
-            });
-            
-            it(@"should get location description correctly", ^{
-                expect(testRequest.locationDescription).to(equal(someLocationDescription));
                 expect(testRequest.locationDescription).to(beIdenticalTo(someLocationDescription));
-            });
-            
-            it(@"should get address lines correctly", ^{
-                expect(testRequest.addressLines).to(equal(someAddressLines));
                 expect(testRequest.addressLines).to(beIdenticalTo(someAddressLines));
-            });
-            
-            it(@"should get phone number correctly", ^{
-                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
                 expect(testRequest.phoneNumber).to(beIdenticalTo(somePhoneNumber));
-            });
-            
-            it(@"should get image correctly", ^{
-                expect(testRequest.locationImage).to(equal(someImage));
                 expect(testRequest.locationImage).to(beIdenticalTo(someImage));
-            });
-            
-            it(@"should get delivery mode correctly", ^{
-                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
                 expect(testRequest.deliveryMode).to(beIdenticalTo(someDeliveryMode));
-            });
-            
-            it(@"should get timestamp correctly", ^{
-                expect(testRequest.timeStamp).to(equal(someTime));
                 expect(testRequest.timeStamp).to(beIdenticalTo(someTime));
-            });
-            
-            it(@"should get address correctly", ^{
-                expect(testRequest.address).to(equal(someAddress));
                 expect(testRequest.address).to(beIdenticalTo(someAddress));
             });
         });
@@ -109,42 +72,74 @@ describe(@"Send Location RPC", ^{
         context(@"when parameters are not set", ^{
             it(@"should return nil for longitude", ^{
                 expect(testRequest.longitudeDegrees).to(beNil());
-            });
-            
-            it(@"should return nil for latitude", ^{
                 expect(testRequest.latitudeDegrees).to(beNil());
-            });
-            
-            it(@"should return nil for location", ^{
                 expect(testRequest.locationName).to(beNil());
-            });
-            
-            it(@"should return nil for location description", ^{
                 expect(testRequest.locationDescription).to(beNil());
-            });
-            
-            it(@"should return nil for address lines", ^{
                 expect(testRequest.addressLines).to(beNil());
-            });
-            
-            it(@"should return nil for phone number", ^{
                 expect(testRequest.phoneNumber).to(beNil());
-            });
-            
-            it(@"should return nil for image", ^{
                 expect(testRequest.locationImage).to(beNil());
-            });
-            
-            it(@"should return nil for delivery mode", ^{
                 expect(testRequest.deliveryMode).to(beNil());
-            });
-            
-            it(@"should return nil for timeStamp", ^{
                 expect(testRequest.timeStamp).to(beNil());
-            });
-            
-            it(@"should return nil for address", ^{
                 expect(testRequest.address).to(beNil());
+            });
+        });
+    });
+
+    describe(@"when initialized with convenience inits", ^{
+        context(@"initWithAddress: addressLines: locationName: locationDescription: phoneNumber: image: deliveryMode: timeStamp:", ^{
+            beforeEach(^{
+                testRequest = [[SDLSendLocation alloc] initWithAddress:someAddress addressLines:someAddressLines locationName:someLocation locationDescription:someLocationDescription phoneNumber:somePhoneNumber image:someImage deliveryMode:someDeliveryMode timeStamp:someTime];
+            });
+
+            it(@"should set parameters correctly", ^{
+                expect(testRequest.longitudeDegrees).to(beNil());
+                expect(testRequest.latitudeDegrees).to(beNil());
+                expect(testRequest.locationName).to(equal(someLocation));
+                expect(testRequest.locationDescription).to(equal(someLocationDescription));
+                expect(testRequest.addressLines).to(equal(someAddressLines));
+                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
+                expect(testRequest.locationImage).to(equal(someImage));
+                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
+                expect(testRequest.timeStamp).to(equal(someTime));
+                expect(testRequest.address).to(equal(someAddress));
+            });
+        });
+
+        context(@"initWithLongitude: latitude: locationName: locationDescription: address: phoneNumber: image:", ^{
+            beforeEach(^{
+                testRequest = [[SDLSendLocation alloc] initWithLongitude:someLongitude.doubleValue latitude:someLatitude.doubleValue locationName:someLocation locationDescription:someLocationDescription address:someAddressLines phoneNumber:somePhoneNumber image:someImage];
+            });
+
+            it(@"should set parameters correctly", ^{
+                expect(testRequest.longitudeDegrees).to(equal(someLongitude));
+                expect(testRequest.latitudeDegrees).to(equal(someLatitude));
+                expect(testRequest.locationName).to(equal(someLocation));
+                expect(testRequest.locationDescription).to(equal(someLocationDescription));
+                expect(testRequest.addressLines).to(equal(someAddressLines));
+                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
+                expect(testRequest.locationImage).to(equal(someImage));
+                expect(testRequest.deliveryMode).to(beNil());
+                expect(testRequest.timeStamp).to(beNil());
+                expect(testRequest.address).to(beNil());
+            });
+        });
+
+        context(@"initWithLongitude: latitude: locationName: locationDescription: displayAddressLines: phoneNumber: image: deliveryMode: timeStamp: address:", ^{
+            beforeEach(^{
+                testRequest = [[SDLSendLocation alloc] initWithLongitude:someLongitude.doubleValue latitude:someLatitude.doubleValue locationName:someLocation locationDescription:someLocationDescription displayAddressLines:someAddressLines phoneNumber:somePhoneNumber image:someImage deliveryMode:someDeliveryMode timeStamp:someTime address:someAddress];
+            });
+
+            it(@"should set parameters correctly", ^{
+                expect(testRequest.longitudeDegrees).to(equal(someLongitude));
+                expect(testRequest.latitudeDegrees).to(equal(someLatitude));
+                expect(testRequest.locationName).to(equal(someLocation));
+                expect(testRequest.locationDescription).to(equal(someLocationDescription));
+                expect(testRequest.addressLines).to(equal(someAddressLines));
+                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
+                expect(testRequest.locationImage).to(equal(someImage));
+                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
+                expect(testRequest.timeStamp).to(equal(someTime));
+                expect(testRequest.address).to(equal(someAddress));
             });
         });
     });
@@ -152,84 +147,40 @@ describe(@"Send Location RPC", ^{
     describe(@"when initialized with a dictionary", ^{
         context(@"when parameters are set correctly", ^{
             beforeEach(^{
-                someLongitude = @123.4567;
-                someLatitude = @65.4321;
-                someLocation = @"Livio";
-                someLocationDescription = @"A great place to work";
-                someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
-                somePhoneNumber = @"248-591-0333";
-                someImage = [[SDLImage alloc] init];
-                someDeliveryMode = SDLDeliveryModePrompt;
-                someTime = [[SDLDateTime alloc] init];
-                someAddress = [[SDLOasisAddress alloc] init];
                 NSDictionary *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{
-                                                           SDLNameLongitudeDegrees: someLongitude,
-                                                           SDLNameLatitudeDegrees: someLatitude,
-                                                           SDLNameLocationName: someLocation,
-                                                           SDLNameLocationDescription: someLocationDescription,
-                                                           SDLNameAddressLines: someAddressLines,
-                                                           SDLNamePhoneNumber: somePhoneNumber,
-                                                           SDLNameLocationImage: someImage,
-                                                           SDLNameDeliveryMode: someDeliveryMode,
-                                                           SDLNameLocationTimeStamp: someTime,
-                                                           SDLNameAddress: someAddress
-                                                           }
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{
+                                                           SDLRPCParameterNameLongitudeDegrees: someLongitude,
+                                                           SDLRPCParameterNameLatitudeDegrees: someLatitude,
+                                                           SDLRPCParameterNameLocationName: someLocation,
+                                                           SDLRPCParameterNameLocationDescription: someLocationDescription,
+                                                           SDLRPCParameterNameAddressLines: someAddressLines,
+                                                           SDLRPCParameterNamePhoneNumber: somePhoneNumber,
+                                                           SDLRPCParameterNameLocationImage: someImage,
+                                                           SDLRPCParameterNameDeliveryMode: someDeliveryMode,
+                                                           SDLRPCParameterNameTimeStamp: someTime,
+                                                           SDLRPCParameterNameAddress: someAddress
+                                                           },
+                                                   SDLRPCParameterNameOperationName:SDLRPCFunctionNameSendLocation
                                                    }
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLSendLocation alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
-            it(@"should get longitude correctly", ^{
-                expect(testRequest.longitudeDegrees).to(equal(someLongitude));
+            it(@"should get parameters correctly", ^{
                 expect(testRequest.longitudeDegrees).to(beIdenticalTo(someLongitude));
-            });
-            
-            it(@"should get latitude correctly", ^{
-                expect(testRequest.latitudeDegrees).to(equal(someLatitude));
                 expect(testRequest.latitudeDegrees).to(beIdenticalTo(someLatitude));
-            });
-            
-            it(@"should get location correctly", ^{
-                expect(testRequest.locationName).to(equal(someLocation));
                 expect(testRequest.locationName).to(beIdenticalTo(someLocation));
-            });
-            
-            it(@"should get location description correctly", ^{
-                expect(testRequest.locationDescription).to(equal(someLocationDescription));
                 expect(testRequest.locationDescription).to(beIdenticalTo(someLocationDescription));
-            });
-            
-            it(@"should get address lines correctly", ^{
-                expect(testRequest.addressLines).to(equal(someAddressLines));
                 expect(testRequest.addressLines).to(beIdenticalTo(someAddressLines));
-            });
-            
-            it(@"should get phone number correctly", ^{
-                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
                 expect(testRequest.phoneNumber).to(beIdenticalTo(somePhoneNumber));
-            });
-            
-            it(@"should get image correctly", ^{
-                expect(testRequest.locationImage).to(equal(someImage));
                 expect(testRequest.locationImage).to(beIdenticalTo(someImage));
-            });
-            
-            it(@"should get delivery mode correctly", ^{
-                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
                 expect(testRequest.deliveryMode).to(beIdenticalTo(someDeliveryMode));
-            });
-            
-            it(@"should get timestamp correctly", ^{
-                expect(testRequest.timeStamp).to(equal(someTime));
                 expect(testRequest.timeStamp).to(beIdenticalTo(someTime));
-            });
-            
-            it(@"should get address correctly", ^{
-                expect(testRequest.address).to(equal(someAddress));
                 expect(testRequest.address).to(beIdenticalTo(someAddress));
             });
         });
@@ -237,51 +188,26 @@ describe(@"Send Location RPC", ^{
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary<NSString *, id> *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{}
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLSendLocation alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
-            it(@"should return nil for longitude", ^{
+            it(@"should return nil for parameters", ^{
                 expect(testRequest.longitudeDegrees).to(beNil());
-            });
-            
-            it(@"should return nil for latitude", ^{
                 expect(testRequest.latitudeDegrees).to(beNil());
-            });
-            
-            it(@"should return nil for location", ^{
                 expect(testRequest.locationName).to(beNil());
-            });
-            
-            it(@"should return nil for location description", ^{
                 expect(testRequest.locationDescription).to(beNil());
-            });
-            
-            it(@"should return nil for address lines", ^{
                 expect(testRequest.addressLines).to(beNil());
-            });
-            
-            it(@"should return nil for phone number", ^{
                 expect(testRequest.phoneNumber).to(beNil());
-            });
-            
-            it(@"should return nil for image", ^{
                 expect(testRequest.locationImage).to(beNil());
-            });
-            
-            it(@"should return nil for delivery mode", ^{
                 expect(testRequest.deliveryMode).to(beNil());
-            });
-            
-            it(@"should return nil for timeStamp", ^{
                 expect(testRequest.timeStamp).to(beNil());
-            });
-            
-            it(@"should return nil for address", ^{
                 expect(testRequest.address).to(beNil());
             });
         });

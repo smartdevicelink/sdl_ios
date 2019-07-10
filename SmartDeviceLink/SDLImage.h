@@ -4,6 +4,7 @@
 #import "SDLRPCMessage.h"
 
 #import "SDLImageType.h"
+#import "SDLStaticIconName.h"
 
 /**
  * Specifies which image shall be used e.g. in SDLAlerts or on SDLSoftbuttons provided the display supports it.
@@ -58,6 +59,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return                    A SDLImage object
  */
 - (instancetype)initWithStaticImageValue:(UInt16)staticImageValue;
+
+/**
+ *  Convenience init for displaying a static image. Static images are already on-board SDL Core and can be used by providing the image's value.
+ *
+ *  @param staticIconName      A SDLStaticIconName value
+ *  @return                    A SDLImage object
+ */
+- (instancetype)initWithStaticIconName:(SDLStaticIconName)staticIconName;
 
 /**
  *  The static hex icon value or the binary image file name identifier (sent by SDLPutFile)

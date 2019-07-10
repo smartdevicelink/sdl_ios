@@ -4,42 +4,46 @@
 #import "SDLOnButtonPress.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnButtonPress
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnButtonPress]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnButtonPress]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [self.parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
-    return (SDLButtonName)obj;
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
-    [parameters sdl_setObject:buttonPressMode forName:SDLNameButtonPressMode];
+    [self.parameters sdl_setObject:buttonPressMode forName:SDLRPCParameterNameButtonPressMode];
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonPressMode];
-    return (SDLButtonPressMode)obj;
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonPressMode error:&error];
 }
 
 - (void)setCustomButtonID:(nullable NSNumber<SDLInt> *)customButtonID {
-    [parameters sdl_setObject:customButtonID forName:SDLNameCustomButtonId];
+    [self.parameters sdl_setObject:customButtonID forName:SDLRPCParameterNameCustomButtonId];
 }
 
 - (nullable NSNumber<SDLInt> *)customButtonID {
-    return [parameters sdl_objectForName:SDLNameCustomButtonId];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCustomButtonId ofClass:NSNumber.class error:nil];
 }
 
 @end

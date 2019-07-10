@@ -5,17 +5,21 @@
 #import "SDLSyncPDataResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSyncPDataResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSyncPData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSyncPData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

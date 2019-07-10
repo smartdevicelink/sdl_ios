@@ -160,6 +160,11 @@ extern SDLResult const SDLResultTimedOut;
 extern SDLResult const SDLResultCancelRoute;
 
 /**
+ * The data sent failed to pass CRC check in receiver end.
+ */
+extern SDLResult const SDLResultCorruptedData;
+
+/**
  The RPC (e.g. ReadDID) executed successfully but the data exceeded the platform maximum threshold and thus, only part of the data is available.
  */
 extern SDLResult const SDLResultTruncatedData;

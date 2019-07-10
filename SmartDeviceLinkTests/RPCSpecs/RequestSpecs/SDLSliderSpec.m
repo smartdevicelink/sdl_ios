@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSlider.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSliderSpec)
 
@@ -49,15 +50,18 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
-                                                    @{SDLNameParameters:
-                                                          @{SDLNameNumberTicks:@(testNumTicks),
-                                                            SDLNamePosition:@(testPosition),
-                                                            SDLNameSliderHeader:testHeader,
-                                                            SDLNameSliderFooter:testFooters,
-                                                            SDLNameTimeout:@(testTimeout)},
-                                                      SDLNameOperationName:SDLNameSlider}};
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
+                                                    @{SDLRPCParameterNameParameters:
+                                                          @{SDLRPCParameterNameNumberTicks:@(testNumTicks),
+                                                            SDLRPCParameterNamePosition:@(testPosition),
+                                                            SDLRPCParameterNameSliderHeader:testHeader,
+                                                            SDLRPCParameterNameSliderFooter:testFooters,
+                                                            SDLRPCParameterNameTimeout:@(testTimeout)},
+                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSlider}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRequest = [[SDLSlider alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.numTicks).to(equal(testNumTicks));
         expect(testRequest.position).to(equal(testPosition));

@@ -10,7 +10,7 @@
 
 #import "SDLImage.h"
 #import "SDLImageType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLImageSpec)
@@ -47,11 +47,14 @@ describe(@"Getter/Setter Tests", ^{
             NSString *value = @"value";
             SDLImageType imageType = SDLImageTypeStatic;
 
-            NSDictionary* dict = [@{SDLNameValue:value,
-                                           SDLNameImageType:imageType,
-                                           SDLNameImageTemplate:@YES
+            NSDictionary* dict = [@{SDLRPCParameterNameValue:value,
+                                           SDLRPCParameterNameImageType:imageType,
+                                           SDLRPCParameterNameImageTemplate:@YES
                                            } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expectedValue = value;
             expectedImageType = imageType;
@@ -93,12 +96,15 @@ describe(@"initializers", ^{
     });
 
     context(@"initWithName:ofType:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType];
 
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal(testValue));
         expect(testImage.imageType).to(equal(testImageType));
         expect(testImage.isTemplate).to(beFalse());
+        #pragma clang diagnostic pop
     });
 
     context(@"initWithName:ofType:isTemplate", ^{
@@ -111,12 +117,15 @@ describe(@"initializers", ^{
     });
 
     context(@"initWithName:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testImage = [[SDLImage alloc] initWithName:testValue];
 
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal(testValue));
         expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
         expect(testImage.isTemplate).to(beFalse());
+        #pragma clang diagnostic pop
     });
 
     context(@"initWithName:isTemplate", ^{
@@ -134,6 +143,16 @@ describe(@"initializers", ^{
 
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal([NSString stringWithFormat:@"%hu", staticImageValue]));
+        expect(testImage.imageType).to(equal(SDLImageTypeStatic));
+        expect(testImage.isTemplate).to(beTrue());
+    });
+
+    context(@"initWithStaticIconName:", ^{
+        SDLStaticIconName staticIconName = SDLStaticIconNameFavoriteStar;
+        testImage = [[SDLImage alloc] initWithStaticIconName:staticIconName];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(staticIconName));
         expect(testImage.imageType).to(equal(SDLImageTypeStatic));
         expect(testImage.isTemplate).to(beTrue());
     });

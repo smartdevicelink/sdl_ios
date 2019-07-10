@@ -4,42 +4,46 @@
 #import "SDLClusterModeStatus.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClusterModeStatus
 
 - (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
-    [store sdl_setObject:powerModeActive forName:SDLNamePowerModeActive];
+    [self.store sdl_setObject:powerModeActive forName:SDLRPCParameterNamePowerModeActive];
 }
 
 - (NSNumber<SDLBool> *)powerModeActive {
-    return [store sdl_objectForName:SDLNamePowerModeActive];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNamePowerModeActive ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPowerModeQualificationStatus:(SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    [store sdl_setObject:powerModeQualificationStatus forName:SDLNamePowerModeQualificationStatus];
+    [self.store sdl_setObject:powerModeQualificationStatus forName:SDLRPCParameterNamePowerModeQualificationStatus];
 }
 
 - (SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    return [store sdl_objectForName:SDLNamePowerModeQualificationStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePowerModeQualificationStatus error:&error];
 }
 
 - (void)setCarModeStatus:(SDLCarModeStatus)carModeStatus {
-    [store sdl_setObject:carModeStatus forName:SDLNameCarModeStatus];
+    [self.store sdl_setObject:carModeStatus forName:SDLRPCParameterNameCarModeStatus];
 }
 
 - (SDLCarModeStatus)carModeStatus {
-    return [store sdl_objectForName:SDLNameCarModeStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameCarModeStatus error:&error];
 }
 
 - (void)setPowerModeStatus:(SDLPowerModeStatus)powerModeStatus {
-    [store sdl_setObject:powerModeStatus forName:SDLNamePowerModeStatus];
+    [self.store sdl_setObject:powerModeStatus forName:SDLRPCParameterNamePowerModeStatus];
 }
 
 - (SDLPowerModeStatus)powerModeStatus {
-    return [store sdl_objectForName:SDLNamePowerModeStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePowerModeStatus error:&error];
 }
 
 @end

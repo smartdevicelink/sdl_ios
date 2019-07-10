@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithTimeInterval:">-initWithTimeInterval:</a></li>
   <li><a href="#section--initWithHours:minutes:seconds:">-initWithHours:minutes:seconds:</a></li>
   <li><a href="#section-hours">hours</a></li>
   <li><a href="#section-minutes">minutes</a></li>
@@ -17,16 +18,45 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithHours:minutes:seconds:">
-      -initWithHours:minutes:seconds:
+  <h3 id="section--initWithTimeInterval:">
+      -initWithTimeInterval:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Create a time struct with a time interval (time in seconds). Fractions of the second will be eliminated and rounded down.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span> <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span> <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">timeInterval</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">timeInterval</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>timeInterval</dt>
+      <dd><p>The time interval to transform into hours, minutes, seconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The object</p>
+  </div>
+  
+  <h3 id="section--initWithHours:minutes:seconds:">
+      -initWithHours:minutes:seconds:
+  </h3>
+  
+  <p>Create a time struct with hours, minutes, and seconds</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span>
+                              <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span>
+                              <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -34,6 +64,19 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>hours</dt>
+      <dd><p>The number of hours</p></dd>
+      <dt>minutes</dt>
+      <dd><p>The number of minutes</p></dd>
+      <dt>seconds</dt>
+      <dd><p>The number of seconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The object</p>
+  </div>
   
   <h3 id="section-hours">
       hours

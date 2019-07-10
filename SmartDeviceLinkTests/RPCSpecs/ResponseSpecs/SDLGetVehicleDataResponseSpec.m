@@ -9,25 +9,45 @@
 #import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
-SDLGPSData* gps = [[SDLGPSData alloc] init];
-SDLTireStatus* tires = [[SDLTireStatus alloc] init];
-SDLBeltStatus* belt = [[SDLBeltStatus alloc] init];
-SDLBodyInformation* body = [[SDLBodyInformation alloc] init];
-SDLDeviceStatus* device = [[SDLDeviceStatus alloc] init];
-SDLHeadLampStatus* headLamp = [[SDLHeadLampStatus alloc] init];
-SDLECallInfo* eCall = [[SDLECallInfo alloc] init];
-SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
-SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
-SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
-SDLMyKey* myKey = [[SDLMyKey alloc] init];
-SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
-
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLGPSData* gps = nil;
+    __block SDLTireStatus* tires = nil;
+    __block SDLBeltStatus* belt = nil;
+    __block SDLBodyInformation* body = nil;
+    __block SDLDeviceStatus* device = nil;
+    __block SDLHeadLampStatus* headLamp = nil;
+    __block SDLECallInfo* eCall = nil;
+    __block SDLAirbagStatus* airbag = nil;
+    __block SDLEmergencyEvent* event = nil;
+    __block SDLClusterModeStatus* clusterMode = nil;
+    __block SDLMyKey* myKey = nil;
+    __block SDLFuelRange* fuelRange = nil;
+    __block NSString* vin = nil;
+    __block NSString* cloudAppVehicleID = nil;
+
+    beforeEach(^{
+        gps = [[SDLGPSData alloc] init];
+        tires = [[SDLTireStatus alloc] init];
+        belt = [[SDLBeltStatus alloc] init];
+        body = [[SDLBodyInformation alloc] init];
+        device = [[SDLDeviceStatus alloc] init];
+        headLamp = [[SDLHeadLampStatus alloc] init];
+        eCall = [[SDLECallInfo alloc] init];
+        airbag = [[SDLAirbagStatus alloc] init];
+        event = [[SDLEmergencyEvent alloc] init];
+        clusterMode = [[SDLClusterModeStatus alloc] init];
+        myKey = [[SDLMyKey alloc] init];
+        fuelRange = [[SDLFuelRange alloc] init];
+        vin = @"6574839201a";
+        cloudAppVehicleID = @"cloudAppVehicleID";
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
 
@@ -35,10 +55,12 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.airbagStatus = airbag;
         testResponse.beltStatus = belt;
         testResponse.bodyInformation = body;
+        testResponse.cloudAppVehicleID = cloudAppVehicleID;
         testResponse.clusterModeStatus = clusterMode;
         testResponse.deviceStatus = device;
         testResponse.driverBraking = SDLVehicleDataEventStatusNoEvent;
         testResponse.eCallInfo = eCall;
+        testResponse.electronicParkBrakeStatus = SDLElectronicParkBrakeStatusDriveActive;
         testResponse.emergencyEvent = event;
         testResponse.engineOilLife = @56.3;
         testResponse.engineTorque = @630.4;
@@ -56,17 +78,20 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.speed = @100;
         testResponse.steeringWheelAngle = @-1500;
         testResponse.tirePressure = tires;
-        testResponse.vin = @"6574839201";
+        testResponse.turnSignal = SDLTurnSignalBoth;
+        testResponse.vin = vin;
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
 
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.airbagStatus).to(equal(airbag));
         expect(testResponse.beltStatus).to(equal(belt));
         expect(testResponse.bodyInformation).to(equal(body));
+        expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
         expect(testResponse.clusterModeStatus).to(equal(clusterMode));
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.eCallInfo).to(equal(eCall));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(SDLElectronicParkBrakeStatusDriveActive));
         expect(testResponse.emergencyEvent).to(equal(event));
         expect(testResponse.engineOilLife).to(equal(@56.3));
         expect(testResponse.engineTorque).to(equal(@630.4));
@@ -84,52 +109,61 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
-        expect(testResponse.vin).to(equal(@"6574839201"));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
+        expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
                                                  @{
-                                                     SDLNameAccelerationPedalPosition:@0,
-                                                     SDLNameAirbagStatus:airbag,
-                                                     SDLNameBeltStatus:belt,
-                                                     SDLNameBodyInformation:body,
-                                                     SDLNameClusterModeStatus:clusterMode,
-                                                     SDLNameDeviceStatus:device,
-                                                     SDLNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
-                                                     SDLNameECallInfo:eCall,
-                                                     SDLNameEmergencyEvent:event,
-                                                     SDLNameEngineOilLife:@23.22,
-                                                     SDLNameEngineTorque:@630.4,
-                                                     SDLNameExternalTemperature:@0,
-                                                     SDLNameFuelLevel:@99.9999,
-                                                     SDLNameFuelLevelState:SDLComponentVolumeStatusFault,
-                                                     SDLNameFuelRange:@[fuelRange],
-                                                     SDLNameGPS:gps,
-                                                     SDLNameHeadLampStatus:headLamp,
-                                                     SDLNameInstantFuelConsumption:@40.7,
-                                                     SDLNameMyKey:myKey,
-                                                     SDLNameOdometer:@70000,
-                                                     SDLNamePRNDL:SDLPRNDLPark,
-                                                     SDLNameRPM:@3,
-                                                     SDLNameSpeed:@100,
-                                                     SDLNameSteeringWheelAngle:@-1500,
-                                                     SDLNameTirePressure:tires,
-                                                     SDLNameVIN:@"6574839201",
-                                                     SDLNameWiperStatus:SDLWiperStatusAutomaticHigh},
-                                             SDLNameOperationName:SDLNameGetVehicleData}} mutableCopy];
+                                                     SDLRPCParameterNameAccelerationPedalPosition:@0,
+                                                     SDLRPCParameterNameAirbagStatus:airbag,
+                                                     SDLRPCParameterNameBeltStatus:belt,
+                                                     SDLRPCParameterNameBodyInformation:body,
+                                                     SDLRPCParameterNameCloudAppVehicleID:cloudAppVehicleID,
+                                                     SDLRPCParameterNameClusterModeStatus:clusterMode,
+                                                     SDLRPCParameterNameDeviceStatus:device,
+                                                     SDLRPCParameterNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
+                                                     SDLRPCParameterNameECallInfo:eCall,
+                                                     SDLRPCParameterNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
+                                                     SDLRPCParameterNameEmergencyEvent:event,
+                                                     SDLRPCParameterNameEngineOilLife:@23.22,
+                                                     SDLRPCParameterNameEngineTorque:@630.4,
+                                                     SDLRPCParameterNameExternalTemperature:@0,
+                                                     SDLRPCParameterNameFuelLevel:@99.9999,
+                                                     SDLRPCParameterNameFuelLevelState:SDLComponentVolumeStatusFault,
+                                                     SDLRPCParameterNameFuelRange:@[fuelRange],
+                                                     SDLRPCParameterNameGPS:gps,
+                                                     SDLRPCParameterNameHeadLampStatus:headLamp,
+                                                     SDLRPCParameterNameInstantFuelConsumption:@40.7,
+                                                     SDLRPCParameterNameMyKey:myKey,
+                                                     SDLRPCParameterNameOdometer:@70000,
+                                                     SDLRPCParameterNamePRNDL:SDLPRNDLPark,
+                                                     SDLRPCParameterNameRPM:@3,
+                                                     SDLRPCParameterNameSpeed:@100,
+                                                     SDLRPCParameterNameSteeringWheelAngle:@-1500,
+                                                     SDLRPCParameterNameTirePressure:tires,
+                                                     SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
+                                                     SDLRPCParameterNameVIN:vin,
+                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.airbagStatus).to(equal(airbag));
         expect(testResponse.beltStatus).to(equal(belt));
         expect(testResponse.bodyInformation).to(equal(body));
+        expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
         expect(testResponse.clusterModeStatus).to(equal(clusterMode));
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.eCallInfo).to(equal(eCall));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(SDLElectronicParkBrakeStatusDriveActive));
         expect(testResponse.emergencyEvent).to(equal(event));
         expect(testResponse.engineOilLife).to(equal(@23.22));
         expect(testResponse.engineTorque).to(equal(@630.4));
@@ -147,7 +181,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
-        expect(testResponse.vin).to(equal(@"6574839201"));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
+        expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
@@ -158,10 +193,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(beNil());
         expect(testResponse.beltStatus).to(beNil());
         expect(testResponse.bodyInformation).to(beNil());
+        expect(testResponse.cloudAppVehicleID).to(beNil());
         expect(testResponse.clusterModeStatus).to(beNil());
         expect(testResponse.deviceStatus).to(beNil());
         expect(testResponse.driverBraking).to(beNil());
         expect(testResponse.eCallInfo).to(beNil());
+        expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.emergencyEvent).to(beNil());
         expect(testResponse.engineOilLife).to(beNil());
         expect(testResponse.engineTorque).to(beNil());
@@ -179,6 +216,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());
         expect(testResponse.tirePressure).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.vin).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
     });

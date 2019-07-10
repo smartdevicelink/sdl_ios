@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  All received requests. Chronological order. The 0th element will be the first request received; the nth request will be the n+1th request received.
  */
-@property (copy, nonatomic, readonly) NSMutableArray<__kindof SDLRPCRequest *> *receivedRequests;
+@property (copy, nonatomic, readonly) NSMutableArray<__kindof SDLRPCMessage *> *receivedRequests;
 
 /**
  *  The block passed for the last request send with sendRequest:withCompletionHandler:
  */
 @property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
 
-@property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler lastMultipleCompletionBlock;
+@property (copy, nonatomic, nullable) NSMutableArray<SDLMultipleRequestCompletionHandler> *multipleCompletionBlocks;
 
 /**
  *  Call the last request's block with a specific response.

@@ -3,18 +3,22 @@
 //
 
 #import "SDLButtonPress.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLButtonPress
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameButtonPress]) {
+    if (self = [super initWithName:SDLRPCFunctionNameButtonPress]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithButtonName:(SDLButtonName) buttonName moduleType:(SDLModuleType) moduleType {
     self = [self init];
@@ -29,27 +33,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleType:(SDLModuleType)moduleType {
-    [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
+    [self.parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
 
 - (SDLModuleType)moduleType {
-    return [parameters sdl_objectForName:SDLNameModuleType];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [self.parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLNameButtonName];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
-    [parameters sdl_setObject:buttonPressMode forName:SDLNameButtonPressMode];
+    [self.parameters sdl_setObject:buttonPressMode forName:SDLRPCParameterNameButtonPressMode];
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    return [parameters sdl_objectForName:SDLNameButtonPressMode];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonPressMode error:&error];
 }
 
 @end

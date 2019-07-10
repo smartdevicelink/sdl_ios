@@ -1,0 +1,309 @@
+<h1>SDLVersion Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-major">major</a></li>
+  <li><a href="#section-minor">minor</a></li>
+  <li><a href="#section-patch">patch</a></li>
+  <li><a href="#section-stringVersion">stringVersion</a></li>
+  <li><a href="#section--initWithMajor:minor:patch:">-initWithMajor:minor:patch:</a></li>
+  <li><a href="#section-+versionWithMajor:minor:patch:">+versionWithMajor:minor:patch:</a></li>
+  <li><a href="#section--initWithString:">-initWithString:</a></li>
+  <li><a href="#section-+versionWithString:">+versionWithString:</a></li>
+  <li><a href="#section--initWithSyncMsgVersion:">-initWithSyncMsgVersion:</a></li>
+  <li><a href="#section-+versionWithSyncMsgVersion:">+versionWithSyncMsgVersion:</a></li>
+  <li><a href="#section--compare:">-compare:</a></li>
+  <li><a href="#section--isLessThanVersion:">-isLessThanVersion:</a></li>
+  <li><a href="#section--isEqualToVersion:">-isEqualToVersion:</a></li>
+  <li><a href="#section--isGreaterThanVersion:">-isGreaterThanVersion:</a></li>
+  <li><a href="#section--isGreaterThanOrEqualToVersion:">-isGreaterThanOrEqualToVersion:</a></li>
+  <li><a href="#section--isLessThanOrEqualToVersion:">-isLessThanOrEqualToVersion:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-major">
+      major
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">major</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">major</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minor">
+      minor
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">minor</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minor</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-patch">
+      patch
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">patch</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">patch</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stringVersion">
+      stringVersion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">stringVersion</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stringVersion</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithMajor:minor:patch:">
+      -initWithMajor:minor:patch:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMajor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">major</span> <span class="nf">minor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">minor</span> <span class="nf">patch</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">patch</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">major</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">minor</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">patch</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-+versionWithMajor:minor:patch:">
+      +versionWithMajor:minor:patch:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithMajor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">major</span> <span class="nf">minor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">minor</span> <span class="nf">patch</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">patch</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initWithString:">
+      -initWithString:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">versionString</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">?(</span><span class="n">string</span> <span class="nv">versionString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-+versionWithString:">
+      +versionWithString:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">versionString</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initWithSyncMsgVersion:">
+      -initWithSyncMsgVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSyncMsgVersion</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">syncMsgVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">syncMsgVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-+versionWithSyncMsgVersion:">
+      +versionWithSyncMsgVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">versionWithSyncMsgVersion</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">syncMsgVersion</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--compare:">
+      -compare:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSComparisonResult</span><span class="p">)</span><span class="nf">compare</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">compare</span><span class="p">(</span><span class="n">_</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ComparisonResult</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isLessThanVersion:">
+      -isLessThanVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isLessThanVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isLessThanVersion</span><span class="p">(</span><span class="n">_</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isEqualToVersion:">
+      -isEqualToVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">to</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isGreaterThanVersion:">
+      -isGreaterThanVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isGreaterThanVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isGreaterThanVersion</span><span class="p">(</span><span class="n">_</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isGreaterThanOrEqualToVersion:">
+      -isGreaterThanOrEqualToVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isGreaterThanOrEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isGreaterThanOrEqual</span><span class="p">(</span><span class="n">to</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isLessThanOrEqualToVersion:">
+      -isLessThanOrEqualToVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isLessThanOrEqualToVersion</span><span class="p">:(</span><span class="n">SDLVersion</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isLessThanOrEqual</span><span class="p">(</span><span class="n">to</span> <span class="nv">otherVersion</span><span class="p">:</span> <span class="kt">SDLVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+</section>

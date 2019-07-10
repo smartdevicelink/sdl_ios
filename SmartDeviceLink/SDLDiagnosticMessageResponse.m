@@ -4,24 +4,29 @@
 #import "SDLDiagnosticMessageResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDiagnosticMessageResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDiagnosticMessage]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDiagnosticMessage]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setMessageDataResult:(NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    [parameters sdl_setObject:messageDataResult forName:SDLNameMessageDataResult];
+    [self.parameters sdl_setObject:messageDataResult forName:SDLRPCParameterNameMessageDataResult];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    return [parameters sdl_objectForName:SDLNameMessageDataResult];
+    NSError *error = nil;
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameMessageDataResult ofClass:NSNumber.class error:&error];
 }
 
 @end

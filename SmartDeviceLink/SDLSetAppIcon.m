@@ -5,15 +5,19 @@
 #import "SDLSetAppIcon.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 @implementation SDLSetAppIcon
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetAppIcon]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetAppIcon]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
@@ -27,11 +31,12 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
+    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

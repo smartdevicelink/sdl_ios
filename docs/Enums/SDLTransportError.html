@@ -1,0 +1,93 @@
+<h1>SDLTransportError Enumeration Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLTransportErrorUnknown">SDLTransportErrorUnknown</a></li>
+  <li><a href="#section-SDLTransportErrorConnectionRefused">SDLTransportErrorConnectionRefused</a></li>
+  <li><a href="#section-SDLTransportErrorConnectionTimedOut">SDLTransportErrorConnectionTimedOut</a></li>
+  <li><a href="#section-SDLTransportErrorNetworkDown">SDLTransportErrorNetworkDown</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Errors associated with transport.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-SDLTransportErrorUnknown">
+      SDLTransportErrorUnknown
+  </h3>
+  
+  <p>Connection cannot be established due to a reason not listed here.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTransportErrorUnknown</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unknown</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransportErrorConnectionRefused">
+      SDLTransportErrorConnectionRefused
+  </h3>
+  
+  <p>TCP connection is refused.
+Probably specified port number is invalid, or SDL Core is not running on the head unit.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTransportErrorConnectionRefused</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">connectionRefused</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransportErrorConnectionTimedOut">
+      SDLTransportErrorConnectionTimedOut
+  </h3>
+  
+  <p>TCP connection cannot be established within given time.
+Probably because of wrong IP address, or the connection may be blocked by a firewall.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTransportErrorConnectionTimedOut</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">connectionTimedOut</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransportErrorNetworkDown">
+      SDLTransportErrorNetworkDown
+  </h3>
+  
+  <p>TCP connection cannot be established since network is down.
+Probably the phone is not connected to the correct network.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTransportErrorNetworkDown</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">networkDown</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span></code></pre>
+
+  
+  
+  
+</section>

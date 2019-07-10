@@ -7,6 +7,7 @@
   <li><a href="#section--initWithAppName:appId:languageDesired:">-initWithAppName:appId:languageDesired:</a></li>
   <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:">-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:</a></li>
   <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:">-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:</a></li>
+  <li><a href="#section--initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:">-initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:</a></li>
   <li><a href="#section-syncMsgVersion">syncMsgVersion</a></li>
   <li><a href="#section-appName">appName</a></li>
   <li><a href="#section-ttsName">ttsName</a></li>
@@ -19,81 +20,26 @@
   <li><a href="#section-hashID">hashID</a></li>
   <li><a href="#section-deviceInfo">deviceInfo</a></li>
   <li><a href="#section-appID">appID</a></li>
+  <li><a href="#section-fullAppID">fullAppID</a></li>
   <li><a href="#section-appInfo">appInfo</a></li>
+  <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
+  <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Registers the application&rsquo;s interface with SDL&reg;, declaring properties of
- the registration, including the messaging interface version, the app name,
- etc. The mobile application must establish its interface registration with
- SDL before any other interaction with SDL&reg; can take place. The
- registration lasts until it is terminated either by the application calling
- the <i> SDLUnregisterAppInterface</i> method, or by SDL&reg;
- sending an <i> SDLOnAppInterfaceUnregistered</i> notification, or
- by loss of the underlying transport connection, or closing of the underlying
- message transmission protocol RPC session
- <p>
- Until the application receives its first <i>SDLOnHMIStatus</i>
- Notification, its HMI Status is assumed to be: <i>
- SDLHMILevel</i>=NONE, <i>
- SDLAudioStreamingState
- </i>=NOT_AUDIBLE, <i>
- SDLSystemContext</i>=MAIN
- <p>
- All SDL&reg; resources which the application creates or uses (e.g. Choice
- Sets, Command Menu, etc.) are associated with the application&rsquo;s interface
- registration. Therefore, when the interface registration ends, the SDL&reg;
- resources associated with the application are disposed of. As a result, even
- though the application itself may continue to run on its host platform (e.g.
- mobile device) after the interface registration terminates, the application
- will not be able to use the SDL&reg; HMI without first establishing a new
- interface registration and re-creating its required SDL&reg; resources. That
- is, SDL&reg; resources created by (or on behalf of) an application do not
- persist beyond the life-span of the interface registration
- <p>
- Resources and settings whose lifespan is tied to the duration of an
- application&rsquo;s interface registration:<br/>
- <ul>
- <li>Choice Sets</li>
- <li>Command Menus (built by successive calls to <i>SDLAddCommand
- </i>)</li>
- <li>Media clock timer display value</li>
- <li>Media clock timer display value</li>
- <li>Media clock timer display value</li>
- </ul>
- <p>
- The autoActivateID is used to grant an application the HMILevel and
- AudioStreamingState it had when it last disconnected
- <p>
- <b>Notes: </b>The autoActivateID parameter, and associated behavior, is
- currently ignored by SDL&reg;
- <p>
- When first calling this method (i.e. first time within life cycle of mobile
- app), an autoActivateID should not be included. After successfully
- registering an interface, an autoActivateID is returned to the mobile
- application for it to use in subsequent connections. If the connection
- between SDL&reg; and the mobile application is lost, such as the vehicle is
- turned off while the application is running, the autoActivateID can then be
- passed in another call to RegisterAppInterface to re-acquire <i>
- SDLHMILevel</i>=FULL
- <p>
- If the application intends to stream audio it is important to indicate so via
- the isMediaApp parameter. When set to true, audio will reliably stream
- without any configuration required by the user. When not set, audio may
- stream, depending on what the user might have manually configured as a media
- source on SDL&reg;
- <p>
- There is no time limit for how long the autoActivateID is <q>valid</q> (i.e. would
- confer focus and opt-in)
- <p>
- <b>HMILevel is not defined before registering</b><br/>
- </p></p>
+<p>Registers the application&rsquo;s interface with SDL. The <code>RegisterAppInterface</code> RPC declares the properties of the app, including the messaging interface version, the app name, etc. The mobile application must establish its interface registration with SDL before any other interaction with SDL can take place. The registration lasts until it is terminated either by the application calling the <code><a href="../Classes.html#/c:objc(cs)SDLUnregisterAppInterface">SDLUnregisterAppInterface</a></code> method, or by SDL sending an <code><a href="../Classes/SDLOnAppInterfaceUnregistered.html">SDLOnAppInterfaceUnregistered</a></code> notification, or by loss of the underlying transport connection, or closing of the underlying message transmission protocol RPC session.</p>
+
+<p>Until the application receives its first <code><a href="../Classes/SDLOnHMIStatus.html">SDLOnHMIStatus</a></code> notification, its <code><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></code> is assumed to be <code>NONE</code>, the <code><a href="../Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></code> is assumed to be <code>NOT_AUDIBLE</code>, and the <code><a href="../Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></code> is assumed to be <code>MAIN</code>.</p>
+
+<p>All SDL resources which the application creates or uses (e.g. choice sets, command menu, etc.) are associated with the application&rsquo;s interface registration. Therefore, when the interface registration ends, the SDL resources associated with the application are disposed of. As a result, even though the application itself may continue to run on its host platform (e.g. mobile device) after the interface registration terminates, the application will not be able to use the SDL HMI without first establishing a new interface registration and re-creating its required SDL resources. That is, SDL resources created by (or on behalf of) an application do not persist beyond the life-span of the interface registration. Resources and settings whose lifespan is tied to the duration of an application&rsquo;s interface registration include: choice sets, command menus, and the media clock timer display value</p>
+
+<p>If the application intends to stream audio it is important to indicate so via the <code>isMediaApp</code> parameter. When set to true, audio will reliably stream without any configuration required by the user. When not set, audio may stream, depending on what the user might have manually configured as a media source on SDL.</p>
 
 <p>@since SDL 1.0</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
+    SDLUnregisterAppInterface, SDLOnAppInterfaceUnregistered
 
 </div>
 
@@ -103,12 +49,13 @@
       -initWithLifecycleConfiguration:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for registering the application with a lifecycle configuration.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycleConfiguration</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfiguration</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycleConfiguration</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfiguration</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -116,17 +63,24 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfiguration</dt>
+      <dd><p>Configuration options for SDLManager</p></dd>
+  </dl>
   
   <h3 id="section--initWithAppName:appId:languageDesired:">
       -initWithAppName:appId:languageDesired:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for registering the application.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                                  <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                        <span class="nf">languageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -134,17 +88,36 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The mobile application&rsquo;s name</p></dd>
+      <dt>appId</dt>
+      <dd><p>An appId used to validate app with policy table entries</p></dd>
+      <dt>languageDesired</dt>
+      <dd><p>The language the application intends to use for user interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLRegisterAppInterface object</p>
+  </div>
   
   <h3 id="section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:">
       -initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for registering the application.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appTypes</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appTypes</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                                  <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                        <span class="nf">languageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span>
+                             <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span>
+                               <span class="nf">appTypes</span><span class="p">:</span>
+                                   <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appTypes</span>
+                           <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -152,17 +125,46 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The mobile application&rsquo;s name</p></dd>
+      <dt>appId</dt>
+      <dd><p>An appId used to validate app with policy table entries</p></dd>
+      <dt>languageDesired</dt>
+      <dd><p>The language the application intends to use for user interaction</p></dd>
+      <dt>isMediaApp</dt>
+      <dd><p>Indicates if the application is a media or a non-media application</p></dd>
+      <dt>appTypes</dt>
+      <dd><p>A list of all applicable app types stating which classifications to be given to the app</p></dd>
+      <dt>shortAppName</dt>
+      <dd><p>An abbreviated version of the mobile application&rsquo;s name</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLRegisterAppInterface object</p>
+  </div>
   
   <h3 id="section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:">
       -initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for registering the application.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appTypes</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appTypes</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span> <span class="nf">ttsName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span> <span class="nf">vrSynonyms</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrSynonyms</span> <span class="nf">hmiDisplayLanguageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiDisplayLanguageDesired</span> <span class="nf">resumeHash</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">resumeHash</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+              <span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                        <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+              <span class="nf">languageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span>
+                   <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span>
+                     <span class="nf">appTypes</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appTypes</span>
+                 <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span>
+                      <span class="nf">ttsName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span>
+                   <span class="nf">vrSynonyms</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrSynonyms</span>
+    <span class="nf">hmiDisplayLanguageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiDisplayLanguageDesired</span>
+                   <span class="nf">resumeHash</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">resumeHash</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -170,6 +172,98 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The mobile application&rsquo;s name</p></dd>
+      <dt>appId</dt>
+      <dd><p>An appId used to validate app with policy table entries</p></dd>
+      <dt>languageDesired</dt>
+      <dd><p>The language the application intends to use for user interaction</p></dd>
+      <dt>isMediaApp</dt>
+      <dd><p>Indicates if the application is a media or a non-media application</p></dd>
+      <dt>appTypes</dt>
+      <dd><p>A list of all applicable app types stating which classifications to be given to the app</p></dd>
+      <dt>shortAppName</dt>
+      <dd><p>An abbreviated version of the mobile application&rsquo;s name</p></dd>
+      <dt>ttsName</dt>
+      <dd><p>TTS string for VR recognition of the mobile application name</p></dd>
+      <dt>vrSynonyms</dt>
+      <dd><p>Additional voice recognition commands</p></dd>
+      <dt>hmiDisplayLanguageDesired</dt>
+      <dd><p>Current app&rsquo;s expected VR+TTS language</p></dd>
+      <dt>resumeHash</dt>
+      <dd><p>ID used to uniquely identify current state of all app data that can persist through connection cycles</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLRegisterAppInterface object</p>
+  </div>
+  
+  <h3 id="section--initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:">
+      -initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:
+  </h3>
+  
+  <p>Convenience init for registering the application with all possible options.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+              <span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                        <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                    <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span>
+              <span class="nf">languageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span>
+                   <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span>
+                     <span class="nf">appTypes</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appTypes</span>
+                 <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span>
+                      <span class="nf">ttsName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span>
+                   <span class="nf">vrSynonyms</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrSynonyms</span>
+    <span class="nf">hmiDisplayLanguageDesired</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiDisplayLanguageDesired</span>
+                   <span class="nf">resumeHash</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">resumeHash</span>
+               <span class="nf">dayColorScheme</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">dayColorScheme</span>
+             <span class="nf">nightColorScheme</span><span class="p">:</span>
+                 <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fullAppId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">],</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">vrSynonyms</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">hmiDisplayLanguageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?,</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The mobile application&rsquo;s name</p></dd>
+      <dt>appId</dt>
+      <dd><p>An appId used to validate app with policy table entries</p></dd>
+      <dt>fullAppId</dt>
+      <dd><p>A full UUID appID used to validate app with policy table entries.</p></dd>
+      <dt>languageDesired</dt>
+      <dd><p>The language the application intends to use for user interaction</p></dd>
+      <dt>isMediaApp</dt>
+      <dd><p>Indicates if the application is a media or a non-media application</p></dd>
+      <dt>appTypes</dt>
+      <dd><p>A list of all applicable app types stating which classifications to be given to the app</p></dd>
+      <dt>shortAppName</dt>
+      <dd><p>An abbreviated version of the mobile application&rsquo;s name</p></dd>
+      <dt>ttsName</dt>
+      <dd><p>TTS string for VR recognition of the mobile application name</p></dd>
+      <dt>vrSynonyms</dt>
+      <dd><p>Additional voice recognition commands</p></dd>
+      <dt>hmiDisplayLanguageDesired</dt>
+      <dd><p>Current app&rsquo;s expected VR+TTS language</p></dd>
+      <dt>resumeHash</dt>
+      <dd><p>ID used to uniquely identify current state of all app data that can persist through connection cycles</p></dd>
+      <dt>dayColorScheme</dt>
+      <dd><p>The color scheme to be used on a head unit using a <q>light</q> or <q>day</q> color scheme.</p></dd>
+      <dt>nightColorScheme</dt>
+      <dd><p>The color scheme to be used on a head unit using a <q>dark</q> or <q>night</q> color scheme</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLRegisterAppInterface object</p>
+  </div>
   
   <h3 id="section-syncMsgVersion">
       syncMsgVersion
@@ -196,14 +290,14 @@
       appName
   </h3>
   
-  <p>The Mobile Application&rsquo;s Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink</p>
+  <p>The mobile application&rsquo;s name. This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink.</p>
 
-<p>@discussion 
- <li>Needs to be unique over all applications.</li>
- <li>May not be empty.</li>
- <li>May not start with a new line character.</li>
- <li>May not interfere with any name or synonym of previously registered applications and any predefined blacklist of words (global commands).</li>
- <li>Needs to be unique over all applications. Applications with the same name will be rejected.</li></p>
+<ol>
+<li>Needs to be unique over all applications. Applications with the same name will be rejected.</li>
+<li>May not be empty.</li>
+<li>May not start with a new line character.</li>
+<li>May not interfere with any name or synonym of previously registered applications and any predefined blacklist of words (global commands).</li>
+</ol>
 
 <p>Required, Max length 100 chars</p>
 
@@ -225,10 +319,13 @@
   
   <p>TTS string for VR recognition of the mobile application name.</p>
 
-<p>@discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
- <li>Needs to be unique over all applications.</li>
- <li>May not be empty.</li>
- <li>May not start with a new line character.</li></p>
+<p>@discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.</p>
+
+<ol>
+<li>Needs to be unique over all applications.</li>
+<li>May not be empty.</li>
+<li>May not start with a new line character.</li>
+</ol>
 
 <p>Optional, Array of SDLTTSChunk, Array size 1 - 100</p>
 
@@ -256,7 +353,7 @@
       ngnMediaScreenAppName
   </h3>
   
-  <p>A String representing an abbreviated version of the mobile application&rsquo;s name (if necessary) that will be displayed on the media screen</p>
+  <p>A String representing an abbreviated version of the mobile application&rsquo;s name (if necessary) that will be displayed on the media screen.</p>
 
 <p>@discussion If not provided, the appName is used instead (and will be truncated if too long)</p>
 
@@ -279,9 +376,9 @@
       vrSynonyms
   </h3>
   
-  <p>Defines a additional voice recognition commands</p>
+  <p>Defines additional voice recognition commands</p>
 
-<p>@discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands)</p>
+<p>@discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands).</p>
 
 <p>Optional, Array of Strings, Array length 1 - 100, Max String length 40</p>
 
@@ -447,6 +544,11 @@
   <p>ID used to validate app with policy table entries</p>
 
 <p>Required, max length 100</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Classes/SDLRegisterAppInterface.html#/c:objc(cs)SDLRegisterAppInterface(py)fullAppID">fullAppID</a></code>
+
+</div>
 
 <p>@since SDL 2.0</p>
 
@@ -458,6 +560,28 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fullAppID">
+      fullAppID
+  </h3>
+  
+  <p>A full UUID appID used to validate app with policy table entries.</p>
+
+<p>Optional</p>
+
+<p>@discussion  The <code>fullAppId</code> is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the <code>fullAppId</code> can be truncated to create the required <code>appId</code> needed to register the app. The <code>appId</code> is the first 10 non-dash (<q>-</q>) characters of the <code>fullAppID</code> (e.g. if you have a <code>fullAppId</code> of 123e4567-e89b-12d3-a456-426655440000, the <code>appId</code> will be 123e4567e8).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fullAppID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fullAppID</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -478,6 +602,48 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppInfo.html">SDLAppInfo</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dayColorScheme">
+      dayColorScheme
+  </h3>
+  
+  <p>The color scheme to be used on a head unit using a <q>light</q> or <q>day</q> color scheme. The OEM may only support this theme if their head unit only has a light color scheme.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nightColorScheme">
+      nightColorScheme
+  </h3>
+  
+  <p>The color scheme to be used on a head unit using a <q>dark</q> or <q>night</q> color scheme. The OEM may only support this theme if their head unit only has a dark color scheme.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

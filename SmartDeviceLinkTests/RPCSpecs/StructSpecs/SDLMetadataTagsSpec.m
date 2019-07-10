@@ -12,7 +12,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLMetadataTags.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLMetadataType.h"
 
 QuickSpecBegin(SDLMetadataTagsSpec)

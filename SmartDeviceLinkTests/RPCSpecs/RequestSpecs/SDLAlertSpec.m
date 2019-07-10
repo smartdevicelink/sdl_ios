@@ -11,7 +11,8 @@
 #import "SDLAlert.h"
 #import "SDLTTSChunk.h"
 #import "SDLSoftButton.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAlertSpec)
 
@@ -42,18 +43,21 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameAlertText1:@"alert#1",
-                                                                   SDLNameAlertText2:@"alert#2",
-                                                                   SDLNameAlertText3:@"alert#3",
-                                                                   SDLNameTTSChunks:[@[tts] mutableCopy],
-                                                                   SDLNameDuration:@4357,
-                                                                   SDLNamePlayTone:@YES,
-                                                                   SDLNameProgressIndicator:@NO,
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameAlert}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameAlertText1:@"alert#1",
+                                                                   SDLRPCParameterNameAlertText2:@"alert#2",
+                                                                   SDLRPCParameterNameAlertText3:@"alert#3",
+                                                                   SDLRPCParameterNameTTSChunks:[@[tts] mutableCopy],
+                                                                   SDLRPCParameterNameDuration:@4357,
+                                                                   SDLRPCParameterNamePlayTone:@YES,
+                                                                   SDLRPCParameterNameProgressIndicator:@NO,
+                                                                   SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.alertText1).to(equal(@"alert#1"));
         expect(testRequest.alertText2).to(equal(@"alert#2"));
@@ -66,20 +70,24 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should handle NSNull", ^{
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameAlertText1:@"alert#1",
-                                                   SDLNameAlertText2:@"alert#2",
-                                                   SDLNameAlertText3:@"alert#3",
-                                                   SDLNameTTSChunks:[@[tts] mutableCopy],
-                                                   SDLNameDuration:@4357,
-                                                   SDLNamePlayTone:@YES,
-                                                   SDLNameProgressIndicator:@NO,
-                                                   SDLNameSoftButtons:[NSNull null]},
-                                             SDLNameOperationName:SDLNameAlert}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameAlertText1:@"alert#1",
+                                                   SDLRPCParameterNameAlertText2:@"alert#2",
+                                                   SDLRPCParameterNameAlertText3:@"alert#3",
+                                                   SDLRPCParameterNameTTSChunks:[@[tts] mutableCopy],
+                                                   SDLRPCParameterNameDuration:@4357,
+                                                   SDLRPCParameterNamePlayTone:@YES,
+                                                   SDLRPCParameterNameProgressIndicator:@NO,
+                                                   SDLRPCParameterNameSoftButtons:[NSNull null]},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
-
-        expect(testRequest.softButtons).to(beEmpty());
+#pragma clang diagnostic pop
+        expectAction(^{
+            NSArray<SDLSoftButton *> *softButtons = testRequest.softButtons;
+        }).to(raiseException());
     });
     
     it(@"Should return nil if not set", ^ {

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLBeltStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
 
@@ -53,22 +53,25 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDriverBeltDeployed:SDLVehicleDataEventStatusNoEvent,
-                                       SDLNamePassengerBeltDeployed:SDLVehicleDataEventStatusYes,
-                                       SDLNamePassengerBuckleBelted:SDLVehicleDataEventStatusNo,
-                                       SDLNameDriverBuckleBelted:SDLVehicleDataEventStatusFault,
-                                       SDLNameLeftRow2BuckleBelted:SDLVehicleDataEventStatusYes,
-                                       SDLNamePassengerChildDetected:SDLVehicleDataEventStatusNo,
-                                       SDLNameRightRow2BuckleBelted:SDLVehicleDataEventStatusNotSupported,
-                                       SDLNameMiddleRow2BuckleBelted:SDLVehicleDataEventStatusNoEvent,
-                                       SDLNameMiddleRow3BuckleBelted:SDLVehicleDataEventStatusYes,
-                                       SDLNameLeftRow3BuckleBelted:SDLVehicleDataEventStatusFault,
-                                       SDLNameRightRow3BuckleBelted:SDLVehicleDataEventStatusNo,
-                                       SDLNameLeftRearInflatableBelted:SDLVehicleDataEventStatusNotSupported,
-                                       SDLNameRightRearInflatableBelted:SDLVehicleDataEventStatusFault,
-                                       SDLNameMiddleRow1BeltDeployed:SDLVehicleDataEventStatusNoEvent,
-                                       SDLNameMiddleRow1BuckleBelted:SDLVehicleDataEventStatusNotSupported} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDriverBeltDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       SDLRPCParameterNamePassengerBeltDeployed:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNamePassengerBuckleBelted:SDLVehicleDataEventStatusNo,
+                                       SDLRPCParameterNameDriverBuckleBelted:SDLVehicleDataEventStatusFault,
+                                       SDLRPCParameterNameLeftRow2BuckleBelted:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNamePassengerChildDetected:SDLVehicleDataEventStatusNo,
+                                       SDLRPCParameterNameRightRow2BuckleBelted:SDLVehicleDataEventStatusNotSupported,
+                                       SDLRPCParameterNameMiddleRow2BuckleBelted:SDLVehicleDataEventStatusNoEvent,
+                                       SDLRPCParameterNameMiddleRow3BuckleBelted:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNameLeftRow3BuckleBelted:SDLVehicleDataEventStatusFault,
+                                       SDLRPCParameterNameRightRow3BuckleBelted:SDLVehicleDataEventStatusNo,
+                                       SDLRPCParameterNameLeftRearInflatableBelted:SDLVehicleDataEventStatusNotSupported,
+                                       SDLRPCParameterNameRightRearInflatableBelted:SDLVehicleDataEventStatusFault,
+                                       SDLRPCParameterNameMiddleRow1BeltDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       SDLRPCParameterNameMiddleRow1BuckleBelted:SDLVehicleDataEventStatusNotSupported} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLBeltStatus* testStruct = [[SDLBeltStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.driverBeltDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testStruct.passengerBeltDeployed).to(equal(SDLVehicleDataEventStatusYes));

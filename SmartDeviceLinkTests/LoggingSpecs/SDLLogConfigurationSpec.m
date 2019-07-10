@@ -20,6 +20,7 @@ describe(@"a log configuration", ^{
             expect(@(testConfiguration.formatType)).to(equal(@(SDLLogFormatTypeDefault)));
             expect(@(testConfiguration.asynchronous)).to(equal(@YES));
             expect(@(testConfiguration.errorsAsynchronous)).to(equal(@NO));
+            expect(@(testConfiguration.areAssertionsDisabled)).to(equal(@NO));
             expect(@(testConfiguration.globalLogLevel)).to(equal(@(SDLLogLevelError)));
 
             if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {
@@ -40,6 +41,7 @@ describe(@"a log configuration", ^{
             expect(@(testConfiguration.formatType)).to(equal(@(SDLLogFormatTypeDetailed)));
             expect(@(testConfiguration.asynchronous)).to(equal(@YES));
             expect(@(testConfiguration.errorsAsynchronous)).to(equal(@NO));
+            expect(@(testConfiguration.areAssertionsDisabled)).to(equal(@NO));
             expect(@(testConfiguration.globalLogLevel)).to(equal(@(SDLLogLevelDebug)));
 
             if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {

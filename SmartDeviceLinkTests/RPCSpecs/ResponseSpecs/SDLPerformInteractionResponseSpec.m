@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLPerformInteractionResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTriggerSource.h"
 
 
@@ -29,13 +30,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameResponse:
-                                          @{SDLNameParameters:
-                                                @{SDLNameChoiceId:@25,
-                                                  SDLNameManualTextEntry:@"entry",
-                                                  SDLNameTriggerSource:SDLTriggerSourceKeyboard},
-                                            SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameResponse:
+                                          @{SDLRPCParameterNameParameters:
+                                                @{SDLRPCParameterNameChoiceId:@25,
+                                                  SDLRPCParameterNameManualTextEntry:@"entry",
+                                                  SDLRPCParameterNameTriggerSource:SDLTriggerSourceKeyboard},
+                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformInteractionResponse* testResponse = [[SDLPerformInteractionResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.choiceID).to(equal(@25));
         expect(testResponse.manualTextEntry).to(equal(@"entry"));

@@ -6,6 +6,8 @@
 #import "SDLChoice.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLCreateInteractionChoiceSetResponse.h"
+#import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLDeleteInteractionChoiceSetResponse.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLCheckChoiceVROptionalOperationSpec)
@@ -64,15 +66,26 @@ describe(@"check choice VR optional operation", ^{
                 [testConnectionManager respondToLastRequestWithResponse:testResponse];
             });
 
-            it(@"should have called the completion handler with proper data", ^{
-                expect(hasCalledOperationCompletionHandler).to(beTrue());
-                expect(resultVROptional).to(beTrue());
-                expect(resultError).to(beNil());
+            it(@"should have sent a DeleteChoiceSet request", ^{
+                expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLDeleteInteractionChoiceSet class]));
             });
 
-            it(@"should be set to finished", ^{
-                expect(@(testOp.finished)).to(equal(@YES));
-                expect(@(testOp.executing)).to(equal(@NO));
+            describe(@"after the DeleteChoiceSet response", ^{
+                beforeEach(^{
+                    SDLDeleteInteractionChoiceSetResponse *testDeleteResponse = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
+                    testDeleteResponse.success = @YES;
+                    testDeleteResponse.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToLastRequestWithResponse:testDeleteResponse];
+                });
+
+                it(@"should have called the completion handler with proper data and finish", ^{
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                    expect(resultVROptional).to(beTrue());
+                    expect(resultError).to(beNil());
+                    expect(@(testOp.finished)).to(equal(@YES));
+                    expect(@(testOp.executing)).to(equal(@NO));
+                });
             });
         });
 
@@ -109,15 +122,22 @@ describe(@"check choice VR optional operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:testResponse];
                 });
 
-                it(@"should have called the completion handler with proper data", ^{
-                    expect(hasCalledOperationCompletionHandler).to(beTrue());
-                    expect(resultVROptional).to(beFalse());
-                    expect(resultError).to(beNil());
-                });
+                describe(@"after the DeleteChoiceSet response", ^{
+                    beforeEach(^{
+                        SDLDeleteInteractionChoiceSetResponse *testDeleteResponse = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
+                        testDeleteResponse.success = @YES;
+                        testDeleteResponse.resultCode = SDLResultSuccess;
 
-                it(@"should be set to finished", ^{
-                    expect(@(testOp.finished)).to(equal(@YES));
-                    expect(@(testOp.executing)).to(equal(@NO));
+                        [testConnectionManager respondToLastRequestWithResponse:testDeleteResponse];
+                    });
+
+                    it(@"should have called the completion handler with proper data and finish", ^{
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(resultVROptional).to(beFalse());
+                        expect(resultError).to(beNil());
+                        expect(@(testOp.finished)).to(equal(@YES));
+                        expect(@(testOp.executing)).to(equal(@NO));
+                    });
                 });
             });
 
@@ -131,7 +151,7 @@ describe(@"check choice VR optional operation", ^{
                 });
 
                 it(@"should return a failure", ^{
-                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(resultVROptional).to(beFalse());
                     expect(resultError).toNot(beNil());
                 });

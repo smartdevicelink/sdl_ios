@@ -23,6 +23,8 @@ extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainTransport;
+extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
 @interface NSError (SDLErrors)
 
@@ -49,6 +51,7 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 + (NSError *)sdl_fileManager_fileDoesNotExistError;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
 + (NSError *)sdl_fileManager_dataMissingError;
++ (NSError *)sdl_fileManager_staticIconError;
 
 #pragma mark Show Managers
 
@@ -64,6 +67,19 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 + (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
++ (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
+
+#pragma mark Transport
+
++ (NSError *)sdl_transport_unknownError;
++ (NSError *)sdl_transport_connectionRefusedError;
++ (NSError *)sdl_transport_connectionTimedOutError;
++ (NSError *)sdl_transport_networkDownError;
+
+#pragma mark Store
+
++ (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
 
 @end
 
@@ -74,6 +90,8 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 + (NSException *)sdl_missingFilesException;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
++ (NSException *)sdl_invalidLockscreenSetupException;
++ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector;
 
 @end
 

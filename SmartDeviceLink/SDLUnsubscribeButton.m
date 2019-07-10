@@ -6,17 +6,21 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLUnsubscribeButton
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameUnsubscribeButton]) {
+    if (self = [super initWithName:SDLRPCFunctionNameUnsubscribeButton]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName {
     self = [self init];
@@ -30,11 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [self.parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLNameButtonName];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 @end

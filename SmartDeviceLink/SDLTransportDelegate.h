@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param receivedData The data received from Core
  */
 - (void)onDataReceived:(NSData *)receivedData;
+- (void)onError:(NSError *)error;
 
 @end
 

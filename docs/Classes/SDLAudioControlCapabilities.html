@@ -1,0 +1,217 @@
+<h1>SDLAudioControlCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithModuleName:">-initWithModuleName:</a></li>
+  <li><a href="#section--initWithModuleName:sourceAvailable:keepContextAvailable:volumeAvailable:equalizerAvailable:equalizerMaxChannelID:">-initWithModuleName:sourceAvailable:keepContextAvailable:volumeAvailable:equalizerAvailable:equalizerMaxChannelID:</a></li>
+  <li><a href="#section-moduleName">moduleName</a></li>
+  <li><a href="#section-sourceAvailable">sourceAvailable</a></li>
+  <li><a href="#section-keepContextAvailable">keepContextAvailable</a></li>
+  <li><a href="#section-volumeAvailable">volumeAvailable</a></li>
+  <li><a href="#section-equalizerAvailable">equalizerAvailable</a></li>
+  <li><a href="#section-equalizerMaxChannelId">equalizerMaxChannelId</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithModuleName:">
+      -initWithModuleName:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLAudioControlCapabilities object with audio control module name (max 100 chars)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLAudioControlCapabilities.html#/c:objc(cs)SDLAudioControlCapabilities(py)moduleName">moduleName</a></span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The short friendly name of the audio control module.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLAudioControlCapabilities class.</p>
+  </div>
+  
+  <h3 id="section--initWithModuleName:sourceAvailable:keepContextAvailable:volumeAvailable:equalizerAvailable:equalizerMaxChannelID:">
+      -initWithModuleName:sourceAvailable:keepContextAvailable:volumeAvailable:equalizerAvailable:equalizerMaxChannelID:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLAudioControlCapabilities object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+       <span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+          <span class="nf">sourceAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceAvailable</span>
+     <span class="nf">keepContextAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">keepContextAvailable</span>
+          <span class="nf">volumeAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">volumeAvailable</span>
+       <span class="nf">equalizerAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerAvailable</span>
+    <span class="nf">equalizerMaxChannelID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerMaxChannelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLAudioControlCapabilities.html#/c:objc(cs)SDLAudioControlCapabilities(py)moduleName">moduleName</a></span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">sourceAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">keepContextAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">volumeAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">equalizerAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">equalizerMaxChannelID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The short friendly name of the audio control module.</p></dd>
+      <dt>sourceAvailable</dt>
+      <dd><p>Availability of the control of audio source.</p></dd>
+      <dt>volumeAvailable</dt>
+      <dd><p>Availability of the volume of audio source.</p></dd>
+      <dt>equalizerAvailable</dt>
+      <dd><p>Availability of the equalizer of audio source.</p></dd>
+      <dt>equalizerMaxChannelID</dt>
+      <dd><p>Equalizer channel ID (between 1-100).</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLAudioControlCapabilities class.</p>
+  </div>
+  
+  <h3 id="section-moduleName">
+      moduleName
+  </h3>
+  
+  <p>@abstract The short friendly name of the audio control module.
+ It should not be used to identify a module by mobile application.</p>
+
+<p>Required, Max String length 100 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">moduleName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-sourceAvailable">
+      sourceAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of audio source.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">sourceAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sourceAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-keepContextAvailable">
+      keepContextAvailable
+  </h3>
+  
+  <p>Availability of the keepContext parameter.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">keepContextAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">keepContextAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-volumeAvailable">
+      volumeAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of audio volume.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">volumeAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">volumeAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-equalizerAvailable">
+      equalizerAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of Equalizer Settings.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">equalizerAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">equalizerAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-equalizerMaxChannelId">
+      equalizerMaxChannelId
+  </h3>
+  
+  <p>@abstract Must be included if equalizerAvailable=true,
+ and assume all IDs starting from 1 to this value are valid</p>
+
+<p>Optional, Integer 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">equalizerMaxChannelId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">equalizerMaxChannelId</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

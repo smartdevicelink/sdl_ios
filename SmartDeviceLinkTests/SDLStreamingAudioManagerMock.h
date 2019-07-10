@@ -21,13 +21,14 @@
 #pragma mark SDLStreamingAudioManagerType
 @property (assign, nonatomic, readonly, getter=isAudioConnected) BOOL audioConnected;
 - (BOOL)sendAudioData:(NSData *)audioData;
-
 - (void)setAudioConnected:(BOOL)audioConnected;
 
 #pragma mark SDLAudioStreamManagerDelegate
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager fileDidFinishPlaying:(SDLAudioFile *)file successfully:(BOOL)successfully;
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager dataBufferDidFinishPlayingSuccessfully:(BOOL)successfully;
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForFile:(SDLAudioFile *)file error:(NSError *)error;
-@property (assign, nonatomic, readonly) BOOL fileFinishedPlaying;
-@property (strong, nonatomic, readonly) NSError *fileError;
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForDataBuffer:(NSError *)error;
+@property (assign, nonatomic, readonly) BOOL finishedPlaying;
+@property (strong, nonatomic, readonly) NSError *error;
 
 @end

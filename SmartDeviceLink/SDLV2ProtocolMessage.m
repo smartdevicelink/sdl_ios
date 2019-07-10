@@ -6,6 +6,7 @@
 #import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Create the inner dictionary with the RPC properties
     NSMutableDictionary <NSString *, id> *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
-    [innerDictionary setObject:functionName forKey:SDLNameOperationName];
-    [innerDictionary setObject:[NSNumber numberWithUnsignedInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
+    innerDictionary[SDLRPCParameterNameOperationName] = functionName;
+    innerDictionary[SDLRPCParameterNameCorrelationId] = @(rpcPayload.correlationID);
 
     // Get the json data from the struct
     if (rpcPayload.jsonData) {
@@ -46,18 +47,18 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             SDLLogE(@"Error decoding JSON data: %@", error);
         } else if (jsonDictionary) {
-            [innerDictionary setObject:jsonDictionary forKey:SDLNameParameters];
+            [innerDictionary setObject:jsonDictionary forKey:SDLRPCParameterNameParameters];
         }
     }
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray<NSString *> *rpcTypeNames = @[SDLNameRequest, SDLNameResponse, SDLNameNotification];
+    NSArray<NSString *> *rpcTypeNames = @[SDLRPCParameterNameRequest, SDLRPCParameterNameResponse, SDLRPCParameterNameNotification];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary
     if (rpcPayload.binaryData) {
-        [rpcMessageAsDictionary setObject:rpcPayload.binaryData forKey:SDLNameBulkData];
+        [rpcMessageAsDictionary setObject:rpcPayload.binaryData forKey:SDLRPCParameterNameBulkData];
     }
 
     return rpcMessageAsDictionary;

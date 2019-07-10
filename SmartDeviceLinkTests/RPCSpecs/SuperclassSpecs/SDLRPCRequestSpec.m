@@ -14,7 +14,10 @@ QuickSpecBegin(SDLRPCRequestSpec)
 
 describe(@"Getter/Setter Tests",  ^ {
     it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRPCRequest* testRequest = [[SDLRPCRequest alloc] initWithName:@"A Legitimate Request"];
+#pragma clang diagnostic pop
         
         testRequest.correlationID = @14641;
         

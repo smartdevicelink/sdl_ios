@@ -5,17 +5,21 @@
 #import "SDLGetDTCs.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetDTCs
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetDTCs]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetDTCs]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask {
     self = [self initWithECUName:name];
@@ -40,19 +44,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
+    [self.parameters sdl_setObject:ecuName forName:SDLRPCParameterNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters sdl_objectForName:SDLNameECUName];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDtcMask:(nullable NSNumber<SDLInt> *)dtcMask {
-    [parameters sdl_setObject:dtcMask forName:SDLNameDTCMask];
+    [self.parameters sdl_setObject:dtcMask forName:SDLRPCParameterNameDTCMask];
 }
 
 - (nullable NSNumber<SDLInt> *)dtcMask {
-    return [parameters sdl_objectForName:SDLNameDTCMask];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDTCMask ofClass:NSNumber.class error:nil];
 }
 
 @end

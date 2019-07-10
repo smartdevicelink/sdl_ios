@@ -66,9 +66,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSArray<SDLTTSChunk *> *)silenceChunks;
 
+/**
+ Create "TTS" to play an audio file previously uploaded to the system.
+
+ @param fileName The name of the file used in the SDLFile or PutFile that was uploaded
+ @return The RPC
+ */
++ (NSArray<SDLTTSChunk *> *)fileChunksWithName:(NSString *)fileName;
 
 /**
- * Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.
+ * Text to be spoken, a phoneme specification, or the name of a pre-recorded / pre-uploaded sound. The contents of this field are indicated by the "type" field.
  *
  * Required, Max length 500
  */

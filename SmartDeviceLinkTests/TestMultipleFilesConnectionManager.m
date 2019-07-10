@@ -11,7 +11,8 @@
 #import "SDLRPCRequest.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "TestResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,13 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [super sendConnectionRequest:request withResponseHandler:handler];
 
-    if ([[request name] isEqualToString:SDLNamePutFile]) {
+    if ([[request name] isEqualToString:SDLRPCFunctionNamePutFile]) {
         SDLPutFile *putfileRequest = (SDLPutFile *)request;
         TestResponse *response = self.responses[putfileRequest.syncFileName];
 
         if (response == nil || handler == nil) { return; }
         handler(request, response.testResponse, response.testError);
-    } else if ([[request name] isEqualToString:SDLNameDeleteFile]) {
+    } else if ([[request name] isEqualToString:SDLRPCFunctionNameDeleteFile]) {
         SDLDeleteFile *deleteFileRequest = (SDLDeleteFile *)request;
         TestResponse *response = self.responses[deleteFileRequest.syncFileName];
 

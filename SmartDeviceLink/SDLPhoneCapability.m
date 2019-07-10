@@ -9,7 +9,7 @@
 #import "SDLPhoneCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDialNumberEnabled:(nullable NSNumber *)dialNumberEnabled {
-    [store sdl_setObject:dialNumberEnabled forName:SDLNameDialNumberEnabled];
+    [self.store sdl_setObject:dialNumberEnabled forName:SDLRPCParameterNameDialNumberEnabled];
 }
 
 - (nullable NSNumber *)dialNumberEnabled {
-    return [store sdl_objectForName:SDLNameDialNumberEnabled];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDialNumberEnabled ofClass:NSNumber.class error:nil];
 }
 
 @end

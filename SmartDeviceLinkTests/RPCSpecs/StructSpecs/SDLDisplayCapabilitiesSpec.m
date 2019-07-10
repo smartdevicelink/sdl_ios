@@ -12,7 +12,7 @@
 #import "SDLDisplayType.h"
 #import "SDLImageField.h"
 #import "SDLMediaClockFormat.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLScreenParams.h"
 #import "SDLTextField.h"
 
@@ -22,6 +22,9 @@ QuickSpecBegin(SDLDisplayCapabilitiesSpec)
 SDLScreenParams* screenParams = [[SDLScreenParams alloc] init];
 SDLTextField* textField = [[SDLTextField alloc] init];
 SDLImageField* imageField = [[SDLImageField alloc] init];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -49,15 +52,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDisplayType:SDLDisplayTypeGen26DMA,
-                                       SDLNameDisplayName: @"test",
-                                       SDLNameTextFields:[@[textField] mutableCopy],
-                                       SDLNameImageFields:[@[imageField] mutableCopy],
-                                       SDLNameMediaClockFormats:[@[SDLMediaClockFormatClockText1, SDLMediaClockFormatClock3, SDLMediaClockFormatClockText3] copy],
-                                       SDLNameGraphicSupported:@YES,
-                                       SDLNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
-                                       SDLNameScreenParams:screenParams,
-                                       SDLNameNumberCustomPresetsAvailable:@43} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDisplayType:SDLDisplayTypeGen26DMA,
+                                       SDLRPCParameterNameDisplayName: @"test",
+                                       SDLRPCParameterNameTextFields:[@[textField] mutableCopy],
+                                       SDLRPCParameterNameImageFields:[@[imageField] mutableCopy],
+                                       SDLRPCParameterNameMediaClockFormats:[@[SDLMediaClockFormatClockText1, SDLMediaClockFormatClock3, SDLMediaClockFormatClockText3] copy],
+                                       SDLRPCParameterNameGraphicSupported:@YES,
+                                       SDLRPCParameterNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
+                                       SDLRPCParameterNameScreenParams:screenParams,
+                                       SDLRPCParameterNameNumberCustomPresetsAvailable:@43} mutableCopy];
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.displayType).to(equal(SDLDisplayTypeGen26DMA));
@@ -85,5 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.numCustomPresetsAvailable).to(beNil());
     });
 });
+
+#pragma clang diagnostic pop
 
 QuickSpecEnd

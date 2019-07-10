@@ -8,6 +8,7 @@
   <li><a href="#section-rpm">rpm</a></li>
   <li><a href="#section-fuelLevel">fuelLevel</a></li>
   <li><a href="#section-fuelLevel_State">fuelLevel_State</a></li>
+  <li><a href="#section-fuelRange">fuelRange</a></li>
   <li><a href="#section-instantFuelConsumption">instantFuelConsumption</a></li>
   <li><a href="#section-externalTemperature">externalTemperature</a></li>
   <li><a href="#section-vin">vin</a></li>
@@ -20,6 +21,7 @@
   <li><a href="#section-driverBraking">driverBraking</a></li>
   <li><a href="#section-wiperStatus">wiperStatus</a></li>
   <li><a href="#section-headLampStatus">headLampStatus</a></li>
+  <li><a href="#section-engineOilLife">engineOilLife</a></li>
   <li><a href="#section-engineTorque">engineTorque</a></li>
   <li><a href="#section-accPedalPosition">accPedalPosition</a></li>
   <li><a href="#section-steeringWheelAngle">steeringWheelAngle</a></li>
@@ -28,6 +30,9 @@
   <li><a href="#section-emergencyEvent">emergencyEvent</a></li>
   <li><a href="#section-clusterModeStatus">clusterModeStatus</a></li>
   <li><a href="#section-myKey">myKey</a></li>
+  <li><a href="#section-electronicParkBrakeStatus">electronicParkBrakeStatus</a></li>
+  <li><a href="#section-turnSignal">turnSignal</a></li>
+  <li><a href="#section-cloudAppVehicleID">cloudAppVehicleID</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -125,6 +130,27 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fuelLevel_State</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fuelRange">
+      fuelRange
+  </h3>
+  
+  <p>The estimate range in KM the vehicle can travel based on fuel level and consumption</p>
+
+<p>Optional, Array of length 0 - 100, of SDLFuelRange</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFuelRange.html">SDLFuelRange</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">fuelRange</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFuelRange.html">SDLFuelRange</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -350,6 +376,25 @@
   
   
   
+  <h3 id="section-engineOilLife">
+      engineOilLife
+  </h3>
+  
+  <p>The estimated percentage (0% - 100%) of remaining oil life of the engine</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">engineOilLife</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-engineTorque">
       engineTorque
   </h3>
@@ -495,6 +540,61 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMyKey.html">SDLMyKey</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-electronicParkBrakeStatus">
+      electronicParkBrakeStatus
+  </h3>
+  
+  <p>The status of the electronic parking brake</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLElectronicParkBrakeStatus.h@T@SDLElectronicParkBrakeStatus">SDLElectronicParkBrakeStatus</a></span> <span class="n">electronicParkBrakeStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLElectronicParkBrakeStatus.h@T@SDLElectronicParkBrakeStatus">SDLElectronicParkBrakeStatus</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-turnSignal">
+      turnSignal
+  </h3>
+  
+  <p>The status of the turn signal</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLTurnSignal.h@T@SDLTurnSignal">SDLTurnSignal</a></span> <span class="n">turnSignal</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLTurnSignal.h@T@SDLTurnSignal">SDLTurnSignal</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cloudAppVehicleID">
+      cloudAppVehicleID
+  </h3>
+  
+  <p>The cloud app vehicle ID</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">cloudAppVehicleID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

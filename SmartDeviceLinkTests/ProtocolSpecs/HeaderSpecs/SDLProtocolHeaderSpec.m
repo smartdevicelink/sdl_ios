@@ -11,7 +11,7 @@
 #import "SDLProtocolHeader.h"
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLProtocolHeaderSpec)
 

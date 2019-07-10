@@ -11,7 +11,7 @@
 #import "SDLEmergencyEvent.h"
 #import "SDLEmergencyEventType.h"
 #import "SDLFuelCutoffStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
 
@@ -35,12 +35,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameEmergencyEventType:SDLEmergencyEventTypeFrontal,
-                                       SDLNameFuelCutoffStatus:SDLFuelCutoffStatusNormalOperation,
-                                       SDLNameRolloverEvent:SDLVehicleDataEventStatusYes,
-                                       SDLNameMaximumChangeVelocity:@33,
-                                       SDLNameMultipleEvents:SDLVehicleDataEventStatusNo} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameEmergencyEventType:SDLEmergencyEventTypeFrontal,
+                                       SDLRPCParameterNameFuelCutoffStatus:SDLFuelCutoffStatusNormalOperation,
+                                       SDLRPCParameterNameRolloverEvent:SDLVehicleDataEventStatusYes,
+                                       SDLRPCParameterNameMaximumChangeVelocity:@33,
+                                       SDLRPCParameterNameMultipleEvents:SDLVehicleDataEventStatusNo} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLEmergencyEvent* testStruct = [[SDLEmergencyEvent alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.emergencyEventType).to(equal(SDLEmergencyEventTypeFrontal));
         expect(testStruct.fuelCutoffStatus).to(equal(SDLFuelCutoffStatusNormalOperation));

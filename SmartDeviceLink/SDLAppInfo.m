@@ -4,7 +4,7 @@
 #import "SDLAppInfo.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
 static NSString *const SDLBundleAppNameKey = @"CFBundleName";
@@ -27,27 +27,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAppDisplayName:(NSString *)appDisplayName {
-    [store sdl_setObject:appDisplayName forName:SDLNameAppDisplayName];
+    [self.store sdl_setObject:appDisplayName forName:SDLRPCParameterNameAppDisplayName];
 }
 
 - (NSString *)appDisplayName {
-    return [store sdl_objectForName:SDLNameAppDisplayName];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppDisplayName ofClass:NSString.class error:&error];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
-    [store sdl_setObject:appBundleID forName:SDLNameAppBundleId];
+    [self.store sdl_setObject:appBundleID forName:SDLRPCParameterNameAppBundleId];
 }
 
 - (NSString *)appBundleID {
-    return [store sdl_objectForName:SDLNameAppBundleId];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppBundleId ofClass:NSString.class error:&error];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
-    [store sdl_setObject:appVersion forName:SDLNameAppVersion];
+    [self.store sdl_setObject:appVersion forName:SDLRPCParameterNameAppVersion];
 }
 
 - (NSString *)appVersion {
-    return [store sdl_objectForName:SDLNameAppVersion];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppVersion ofClass:NSString.class error:&error];
 }
 
 @end

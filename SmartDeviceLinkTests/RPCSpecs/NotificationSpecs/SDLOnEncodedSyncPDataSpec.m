@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnEncodedSyncPData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnEncodedSyncPDataSpec)
 
@@ -17,25 +18,28 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] init];
         
-        testNotification.data = [@[@0] mutableCopy];
+        testNotification.data = [@[@"0"] mutableCopy];
         testNotification.URL = @"www.zombo.com";
         testNotification.Timeout = @564;
         
-        expect(testNotification.data).to(equal([@[@0] mutableCopy]));
+        expect(testNotification.data).to(equal([@[@"0"] mutableCopy]));
         expect(testNotification.URL).to(equal(@"www.zombo.com"));
         expect(testNotification.Timeout).to(equal(@564));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameData:[@[@0] mutableCopy],
-                                                                   SDLNameURLUppercase:@"www.zombo.com",
-                                                                   SDLNameTimeoutCapitalized:@564},
-                                                             SDLNameOperationName:SDLNameOnEncodedSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameData:[@[@"0"] mutableCopy],
+                                                                   SDLRPCParameterNameURLUppercase:@"www.zombo.com",
+                                                                   SDLRPCParameterNameTimeoutCapitalized:@564},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
-        expect(testNotification.data).to(equal([@[@0] mutableCopy]));
+        expect(testNotification.data).to(equal([@[@"0"] mutableCopy]));
         expect(testNotification.URL).to(equal(@"www.zombo.com"));
         expect(testNotification.Timeout).to(equal(@564));
     });

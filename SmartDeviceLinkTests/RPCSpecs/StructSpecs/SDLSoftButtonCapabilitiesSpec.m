@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSoftButtonCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLSoftButtonCapabilitiesSpec)
 
@@ -29,11 +29,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameShortPressAvailable:@NO,
-                                                       SDLNameLongPressAvailable:@YES,
-                                                       SDLNameUpDownAvailable:@NO,
-                                                       SDLNameImageSupported:@NO} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameShortPressAvailable:@NO,
+                                                       SDLRPCParameterNameLongPressAvailable:@YES,
+                                                       SDLRPCParameterNameUpDownAvailable:@NO,
+                                                       SDLRPCParameterNameImageSupported:@NO} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSoftButtonCapabilities* testStruct = [[SDLSoftButtonCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.shortPressAvailable).to(equal(@NO));
         expect(testStruct.longPressAvailable).to(equal(@YES));

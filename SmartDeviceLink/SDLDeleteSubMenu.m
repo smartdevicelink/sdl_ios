@@ -5,17 +5,21 @@
 #import "SDLDeleteSubMenu.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteSubMenu
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteSubMenu]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteSubMenu]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithId:(UInt32)menuId {
     self = [self init];
@@ -29,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
+    [self.parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters sdl_objectForName:SDLNameMenuId];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
 }
 
 @end

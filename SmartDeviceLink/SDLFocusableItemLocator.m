@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
-    
+
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
         [hapticRects addObject:hapticRect];
     }
-    
+
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark SDLFocusableItemHitTester functions
 - (nullable UIView *)viewForPoint:(CGPoint)point {
     UIView *selectedView = nil;
-    
+
     for (UIView *view in self.focusableViews) {
         //Convert the absolute location to local location and check if that falls within view boundary
         CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
     }
-    
+
     return selectedView;
 }
 

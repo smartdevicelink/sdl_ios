@@ -11,6 +11,7 @@
 #import "SDLChoice.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             weakself.vrOptional = YES;
             weakself.internalError = nil;
-            [weakself finishOperation];
+            [weakself sdl_deleteTestChoices];
             return;
         }
 
@@ -58,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
                 weakself.vrOptional = NO;
                 weakself.internalError = nil;
-                [weakself finishOperation];
+                [weakself sdl_deleteTestChoices];
                 return;
             }
 
@@ -67,6 +68,15 @@ NS_ASSUME_NONNULL_BEGIN
             weakself.internalError = error;
             [weakself finishOperation];
         }];
+    }];
+}
+
+- (void)sdl_deleteTestChoices {
+    SDLDeleteInteractionChoiceSet *deleteChoiceSet = [[SDLDeleteInteractionChoiceSet alloc] initWithId:0];
+
+    __weak typeof(self) weakself = self;
+    [self.connectionManager sendConnectionManagerRequest:deleteChoiceSet withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        [weakself finishOperation];
     }];
 }
 

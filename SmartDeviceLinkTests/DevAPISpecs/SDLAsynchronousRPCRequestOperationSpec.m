@@ -17,7 +17,7 @@ describe(@"sending asynchronous requests", ^{
 
     __block NSMutableArray<SDLAddCommand *> *sendRequests = nil;
     __block NSMutableDictionary<NSNumber<SDLInt> *, TestRequestProgressResponse *> *testProgressResponses;
-    __block NSMutableArray<SDLRPCResponse *> *resultResponses = [NSMutableArray array];
+    __block NSMutableArray<SDLRPCResponse *> *resultResponses = nil;
 
     beforeEach(^{
         testOperation = nil;
@@ -25,6 +25,7 @@ describe(@"sending asynchronous requests", ^{
 
         sendRequests = [NSMutableArray array];
         testProgressResponses = [NSMutableDictionary dictionary];
+        resultResponses = [NSMutableArray array];
 
         testOperationQueue = [[NSOperationQueue alloc] init];
         testOperationQueue.name = @"com.sdl.asynchronousRPCOp.testqueue";
@@ -59,6 +60,32 @@ describe(@"sending asynchronous requests", ^{
 
             [testOperationQueue addOperation:testOperation];
             [NSThread sleepForTimeInterval:0.5];
+        });
+    });
+
+    context(@"when request are cancelled", ^{
+        beforeEach(^{
+            for (int i = 0; i < 3; i++) {
+                SDLAddCommand *addCommand = [[SDLAddCommand alloc] init];
+                addCommand.correlationID = @(i);
+                [sendRequests addObject:addCommand];
+
+                testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:((float)(i+1)/3.0) error:nil];
+            }
+        });
+
+        it(@"should fail correctly", ^{
+            testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:[sendRequests copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                expect(percentComplete).to(beCloseTo(0));
+                expect(response).to(beNil());
+                expect(error).toNot(beNil());
+                expect(error.code).to(equal(-8));
+            } completionHandler:^(BOOL success) {
+                expect(success).to(beFalsy());
+            }];
+
+            [testOperationQueue addOperation:testOperation];
+            [testOperationQueue cancelAllOperations];
         });
     });
 

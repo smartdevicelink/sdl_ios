@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLRadioControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLRadioControlCapabilitiesSpec)
 
@@ -28,21 +28,32 @@ describe(@"Initialization tests", ^{
         expect(testStruct.stateAvailable).to(beNil());
         expect(testStruct.signalStrengthAvailable).to(beNil());
         expect(testStruct.signalChangeThresholdAvailable).to(beNil());
+        expect(testStruct.hdRadioEnableAvailable).to(beNil());
+        expect(testStruct.siriusXMRadioAvailable).to(beNil());
+        expect(testStruct.sisDataAvailable).to(beNil());
+
     });
     
     it(@"should properly initialize initWithDictionary", ^{
         
-        NSMutableDictionary* dict = [@{SDLNameModuleName : @"someName",
-                                       SDLNameRadioEnableAvailable : @YES,
-                                       SDLNameRadioBandAvailable : @YES,
-                                       SDLNameRadioFrequencyAvailable : @YES,
-                                       SDLNameHDChannelAvailable : @NO,
-                                       SDLNameRDSDataAvailable : @NO,
-                                       SDLNameAvailableHDsAvailable : @NO,
-                                       SDLNameStateAvailable : @YES,
-                                       SDLNameSignalStrengthAvailable : @YES,
-                                       SDLNameSignalChangeThresholdAvailable : @NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName : @"someName",
+                                       SDLRPCParameterNameRadioEnableAvailable : @YES,
+                                       SDLRPCParameterNameRadioBandAvailable : @YES,
+                                       SDLRPCParameterNameRadioFrequencyAvailable : @YES,
+                                       SDLRPCParameterNameHDChannelAvailable : @NO,
+                                       SDLRPCParameterNameRDSDataAvailable : @NO,
+                                       SDLRPCParameterNameAvailableHDsAvailable : @NO,
+                                       SDLRPCParameterNameStateAvailable : @YES,
+                                       SDLRPCParameterNameSignalStrengthAvailable : @YES,
+                                       SDLRPCParameterNameSignalChangeThresholdAvailable : @NO,
+                                       SDLRPCParameterNameHDRadioEnableAvailable : @YES,
+                                       SDLRPCParameterNameSiriusXMRadioAvailable : @NO,
+                                       SDLRPCParameterNameSISDataAvailable:@YES
+                                       } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.moduleName).to(equal(@"someName"));
         expect(testStruct.radioEnableAvailable).to(equal(@YES));
@@ -54,6 +65,10 @@ describe(@"Initialization tests", ^{
         expect(testStruct.stateAvailable).to(equal(@YES));
         expect(testStruct.signalStrengthAvailable).to(equal(@YES));
         expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
+        expect(testStruct.hdRadioEnableAvailable).to(equal(@YES));
+        expect(testStruct.siriusXMRadioAvailable).to(equal(@NO));
+        expect(testStruct.sisDataAvailable).to(equal(@YES));
+
     });
     
     it(@"Should set and get correctly", ^{
@@ -69,6 +84,9 @@ describe(@"Initialization tests", ^{
         testStruct.stateAvailable = @YES;
         testStruct.signalStrengthAvailable = @YES;
         testStruct.signalChangeThresholdAvailable = @NO;
+        testStruct.hdRadioEnableAvailable = @YES;
+        testStruct.siriusXMRadioAvailable = @YES;
+        testStruct.sisDataAvailable = @YES;
         
         expect(testStruct.moduleName).to(equal(@"someName"));
         expect(testStruct.radioEnableAvailable).to(equal(@YES));
@@ -80,9 +98,15 @@ describe(@"Initialization tests", ^{
         expect(testStruct.stateAvailable).to(equal(@YES));
         expect(testStruct.signalStrengthAvailable).to(equal(@YES));
         expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
+        expect(testStruct.hdRadioEnableAvailable).to(equal(@YES));
+        expect(testStruct.siriusXMRadioAvailable).to(equal(@YES));
+        expect(testStruct.sisDataAvailable).to(equal(@YES));
+
     });
-    
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+
+    it(@"Should get correctly when initialized with Module Name and other radio control capability parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO];
 
         expect(testStruct.moduleName).to(equal(@"someName"));
@@ -95,6 +119,28 @@ describe(@"Initialization tests", ^{
         expect(testStruct.stateAvailable).to(equal(@YES));
         expect(testStruct.signalStrengthAvailable).to(equal(@YES));
         expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
+        expect(testStruct.hdRadioEnableAvailable).to(equal(@NO));
+        expect(testStruct.siriusXMRadioAvailable).to(equal(@NO));
+        #pragma clang diagnostic pop
+    });
+
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+        SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO hdRadioEnableAvailable:YES siriusXMRadioAvailable:YES sisDataAvailable:YES];
+
+        expect(testStruct.moduleName).to(equal(@"someName"));
+        expect(testStruct.radioEnableAvailable).to(equal(@YES));
+        expect(testStruct.radioBandAvailable).to(equal(@NO));
+        expect(testStruct.radioFrequencyAvailable).to(equal(@YES));
+        expect(testStruct.hdChannelAvailable).to(equal(@NO));
+        expect(testStruct.rdsDataAvailable).to(equal(@NO));
+        expect(testStruct.availableHDsAvailable).to(equal(@NO));
+        expect(testStruct.stateAvailable).to(equal(@YES));
+        expect(testStruct.signalStrengthAvailable).to(equal(@YES));
+        expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
+        expect(testStruct.hdRadioEnableAvailable).to(equal(YES));
+        expect(testStruct.siriusXMRadioAvailable).to(equal(@YES));
+        expect(testStruct.sisDataAvailable).to(equal(@YES));
+
     });
 });
 

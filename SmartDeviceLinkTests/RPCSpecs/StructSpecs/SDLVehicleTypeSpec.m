@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLVehicleType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLVehicleTypeSpec)
 
@@ -29,11 +29,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameMake:@"Make",
-                                                       SDLNameModel:@"Model",
-                                                       SDLNameModelYear:@"3.141*10^36",
-                                                       SDLNameTrim:@"AE"} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameMake:@"Make",
+                                                       SDLRPCParameterNameModel:@"Model",
+                                                       SDLRPCParameterNameModelYear:@"3.141*10^36",
+                                                       SDLRPCParameterNameTrim:@"AE"} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVehicleType* testStruct = [[SDLVehicleType alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.make).to(equal(@"Make"));
         expect(testStruct.model).to(equal(@"Model"));

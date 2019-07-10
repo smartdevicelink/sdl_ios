@@ -5,6 +5,8 @@
 <ul>
   <li><a href="#section--audioStreamManager:fileDidFinishPlaying:successfully:">-audioStreamManager:fileDidFinishPlaying:successfully:</a></li>
   <li><a href="#section--audioStreamManager:errorDidOccurForFile:error:">-audioStreamManager:errorDidOccurForFile:error:</a></li>
+  <li><a href="#section--audioStreamManager:dataBufferDidFinishPlayingSuccessfully:">-audioStreamManager:dataBufferDidFinishPlayingSuccessfully:</a></li>
+  <li><a href="#section--audioStreamManager:errorDidOccurForDataBuffer:">-audioStreamManager:errorDidOccurForDataBuffer:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -67,6 +69,58 @@
       <dd><p>A reference to the audio stream manager</p></dd>
       <dt>fileURL</dt>
       <dd><p>The URL that failed</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred</p></dd>
+  </dl>
+  
+  <h3 id="section--audioStreamManager:dataBufferDidFinishPlayingSuccessfully:">
+      -audioStreamManager:dataBufferDidFinishPlayingSuccessfully:
+  </h3>
+  
+  <p>Called when a data buffer from the SDLAudioStreamManager finishes playing</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span>
+    <span class="nf">dataBufferDidFinishPlayingSuccessfully</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">successfully</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">audioStreamManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">audioManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span><span class="p">,</span> <span class="n">dataBufferDidFinishPlayingSuccessfully</span> <span class="nv">successfully</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>audioManager</dt>
+      <dd><p>A reference to the audio stream manager</p></dd>
+      <dt>successfully</dt>
+      <dd><p>Whether or not the data buffer played successfully</p></dd>
+  </dl>
+  
+  <h3 id="section--audioStreamManager:errorDidOccurForDataBuffer:">
+      -audioStreamManager:errorDidOccurForDataBuffer:
+  </h3>
+  
+  <p>Called when a data buffer from the SDLAudioStreamManager could not play</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span>
+    <span class="nf">errorDidOccurForDataBuffer</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">audioStreamManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">audioManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span><span class="p">,</span> <span class="n">errorDidOccurForDataBuffer</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>audioManager</dt>
+      <dd><p>A reference to the audio stream manager</p></dd>
       <dt>error</dt>
       <dd><p>The error that occurred</p></dd>
   </dl>

@@ -4,33 +4,38 @@
 #import "SDLOnCommand.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnCommand
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnCommand]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnCommand]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
+    [self.parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
+    [self.parameters sdl_setObject:triggerSource forName:SDLRPCParameterNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameTriggerSource];
-    return (SDLTriggerSource)obj;
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameTriggerSource error:&error];
 }
 
 @end

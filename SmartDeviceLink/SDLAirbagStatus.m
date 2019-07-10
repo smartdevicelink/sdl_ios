@@ -3,73 +3,81 @@
 #import "SDLAirbagStatus.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAirbagStatus
 
 - (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus)driverAirbagDeployed {
-    [store sdl_setObject:driverAirbagDeployed forName:SDLNameDriverAirbagDeployed];
+    [self.store sdl_setObject:driverAirbagDeployed forName:SDLRPCParameterNameDriverAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)driverAirbagDeployed {
-    return [store sdl_objectForName:SDLNameDriverAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverAirbagDeployed error:&error];
 }
 
 - (void)setDriverSideAirbagDeployed:(SDLVehicleDataEventStatus)driverSideAirbagDeployed {
-    [store sdl_setObject:driverSideAirbagDeployed forName:SDLNameDriverSideAirbagDeployed];
+    [self.store sdl_setObject:driverSideAirbagDeployed forName:SDLRPCParameterNameDriverSideAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)driverSideAirbagDeployed {
-    return [store sdl_objectForName:SDLNameDriverSideAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverSideAirbagDeployed error:&error];
 }
 
 - (void)setDriverCurtainAirbagDeployed:(SDLVehicleDataEventStatus)driverCurtainAirbagDeployed {
-    [store sdl_setObject:driverCurtainAirbagDeployed forName:SDLNameDriverCurtainAirbagDeployed];
+    [self.store sdl_setObject:driverCurtainAirbagDeployed forName:SDLRPCParameterNameDriverCurtainAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)driverCurtainAirbagDeployed {
-    return [store sdl_objectForName:SDLNameDriverCurtainAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverCurtainAirbagDeployed error:&error];
 }
 
 - (void)setPassengerAirbagDeployed:(SDLVehicleDataEventStatus)passengerAirbagDeployed {
-    [store sdl_setObject:passengerAirbagDeployed forName:SDLNamePassengerAirbagDeployed];}
+    [self.store sdl_setObject:passengerAirbagDeployed forName:SDLRPCParameterNamePassengerAirbagDeployed];}
 
 - (SDLVehicleDataEventStatus)passengerAirbagDeployed {
-    return [store sdl_objectForName:SDLNamePassengerAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerAirbagDeployed error:&error];
 }
 
 - (void)setPassengerCurtainAirbagDeployed:(SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed {
-    [store sdl_setObject:passengerCurtainAirbagDeployed forName:SDLNamePassengerCurtainAirbagDeployed];
+    [self.store sdl_setObject:passengerCurtainAirbagDeployed forName:SDLRPCParameterNamePassengerCurtainAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed {
-    return [store sdl_objectForName:SDLNamePassengerCurtainAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerCurtainAirbagDeployed error:&error];
 }
 
 - (void)setDriverKneeAirbagDeployed:(SDLVehicleDataEventStatus)driverKneeAirbagDeployed {
-    [store sdl_setObject:driverKneeAirbagDeployed forName:SDLNameDriverKneeAirbagDeployed];
+    [self.store sdl_setObject:driverKneeAirbagDeployed forName:SDLRPCParameterNameDriverKneeAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)driverKneeAirbagDeployed {
-    return [store sdl_objectForName:SDLNameDriverKneeAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverKneeAirbagDeployed error:&error];
 }
 
 - (void)setPassengerSideAirbagDeployed:(SDLVehicleDataEventStatus)passengerSideAirbagDeployed {
-    [store sdl_setObject:passengerSideAirbagDeployed forName:SDLNamePassengerSideAirbagDeployed];
+    [self.store sdl_setObject:passengerSideAirbagDeployed forName:SDLRPCParameterNamePassengerSideAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)passengerSideAirbagDeployed {
-    return [store sdl_objectForName:SDLNamePassengerSideAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerSideAirbagDeployed error:&error];
 }
 
 - (void)setPassengerKneeAirbagDeployed:(SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
-    [store sdl_setObject:passengerKneeAirbagDeployed forName:SDLNamePassengerKneeAirbagDeployed];
+    [self.store sdl_setObject:passengerKneeAirbagDeployed forName:SDLRPCParameterNamePassengerKneeAirbagDeployed];
 }
 
 - (SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
-    return [store sdl_objectForName:SDLNamePassengerKneeAirbagDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerKneeAirbagDeployed error:&error];
 }
 
 @end

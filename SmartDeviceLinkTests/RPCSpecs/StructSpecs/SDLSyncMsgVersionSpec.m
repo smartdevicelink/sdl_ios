@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSyncMsgVersion.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLSyncMsgVersionSpec)
 
@@ -27,10 +27,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameMajorVersion:@4,
-                                       SDLNameMinorVersion:@532,
-                                       SDLNamePatchVersion:@12} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameMajorVersion:@4,
+                                       SDLRPCParameterNameMinorVersion:@532,
+                                       SDLRPCParameterNamePatchVersion:@12} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.majorVersion).to(equal(@4));
         expect(testStruct.minorVersion).to(equal(@532));

@@ -6,7 +6,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDialNumber.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLDialNumberSpec)
@@ -43,14 +43,16 @@ describe(@"Dial Number RPC", ^{
         beforeEach(^{
             somePhoneNumber = @"1234567890";
             NSDictionary *initDict = @{
-                                       SDLNameRequest: @{
-                                               SDLNameParameters: @{
-                                                       SDLNameNumber: [somePhoneNumber copy]
+                                       SDLRPCParameterNameRequest: @{
+                                               SDLRPCParameterNameParameters: @{
+                                                       SDLRPCParameterNameNumber: [somePhoneNumber copy]
                                                        }
                                                }
                                        };
-            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLDialNumber alloc] initWithDictionary:[initDict mutableCopy]];
+#pragma clang diagnostic pop
         });
         
         it(@"should get 'number' correctly", ^{
@@ -62,13 +64,15 @@ describe(@"Dial Number RPC", ^{
         __block SDLDialNumber *testRequest = nil;
         beforeEach(^{
             NSDictionary *initDict = @{
-                                       SDLNameRequest: @{
-                                               SDLNameParameters: @{
+                                       SDLRPCParameterNameRequest: @{
+                                               SDLRPCParameterNameParameters: @{
                                                        }
                                                }
                                        };
-            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLDialNumber alloc] initWithDictionary:[initDict mutableCopy]];
+#pragma clang diagnostic pop
         });
         
         it(@"should return nil for number", ^{

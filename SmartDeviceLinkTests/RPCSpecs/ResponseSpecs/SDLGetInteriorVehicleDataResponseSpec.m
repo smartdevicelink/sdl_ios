@@ -10,7 +10,8 @@
 
 #import "SDLGetInteriorVehicleDataResponse.h"
 #import "SDLModuleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetInteriorVehicleDataResponseSpec)
 
@@ -34,12 +35,15 @@ describe(@"Getter/Setter Tests", ^ {
     
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameModuleData:someModuleData,
-                                                                   SDLNameIsSubscribed:@NO},
-                                                             SDLNameOperationName:SDLNameGetInteriorVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameModuleData:someModuleData,
+                                                                   SDLRPCParameterNameIsSubscribed:@NO},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetInteriorVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetInteriorVehicleDataResponse* testResponse = [[SDLGetInteriorVehicleDataResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.moduleData).to(equal(someModuleData));
         expect(testResponse.isSubscribed).to(equal(@NO));

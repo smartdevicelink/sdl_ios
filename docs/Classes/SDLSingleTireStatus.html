@@ -4,6 +4,8 @@
 
 <ul>
   <li><a href="#section-status">status</a></li>
+  <li><a href="#section-monitoringSystemStatus">monitoringSystemStatus</a></li>
+  <li><a href="#section-pressure">pressure</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -34,6 +36,47 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-monitoringSystemStatus">
+      monitoringSystemStatus
+  </h3>
+  
+  <p>The status of TPMS for this particular tire</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLTPMS.h@T@SDLTPMS">SDLTPMS</a></span> <span class="n">monitoringSystemStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">monitoringSystemStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLTPMS.h@T@SDLTPMS">SDLTPMS</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-pressure">
+      pressure
+  </h3>
+  
+  <p>The pressure value of this particular tire in kPa (kilopascals)</p>
+
+<p>Optional, Float, 0-2000</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">pressure</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">pressure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

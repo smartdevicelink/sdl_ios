@@ -81,11 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
-            cell.artwork != nil ? [artworksToUpload addObject:cell.artwork] : nil;
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]
+            && [self sdl_artworkNeedsUpload:cell.artwork]) {
+            [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
-            cell.secondaryArtwork != nil ? [artworksToUpload addObject:cell.secondaryArtwork] : nil;
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
+            && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+            [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
 
@@ -107,14 +109,27 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+}
+
 - (void)sdl_preloadCells {
     _currentState = SDLPreloadChoicesOperationStatePreloadingChoices;
 
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        [choiceRPCs addObject:[self sdl_choiceFromCell:cell]];
+        SDLCreateInteractionChoiceSet *csCell =  [self sdl_choiceFromCell:cell];
+        if(csCell != nil) {
+            [choiceRPCs addObject:csCell];
+        }
     }
-
+    if (choiceRPCs.count == 0) {
+        SDLLogE(@"All choice cells to send are nil, so the choice set will not be shown");
+        self.internalError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
+        [self finishOperation];
+        return;
+    }
+    
     __weak typeof(self) weakSelf = self;
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     [self.connectionManager sendRequests:[choiceRPCs copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -123,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogW(@"Error preloading choice cells: %@", errors);
+            SDLLogE(@"Error preloading choice cells: %@", errors);
             weakSelf.internalError = [NSError sdl_choiceSetManager_choiceUploadFailed:errors];
         }
 
@@ -135,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Assembling Choice Data
 
-- (SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
+- (nullable SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
     NSArray<NSString *> *vrCommands = nil;
     if (cell.voiceCommands == nil) {
         vrCommands = self.isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
@@ -143,12 +158,24 @@ NS_ASSUME_NONNULL_BEGIN
         vrCommands = cell.voiceCommands;
     }
 
-    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
+    NSString *menuName = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if ([self.displayCapabilities.displayType isEqualToEnum:SDLDisplayTypeGen38Inch] || [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+        menuName = cell.text;
+    }
+#pragma clang diagnostic pop
+
+    if(!menuName) {
+        SDLLogE(@"Could not convert SDLChoiceCell to SDLCreateInteractionChoiceSet. It will not be shown. Cell: %@", cell);
+        return nil;
+    }
+    
     NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
     NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
 
-    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? [[SDLImage alloc] initWithName:cell.artwork.name isTemplate:cell.artwork.isTemplate] : nil;
-    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name isTemplate:cell.secondaryArtwork.isTemplate] : nil;
+    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? cell.artwork.imageRPC : nil;
+    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 

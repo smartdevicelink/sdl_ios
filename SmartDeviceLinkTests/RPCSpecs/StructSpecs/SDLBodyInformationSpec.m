@@ -11,7 +11,7 @@
 #import "SDLBodyInformation.h"
 #import "SDLIgnitionStableStatus.h"
 #import "SDLIgnitionStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLBodyInformationSpec)
 
@@ -37,14 +37,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameParkBrakeActive:@YES,
-                                       SDLNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
-                                       SDLNameIgnitionStatus:SDLIgnitionStatusStart,
-                                       SDLNameDriverDoorAjar:@NO,
-                                       SDLNamePassengerDoorAjar:@NO,
-                                       SDLNameRearLeftDoorAjar:@NO,
-                                       SDLNameRearRightDoorAjar:@YES} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameParkBrakeActive:@YES,
+                                       SDLRPCParameterNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
+                                       SDLRPCParameterNameIgnitionStatus:SDLIgnitionStatusStart,
+                                       SDLRPCParameterNameDriverDoorAjar:@NO,
+                                       SDLRPCParameterNamePassengerDoorAjar:@NO,
+                                       SDLRPCParameterNameRearLeftDoorAjar:@NO,
+                                       SDLRPCParameterNameRearRightDoorAjar:@YES} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.parkBrakeActive).to(equal(@YES));
         expect(testStruct.ignitionStableStatus).to(equal(SDLIgnitionStableStatusNotStable));

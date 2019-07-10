@@ -6,17 +6,21 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLGlobalProperty.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLResetGlobalProperties
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameResetGlobalProperties]) {
+    if (self = [super initWithName:SDLRPCFunctionNameResetGlobalProperties]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties {
     self = [self init];
@@ -30,11 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setProperties:(NSArray<SDLGlobalProperty> *)properties {
-    [parameters sdl_setObject:properties forName:SDLNameProperties];
+    [self.parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
 }
 
 - (NSArray<SDLGlobalProperty> *)properties {
-    return [parameters sdl_objectForName:SDLNameProperties];
+    NSError *error = nil;
+    return [self.parameters sdl_enumsForName:SDLRPCParameterNameProperties error:&error];
 }
 
 @end

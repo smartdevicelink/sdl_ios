@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDeleteSubMenu.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteSubMenuSpec)
 
@@ -23,11 +24,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameMenuId:@25614},
-                                                             SDLNameOperationName:SDLNameDeleteSubMenu}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameMenuId:@25614},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteSubMenu}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeleteSubMenu* testRequest = [[SDLDeleteSubMenu alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.menuID).to(equal(@25614));
     });

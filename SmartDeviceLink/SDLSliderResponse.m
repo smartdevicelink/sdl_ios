@@ -5,24 +5,28 @@
 #import "SDLSliderResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSliderResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSlider]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSlider]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setSliderPosition:(nullable NSNumber<SDLInt> *)sliderPosition {
-    [parameters sdl_setObject:sliderPosition forName:SDLNameSliderPosition];
+    [self.parameters sdl_setObject:sliderPosition forName:SDLRPCParameterNameSliderPosition];
 }
 
 - (nullable NSNumber<SDLInt> *)sliderPosition {
-    return [parameters sdl_objectForName:SDLNameSliderPosition];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSliderPosition ofClass:NSNumber.class error:nil];
 }
 
 @end

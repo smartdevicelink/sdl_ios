@@ -5,7 +5,8 @@
 #import "SDLAlertManeuver.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
 
@@ -13,11 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAlertManeuver
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAlertManeuver]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAlertManeuver]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
@@ -38,19 +42,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTtsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks {
-    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
+    [self.parameters sdl_setObject:ttsChunks forName:SDLRPCParameterNameTTSChunks];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)ttsChunks {
-    return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameTTSChunks ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
+    [self.parameters sdl_setObject:softButtons forName:SDLRPCParameterNameSoftButtons];
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
 @end

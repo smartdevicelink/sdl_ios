@@ -1,8 +1,8 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode10.2
 xcode_project: SmartDeviceLink-iOS.xcodeproj
 xcode_scheme: SmartDeviceLink
-xcode_sdk: iphonesimulator11.0
+xcode_sdk: iphonesimulator12.0
 env:
   global:
     - FRAMEWORK_NAME=SmartDeviceLink

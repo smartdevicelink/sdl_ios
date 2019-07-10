@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLFileType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLRequestType.h"
 
@@ -22,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         testNotification.requestType = SDLRequestTypeFileResume;
         testNotification.requestSubType = @"subtype";
-        testNotification.url = [@[@"www.google.com"] mutableCopy];
+        testNotification.url = @"www.google.com";
         testNotification.timeout = @52345;
         testNotification.fileType = SDLFileTypePNG;
         testNotification.offset = @2532678684;
@@ -30,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
+        expect(testNotification.url).to(equal(@"www.google.com"));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
@@ -38,21 +39,24 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameRequestType:SDLRequestTypeFileResume,
-                                                   SDLNameRequestSubType: @"subtype",
-                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
-                                                   SDLNameTimeout:@52345,
-                                                   SDLNameFileType:SDLFileTypePNG,
-                                                   SDLNameOffset:@2532678684,
-                                                   SDLNameLength:@50000000000},
-                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameRequestType:SDLRequestTypeFileResume,
+                                                   SDLRPCParameterNameRequestSubType: @"subtype",
+                                                   SDLRPCParameterNameURL:@"www.google.com",
+                                                   SDLRPCParameterNameTimeout:@52345,
+                                                   SDLRPCParameterNameFileType:SDLFileTypePNG,
+                                                   SDLRPCParameterNameOffset:@2532678684,
+                                                   SDLRPCParameterNameLength:@50000000000},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSystemRequest}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
+        expect(testNotification.url).to(equal([@"www.google.com" mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));

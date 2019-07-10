@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnHashChange.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnHashChangeSpec)
 
@@ -23,11 +24,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameHashId:@"hash"},
-                                                             SDLNameOperationName:SDLNameOnHashChange}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameHashId:@"hash"},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnHashChange}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnHashChange* testNotification = [[SDLOnHashChange alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.hashID).to(equal(@"hash"));
     });

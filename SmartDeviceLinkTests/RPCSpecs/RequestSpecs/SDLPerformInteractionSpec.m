@@ -13,7 +13,8 @@
 #import "SDLPerformInteraction.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPerformInteractionSpec)
 
@@ -48,19 +49,22 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameInitialText:@"a",
-                                                   SDLNameInitialPrompt:[@[chunk1] mutableCopy],
-                                                   SDLNameInteractionMode:SDLInteractionModeVoiceRecognitionOnly,
-                                                   SDLNameInteractionChoiceSetIdList:[@[@1, @2, @3] mutableCopy],
-                                                   SDLNameHelpPrompt:[@[chunk2] mutableCopy],
-                                                   SDLNameTimeoutPrompt:[@[chunk3] mutableCopy],
-                                                   SDLNameTimeout:@42000,
-                                                   SDLNameVRHelp:[@[helpItem] mutableCopy],
-                                                   SDLNameInteractionLayout:SDLLayoutModeIconWithSearch},
-                                             SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameInitialText:@"a",
+                                                   SDLRPCParameterNameInitialPrompt:[@[chunk1] mutableCopy],
+                                                   SDLRPCParameterNameInteractionMode:SDLInteractionModeVoiceRecognitionOnly,
+                                                   SDLRPCParameterNameInteractionChoiceSetIdList:[@[@1, @2, @3] mutableCopy],
+                                                   SDLRPCParameterNameHelpPrompt:[@[chunk2] mutableCopy],
+                                                   SDLRPCParameterNameTimeoutPrompt:[@[chunk3] mutableCopy],
+                                                   SDLRPCParameterNameTimeout:@42000,
+                                                   SDLRPCParameterNameVRHelp:[@[helpItem] mutableCopy],
+                                                   SDLRPCParameterNameInteractionLayout:SDLLayoutModeIconWithSearch},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));

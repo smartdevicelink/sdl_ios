@@ -5,7 +5,8 @@
 #import "SDLUpdateTurnList.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTurn.h"
 
@@ -13,11 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLUpdateTurnList
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameUpdateTurnList]) {
+    if (self = [super initWithName:SDLRPCFunctionNameUpdateTurnList]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithTurnList:(nullable NSArray<SDLTurn *> *)turnList softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
@@ -32,19 +36,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTurnList:(nullable NSArray<SDLTurn *> *)turnList {
-    [parameters sdl_setObject:turnList forName:SDLNameTurnList];
+    [self.parameters sdl_setObject:turnList forName:SDLRPCParameterNameTurnList];
 }
 
 - (nullable NSArray<SDLTurn *> *)turnList {
-    return [parameters sdl_objectsForName:SDLNameTurnList ofClass:SDLTurn.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameTurnList ofClass:SDLTurn.class error:nil];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
+    [self.parameters sdl_setObject:softButtons forName:SDLRPCParameterNameSoftButtons];
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
 @end

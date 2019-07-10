@@ -4,7 +4,7 @@
 #import "SDLBeltStatus.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,123 +12,138 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLBeltStatus
 
 - (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus)driverBeltDeployed {
-    [store sdl_setObject:driverBeltDeployed forName:SDLNameDriverBeltDeployed];
+    [self.store sdl_setObject:driverBeltDeployed forName:SDLRPCParameterNameDriverBeltDeployed];
 }
 
 - (SDLVehicleDataEventStatus)driverBeltDeployed {
-    return [store sdl_objectForName:SDLNameDriverBeltDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverBeltDeployed error:&error];
 }
 
 - (void)setPassengerBeltDeployed:(SDLVehicleDataEventStatus)passengerBeltDeployed {
-    [store sdl_setObject:passengerBeltDeployed forName:SDLNamePassengerBeltDeployed];
+    [self.store sdl_setObject:passengerBeltDeployed forName:SDLRPCParameterNamePassengerBeltDeployed];
 }
 
 - (SDLVehicleDataEventStatus)passengerBeltDeployed {
-    return [store sdl_objectForName:SDLNamePassengerBeltDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerBeltDeployed error:&error];
 }
 
 - (void)setPassengerBuckleBelted:(SDLVehicleDataEventStatus)passengerBuckleBelted {
-    [store sdl_setObject:passengerBuckleBelted forName:SDLNamePassengerBuckleBelted];
+    [self.store sdl_setObject:passengerBuckleBelted forName:SDLRPCParameterNamePassengerBuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)passengerBuckleBelted {
-    return [store sdl_objectForName:SDLNamePassengerBuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerBuckleBelted error:&error];
 }
 
 - (void)setDriverBuckleBelted:(SDLVehicleDataEventStatus)driverBuckleBelted {
-    [store sdl_setObject:driverBuckleBelted forName:SDLNameDriverBuckleBelted];
+    [self.store sdl_setObject:driverBuckleBelted forName:SDLRPCParameterNameDriverBuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)driverBuckleBelted {
-    return [store sdl_objectForName:SDLNameDriverBuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameDriverBuckleBelted error:&error];
 }
 
 - (void)setLeftRow2BuckleBelted:(SDLVehicleDataEventStatus)leftRow2BuckleBelted {
-    [store sdl_setObject:leftRow2BuckleBelted forName:SDLNameLeftRow2BuckleBelted];
+    [self.store sdl_setObject:leftRow2BuckleBelted forName:SDLRPCParameterNameLeftRow2BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)leftRow2BuckleBelted {
-    return [store sdl_objectForName:SDLNameLeftRow2BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameLeftRow2BuckleBelted error:&error];
 }
 
 - (void)setPassengerChildDetected:(SDLVehicleDataEventStatus)passengerChildDetected {
-    [store sdl_setObject:passengerChildDetected forName:SDLNamePassengerChildDetected];
+    [self.store sdl_setObject:passengerChildDetected forName:SDLRPCParameterNamePassengerChildDetected];
 }
 
 - (SDLVehicleDataEventStatus)passengerChildDetected {
-    return [store sdl_objectForName:SDLNamePassengerChildDetected];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNamePassengerChildDetected error:&error];
 }
 
 - (void)setRightRow2BuckleBelted:(SDLVehicleDataEventStatus)rightRow2BuckleBelted {
-    [store sdl_setObject:rightRow2BuckleBelted forName:SDLNameRightRow2BuckleBelted];
+    [self.store sdl_setObject:rightRow2BuckleBelted forName:SDLRPCParameterNameRightRow2BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)rightRow2BuckleBelted {
-    return [store sdl_objectForName:SDLNameRightRow2BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameRightRow2BuckleBelted error:&error];
 }
 
 - (void)setMiddleRow2BuckleBelted:(SDLVehicleDataEventStatus)middleRow2BuckleBelted {
-    [store sdl_setObject:middleRow2BuckleBelted forName:SDLNameMiddleRow2BuckleBelted];
+    [self.store sdl_setObject:middleRow2BuckleBelted forName:SDLRPCParameterNameMiddleRow2BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)middleRow2BuckleBelted {
-    return [store sdl_objectForName:SDLNameMiddleRow2BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameMiddleRow2BuckleBelted error:&error];
 }
 
 - (void)setMiddleRow3BuckleBelted:(SDLVehicleDataEventStatus)middleRow3BuckleBelted {
-    [store sdl_setObject:middleRow3BuckleBelted forName:SDLNameMiddleRow3BuckleBelted];
+    [self.store sdl_setObject:middleRow3BuckleBelted forName:SDLRPCParameterNameMiddleRow3BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)middleRow3BuckleBelted {
-    return [store sdl_objectForName:SDLNameMiddleRow3BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameMiddleRow3BuckleBelted error:&error];
 }
 
 - (void)setLeftRow3BuckleBelted:(SDLVehicleDataEventStatus)leftRow3BuckleBelted {
-    [store sdl_setObject:leftRow3BuckleBelted forName:SDLNameLeftRow3BuckleBelted];
+    [self.store sdl_setObject:leftRow3BuckleBelted forName:SDLRPCParameterNameLeftRow3BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)leftRow3BuckleBelted {
-    return [store sdl_objectForName:SDLNameLeftRow3BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameLeftRow3BuckleBelted error:&error];
 }
 
 - (void)setRightRow3BuckleBelted:(SDLVehicleDataEventStatus)rightRow3BuckleBelted {
-    [store sdl_setObject:rightRow3BuckleBelted forName:SDLNameRightRow3BuckleBelted];
+    [self.store sdl_setObject:rightRow3BuckleBelted forName:SDLRPCParameterNameRightRow3BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)rightRow3BuckleBelted {
-    return [store sdl_objectForName:SDLNameRightRow3BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameRightRow3BuckleBelted error:&error];
 }
 
 - (void)setLeftRearInflatableBelted:(SDLVehicleDataEventStatus)leftRearInflatableBelted {
-    [store sdl_setObject:leftRearInflatableBelted forName:SDLNameLeftRearInflatableBelted];
+    [self.store sdl_setObject:leftRearInflatableBelted forName:SDLRPCParameterNameLeftRearInflatableBelted];
 }
 
 - (SDLVehicleDataEventStatus)leftRearInflatableBelted {
-    return [store sdl_objectForName:SDLNameLeftRearInflatableBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameLeftRearInflatableBelted error:&error];
 }
 
 - (void)setRightRearInflatableBelted:(SDLVehicleDataEventStatus)rightRearInflatableBelted {
-    [store sdl_setObject:rightRearInflatableBelted forName:SDLNameRightRearInflatableBelted];
+    [self.store sdl_setObject:rightRearInflatableBelted forName:SDLRPCParameterNameRightRearInflatableBelted];
 }
 
 - (SDLVehicleDataEventStatus)rightRearInflatableBelted {
-    return [store sdl_objectForName:SDLNameRightRearInflatableBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameRightRearInflatableBelted error:&error];
 }
 
 - (void)setMiddleRow1BeltDeployed:(SDLVehicleDataEventStatus)middleRow1BeltDeployed {
-    [store sdl_setObject:middleRow1BeltDeployed forName:SDLNameMiddleRow1BeltDeployed];
+    [self.store sdl_setObject:middleRow1BeltDeployed forName:SDLRPCParameterNameMiddleRow1BeltDeployed];
 }
 
 - (SDLVehicleDataEventStatus)middleRow1BeltDeployed {
-    return [store sdl_objectForName:SDLNameMiddleRow1BeltDeployed];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameMiddleRow1BeltDeployed error:&error];
 }
 
 - (void)setMiddleRow1BuckleBelted:(SDLVehicleDataEventStatus)middleRow1BuckleBelted {
-    [store sdl_setObject:middleRow1BuckleBelted forName:SDLNameMiddleRow1BuckleBelted];
+    [self.store sdl_setObject:middleRow1BuckleBelted forName:SDLRPCParameterNameMiddleRow1BuckleBelted];
 }
 
 - (SDLVehicleDataEventStatus)middleRow1BuckleBelted {
-    return [store sdl_objectForName:SDLNameMiddleRow1BuckleBelted];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameMiddleRow1BuckleBelted error:&error];
 }
 
 @end

@@ -8,106 +8,92 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddCommand.h",
-      "line": 50,
-      "symbol": "SDLAddCommand.-initWithId:vrCommands:handler:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddCommand.h",
-      "line": 52,
-      "symbol": "SDLAddCommand.-initWithId:vrCommands:menuName:handler:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddCommand.h",
-      "line": 54,
-      "symbol": "SDLAddCommand.-initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:handler:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddSubMenu.h",
-      "line": 24,
+      "line": 26,
       "symbol": "SDLAddSubMenu.-initWithId:menuName:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddSubMenu.h",
-      "line": 26,
+      "line": 28,
       "symbol": "SDLAddSubMenu.-initWithId:menuName:position:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAddSubMenu.h",
+      "line": 30,
+      "symbol": "SDLAddSubMenu.-initWithId:menuName:menuIcon:position:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 44,
+      "line": 43,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 46,
+      "line": 45,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 48,
+      "line": 47,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 50,
+      "line": 49,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:duration:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 52,
+      "line": 51,
       "symbol": "SDLAlert.-initWithTTS:playTone:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 54,
+      "line": 53,
       "symbol": "SDLAlert.-initWithTTS:alertText1:alertText2:playTone:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 56,
+      "line": 55,
       "symbol": "SDLAlert.-initWithTTS:alertText1:alertText2:alertText3:playTone:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 58,
+      "line": 57,
       "symbol": "SDLAlert.-initWithTTSChunks:playTone:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 60,
+      "line": 59,
       "symbol": "SDLAlert.-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 62,
+      "line": 61,
       "symbol": "SDLAlert.-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -141,37 +127,100 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h",
+      "line": 67,
+      "symbol": "SDLAppInterfaceUnregisteredReasonProtocolViolation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h",
+      "line": 69,
+      "symbol": "SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppServiceCapability.h",
+      "line": 19,
+      "symbol": "SDLAppServiceCapability",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppServiceData.h",
+      "line": 23,
+      "symbol": "SDLAppServiceData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppServiceRecord.h",
+      "line": 19,
+      "symbol": "SDLAppServiceRecord",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAppServicesCapabilities.h",
+      "line": 18,
+      "symbol": "SDLAppServicesCapabilities",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLArtwork.h",
-      "line": 13,
+      "line": 16,
       "symbol": "SDLArtworkImageFormat",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLArtwork.h",
-      "line": 13,
+      "line": 16,
       "symbol": "SDLArtworkImageFormat",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLArtwork.h",
-      "line": 14,
+      "line": 17,
       "symbol": "SDLArtworkImageFormat.SDLArtworkImageFormatPNG",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLArtwork.h",
-      "line": 15,
+      "line": 18,
       "symbol": "SDLArtworkImageFormat.SDLArtworkImageFormatJPG",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLArtwork.h",
-      "line": 20,
+      "line": 23,
       "symbol": "SDLArtwork",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioControlCapabilities.h",
+      "line": 8,
+      "symbol": "SDLAudioControlCapabilities",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioControlData.h",
+      "line": 11,
+      "symbol": "SDLAudioControlData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioFile.h",
+      "line": 13,
+      "symbol": "SDLAudioFile",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
@@ -260,9 +309,79 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceCell.h",
+      "line": 15,
+      "symbol": "SDLChoiceCell",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSet.h",
+      "line": 18,
+      "symbol": "SDLChoiceSetLayout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSet.h",
+      "line": 18,
+      "symbol": "SDLChoiceSetLayout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSet.h",
+      "line": 19,
+      "symbol": "SDLChoiceSetLayout.SDLChoiceSetLayoutList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSet.h",
+      "line": 20,
+      "symbol": "SDLChoiceSetLayout.SDLChoiceSetLayoutTiles",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSet.h",
+      "line": 23,
+      "symbol": "SDLChoiceSet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSetDelegate.h",
+      "line": 18,
+      "symbol": "SDLChoiceSetDelegate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSetDelegate.h",
+      "line": 20,
+      "symbol": "SDLChoiceSetDelegate.-choiceSet:didSelectChoice:withSource:atRowIndex:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLChoiceSetDelegate.h",
+      "line": 21,
+      "symbol": "SDLChoiceSetDelegate.-choiceSet:didReceiveError:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLClimateControlCapabilities.h",
       "line": 16,
       "symbol": "SDLClimateControlCapabilities.-initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLClimateControlCapabilities.h",
+      "line": 18,
+      "symbol": "SDLClimateControlCapabilities.-initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -274,8 +393,22 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLClimateControlData.h",
+      "line": 21,
+      "symbol": "SDLClimateControlData.-initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable:heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLCloudAppProperties.h",
+      "line": 19,
+      "symbol": "SDLCloudAppProperties",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLConfiguration.h",
-      "line": 18,
+      "line": 19,
       "symbol": "SDLConfiguration",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
@@ -365,6 +498,27 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLDirection.h",
+      "line": 14,
+      "symbol": "SDLDirection",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLDirection.h",
+      "line": 19,
+      "symbol": "SDLDirectionLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLDirection.h",
+      "line": 24,
+      "symbol": "SDLDirectionRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLEncodedSyncPData.h",
       "line": 15,
       "symbol": "SDLEncodedSyncPData",
@@ -386,23 +540,79 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLEqualizerSettings.h",
+      "line": 14,
+      "symbol": "SDLEqualizerSettings.-initWithChannelId:channelSetting:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 97,
+      "line": 101,
       "symbol": "SDLTextAndGraphicManagerError.SDLTextAndGraphicManagerErrorPendingUpdateSuperseded",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 106,
+      "line": 110,
       "symbol": "SDLSoftButtonManagerError.SDLSoftButtonManagerErrorPendingUpdateSuperseded",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 115,
+      "line": 119,
       "symbol": "SDLMenuManagerError.SDLMenuManagerErrorRPCsFailed",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 122,
+      "symbol": "SDLChoiceSetManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 122,
+      "symbol": "SDLChoiceSetManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 123,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorPendingPresentationDeleted",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 124,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorDeletionFailed",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 125,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorUploadFailed",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 126,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorFailedToCreateMenuItems",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 127,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorInvalidState",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
@@ -415,23 +625,23 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFile.h",
-      "line": 58,
+      "line": 67,
       "symbol": "SDLFile.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFileManager.h",
-      "line": 20,
-      "symbol": "SDLFileName",
+      "line": 21,
+      "symbol": "SDLFileManagerStartupCompletionHandler",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFileManager.h",
-      "line": 22,
-      "symbol": "SDLFileManagerStartupCompletionHandler",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFileManagerConfiguration.h",
+      "line": 15,
+      "symbol": "SDLFileManagerConfiguration",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -439,6 +649,41 @@
       "line": 15,
       "symbol": "SDLFileName",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFunctionID.h",
+      "line": 10,
+      "symbol": "SDLFunctionID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFunctionID.h",
+      "line": 12,
+      "symbol": "SDLFunctionID.+sharedInstance",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFunctionID.h",
+      "line": 14,
+      "symbol": "SDLFunctionID.-functionNameForId:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFunctionID.h",
+      "line": 15,
+      "symbol": "SDLFunctionID.-functionIdForName:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLGetAppServiceDataResponse.h",
+      "line": 18,
+      "symbol": "SDLGetAppServiceDataResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -453,6 +698,13 @@
       "line": 23,
       "symbol": "SDLGetDTCs.-initWithECUName:mask:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLGetFileResponse.h",
+      "line": 16,
+      "symbol": "SDLGetFileResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -478,23 +730,9 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLGetSystemCapability.h",
-      "line": 16,
+      "line": 19,
       "symbol": "SDLGetSystemCapability",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLGetSystemCapability.h",
-      "line": 18,
-      "symbol": "SDLGetSystemCapability.-initWithType:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLGetVehicleData.h",
-      "line": 23,
-      "symbol": "SDLGetVehicleData.-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:vin:wiperStatus:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
@@ -519,6 +757,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLHMISettingsControlCapabilities.h",
+      "line": 8,
+      "symbol": "SDLHMISettingsControlCapabilities",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLHapticRect.h",
       "line": 22,
       "symbol": "SDLHapticRect.-initWithId:rect:",
@@ -526,24 +771,24 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
-      "line": 18,
-      "symbol": "SDLImage.-initWithName:ofType:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLHybridAppPreference.h",
+      "line": 19,
+      "symbol": "SDLHybridAppPreferenceMobile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
-      "line": 20,
-      "symbol": "SDLImage.-initWithName:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLHybridAppPreference.h",
+      "line": 24,
+      "symbol": "SDLHybridAppPreferenceCloud",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
-      "line": 22,
-      "symbol": "SDLImage.-initWithStaticImageValue:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLHybridAppPreference.h",
+      "line": 29,
+      "symbol": "SDLHybridAppPreferenceBoth",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
@@ -551,6 +796,13 @@
       "line": 28,
       "symbol": "SDLImageResolution.-initWithWidth:height:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLKeyboardDelegate.h",
+      "line": 31,
+      "symbol": "SDLKeyboardDelegate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
       "warning": "undocumented"
     },
     {
@@ -562,9 +814,37 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 25,
+      "line": 27,
       "symbol": "SDLLifecycleConfiguration.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLightCapabilities.h",
+      "line": 10,
+      "symbol": "SDLLightCapabilities",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLightControlCapabilities.h",
+      "line": 10,
+      "symbol": "SDLLightControlCapabilities",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLightControlData.h",
+      "line": 10,
+      "symbol": "SDLLightControlData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLightState.h",
+      "line": 13,
+      "symbol": "SDLLightState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -576,7 +856,7 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLockScreenConfiguration.h",
-      "line": 41,
+      "line": 47,
       "symbol": "SDLLockScreenConfiguration.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -744,23 +1024,30 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 31,
+      "line": 32,
       "symbol": "SDLManagerReadyBlock",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 34,
+      "line": 35,
       "symbol": "SDLManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 102,
+      "line": 108,
       "symbol": "SDLManager.proxy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
+      "line": 184,
+      "symbol": "SDLRPCUpdatedBlock",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -785,17 +1072,59 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuCell.h",
-      "line": 46,
-      "symbol": "SDLMenuCell.-initWithTitle:icon:voiceCommands:handler:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 19,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeForceOn",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuCell.h",
-      "line": 47,
-      "symbol": "SDLMenuCell.-initWithTitle:subCells:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 20,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeForceOff",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 21,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeOnWithCompatibility",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 24,
+      "symbol": "MenuCellState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 24,
+      "symbol": "MenuCellState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 25,
+      "symbol": "MenuCellState.MenuCellStateDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 26,
+      "symbol": "MenuCellState.MenuCellStateAdd",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 27,
+      "symbol": "MenuCellState.MenuCellStateKeep",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
@@ -827,17 +1156,59 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLModuleData.h",
-      "line": 18,
-      "symbol": "SDLModuleData.-initWithRadioControlData:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 14,
+      "symbol": "SDLNavigationAction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLModuleData.h",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
       "line": 19,
-      "symbol": "SDLModuleData.-initWithClimateControlData:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "symbol": "SDLNavigationActionTurn",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 24,
+      "symbol": "SDLNavigationActionExit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 29,
+      "symbol": "SDLNavigationActionStay",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 34,
+      "symbol": "SDLNavigationActionMerge",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 39,
+      "symbol": "SDLNavigationActionFerry",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 44,
+      "symbol": "SDLNavigationActionCarShuttleTrain",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationAction.h",
+      "line": 49,
+      "symbol": "SDLNavigationActionWaypoint",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
@@ -845,6 +1216,90 @@
       "line": 18,
       "symbol": "SDLNavigationCapability.-initWithSendLocation:waypoints:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationInstruction.h",
+      "line": 25,
+      "symbol": "SDLNavigationInstruction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 14,
+      "symbol": "SDLNavigationJunction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 19,
+      "symbol": "SDLNavigationJunctionRegular",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 24,
+      "symbol": "SDLNavigationJunctionBifurcation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 29,
+      "symbol": "SDLNavigationJunctionMultiCarriageway",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 34,
+      "symbol": "SDLNavigationJunctionRoundabout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 39,
+      "symbol": "SDLNavigationJunctionTraversableRoundabout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 44,
+      "symbol": "SDLNavigationJunctionJughandle",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 49,
+      "symbol": "SDLNavigationJunctionAllWayYield",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationJunction.h",
+      "line": 54,
+      "symbol": "SDLNavigationJunctionTurnAround",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationServiceData.h",
+      "line": 20,
+      "symbol": "SDLNavigationServiceData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNavigationServiceManifest.h",
+      "line": 16,
+      "symbol": "SDLNavigationServiceManifest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -885,517 +1340,972 @@
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 109,
-      "symbol": "SDLDidReceiveError",
+      "symbol": "SDLTransportConnectError",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 110,
-      "symbol": "SDLDidReceiveLockScreenIcon",
+      "symbol": "SDLDidReceiveError",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 111,
-      "symbol": "SDLDidBecomeReady",
+      "symbol": "SDLDidReceiveLockScreenIcon",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 112,
+      "symbol": "SDLDidBecomeReady",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 113,
       "symbol": "SDLDidUpdateProjectionView",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 118,
+      "line": 119,
       "symbol": "SDLDidReceiveAddCommandResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 119,
+      "line": 120,
       "symbol": "SDLDidReceiveAddSubMenuResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 120,
+      "line": 121,
       "symbol": "SDLDidReceiveAlertResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 121,
+      "line": 122,
       "symbol": "SDLDidReceiveAlertManeuverResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 122,
+      "line": 123,
       "symbol": "SDLDidReceiveButtonPressResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 123,
+      "line": 124,
       "symbol": "SDLDidReceiveChangeRegistrationResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 124,
+      "line": 125,
       "symbol": "SDLDidReceiveCreateInteractionChoiceSetResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 125,
+      "line": 126,
       "symbol": "SDLDidReceiveDeleteCommandResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 126,
+      "line": 127,
       "symbol": "SDLDidReceiveDeleteFileResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 127,
+      "line": 128,
       "symbol": "SDLDidReceiveDeleteInteractionChoiceSetResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 128,
+      "line": 129,
       "symbol": "SDLDidReceiveDeleteSubmenuResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 129,
+      "line": 130,
       "symbol": "SDLDidReceiveDiagnosticMessageResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 130,
+      "line": 131,
       "symbol": "SDLDidReceiveDialNumberResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 131,
+      "line": 132,
       "symbol": "SDLDidReceiveEncodedSyncPDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 132,
+      "line": 133,
       "symbol": "SDLDidReceiveEndAudioPassThruResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 133,
+      "line": 134,
       "symbol": "SDLDidReceiveGenericResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 134,
-      "symbol": "SDLDidReceiveGetDTCsResponse",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 135,
-      "symbol": "SDLDidReceiveGetInteriorVehicleDataResponse",
+      "symbol": "SDLDidReceiveGetCloudAppPropertiesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 136,
-      "symbol": "SDLDidReceiveGetSystemCapabilitiesResponse",
+      "symbol": "SDLDidReceiveGetAppServiceDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 137,
-      "symbol": "SDLDidReceiveGetVehicleDataResponse",
+      "symbol": "SDLDidReceiveGetDTCsResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 138,
-      "symbol": "SDLDidReceiveGetWaypointsResponse",
+      "symbol": "SDLDidReceiveGetFileResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 139,
-      "symbol": "SDLDidReceiveListFilesResponse",
+      "symbol": "SDLDidReceiveGetInteriorVehicleDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 140,
-      "symbol": "SDLDidReceivePerformAudioPassThruResponse",
+      "symbol": "SDLDidReceiveGetSystemCapabilitiesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 141,
-      "symbol": "SDLDidReceivePerformInteractionResponse",
+      "symbol": "SDLDidReceiveGetVehicleDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 142,
-      "symbol": "SDLDidReceivePutFileResponse",
+      "symbol": "SDLDidReceiveGetWaypointsResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 143,
-      "symbol": "SDLDidReceiveReadDIDResponse",
+      "symbol": "SDLDidReceiveListFilesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 144,
-      "symbol": "SDLDidReceiveRegisterAppInterfaceResponse",
+      "symbol": "SDLDidReceivePerformAppServiceInteractionResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 145,
-      "symbol": "SDLDidReceiveResetGlobalPropertiesResponse",
+      "symbol": "SDLDidReceivePerformAudioPassThruResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 146,
-      "symbol": "SDLDidReceiveScrollableMessageResponse",
+      "symbol": "SDLDidReceivePerformInteractionResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 147,
-      "symbol": "SDLDidReceiveSendHapticDataResponse",
+      "symbol": "SDLDidReceivePublishAppServiceResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 148,
-      "symbol": "SDLDidReceiveSendLocationResponse",
+      "symbol": "SDLDidReceivePutFileResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 149,
-      "symbol": "SDLDidReceiveSetAppIconResponse",
+      "symbol": "SDLDidReceiveReadDIDResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 150,
-      "symbol": "SDLDidReceiveSetDisplayLayoutResponse",
+      "symbol": "SDLDidReceiveRegisterAppInterfaceResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 151,
-      "symbol": "SDLDidReceiveSetGlobalPropertiesResponse",
+      "symbol": "SDLDidReceiveResetGlobalPropertiesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 152,
-      "symbol": "SDLDidReceiveSetInteriorVehicleDataResponse",
+      "symbol": "SDLDidReceiveScrollableMessageResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 153,
-      "symbol": "SDLDidReceiveSetMediaClockTimerResponse",
+      "symbol": "SDLDidReceiveSendHapticDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 154,
-      "symbol": "SDLDidReceiveShowConstantTBTResponse",
+      "symbol": "SDLDidReceiveSendLocationResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 155,
-      "symbol": "SDLDidReceiveShowResponse",
+      "symbol": "SDLDidReceiveSetAppIconResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 156,
-      "symbol": "SDLDidReceiveSliderResponse",
+      "symbol": "SDLDidReceiveSetCloudAppPropertiesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 157,
-      "symbol": "SDLDidReceiveSpeakResponse",
+      "symbol": "SDLDidReceiveSetDisplayLayoutResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 158,
-      "symbol": "SDLDidReceiveSubscribeButtonResponse",
+      "symbol": "SDLDidReceiveSetGlobalPropertiesResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 159,
-      "symbol": "SDLDidReceiveSubscribeVehicleDataResponse",
+      "symbol": "SDLDidReceiveSetInteriorVehicleDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 160,
-      "symbol": "SDLDidReceiveSubscribeWaypointsResponse",
+      "symbol": "SDLDidReceiveSetMediaClockTimerResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 161,
-      "symbol": "SDLDidReceiveSyncPDataResponse",
+      "symbol": "SDLDidReceiveShowConstantTBTResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 162,
-      "symbol": "SDLDidReceiveUpdateTurnListResponse",
+      "symbol": "SDLDidReceiveShowResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 163,
-      "symbol": "SDLDidReceiveUnregisterAppInterfaceResponse",
+      "symbol": "SDLDidReceiveSliderResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 164,
-      "symbol": "SDLDidReceiveUnsubscribeButtonResponse",
+      "symbol": "SDLDidReceiveSpeakResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 165,
-      "symbol": "SDLDidReceiveUnsubscribeVehicleDataResponse",
+      "symbol": "SDLDidReceiveSubscribeButtonResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 166,
-      "symbol": "SDLDidReceiveUnsubscribeWaypointsResponse",
+      "symbol": "SDLDidReceiveSubscribeVehicleDataResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 167,
+      "symbol": "SDLDidReceiveSubscribeWaypointsResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 168,
+      "symbol": "SDLDidReceiveSyncPDataResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 169,
+      "symbol": "SDLDidReceiveUpdateTurnListResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 170,
+      "symbol": "SDLDidReceiveUnregisterAppInterfaceResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 171,
+      "symbol": "SDLDidReceiveUnsubscribeButtonResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 172,
-      "symbol": "SDLDidChangeDriverDistractionStateNotification",
+      "symbol": "SDLDidReceiveUnsubscribeVehicleDataResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 173,
-      "symbol": "SDLDidChangeHMIStatusNotification",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 174,
-      "symbol": "SDLDidReceiveAudioPassThruNotification",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 175,
-      "symbol": "SDLDidReceiveAppUnregisteredNotification",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 176,
-      "symbol": "SDLDidReceiveButtonEventNotification",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 177,
-      "symbol": "SDLDidReceiveButtonPressNotification",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 178,
-      "symbol": "SDLDidReceiveCommandNotification",
+      "symbol": "SDLDidReceiveUnsubscribeWaypointsResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 179,
-      "symbol": "SDLDidReceiveEncodedDataNotification",
+      "symbol": "SDLDidReceiveAddCommandRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 180,
-      "symbol": "SDLDidReceiveInteriorVehicleDataNotification",
+      "symbol": "SDLDidReceiveAddSubMenuRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 181,
-      "symbol": "SDLDidReceiveKeyboardInputNotification",
+      "symbol": "SDLDidReceiveAlertRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 182,
-      "symbol": "SDLDidChangeLanguageNotification",
+      "symbol": "SDLDidReceiveAlertManeuverRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 183,
-      "symbol": "SDLDidChangeLockScreenStatusNotification",
+      "symbol": "SDLDidReceiveButtonPressRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 184,
-      "symbol": "SDLDidReceiveNewHashNotification",
+      "symbol": "SDLDidReceiveChangeRegistrationRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 185,
-      "symbol": "SDLDidReceiveVehicleIconNotification",
+      "symbol": "SDLDidReceiveCreateInteractionChoiceSetRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 186,
-      "symbol": "SDLDidChangePermissionsNotification",
+      "symbol": "SDLDidReceiveDeleteCommandRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 187,
-      "symbol": "SDLDidReceiveSystemRequestNotification",
+      "symbol": "SDLDidReceiveDeleteFileRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 188,
-      "symbol": "SDLDidChangeTurnByTurnStateNotification",
+      "symbol": "SDLDidReceiveDeleteInteractionChoiceSetRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 189,
-      "symbol": "SDLDidReceiveTouchEventNotification",
+      "symbol": "SDLDidReceiveDeleteSubMenuRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 190,
-      "symbol": "SDLDidReceiveVehicleDataNotification",
+      "symbol": "SDLDidReceiveDiagnosticMessageRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 191,
-      "symbol": "SDLDidReceiveWaypointNotification",
+      "symbol": "SDLDidReceiveDialNumberRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 192,
+      "symbol": "SDLDidReceiveEncodedSyncPDataRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
       "line": 193,
+      "symbol": "SDLDidReceiveEndAudioPassThruRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 194,
+      "symbol": "SDLDidReceiveGetAppServiceDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 195,
+      "symbol": "SDLDidReceiveGetCloudAppPropertiesRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 196,
+      "symbol": "SDLDidReceiveGetDTCsRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 197,
+      "symbol": "SDLDidReceiveGetFileRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 198,
+      "symbol": "SDLDidReceiveGetInteriorVehicleDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 199,
+      "symbol": "SDLDidReceiveGetSystemCapabilityRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 200,
+      "symbol": "SDLDidReceiveGetVehicleDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 201,
+      "symbol": "SDLDidReceiveGetWayPointsRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 202,
+      "symbol": "SDLDidReceiveListFilesRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 203,
+      "symbol": "SDLDidReceivePerformAppServiceInteractionRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 204,
+      "symbol": "SDLDidReceivePerformAudioPassThruRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 205,
+      "symbol": "SDLDidReceivePerformInteractionRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 206,
+      "symbol": "SDLDidReceivePublishAppServiceRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 207,
+      "symbol": "SDLDidReceivePutFileRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 208,
+      "symbol": "SDLDidReceiveReadDIDRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 209,
+      "symbol": "SDLDidReceiveRegisterAppInterfaceRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 210,
+      "symbol": "SDLDidReceiveResetGlobalPropertiesRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 211,
+      "symbol": "SDLDidReceiveScrollableMessageRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 212,
+      "symbol": "SDLDidReceiveSendHapticDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 213,
+      "symbol": "SDLDidReceiveSendLocationRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 214,
+      "symbol": "SDLDidReceiveSetAppIconRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 215,
+      "symbol": "SDLDidReceiveSetCloudAppPropertiesRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 216,
+      "symbol": "SDLDidReceiveSetDisplayLayoutRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 217,
+      "symbol": "SDLDidReceiveSetGlobalPropertiesRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 218,
+      "symbol": "SDLDidReceiveSetInteriorVehicleDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 219,
+      "symbol": "SDLDidReceiveSetMediaClockTimerRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 220,
+      "symbol": "SDLDidReceiveShowRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 221,
+      "symbol": "SDLDidReceiveShowConstantTBTRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 222,
+      "symbol": "SDLDidReceiveSliderRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 223,
+      "symbol": "SDLDidReceiveSpeakRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 224,
+      "symbol": "SDLDidReceiveSubscribeButtonRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 225,
+      "symbol": "SDLDidReceiveSubscribeVehicleDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 226,
+      "symbol": "SDLDidReceiveSubscribeWayPointsRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 227,
+      "symbol": "SDLDidReceiveSyncPDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 228,
+      "symbol": "SDLDidReceiveSystemRequestRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 229,
+      "symbol": "SDLDidReceiveUnregisterAppInterfaceRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 230,
+      "symbol": "SDLDidReceiveUnsubscribeButtonRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 231,
+      "symbol": "SDLDidReceiveUnsubscribeVehicleDataRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 232,
+      "symbol": "SDLDidReceiveUnsubscribeWayPointsRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 233,
+      "symbol": "SDLDidReceiveUpdateTurnListRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 239,
+      "symbol": "SDLDidChangeDriverDistractionStateNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 240,
+      "symbol": "SDLDidChangeHMIStatusNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 241,
+      "symbol": "SDLDidReceiveAppServiceDataNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 242,
+      "symbol": "SDLDidReceiveAppUnregisteredNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 243,
+      "symbol": "SDLDidReceiveAudioPassThruNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 244,
+      "symbol": "SDLDidReceiveButtonEventNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 245,
+      "symbol": "SDLDidReceiveButtonPressNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 246,
+      "symbol": "SDLDidReceiveCommandNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 247,
+      "symbol": "SDLDidReceiveEncodedDataNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 248,
+      "symbol": "SDLDidReceiveInteriorVehicleDataNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 249,
+      "symbol": "SDLDidReceiveKeyboardInputNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 250,
+      "symbol": "SDLDidChangeLanguageNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 251,
+      "symbol": "SDLDidChangeLockScreenStatusNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 252,
+      "symbol": "SDLDidReceiveNewHashNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 253,
+      "symbol": "SDLDidReceiveVehicleIconNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 254,
+      "symbol": "SDLDidChangePermissionsNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 255,
+      "symbol": "SDLDidReceiveRemoteControlStatusNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 256,
+      "symbol": "SDLDidReceiveSystemCapabilityUpdatedNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 257,
+      "symbol": "SDLDidReceiveSystemRequestNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 258,
+      "symbol": "SDLDidChangeTurnByTurnStateNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 259,
+      "symbol": "SDLDidReceiveTouchEventNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 260,
+      "symbol": "SDLDidReceiveVehicleDataNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 261,
+      "symbol": "SDLDidReceiveWaypointNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
+      "line": 263,
       "symbol": "SDLNotificationConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
@@ -1426,6 +2336,13 @@
       "line": 15,
       "symbol": "SDLOnSyncPData.Timeout",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLPerformAppServiceInteractionResponse.h",
+      "line": 17,
+      "symbol": "SDLPerformAppServiceInteractionResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -1562,24 +2479,10 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLPutFile.h",
-      "line": 21,
-      "symbol": "SDLPutFile.-initWithFileName:fileType:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLPutFile.h",
-      "line": 23,
-      "symbol": "SDLPutFile.-initWithFileName:fileType:persistentFile:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLPutFile.h",
-      "line": 25,
-      "symbol": "SDLPutFile.-initWithFileName:fileType:persistentFile:systemFile:offset:length:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLPublishAppServiceResponse.h",
+      "line": 18,
+      "symbol": "SDLPublishAppServiceResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -1590,31 +2493,584 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 10,
-      "symbol": "SDLRPCMessage",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRGBColor.h",
+      "line": 16,
+      "symbol": "SDLRGBColor",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 11,
-      "symbol": "SDLRPCMessage.function",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 14,
+      "symbol": "SDLRPCFunctionName",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 16,
+      "symbol": "SDLRPCFunctionNameAddCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 17,
+      "symbol": "SDLRPCFunctionNameAddSubMenu",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 18,
+      "symbol": "SDLRPCFunctionNameAlert",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 19,
+      "symbol": "SDLRPCFunctionNameAlertManeuver",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 20,
+      "symbol": "SDLRPCFunctionNameButtonPress",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 21,
+      "symbol": "SDLRPCFunctionNameChangeRegistration",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 22,
+      "symbol": "SDLRPCFunctionNameCreateInteractionChoiceSet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 23,
+      "symbol": "SDLRPCFunctionNameDeleteCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 24,
+      "symbol": "SDLRPCFunctionNameDeleteFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 25,
+      "symbol": "SDLRPCFunctionNameDeleteInteractionChoiceSet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 26,
+      "symbol": "SDLRPCFunctionNameDeleteSubMenu",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 27,
+      "symbol": "SDLRPCFunctionNameDiagnosticMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 28,
+      "symbol": "SDLRPCFunctionNameDialNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 29,
+      "symbol": "SDLRPCFunctionNameEncodedSyncPData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 30,
+      "symbol": "SDLRPCFunctionNameEndAudioPassThru",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 31,
+      "symbol": "SDLRPCFunctionNameGenericResponse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 32,
+      "symbol": "SDLRPCFunctionNameGetAppServiceData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 33,
+      "symbol": "SDLRPCFunctionNameGetDTCs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 34,
+      "symbol": "SDLRPCFunctionNameGetFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 35,
+      "symbol": "SDLRPCFunctionNameGetCloudAppProperties",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 36,
+      "symbol": "SDLRPCFunctionNameGetInteriorVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 37,
+      "symbol": "SDLRPCFunctionNameGetSystemCapability",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 38,
+      "symbol": "SDLRPCFunctionNameGetVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 39,
+      "symbol": "SDLRPCFunctionNameGetWayPoints",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 40,
+      "symbol": "SDLRPCFunctionNameListFiles",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 41,
+      "symbol": "SDLRPCFunctionNameOnAppInterfaceUnregistered",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 42,
+      "symbol": "SDLRPCFunctionNameOnAppServiceData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 43,
+      "symbol": "SDLRPCFunctionNameOnAudioPassThru",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 44,
+      "symbol": "SDLRPCFunctionNameOnButtonEvent",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 45,
+      "symbol": "SDLRPCFunctionNameOnButtonPress",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 46,
+      "symbol": "SDLRPCFunctionNameOnCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 47,
+      "symbol": "SDLRPCFunctionNameOnDriverDistraction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 48,
+      "symbol": "SDLRPCFunctionNameOnEncodedSyncPData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 49,
+      "symbol": "SDLRPCFunctionNameOnHashChange",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 50,
+      "symbol": "SDLRPCFunctionNameOnHMIStatus",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 51,
+      "symbol": "SDLRPCFunctionNameOnInteriorVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 52,
+      "symbol": "SDLRPCFunctionNameOnKeyboardInput",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 53,
+      "symbol": "SDLRPCFunctionNameOnLanguageChange",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 54,
+      "symbol": "SDLRPCFunctionNameOnLockScreenStatus",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 55,
+      "symbol": "SDLRPCFunctionNameOnPermissionsChange",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 56,
+      "symbol": "SDLRPCFunctionNameOnRCStatus",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 57,
+      "symbol": "SDLRPCFunctionNameOnSyncPData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 58,
+      "symbol": "SDLRPCFunctionNameOnSystemCapabilityUpdated",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 59,
+      "symbol": "SDLRPCFunctionNameOnSystemRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 60,
+      "symbol": "SDLRPCFunctionNameOnTBTClientState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 61,
+      "symbol": "SDLRPCFunctionNameOnTouchEvent",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 62,
+      "symbol": "SDLRPCFunctionNameOnVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 63,
+      "symbol": "SDLRPCFunctionNameOnWayPointChange",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 64,
+      "symbol": "SDLRPCFunctionNamePerformAppServiceInteraction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 65,
+      "symbol": "SDLRPCFunctionNamePerformAudioPassThru",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 66,
+      "symbol": "SDLRPCFunctionNamePerformInteraction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 67,
+      "symbol": "SDLRPCFunctionNamePublishAppService",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 68,
+      "symbol": "SDLRPCFunctionNamePutFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 69,
+      "symbol": "SDLRPCFunctionNameReadDID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 70,
+      "symbol": "SDLRPCFunctionNameRegisterAppInterface",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 71,
+      "symbol": "SDLRPCFunctionNameReserved",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 72,
+      "symbol": "SDLRPCFunctionNameResetGlobalProperties",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 73,
+      "symbol": "SDLRPCFunctionNameScrollableMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 74,
+      "symbol": "SDLRPCFunctionNameSendHapticData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 75,
+      "symbol": "SDLRPCFunctionNameSendLocation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 76,
+      "symbol": "SDLRPCFunctionNameSetAppIcon",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 77,
+      "symbol": "SDLRPCFunctionNameSetCloudAppProperties",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 78,
+      "symbol": "SDLRPCFunctionNameSetDisplayLayout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 79,
+      "symbol": "SDLRPCFunctionNameSetGlobalProperties",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 80,
+      "symbol": "SDLRPCFunctionNameSetInteriorVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 81,
+      "symbol": "SDLRPCFunctionNameSetMediaClockTimer",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 82,
+      "symbol": "SDLRPCFunctionNameShow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 83,
+      "symbol": "SDLRPCFunctionNameShowConstantTBT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 84,
+      "symbol": "SDLRPCFunctionNameSlider",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 85,
+      "symbol": "SDLRPCFunctionNameSpeak",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 86,
+      "symbol": "SDLRPCFunctionNameSubscribeButton",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 87,
+      "symbol": "SDLRPCFunctionNameSubscribeVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 88,
+      "symbol": "SDLRPCFunctionNameSubscribeWayPoints",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 89,
+      "symbol": "SDLRPCFunctionNameSyncPData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 90,
+      "symbol": "SDLRPCFunctionNameSystemRequest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 91,
+      "symbol": "SDLRPCFunctionNameUnregisterAppInterface",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 92,
+      "symbol": "SDLRPCFunctionNameUnsubscribeButton",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 93,
+      "symbol": "SDLRPCFunctionNameUnsubscribeVehicleData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 94,
+      "symbol": "SDLRPCFunctionNameUnsubscribeWayPoints",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
+      "line": 95,
+      "symbol": "SDLRPCFunctionNameUpdateTurnList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 12,
-      "symbol": "SDLRPCMessage.parameters",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 13,
-      "symbol": "SDLRPCMessage.messageType",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
+      "line": 10,
+      "symbol": "SDLRPCMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -1661,23 +3117,9 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCStruct.h",
-      "line": 12,
+      "line": 13,
       "symbol": "SDLRPCStruct.store",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRadioControlCapabilities.h",
-      "line": 14,
-      "symbol": "SDLRadioControlCapabilities.-initWithModuleName:radioEnableAvailable:radioBandAvailable:radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRadioControlData.h",
-      "line": 18,
-      "symbol": "SDLRadioControlData.-initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
@@ -1688,36 +3130,8 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
-      "line": 91,
-      "symbol": "SDLRegisterAppInterface.-initWithLifecycleConfiguration:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
-      "line": 93,
-      "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
-      "line": 95,
-      "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
-      "line": 97,
-      "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRemoteControlCapabilities.h",
-      "line": 18,
+      "line": 22,
       "symbol": "SDLRemoteControlCapabilities.-initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -1730,10 +3144,24 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSISData.h",
+      "line": 18,
+      "symbol": "SDLSISData.-initWithStationShortName:stationIDNumber:stationLongName:stationLocation:stationMessage:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
-      "line": 31,
+      "line": 45,
       "symbol": "SDLScreenManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 226,
+      "symbol": "SDLScreenManager.-softButtonObjectNamed:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
@@ -1751,24 +3179,24 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSeatControlCapabilities.h",
+      "line": 14,
+      "symbol": "SDLSeatControlCapabilities.-initWithName:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSeatControlCapabilities.h",
+      "line": 16,
+      "symbol": "SDLSeatControlCapabilities.-initWithName:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSendLocation.h",
       "line": 16,
       "symbol": "SDLSendLocation",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSendLocation.h",
-      "line": 18,
-      "symbol": "SDLSendLocation.-initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSendLocation.h",
-      "line": 20,
-      "symbol": "SDLSendLocation.-initWithLongitude:latitude:locationName:locationDescription:displayAddressLines:phoneNumber:image:deliveryMode:timeStamp:address:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
@@ -1780,15 +3208,22 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetDisplayLayout.h",
-      "line": 20,
+      "line": 22,
       "symbol": "SDLSetDisplayLayout.-initWithPredefinedLayout:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetDisplayLayout.h",
-      "line": 22,
+      "line": 24,
       "symbol": "SDLSetDisplayLayout.-initWithLayout:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetDisplayLayout.h",
+      "line": 26,
+      "symbol": "SDLSetDisplayLayout.-initWithPredefinedLayout:dayColorScheme:nightColorScheme:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -1801,14 +3236,21 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetMediaClockTimer.h",
-      "line": 25,
+      "line": 118,
+      "symbol": "SDLSetMediaClockTimer.-initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetMediaClockTimer.h",
+      "line": 120,
       "symbol": "SDLSetMediaClockTimer.-initWithUpdateMode:hours:minutes:seconds:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSetMediaClockTimer.h",
-      "line": 27,
+      "line": 122,
       "symbol": "SDLSetMediaClockTimer.-initWithUpdateMode:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -1926,9 +3368,1255 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStartTime.h",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 14,
+      "symbol": "SDLStaticIconName",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 19,
+      "symbol": "SDLStaticIconNameAcceptCall",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 24,
+      "symbol": "SDLStaticIconNameAddWaypoint",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 29,
+      "symbol": "SDLStaticIconNameAlbum",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 34,
+      "symbol": "SDLStaticIconNameAmbientLighting",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 39,
+      "symbol": "SDLStaticIconNameArrowNorth",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 44,
+      "symbol": "SDLStaticIconNameAudioMute",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 49,
+      "symbol": "SDLStaticIconNameAudiobookEpisode",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 54,
+      "symbol": "SDLStaticIconNameAudiobookNarrator",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 59,
+      "symbol": "SDLStaticIconNameAuxillaryAudio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 64,
+      "symbol": "SDLStaticIconNameBack",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 69,
+      "symbol": "SDLStaticIconNameBatteryCapacity0Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 74,
+      "symbol": "SDLStaticIconNameBatteryCapacity1Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 79,
+      "symbol": "SDLStaticIconNameBatteryCapacity2Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 84,
+      "symbol": "SDLStaticIconNameBatteryCapacity3Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 89,
+      "symbol": "SDLStaticIconNameBatteryCapacity4Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 94,
+      "symbol": "SDLStaticIconNameBatteryCapacity5Of5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 99,
+      "symbol": "SDLStaticIconNameBluetoothAudioSource",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 104,
+      "symbol": "SDLStaticIconNameBluetooth1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 109,
+      "symbol": "SDLStaticIconNameBluetooth2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 114,
+      "symbol": "SDLStaticIconNameBrowse",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 119,
+      "symbol": "SDLStaticIconNameCellPhoneInRoamingMode",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 124,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength0Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 129,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength1Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 134,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength2Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 139,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength3Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 144,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength4Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 149,
+      "symbol": "SDLStaticIconNameCellServiceSignalStrength5Of5Bars",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 154,
+      "symbol": "SDLStaticIconNameChangeLaneLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 159,
+      "symbol": "SDLStaticIconNameChangeLaneRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 164,
+      "symbol": "SDLStaticIconNameCheckBoxChecked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 169,
+      "symbol": "SDLStaticIconNameCheckBoxUnchecked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 174,
+      "symbol": "SDLStaticIconNameClimate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 179,
+      "symbol": "SDLStaticIconNameClock",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 184,
+      "symbol": "SDLStaticIconNameCompose",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 189,
+      "symbol": "SDLStaticIconNameContact",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 194,
+      "symbol": "SDLStaticIconNameContinue",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 199,
+      "symbol": "SDLStaticIconNameDash",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 204,
+      "symbol": "SDLStaticIconNameDate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 209,
+      "symbol": "SDLStaticIconNameDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 214,
+      "symbol": "SDLStaticIconNameDestination",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 219,
+      "symbol": "SDLStaticIconNameDestinationFerryAhead",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 224,
+      "symbol": "SDLStaticIconNameEbookmark",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 229,
+      "symbol": "SDLStaticIconNameEmpty",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 234,
+      "symbol": "SDLStaticIconNameEndCall",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 239,
+      "symbol": "SDLStaticIconNameFail",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 244,
+      "symbol": "SDLStaticIconNameFastForward30Secs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 249,
+      "symbol": "SDLStaticIconNameFavoriteHeart",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 254,
+      "symbol": "SDLStaticIconNameFavoriteStar",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 259,
+      "symbol": "SDLStaticIconNameFaxNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 264,
+      "symbol": "SDLStaticIconNameFilename",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 269,
+      "symbol": "SDLStaticIconNameFilter",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 274,
+      "symbol": "SDLStaticIconNameFolder",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 279,
+      "symbol": "SDLStaticIconNameFuelPrices",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 284,
+      "symbol": "SDLStaticIconNameFullMap",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 289,
+      "symbol": "SDLStaticIconNameGenericPhoneNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 294,
+      "symbol": "SDLStaticIconNameGenre",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 299,
+      "symbol": "SDLStaticIconNameGlobalKeyboard",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 304,
+      "symbol": "SDLStaticIconNameHighwayExitInformation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 309,
+      "symbol": "SDLStaticIconNameHomePhoneNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 314,
+      "symbol": "SDLStaticIconNameHyperlink",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 319,
+      "symbol": "SDLStaticIconNameID3TagUnknown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 324,
+      "symbol": "SDLStaticIconNameIncomingCalls",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 329,
+      "symbol": "SDLStaticIconNameInformation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 334,
+      "symbol": "SDLStaticIconNameIPodMediaSource",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 339,
+      "symbol": "SDLStaticIconNameJoinCalls",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 344,
+      "symbol": "SDLStaticIconNameKeepLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 349,
+      "symbol": "SDLStaticIconNameKeepRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 354,
+      "symbol": "SDLStaticIconNameKey",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 359,
+      "symbol": "SDLStaticIconNameLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 364,
+      "symbol": "SDLStaticIconNameLeftArrow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 369,
+      "symbol": "SDLStaticIconNameLeftExit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 374,
+      "symbol": "SDLStaticIconNameLineInAudioSource",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 379,
+      "symbol": "SDLStaticIconNameLocked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 384,
+      "symbol": "SDLStaticIconNameMediaControlLeftArrow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 389,
+      "symbol": "SDLStaticIconNameMediaControlRecording",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 394,
+      "symbol": "SDLStaticIconNameMediaControlRightArrow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 399,
+      "symbol": "SDLStaticIconNameMediaControlStop",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 404,
+      "symbol": "SDLStaticIconNameMicrophone",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 409,
+      "symbol": "SDLStaticIconNameMissedCalls",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 414,
+      "symbol": "SDLStaticIconNameMobilePhoneNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 419,
+      "symbol": "SDLStaticIconNameMoveDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 424,
+      "symbol": "SDLStaticIconNameMoveUp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 429,
+      "symbol": "SDLStaticIconNameMP3TagArtist",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 434,
+      "symbol": "SDLStaticIconNameNavigation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 439,
+      "symbol": "SDLStaticIconNameNavigationCurrentDirection",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 444,
+      "symbol": "SDLStaticIconNameNegativeRatingThumbsDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 449,
+      "symbol": "SDLStaticIconNameNew",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 454,
+      "symbol": "SDLStaticIconNameOfficePhoneNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 459,
+      "symbol": "SDLStaticIconNameOpened",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 464,
+      "symbol": "SDLStaticIconNameOrigin",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 469,
+      "symbol": "SDLStaticIconNameOutgoingCalls",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 474,
+      "symbol": "SDLStaticIconNamePause",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 479,
+      "symbol": "SDLStaticIconNamePhoneCall1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 484,
+      "symbol": "SDLStaticIconNamePhoneCall2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 489,
+      "symbol": "SDLStaticIconNamePhoneDevice",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 494,
+      "symbol": "SDLStaticIconNamePhonebook",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 499,
+      "symbol": "SDLStaticIconNamePhoto",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 504,
+      "symbol": "SDLStaticIconNamePlay",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 509,
+      "symbol": "SDLStaticIconNamePlaylist",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 514,
+      "symbol": "SDLStaticIconNamePopUp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 519,
+      "symbol": "SDLStaticIconNamePositiveRatingThumbsUp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 524,
+      "symbol": "SDLStaticIconNamePower",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 529,
+      "symbol": "SDLStaticIconNamePrimaryPhone",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 534,
+      "symbol": "SDLStaticIconNameRadioButtonChecked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 539,
+      "symbol": "SDLStaticIconNameRadioButtonUnchecked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 544,
+      "symbol": "SDLStaticIconNameRecentCalls",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 549,
+      "symbol": "SDLStaticIconNameRecentDestinations",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 554,
+      "symbol": "SDLStaticIconNameRedo",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 559,
+      "symbol": "SDLStaticIconNameRefresh",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 564,
+      "symbol": "SDLStaticIconNameRemoteDiagnosticsCheckEngine",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 569,
+      "symbol": "SDLStaticIconNameRendered911Assist",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 574,
+      "symbol": "SDLStaticIconNameRepeat",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 579,
+      "symbol": "SDLStaticIconNameRepeatPlay",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 584,
+      "symbol": "SDLStaticIconNameReply",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 589,
+      "symbol": "SDLStaticIconNameRewind30Secs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 594,
+      "symbol": "SDLStaticIconNameRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 599,
+      "symbol": "SDLStaticIconNameRightExit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 604,
+      "symbol": "SDLStaticIconNameRingtones",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 609,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 614,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 619,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand3",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 624,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand4",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 629,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 634,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand6",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 639,
+      "symbol": "SDLStaticIconNameRoundaboutLeftHand7",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 644,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 649,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 654,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand3",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 659,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand4",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 664,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 669,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand6",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 674,
+      "symbol": "SDLStaticIconNameRoundaboutRightHand7",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 679,
+      "symbol": "SDLStaticIconNameRSS",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 684,
+      "symbol": "SDLStaticIconNameSettings",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 689,
+      "symbol": "SDLStaticIconNameSharpLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 694,
+      "symbol": "SDLStaticIconNameSharpRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 699,
+      "symbol": "SDLStaticIconNameShow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 704,
+      "symbol": "SDLStaticIconNameShufflePlay",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 709,
+      "symbol": "SDLStaticIconNameSkiPlaces",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 714,
+      "symbol": "SDLStaticIconNameSlightLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 719,
+      "symbol": "SDLStaticIconNameSlightRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 724,
+      "symbol": "SDLStaticIconNameSmartphone",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 729,
+      "symbol": "SDLStaticIconNameSortList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 734,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber0",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 739,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 744,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 749,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber3",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 754,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber4",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 759,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber5",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 764,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber6",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 769,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber7",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 774,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber8",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 779,
+      "symbol": "SDLStaticIconNameSpeedDialNumbersNumber9",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 784,
+      "symbol": "SDLStaticIconNameSuccess",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 789,
+      "symbol": "SDLStaticIconNameTrackTitle",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 794,
+      "symbol": "SDLStaticIconNameTrafficReport",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 799,
+      "symbol": "SDLStaticIconNameTurnList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 804,
+      "symbol": "SDLStaticIconNameUTurnLeftTraffic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 809,
+      "symbol": "SDLStaticIconNameUTurnRightTraffic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 814,
+      "symbol": "SDLStaticIconNameUndo",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 819,
+      "symbol": "SDLStaticIconNameUnlocked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 824,
+      "symbol": "SDLStaticIconNameUSBMediaAudioSource",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 829,
+      "symbol": "SDLStaticIconNameVoiceControlScrollbarListItemNo1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 834,
+      "symbol": "SDLStaticIconNameVoiceControlScrollbarListItemNo2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 839,
+      "symbol": "SDLStaticIconNameVoiceControlScrollbarListItemNo3",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 844,
+      "symbol": "SDLStaticIconNameVoiceControlScrollbarListItemNo4",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 849,
+      "symbol": "SDLStaticIconNameVoiceRecognitionFailed",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 854,
+      "symbol": "SDLStaticIconNameVoiceRecognitionPause",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 859,
+      "symbol": "SDLStaticIconNameVoiceRecognitionSuccessful",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 864,
+      "symbol": "SDLStaticIconNameVoiceRecognitionSystemActive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 869,
+      "symbol": "SDLStaticIconNameVoiceRecognitionSystemListening",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 874,
+      "symbol": "SDLStaticIconNameVoiceRecognitionTryAgain",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 879,
+      "symbol": "SDLStaticIconNameWarning",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 884,
+      "symbol": "SDLStaticIconNameWeather",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 889,
+      "symbol": "SDLStaticIconNameWifiFull",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 894,
+      "symbol": "SDLStaticIconNameZoomIn",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStaticIconName.h",
+      "line": 899,
+      "symbol": "SDLStaticIconNameZoomOut",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStationIDNumber.h",
       "line": 16,
-      "symbol": "SDLStartTime.-initWithHours:minutes:seconds:",
+      "symbol": "SDLStationIDNumber.-initWithCountryCode:fccFacilityId:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -2073,6 +4761,104 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 40,
+      "symbol": "SDLVideoStreamManagerState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 41,
+      "symbol": "SDLVideoStreamManagerStateStopped",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 42,
+      "symbol": "SDLVideoStreamManagerStateStarting",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 43,
+      "symbol": "SDLVideoStreamManagerStateReady",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 44,
+      "symbol": "SDLVideoStreamManagerStateSuspended",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 45,
+      "symbol": "SDLVideoStreamManagerStateShuttingDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 47,
+      "symbol": "SDLAudioStreamManagerState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 48,
+      "symbol": "SDLAudioStreamManagerStateStopped",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 49,
+      "symbol": "SDLAudioStreamManagerStateStarting",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 50,
+      "symbol": "SDLAudioStreamManagerStateReady",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 51,
+      "symbol": "SDLAudioStreamManagerStateShuttingDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 53,
+      "symbol": "SDLAppState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 54,
+      "symbol": "SDLAppStateInactive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 55,
+      "symbol": "SDLAppStateActive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerDataSource.h",
       "line": 16,
       "symbol": "SDLStreamingMediaManagerDataSource",
@@ -2101,44 +4887,30 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapability.h",
-      "line": 28,
-      "symbol": "SDLSystemCapability.-initWithNavigationCapability:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapability.h",
-      "line": 30,
-      "symbol": "SDLSystemCapability.-initWithPhoneCapability:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapability.h",
-      "line": 32,
-      "symbol": "SDLSystemCapability.-initWithVideoStreamingCapability:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapability.h",
-      "line": 34,
-      "symbol": "SDLSystemCapability.-initWithRemoteControlCapability:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapabilityManager.h",
-      "line": 43,
-      "symbol": "SDLSystemCapabilityManager",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemRequest.h",
+      "line": 16,
+      "symbol": "SDLSystemRequest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTemperature.h",
-      "line": 15,
-      "symbol": "SDLTemperature.-initWithUnit:value:",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTemplateColorScheme.h",
+      "line": 18,
+      "symbol": "SDLTemplateColorScheme",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTemplateColorScheme.h",
+      "line": 20,
+      "symbol": "SDLTemplateColorScheme.-initWithPrimaryRGBColor:secondaryRGBColor:backgroundRGBColor:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTemplateColorScheme.h",
+      "line": 21,
+      "symbol": "SDLTemplateColorScheme.-initWithPrimaryColor:secondaryColor:backgroundColor:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -2234,6 +5006,41 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTurnSignal.h",
+      "line": 14,
+      "symbol": "SDLTurnSignal",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTurnSignal.h",
+      "line": 19,
+      "symbol": "SDLTurnSignalOff",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTurnSignal.h",
+      "line": 24,
+      "symbol": "SDLTurnSignalLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTurnSignal.h",
+      "line": 29,
+      "symbol": "SDLTurnSignalRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTurnSignal.h",
+      "line": 34,
+      "symbol": "SDLTurnSignalBoth",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLUnsubscribeButton.h",
       "line": 27,
       "symbol": "SDLUnsubscribeButton.-initWithButtonName:",
@@ -2241,16 +5048,128 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLUnsubscribeVehicleData.h",
-      "line": 24,
-      "symbol": "SDLUnsubscribeVehicleData.-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLUpdateTurnList.h",
+      "line": 20,
+      "symbol": "SDLUpdateTurnList.-initWithTurnList:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLUpdateTurnList.h",
-      "line": 20,
-      "symbol": "SDLUpdateTurnList.-initWithTurnList:softButtons:",
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 15,
+      "symbol": "SDLVersion",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 17,
+      "symbol": "SDLVersion.major",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 18,
+      "symbol": "SDLVersion.minor",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 19,
+      "symbol": "SDLVersion.patch",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 21,
+      "symbol": "SDLVersion.stringVersion",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 23,
+      "symbol": "SDLVersion.-initWithMajor:minor:patch:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 24,
+      "symbol": "SDLVersion.+versionWithMajor:minor:patch:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 25,
+      "symbol": "SDLVersion.-initWithString:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 26,
+      "symbol": "SDLVersion.+versionWithString:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 27,
+      "symbol": "SDLVersion.-initWithSyncMsgVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 28,
+      "symbol": "SDLVersion.+versionWithSyncMsgVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 30,
+      "symbol": "SDLVersion.-compare:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 31,
+      "symbol": "SDLVersion.-isLessThanVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 32,
+      "symbol": "SDLVersion.-isEqualToVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 33,
+      "symbol": "SDLVersion.-isGreaterThanVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 34,
+      "symbol": "SDLVersion.-isGreaterThanOrEqualToVersion:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVersion.h",
+      "line": 35,
+      "symbol": "SDLVersion.-isLessThanOrEqualToVersion:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -2301,6 +5220,20 @@
       "line": 17,
       "symbol": "SDLVRHelpItem.-initWithText:image:position:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLWeatherAlert.h",
+      "line": 14,
+      "symbol": "SDLWeatherAlert",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLWeatherData.h",
+      "line": 18,
+      "symbol": "SDLWeatherData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {

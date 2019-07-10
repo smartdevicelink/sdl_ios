@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLMyKey.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataStatus.h"
 
 
@@ -25,8 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMyKey* testStruct = [[SDLMyKey alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.e911Override).to(equal(SDLVehicleDataStatusOn));
     });

@@ -25,6 +25,7 @@
 - (NSUInteger)maxNumberOfMainFieldLines {
     NSInteger highestFound = 0;
     for (SDLTextField *textField in self.textFields) {
+        if (![textField.name isKindOfClass:[NSString class]]) { continue; }
         if ([textField.name isEqualToString:SDLTextFieldNameMainField1]
             || [textField.name isEqualToString:SDLTextFieldNameMainField2]
             || [textField.name isEqualToString:SDLTextFieldNameMainField3]

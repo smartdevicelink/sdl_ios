@@ -12,7 +12,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDateTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLDateTimeSpec)
 
@@ -42,16 +42,19 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with dictionary", ^{
-        NSMutableDictionary* dict = [@{SDLNameMillisecond:@100,
-                                       SDLNameSecond:@4,
-                                       SDLNameMinute:@12,
-                                       SDLNameHour:@20,
-                                       SDLNameDay:@30,
-                                       SDLNameMonth:@1,
-                                       SDLNameYear:@4000,
-                                       SDLNameTimezoneMinuteOffset:@0,
-                                       SDLNameTimezoneHourOffset:@1000} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameMillisecond:@100,
+                                       SDLRPCParameterNameSecond:@4,
+                                       SDLRPCParameterNameMinute:@12,
+                                       SDLRPCParameterNameHour:@20,
+                                       SDLRPCParameterNameDay:@30,
+                                       SDLRPCParameterNameMonth:@1,
+                                       SDLRPCParameterNameYear:@4000,
+                                       SDLRPCParameterNameTimezoneMinuteOffset:@0,
+                                       SDLRPCParameterNameTimezoneHourOffset:@1000} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDateTime* testStruct = [[SDLDateTime alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.millisecond).to(equal(@100));
         expect(testStruct.second).to(equal(@4));

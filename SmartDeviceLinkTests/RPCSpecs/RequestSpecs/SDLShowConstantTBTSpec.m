@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLShowConstantTBT.h"
 #import "SDLSoftButton.h"
 
@@ -50,21 +51,24 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameNavigationText1:@"nav1",
-                                                                   SDLNameNavigationText2:@"nav2",
-                                                                   SDLNameETA:@"4/1/7015",
-                                                                   SDLNameTimeToDestination:@"5000 Years",
-                                                                   SDLNameTotalDistance:@"1 parsec",
-                                                                   SDLNameTurnIcon:image1,
-                                                                   SDLNameNextTurnIcon:image2,
-                                                                   SDLNameDistanceToManeuver:@2,
-                                                                   SDLNameDistanceToManeuverScale:@4,
-                                                                   SDLNameManeuverComplete:@NO,
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameShowConstantTBT}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameNavigationText1:@"nav1",
+                                                                   SDLRPCParameterNameNavigationText2:@"nav2",
+                                                                   SDLRPCParameterNameETA:@"4/1/7015",
+                                                                   SDLRPCParameterNameTimeToDestination:@"5000 Years",
+                                                                   SDLRPCParameterNameTotalDistance:@"1 parsec",
+                                                                   SDLRPCParameterNameTurnIcon:image1,
+                                                                   SDLRPCParameterNameNextTurnIcon:image2,
+                                                                   SDLRPCParameterNameDistanceToManeuver:@2,
+                                                                   SDLRPCParameterNameDistanceToManeuverScale:@4,
+                                                                   SDLRPCParameterNameManeuverComplete:@NO,
+                                                                   SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameShowConstantTBT}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));
         expect(testRequest.navigationText2).to(equal(@"nav2"));

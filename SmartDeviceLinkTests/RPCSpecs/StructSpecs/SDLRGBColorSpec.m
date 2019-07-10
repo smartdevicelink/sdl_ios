@@ -3,7 +3,7 @@
 
 #import "SDLRGBColor.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLRGBColorSpec)
 
@@ -38,10 +38,13 @@ describe(@"RGBColor Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dict", ^{
-        NSDictionary *dict = @{SDLNameRed: @0,
-                               SDLNameGreen: @100,
-                               SDLNameBlue: @255};
+        NSDictionary *dict = @{SDLRPCParameterNameRed: @0,
+                               SDLRPCParameterNameGreen: @100,
+                               SDLRPCParameterNameBlue: @255};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRGBColor *testStruct = [[SDLRGBColor alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.red).to(equal(@0));
         expect(testStruct.green).to(equal(@100));

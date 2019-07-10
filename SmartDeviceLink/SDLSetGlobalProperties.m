@@ -7,7 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLKeyboardProperties.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 
@@ -15,11 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetGlobalProperties
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetGlobalProperties]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetGlobalProperties]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText {
     return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:nil vrHelp:nil];
@@ -47,59 +51,59 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
+    [self.parameters sdl_setObject:helpPrompt forName:SDLRPCParameterNameHelpPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
+    [self.parameters sdl_setObject:timeoutPrompt forName:SDLRPCParameterNameTimeoutPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setVrHelpTitle:(nullable NSString *)vrHelpTitle {
-    [parameters sdl_setObject:vrHelpTitle forName:SDLNameVRHelpTitle];
+    [self.parameters sdl_setObject:vrHelpTitle forName:SDLRPCParameterNameVRHelpTitle];
 }
 
 - (nullable NSString *)vrHelpTitle {
-    return [parameters sdl_objectForName:SDLNameVRHelpTitle];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameVRHelpTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
+    [self.parameters sdl_setObject:vrHelp forName:SDLRPCParameterNameVRHelp];
 }
 
 - (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class error:nil];
 }
 
 - (void)setMenuTitle:(nullable NSString *)menuTitle {
-    [parameters sdl_setObject:menuTitle forName:SDLNameMenuTitle];
+    [self.parameters sdl_setObject:menuTitle forName:SDLRPCParameterNameMenuTitle];
 }
 
 - (nullable NSString *)menuTitle {
-    return [parameters sdl_objectForName:SDLNameMenuTitle];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {
-    [parameters sdl_setObject:menuIcon forName:SDLNameMenuIcon];
+    [self.parameters sdl_setObject:menuIcon forName:SDLRPCParameterNameMenuIcon];
 }
 
 - (nullable SDLImage *)menuIcon {
-    return [parameters sdl_objectForName:SDLNameMenuIcon ofClass:SDLImage.class];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:SDLImage.class error:nil];
 }
 
 - (void)setKeyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties {
-    [parameters sdl_setObject:keyboardProperties forName:SDLNameKeyboardProperties];
+    [self.parameters sdl_setObject:keyboardProperties forName:SDLRPCParameterNameKeyboardProperties];
 }
 
 - (nullable SDLKeyboardProperties *)keyboardProperties {
-    return [parameters sdl_objectForName:SDLNameKeyboardProperties ofClass:SDLKeyboardProperties.class];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameKeyboardProperties ofClass:SDLKeyboardProperties.class error:nil];
 }
 
 @end

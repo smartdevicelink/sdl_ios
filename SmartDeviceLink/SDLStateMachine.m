@@ -124,6 +124,8 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
         self.currentState = oldState;
     }
 
+    self.currentState = state;
+
     if (shouldCall) {
         SEL didEnter = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatDidEnter, state]);
 #pragma clang diagnostic push
@@ -133,8 +135,6 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
 #pragma clang diagnostic pop
         }
     }
-
-    self.currentState = state;
 }
 
 /**

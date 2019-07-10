@@ -5,11 +5,24 @@
 #import "SDLStartTime.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStartTime
+
+- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval {
+    self = [self init];
+    if (!self) { return nil; }
+
+    // https://stackoverflow.com/a/15304826/1221798
+    long seconds = lround(timeInterval);
+    self.hours = @(seconds / 3600);
+    self.minutes = @((seconds % 3600) / 60);
+    self.seconds = @(seconds % 60);
+
+    return self;
+}
 
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds {
     self = [self init];
@@ -25,27 +38,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHours:(NSNumber<SDLInt> *)hours {
-    [store sdl_setObject:hours forName:SDLNameHours];
+    [self.store sdl_setObject:hours forName:SDLRPCParameterNameHours];
 }
 
 - (NSNumber<SDLInt> *)hours {
-    return [store sdl_objectForName:SDLNameHours];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameHours ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinutes:(NSNumber<SDLInt> *)minutes {
-    [store sdl_setObject:minutes forName:SDLNameMinutes];
+    [self.store sdl_setObject:minutes forName:SDLRPCParameterNameMinutes];
 }
 
 - (NSNumber<SDLInt> *)minutes {
-    return [store sdl_objectForName:SDLNameMinutes];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameMinutes ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSeconds:(NSNumber<SDLInt> *)seconds {
-    [store sdl_setObject:seconds forName:SDLNameSeconds];
+    [self.store sdl_setObject:seconds forName:SDLRPCParameterNameSeconds];
 }
 
 - (NSNumber<SDLInt> *)seconds {
-    return [store sdl_objectForName:SDLNameSeconds];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeconds ofClass:NSNumber.class error:&error];
 }
 
 @end

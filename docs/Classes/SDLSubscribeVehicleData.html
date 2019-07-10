@@ -4,11 +4,14 @@
 
 <ul>
   <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:</a></li>
+  <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:</a></li>
+  <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:</a></li>
   <li><a href="#section-gps">gps</a></li>
   <li><a href="#section-speed">speed</a></li>
   <li><a href="#section-rpm">rpm</a></li>
   <li><a href="#section-fuelLevel">fuelLevel</a></li>
   <li><a href="#section-fuelLevel_State">fuelLevel_State</a></li>
+  <li><a href="#section-fuelRange">fuelRange</a></li>
   <li><a href="#section-instantFuelConsumption">instantFuelConsumption</a></li>
   <li><a href="#section-externalTemperature">externalTemperature</a></li>
   <li><a href="#section-prndl">prndl</a></li>
@@ -20,6 +23,7 @@
   <li><a href="#section-driverBraking">driverBraking</a></li>
   <li><a href="#section-wiperStatus">wiperStatus</a></li>
   <li><a href="#section-headLampStatus">headLampStatus</a></li>
+  <li><a href="#section-engineOilLife">engineOilLife</a></li>
   <li><a href="#section-engineTorque">engineTorque</a></li>
   <li><a href="#section-accPedalPosition">accPedalPosition</a></li>
   <li><a href="#section-steeringWheelAngle">steeringWheelAngle</a></li>
@@ -28,23 +32,24 @@
   <li><a href="#section-emergencyEvent">emergencyEvent</a></li>
   <li><a href="#section-clusterModeStatus">clusterModeStatus</a></li>
   <li><a href="#section-myKey">myKey</a></li>
+  <li><a href="#section-electronicParkBrakeStatus">electronicParkBrakeStatus</a></li>
+  <li><a href="#section-turnSignal">turnSignal</a></li>
+  <li><a href="#section-cloudAppVehicleID">cloudAppVehicleID</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Subscribes for specific published vehicle data items. The data will be only
- sent, if it has changed. The application will be notified by the
- onVehicleData notification whenever new data is available. The update rate is
- very much dependent on sensors, vehicle architecture and vehicle type. Be
- also prepared for the situation that a signal is not available on a vehicle
- <p>
- Function Group: Location, VehicleInfo and DrivingChara
- <p>
- <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
- </p></p>
+<p>Subscribes to specific published vehicle data items. The data will be only sent if it has changed. The application will be notified by the <code>onVehicleData</code> notification whenever new data is available. The update rate is dependent on sensors, vehicle architecture and vehicle type.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    A vehicle may only support a subset of the vehicle data items. Be prepared for the situation where a signal is not available on a vehicle.
 
-<p>Since SmartDeviceLink 2.0<br/>
- See SDLUnsubscribeVehicleData SDLGetVehicleData</p>
+</div>
+
+<p>Function Group: Location, VehicleInfo and DrivingChara
+  HMILevel needs to be FULL, LIMITED or BACKGROUND
+  Since SmartDeviceLink 2.0
+  See SDLUnsubscribeVehicleData, SDLGetVehicleData</p>
 
 
 <section class="section task-group-section">
@@ -52,36 +57,36 @@
       -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:
   </h3>
   
-  <p>Initialize a subscribe RPC with various possible to describe to</p>
+  <p>Convenience init for subscribing to all possible vehicle data items.</p>
 
   
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
-                     <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
-                       <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
-                  <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
-                <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
-                     <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
-                    <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
-                        <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
-                   <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
-                     <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
-              <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
-                        <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
-                   <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
-                              <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
-                   <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
-           <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
-                            <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
-                         <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
-                            <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
-                              <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
-                            <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
-               <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
-                     <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
-                      <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
+                         <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
+                           <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
+                      <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
+                    <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
+                         <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
+                        <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
+                            <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
+                       <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
+                         <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
+                  <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
+                            <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
+                       <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
+                                  <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
+                       <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
+               <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
+                                <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
+                             <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
+                                <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
+                                  <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
+                                <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
+                   <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
+                         <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
+                          <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -92,64 +97,285 @@
   <h4>Parameters</h4>
   <dl>
       <dt>accelerationPedalPosition</dt>
-      <dd><p>Subcribe to accelerationPedalPosition</p></dd>
+      <dd><p>Subscribe to accelerationPedalPosition</p></dd>
       <dt>airbagStatus</dt>
-      <dd><p>Subcribe to airbagStatus</p></dd>
+      <dd><p>Subscribe to airbagStatus</p></dd>
       <dt>beltStatus</dt>
-      <dd><p>Subcribe to beltStatus</p></dd>
+      <dd><p>Subscribe to beltStatus</p></dd>
       <dt>bodyInformation</dt>
-      <dd><p>Subcribe to bodyInformation</p></dd>
+      <dd><p>Subscribe to bodyInformation</p></dd>
       <dt>clusterModeStatus</dt>
-      <dd><p>Subcribe to clusterModeStatus</p></dd>
+      <dd><p>Subscribe to clusterModeStatus</p></dd>
       <dt>deviceStatus</dt>
-      <dd><p>Subcribe to deviceStatus</p></dd>
+      <dd><p>Subscribe to deviceStatus</p></dd>
       <dt>driverBraking</dt>
-      <dd><p>Subcribe to driverBraking</p></dd>
+      <dd><p>Subscribe to driverBraking</p></dd>
       <dt>eCallInfo</dt>
-      <dd><p>Subcribe to eCallInfo</p></dd>
+      <dd><p>Subscribe to eCallInfo</p></dd>
       <dt>emergencyEvent</dt>
-      <dd><p>Subcribe to v</p></dd>
+      <dd><p>Subscribe to emergencyEvent</p></dd>
       <dt>engineTorque</dt>
-      <dd><p>Subcribe to engineTorque</p></dd>
+      <dd><p>Subscribe to engineTorque</p></dd>
       <dt>externalTemperature</dt>
-      <dd><p>Subcribe to externalTemperature</p></dd>
+      <dd><p>Subscribe to externalTemperature</p></dd>
       <dt>fuelLevel</dt>
-      <dd><p>Subcribe to fuelLevel</p></dd>
+      <dd><p>Subscribe to fuelLevel</p></dd>
       <dt>fuelLevelState</dt>
-      <dd><p>Subcribe to fuelLevelState</p></dd>
+      <dd><p>Subscribe to fuelLevelState</p></dd>
       <dt>gps</dt>
-      <dd><p>Subcribe to gps</p></dd>
+      <dd><p>Subscribe to gps</p></dd>
       <dt>headLampStatus</dt>
-      <dd><p>Subcribe to headLampStatus</p></dd>
+      <dd><p>Subscribe to headLampStatus</p></dd>
       <dt>instantFuelConsumption</dt>
-      <dd><p>Subcribe to instantFuelConsumption</p></dd>
+      <dd><p>Subscribe to instantFuelConsumption</p></dd>
       <dt>myKey</dt>
-      <dd><p>Subcribe to myKey</p></dd>
+      <dd><p>Subscribe to myKey</p></dd>
       <dt>odometer</dt>
-      <dd><p>Subcribe to odometer</p></dd>
+      <dd><p>Subscribe to odometer</p></dd>
       <dt>prndl</dt>
-      <dd><p>Subcribe to prndl</p></dd>
+      <dd><p>Subscribe to prndl</p></dd>
       <dt>rpm</dt>
-      <dd><p>Subcribe to rpm</p></dd>
+      <dd><p>Subscribe to rpm</p></dd>
       <dt>speed</dt>
-      <dd><p>Subcribe to speed</p></dd>
+      <dd><p>Subscribe to speed</p></dd>
       <dt>steeringWheelAngle</dt>
-      <dd><p>Subcribe to steeringWheelAngle</p></dd>
+      <dd><p>Subscribe to steeringWheelAngle</p></dd>
       <dt>tirePressure</dt>
-      <dd><p>Subcribe to tirePressure</p></dd>
+      <dd><p>Subscribe to tirePressure</p></dd>
       <dt>wiperStatus</dt>
-      <dd><p>Subcribe to wiperStatus</p></dd>
+      <dd><p>Subscribe to wiperStatus</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
-    <p>The RPC</p>
+    <p>A SDLSubscribeVehicleData object</p>
+  </div>
+  
+  <h3 id="section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">
+      -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:
+  </h3>
+  
+  <p>Convenience init for subscribing to all possible vehicle data items.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
+                         <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
+                           <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
+                      <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
+                    <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
+                         <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
+                        <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
+                            <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
+            <span class="nf">electronicParkBrakeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">electronicParkBrakeStatus</span>
+                       <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
+                        <span class="nf">engineOilLife</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineOilLife</span>
+                         <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
+                  <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
+                            <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
+                       <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
+                            <span class="nf">fuelRange</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelRange</span>
+                                  <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
+                       <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
+               <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
+                                <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
+                             <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
+                                <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
+                                  <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
+                                <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
+                   <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
+                         <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
+                           <span class="nf">turnSignal</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">turnSignal</span>
+                          <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">accelerationPedalPosition</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">clusterModeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevelState</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>accelerationPedalPosition</dt>
+      <dd><p>Subscribe to accelerationPedalPosition</p></dd>
+      <dt>airbagStatus</dt>
+      <dd><p>Subscribe to airbagStatus</p></dd>
+      <dt>beltStatus</dt>
+      <dd><p>Subscribe to beltStatus</p></dd>
+      <dt>bodyInformation</dt>
+      <dd><p>Subscribe to bodyInformation</p></dd>
+      <dt>clusterModeStatus</dt>
+      <dd><p>Subscribe to clusterModeStatus</p></dd>
+      <dt>deviceStatus</dt>
+      <dd><p>Subscribe to deviceStatus</p></dd>
+      <dt>driverBraking</dt>
+      <dd><p>Subscribe to driverBraking</p></dd>
+      <dt>eCallInfo</dt>
+      <dd><p>Subscribe to eCallInfo</p></dd>
+      <dt>electronicParkBrakeStatus</dt>
+      <dd><p>Subscribe to electronicParkBrakeStatus</p></dd>
+      <dt>emergencyEvent</dt>
+      <dd><p>Subscribe to emergencyEvent</p></dd>
+      <dt>engineOilLife</dt>
+      <dd><p>Subscribe to engineOilLife</p></dd>
+      <dt>engineTorque</dt>
+      <dd><p>Subscribe to engineTorque</p></dd>
+      <dt>externalTemperature</dt>
+      <dd><p>Subscribe to externalTemperature</p></dd>
+      <dt>fuelLevel</dt>
+      <dd><p>Subscribe to fuelLevel</p></dd>
+      <dt>fuelLevelState</dt>
+      <dd><p>Subscribe to fuelLevelState</p></dd>
+      <dt>fuelRange</dt>
+      <dd><p>Subscribe to fuelRange</p></dd>
+      <dt>gps</dt>
+      <dd><p>Subscribe to gps</p></dd>
+      <dt>headLampStatus</dt>
+      <dd><p>Subscribe to headLampStatus</p></dd>
+      <dt>instantFuelConsumption</dt>
+      <dd><p>Subscribe to instantFuelConsumption</p></dd>
+      <dt>myKey</dt>
+      <dd><p>Subscribe to myKey</p></dd>
+      <dt>odometer</dt>
+      <dd><p>Subscribe to odometer</p></dd>
+      <dt>prndl</dt>
+      <dd><p>Subscribe to prndl</p></dd>
+      <dt>rpm</dt>
+      <dd><p>Subscribe to rpm</p></dd>
+      <dt>speed</dt>
+      <dd><p>Subscribe to speed</p></dd>
+      <dt>steeringWheelAngle</dt>
+      <dd><p>Subscribe to steeringWheelAngle</p></dd>
+      <dt>tirePressure</dt>
+      <dd><p>Subscribe to tirePressure</p></dd>
+      <dt>turnSignal</dt>
+      <dd><p>Subscribe to turnSignal</p></dd>
+      <dt>wiperStatus</dt>
+      <dd><p>Subscribe to wiperStatus</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSubscribeVehicleData object</p>
+  </div>
+  
+  <h3 id="section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">
+      -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:
+  </h3>
+  
+  <p>Convenience init for subscribing to all possible vehicle data items.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
+                         <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
+                           <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
+                      <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
+                    <span class="nf">cloudAppVehicleID</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">cloudAppVehicleID</span>
+                    <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
+                         <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
+                        <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
+                            <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
+            <span class="nf">electronicParkBrakeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">electronicParkBrakeStatus</span>
+                       <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
+                        <span class="nf">engineOilLife</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineOilLife</span>
+                         <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
+                  <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
+                            <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
+                       <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
+                            <span class="nf">fuelRange</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelRange</span>
+                                  <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
+                       <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
+               <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
+                                <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
+                             <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
+                                <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
+                                  <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
+                                <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
+                   <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
+                         <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
+                           <span class="nf">turnSignal</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">turnSignal</span>
+                          <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">accelerationPedalPosition</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">clusterModeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevelState</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>accelerationPedalPosition</dt>
+      <dd><p>Subscribe to accelerationPedalPosition</p></dd>
+      <dt>airbagStatus</dt>
+      <dd><p>Subscribe to airbagStatus</p></dd>
+      <dt>beltStatus</dt>
+      <dd><p>Subscribe to beltStatus</p></dd>
+      <dt>bodyInformation</dt>
+      <dd><p>Subscribe to bodyInformation</p></dd>
+      <dt>cloudAppVehicleID</dt>
+      <dd><p>Subscribe to cloudAppVehicleID</p></dd>
+      <dt>clusterModeStatus</dt>
+      <dd><p>Subscribe to clusterModeStatus</p></dd>
+      <dt>deviceStatus</dt>
+      <dd><p>Subscribe to deviceStatus</p></dd>
+      <dt>driverBraking</dt>
+      <dd><p>Subscribe to driverBraking</p></dd>
+      <dt>eCallInfo</dt>
+      <dd><p>Subscribe to eCallInfo</p></dd>
+      <dt>electronicParkBrakeStatus</dt>
+      <dd><p>Subscribe to electronicParkBrakeStatus</p></dd>
+      <dt>emergencyEvent</dt>
+      <dd><p>Subscribe to emergencyEvent</p></dd>
+      <dt>engineOilLife</dt>
+      <dd><p>Subscribe to engineOilLife</p></dd>
+      <dt>engineTorque</dt>
+      <dd><p>Subscribe to engineTorque</p></dd>
+      <dt>externalTemperature</dt>
+      <dd><p>Subscribe to externalTemperature</p></dd>
+      <dt>fuelLevel</dt>
+      <dd><p>Subscribe to fuelLevel</p></dd>
+      <dt>fuelLevelState</dt>
+      <dd><p>Subscribe to fuelLevelState</p></dd>
+      <dt>fuelRange</dt>
+      <dd><p>Subscribe to fuelRange</p></dd>
+      <dt>gps</dt>
+      <dd><p>Subscribe to gps</p></dd>
+      <dt>headLampStatus</dt>
+      <dd><p>Subscribe to headLampStatus</p></dd>
+      <dt>instantFuelConsumption</dt>
+      <dd><p>Subscribe to instantFuelConsumption</p></dd>
+      <dt>myKey</dt>
+      <dd><p>Subscribe to myKey</p></dd>
+      <dt>odometer</dt>
+      <dd><p>Subscribe to odometer</p></dd>
+      <dt>prndl</dt>
+      <dd><p>Subscribe to prndl</p></dd>
+      <dt>rpm</dt>
+      <dd><p>Subscribe to rpm</p></dd>
+      <dt>speed</dt>
+      <dd><p>Subscribe to speed</p></dd>
+      <dt>steeringWheelAngle</dt>
+      <dd><p>Subscribe to steeringWheelAngle</p></dd>
+      <dt>tirePressure</dt>
+      <dd><p>Subscribe to tirePressure</p></dd>
+      <dt>turnSignal</dt>
+      <dd><p>Subscribe to turnSignal</p></dd>
+      <dt>wiperStatus</dt>
+      <dd><p>Subscribe to wiperStatus</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSubscribeVehicleData object</p>
   </div>
   
   <h3 id="section-gps">
       gps
   </h3>
   
-  <p>A boolean value. If true, subscribes Gps data</p>
+  <p>A boolean value. If true, subscribes GPS data.</p>
 
   
   
@@ -167,7 +393,7 @@
       speed
   </h3>
   
-  <p>A boolean value. If true, subscribes speed data</p>
+  <p>A boolean value. If true, subscribes Speed data.</p>
 
   
   
@@ -185,7 +411,7 @@
       rpm
   </h3>
   
-  <p>A boolean value. If true, subscribes rpm data</p>
+  <p>A boolean value. If true, subscribes RPM data.</p>
 
   
   
@@ -203,7 +429,7 @@
       fuelLevel
   </h3>
   
-  <p>A boolean value. If true, subscribes FuelLevel data</p>
+  <p>A boolean value. If true, subscribes Fuel Level data.</p>
 
   
   
@@ -221,7 +447,7 @@
       fuelLevel_State
   </h3>
   
-  <p>A boolean value. If true, subscribes fuelLevel_State data</p>
+  <p>A boolean value. If true, subscribes Fuel Level State data.</p>
 
   
   
@@ -236,11 +462,29 @@
   
   
   
+  <h3 id="section-fuelRange">
+      fuelRange
+  </h3>
+  
+  <p>A boolean value. If true, subscribes Fuel Range data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">fuelRange</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-instantFuelConsumption">
       instantFuelConsumption
   </h3>
   
-  <p>A boolean value. If true, subscribes instantFuelConsumption data</p>
+  <p>A boolean value. If true, subscribes Instant Fuel Consumption data.</p>
 
   
   
@@ -259,7 +503,7 @@
       externalTemperature
   </h3>
   
-  <p>A boolean value. If true, subscribes externalTemperature data</p>
+  <p>A boolean value. If true, subscribes External Temperature data.</p>
 
   
   
@@ -278,7 +522,7 @@
       prndl
   </h3>
   
-  <p>A boolean value. If true, subscribes Currently selected gear data</p>
+  <p>A boolean value. If true, subscribes PRNDL data.</p>
 
   
   
@@ -296,7 +540,7 @@
       tirePressure
   </h3>
   
-  <p>A boolean value. If true, subscribes tire pressure status data</p>
+  <p>A boolean value. If true, subscribes Tire Pressure status data.</p>
 
   
   
@@ -315,7 +559,7 @@
       odometer
   </h3>
   
-  <p>A boolean value. If true, subscribes odometer data</p>
+  <p>A boolean value. If true, subscribes Odometer data.</p>
 
   
   
@@ -333,7 +577,7 @@
       beltStatus
   </h3>
   
-  <p>A boolean value. If true, subscribes belt Status data</p>
+  <p>A boolean value. If true, subscribes Belt Status data.</p>
 
   
   
@@ -351,7 +595,7 @@
       bodyInformation
   </h3>
   
-  <p>A boolean value. If true, subscribes body Information data</p>
+  <p>A boolean value. If true, subscribes Body Information data.</p>
 
   
   
@@ -370,7 +614,7 @@
       deviceStatus
   </h3>
   
-  <p>A boolean value. If true, subscribes device Status data</p>
+  <p>A boolean value. If true, subscribes Device Status data.</p>
 
   
   
@@ -389,7 +633,7 @@
       driverBraking
   </h3>
   
-  <p>A boolean value. If true, subscribes driver Braking data</p>
+  <p>A boolean value. If true, subscribes Driver Braking data.</p>
 
   
   
@@ -408,7 +652,7 @@
       wiperStatus
   </h3>
   
-  <p>A boolean value. If true, subscribes wiper Status data</p>
+  <p>A boolean value. If true, subscribes Wiper Status data.</p>
 
   
   
@@ -427,7 +671,7 @@
       headLampStatus
   </h3>
   
-  <p>A boolean value. If true, subscribes Head Lamp Status data</p>
+  <p>A boolean value. If true, subscribes Head Lamp Status data.</p>
 
   
   
@@ -442,11 +686,30 @@
   
   
   
+  <h3 id="section-engineOilLife">
+      engineOilLife
+  </h3>
+  
+  <p>A boolean value. If true, subscribes to Engine Oil Life data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">engineOilLife</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-engineTorque">
       engineTorque
   </h3>
   
-  <p>A boolean value. If true, subscribes Engine Torque data</p>
+  <p>A boolean value. If true, subscribes Engine Torque data.</p>
 
   
   
@@ -465,8 +728,7 @@
       accPedalPosition
   </h3>
   
-  <p>A boolean value. If true, means the accPedalPosition data has been
-subscribed.</p>
+  <p>A boolean value. If true, subscribes Acc Pedal Position data.</p>
 
   
   
@@ -485,8 +747,7 @@ subscribed.</p>
       steeringWheelAngle
   </h3>
   
-  <p>A boolean value. If true, means the steeringWheelAngle data has been
-subscribed.</p>
+  <p>A boolean value. If true, subscribes Steering Wheel Angle data.</p>
 
   
   
@@ -505,7 +766,7 @@ subscribed.</p>
       eCallInfo
   </h3>
   
-  <p>Subscribe to eCallInfo</p>
+  <p>A boolean value. If true, subscribes eCall Info data.</p>
 
   
   
@@ -523,7 +784,7 @@ subscribed.</p>
       airbagStatus
   </h3>
   
-  <p>Subscribe to airbagStatus</p>
+  <p>A boolean value. If true, subscribes Airbag Status data.</p>
 
   
   
@@ -542,7 +803,7 @@ subscribed.</p>
       emergencyEvent
   </h3>
   
-  <p>Subscribe to emergencyEvent</p>
+  <p>A boolean value. If true, subscribes Emergency Event data.</p>
 
   
   
@@ -561,7 +822,7 @@ subscribed.</p>
       clusterModeStatus
   </h3>
   
-  <p>Subscribe to clusterModeStatus</p>
+  <p>A boolean value. If true, subscribes Cluster Mode Status data.</p>
 
   
   
@@ -580,7 +841,7 @@ subscribed.</p>
       myKey
   </h3>
   
-  <p>Subscribe to myKey</p>
+  <p>A boolean value. If true, subscribes myKey data.</p>
 
   
   
@@ -590,6 +851,62 @@ subscribed.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">myKey</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-electronicParkBrakeStatus">
+      electronicParkBrakeStatus
+  </h3>
+  
+  <p>A boolean value. If true, subscribes to the electronic parking brake status.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">electronicParkBrakeStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-turnSignal">
+      turnSignal
+  </h3>
+  
+  <p>A boolean value. If true, subscribes to the turn signal status.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">turnSignal</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cloudAppVehicleID">
+      cloudAppVehicleID
+  </h3>
+  
+  <p>A boolean value. If true, subscribes to the cloud app vehicle ID.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cloudAppVehicleID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

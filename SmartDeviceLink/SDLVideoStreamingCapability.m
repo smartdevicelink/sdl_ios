@@ -11,7 +11,7 @@
 #import "SDLVideoStreamingFormat.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,35 +32,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setPreferredResolution:(nullable SDLImageResolution *)preferredResolution {
-    [store sdl_setObject:preferredResolution forName:SDLNamePreferredResolution];
+    [self.store sdl_setObject:preferredResolution forName:SDLRPCParameterNamePreferredResolution];
 }
 
 - (nullable SDLImageResolution *)preferredResolution {
-    return [store sdl_objectForName:SDLNamePreferredResolution ofClass:SDLImageResolution.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePreferredResolution ofClass:SDLImageResolution.class error:nil];
 }
 
 - (void)setMaxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate {
-    [store sdl_setObject:maxBitrate forName:SDLNameMaxBitrate];
+    [self.store sdl_setObject:maxBitrate forName:SDLRPCParameterNameMaxBitrate];
 }
 
 - (nullable NSNumber<SDLInt> *)maxBitrate {
-    return [store sdl_objectForName:SDLNameMaxBitrate];
+    return [self.store sdl_objectForName:SDLRPCParameterNameMaxBitrate ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSupportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-    [store sdl_setObject:supportedFormats forName:SDLNameSupportedFormats];
+    [self.store sdl_setObject:supportedFormats forName:SDLRPCParameterNameSupportedFormats];
 }
 
 - (nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-    return [store sdl_objectsForName:SDLNameSupportedFormats ofClass:SDLVideoStreamingFormat.class];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameSupportedFormats ofClass:SDLVideoStreamingFormat.class error:nil];
 }
 
 - (void)setHapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
-    [store sdl_setObject:hapticSpatialDataSupported forName:SDLNameHapticSpatialDataSupported];
+    [self.store sdl_setObject:hapticSpatialDataSupported forName:SDLRPCParameterNameHapticSpatialDataSupported];
 }
 
 - (nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
-    return [store sdl_objectForName:SDLNameHapticSpatialDataSupported];
+    return [self.store sdl_objectForName:SDLRPCParameterNameHapticSpatialDataSupported ofClass:NSNumber.class error:nil];
 }
 
 @end

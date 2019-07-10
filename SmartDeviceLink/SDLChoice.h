@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoice : SDLRPCStruct
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands;
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText;
 
 /**
  * The application-scoped identifier that uniquely identifies this choice
@@ -36,9 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * VR synonyms for this choice
  *
- * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
+ * Optional, Array of Strings, Array length 1 - 100, Max String length 99 chars
+ *
+ * @discussion, VR commands are optional beginning with SDL Core v.5.0. They are required for previous versions.
  */
-@property (strong, nonatomic) NSArray<NSString *> *vrCommands;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *vrCommands;
 
 /**
  * The image of the choice

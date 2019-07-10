@@ -4,154 +4,156 @@
 #import "SDLGPSData.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGPSData
 
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    [store sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [self.store sdl_setObject:longitudeDegrees forName:SDLRPCParameterNameLongitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return [store sdl_objectForName:SDLNameLongitudeDegrees];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameLongitudeDegrees ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    [store sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [self.store sdl_setObject:latitudeDegrees forName:SDLRPCParameterNameLatitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return [store sdl_objectForName:SDLNameLatitudeDegrees];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameLatitudeDegrees ofClass:NSNumber.class error:&error];
 }
 
-- (void)setUtcYear:(NSNumber<SDLInt> *)utcYear {
-    [store sdl_setObject:utcYear forName:SDLNameUTCYear];
+- (void)setUtcYear:(nullable NSNumber<SDLInt> *)utcYear {
+    [self.store sdl_setObject:utcYear forName:SDLRPCParameterNameUTCYear];
 }
 
-- (NSNumber<SDLInt> *)utcYear {
-    return [store sdl_objectForName:SDLNameUTCYear];
+- (nullable NSNumber<SDLInt> *)utcYear {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCYear ofClass:NSNumber.class error:nil];
 }
 
-- (void)setUtcMonth:(NSNumber<SDLInt> *)utcMonth {
-    [store sdl_setObject:utcMonth forName:SDLNameUTCMonth];
+- (void)setUtcMonth:(nullable NSNumber<SDLInt> *)utcMonth {
+    [self.store sdl_setObject:utcMonth forName:SDLRPCParameterNameUTCMonth];
 }
 
-- (NSNumber<SDLInt> *)utcMonth {
-    return [store sdl_objectForName:SDLNameUTCMonth];
+- (nullable NSNumber<SDLInt> *)utcMonth {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCMonth ofClass:NSNumber.class error:nil];
 }
 
-- (void)setUtcDay:(NSNumber<SDLInt> *)utcDay {
-    [store sdl_setObject:utcDay forName:SDLNameUTCDay];
+- (void)setUtcDay:(nullable NSNumber<SDLInt> *)utcDay {
+    [self.store sdl_setObject:utcDay forName:SDLRPCParameterNameUTCDay];
 }
 
-- (NSNumber<SDLInt> *)utcDay {
-    return [store sdl_objectForName:SDLNameUTCDay];
+- (nullable NSNumber<SDLInt> *)utcDay {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCDay ofClass:NSNumber.class error:nil];
 }
 
-- (void)setUtcHours:(NSNumber<SDLInt> *)utcHours {
-    [store sdl_setObject:utcHours forName:SDLNameUTCHours];
+- (void)setUtcHours:(nullable NSNumber<SDLInt> *)utcHours {
+    [self.store sdl_setObject:utcHours forName:SDLRPCParameterNameUTCHours];
 }
 
-- (NSNumber<SDLInt> *)utcHours {
-    return [store sdl_objectForName:SDLNameUTCHours];
+- (nullable NSNumber<SDLInt> *)utcHours {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCHours ofClass:NSNumber.class error:nil];
 }
 
-- (void)setUtcMinutes:(NSNumber<SDLInt> *)utcMinutes {
-    [store sdl_setObject:utcMinutes forName:SDLNameUTCMinutes];
+- (void)setUtcMinutes:(nullable NSNumber<SDLInt> *)utcMinutes {
+    [self.store sdl_setObject:utcMinutes forName:SDLRPCParameterNameUTCMinutes];
 }
 
-- (NSNumber<SDLInt> *)utcMinutes {
-    return [store sdl_objectForName:SDLNameUTCMinutes];
+- (nullable NSNumber<SDLInt> *)utcMinutes {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCMinutes ofClass:NSNumber.class error:nil];
 }
 
-- (void)setUtcSeconds:(NSNumber<SDLInt> *)utcSeconds {
-    [store sdl_setObject:utcSeconds forName:SDLNameUTCSeconds];
+- (void)setUtcSeconds:(nullable NSNumber<SDLInt> *)utcSeconds {
+    [self.store sdl_setObject:utcSeconds forName:SDLRPCParameterNameUTCSeconds];
 }
 
-- (NSNumber<SDLInt> *)utcSeconds {
-    return [store sdl_objectForName:SDLNameUTCSeconds];
+- (nullable NSNumber<SDLInt> *)utcSeconds {
+    return [self.store sdl_objectForName:SDLRPCParameterNameUTCSeconds ofClass:NSNumber.class error:nil];
 }
 
-- (void)setCompassDirection:(SDLCompassDirection)compassDirection {
-    [store sdl_setObject:compassDirection forName:SDLNameCompassDirection];
+- (void)setCompassDirection:(nullable SDLCompassDirection)compassDirection {
+    [self.store sdl_setObject:compassDirection forName:SDLRPCParameterNameCompassDirection];
 }
 
-- (SDLCompassDirection)compassDirection {
-    return [store sdl_objectForName:SDLNameCompassDirection];
+- (nullable SDLCompassDirection)compassDirection {
+    return [self.store sdl_enumForName:SDLRPCParameterNameCompassDirection error:nil];
 }
 
-- (void)setPdop:(NSNumber<SDLFloat> *)pdop {
-    [store sdl_setObject:pdop forName:SDLNamePDOP];
+- (void)setPdop:(nullable NSNumber<SDLFloat> *)pdop {
+    [self.store sdl_setObject:pdop forName:SDLRPCParameterNamePDOP];
 }
 
-- (NSNumber<SDLFloat> *)pdop {
-    return [store sdl_objectForName:SDLNamePDOP];
+- (nullable NSNumber<SDLFloat> *)pdop {
+    return [self.store sdl_objectForName:SDLRPCParameterNamePDOP ofClass:NSNumber.class error:nil];
 }
 
-- (void)setHdop:(NSNumber<SDLFloat> *)hdop {
-    [store sdl_setObject:hdop forName:SDLNameHDOP];
+- (void)setHdop:(nullable NSNumber<SDLFloat> *)hdop {
+    [self.store sdl_setObject:hdop forName:SDLRPCParameterNameHDOP];
 }
 
-- (NSNumber<SDLFloat> *)hdop {
-    return [store sdl_objectForName:SDLNameHDOP];
+- (nullable NSNumber<SDLFloat> *)hdop {
+    return [self.store sdl_objectForName:SDLRPCParameterNameHDOP ofClass:NSNumber.class error:nil];
 }
 
-- (void)setVdop:(NSNumber<SDLFloat> *)vdop {
-    [store sdl_setObject:vdop forName:SDLNameVDOP];
+- (void)setVdop:(nullable NSNumber<SDLFloat> *)vdop {
+    [self.store sdl_setObject:vdop forName:SDLRPCParameterNameVDOP];
 }
 
-- (NSNumber<SDLFloat> *)vdop {
-    return [store sdl_objectForName:SDLNameVDOP];
+- (nullable NSNumber<SDLFloat> *)vdop {
+    return [self.store sdl_objectForName:SDLRPCParameterNameVDOP ofClass:NSNumber.class error:nil];
 }
 
-- (void)setActual:(NSNumber<SDLBool> *)actual {
-    [store sdl_setObject:actual forName:SDLNameActual];
+- (void)setActual:(nullable NSNumber<SDLBool> *)actual {
+    [self.store sdl_setObject:actual forName:SDLRPCParameterNameActual];
 }
 
-- (NSNumber<SDLBool> *)actual {
-    return [store sdl_objectForName:SDLNameActual];
+- (nullable NSNumber<SDLBool> *)actual {
+    return [self.store sdl_objectForName:SDLRPCParameterNameActual ofClass:NSNumber.class error:nil];
 }
 
-- (void)setSatellites:(NSNumber<SDLInt> *)satellites {
-    [store sdl_setObject:satellites forName:SDLNameSatellites];
+- (void)setSatellites:(nullable NSNumber<SDLInt> *)satellites {
+    [self.store sdl_setObject:satellites forName:SDLRPCParameterNameSatellites];
 }
 
-- (NSNumber<SDLInt> *)satellites {
-    return [store sdl_objectForName:SDLNameSatellites];
+- (nullable NSNumber<SDLInt> *)satellites {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSatellites ofClass:NSNumber.class error:nil];
 }
 
-- (void)setDimension:(SDLDimension)dimension {
-    [store sdl_setObject:dimension forName:SDLNameDimension];
+- (void)setDimension:(nullable SDLDimension)dimension {
+    [self.store sdl_setObject:dimension forName:SDLRPCParameterNameDimension];
 }
 
-- (SDLDimension)dimension {
-    return [store sdl_objectForName:SDLNameDimension];
+- (nullable SDLDimension)dimension {
+    return [self.store sdl_enumForName:SDLRPCParameterNameDimension error:nil];
 }
 
-- (void)setAltitude:(NSNumber<SDLFloat> *)altitude {
-    [store sdl_setObject:altitude forName:SDLNameAltitude];
+- (void)setAltitude:(nullable NSNumber<SDLFloat> *)altitude {
+    [self.store sdl_setObject:altitude forName:SDLRPCParameterNameAltitude];
 }
 
-- (NSNumber<SDLFloat> *)altitude {
-    return [store sdl_objectForName:SDLNameAltitude];
+- (nullable NSNumber<SDLFloat> *)altitude {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAltitude ofClass:NSNumber.class error:nil];
 }
 
-- (void)setHeading:(NSNumber<SDLFloat> *)heading {
-    [store sdl_setObject:heading forName:SDLNameHeading];
+- (void)setHeading:(nullable NSNumber<SDLFloat> *)heading {
+    [self.store sdl_setObject:heading forName:SDLRPCParameterNameHeading];
 }
 
-- (NSNumber<SDLFloat> *)heading {
-    return [store sdl_objectForName:SDLNameHeading];
+- (nullable NSNumber<SDLFloat> *)heading {
+    return [self.store sdl_objectForName:SDLRPCParameterNameHeading ofClass:NSNumber.class error:nil];
 }
 
-- (void)setSpeed:(NSNumber<SDLFloat> *)speed {
-    [store sdl_setObject:speed forName:SDLNameSpeed];
+- (void)setSpeed:(nullable NSNumber<SDLFloat> *)speed {
+    [self.store sdl_setObject:speed forName:SDLRPCParameterNameSpeed];
 }
 
-- (NSNumber<SDLFloat> *)speed {
-    return [store sdl_objectForName:SDLNameSpeed];
+- (nullable NSNumber<SDLFloat> *)speed {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSpeed ofClass:NSNumber.class error:nil];
 }
 
 @end

@@ -5,17 +5,37 @@
 #import "SDLSendLocation.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocation
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    self = [super initWithName:SDLNameSendLocation];
+    self = [super initWithName:SDLRPCFunctionNameSendLocation];
     if (!self) {
         return nil;
     }
+
+    return self;
+}
+#pragma clang diagnostic pop
+
+- (instancetype)initWithAddress:(SDLOasisAddress *)address addressLines:(nullable NSArray<NSString *> *)addressLines locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.address = address;
+    self.addressLines = addressLines;
+    self.locationName = locationName;
+    self.locationDescription = locationDescription;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = image;
+    self.deliveryMode = deliveryMode;
+    self.timeStamp = timeStamp;
 
     return self;
 }
@@ -45,83 +65,83 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees {
-    [parameters sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [self.parameters sdl_setObject:longitudeDegrees forName:SDLRPCParameterNameLongitudeDegrees];
 }
 
 - (nullable NSNumber<SDLFloat> *)longitudeDegrees {
-    return [parameters sdl_objectForName:SDLNameLongitudeDegrees];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLongitudeDegrees ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLatitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees {
-    [parameters sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [self.parameters sdl_setObject:latitudeDegrees forName:SDLRPCParameterNameLatitudeDegrees];
 }
 
 - (nullable NSNumber<SDLFloat> *)latitudeDegrees {
-    return [parameters sdl_objectForName:SDLNameLatitudeDegrees];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLatitudeDegrees ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLocationName:(nullable NSString *)locationName {
-    [parameters sdl_setObject:locationName forName:SDLNameLocationName];
+    [self.parameters sdl_setObject:locationName forName:SDLRPCParameterNameLocationName];
 }
 
 - (nullable NSString *)locationName {
-    return [parameters sdl_objectForName:SDLNameLocationName];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLocationName ofClass:NSString.class error:nil];
 }
 
 - (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
-    [parameters sdl_setObject:addressLines forName:SDLNameAddressLines];
+    [self.parameters sdl_setObject:addressLines forName:SDLRPCParameterNameAddressLines];
 }
 
 - (nullable NSString *)locationDescription {
-    return [parameters sdl_objectForName:SDLNameLocationDescription];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLocationDescription ofClass:NSString.class error:nil];
 }
 
 - (void)setLocationDescription:(nullable NSString *)locationDescription {
-    [parameters sdl_setObject:locationDescription forName:SDLNameLocationDescription];
+    [self.parameters sdl_setObject:locationDescription forName:SDLRPCParameterNameLocationDescription];
 }
 
 - (nullable NSArray<NSString *> *)addressLines {
-    return [parameters sdl_objectForName:SDLNameAddressLines];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameAddressLines ofClass:NSString.class error:nil];
 }
 
 - (void)setPhoneNumber:(nullable NSString *)phoneNumber {
-    [parameters sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
+    [self.parameters sdl_setObject:phoneNumber forName:SDLRPCParameterNamePhoneNumber];
 }
 
 - (nullable NSString *)phoneNumber {
-    return [parameters sdl_objectForName:SDLNamePhoneNumber];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNamePhoneNumber ofClass:NSString.class error:nil];
 }
 
 - (void)setLocationImage:(nullable SDLImage *)locationImage {
-    [parameters sdl_setObject:locationImage forName:SDLNameLocationImage];
+    [self.parameters sdl_setObject:locationImage forName:SDLRPCParameterNameLocationImage];
 }
 
 - (nullable SDLImage *)locationImage {
-    return [parameters sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLocationImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setDeliveryMode:(nullable SDLDeliveryMode)deliveryMode {
-    [parameters sdl_setObject:deliveryMode forName:SDLNameDeliveryMode];
+    [self.parameters sdl_setObject:deliveryMode forName:SDLRPCParameterNameDeliveryMode];
 }
 
 - (nullable SDLDeliveryMode)deliveryMode {
-    return [parameters sdl_objectForName:SDLNameDeliveryMode];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameDeliveryMode error:nil];
 }
 
 - (void)setTimeStamp:(nullable SDLDateTime *)timeStamp {
-    [parameters sdl_setObject:timeStamp forName:SDLNameLocationTimeStamp];
+    [self.parameters sdl_setObject:timeStamp forName:SDLRPCParameterNameTimeStamp];
 }
 
 - (nullable SDLDateTime *)timeStamp {
-    return [parameters sdl_objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setAddress:(nullable SDLOasisAddress *)address {
-    [parameters sdl_setObject:address forName:SDLNameAddress];
+    [self.parameters sdl_setObject:address forName:SDLRPCParameterNameAddress];
 }
 
 - (nullable SDLOasisAddress *)address {
-    return [parameters sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAddress ofClass:SDLOasisAddress.class error:nil];
 }
 
 @end

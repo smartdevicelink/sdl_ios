@@ -19,6 +19,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLSpeechCapabilitiesLHPlusPhonemes).to(equal(@"LHPLUS_PHONEMES"));
         expect(SDLSpeechCapabilitiesPrerecorded).to(equal(@"PRE_RECORDED"));
         expect(SDLSpeechCapabilitiesSilence).to(equal(@"SILENCE"));
+        expect(SDLSpeechCapabilitiesFile).to(equal(@"FILE"));
     });
 });
 

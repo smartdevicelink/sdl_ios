@@ -1,0 +1,143 @@
+<h1>SDLSISData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithStationShortName:stationIDNumber:stationLongName:stationLocation:stationMessage:">-initWithStationShortName:stationIDNumber:stationLongName:stationLocation:stationMessage:</a></li>
+  <li><a href="#section-stationShortName">stationShortName</a></li>
+  <li><a href="#section-stationIDNumber">stationIDNumber</a></li>
+  <li><a href="#section-stationLongName">stationLongName</a></li>
+  <li><a href="#section-stationLocation">stationLocation</a></li>
+  <li><a href="#section-stationMessage">stationMessage</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>HD radio Station Information Service (SIS) data.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithStationShortName:stationIDNumber:stationLongName:stationLocation:stationMessage:">
+      -initWithStationShortName:stationIDNumber:stationLongName:stationLocation:stationMessage:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStationShortName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stationShortName</span> <span class="nf">stationIDNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStationIDNumber.html">SDLStationIDNumber</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">id</span> <span class="nf">stationLongName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stationLongName</span> <span class="nf">stationLocation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLGPSData.html">SDLGPSData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">stationLocation</span> <span class="nf">stationMessage</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stationMessage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">stationShortName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n"><a href="../Classes/SDLSISData.html#/c:objc(cs)SDLSISData(py)stationIDNumber">stationIDNumber</a></span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStationIDNumber.html">SDLStationIDNumber</a></span><span class="p">?,</span> <span class="nv">stationLongName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">stationLocation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLGPSData.html">SDLGPSData</a></span><span class="p">?,</span> <span class="nv">stationMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stationShortName">
+      stationShortName
+  </h3>
+  
+  <p>@abstract Identifies the 4-alpha-character station call sign
+ plus an optional (-FM) extension</p>
+
+<p>Optional, String, minLength: 4characters maxlength: 7characters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">stationShortName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stationShortName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stationIDNumber">
+      stationIDNumber
+  </h3>
+  
+  <p>@abstract Used for network Application.
+ Consists of Country Code and FCC Facility ID.</p>
+
+<p>Optional, SDLStationIDNumber type</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLStationIDNumber.html">SDLStationIDNumber</a></span> <span class="o">*</span><span class="n">stationIDNumber</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stationIDNumber</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStationIDNumber.html">SDLStationIDNumber</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stationLongName">
+      stationLongName
+  </h3>
+  
+  <p>@abstract Identifies the station call sign or other identifying
+ information in the long format.</p>
+
+<p>Optional, String, minLength: 0characters maxlength: 56characters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">stationLongName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stationLongName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stationLocation">
+      stationLocation
+  </h3>
+  
+  <p>@abstract Provides the 3-dimensional geographic station location</p>
+
+<p>Optional, SDLGPSData type</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLGPSData.html">SDLGPSData</a></span> <span class="o">*</span><span class="n">stationLocation</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stationLocation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLGPSData.html">SDLGPSData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stationMessage">
+      stationMessage
+  </h3>
+  
+  <p>@abstract May be used to convey textual information of general interest
+ to the consumer such as weather forecasts or public service announcements.</p>
+
+<p>Optional, String, minLength: 0characters maxlength: 56characters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">stationMessage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stationMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

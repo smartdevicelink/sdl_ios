@@ -1,0 +1,266 @@
+<h1>SDLNavigationInstruction Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithLocationDetails:action:">-initWithLocationDetails:action:</a></li>
+  <li><a href="#section--initWithLocationDetails:action:eta:bearing:junctionType:drivingSide:details:image:">-initWithLocationDetails:action:eta:bearing:junctionType:drivingSide:details:image:</a></li>
+  <li><a href="#section-locationDetails">locationDetails</a></li>
+  <li><a href="#section-action">action</a></li>
+  <li><a href="#section-eta">eta</a></li>
+  <li><a href="#section-bearing">bearing</a></li>
+  <li><a href="#section-junctionType">junctionType</a></li>
+  <li><a href="#section-drivingSide">drivingSide</a></li>
+  <li><a href="#section-details">details</a></li>
+  <li><a href="#section-image">image</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithLocationDetails:action:">
+      -initWithLocationDetails:action:
+  </h3>
+  
+  <p>Convenience init for required parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span>
+                     <span class="nf">action</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">locationDetails</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">,</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>locationDetails</dt>
+      <dd><p>The location details</p></dd>
+      <dt>action</dt>
+      <dd><p>The navigation action</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLNavigationInstruction object</p>
+  </div>
+  
+  <h3 id="section--initWithLocationDetails:action:eta:bearing:junctionType:drivingSide:details:image:">
+      -initWithLocationDetails:action:eta:bearing:junctionType:drivingSide:details:image:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span>
+                     <span class="nf">action</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span>
+                        <span class="nf">eta</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">eta</span>
+                    <span class="nf">bearing</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">bearing</span>
+               <span class="nf">junctionType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">)</span><span class="nv">junctionType</span>
+                <span class="nf">drivingSide</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">)</span><span class="nv">drivingSide</span>
+                    <span class="nf">details</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">details</span>
+                      <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">locationDetails</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">,</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">,</span> <span class="nv">eta</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?,</span> <span class="nv">bearing</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">junctionType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">?,</span> <span class="nv">drivingSide</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">?,</span> <span class="nv">details</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">image</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>locationDetails</dt>
+      <dd><p>The location details</p></dd>
+      <dt>action</dt>
+      <dd><p>The navigation action</p></dd>
+      <dt>eta</dt>
+      <dd><p>The estimated time of arrival</p></dd>
+      <dt>bearing</dt>
+      <dd><p>The angle at which this instruction takes place</p></dd>
+      <dt>junctionType</dt>
+      <dd><p>The navigation junction type</p></dd>
+      <dt>drivingSide</dt>
+      <dd><p>Used to infer which side of the road this instruction takes place</p></dd>
+      <dt>details</dt>
+      <dd><p>This is a string representation of this instruction, used to display instructions to the users</p></dd>
+      <dt>image</dt>
+      <dd><p>An image representation of this instruction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLNavigationInstruction object</p>
+  </div>
+  
+  <h3 id="section-locationDetails">
+      locationDetails
+  </h3>
+  
+  <p>The location details.</p>
+
+<p>SDLLocationDetails, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">locationDetails</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">locationDetails</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-action">
+      action
+  </h3>
+  
+  <p>The navigation action.</p>
+
+<p>SDLNavigationAction, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="n">_Nonnull</span> <span class="n">action</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-eta">
+      eta
+  </h3>
+  
+  <p>The estimated time of arrival.</p>
+
+<p>SDLDateTime, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">eta</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">eta</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-bearing">
+      bearing
+  </h3>
+  
+  <p>The angle at which this instruction takes place. For example, 0 would mean straight, &lt;=45 is bearing right, &gt;= 135 is sharp right, between 45 and 135 is a regular right, and 180 is a U-Turn, etc. </p>
+
+<p>Integer, Optional, minValue=<q>0</q> maxValue=<q>359</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">bearing</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">bearing</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-junctionType">
+      junctionType
+  </h3>
+  
+  <p>The navigation junction type.</p>
+
+<p>SDLNavigationJunction, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="n">junctionType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">junctionType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-drivingSide">
+      drivingSide
+  </h3>
+  
+  <p>Used to infer which side of the road this instruction takes place. For a U-Turn (action=TURN, bearing=180) this will determine which direction the turn should take place.</p>
+
+<p>SDLDirection, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="n">drivingSide</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">drivingSide</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-details">
+      details
+  </h3>
+  
+  <p>This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in <code>NavigationServiceData</code> for that.</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">details</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">details</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-image">
+      image
+  </h3>
+  
+  <p>An image representation of this instruction.</p>
+
+<p>SDLImage, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">image</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">image</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

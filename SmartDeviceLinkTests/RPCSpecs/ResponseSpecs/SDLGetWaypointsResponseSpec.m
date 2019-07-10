@@ -11,7 +11,7 @@
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLOasisAddress.h"
 
 QuickSpecBegin(SDLGetWaypointsResponseSpec)
@@ -63,14 +63,16 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 someWaypoints = @[someLocation];
                 
-                NSDictionary *initDict = @{SDLNameResponse : @{
-                                                   SDLNameParameters: @{
-                                                           SDLNameWayPoints: someWaypoints
+                NSDictionary *initDict = @{SDLRPCParameterNameResponse : @{
+                                                   SDLRPCParameterNameParameters: @{
+                                                           SDLRPCParameterNameWayPoints: someWaypoints
                                                            }
                                                    }
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -83,12 +85,14 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{}
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+#pragma clang diagnostic pop
             });
             
             it(@"should return nil for waypoints", ^{

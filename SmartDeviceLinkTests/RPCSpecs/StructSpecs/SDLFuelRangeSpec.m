@@ -12,7 +12,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLFuelRange.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLFuelRangeSpec)
 
@@ -28,11 +28,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLNameType:SDLFuelTypeLPG,
-                                SDLNameRange:@23
+        NSDictionary *dict = @{SDLRPCParameterNameType:SDLFuelTypeLPG,
+                                SDLRPCParameterNameRange:@23
                                 };
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.type).to(equal(SDLFuelTypeLPG));
         expect(testStruct.range).to(equal(@23));

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLCharacterSet.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLTextField.h"
 #import "SDLTextFieldName.h"
 
@@ -32,11 +32,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLTextFieldNameTertiaryText,
-                                       SDLNameCharacterSet:SDLCharacterSetType5,
-                                       SDLNameWidth:@111,
-                                       SDLNameRows:@4} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLTextFieldNameTertiaryText,
+                                       SDLRPCParameterNameCharacterSet:SDLCharacterSetType5,
+                                       SDLRPCParameterNameWidth:@111,
+                                       SDLRPCParameterNameRows:@4} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));
         expect(testStruct.characterSet).to(equal(SDLCharacterSetType5));

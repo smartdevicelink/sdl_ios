@@ -10,7 +10,7 @@
 
 #import "SDLHMIPermissions.h"
 #import "SDLHMILevel.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLHMIPermissionsSpec)
 
@@ -26,9 +26,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameAllowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
-                                       SDLNameUserDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameAllowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
+                                       SDLRPCParameterNameUserDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHMIPermissions* testStruct = [[SDLHMIPermissions alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.allowed).to(equal([@[SDLHMILevelBackground, SDLHMILevelFull] copy]));
         expect(testStruct.userDisallowed).to(equal([@[SDLHMILevelNone, SDLHMILevelLimited] copy]));

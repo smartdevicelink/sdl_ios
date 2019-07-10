@@ -11,7 +11,8 @@
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLMetadataType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
@@ -97,7 +98,7 @@ describe(@"Getter/Setter Tests", ^ {
         __block SDLMetadataTags *testTags = nil;
 
         beforeEach(^{
-            testGraphic = [[SDLImage alloc] initWithName:@"test name"];
+            testGraphic = [[SDLImage alloc] initWithName:@"test name" isTemplate:false];
             testCustomPresets = @[testString1];
             testButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Test Button" image:nil highlighted:NO buttonId:0 systemAction:nil handler:nil];
             testSoftButtons = @[testButton];
@@ -312,23 +313,26 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"Should get correctly when initialized with a dictionary", ^ {
-            NSMutableDictionary* dict = [@{SDLNameRequest:
-                                               @{SDLNameParameters:
-                                                     @{SDLNameMainField1:@"field1",
-                                                       SDLNameMainField2:@"field2",
-                                                       SDLNameMainField3:@"field3",
-                                                       SDLNameMainField4:@"field4",
-                                                       SDLNameAlignment:SDLTextAlignmentLeft,
-                                                       SDLNameStatusBar:@"status",
-                                                       SDLNameMediaClock:@"TheTime",
-                                                       SDLNameMediaTrack:@"In The Clear",
-                                                       SDLNameGraphic:image1,
-                                                       SDLNameSecondaryGraphic:image2,
-                                                       SDLNameSoftButtons:[@[button] mutableCopy],
-                                                       SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
-                                                       SDLNameMetadataTags:testMetadata},
-                                                 SDLNameOperationName:SDLNameShow}} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                               @{SDLRPCParameterNameParameters:
+                                                     @{SDLRPCParameterNameMainField1:@"field1",
+                                                       SDLRPCParameterNameMainField2:@"field2",
+                                                       SDLRPCParameterNameMainField3:@"field3",
+                                                       SDLRPCParameterNameMainField4:@"field4",
+                                                       SDLRPCParameterNameAlignment:SDLTextAlignmentLeft,
+                                                       SDLRPCParameterNameStatusBar:@"status",
+                                                       SDLRPCParameterNameMediaClock:@"TheTime",
+                                                       SDLRPCParameterNameMediaTrack:@"In The Clear",
+                                                       SDLRPCParameterNameGraphic:image1,
+                                                       SDLRPCParameterNameSecondaryGraphic:image2,
+                                                       SDLRPCParameterNameSoftButtons:[@[button] mutableCopy],
+                                                       SDLRPCParameterNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
+                                                       SDLRPCParameterNameMetadataTags:testMetadata},
+                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expect(testRequest.mainField1).to(equal(@"field1"));
             expect(testRequest.mainField2).to(equal(@"field2"));

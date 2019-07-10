@@ -21,7 +21,11 @@
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:configuration:">-initWithConnectionManager:configuration:</a></li>
   <li><a href="#section--startWithProtocol:">-startWithProtocol:</a></li>
+  <li><a href="#section--startAudioWithProtocol:">-startAudioWithProtocol:</a></li>
+  <li><a href="#section--startVideoWithProtocol:">-startVideoWithProtocol:</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--stopAudio">-stopAudio</a></li>
+  <li><a href="#section--stopVideo">-stopVideo</a></li>
   <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
   <li><a href="#section--sendVideoData:presentationTimestamp:">-sendVideoData:presentationTimestamp:</a></li>
   <li><a href="#section--sendAudioData:">-sendAudioData:</a></li>
@@ -79,12 +83,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rootViewController</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">rootViewController</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rootViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rootViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -351,10 +355,9 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithConnectionManager</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span>
-            <span class="nf">configuration</span><span class="p">:</span>
-                <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithConnectionManager</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span>
+                <span class="nf">configuration</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLConfiguration.html">SDLConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span><span class="p">;</span></code></pre>
 
   
   
@@ -364,7 +367,7 @@
       <dt>connectionManager</dt>
       <dd><p>The pass-through for RPCs</p></dd>
       <dt>configuration</dt>
-      <dd><p>The configuration of this streaming media session</p></dd>
+      <dd><p>This session&rsquo;s configuration</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -389,6 +392,42 @@
   
   
   
+  <h3 id="section--startAudioWithProtocol:">
+      -startAudioWithProtocol:
+  </h3>
+  
+  <p>Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on <code><a href="../Classes/SDLManager.html">SDLManager</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startAudioWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startAudio</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt">SDLProtocol</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--startVideoWithProtocol:">
+      -startVideoWithProtocol:
+  </h3>
+  
+  <p>Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on <code><a href="../Classes/SDLManager.html">SDLManager</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startVideo</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt">SDLProtocol</span><span class="p">)</span></code></pre>
+
+  
+  
+  
   <h3 id="section--stop">
       -stop
   </h3>
@@ -403,6 +442,42 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--stopAudio">
+      -stopAudio
+  </h3>
+  
+  <p>Stop the audio feature of the manager. This method is used internally.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopAudio</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopAudio</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--stopVideo">
+      -stopVideo
+  </h3>
+  
+  <p>Stop the video feature of the manager. This method is used internally.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopVideo</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopVideo</span><span class="p">()</span></code></pre>
 
   
   
@@ -468,7 +543,9 @@
       -sendAudioData:
   </h3>
   
-  <p>This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback</p>
+  <p>This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback.</p>
+
+<p>NOTE: See the <code><a href="../Classes/SDLStreamingMediaManager.html#/c:objc(cs)SDLStreamingMediaManager(py)audioManager">.audioManager</a></code> (SDLAudioStreamManager) <code>pushWithData:</code> method for a more modern API.</p>
 
   
   

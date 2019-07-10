@@ -5,9 +5,11 @@
 <ul>
   <li><a href="#section--initWithId:menuName:">-initWithId:menuName:</a></li>
   <li><a href="#section--initWithId:menuName:position:">-initWithId:menuName:position:</a></li>
+  <li><a href="#section--initWithId:menuName:menuIcon:position:">-initWithId:menuName:menuIcon:position:</a></li>
   <li><a href="#section-menuID">menuID</a></li>
   <li><a href="#section-position">position</a></li>
   <li><a href="#section-menuName">menuName</a></li>
+  <li><a href="#section-menuIcon">menuIcon</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -53,11 +55,29 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuId</span> <span class="nf">menuName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuId</span> <span class="nf">menuName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span> <span class="n">__deprecated_msg</span><span class="p">((</span><span class="s">"Use initWithId:menuName:menuIcon:position: instead"</span><span class="p">));</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">id</span> <span class="nv">menuId</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithId:menuName:menuIcon:position:">
+      -initWithId:menuName:menuIcon:position:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuId</span> <span class="nf">menuName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span> <span class="nf">menuIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">id</span> <span class="nv">menuId</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLAddSubMenu.html#/c:objc(cs)SDLAddSubMenu(py)menuIcon">menuIcon</a></span> <span class="nv">icon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
 
   
   
@@ -131,6 +151,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-menuIcon">
+      menuIcon
+  </h3>
+  
+  <p>An image that is displayed alongside this submenu item</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">menuIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menuIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

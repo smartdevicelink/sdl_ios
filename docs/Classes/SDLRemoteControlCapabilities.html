@@ -4,9 +4,14 @@
 
 <ul>
   <li><a href="#section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:">-initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:</a></li>
+  <li><a href="#section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:">-initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:</a></li>
   <li><a href="#section-climateControlCapabilities">climateControlCapabilities</a></li>
   <li><a href="#section-radioControlCapabilities">radioControlCapabilities</a></li>
   <li><a href="#section-buttonCapabilities">buttonCapabilities</a></li>
+  <li><a href="#section-seatControlCapabilities">seatControlCapabilities</a></li>
+  <li><a href="#section-audioControlCapabilities">audioControlCapabilities</a></li>
+  <li><a href="#section-hmiSettingsControlCapabilities">hmiSettingsControlCapabilities</a></li>
+  <li><a href="#section-lightControlCapabilities">lightControlCapabilities</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -24,7 +29,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithClimateControlCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">climateControlCapabilities</span> <span class="nf">radioControlCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioControlCapabilities</span> <span class="nf">buttonCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">buttonCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithClimateControlCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">climateControlCapabilities</span> <span class="nf">radioControlCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioControlCapabilities</span> <span class="nf">buttonCapabilities</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">buttonCapabilities</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithClimateControlCapabilities:climateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities: instead"</span><span class="p">);</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -32,6 +37,62 @@
 
   
   
+  
+  <h3 id="section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:">
+      -initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLRemoteControlCapabilities object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithClimateControlCapabilities</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+            <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)climateControlCapabilities">climateControlCapabilities</a></span>
+              <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)radioControlCapabilities">radioControlCapabilities</a></span><span class="o">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                      <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)radioControlCapabilities">radioControlCapabilities</a></span>
+                    <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)buttonCapabilities">buttonCapabilities</a></span><span class="o">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                            <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)buttonCapabilities">buttonCapabilities</a></span>
+               <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)seatControlCapabilities">seatControlCapabilities</a></span><span class="o">:</span>
+                   <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatControlCapabilities.html">SDLSeatControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                       <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)seatControlCapabilities">seatControlCapabilities</a></span>
+              <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)audioControlCapabilities">audioControlCapabilities</a></span><span class="o">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAudioControlCapabilities.html">SDLAudioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                      <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)audioControlCapabilities">audioControlCapabilities</a></span>
+        <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)hmiSettingsControlCapabilities">hmiSettingsControlCapabilities</a></span><span class="o">:</span>
+            <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLHMISettingsControlCapabilities.html">SDLHMISettingsControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)hmiSettingsControlCapabilities">hmiSettingsControlCapabilities</a></span>
+              <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)lightControlCapabilities">lightControlCapabilities</a></span><span class="o">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightControlCapabilities.html">SDLLightControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                      <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)lightControlCapabilities">lightControlCapabilities</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">climateControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">radioControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">buttonCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span><span class="p">]?,</span> <span class="nv">seatControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatControlCapabilities.html">SDLSeatControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">audioControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLAudioControlCapabilities.html">SDLAudioControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">hmiSettingsControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLHMISettingsControlCapabilities.html">SDLHMISettingsControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">lightControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightControlCapabilities.html">SDLLightControlCapabilities</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>climateControlCapabilities</dt>
+      <dd><p>Array of SDLClimateControlCapabilities</p></dd>
+      <dt>radioControlCapabilities</dt>
+      <dd><p>Array of SDLRadioControlCapabilities</p></dd>
+      <dt>buttonCapabilities</dt>
+      <dd><p>Array of SDLButtonCapabilities</p></dd>
+      <dt>lightControlCapabilities</dt>
+      <dd><p>Array of SDLLightControlCapabilities</p></dd>
+      <dt>seatControlCapabilities</dt>
+      <dd><p>Array of SDLSeatControlCapabilities</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRemoteControlCapabilities class</p>
+  </div>
   
   <h3 id="section-climateControlCapabilities">
       climateControlCapabilities
@@ -94,6 +155,91 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">buttonCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seatControlCapabilities">
+      seatControlCapabilities
+  </h3>
+  
+  <p>If included, the platform supports seat controls.</p>
+
+<p>Optional, Array of SDLSeatControlCapabilities, Array length 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatControlCapabilities.html">SDLSeatControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">seatControlCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatControlCapabilities.html">SDLSeatControlCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audioControlCapabilities">
+      audioControlCapabilities
+  </h3>
+  
+  <p>If included, the platform supports audio controls.</p>
+
+<p>Optional, Array of SDLAudioControlCapabilities, Array length 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAudioControlCapabilities.html">SDLAudioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioControlCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLAudioControlCapabilities.html">SDLAudioControlCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hmiSettingsControlCapabilities">
+      hmiSettingsControlCapabilities
+  </h3>
+  
+  <p>If included, the platform supports hmi setting controls.</p>
+
+<p>Optional, Array of SDLHMISettingsControlCapabilities, Array length 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLHMISettingsControlCapabilities.html">SDLHMISettingsControlCapabilities</a></span> <span class="o">*&gt;</span>
+        <span class="o">*</span><span class="n">hmiSettingsControlCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiSettingsControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLHMISettingsControlCapabilities.html">SDLHMISettingsControlCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lightControlCapabilities">
+      lightControlCapabilities
+  </h3>
+  
+  <p>If included, the platform supports light controls.</p>
+
+<p>Optional, Array of SDLLightControlCapabilities, Array length 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightControlCapabilities.html">SDLLightControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">lightControlCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lightControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightControlCapabilities.html">SDLLightControlCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

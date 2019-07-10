@@ -45,7 +45,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
                                      };
 }
 
-- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error {
+- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions ssrc:(UInt32)ssrc properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error {
     self = [super init];
     if (!self) {
         return nil;
@@ -115,7 +115,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRAW]) {
         _packetizer = [[SDLRAWH264Packetizer alloc] init];
     } else if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRTP]) {
-        _packetizer = [[SDLRTPH264Packetizer alloc] init];
+        _packetizer = [[SDLRTPH264Packetizer alloc] initWithSSRC:ssrc];
     } else {
         if (!*error) {
             *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{ @"encoder": protocol}];

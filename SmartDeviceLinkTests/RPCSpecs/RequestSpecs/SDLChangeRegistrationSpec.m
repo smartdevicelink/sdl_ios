@@ -10,7 +10,8 @@
 
 #import "SDLChangeRegistration.h"
 #import "SDLLanguage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 
 
@@ -112,17 +113,19 @@ describe(@"change registration", ^ {
                 someNGNMediaAppName = @"some media app name";
                 someVRSynonyms = @[@"some1", @"some2"];
                 
-                NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                                   @{SDLNameParameters:
-                                                                         @{SDLNameLanguage:someLanguage,
-                                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
-                                                                           SDLNameAppName:someAppName,
-                                                                           SDLNameTTSName:someTTSChunks,
-                                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
-                                                                           SDLNameVRSynonyms:someVRSynonyms},
-                                                                     SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
-                
+                NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                                   @{SDLRPCParameterNameParameters:
+                                                                         @{SDLRPCParameterNameLanguage:someLanguage,
+                                                                           SDLRPCParameterNameHMIDisplayLanguage:someOtherLanguage,
+                                                                           SDLRPCParameterNameAppName:someAppName,
+                                                                           SDLRPCParameterNameTTSName:someTTSChunks,
+                                                                           SDLRPCParameterNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                                           SDLRPCParameterNameVRSynonyms:someVRSynonyms},
+                                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameChangeRegistration}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
             });
             
             // Since the properties are immutable, a copy should be executed as a retain, so they should be identical
@@ -153,7 +156,10 @@ describe(@"change registration", ^ {
         
         context(@"when no parameters are set", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:[NSMutableDictionary dictionary]];
+#pragma clang diagnostic pop
             });
             
             it(@"Should return nil if for language", ^ {

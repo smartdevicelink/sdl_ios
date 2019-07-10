@@ -10,7 +10,8 @@
 
 #import "SDLButtonEventMode.h"
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnButtonEvent.h"
 
 
@@ -30,13 +31,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:SDLButtonNameCustomButton,
-                                                   SDLNameButtonEventMode:SDLButtonEventModeButtonDown,
-                                                   SDLNameCustomButtonId:@4252},
-                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameButtonName:SDLButtonNameCustomButton,
+                                                   SDLRPCParameterNameButtonEventMode:SDLButtonEventModeButtonDown,
+                                                   SDLRPCParameterNameCustomButtonId:@4252},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnButtonEvent}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));
         expect(testNotification.buttonEventMode).to(equal(SDLButtonEventModeButtonDown));

@@ -3,11 +3,23 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:</a></li>
+  <li><a href="#section-+countUpFromStartTime:toEndTime:playPauseIndicator:">+countUpFromStartTime:toEndTime:playPauseIndicator:</a></li>
+  <li><a href="#section-+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:</a></li>
+  <li><a href="#section-+countDownFromStartTime:toEndTime:playPauseIndicator:">+countDownFromStartTime:toEndTime:playPauseIndicator:</a></li>
+  <li><a href="#section-+pauseWithPlayPauseIndicator:">+pauseWithPlayPauseIndicator:</a></li>
+  <li><a href="#section-+updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:">+updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:</a></li>
+  <li><a href="#section-+updatePauseWithNewStartTime:endTime:playPauseIndicator:">+updatePauseWithNewStartTime:endTime:playPauseIndicator:</a></li>
+  <li><a href="#section-+resumeWithPlayPauseIndicator:">+resumeWithPlayPauseIndicator:</a></li>
+  <li><a href="#section-+clearWithPlayPauseIndicator:">+clearWithPlayPauseIndicator:</a></li>
+  <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">-initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:</a></li>
   <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:">-initWithUpdateMode:hours:minutes:seconds:</a></li>
   <li><a href="#section--initWithUpdateMode:">-initWithUpdateMode:</a></li>
+  <li><a href="#section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">-initWithUpdateMode:startTime:endTime:playPauseIndicator:</a></li>
   <li><a href="#section-startTime">startTime</a></li>
   <li><a href="#section-endTime">endTime</a></li>
   <li><a href="#section-updateMode">updateMode</a></li>
+  <li><a href="#section-audioStreamingIndicator">audioStreamingIndicator</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -23,6 +35,326 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section-+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">
+      +countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:
+  </h3>
+  
+  <p>Create a media clock timer that counts up, e.g from 0:00 to 4:18.</p>
+
+<p>This will fail if startTime is greater than endTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">countUpFromStartTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">startTime</span>
+                                   <span class="nf">toEndTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">endTime</span>
+                                  <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                                      <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                          <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. (0) 0:00</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. (258) 4:18</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+countUpFromStartTime:toEndTime:playPauseIndicator:">
+      +countUpFromStartTime:toEndTime:playPauseIndicator:
+  </h3>
+  
+  <p>Create a media clock timer that counts up, e.g from 0:00 to 4:18.</p>
+
+<p>This will fail if startTime is greater than endTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">countUpFromStartTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                                   <span class="nf">toEndTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+                          <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                              <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                  <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. 0:00</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. 4:18</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">
+      +countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:
+  </h3>
+  
+  <p>Create a media clock timer that counts down, e.g. from 4:18 to 0:00</p>
+
+<p>This will fail if endTime is greater than startTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">countDownFromStartTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">startTime</span>
+                                     <span class="nf">toEndTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">endTime</span>
+                                    <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                            <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countDown</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. (258) 4:18</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. (0) 0:00</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+countDownFromStartTime:toEndTime:playPauseIndicator:">
+      +countDownFromStartTime:toEndTime:playPauseIndicator:
+  </h3>
+  
+  <p>Create a media clock timer that counts down, e.g. from 4:18 to 0:00</p>
+
+<p>This will fail if endTime is greater than startTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">countDownFromStartTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                                     <span class="nf">toEndTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+                            <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                                <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                    <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countDown</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. 4:18</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. 0:00</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+pauseWithPlayPauseIndicator:">
+      +pauseWithPlayPauseIndicator:
+  </h3>
+  
+  <p>Pause an existing (counting up / down) media clock timer</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">pauseWithPlayPauseIndicator</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">pause</span><span class="p">(</span><span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:">
+      +updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:
+  </h3>
+  
+  <p>Update a pause time (or pause and update the time) on a media clock timer</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">updatePauseWithNewStartTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">startTime</span>
+                        <span class="nf">endTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">endTime</span>
+                     <span class="nf">playPauseIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                            <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">pause</span><span class="p">(</span><span class="n">newStart</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">newEnd</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The new start time interval</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The new end time interval</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+updatePauseWithNewStartTime:endTime:playPauseIndicator:">
+      +updatePauseWithNewStartTime:endTime:playPauseIndicator:
+  </h3>
+  
+  <p>Update a pause time (or pause and update the time) on a media clock timer</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">updatePauseWithNewStartTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                        <span class="nf">endTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+             <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                 <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">pause</span><span class="p">(</span><span class="n">newStart</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="n">newEnd</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The new start time</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The new end time</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+resumeWithPlayPauseIndicator:">
+      +resumeWithPlayPauseIndicator:
+  </h3>
+  
+  <p>Resume a paused media clock timer. It resumes at the same time at which it was paused.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">resumeWithPlayPauseIndicator</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">resume</span><span class="p">(</span><span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+clearWithPlayPauseIndicator:">
+      +clearWithPlayPauseIndicator:
+  </h3>
+  
+  <p>Remove a media clock timer from the screen</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">clearWithPlayPauseIndicator</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">clear</span><span class="p">(</span><span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">
+      -initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span> <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span> <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span> <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span> <span class="nf">audioStreamingIndicator</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">audioStreamingIndicator</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use a specific initializer"</span><span class="p">);</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">hours</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">minutes</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">seconds</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
   <h3 id="section--initWithUpdateMode:hours:minutes:seconds:">
       -initWithUpdateMode:hours:minutes:seconds:
   </h3>
@@ -32,7 +364,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span> <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span> <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span> <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span> <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span> <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span> <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use a specific initializer"</span><span class="p">);</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -50,7 +382,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use a specific initializer"</span><span class="p">);</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -58,6 +390,43 @@
 
   
   
+  
+  <h3 id="section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">
+      -initWithUpdateMode:startTime:endTime:playPauseIndicator:
+  </h3>
+  
+  <p>Create a SetMediaClockTimer RPC with all available parameters. It&rsquo;s recommended to use the specific initializers above.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span>
+                                 <span class="nf">startTime</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                                   <span class="nf">endTime</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+                        <span class="nf">playPauseIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
+                                               <span class="n">playPauseIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">?,</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">?,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updateMode</dt>
+      <dd><p>The type of SetMediaClockTimer RPC</p></dd>
+      <dt>startTime</dt>
+      <dd><p>The start time. Only valid in some updateModes.</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time. Only valid in some updateModes.</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>The display of the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
   
   <h3 id="section-startTime">
       startTime
@@ -130,6 +499,29 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audioStreamingIndicator">
+      audioStreamingIndicator
+  </h3>
+  
+  <p>The audio streaming indicator used for a play/pause button.</p>
+
+<p>@discussion Set the indicator icon of a play/pause button depending on the
+ current audio playback. This parameter is optional. If omitted the last indicator sent
+ will not change.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span> <span class="n">audioStreamingIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

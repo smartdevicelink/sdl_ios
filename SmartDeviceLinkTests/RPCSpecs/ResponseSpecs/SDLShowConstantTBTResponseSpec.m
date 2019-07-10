@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLShowConstantTBTResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLShowConstantTBTResponseSpec)
 

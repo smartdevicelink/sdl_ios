@@ -9,11 +9,57 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLStartTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLStartTimeSpec)
 
-describe(@"Getter/Setter Tests", ^ {
+describe(@"StartTime Spec", ^ {
+    describe(@"when initialized", ^{
+        __block UInt8 testHours = 22;
+        __block UInt8 testMinutes = 39;
+        __block UInt8 testSeconds = 11;
+
+        __block NSTimeInterval testTimeInterval = 81551;
+
+        it(@"should properly initialize with init", ^{
+            SDLStartTime *testStruct = [[SDLStartTime alloc] init];
+
+            expect(testStruct.hours).to(beNil());
+            expect(testStruct.minutes).to(beNil());
+            expect(testStruct.seconds).to(beNil());
+        });
+
+        it(@"should properly initialize with initWithDictionary:", ^{
+            NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameHours:@(testHours),
+                                                   SDLRPCParameterNameMinutes:@(testMinutes),
+                                                   SDLRPCParameterNameSeconds:@(testSeconds)};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLStartTime *testStruct = [[SDLStartTime alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
+
+            expect(testStruct.hours).to(equal(@(testHours)));
+            expect(testStruct.minutes).to(equal(@(testMinutes)));
+            expect(testStruct.seconds).to(equal(@(testSeconds)));
+        });
+
+        it(@"should properly initialize with initWithTimeInterval:", ^{
+            SDLStartTime *testStruct = [[SDLStartTime alloc] initWithTimeInterval:testTimeInterval];
+
+            expect(testStruct.hours).to(equal(@(testHours)));
+            expect(testStruct.minutes).to(equal(@(testMinutes)));
+            expect(testStruct.seconds).to(equal(@(testSeconds)));
+        });
+
+        it(@"should properly initialize with initWithHours:minutes:seconds:", ^{
+            SDLStartTime *testStruct = [[SDLStartTime alloc] initWithHours:testHours minutes:testMinutes seconds:testSeconds];
+
+            expect(testStruct.hours).to(equal(@(testHours)));
+            expect(testStruct.minutes).to(equal(@(testMinutes)));
+            expect(testStruct.seconds).to(equal(@(testSeconds)));
+        });
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLStartTime* testStruct = [[SDLStartTime alloc] init];
         
@@ -24,25 +70,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.hours).to(equal(@22));
         expect(testStruct.minutes).to(equal(@39));
         expect(testStruct.seconds).to(equal(@11));
-    });
-    
-    it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameHours:@22,
-                                                       SDLNameMinutes:@39,
-                                                       SDLNameSeconds:@11} mutableCopy];
-        SDLStartTime* testStruct = [[SDLStartTime alloc] initWithDictionary:dict];
-        
-        expect(testStruct.hours).to(equal(@22));
-        expect(testStruct.minutes).to(equal(@39));
-        expect(testStruct.seconds).to(equal(@11));
-    });
-    
-    it(@"Should return nil if not set", ^ {
-        SDLStartTime* testStruct = [[SDLStartTime alloc] init];
-        
-        expect(testStruct.hours).to(beNil());
-        expect(testStruct.minutes).to(beNil());
-        expect(testStruct.seconds).to(beNil());
     });
 });
 

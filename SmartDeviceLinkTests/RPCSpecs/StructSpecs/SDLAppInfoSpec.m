@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppInfo.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAppInfoSpec)
 
@@ -28,10 +28,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameAppDisplayName:@"display name",
-                                                       SDLNameAppVersion:@"1.2.3.4",
-                                                       SDLNameAppBundleId:@"com.app.bundle"} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameAppDisplayName:@"display name",
+                                                       SDLRPCParameterNameAppVersion:@"1.2.3.4",
+                                                       SDLRPCParameterNameAppBundleId:@"com.app.bundle"} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppInfo* testStruct = [[SDLAppInfo alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.appDisplayName).to(equal(@"display name"));
         expect(testStruct.appVersion).to(equal(@"1.2.3.4"));

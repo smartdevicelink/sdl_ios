@@ -10,7 +10,8 @@
 
 #import "SDLScrollableMessage.h"
 #import "SDLSoftButton.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLScrollableMessageSpec)
 
@@ -30,13 +31,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameScrollableMessageBody:@"thatmessagebody",
-                                                                   SDLNameTimeout:@9182,
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameScrollableMessage}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameScrollableMessageBody:@"thatmessagebody",
+                                                                   SDLRPCParameterNameTimeout:@9182,
+                                                                   SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameScrollableMessage}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLScrollableMessage* testRequest = [[SDLScrollableMessage alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.scrollableMessageBody).to(equal(@"thatmessagebody"));
         expect(testRequest.timeout).to(equal(@9182));

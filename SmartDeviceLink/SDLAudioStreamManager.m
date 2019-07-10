@@ -46,9 +46,21 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     return self;
 }
 
+- (void)stop {
+    dispatch_async(_audioQueue, ^{
+        self.shouldPlayWhenReady = NO;
+        [self.mutableQueue removeAllObjects];
+    });
+}
+
+#pragma mark - Getters
+
 - (NSArray<SDLFile *> *)queue {
     return [_mutableQueue copy];
 }
+
+#pragma mark - Pushing to the Queue
+#pragma mark Files
 
 - (void)pushWithFileURL:(NSURL *)fileURL {
     dispatch_async(_audioQueue, ^{
@@ -79,6 +91,21 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     }
 }
 
+#pragma mark Raw Data
+
+- (void)pushWithData:(NSData *)data {
+    dispatch_async(_audioQueue, ^{
+        [self sdl_pushWithData:data];
+    });
+}
+
+- (void)sdl_pushWithData:(NSData *)data {
+    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithData:data];
+    [self.mutableQueue addObject:audioFile];
+}
+
+#pragma mark Playing from the Queue
+
 - (void)playNextWhenReady {
     dispatch_async(_audioQueue, ^{
         [self sdl_playNextWhenReady];
@@ -104,31 +131,43 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     [self.mutableQueue removeObjectAtIndex:0];
 
     // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
+    NSData *audioData = nil;
+    if (file.inputFileURL != nil) {
+        audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
+    } else {
+        audioData = file.data;
+    }
+
+    // Send the audio file, which starts it playing immediately
     SDLLogD(@"Playing audio file: %@", file);
-    NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
     __block BOOL success = [self.streamManager sendAudioData:audioData];
     self.playing = YES;
 
+    // Determine the length of the audio PCM data and perform a few items once the audio has finished playing
     float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        weakself.playing = NO;
+        __strong typeof(weakself) strongSelf = weakself;
+
+        strongSelf.playing = NO;
         NSError *error = nil;
-        if (weakself.delegate != nil) {
-            [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
+        if (strongSelf.delegate != nil) {
+            if (file.inputFileURL != nil) {
+                [strongSelf.delegate audioStreamManager:strongSelf fileDidFinishPlaying:file.inputFileURL successfully:success];
+            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
+                [strongSelf.delegate audioStreamManager:strongSelf dataBufferDidFinishPlayingSuccessfully:success];
+            }
         }
+
         SDLLogD(@"Ending Audio file: %@", file);
         [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
-        if (weakself.delegate != nil && error != nil) {
-            [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
+        if (strongSelf.delegate != nil && error != nil) {
+            if (file.inputFileURL != nil) {
+                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForFile:file.inputFileURL error:error];
+            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
+                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForDataBuffer:error];
+            }
         }
-    });
-}
-
-- (void)stop {
-    dispatch_async(_audioQueue, ^{
-        self.shouldPlayWhenReady = NO;
-        [self.mutableQueue removeAllObjects];
     });
 }
 

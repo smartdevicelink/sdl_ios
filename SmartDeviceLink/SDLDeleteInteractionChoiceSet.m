@@ -5,17 +5,21 @@
 #import "SDLDeleteInteractionChoiceSet.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteInteractionChoiceSet
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteInteractionChoiceSet]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithId:(UInt32)choiceId {
     self = [self init];
@@ -29,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
-    [parameters sdl_setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
+    [self.parameters sdl_setObject:interactionChoiceSetID forName:SDLRPCParameterNameInteractionChoiceSetId];
 }
 
 - (NSNumber<SDLInt> *)interactionChoiceSetID {
-    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameInteractionChoiceSetId ofClass:NSNumber.class error:&error];
 }
 
 @end

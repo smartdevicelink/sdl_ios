@@ -8,9 +8,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCStruct : NSObject <NSCopying> {
-    NSMutableDictionary<NSString *, id> *store;
-}
+@interface SDLRPCStruct : NSObject <NSCopying>
+
+@property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, id> *store;
 
 /**
  *  Convenience init
@@ -18,14 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param dict A dictionary
  *  @return     A SDLRPCStruct object
  */
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
-
-/**
- *  Init
- *
- *  @return A SDLRPCStruct object
- */
-- (instancetype)init;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict __deprecated_msg("This is not intended for public use");
 
 /**
  *  Converts struct to JSON formatted data
@@ -33,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param version The protocol version
  *  @return        JSON formatted data
  */
-- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version;
+- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version __deprecated_msg("This is not intended for public use");
 
 @end
 

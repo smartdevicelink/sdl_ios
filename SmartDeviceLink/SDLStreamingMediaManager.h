@@ -13,8 +13,8 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAudioStreamManager;
+@class SDLConfiguration;
 @class SDLProtocol;
-@class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
  */
-@property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong, nullable) UIViewController *rootViewController;
 
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
@@ -115,10 +115,10 @@ NS_ASSUME_NONNULL_BEGIN
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
- @param configuration The configuration of this streaming media session
+ @param configuration This session's configuration
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
@@ -126,9 +126,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProtocol:(SDLProtocol *)protocol;
 
 /**
+ *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol;
+
+/**
+ *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol;
+
+/**
  *  Stop the manager. This method is used internally.
  */
 - (void)stop;
+
+/**
+ *  Stop the audio feature of the manager. This method is used internally.
+ */
+- (void)stopAudio;
+
+/**
+ *  Stop the video feature of the manager. This method is used internally.
+ */
+- (void)stopVideo;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
@@ -150,7 +170,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
 /**
- *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
+ *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback.
+ *
+ *  NOTE: See the `.audioManager` (SDLAudioStreamManager) `pushWithData:` method for a more modern API.
  *
  *  @param audioData The data in PCM audio format, to be played
  *

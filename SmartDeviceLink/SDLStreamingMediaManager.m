@@ -9,10 +9,10 @@
 #import "SDLStreamingMediaManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManagerDataSource.h"
-#import "SDLStreamingMediaLifecycleManager.h"
+#import "SDLStreamingAudioLifecycleManager.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -20,7 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
-@property (strong, nonatomic) SDLStreamingMediaLifecycleManager *lifecycleManager;
+@property (strong, nonatomic) SDLStreamingAudioLifecycleManager *audioLifecycleManager;
+@property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
+@property (assign, nonatomic) BOOL audioStarted;
+@property (assign, nonatomic) BOOL videoStarted;
 
 @end
 
@@ -30,107 +33,144 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
-    
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration.streamingMediaConfig];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }
 
+- (void)dealloc {
+    [_audioLifecycleManager stop];
+    [_videoLifecycleManager stop];
+}
+
 - (void)startWithProtocol:(SDLProtocol *)protocol {
-    [self.lifecycleManager startWithProtocol:protocol];
+    [self startAudioWithProtocol:protocol];
+    [self startVideoWithProtocol:protocol];
+}
+
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol {
+    [self.audioLifecycleManager startWithProtocol:protocol];
+    self.audioStarted = YES;
+}
+
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol {
+    [self.videoLifecycleManager startWithProtocol:protocol];
+    self.videoStarted = YES;
 }
 
 - (void)stop {
-    [self.lifecycleManager stop];
+    [self stopAudio];
+    [self stopVideo];
+}
+
+- (void)stopAudio {
+    [self.audioLifecycleManager stop];
+    self.audioStarted = NO;
+}
+
+- (void)stopVideo {
+    [self.videoLifecycleManager stop];
+    self.videoStarted = NO;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
-    return [self.lifecycleManager sendVideoData:imageBuffer];
+    return [self.videoLifecycleManager sendVideoData:imageBuffer];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
-    return [self.lifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
+    return [self.videoLifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
-    return [self.lifecycleManager sendAudioData:audioData];
+    return [self.audioLifecycleManager sendAudioData:audioData];
 }
 
 
 #pragma mark - Getters
 
 - (SDLTouchManager *)touchManager {
-    return self.lifecycleManager.touchManager;
+    return self.videoLifecycleManager.touchManager;
 }
 
 - (SDLAudioStreamManager *)audioManager {
-    return self.lifecycleManager.audioManager;
+    return self.audioLifecycleManager.audioManager;
 }
 
-- (UIViewController *)rootViewController {
-    return self.lifecycleManager.rootViewController;
+- (nullable UIViewController *)rootViewController {
+    return self.videoLifecycleManager.rootViewController;
 }
 
 - (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
-    return self.lifecycleManager.focusableItemManager;
+    return self.videoLifecycleManager.focusableItemManager;
 }
 
 - (BOOL)isStreamingSupported {
-    return self.lifecycleManager.isStreamingSupported;
+    // both audio and video lifecycle managers checks the param in Register App Interface response,
+    // hence the flag should be same between two managers if they are started
+    if (self.videoStarted) {
+        return self.videoLifecycleManager.isStreamingSupported;
+    } else if (self.audioStarted) {
+        return self.audioLifecycleManager.isStreamingSupported;
+    }
+    return NO;
 }
 
 - (BOOL)isAudioConnected {
-    return self.lifecycleManager.isAudioConnected;
+    return self.audioLifecycleManager.isAudioConnected;
 }
 
 - (BOOL)isVideoConnected {
-    return self.lifecycleManager.isVideoConnected;
+    return self.videoLifecycleManager.isVideoConnected;
 }
 
 - (BOOL)isAudioEncrypted {
-    return self.lifecycleManager.isAudioEncrypted;
+    return self.audioLifecycleManager.isAudioEncrypted;
 }
 
 - (BOOL)isVideoEncrypted {
-    return self.lifecycleManager.isVideoEncrypted;
+    return self.videoLifecycleManager.isVideoEncrypted;
 }
     
 - (BOOL)isVideoStreamingPaused {
-    return self.lifecycleManager.isVideoStreamingPaused;
+    return self.videoLifecycleManager.isVideoStreamingPaused;
 }
 
 - (CGSize)screenSize {
-    return self.lifecycleManager.screenSize;
+    return self.videoLifecycleManager.screenSize;
 }
 
 - (nullable SDLVideoStreamingFormat *)videoFormat {
-    return self.lifecycleManager.videoFormat;
+    return self.videoLifecycleManager.videoFormat;
 }
 
 - (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-    return self.lifecycleManager.supportedFormats;
+    return self.videoLifecycleManager.supportedFormats;
 }
 
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
-    return self.lifecycleManager.pixelBufferPool;
+    return self.videoLifecycleManager.pixelBufferPool;
 }
 
 - (SDLStreamingEncryptionFlag)requestedEncryptionType {
-    return self.lifecycleManager.requestedEncryptionType;
+    // both audio and video managers should have same type
+    return self.videoLifecycleManager.requestedEncryptionType;
 }
 
 #pragma mark - Setters
-- (void)setRootViewController:(UIViewController *)rootViewController {
-    self.lifecycleManager.rootViewController = rootViewController;
+- (void)setRootViewController:(nullable UIViewController *)rootViewController {
+    self.videoLifecycleManager.rootViewController = rootViewController;
 }
 
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
-    self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;
+    self.videoLifecycleManager.requestedEncryptionType = requestedEncryptionType;
+    self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }
 
 @end

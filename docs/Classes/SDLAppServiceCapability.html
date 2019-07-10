@@ -1,0 +1,120 @@
+<h1>SDLAppServiceCapability Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithUpdatedAppServiceRecord:">-initWithUpdatedAppServiceRecord:</a></li>
+  <li><a href="#section--initWithUpdateReason:updatedAppServiceRecord:">-initWithUpdateReason:updatedAppServiceRecord:</a></li>
+  <li><a href="#section-updateReason">updateReason</a></li>
+  <li><a href="#section-updatedAppServiceRecord">updatedAppServiceRecord</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithUpdatedAppServiceRecord:">
+      -initWithUpdatedAppServiceRecord:
+  </h3>
+  
+  <p>Convenience init for required parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdatedAppServiceRecord</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updatedAppServiceRecord</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updatedAppServiceRecord</dt>
+      <dd><p>Service record for a specific app service provider</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceCapability object</p>
+  </div>
+  
+  <h3 id="section--initWithUpdateReason:updatedAppServiceRecord:">
+      -initWithUpdateReason:updatedAppServiceRecord:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateReason</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">)</span><span class="nv">updateReason</span>
+                     <span class="nf">updatedAppServiceRecord</span><span class="p">:</span>
+                         <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">updateReason</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">?,</span> <span class="nv">updatedAppServiceRecord</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updateReason</dt>
+      <dd><p>Update reason for this service record</p></dd>
+      <dt>updatedAppServiceRecord</dt>
+      <dd><p>Service record for a specific app service provider</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceCapability object</p>
+  </div>
+  
+  <h3 id="section-updateReason">
+      updateReason
+  </h3>
+  
+  <p>Only included in <code>OnSystemCapbilityUpdated</code>. Update reason for this service record.</p>
+
+<p>SDLServiceUpdateReason, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">updateReason</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updateReason</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-updatedAppServiceRecord">
+      updatedAppServiceRecord
+  </h3>
+  
+  <p>Service record for a specific app service provider.</p>
+
+<p>SDLAppServiceRecord, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">updatedAppServiceRecord</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updatedAppServiceRecord</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

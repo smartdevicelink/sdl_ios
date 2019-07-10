@@ -7,6 +7,7 @@
 #import "SDLRadioState.h"
 
 @class SDLRDSData;
+@class SDLSISData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,30 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlData : SDLRPCStruct
 
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable;
+/**
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+
+ @param frequencyInteger integer part of the frequency
+ @param frequencyFraction fractional part of the frequency
+ @param band Radio band value
+ @param hdChannel Current HD sub-channel
+ @param radioEnable whether or not radio is enabled
+ @return An instance of the SDLRadioControlData class
+ */
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable __deprecated_msg(("Use initWithFrequencyInteger:frequencyInteger:frequencyFraction:band:hdChannel:radioEnable:sisData: instead"));
+
+/**
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+
+ @param frequencyInteger integer part of the frequency
+ @param frequencyFraction fractional part of the frequency
+ @param band Radio band value
+ @param hdChannel Current HD sub-channel
+ @param radioEnable whether or not radio is enabled
+ @param hdRadioEnable whether or not hdradio is enabled
+ @return An instance of the SDLRadioControlData class
+ */
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable;
 
 /**
  * The integer part of the frequency ie for 101.7 this value should be 101
@@ -52,14 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @warning This property is readonly and cannot be set on the module.
  *
- * Integer value Min Value - 1 Max Value -3
+ * Integer value Min Value - 1 Max Value -7
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs;
 
 /**
  * Current HD sub-channel if available
  *
- * Integer value Min Value - 1 Max Value -3
+ * Integer value Min Value - 1 Max Value -7
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *hdChannel;
 
@@ -96,6 +120,22 @@ NS_ASSUME_NONNULL_BEGIN
  * SDLRadioState
  */
 @property (nullable, strong, nonatomic) SDLRadioState state;
+
+/**
+ * True if the hd radio is on, false is the radio is off
+ *
+ * Boolean value
+ */
+@property (nullable, strong, nonatomic)  NSNumber<SDLBool> *hdRadioEnable;
+
+/**
+ * Read Read-only Station Information Service (SIS) data provides basic information
+ * about the station such as call sign,
+ * as well as information not displayable to the consumer such as the station identification number
+ *
+ * Optional, SDLSISData
+ */
+@property (nullable, strong, nonatomic) SDLSISData *sisData;
 
 @end
 

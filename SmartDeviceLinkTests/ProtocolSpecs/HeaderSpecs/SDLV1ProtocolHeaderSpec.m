@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLV1ProtocolHeader.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLV1ProtocolHeaderSpec)
     

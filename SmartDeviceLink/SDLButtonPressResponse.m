@@ -3,17 +3,21 @@
 //
 
 #import "SDLButtonPressResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLButtonPressResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameButtonPress]) {
+    if (self = [super initWithName:SDLRPCFunctionNameButtonPress]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

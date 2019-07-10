@@ -4,7 +4,7 @@
 #import "SDLTTSChunk.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,31 +39,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSArray<SDLTTSChunk *> *)silenceChunks {
-    return [self sdl_chunksFromString:nil type:SDLSpeechCapabilitiesSilence];
+    return [self sdl_chunksFromString:@"" type:SDLSpeechCapabilitiesSilence];
+}
+
++ (NSArray<SDLTTSChunk *> *)fileChunksWithName:(NSString *)fileName {
+    return [self sdl_chunksFromString:fileName type:SDLSpeechCapabilitiesFile];
 }
 
 + (nullable NSArray<SDLTTSChunk *> *)sdl_chunksFromString:(nullable NSString *)string type:(SDLSpeechCapabilities)type {
-    if (string.length == 0) {
+    if (string == nil) {
         return nil;
     }
 
-    return [NSArray arrayWithObject:[[[self class] alloc] initWithText:string type:type]];
+    return @[[[SDLTTSChunk alloc] initWithText:string type:type]];
 }
 
 - (void)setText:(NSString *)text {
-    [store sdl_setObject:text forName:SDLNameText];
+    [self.store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    [store sdl_setObject:type forName:SDLNameType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLSpeechCapabilities)type {
-    return [store sdl_objectForName:SDLNameType];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 @end

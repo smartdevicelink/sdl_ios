@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImageResolution.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLScreenParams.h"
 #import "SDLTouchEventCapabilities.h"
 
@@ -31,9 +31,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResolution:resolution,
-                                                       SDLNameTouchEventAvailable:capabilities} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResolution:resolution,
+                                                       SDLRPCParameterNameTouchEventAvailable:capabilities} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLScreenParams* testStruct = [[SDLScreenParams alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.resolution).to(equal(resolution));
         expect(testStruct.touchEventAvailable).to(equal(capabilities));

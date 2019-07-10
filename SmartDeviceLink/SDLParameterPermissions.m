@@ -5,26 +5,28 @@
 #import "SDLParameterPermissions.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLParameterPermissions
 
 - (void)setAllowed:(NSArray<NSString *> *)allowed {
-    [store sdl_setObject:allowed forName:SDLNameAllowed];
+    [self.store sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }
 
 - (NSArray<NSString *> *)allowed {
-    return [store sdl_objectForName:SDLNameAllowed];
+    NSError *error = nil;
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAllowed ofClass:NSString.class error:&error];
 }
 
 - (void)setUserDisallowed:(NSArray<NSString *> *)userDisallowed {
-    [store sdl_setObject:userDisallowed forName:SDLNameUserDisallowed];
+    [self.store sdl_setObject:userDisallowed forName:SDLRPCParameterNameUserDisallowed];
 }
 
 - (NSArray<NSString *> *)userDisallowed {
-    return [store sdl_objectForName:SDLNameUserDisallowed];
+    NSError *error = nil;
+    return [self.store sdl_objectsForName:SDLRPCParameterNameUserDisallowed ofClass:NSString.class error:&error];
 }
 
 @end

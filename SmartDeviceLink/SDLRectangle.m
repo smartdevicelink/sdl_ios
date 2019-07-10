@@ -8,7 +8,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRectangle.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 @implementation SDLRectangle
 
@@ -29,35 +29,39 @@
 }
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
-    [store sdl_setObject:x forName:SDLNameX];
+    [self.store sdl_setObject:x forName:SDLRPCParameterNameX];
 }
 
 - (NSNumber<SDLFloat> *)x {
-    return [store sdl_objectForName:SDLNameX];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameX ofClass:NSNumber.class error:&error];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
-    [store sdl_setObject:y forName:SDLNameY];
+    [self.store sdl_setObject:y forName:SDLRPCParameterNameY];
 }
 
 - (NSNumber<SDLFloat> *)y {
-    return [store sdl_objectForName:SDLNameY];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameY ofClass:NSNumber.class error:&error];
 }
 
 - (void)setWidth:(NSNumber<SDLFloat> *)width {
-    [store sdl_setObject:width forName:SDLNameWidth];
+    [self.store sdl_setObject:width forName:SDLRPCParameterNameWidth];
 }
 
 - (NSNumber<SDLFloat> *)width {
-    return [store sdl_objectForName:SDLNameWidth];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHeight:(NSNumber<SDLFloat> *)height {
-    [store sdl_setObject:height forName:SDLNameHeight];
+    [self.store sdl_setObject:height forName:SDLRPCParameterNameHeight];
 }
 
 - (NSNumber<SDLFloat> *)height {
-    return [store sdl_objectForName:SDLNameHeight];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameHeight ofClass:NSNumber.class error:&error];
 }
 
 @end

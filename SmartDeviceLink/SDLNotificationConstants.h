@@ -106,6 +106,7 @@ extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
 #pragma mark - General notifications
 extern SDLNotificationName const SDLTransportDidDisconnect;
 extern SDLNotificationName const SDLTransportDidConnect;
+extern SDLNotificationName const SDLTransportConnectError;
 extern SDLNotificationName const SDLDidReceiveError;
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
 extern SDLNotificationName const SDLDidBecomeReady;
@@ -131,14 +132,19 @@ extern SDLNotificationName const SDLDidReceiveDialNumberResponse;
 extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
+extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesResponse;
+extern SDLNotificationName const SDLDidReceiveGetAppServiceDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+extern SDLNotificationName const SDLDidReceiveGetFileResponse;
 extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;
+extern SDLNotificationName const SDLDidReceivePerformAppServiceInteractionResponse;
 extern SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceivePerformInteractionResponse;
+extern SDLNotificationName const SDLDidReceivePublishAppServiceResponse;
 extern SDLNotificationName const SDLDidReceivePutFileResponse;
 extern SDLNotificationName const SDLDidReceiveReadDIDResponse;
 extern SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse;
@@ -147,6 +153,7 @@ extern SDLNotificationName const SDLDidReceiveScrollableMessageResponse;
 extern SDLNotificationName const SDLDidReceiveSendHapticDataResponse;
 extern SDLNotificationName const SDLDidReceiveSendLocationResponse;
 extern SDLNotificationName const SDLDidReceiveSetAppIconResponse;
+extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesResponse;
 extern SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse;
 extern SDLNotificationName const SDLDidReceiveSetGlobalPropertiesResponse;
 extern SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse;
@@ -166,13 +173,74 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
 /**
+ *  NSNotification names associated with specific RPC requests.
+ */
+#pragma mark - RPC requests
+extern SDLNotificationName const SDLDidReceiveAddCommandRequest;
+extern SDLNotificationName const SDLDidReceiveAddSubMenuRequest;
+extern SDLNotificationName const SDLDidReceiveAlertRequest;
+extern SDLNotificationName const SDLDidReceiveAlertManeuverRequest;
+extern SDLNotificationName const SDLDidReceiveButtonPressRequest;
+extern SDLNotificationName const SDLDidReceiveChangeRegistrationRequest;
+extern SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetRequest;
+extern SDLNotificationName const SDLDidReceiveDeleteCommandRequest;
+extern SDLNotificationName const SDLDidReceiveDeleteFileRequest;
+extern SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetRequest;
+extern SDLNotificationName const SDLDidReceiveDeleteSubMenuRequest;
+extern SDLNotificationName const SDLDidReceiveDiagnosticMessageRequest;
+extern SDLNotificationName const SDLDidReceiveDialNumberRequest;
+extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest;
+extern SDLNotificationName const SDLDidReceiveEndAudioPassThruRequest;
+extern SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest;
+extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest;
+extern SDLNotificationName const SDLDidReceiveGetDTCsRequest;
+extern SDLNotificationName const SDLDidReceiveGetFileRequest;
+extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataRequest;
+extern SDLNotificationName const SDLDidReceiveGetSystemCapabilityRequest;
+extern SDLNotificationName const SDLDidReceiveGetVehicleDataRequest;
+extern SDLNotificationName const SDLDidReceiveGetWayPointsRequest;
+extern SDLNotificationName const SDLDidReceiveListFilesRequest;
+extern SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest;
+extern SDLNotificationName const SDLDidReceivePerformAudioPassThruRequest;
+extern SDLNotificationName const SDLDidReceivePerformInteractionRequest;
+extern SDLNotificationName const SDLDidReceivePublishAppServiceRequest;
+extern SDLNotificationName const SDLDidReceivePutFileRequest;
+extern SDLNotificationName const SDLDidReceiveReadDIDRequest;
+extern SDLNotificationName const SDLDidReceiveRegisterAppInterfaceRequest;
+extern SDLNotificationName const SDLDidReceiveResetGlobalPropertiesRequest;
+extern SDLNotificationName const SDLDidReceiveScrollableMessageRequest;
+extern SDLNotificationName const SDLDidReceiveSendHapticDataRequest;
+extern SDLNotificationName const SDLDidReceiveSendLocationRequest;
+extern SDLNotificationName const SDLDidReceiveSetAppIconRequest;
+extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest;
+extern SDLNotificationName const SDLDidReceiveSetDisplayLayoutRequest;
+extern SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest;
+extern SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest;
+extern SDLNotificationName const SDLDidReceiveSetMediaClockTimerRequest;
+extern SDLNotificationName const SDLDidReceiveShowRequest;
+extern SDLNotificationName const SDLDidReceiveShowConstantTBTRequest;
+extern SDLNotificationName const SDLDidReceiveSliderRequest;
+extern SDLNotificationName const SDLDidReceiveSpeakRequest;
+extern SDLNotificationName const SDLDidReceiveSubscribeButtonRequest;
+extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest;
+extern SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest;
+extern SDLNotificationName const SDLDidReceiveSyncPDataRequest;
+extern SDLNotificationName const SDLDidReceiveSystemRequestRequest;
+extern SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceRequest;
+extern SDLNotificationName const SDLDidReceiveUnsubscribeButtonRequest;
+extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataRequest;
+extern SDLNotificationName const SDLDidReceiveUnsubscribeWayPointsRequest;
+extern SDLNotificationName const SDLDidReceiveUpdateTurnListRequest;
+
+/**
  *  NSNotification names associated with specific RPC notifications.
  */
 #pragma mark - RPC Notifications
 extern SDLNotificationName const SDLDidChangeDriverDistractionStateNotification;
 extern SDLNotificationName const SDLDidChangeHMIStatusNotification;
-extern SDLNotificationName const SDLDidReceiveAudioPassThruNotification;
+extern SDLNotificationName const SDLDidReceiveAppServiceDataNotification;
 extern SDLNotificationName const SDLDidReceiveAppUnregisteredNotification;
+extern SDLNotificationName const SDLDidReceiveAudioPassThruNotification;
 extern SDLNotificationName const SDLDidReceiveButtonEventNotification;
 extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
@@ -184,6 +252,8 @@ extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;
 extern SDLNotificationName const SDLDidReceiveVehicleIconNotification;
 extern SDLNotificationName const SDLDidChangePermissionsNotification;
+extern SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification;
+extern SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification;
 extern SDLNotificationName const SDLDidReceiveSystemRequestNotification;
 extern SDLNotificationName const SDLDidChangeTurnByTurnStateNotification;
 extern SDLNotificationName const SDLDidReceiveTouchEventNotification;
@@ -195,7 +265,7 @@ extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 /**
  All of the possible SDL RPC Response notification names
 
- @return The names
+ @return All response notification names
  */
 + (NSArray<SDLNotificationName> *)allResponseNames;
 

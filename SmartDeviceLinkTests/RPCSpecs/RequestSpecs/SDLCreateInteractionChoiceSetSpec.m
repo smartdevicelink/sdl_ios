@@ -10,7 +10,8 @@
 
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLChoice.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLCreateInteractionChoiceSetSpec)
 
@@ -28,12 +29,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameInteractionChoiceSetId:@141414,
-                                                                   SDLNameChoiceSet:[@[choice] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameCreateInteractionChoiceSet}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameInteractionChoiceSetId:@141414,
+                                                                   SDLRPCParameterNameChoiceSet:[@[choice] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameCreateInteractionChoiceSet}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLCreateInteractionChoiceSet* testRequest = [[SDLCreateInteractionChoiceSet alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testRequest.interactionChoiceSetID).to(equal(@141414));
         expect(testRequest.choiceSet).to(equal([@[choice] mutableCopy]));

@@ -8,6 +8,7 @@
   <li><a href="#section-rpm">rpm</a></li>
   <li><a href="#section-fuelLevel">fuelLevel</a></li>
   <li><a href="#section-fuelLevel_State">fuelLevel_State</a></li>
+  <li><a href="#section-fuelRange">fuelRange</a></li>
   <li><a href="#section-instantFuelConsumption">instantFuelConsumption</a></li>
   <li><a href="#section-externalTemperature">externalTemperature</a></li>
   <li><a href="#section-prndl">prndl</a></li>
@@ -19,6 +20,7 @@
   <li><a href="#section-driverBraking">driverBraking</a></li>
   <li><a href="#section-wiperStatus">wiperStatus</a></li>
   <li><a href="#section-headLampStatus">headLampStatus</a></li>
+  <li><a href="#section-engineOilLife">engineOilLife</a></li>
   <li><a href="#section-engineTorque">engineTorque</a></li>
   <li><a href="#section-accPedalPosition">accPedalPosition</a></li>
   <li><a href="#section-steeringWheelAngle">steeringWheelAngle</a></li>
@@ -27,6 +29,9 @@
   <li><a href="#section-emergencyEvent">emergencyEvent</a></li>
   <li><a href="#section-clusterModes">clusterModes</a></li>
   <li><a href="#section-myKey">myKey</a></li>
+  <li><a href="#section-electronicParkBrakeStatus">electronicParkBrakeStatus</a></li>
+  <li><a href="#section-turnSignal">turnSignal</a></li>
+  <li><a href="#section-cloudAppVehicleID">cloudAppVehicleID</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -41,7 +46,7 @@
       gps
   </h3>
   
-  <p>The result of requesting to subscribe to the GPSData.</p>
+  <p>The result of requesting to unsubscribe to the GPSData.</p>
 
 <p>Optional</p>
 
@@ -61,7 +66,7 @@
       speed
   </h3>
   
-  <p>The result of requesting to subscribe to the vehicle speed in kilometers per hour.</p>
+  <p>The result of requesting to unsubscribe to the vehicle speed in kilometers per hour.</p>
 
 <p>Optional</p>
 
@@ -81,7 +86,7 @@
       rpm
   </h3>
   
-  <p>The result of requesting to subscribe to the number of revolutions per minute of the engine.</p>
+  <p>The result of requesting to unsubscribe to the number of revolutions per minute of the engine.</p>
 
 <p>Optional</p>
 
@@ -101,7 +106,7 @@
       fuelLevel
   </h3>
   
-  <p>The result of requesting to subscribe to the fuel level in the tank (percentage)</p>
+  <p>The result of requesting to unsubscribe to the fuel level in the tank (percentage)</p>
 
 <p>Optional</p>
 
@@ -122,7 +127,7 @@
       fuelLevel_State
   </h3>
   
-  <p>The result of requesting to subscribe to the fuel level state.</p>
+  <p>The result of requesting to unsubscribe to the fuel level state.</p>
 
 <p>Optional</p>
 
@@ -139,11 +144,32 @@
   
   
   
+  <h3 id="section-fuelRange">
+      fuelRange
+  </h3>
+  
+  <p>The result of requesting to unsubscribe to the fuel range.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">fuelRange</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-instantFuelConsumption">
       instantFuelConsumption
   </h3>
   
-  <p>The result of requesting to subscribe to the instantaneous fuel consumption in microlitres.</p>
+  <p>The result of requesting to unsubscribe to the instantaneous fuel consumption in microlitres.</p>
 
 <p>Optional</p>
 
@@ -164,7 +190,7 @@
       externalTemperature
   </h3>
   
-  <p>The result of requesting to subscribe to the external temperature in degrees celsius.</p>
+  <p>The result of requesting to unsubscribe to the external temperature in degrees celsius.</p>
 
 <p>Optional</p>
 
@@ -185,7 +211,7 @@
       prndl
   </h3>
   
-  <p>The result of requesting to subscribe to the PRNDL status.</p>
+  <p>The result of requesting to unsubscribe to the PRNDL status.</p>
 
 <p>Optional</p>
 
@@ -205,7 +231,7 @@
       tirePressure
   </h3>
   
-  <p>The result of requesting to subscribe to the tireStatus.</p>
+  <p>The result of requesting to unsubscribe to the tireStatus.</p>
 
 <p>Optional</p>
 
@@ -226,7 +252,7 @@
       odometer
   </h3>
   
-  <p>The result of requesting to subscribe to the odometer in km.</p>
+  <p>The result of requesting to unsubscribe to the odometer in km.</p>
 
 <p>Optional</p>
 
@@ -247,7 +273,7 @@
       beltStatus
   </h3>
   
-  <p>The result of requesting to subscribe to the status of the seat belts.</p>
+  <p>The result of requesting to unsubscribe to the status of the seat belts.</p>
 
 <p>Optional</p>
 
@@ -268,7 +294,7 @@
       bodyInformation
   </h3>
   
-  <p>The result of requesting to subscribe to the body information including power modes.</p>
+  <p>The result of requesting to unsubscribe to the body information including power modes.</p>
 
 <p>Optional</p>
 
@@ -289,7 +315,7 @@
       deviceStatus
   </h3>
   
-  <p>The result of requesting to subscribe to the device status including signal and battery strength.</p>
+  <p>The result of requesting to unsubscribe to the device status including signal and battery strength.</p>
 
 <p>Optional</p>
 
@@ -310,7 +336,7 @@
       driverBraking
   </h3>
   
-  <p>The result of requesting to subscribe to the status of the brake pedal.</p>
+  <p>The result of requesting to unsubscribe to the status of the brake pedal.</p>
 
 <p>Optional</p>
 
@@ -331,7 +357,7 @@
       wiperStatus
   </h3>
   
-  <p>The result of requesting to subscribe to the status of the wipers.</p>
+  <p>The result of requesting to unsubscribe to the status of the wipers.</p>
 
 <p>Optional</p>
 
@@ -352,7 +378,7 @@
       headLampStatus
   </h3>
   
-  <p>The result of requesting to subscribe to the status of the head lamps.</p>
+  <p>The result of requesting to unsubscribe to the status of the head lamps.</p>
 
 <p>Optional</p>
 
@@ -369,11 +395,32 @@
   
   
   
+  <h3 id="section-engineOilLife">
+      engineOilLife
+  </h3>
+  
+  <p>The result of requesting to unsubscribe to the estimated percentage of remaining oil life of the engine.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">engineOilLife</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-engineTorque">
       engineTorque
   </h3>
   
-  <p>The result of requesting to subscribe to the torque value for engine (in Nm) on non-diesel variants.</p>
+  <p>The result of requesting to unsubscribe to the torque value for engine (in Nm) on non-diesel variants.</p>
 
 <p>Optional</p>
 
@@ -394,7 +441,7 @@
       accPedalPosition
   </h3>
   
-  <p>The result of requesting to subscribe to the accelerator pedal position (percentage depressed)</p>
+  <p>The result of requesting to unsubscribe to the accelerator pedal position (percentage depressed)</p>
 
 <p>Optional</p>
 
@@ -415,7 +462,7 @@
       steeringWheelAngle
   </h3>
   
-  <p>The result of requesting to subscribe to the current angle of the steering wheel (in deg)</p>
+  <p>The result of requesting to unsubscribe to the current angle of the steering wheel (in deg)</p>
 
 <p>Optional</p>
 
@@ -436,7 +483,7 @@
       eCallInfo
   </h3>
   
-  <p>The result of requesting to subscribe to the emergency call info</p>
+  <p>The result of requesting to unsubscribe to the emergency call info</p>
 
 <p>Optional</p>
 
@@ -457,7 +504,7 @@
       airbagStatus
   </h3>
   
-  <p>The result of requesting to subscribe to the airbag status</p>
+  <p>The result of requesting to unsubscribe to the airbag status</p>
 
 <p>Optional</p>
 
@@ -478,7 +525,7 @@
       emergencyEvent
   </h3>
   
-  <p>The result of requesting to subscribe to the emergency event</p>
+  <p>The result of requesting to unsubscribe to the emergency event</p>
 
 <p>Optional</p>
 
@@ -499,7 +546,7 @@
       clusterModes
   </h3>
   
-  <p>The result of requesting to subscribe to the cluster modes</p>
+  <p>The result of requesting to unsubscribe to the cluster modes</p>
 
 <p>Optional</p>
 
@@ -520,7 +567,7 @@
       myKey
   </h3>
   
-  <p>The result of requesting to subscribe to the myKey status</p>
+  <p>The result of requesting to unsubscribe to the myKey status</p>
 
 <p>Optional</p>
 
@@ -532,6 +579,69 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-electronicParkBrakeStatus">
+      electronicParkBrakeStatus
+  </h3>
+  
+  <p>The result of requesting to unsubscribe to the electronic parking brake status</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">electronicParkBrakeStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-turnSignal">
+      turnSignal
+  </h3>
+  
+  <p>The result of requesting to unsubscribe to the turn signal</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">turnSignal</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cloudAppVehicleID">
+      cloudAppVehicleID
+  </h3>
+  
+  <p>The result of requesting to unsubscribe to the cloud app vehicle id</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">cloudAppVehicleID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

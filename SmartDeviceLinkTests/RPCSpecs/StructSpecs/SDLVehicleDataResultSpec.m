@@ -11,7 +11,7 @@
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLVehicleDataResultSpec)
 
@@ -27,9 +27,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDataType:SDLVehicleDataTypeAirbagStatus,
-                                       SDLNameResultCode:SDLVehicleDataResultCodeDisallowed} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDataType:SDLVehicleDataTypeAirbagStatus,
+                                       SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDisallowed} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));

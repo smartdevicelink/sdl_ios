@@ -7,11 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCMessage : SDLRPCStruct {
-    NSMutableDictionary<NSString *, id> *function;
-    NSMutableDictionary<NSString *, id> *parameters;
-    NSString *messageType;
-}
+@interface SDLRPCMessage : SDLRPCStruct <NSCopying>
 
 /**
  *  Convenience init
@@ -19,29 +15,21 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name    The name of the message
  *  @return        A SDLRPCMessage object
  */
-- (instancetype)initWithName:(NSString *)name;
-
-/**
- *  Convenience init
- *
- *  @param dict    A dictionary with the format @{messageType: @{parameters}}
- *  @return        A SDLRPCMessage object
- */
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
+- (instancetype)initWithName:(NSString *)name __deprecated_msg("This is not intended to be a public facing API");
 
 /**
  *  Returns the function name.
  *
  *  @return The function name
  */
-- (nullable NSString *)getFunctionName;
+- (nullable NSString *)getFunctionName __deprecated_msg("Call the .name property instead");
 
 /**
  *  Sets the function name.
  *
  *  @param functionName The function name
  */
-- (void)setFunctionName:(nullable NSString *)functionName;
+- (void)setFunctionName:(nullable NSString *)functionName __deprecated_msg("This is not intended to be a public facing API");
 
 /**
  *  Returns the value associated with the provided key. If the key does not exist, null is returned.
@@ -49,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param functionName    The key name
  *  @return                The value associated with the function name
  */
-- (nullable NSObject *)getParameters:(NSString *)functionName;
+- (nullable NSObject *)getParameters:(NSString *)functionName __deprecated_msg("Call the .parameters property instead");
 
 /**
  *  Sets a key-value pair using the function name as the key.
@@ -57,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param functionName    The name for the key
  *  @param value           The value associated with the function name
  */
-- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value;
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value __deprecated_msg("This is not intended to be a public facing API");
 
 /**
  *  The data in the message
@@ -68,6 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The name of the message
  */
 @property (strong, nonatomic, readonly) NSString *name;
+
+/**
+ The JSON-RPC parameters
+ */
+@property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, id> *parameters;
 
 /**
  *  The type of data in the message

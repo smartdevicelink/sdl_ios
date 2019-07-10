@@ -11,7 +11,8 @@
 #import "SDLUpdateTurnList.h"
 #import "SDLTurn.h"
 #import "SDLSoftButton.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLUpdateTurnListSpec)
 
@@ -30,12 +31,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameTurnList:[@[turn] mutableCopy],
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameUpdateTurnList}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameTurnList:[@[turn] mutableCopy],
+                                                                   SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUpdateTurnList}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUpdateTurnList* testRequest = [[SDLUpdateTurnList alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.turnList).to(equal([@[turn] mutableCopy]));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

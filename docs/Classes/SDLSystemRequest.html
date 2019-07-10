@@ -1,0 +1,140 @@
+<h1>SDLSystemRequest Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithType:fileName:">-initWithType:fileName:</a></li>
+  <li><a href="#section--initWithProprietaryType:fileName:">-initWithProprietaryType:fileName:</a></li>
+  <li><a href="#section-requestType">requestType</a></li>
+  <li><a href="#section-requestSubType">requestSubType</a></li>
+  <li><a href="#section-fileName">fileName</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithType:fileName:">
+      -initWithType:fileName:
+  </h3>
+  
+  <p>Create a generic system request with a file name</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span><span class="p">)</span><span class="nv">requestType</span>
+                            <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">type</span> <span class="nv">requestType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span><span class="p">,</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>requestType</dt>
+      <dd><p>The request type to use</p></dd>
+      <dt>fileName</dt>
+      <dd><p>The name of the file to use</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The request</p>
+  </div>
+  
+  <h3 id="section--initWithProprietaryType:fileName:">
+      -initWithProprietaryType:fileName:
+  </h3>
+  
+  <p>Create an OEM_PROPRIETARY system request with a subtype and file name</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithProprietaryType</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">proprietaryType</span>
+                                       <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">proprietaryType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>proprietaryType</dt>
+      <dd><p>The proprietary requestSubType to be used</p></dd>
+      <dt>fileName</dt>
+      <dd><p>The name of the file to use</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The request</p>
+  </div>
+  
+  <h3 id="section-requestType">
+      requestType
+  </h3>
+  
+  <p>The type of system request. Note that Proprietary requests should forward the binary data to the known proprietary module on the system.</p>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="n">_Nonnull</span> <span class="n">requestType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-requestSubType">
+      requestSubType
+  </h3>
+  
+  <p>A request subType used when the <code><a href="../Classes/SDLSystemRequest.html#/c:objc(cs)SDLSystemRequest(py)requestType">requestType</a></code> is <code>OEM_SPECIFIC</code>.</p>
+
+<p>Optional, Max length 255</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">requestSubType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestSubType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileName">
+      fileName
+  </h3>
+  
+  <p>Filename of HTTP data to store in predefined system staging area.</p>
+
+<p>Required if requestType is HTTP. PROPRIETARY requestType should ignore this parameter.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

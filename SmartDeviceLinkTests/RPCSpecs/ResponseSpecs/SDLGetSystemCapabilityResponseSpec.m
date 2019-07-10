@@ -5,7 +5,8 @@
 
 #import "SDLGetSystemCapabilityResponse.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLNavigationCapability.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityType.h"
@@ -27,20 +28,29 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary *dict = @{SDLNameResponse: @{
-                                       SDLNameParameters: @{
-                                               SDLNameSystemCapability: @{SDLNameSystemCapabilityType: @"NAVIGATION",
-                                                                         SDLNameNavigationCapability: @{SDLNameGetWayPointsEnabled: @(NO),
-                                                                                                        SDLNameSendLocationEnabled: @(YES)}}
-                                               }
+        NSDictionary *dict = @{
+                               SDLRPCParameterNameResponse: @{
+                                       SDLRPCParameterNameParameters: @{
+                                               SDLRPCParameterNameSystemCapability: @{
+                                                       SDLRPCParameterNameSystemCapabilityType: @"NAVIGATION",
+                                                       SDLRPCParameterNameNavigationCapability: @{
+                                                               SDLRPCParameterNameGetWayPointsEnabled: @(NO),
+                                                               SDLRPCParameterNameSendLocationEnabled: @(YES)}
+                                                       }
+                                               },
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetSystemCapability
                                        }
                                };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testResponse.systemCapability.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
         expect(testResponse.systemCapability.navigationCapability.sendLocationEnabled).to(equal(YES));
         expect(testResponse.systemCapability.navigationCapability.getWayPointsEnabled).to(equal(NO));
         expect(testResponse.systemCapability.phoneCapability).to(beNil());
+        expect(testResponse.name).to(equal(SDLRPCFunctionNameGetSystemCapability));
     });
 
     it(@"Should return nil if not set", ^ {

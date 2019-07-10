@@ -227,8 +227,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch secondTouch:touch];
             self.previousPinchDistance = self.currentPinchGesture.distance;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartInView:atCenterPoint:)]) {
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
-                    [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
+                [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:self.currentPinchGesture.center];
             }
         } break;
     }
@@ -247,7 +247,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return; // no-op
     }
 #pragma clang diagnostic pop
-    
+
     CGFloat xDelta = fabs(touch.location.x - self.firstTouch.location.x);
     CGFloat yDelta = fabs(touch.location.y - self.firstTouch.location.y);
     if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold) {
@@ -275,8 +275,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartInView:atPoint:)]) {
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
-                    [self.touchEventDelegate touchManager:self panningDidStartInView:hitView atPoint:touch.location];
+                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
+                [self.touchEventDelegate touchManager:self panningDidStartInView:hitView atPoint:touch.location];
             }
         } break;
         case SDLPerformingTouchTypePanningTouch: {
@@ -302,9 +302,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             [self sdl_setMultiTouchFingerTouchForTouch:touch];
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndInView:atCenterPoint:)]) {
-                        UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
-                        [self.touchEventDelegate touchManager:self pinchDidEndInView:hitView atCenterPoint:self.currentPinchGesture.center];
-                        self.currentPinchGesture = nil;
+                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
+                    [self.touchEventDelegate touchManager:self pinchDidEndInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                    self.currentPinchGesture = nil;
                 } else {
                     self.currentPinchGesture = nil;
                 }
@@ -312,8 +312,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         } break;
         case SDLPerformingTouchTypePanningTouch: {
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndInView:atPoint:)]) {
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
-                    [self.touchEventDelegate touchManager:self panningDidEndInView:hitView atPoint:touch.location];
+                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
+                [self.touchEventDelegate touchManager:self panningDidEndInView:hitView atPoint:touch.location];
             }
         } break;
         case SDLPerformingTouchTypeSingleTouch: {
@@ -333,8 +333,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     CGPoint centerPoint = CGPointCenterOfPoints(touch.location,
                                                                 self.singleTapTouch.location);
                     if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveDoubleTapForView:atPoint:)]) {
-                            UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:centerPoint] : nil;
-                            [self.touchEventDelegate touchManager:self didReceiveDoubleTapForView:hitView atPoint:centerPoint];
+                        UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:centerPoint] : nil;
+                        [self.touchEventDelegate touchManager:self didReceiveDoubleTapForView:hitView atPoint:centerPoint];
                     }
                 }
 
@@ -420,9 +420,33 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         strongSelf.singleTapTouch = nil;
         [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
-                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:point] : nil;
-                [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:hitView atPoint:point];
+            [self sdl_getSingleTapHitView:point hitViewHandler:^(UIView * _Nullable selectedView) {
+                [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:selectedView atPoint:point];
+            }];
         }
+    });
+}
+
+/**
+ *  HAX to preserve the thread on which the delegate is notified for single taps; returning on the main thread would be a breaking change. All other touch gestures currently notify the delegate on the main thread. The single tap timer runs on a background thread so when a single tap is detected the hit test needs to be done on the main thread and then the result is returned on a background thread.
+ *
+ *  Checks if a single tap is inside a view. As the single tap timer is run on a background thread, the check is done on a main thread and then the result is returned on a background thread.
+ *
+ *  @param point            Screen coordinates of the tap gesture
+ *  @param hitViewHandler   A handler that returns the view the point is inside of; nil if the point does not lie inside of a view
+ */
+- (void)sdl_getSingleTapHitView:(CGPoint)point hitViewHandler:(nullable void (^)(UIView * __nullable hitView))hitViewHandler {
+    if (!self.hitTester) {
+        if (!hitViewHandler) { return; }
+        return hitViewHandler(nil);
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *hitView = [self.hitTester viewForPoint:point];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (!hitViewHandler) { return; }
+            return hitViewHandler(hitView);
+        });
     });
 }
 

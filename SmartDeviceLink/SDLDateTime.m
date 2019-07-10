@@ -4,7 +4,7 @@
 #import "SDLDateTime.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 @implementation SDLDateTime
 
@@ -59,75 +59,84 @@
 }
 
 - (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
-    [store sdl_setObject:millisecond forName:SDLNameMillisecond];
+    [self.store sdl_setObject:millisecond forName:SDLRPCParameterNameMillisecond];
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return [store sdl_objectForName:SDLNameMillisecond];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameMillisecond ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
-    [store sdl_setObject:second forName:SDLNameSecond];
+    [self.store sdl_setObject:second forName:SDLRPCParameterNameSecond];
 }
 
 - (NSNumber<SDLInt> *)second {
-    return [store sdl_objectForName:SDLNameSecond];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameSecond ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
-    [store sdl_setObject:minute forName:SDLNameMinute];
+    [self.store sdl_setObject:minute forName:SDLRPCParameterNameMinute];
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return [store sdl_objectForName:SDLNameMinute];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameMinute ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
-    [store sdl_setObject:hour forName:SDLNameHour];
+    [self.store sdl_setObject:hour forName:SDLRPCParameterNameHour];
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return [store sdl_objectForName:SDLNameHour];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameHour ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
-    [store sdl_setObject:day forName:SDLNameDay];
+    [self.store sdl_setObject:day forName:SDLRPCParameterNameDay];
 }
 
 - (NSNumber<SDLInt> *)day {
-    return [store sdl_objectForName:SDLNameDay];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameDay ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
-    [store sdl_setObject:month forName:SDLNameMonth];
+    [self.store sdl_setObject:month forName:SDLRPCParameterNameMonth];
 }
 
 - (NSNumber<SDLInt> *)month {
-    return [store sdl_objectForName:SDLNameMonth];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameMonth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
-    [store sdl_setObject:year forName:SDLNameYear];
+    [self.store sdl_setObject:year forName:SDLRPCParameterNameYear];
 }
 
 - (NSNumber<SDLInt> *)year {
-    return [store sdl_objectForName:SDLNameYear];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameYear ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
-    [store sdl_setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
+    [self.store sdl_setObject:timezoneMinuteOffset forName:SDLRPCParameterNameTimezoneMinuteOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
-    [store sdl_setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
+    [self.store sdl_setObject:timezoneHourOffset forName:SDLRPCParameterNameTimezoneHourOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return [store sdl_objectForName:SDLNameTimezoneHourOffset];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneHourOffset ofClass:NSNumber.class error:&error];
 }
 
 @end

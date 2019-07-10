@@ -4,24 +4,29 @@
 #import "SDLOnAppInterfaceUnregistered.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAppInterfaceUnregistered
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnAppInterfaceUnregistered]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnAppInterfaceUnregistered]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    [parameters sdl_setObject:reason forName:SDLNameReason];
+    [self.parameters sdl_setObject:reason forName:SDLRPCParameterNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
-    return [parameters sdl_objectForName:SDLNameReason];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameReason error:&error];
 }
 
 @end

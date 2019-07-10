@@ -4,6 +4,7 @@
 
 <ul>
   <li><a href="#section--initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:">-initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:</a></li>
+  <li><a href="#section--initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:">-initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:</a></li>
   <li><a href="#section-frequencyInteger">frequencyInteger</a></li>
   <li><a href="#section-frequencyFraction">frequencyFraction</a></li>
   <li><a href="#section-band">band</a></li>
@@ -14,6 +15,8 @@
   <li><a href="#section-signalChangeThreshold">signalChangeThreshold</a></li>
   <li><a href="#section-radioEnable">radioEnable</a></li>
   <li><a href="#section-state">state</a></li>
+  <li><a href="#section-hdRadioEnable">hdRadioEnable</a></li>
+  <li><a href="#section-sisData">sisData</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -26,12 +29,17 @@
       -initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFrequencyInteger</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span> <span class="nf">frequencyFraction</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyFraction</span> <span class="nf">band</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span><span class="p">)</span><span class="nv">band</span> <span class="nf">hdChannel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdChannel</span> <span class="nf">radioEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioEnable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithFrequencyInteger</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span>
+           <span class="nf">frequencyFraction</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyFraction</span>
+                        <span class="nf">band</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span><span class="p">)</span><span class="nv">band</span>
+                   <span class="nf">hdChannel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdChannel</span>
+                 <span class="nf">radioEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioEnable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -39,6 +47,66 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>frequencyInteger</dt>
+      <dd><p>integer part of the frequency</p></dd>
+      <dt>frequencyFraction</dt>
+      <dd><p>fractional part of the frequency</p></dd>
+      <dt>band</dt>
+      <dd><p>Radio band value</p></dd>
+      <dt>hdChannel</dt>
+      <dd><p>Current HD sub-channel</p></dd>
+      <dt>radioEnable</dt>
+      <dd><p>whether or not radio is enabled</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRadioControlData class</p>
+  </div>
+  
+  <h3 id="section--initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:">
+      -initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithFrequencyInteger</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span>
+           <span class="nf">frequencyFraction</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyFraction</span>
+                        <span class="nf">band</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span><span class="p">)</span><span class="nv">band</span>
+                   <span class="nf">hdChannel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdChannel</span>
+                 <span class="nf">radioEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioEnable</span>
+               <span class="nf">hdRadioEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdRadioEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">frequencyInteger</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">frequencyFraction</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">band</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span><span class="p">?,</span> <span class="nv">hdChannel</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">radioEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">hdRadioEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>frequencyInteger</dt>
+      <dd><p>integer part of the frequency</p></dd>
+      <dt>frequencyFraction</dt>
+      <dd><p>fractional part of the frequency</p></dd>
+      <dt>band</dt>
+      <dd><p>Radio band value</p></dd>
+      <dt>hdChannel</dt>
+      <dd><p>Current HD sub-channel</p></dd>
+      <dt>radioEnable</dt>
+      <dd><p>whether or not radio is enabled</p></dd>
+      <dt>hdRadioEnable</dt>
+      <dd><p>whether or not hdradio is enabled</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRadioControlData class</p>
+  </div>
   
   <h3 id="section-frequencyInteger">
       frequencyInteger
@@ -138,7 +206,7 @@
 
 </div>
 
-<p>Integer value Min Value - 1 Max Value -3</p>
+<p>Integer value Min Value - 1 Max Value -7</p>
 
   
   
@@ -159,7 +227,7 @@
   
   <p>Current HD sub-channel if available</p>
 
-<p>Integer value Min Value - 1 Max Value -3</p>
+<p>Integer value Min Value - 1 Max Value -7</p>
 
   
   
@@ -267,6 +335,49 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLRadioState.h@T@SDLRadioState">SDLRadioState</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hdRadioEnable">
+      hdRadioEnable
+  </h3>
+  
+  <p>True if the hd radio is on, false is the radio is off</p>
+
+<p>Boolean value</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdRadioEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hdRadioEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-sisData">
+      sisData
+  </h3>
+  
+  <p>Read Read-only Station Information Service (SIS) data provides basic information
+ about the station such as call sign,
+ as well as information not displayable to the consumer such as the station identification number</p>
+
+<p>Optional, SDLSISData</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSISData.html">SDLSISData</a></span> <span class="o">*</span><span class="n">sisData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sisData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSISData.html">SDLSISData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

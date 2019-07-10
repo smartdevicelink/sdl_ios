@@ -11,7 +11,8 @@
 #import "SDLAddCommand.h"
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAddCommandSpec)
 
@@ -34,16 +35,18 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                          @{SDLNameParameters:
-                                                                @{SDLNameCommandId:@434577,
-                                                                  SDLNameMenuParams:menu,
-                                                                  SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
-                                                                  SDLNameCommandIcon:image},
-                                                            SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
-
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                          @{SDLRPCParameterNameParameters:
+                                                                @{SDLRPCParameterNameCommandId:@434577,
+                                                                  SDLRPCParameterNameMenuParams:menu,
+                                                                  SDLRPCParameterNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
+                                                                  SDLRPCParameterNameCommandIcon:image},
+                                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
-        
+#pragma clang diagnostic pop
+
         expect(testRequest.cmdID).to(equal(@434577));
         expect(testRequest.menuParams).to(equal(menu));
         expect(testRequest.vrCommands).to(equal([@[@"name", @"anotherName"] mutableCopy]));
@@ -122,6 +125,8 @@ describe(@"initializers", ^{
             NSString *iconValue = @"Icon";
             SDLImageType imageType = SDLImageTypeDynamic;
 
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:iconValue iconType:imageType handler:nil];
 
             expect(testCommand.cmdID).to(equal(commandId));
@@ -130,9 +135,12 @@ describe(@"initializers", ^{
             expect(testCommand.menuParams.parentID).to(equal(parentId));
             expect(testCommand.menuParams.position).to(equal(position));
             expect(testCommand.cmdIcon).toNot(beNil());
+            #pragma clang diagnostic pop
         });
 
         it(@"should initialize without an image", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:nil iconType:nil handler:nil];
 
             expect(testCommand.cmdID).to(equal(commandId));
@@ -141,6 +149,7 @@ describe(@"initializers", ^{
             expect(testCommand.menuParams.parentID).to(equal(parentId));
             expect(testCommand.menuParams.position).to(equal(position));
             expect(testCommand.cmdIcon).to(beNil());
+            #pragma clang diagnostic pop
         });
     });
 

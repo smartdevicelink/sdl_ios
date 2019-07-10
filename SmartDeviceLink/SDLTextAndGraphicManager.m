@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
 
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToUpdate;
 @property (assign, nonatomic) BOOL isDirty;
 
 @end
@@ -71,6 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _currentScreenData = [[SDLShow alloc] init];
     _currentLevel = SDLHMILevelNone;
+
+    _waitingOnHMILevelUpdateToUpdate = NO;
+    _isDirty = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -102,6 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
     _displayCapabilities = nil;
     _currentLevel = SDLHMILevelNone;
     _blankArtwork = nil;
+    _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
 }
 
@@ -110,6 +115,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.isBatchingUpdates) { return; }
 
+    // Don't send if we're in HMI NONE
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        self.waitingOnHMILevelUpdateToUpdate = YES;
+        return;
+    } else {
+        self.waitingOnHMILevelUpdateToUpdate = NO;
+    }
+
     if (self.isDirty) {
         self.isDirty = NO;
         [self sdl_updateWithCompletionHandler:handler];
@@ -117,11 +130,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    // Don't send if we're in HMI NONE
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        return;
-    }
-
     SDLLogD(@"Updating text and graphics");
     if (self.inProgressUpdate != nil) {
         SDLLogV(@"In progress update exists, queueing update");
@@ -148,42 +156,54 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowImages:fullShow];
 
     self.inProgressHandler = handler;
+
     __weak typeof(self)weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
-        SDLLogV(@"No images to send, only sending text");
-        // If there are no images to update, just send the text update
+        SDLLogV(@"No images to send, sending text");
+        // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
+    } else if (![self sdl_artworkNeedsUpload:self.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
     } else {
         SDLLogV(@"Images need to be uploaded, sending text and uploading images");
+
         // We need to upload or queue the upload of the images
         // Send the text immediately
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
+
         // Start uploading the images
         __block SDLShow *thisUpdate = fullShow;
-        [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+        [self sdl_uploadImagesWithCompletionHandler:^(NSError *_Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
             if (error != nil) {
-                SDLLogE(@"Error uploading text and graphic image: %@", error);
+                SDLShow *showWithGraphics = [self sdl_createImageOnlyShowWithPrimaryArtwork:self.primaryGraphic secondaryArtwork:self.secondaryGraphic];
+                if (showWithGraphics != nil) {
+                    SDLLogW(@"Some images failed to upload. Sending update with the successfully uploaded images");
+                    self.inProgressUpdate = showWithGraphics;
+                } else {
+                    SDLLogE(@"All images failed to upload. No graphics to show, skipping update.");
+                    self.inProgressUpdate = nil;
+                }
+                return;
             }
 
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
                 SDLLogV(@"Queued image update matches the images we need, sending update");
-                [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
+                return [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
             } else {
                 SDLLogV(@"Queued image update does not match the images we need, skipping update");
             }
         }];
-        
         // When the images are done uploading, send another show with the images
         self.queuedImageUpdate = fullShow;
     }
+
+    if (self.inProgressUpdate == nil) { return; }
 
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -209,16 +229,26 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
+- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *_Nullable error))handler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
-    if ([self sdl_shouldUpdatePrimaryImage]) {
+    if ([self sdl_shouldUpdatePrimaryImage] && !self.primaryGraphic.isStaticIcon) {
         [artworksToUpload addObject:self.primaryGraphic];
     }
-    if ([self sdl_shouldUpdateSecondaryImage]) {
+    if ([self sdl_shouldUpdateSecondaryImage] && !self.secondaryGraphic.isStaticIcon) {
         [artworksToUpload addObject:self.secondaryGraphic];
     }
 
+    if (artworksToUpload.count == 0
+        && (self.primaryGraphic.isStaticIcon || self.secondaryGraphic.isStaticIcon)) {
+        SDLLogD(@"Upload attempted on static icons, sending them without upload instead");
+        handler(nil);
+    }
+
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogW(@"Text and graphic manager artwork failed to upload with error: %@", error.localizedDescription);
+        }
+
         handler(error);
     }];
 }
@@ -233,10 +263,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if ([self sdl_shouldUpdatePrimaryImage]) {
-        show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.primaryGraphic.isTemplate];
+        show.graphic = self.primaryGraphic.imageRPC;
     }
     if ([self sdl_shouldUpdateSecondaryImage]) {
-        show.secondaryGraphic = [[SDLImage alloc] initWithName:self.secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.secondaryGraphic.isTemplate];
+        show.secondaryGraphic = self.secondaryGraphic.imageRPC;
     }
 
     return show;
@@ -431,6 +461,19 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
+- (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
+    SDLShow *newShow = [[SDLShow alloc] init];
+    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
+
+    if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
+        SDLLogV(@"No graphics to upload");
+        return nil;
+    }
+
+    return newShow;
+}
+
 - (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
     // If the items are nil, they were not updated, so we can't just set it directly
     self.currentScreenData.mainField1 = show.mainField1 ?: self.currentScreenData.mainField1;
@@ -446,23 +489,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-- (BOOL)sdl_uploadedArtworkOrDoesntExist:(SDLArtwork *)artwork {
-    return (!artwork || [self.fileManager hasUploadedFile:artwork]);
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
 
-    return (hasGraphic
+    return (templateSupportsPrimaryArtwork
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
             && self.primaryGraphic != nil);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsSecondaryArtwork = self.displayCapabilities ? ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
-    return (hasGraphic
+    return (templateSupportsSecondaryArtwork
             && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
             && self.secondaryGraphic != nil);
 }
@@ -487,6 +530,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [array copy];
 }
 
+- (BOOL)sdl_hasData {
+    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0);
+    BOOL hasImageFields = (self.primaryGraphic != nil) || (self.secondaryGraphic != nil);
+
+    return hasTextFields || hasImageFields;
+}
+
 #pragma mark - Equality
 
 - (BOOL)sdl_showImages:(SDLShow *)show isEqualToShowImages:(SDLShow *)show2 {
@@ -507,110 +557,98 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTextField1:(nullable NSString *)textField1 {
     _textField1 = textField1;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
         // If we aren't batching, send the update immediately, if we are, set ourselves as dirty (so we know we should send an update after the batch ends)
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField2:(nullable NSString *)textField2 {
     _textField2 = textField2;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField3:(nullable NSString *)textField3 {
     _textField3 = textField3;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField4:(nullable NSString *)textField4 {
     _textField4 = textField4;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setMediaTrackTextField:(nullable NSString *)mediaTrackTextField {
     _mediaTrackTextField = mediaTrackTextField;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
     _primaryGraphic = primaryGraphic;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setSecondaryGraphic:(nullable SDLArtwork *)secondaryGraphic {
     _secondaryGraphic = secondaryGraphic;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setAlignment:(nullable SDLTextAlignment)alignment {
     _alignment = alignment ? alignment : SDLTextAlignmentCenter;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField1Type:(nullable SDLMetadataType)textField1Type {
     _textField1Type = textField1Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField2Type:(nullable SDLMetadataType)textField2Type {
     _textField2Type = textField2Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField3Type:(nullable SDLMetadataType)textField3Type {
     _textField3Type = textField3Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField4Type:(nullable SDLMetadataType)textField4Type {
     _textField4Type = textField4Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
@@ -636,26 +674,44 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
+
     self.displayCapabilities = response.displayCapabilities;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+    if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
+
     self.displayCapabilities = response.displayCapabilities;
 
     // Auto-send an updated show
-    [self sdl_updateWithCompletionHandler:nil];
+    if ([self sdl_hasData]) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
+    SDLHMILevel oldLevel = self.currentLevel;
+    self.currentLevel = hmiStatus.hmiLevel;
+
     // Auto-send an updated show if we were in NONE and now we are not
-    if ([self.currentLevel isEqualToString:SDLHMILevelNone] && ![hmiStatus.hmiLevel isEqualToString:SDLHMILevelNone]) {
+    if ([oldLevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone] && self.waitingOnHMILevelUpdateToUpdate) {
         [self sdl_updateWithCompletionHandler:nil];
     }
-
-    self.currentLevel = hmiStatus.hmiLevel;
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "SDLCompassDirection.h"
 #import "SDLDimension.h"
 #import "SDLGPSData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLGPSDataSpec)
@@ -60,25 +60,28 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameLongitudeDegrees:@31.41592653589793,
-                                       SDLNameLatitudeDegrees:@45,
-                                       SDLNameUTCYear:@2015,
-                                       SDLNameUTCMonth:@1,
-                                       SDLNameUTCDay:@26,
-                                       SDLNameUTCHours:@23,
-                                       SDLNameUTCMinutes:@59,
-                                       SDLNameUTCSeconds:@59,
-                                       SDLNameCompassDirection:SDLCompassDirectionSoutheast,
-                                       SDLNamePDOP:@3.4,
-                                       SDLNameHDOP:@9.9,
-                                       SDLNameVDOP:@0,
-                                       SDLNameActual:@NO,
-                                       SDLNameSatellites:@12,
-                                       SDLNameDimension:SDLDimension3D,
-                                       SDLNameAltitude:@3000,
-                                       SDLNameHeading:@96,
-                                       SDLNameSpeed:@64} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameLongitudeDegrees:@31.41592653589793,
+                                       SDLRPCParameterNameLatitudeDegrees:@45,
+                                       SDLRPCParameterNameUTCYear:@2015,
+                                       SDLRPCParameterNameUTCMonth:@1,
+                                       SDLRPCParameterNameUTCDay:@26,
+                                       SDLRPCParameterNameUTCHours:@23,
+                                       SDLRPCParameterNameUTCMinutes:@59,
+                                       SDLRPCParameterNameUTCSeconds:@59,
+                                       SDLRPCParameterNameCompassDirection:SDLCompassDirectionSoutheast,
+                                       SDLRPCParameterNamePDOP:@3.4,
+                                       SDLRPCParameterNameHDOP:@9.9,
+                                       SDLRPCParameterNameVDOP:@0,
+                                       SDLRPCParameterNameActual:@NO,
+                                       SDLRPCParameterNameSatellites:@12,
+                                       SDLRPCParameterNameDimension:SDLDimension3D,
+                                       SDLRPCParameterNameAltitude:@3000,
+                                       SDLRPCParameterNameHeading:@96,
+                                       SDLRPCParameterNameSpeed:@64} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGPSData* testStruct = [[SDLGPSData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));
         expect(testStruct.latitudeDegrees).to(equal(@45));

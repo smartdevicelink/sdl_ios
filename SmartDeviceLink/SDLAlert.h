@@ -23,7 +23,6 @@
  * <ul>
  * <li>alertText1</li>
  * <li>alertText2</li>
- * <li>alertText3</li>
  * <li>ttsChunks</li>
  * </ul>
  * </li>

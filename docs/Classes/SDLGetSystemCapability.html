@@ -4,7 +4,9 @@
 
 <ul>
   <li><a href="#section--initWithType:">-initWithType:</a></li>
+  <li><a href="#section--initWithType:subscribe:">-initWithType:subscribe:</a></li>
   <li><a href="#section-systemCapabilityType">systemCapabilityType</a></li>
+  <li><a href="#section-subscribe">subscribe</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -17,12 +19,12 @@
       -initWithType:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -30,14 +32,53 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of system capability</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSystemCapabilityType object</p>
+  </div>
+  
+  <h3 id="section--initWithType:subscribe:">
+      -initWithType:subscribe:
+  </h3>
+  
+  <p>Convenience init</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
+                           <span class="nf">subscribe</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">subscribe</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of system capability</p></dd>
+      <dt>subscribe</dt>
+      <dd><p>Whether or not to subscribe to updates of the supplied service capability type</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSystemCapabilityType object</p>
+  </div>
   
   <h3 id="section-systemCapabilityType">
       systemCapabilityType
   </h3>
   
-  <p>They type of capability you&rsquo;d like to receive in the response.</p>
+  <p>The type of system capability to get more information on</p>
 
-<p>Mandatory</p>
+<p>SDLSystemCapabilityType, Required</p>
 
   
   
@@ -48,6 +89,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">systemCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-subscribe">
+      subscribe
+  </h3>
+  
+  <p>Flag to subscribe to updates of the supplied service capability type. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.</p>
+
+<p>Boolean, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">subscribe</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

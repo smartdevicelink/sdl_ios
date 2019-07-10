@@ -8,6 +8,8 @@
 
 #import "SDLError.h"
 
+#import "SDLChoiceSetManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -18,6 +20,8 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
+SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 @implementation NSError (SDLErrors)
 
@@ -25,10 +29,10 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
                            userInfo:userInfo];
@@ -36,10 +40,10 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_notConnectedError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
@@ -48,10 +52,10 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_notReadyError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
@@ -60,10 +64,10 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
                            userInfo:userInfo];
@@ -77,9 +81,9 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
@@ -97,9 +101,9 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
@@ -116,37 +120,37 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_fileManager_cannotOverwriteError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Cannot overwrite remote file", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Cannot overwrite remote file", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_noKnownFileError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"No such remote file is currently known", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No such remote file is currently known", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_unableToStartError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to start", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This may be because files are not supported on this unit and / or LISTFILES returned an error", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to start", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This may be because files are not supported on this unit and / or LISTFILES returned an error", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToStart userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_unableToUploadError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send this file", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file manager has not started, or the head unit does not support files", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response and check the file manager's state", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send this file", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file manager has not started, or the head unit does not support files", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response and check the file manager's state", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
@@ -174,6 +178,15 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure the data used to create the file is valid", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataMissing userInfo:userInfo];
+}
+
++ (NSError *)sdl_fileManager_staticIconError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The file is a static icon, which cannot be uploaded", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Stop trying to upload a static icon, set it via the screen manager or create an SDLImage instead", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorStaticIcon userInfo:userInfo];
 }
 
 #pragma mark SDLUploadFileOperation
@@ -217,6 +230,74 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:userInfo];
 }
 
++ (NSError *)sdl_choiceSetManager_failedToCreateMenuItems {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Choice Set Manager error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Choice set manager failed to create menu items due to menuName being empty.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
+}
+
++ (NSError *)sdl_choiceSetManager_incorrectState:(SDLChoiceManagerState *)state {
+    NSString *errorString = [NSString stringWithFormat:@"Choice Set Manager error invalid state: %@", state];
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: errorString,
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The choice set manager could be in an invalid state because the head unit doesn't support choice sets or the manager failed to set up correctly.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
+}
+
+#pragma mark Transport
+
++ (NSError *)sdl_transport_unknownError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"TCP connection cannot be established due to unknown error.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified, and the phone is connected to the correct Wi-Fi network.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorUnknown userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_connectionRefusedError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection cannot be established", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The TCP connection is refused by head unit. Possible causes are that the specified TCP port number is not correct, or SDL Core is not running properly on the head unit.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified. Also, make sure that SDL Core on the head unit enables TCP transport.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorConnectionRefused userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_connectionTimedOutError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection timed out", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The TCP connection cannot be established within a given time. Possible causes are that the specified IP address is not correct, or the connection is blocked by a firewall.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified. Also, make sure that the head unit's system configuration accepts TCP connections.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorConnectionTimedOut userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_networkDownError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Network is not available", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"TCP connection cannot be established because the phone is not connected to the network. Possible causes are: Wi-Fi being disabled on the phone or the phone is connected to a wrong Wi-Fi network.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the phone is connected to the Wi-Fi network that has the head unit on it. Also, make sure that correct IP address and TCP port number are specified.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorNetworkDown userInfo:userInfo];
+}
+
+#pragma mark Store
+
++ (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Type of stored value doesn't match with requested", nil),
+                                                       NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Requested %@ but returned %@", NSStringFromClass(type), NSStringFromClass([wrongObject class])],
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the object type returned from the head unit system", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainRPCStore code:SDLRPCStoreErrorGetInvalidObject userInfo:userInfo];
+}
+
 @end
 
 
@@ -224,16 +305,16 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSException *)sdl_missingHandlerException {
     return [NSException
-        exceptionWithName:@"MissingHandlerException"
-                   reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
-                 userInfo:nil];
+            exceptionWithName:@"MissingHandlerException"
+            reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
+            userInfo:nil];
 }
 
 + (NSException *)sdl_missingIdException {
     return [NSException
-        exceptionWithName:@"MissingIdException"
-                   reason:@"This request requires an ID (command, softbutton, etc) to be specified"
-                 userInfo:nil];
+            exceptionWithName:@"MissingIdException"
+            reason:@"This request requires an ID (command, softbutton, etc) to be specified"
+            userInfo:nil];
 }
 
 + (NSException *)sdl_missingFilesException {
@@ -250,6 +331,18 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 + (NSException *)sdl_carWindowOrientationException {
     return [NSException exceptionWithName:@"com.sdl.carwindow.orientationException"
                                    reason:@"SDLCarWindow rootViewController must support only a single interface orientation"
+                                 userInfo:nil];
+}
+
++ (NSException *)sdl_invalidLockscreenSetupException {
+    return [NSException exceptionWithName:@"com.sdl.lockscreen.setupException"
+                                   reason:@"SDL must be setup _after_ your app's window already exists"
+                                 userInfo:nil];
+}
+
++ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
+    return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
+                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have either 0 or 1 parameters", NSStringFromSelector(selector)]
                                  userInfo:nil];
 }
 

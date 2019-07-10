@@ -7,7 +7,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOasisAddress.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLOasisAddressSpec)
 
@@ -38,16 +38,19 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameCountryName:@"United States",
-                                       SDLNameCountryCode:@"US",
-                                       SDLNamePostalCode:@"123456",
-                                       SDLNameAdministrativeArea:@"CA",
-                                       SDLNameSubAdministrativeArea:@"Santa Clara",
-                                       SDLNameLocality:@"Palo Alto",
-                                       SDLNameSubLocality:@"18",
-                                       SDLNameThoroughfare:@"Candy Lane",
-                                       SDLNameSubThoroughfare:@"123"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameCountryName:@"United States",
+                                       SDLRPCParameterNameCountryCode:@"US",
+                                       SDLRPCParameterNamePostalCode:@"123456",
+                                       SDLRPCParameterNameAdministrativeArea:@"CA",
+                                       SDLRPCParameterNameSubAdministrativeArea:@"Santa Clara",
+                                       SDLRPCParameterNameLocality:@"Palo Alto",
+                                       SDLRPCParameterNameSubLocality:@"18",
+                                       SDLRPCParameterNameThoroughfare:@"Candy Lane",
+                                       SDLRPCParameterNameSubThoroughfare:@"123"} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOasisAddress* testStruct = [[SDLOasisAddress alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.countryName).to(equal(@"United States"));
         expect(testStruct.countryCode).to(equal(@"US"));

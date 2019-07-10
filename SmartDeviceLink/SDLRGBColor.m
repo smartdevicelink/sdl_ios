@@ -9,7 +9,7 @@
 #import "SDLRGBColor.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,27 +41,30 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Setters
 
 - (void)setRed:(NSNumber<SDLInt> *)red {
-    [store sdl_setObject:red forName:SDLNameRed];
+    [self.store sdl_setObject:red forName:SDLRPCParameterNameRed];
 }
 
 - (NSNumber<SDLInt> *)red {
-    return [store sdl_objectForName:SDLNameRed];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameRed ofClass:NSNumber.class error:&error];
 }
 
 - (void)setGreen:(NSNumber<SDLInt> *)green {
-    [store sdl_setObject:green forName:SDLNameGreen];
+    [self.store sdl_setObject:green forName:SDLRPCParameterNameGreen];
 }
 
 - (NSNumber<SDLInt> *)green {
-    return [store sdl_objectForName:SDLNameGreen];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameGreen ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBlue:(NSNumber<SDLInt> *)blue {
-    [store sdl_setObject:blue forName:SDLNameBlue];
+    [self.store sdl_setObject:blue forName:SDLRPCParameterNameBlue];
 }
 
 - (NSNumber<SDLInt> *)blue {
-    return [store sdl_objectForName:SDLNameBlue];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameBlue ofClass:NSNumber.class error:&error];
 }
 
 @end

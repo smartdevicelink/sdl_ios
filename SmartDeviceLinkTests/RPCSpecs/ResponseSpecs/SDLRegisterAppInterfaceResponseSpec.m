@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
@@ -45,6 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.hmiCapabilities = hmiCapabilities;
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
+        testResponse.iconResumed = @YES;
         
         expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
@@ -64,32 +66,37 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+        expect(testResponse.iconResumed).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncMessageVersion:version,
-                                                   SDLNameLanguage:SDLLanguageEsMx,
-                                                   SDLNameHMIDisplayLanguage:SDLLanguageRuRu,
-                                                   SDLNameDisplayCapabilities:info,
-                                                   SDLNameButtonCapabilities:@[button],
-                                                   SDLNameSoftButtonCapabilities:@[softButton],
-                                                   SDLNamePresetBankCapabilities:presetBank,
-                                                   SDLNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
-                                                   SDLNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
-                                                   SDLNameVRCapabilities:@[SDLVRCapabilitiesText],
-                                                   SDLNameAudioPassThruCapabilities:@[audioPassThru],
-                                                   SDLNamePCMStreamCapabilities: audioPassThru,
-                                                   SDLNameVehicleType:vehicle,
-                                                   SDLNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
-                                                   SDLNameSupportedDiagnosticModes:@[@67, @99, @111],
-                                                   SDLNameHMICapabilities: hmiCapabilities,
-                                                   SDLNameSDLVersion: @"sdlVersion",
-                                                   SDLNameSystemSoftwareVersion: @"systemSoftwareVersion"
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameSyncMessageVersion:version,
+                                                   SDLRPCParameterNameLanguage:SDLLanguageEsMx,
+                                                   SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageRuRu,
+                                                   SDLRPCParameterNameDisplayCapabilities:info,
+                                                   SDLRPCParameterNameButtonCapabilities:@[button],
+                                                   SDLRPCParameterNameSoftButtonCapabilities:@[softButton],
+                                                   SDLRPCParameterNamePresetBankCapabilities:presetBank,
+                                                   SDLRPCParameterNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
+                                                   SDLRPCParameterNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
+                                                   SDLRPCParameterNameVRCapabilities:@[SDLVRCapabilitiesText],
+                                                   SDLRPCParameterNameAudioPassThruCapabilities:@[audioPassThru],
+                                                   SDLRPCParameterNamePCMStreamCapabilities: audioPassThru,
+                                                   SDLRPCParameterNameVehicleType:vehicle,
+                                                   SDLRPCParameterNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
+                                                   SDLRPCParameterNameSupportedDiagnosticModes:@[@67, @99, @111],
+                                                   SDLRPCParameterNameHMICapabilities: hmiCapabilities,
+                                                   SDLRPCParameterNameSDLVersion: @"sdlVersion",
+                                                   SDLRPCParameterNameSystemSoftwareVersion: @"systemSoftwareVersion",
+                                                   SDLRPCParameterNameIconResumed: @YES,
                                                    },
-                                             SDLNameOperationName:SDLNameRegisterAppInterface}};
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
@@ -109,6 +116,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+        expect(testResponse.iconResumed).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
@@ -132,6 +140,57 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(beNil());
         expect(testResponse.sdlVersion).to(beNil());
         expect(testResponse.systemSoftwareVersion).to(beNil());
+        expect(testResponse.iconResumed).to(beNil());
+    });
+
+    it(@"Should get correctly when initialized from NSNull", ^ {
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                   @{SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameSyncMessageVersion:NSNull.null,
+                                           SDLRPCParameterNameLanguage:NSNull.null,
+                                           SDLRPCParameterNameHMIDisplayLanguage:NSNull.null,
+                                           SDLRPCParameterNameDisplayCapabilities:NSNull.null,
+                                           SDLRPCParameterNameButtonCapabilities:NSNull.null,
+                                           SDLRPCParameterNameSoftButtonCapabilities:NSNull.null,
+                                           SDLRPCParameterNamePresetBankCapabilities:NSNull.null,
+                                           SDLRPCParameterNameHMIZoneCapabilities:NSNull.null,
+                                           SDLRPCParameterNameSpeechCapabilities:NSNull.null,
+                                           SDLRPCParameterNameVRCapabilities:NSNull.null,
+                                           SDLRPCParameterNameAudioPassThruCapabilities:NSNull.null,
+                                           SDLRPCParameterNamePCMStreamCapabilities:NSNull.null,
+                                           SDLRPCParameterNameVehicleType:NSNull.null,
+                                           SDLRPCParameterNamePrerecordedSpeech:NSNull.null,
+                                           SDLRPCParameterNameSupportedDiagnosticModes:NSNull.null,
+                                           SDLRPCParameterNameHMICapabilities: NSNull.null,
+                                           SDLRPCParameterNameSDLVersion: NSNull.null,
+                                           SDLRPCParameterNameSystemSoftwareVersion: NSNull.null,
+                                           SDLRPCParameterNameIconResumed: NSNull.null,
+                                           },
+                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
+
+        expectAction(^{ [testResponse syncMsgVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse language]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiDisplayLanguage]; }).to(raiseException());
+        expectAction(^{ [testResponse displayCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse buttonCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse softButtonCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse presetBankCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiZoneCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse speechCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse vrCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse audioPassThruCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse pcmStreamCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse vehicleType]; }).to(raiseException());
+        expectAction(^{ [testResponse prerecordedSpeech]; }).to(raiseException());
+        expectAction(^{ [testResponse supportedDiagModes]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse sdlVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse systemSoftwareVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse iconResumed]; }).to(raiseException());
     });
 });
 

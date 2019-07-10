@@ -4,33 +4,37 @@
 #import "SDLOnKeyboardInput.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnKeyboardInput
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnKeyboardInput]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnKeyboardInput]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setEvent:(SDLKeyboardEvent)event {
-    [parameters sdl_setObject:event forName:SDLNameEvent];
+    [self.parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
 }
 
 - (SDLKeyboardEvent)event {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameEvent];
-    return (SDLKeyboardEvent)obj;
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameEvent error:&error];
 }
 
 - (void)setData:(nullable NSString *)data {
-    [parameters sdl_setObject:data forName:SDLNameData];
+    [self.parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (nullable NSString *)data {
-    return [parameters sdl_objectForName:SDLNameData];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameData ofClass:NSString.class error:nil];
 }
 
 @end

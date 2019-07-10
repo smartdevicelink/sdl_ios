@@ -232,13 +232,14 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">initWithSecurityManagers</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
-          <span class="nf">encryptionFlag</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
-           <span class="nf">videoSettings</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoSettings</span>
-              <span class="nf">dataSource</span><span class="p">:</span>
-                  <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLStreamingMediaManagerDataSource.html">SDLStreamingMediaManagerDataSource</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">dataSource</span>
-      <span class="nf">rootViewController</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">rootViewController</span><span class="p">;</span></code></pre>
+    <span class="nf">initWithSecurityManagers</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
+              <span class="nf">encryptionFlag</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
+               <span class="nf">videoSettings</span><span class="p">:</span>
+                   <span class="p">(</span><span class="n">nullable</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoSettings</span>
+                  <span class="nf">dataSource</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLStreamingMediaManagerDataSource.html">SDLStreamingMediaManagerDataSource</a></span><span class="o">&gt;</span><span class="p">)</span>
+                                 <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)dataSource">dataSource</a></span>
+          <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)rootViewController">rootViewController</a></span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)rootViewController">rootViewController</a></span><span class="p">;</span></code></pre>
 
   
   
@@ -338,8 +339,8 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">autostreamingInsecureConfigurationWithInitialViewController</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialViewController</span><span class="p">;</span></code></pre>
+    <span class="nf">autostreamingInsecureConfigurationWithInitialViewController</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialViewController</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -367,11 +368,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-<span class="nf">autostreamingSecureConfigurationWithSecurityManagers</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
-                               <span class="nf">initialViewController</span><span class="p">:</span>
-                                   <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span>
-                                       <span class="n">initialViewController</span><span class="p">;</span></code></pre>
+    <span class="nf">autostreamingSecureConfigurationWithSecurityManagers</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
+                                   <span class="nf">initialViewController</span><span class="p">:</span>
+                                       <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span>
+                                           <span class="n">initialViewController</span><span class="p">;</span></code></pre>
 
   
   

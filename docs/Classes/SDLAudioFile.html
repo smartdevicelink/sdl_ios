@@ -1,0 +1,171 @@
+<h1>SDLAudioFile Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-inputFileURL">inputFileURL</a></li>
+  <li><a href="#section-outputFileURL">outputFileURL</a></li>
+  <li><a href="#section-estimatedDuration">estimatedDuration</a></li>
+  <li><a href="#section-data">data</a></li>
+  <li><a href="#section-fileSize">fileSize</a></li>
+  <li><a href="#section--initWithInputFileURL:outputFileURL:estimatedDuration:">-initWithInputFileURL:outputFileURL:estimatedDuration:</a></li>
+  <li><a href="#section--initWithData:">-initWithData:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-inputFileURL">
+      inputFileURL
+  </h3>
+  
+  <p>If initialized with a file URL, the file URL it came from</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">inputFileURL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">inputFileURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-outputFileURL">
+      outputFileURL
+  </h3>
+  
+  <p>If initialized with a file URL, where the transcoder should produce the transcoded PCM audio file</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">outputFileURL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">outputFileURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-estimatedDuration">
+      estimatedDuration
+  </h3>
+  
+  <p>In seconds. UINT32_MAX if unknown.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt32</span> <span class="n">estimatedDuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">estimatedDuration</span><span class="p">:</span> <span class="kt">UInt32</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-data">
+      data
+  </h3>
+  
+  <p>The PCM audio data to be transferred and played</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">data</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileSize">
+      fileSize
+  </h3>
+  
+  <p>The size of the PCM audio data in bytes</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">fileSize</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fileSize</span><span class="p">:</span> <span class="kt">UInt64</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithInputFileURL:outputFileURL:estimatedDuration:">
+      -initWithInputFileURL:outputFileURL:estimatedDuration:
+  </h3>
+  
+  <p>Initialize an audio file to be queued and played</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInputFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputURL</span>
+                               <span class="nf">outputFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">outputURL</span>
+                           <span class="nf">estimatedDuration</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLAudioFile.html#/c:objc(cs)SDLAudioFile(py)inputFileURL">inputFileURL</a></span> <span class="nv">inputURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLAudioFile.html#/c:objc(cs)SDLAudioFile(py)outputFileURL">outputFileURL</a></span> <span class="nv">outputURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLAudioFile.html#/c:objc(cs)SDLAudioFile(py)estimatedDuration">estimatedDuration</a></span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>inputURL</dt>
+      <dd><p>The file that exists on the device to be transcoded and queued</p></dd>
+      <dt>outputURL</dt>
+      <dd><p>The target URL that the transcoded file will be output to</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the file</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The audio file object</p>
+  </div>
+  
+  <h3 id="section--initWithData:">
+      -initWithData:
+  </h3>
+  
+  <p>Initialize a buffer of PCM audio data to be queued and played</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The PCM audio data buffer</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The audio file object</p>
+  </div>
+  
+</section>

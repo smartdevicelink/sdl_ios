@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLProtocolHeader.h"
+#import "SDLProtocolConstants.h"
+
+@class SDLProtocolHeader;
+@class SDLSyncMsgVersion;
+@class SDLVersion;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define BLOCK_RETURN return
 
 extern NSString *const SDLMaxProxyProtocolVersion;
+extern NSString *const SDLMaxProxyRPCVersion;
 
 extern NSUInteger const SDLDefaultMTUSize;
 extern NSUInteger const SDLV1MTUSize;
@@ -24,9 +29,9 @@ extern NSUInteger const SDLV3MTUSize;
 
 @interface SDLGlobals : NSObject
 
-@property (strong, nonatomic, readonly) NSString *protocolVersion;
-@property (assign, nonatomic, readonly) NSInteger majorProtocolVersion;
-@property (strong, nonatomic) NSString *maxHeadUnitVersion;
+@property (copy, nonatomic, readonly) SDLVersion *protocolVersion;
+@property (strong, nonatomic) SDLVersion *rpcVersion;
+@property (copy, nonatomic) SDLVersion *maxHeadUnitProtocolVersion;
 
 + (instancetype)sharedGlobals;
 

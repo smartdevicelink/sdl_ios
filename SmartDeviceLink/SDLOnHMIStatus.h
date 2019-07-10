@@ -6,6 +6,7 @@
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLSystemContext.h"
+#import "SDLVideoStreamingState.h"
 
 /**
  * Notifies an application that HMI conditions have changed for the application. This indicates whether the application can speak phrases, display text, perform interactions, receive button presses and events, stream audio, etc. This notification will be sent to the application when there has been a change in any one or several of the indicated states (<i>SDLHMILevel</i>, <i>SDLAudioStreamingState</i> or <i>SDLSystemContext</i>) for the application.
@@ -32,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
  Informs app whether any currently streaming audio is audible to user (AUDIBLE) or not (NOT_AUDIBLE). A value of NOT_AUDIBLE means that either the application's audio will not be audible to the user, or that the application's audio should not be audible to the user (i.e. some other application on the mobile device may be streaming audio and the application's audio would be blended with that other audio).
  */
 @property (strong, nonatomic) SDLAudioStreamingState audioStreamingState;
+
+/**
+ Current availablility of video streaming for the application. When this parameter is NOT_STREAMABLE, the application must stop video streaming to SDL.
+ */
+@property (strong, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
 /**
  Whether a user-initiated interaction is in-progress (VRSESSION or MENU), or not (MAIN)

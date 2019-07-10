@@ -4,7 +4,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLPhoneCapability.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLPhoneCapabilitySpec)
 
@@ -20,8 +20,11 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary *dict = @{SDLNameDialNumberEnabled: @(YES)};
+        NSDictionary *dict = @{SDLRPCParameterNameDialNumberEnabled: @(YES)};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPhoneCapability *testStruct = [[SDLPhoneCapability alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.dialNumberEnabled).to(equal(YES));
     });

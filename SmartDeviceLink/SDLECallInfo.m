@@ -4,34 +4,37 @@
 #import "SDLECallInfo.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLECallInfo
 
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    [store sdl_setObject:eCallNotificationStatus forName:SDLNameECallNotificationStatus];
+    [self.store sdl_setObject:eCallNotificationStatus forName:SDLRPCParameterNameECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    return [store sdl_objectForName:SDLNameECallNotificationStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameECallNotificationStatus error:&error];
 }
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    [store sdl_setObject:auxECallNotificationStatus forName:SDLNameAuxECallNotificationStatus];
+    [self.store sdl_setObject:auxECallNotificationStatus forName:SDLRPCParameterNameAuxECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    return [store sdl_objectForName:SDLNameAuxECallNotificationStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameAuxECallNotificationStatus error:&error];
 }
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
-    [store sdl_setObject:eCallConfirmationStatus forName:SDLNameECallConfirmationStatus];
+    [self.store sdl_setObject:eCallConfirmationStatus forName:SDLRPCParameterNameECallConfirmationStatus];
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    return [store sdl_objectForName:SDLNameECallConfirmationStatus];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameECallConfirmationStatus error:&error];
 }
 
 @end

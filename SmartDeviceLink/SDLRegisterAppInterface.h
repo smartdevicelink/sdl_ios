@@ -13,230 +13,251 @@
 @class SDLTemplateColorScheme;
 @class SDLTTSChunk;
 
-/**
- * Registers the application's interface with SDL&reg;, declaring properties of
- * the registration, including the messaging interface version, the app name,
- * etc. The mobile application must establish its interface registration with
- * SDL before any other interaction with SDL&reg; can take place. The
- * registration lasts until it is terminated either by the application calling
- * the <i> SDLUnregisterAppInterface</i> method, or by SDL&reg;
- * sending an <i> SDLOnAppInterfaceUnregistered</i> notification, or
- * by loss of the underlying transport connection, or closing of the underlying
- * message transmission protocol RPC session
- * <p>
- * Until the application receives its first <i>SDLOnHMIStatus</i>
- * Notification, its HMI Status is assumed to be: <i>
- * SDLHMILevel</i>=NONE, <i>
- * SDLAudioStreamingState
- * </i>=NOT_AUDIBLE, <i>
- * SDLSystemContext</i>=MAIN
- * <p>
- * All SDL&reg; resources which the application creates or uses (e.g. Choice
- * Sets, Command Menu, etc.) are associated with the application's interface
- * registration. Therefore, when the interface registration ends, the SDL&reg;
- * resources associated with the application are disposed of. As a result, even
- * though the application itself may continue to run on its host platform (e.g.
- * mobile device) after the interface registration terminates, the application
- * will not be able to use the SDL&reg; HMI without first establishing a new
- * interface registration and re-creating its required SDL&reg; resources. That
- * is, SDL&reg; resources created by (or on behalf of) an application do not
- * persist beyond the life-span of the interface registration
- * <p>
- * Resources and settings whose lifespan is tied to the duration of an
- * application's interface registration:<br/>
- * <ul>
- * <li>Choice Sets</li>
- * <li>Command Menus (built by successive calls to <i>SDLAddCommand
- * </i>)</li>
- * <li>Media clock timer display value</li>
- * <li>Media clock timer display value</li>
- * <li>Media clock timer display value</li>
- * </ul>
- * <p>
- * The autoActivateID is used to grant an application the HMILevel and
- * AudioStreamingState it had when it last disconnected
- * <p>
- * <b>Notes: </b>The autoActivateID parameter, and associated behavior, is
- * currently ignored by SDL&reg;
- * <p>
- * When first calling this method (i.e. first time within life cycle of mobile
- * app), an autoActivateID should not be included. After successfully
- * registering an interface, an autoActivateID is returned to the mobile
- * application for it to use in subsequent connections. If the connection
- * between SDL&reg; and the mobile application is lost, such as the vehicle is
- * turned off while the application is running, the autoActivateID can then be
- * passed in another call to RegisterAppInterface to re-acquire <i>
- * SDLHMILevel</i>=FULL
- * <p>
- * If the application intends to stream audio it is important to indicate so via
- * the isMediaApp parameter. When set to true, audio will reliably stream
- * without any configuration required by the user. When not set, audio may
- * stream, depending on what the user might have manually configured as a media
- * source on SDL&reg;
- * <p>
- * There is no time limit for how long the autoActivateID is "valid" (i.e. would
- * confer focus and opt-in)
- * <p>
- * <b>HMILevel is not defined before registering</b><br/>
- * </p>
- *
- * @since SDL 1.0
- *
- * @see SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
- */
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Registers the application's interface with SDL. The `RegisterAppInterface` RPC declares the properties of the app, including the messaging interface version, the app name, etc. The mobile application must establish its interface registration with SDL before any other interaction with SDL can take place. The registration lasts until it is terminated either by the application calling the `SDLUnregisterAppInterface` method, or by SDL sending an `SDLOnAppInterfaceUnregistered` notification, or by loss of the underlying transport connection, or closing of the underlying message transmission protocol RPC session.
+ *
+ * Until the application receives its first `SDLOnHMIStatus` notification, its `SDLHMILevel` is assumed to be `NONE`, the `SDLAudioStreamingState` is assumed to be `NOT_AUDIBLE`, and the `SDLSystemContext` is assumed to be `MAIN`.
+ *
+ * All SDL resources which the application creates or uses (e.g. choice sets, command menu, etc.) are associated with the application's interface registration. Therefore, when the interface registration ends, the SDL resources associated with the application are disposed of. As a result, even though the application itself may continue to run on its host platform (e.g. mobile device) after the interface registration terminates, the application will not be able to use the SDL HMI without first establishing a new interface registration and re-creating its required SDL resources. That is, SDL resources created by (or on behalf of) an application do not persist beyond the life-span of the interface registration. Resources and settings whose lifespan is tied to the duration of an application's interface registration include: choice sets, command menus, and the media clock timer display value
+ *
+ * If the application intends to stream audio it is important to indicate so via the `isMediaApp` parameter. When set to true, audio will reliably stream without any configuration required by the user. When not set, audio may stream, depending on what the user might have manually configured as a media source on SDL.
+ *
+ * @since SDL 1.0
+ *
+ * @see SDLUnregisterAppInterface, SDLOnAppInterfaceUnregistered
+ */
 @interface SDLRegisterAppInterface : SDLRPCRequest
 
+/**
+ * Convenience init for registering the application with a lifecycle configuration.
+ *
+ * @param lifecycleConfiguration Configuration options for SDLManager
+ */
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration;
 
+/**
+ * Convenience init for registering the application with an app name, app id, and desired language.
+ *
+ * @param appName                   The mobile application's name
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param languageDesired           The language the application intends to use for user interaction
+ * @return                          A SDLRegisterAppInterface object
+ */
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired;
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName;
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash __deprecated_msg(("Use initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme: instead"));
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+/**
+ * Convenience init for registering the application with an app name, app id, desired language, whether or not the app is a media app, app types, and the short app name.
+ *
+ * @param appName                   The mobile application's name
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param languageDesired           The language the application intends to use for user interaction
+ * @param isMediaApp                Indicates if the application is a media or a non-media application
+ * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
+ * @param shortAppName              An abbreviated version of the mobile application's name
+ * @return                          A SDLRegisterAppInterface object
+ */
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName __deprecated_msg(("Use initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme: instead"));
 
 /**
- * The version of the SDL interface
+ * Convenience init for registering the application with an app name, app id, desired language, whether or not the app is a media app, app types, the short app name, tts name, voice recognition synonyms, the hmi display language desired, and the resume hash.
  *
- * Required
+ * @param appName                   The mobile application's name
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param languageDesired           The language the application intends to use for user interaction
+ * @param isMediaApp                Indicates if the application is a media or a non-media application
+ * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
+ * @param shortAppName              An abbreviated version of the mobile application's name
+ * @param ttsName                   TTS string for VR recognition of the mobile application name
+ * @param vrSynonyms                Additional voice recognition commands
+ * @param hmiDisplayLanguageDesired Current app's expected VR+TTS language
+ * @param resumeHash                ID used to uniquely identify current state of all app data that can persist through connection cycles
+ * @return                          A SDLRegisterAppInterface object
+ */
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash __deprecated_msg(("Use initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme: instead"));
+
+/**
+ * Convenience init for registering the application with all possible options.
+ *
+ * @param appName                   The mobile application's name
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param fullAppId                 A full UUID appID used to validate app with policy table entries.
+ * @param languageDesired           The language the application intends to use for user interaction
+ * @param isMediaApp                Indicates if the application is a media or a non-media application
+ * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
+ * @param shortAppName              An abbreviated version of the mobile application's name
+ * @param ttsName                   TTS string for VR recognition of the mobile application name
+ * @param vrSynonyms                Additional voice recognition commands
+ * @param hmiDisplayLanguageDesired Current app's expected VR+TTS language
+ * @param resumeHash                ID used to uniquely identify current state of all app data that can persist through connection cycles
+ * @param dayColorScheme            The color scheme to be used on a head unit using a "light" or "day" color scheme.
+ * @param nightColorScheme          The color scheme to be used on a head unit using a "dark" or "night" color scheme
+ * @return                          A SDLRegisterAppInterface object
+ */
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+
+/**
+ * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
+ *
+ * SDLSyncMsgVersion, Required
+ *
+ * @since SDL 1.0
  */
 @property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
 
 /**
- * The Mobile Application's Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink
+ * The mobile application's name. This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink. Applications with the same name will be rejected.
  *
- * @discussion 
- * <li>Needs to be unique over all applications.</li>
- * <li>May not be empty.</li>
- * <li>May not start with a new line character.</li>
- * <li>May not interfere with any name or synonym of previously registered applications and any predefined blacklist of words (global commands).</li>
- * <li>Needs to be unique over all applications. Applications with the same name will be rejected.</li>
+ * 1. Needs to be unique over all applications. Applications with the same name will be rejected.
+ * 2. May not be empty.
+ * 3. May not start with a new line character.
+ * 4. May not interfere with any name or synonym of previously registered applications and any predefined blacklist of words (global commands).
  *
- * Required, Max length 100 chars
+ * String, Required, Max length 100 chars
+ *
+ * @since SDL 1.0
  */
 @property (strong, nonatomic) NSString *appName;
 
 /**
- * TTS string for VR recognition of the mobile application name.
+ * Text-to-speech string for voice recognition of the mobile application name. Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
  *
- * @discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
- * <li>Needs to be unique over all applications.</li>
- * <li>May not be empty.</li>
- * <li>May not start with a new line character.</li>
+ * 1. Needs to be unique over all applications.
+ * 2. May not be empty.
+ * 3. May not start with a new line character.
  *
- * Optional, Array of SDLTTSChunk, Array size 1 - 100
+ * Array of SDLTTSChunk, Optional, Array size 1 - 100
  *
  * @since SDL 2.0
- * @see SDLTTSChunk
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
- * A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
+ * Provides an abbreviated version of the app name (if needed), that will be displayed on head units that support very few characters. If not provided, the appName is used instead (and will be truncated if too long). It's recommended that this string be no longer than 5 characters.
  *
- * @discussion If not provided, the appName is used instead (and will be truncated if too long)
+ * Legacy head units may limit the number of characters in an app name.
  *
- * Optional, Max length 100 chars
+ * String, Optional, Max length 100 chars
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
- * Defines a additional voice recognition commands
+ * Defines additional voice recognition commands
  *
- * @discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands)
+ * @discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands).
  *
- * Optional, Array of Strings, Array length 1 - 100, Max String length 40
+ * Array of Strings, Optional, Array length 1 - 100, Max String length 40
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 /**
- * Indicates if the application is a media or a non-media application.
+ * Indicates if the application is a media or a non-media application. Media applications will appear in the head unit's media source list and can use the `MEDIA` template.
  *
- * @discussion Only media applications will be able to stream audio to head units that is audible outside of the BT media source.
+ * Boolean, Required
  *
- * Required, Boolean
+ * @since SDL 1.0
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *isMediaApplication;
 
 /**
- * A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).
+ * App's starting VR+TTS language. If there is a mismatch with the head unit, the app will be able to change its language with ChangeRegistration prior to app being brought into focus.
  *
- * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
+ * SDLLanguage, Required
  *
- * Required
+ * @since SDL 1.0
  */
 @property (strong, nonatomic) SDLLanguage languageDesired;
 
 /**
- * An enumeration indicating what language the application intends to use for user interaction (Display).
+ * Current app's expected display language. If there is a mismatch with the head unit, the app will be able to change its language with ChangeRegistration prior to app being brought into focus.
  *
- * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
- *
- * Required
+ * SDLLanguage, Required
  *
  * @since SDL 2.0
  */
 @property (strong, nonatomic) SDLLanguage hmiDisplayLanguageDesired;
 
 /**
- * A list of all applicable app types stating which classifications to be given to the app.
+ * List of all applicable app HMI types stating which HMI classifications to be given to the app.
  *
- * Optional, Array of SDLAppHMIType, Array size 1 - 100
+ * Array of SDLAppHMIType, Optional, Array size 1 - 100
  *
  * @since SDL 2.0
- * @see SDLAppHMIType
  */
 @property (nullable, strong, nonatomic) NSArray<SDLAppHMIType> *appHMIType;
 
 /**
- * ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
- *
- * @discussion This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece. If omitted, then the previous state of an app's commands, etc. will not be restored. 
+ * ID used to uniquely identify a previous state of all app data that can persist through connection cycles (e.g. ignition cycles). This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly re-send each piece. If omitted, then the previous state of an app's commands, etc. will not be restored.
  *
  * When sending hashID, all RegisterAppInterface parameters should still be provided (e.g. ttsName, etc.).
  *
- * Optional, max length 100 chars
+ * String, Optional, max length 100 chars
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSString *hashID;
 
 /**
- * Information about the connecting device
+ * Information about the connecting device.
  *
- * Optional
+ * SDLDeviceInfo, Optional
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) SDLDeviceInfo *deviceInfo;
 
 /**
- * ID used to validate app with policy table entries
+ * ID used to validate app with policy table entries.
  *
- * Required, max length 100
+ * String, Required, max length 100
+ *
+ * @see `fullAppID`
  *
  * @since SDL 2.0
  */
 @property (strong, nonatomic) NSString *appID;
 
 /**
- * Information about the application running
+ * A full UUID appID used to validate app with policy table entries.
  *
- * Optional
+ * @discussion  The `fullAppId` is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the `fullAppId` can be truncated to create the required `appId` needed to register the app. The `appId` is the first 10 non-dash ("-") characters of the `fullAppID` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
+ *
+ * String, Optional
+ *
+ * @since SDL 5.0
+ */
+@property (nullable, strong, nonatomic) NSString *fullAppID;
+
+/**
+ * Contains detailed information about the registered application.
+ *
+ * SDLAppInfo, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLAppInfo *appInfo;
 
 /**
- The color scheme to be used on a head unit using a "light" or "day" color scheme. The OEM may only support this theme if their head unit only has a light color scheme.
-
- Optional
+ * The color scheme to be used on a head unit using a "light" or "day" color scheme. The OEM may only support this theme if their head unit only has a light color scheme.
+ *
+ * SDLTemplateColorScheme, Optional
+ *
+ * @since SDL 5.0
  */
 @property (strong, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
 
 /**
- The color scheme to be used on a head unit using a "dark" or "night" color scheme. The OEM may only support this theme if their head unit only has a dark color scheme.
-
- Optional
+ * The color scheme to be used on a head unit using a "dark" or "night" color scheme. The OEM may only support this theme if their head unit only has a dark color scheme.
+ *
+ * SDLTemplateColorScheme, Optional
+ *
+ * @since SDL 5.0
  */
 @property (strong, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 

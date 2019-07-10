@@ -198,6 +198,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *myKey;
 
+/**
+ The result of requesting to subscribe to the electronic parking brake status
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *electronicParkBrakeStatus;
+
+/**
+ The result of requesting to subscribe to the turn signal
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *turnSignal;
+
+/**
+ The result of requesting to subscribe to the cloud app vehicle ID
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *cloudAppVehicleID;
+
 @end
 
 NS_ASSUME_NONNULL_END

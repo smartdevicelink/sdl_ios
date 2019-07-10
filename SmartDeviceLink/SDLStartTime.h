@@ -13,6 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLStartTime : SDLRPCStruct
 
+/**
+ Create a time struct with a time interval (time in seconds). Fractions of the second will be eliminated and rounded down.
+
+ @param timeInterval The time interval to transform into hours, minutes, seconds
+ @return The object
+ */
+- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval;
+
+/**
+ Create a time struct with hours, minutes, and seconds
+
+ @param hours The number of hours
+ @param minutes The number of minutes
+ @param seconds The number of seconds
+ @return The object
+ */
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
 
 /**

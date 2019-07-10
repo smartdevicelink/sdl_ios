@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,51 +30,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHardware:(nullable NSString *)hardware {
-    [store sdl_setObject:hardware forName:SDLNameHardware];
+    [self.store sdl_setObject:hardware forName:SDLRPCParameterNameHardware];
 }
 
 - (nullable NSString *)hardware {
-    return [store sdl_objectForName:SDLNameHardware];
+    return [self.store sdl_objectForName:SDLRPCParameterNameHardware ofClass:NSString.class error:nil];
 }
 
 - (void)setFirmwareRev:(nullable NSString *)firmwareRev {
-    [store sdl_setObject:firmwareRev forName:SDLNameFirmwareRevision];
+    [self.store sdl_setObject:firmwareRev forName:SDLRPCParameterNameFirmwareRevision];
 }
 
 - (nullable NSString *)firmwareRev {
-    return [store sdl_objectForName:SDLNameFirmwareRevision];
+    return [self.store sdl_objectForName:SDLRPCParameterNameFirmwareRevision ofClass:NSString.class error:nil];
 }
 
 - (void)setOs:(nullable NSString *)os {
-    [store sdl_setObject:os forName:SDLNameOS];
+    [self.store sdl_setObject:os forName:SDLRPCParameterNameOS];
 }
 
 - (nullable NSString *)os {
-    return [store sdl_objectForName:SDLNameOS];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOS ofClass:NSString.class error:nil];
 }
 
 - (void)setOsVersion:(nullable NSString *)osVersion {
-    [store sdl_setObject:osVersion forName:SDLNameOSVersion];
+    [self.store sdl_setObject:osVersion forName:SDLRPCParameterNameOSVersion];
 }
 
 - (nullable NSString *)osVersion {
-    return [store sdl_objectForName:SDLNameOSVersion];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOSVersion ofClass:NSString.class error:nil];
 }
 
 - (void)setCarrier:(nullable NSString *)carrier {
-    [store sdl_setObject:carrier forName:SDLNameCarrier];
+    [self.store sdl_setObject:carrier forName:SDLRPCParameterNameCarrier];
 }
 
 - (nullable NSString *)carrier {
-    return [store sdl_objectForName:SDLNameCarrier];
+    return [self.store sdl_objectForName:SDLRPCParameterNameCarrier ofClass:NSString.class error:nil];
 }
 
 - (void)setMaxNumberRFCOMMPorts:(nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    [store sdl_setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
+    [self.store sdl_setObject:maxNumberRFCOMMPorts forName:SDLRPCParameterNameMaxNumberRFCOMMPorts];
 }
 
 - (nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    return [store sdl_objectForName:SDLNameMaxNumberRFCOMMPorts];
+    return [self.store sdl_objectForName:SDLRPCParameterNameMaxNumberRFCOMMPorts ofClass:NSNumber.class error:nil];
 }
 
 @end

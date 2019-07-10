@@ -10,7 +10,8 @@
 
 #import "SDLSystemRequest.h"
 #import "SDLRequestType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSystemRequestSpec)
 
@@ -21,13 +22,16 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"initializers", ^{
         it(@"should get correctly when initialized with dictionary", ^ {
-            NSMutableDictionary* dict = [@{SDLNameRequest:
-                                               @{SDLNameParameters:
-                                                     @{SDLNameRequestType:SDLRequestTypeAuthenticationRequest,
-                                                       SDLNameRequestSubType: testSubType,
-                                                       SDLNameFilename:testFileName},
-                                                 SDLNameOperationName:SDLNameSystemRequest}} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                               @{SDLRPCParameterNameParameters:
+                                                     @{SDLRPCParameterNameRequestType:SDLRequestTypeAuthenticationRequest,
+                                                       SDLRPCParameterNameRequestSubType: testSubType,
+                                                       SDLRPCParameterNameFilename:testFileName},
+                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
             expect(testRequest.requestType).to(equal(testRequestType));
             expect(testRequest.requestSubType).to(equal(testSubType));

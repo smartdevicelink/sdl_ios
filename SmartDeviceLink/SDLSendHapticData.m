@@ -7,7 +7,8 @@
 //
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSendHapticData.h"
 #import "SDLHapticRect.h"
 
@@ -15,11 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendHapticData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSendHapticData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSendHapticData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData {
     self = [self init];
@@ -33,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHapticRectData:(nullable NSArray<SDLHapticRect *> *)hapticRectData {
-    [parameters sdl_setObject:hapticRectData forName:SDLNameHapticRectData];
+    [self.parameters sdl_setObject:hapticRectData forName:SDLRPCParameterNameHapticRectData];
 }
 
 - (nullable NSArray<SDLHapticRect *> *)hapticRectData {
-    return [parameters sdl_objectsForName:SDLNameHapticRectData ofClass:SDLHapticRect.class];
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameHapticRectData ofClass:SDLHapticRect.class error:nil];
 }
 
 @end

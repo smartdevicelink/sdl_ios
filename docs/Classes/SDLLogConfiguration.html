@@ -9,6 +9,7 @@
   <li><a href="#section-formatType">formatType</a></li>
   <li><a href="#section-asynchronous">asynchronous</a></li>
   <li><a href="#section-errorsAsynchronous">errorsAsynchronous</a></li>
+  <li><a href="#section-disableAssertions">disableAssertions</a></li>
   <li><a href="#section-globalLogLevel">globalLogLevel</a></li>
   <li><a href="#section-+defaultConfiguration">+defaultConfiguration</a></li>
   <li><a href="#section-+debugConfiguration">+debugConfiguration</a></li>
@@ -127,6 +128,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">areErrorsAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-disableAssertions">
+      disableAssertions
+  </h3>
+  
+  <p>Whether or not assert logs will fire assertions in DEBUG mode. Assertions are always disabled in RELEASE builds. If assertions are disabled, only an error log will fire instead. Defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">areAssertionsDisabled</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">disableAssertions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">areAssertionsDisabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

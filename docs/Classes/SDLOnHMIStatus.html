@@ -5,6 +5,7 @@
 <ul>
   <li><a href="#section-hmiLevel">hmiLevel</a></li>
   <li><a href="#section-audioStreamingState">audioStreamingState</a></li>
+  <li><a href="#section-videoStreamingState">videoStreamingState</a></li>
   <li><a href="#section-systemContext">systemContext</a></li>
 </ul>
 
@@ -58,6 +59,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioStreamingState</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-videoStreamingState">
+      videoStreamingState
+  </h3>
+  
+  <p>Current availablility of video streaming for the application. When this parameter is NOT_STREAMABLE, the application must stop video streaming to SDL.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span> <span class="n">videoStreamingState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">videoStreamingState</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

@@ -6,7 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLFunctionID.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 #import "SDLV1ProtocolMessage.h"
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
             if (rpcPayload) {
-                SDLName functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
+                SDLRPCParameterName functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
 
                 UInt8 rpcType = rpcPayload.rpcType;
                 NSArray<NSString *> *rpcTypeNames = @[@"Request", @"Response", @"Notification"];

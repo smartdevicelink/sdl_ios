@@ -11,7 +11,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLImageResolution.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
@@ -39,12 +39,14 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        NSMutableDictionary* dict = [@{SDLNamePreferredResolution: resolution,
-                                       SDLNameMaxBitrate: maxBitrate,
-                                       SDLNameSupportedFormats: formatArray,
-                                       SDLNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
-
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePreferredResolution: resolution,
+                                       SDLRPCParameterNameMaxBitrate: maxBitrate,
+                                       SDLRPCParameterNameSupportedFormats: formatArray,
+                                       SDLRPCParameterNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));

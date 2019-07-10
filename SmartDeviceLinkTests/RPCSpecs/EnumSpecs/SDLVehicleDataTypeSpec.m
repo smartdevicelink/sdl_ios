@@ -42,6 +42,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVehicleDataTypeEngineTorque).to(equal(@"VEHICLEDATA_ENGINETORQUE"));
         expect(SDLVehicleDataTypeAccelerationPedal).to(equal(@"VEHICLEDATA_ACCPEDAL"));
         expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
+        expect(SDLVehicleDataTypeElectronicParkBrakeStatus).to(equal(@"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS"));
+        expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
+        expect(SDLVehicleDataTypeCloudAppVehicleID).to(equal(@"VEHICLEDATA_CLOUDAPPVEHICLEID"));
     });
 });
 

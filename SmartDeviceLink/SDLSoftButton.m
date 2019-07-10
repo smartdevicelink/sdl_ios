@@ -5,7 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,51 +40,53 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setType:(SDLSoftButtonType)type {
-    [store sdl_setObject:type forName:SDLNameType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLSoftButtonType)type {
-    return [store sdl_objectForName:SDLNameType];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 - (void)setText:(nullable NSString *)text {
-    [store sdl_setObject:text forName:SDLNameText];
+    [self.store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (nullable NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    return [self.store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:nil];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    [store sdl_setObject:image forName:SDLNameImage];
+    [self.store sdl_setObject:image forName:SDLRPCParameterNameImage];
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [self.store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {
-    [store sdl_setObject:isHighlighted forName:SDLNameIsHighlighted];
+    [self.store sdl_setObject:isHighlighted forName:SDLRPCParameterNameIsHighlighted];
 }
 
 - (nullable NSNumber<SDLBool> *)isHighlighted {
-    return [store sdl_objectForName:SDLNameIsHighlighted];
+    return [self.store sdl_objectForName:SDLRPCParameterNameIsHighlighted ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
-    [store sdl_setObject:softButtonID forName:SDLNameSoftButtonId];
+    [self.store sdl_setObject:softButtonID forName:SDLRPCParameterNameSoftButtonId];
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    return [store sdl_objectForName:SDLNameSoftButtonId];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameSoftButtonId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSystemAction:(nullable SDLSystemAction)systemAction {
-    [store sdl_setObject:systemAction forName:SDLNameSystemAction];
+    [self.store sdl_setObject:systemAction forName:SDLRPCParameterNameSystemAction];
 }
 
 - (nullable SDLSystemAction)systemAction {
-    return [store sdl_objectForName:SDLNameSystemAction];
+    return [self.store sdl_enumForName:SDLRPCParameterNameSystemAction error:nil];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

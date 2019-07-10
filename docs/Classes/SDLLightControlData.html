@@ -1,0 +1,66 @@
+<h1>SDLLightControlData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithLightStates:">-initWithLightStates:</a></li>
+  <li><a href="#section-lightState">lightState</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithLightStates:">
+      -initWithLightStates:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLLightControlData object with lightState</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLightStates</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightState.html">SDLLightState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lightStates</span> <span class="nv">lightState</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightState.html">SDLLightState</a></span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lightState</dt>
+      <dd><p>An array of LightNames and their current or desired status</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLLightControlData class</p>
+  </div>
+  
+  <h3 id="section-lightState">
+      lightState
+  </h3>
+  
+  <p>@abstract An array of LightNames and their current or desired status.
+ Status of the LightNames that are not listed in the array shall remain unchanged.</p>
+
+<p>Required, NSArray of type SDLLightState minsize=<q>1</q> maxsize=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightState.html">SDLLightState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lightState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lightState</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightState.html">SDLLightState</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

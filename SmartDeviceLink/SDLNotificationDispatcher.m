@@ -12,6 +12,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLRPCRequestNotification.h"
 #import "SDLRPCResponseNotification.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,6 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Runs on `com.sdl.rpcProcessingQueue`
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+}
+
+- (void)postRPCRequestNotification:(NSString *)name request:(__kindof SDLRPCRequest *)request {
+    SDLRPCRequestNotification *notification = [[SDLRPCRequestNotification alloc] initWithName:name object:self rpcRequest:request];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
@@ -59,6 +67,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
+- (void)onTransportError:(NSError *)error {
+    [self postNotificationName:SDLTransportConnectError infoObject:error];
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 
@@ -76,6 +88,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:e.name andReason:e.reason];
     [self postNotificationName:SDLDidReceiveError infoObject:error];
 }
+
+# pragma mark - Responses
 
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
@@ -145,8 +159,20 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
+- (void)onGetCloudAppPropertiesResponse:(SDLGetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetCloudAppPropertiesResponse response:response];
+}
+
+- (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetAppServiceDataResponse response:response];
+}
+
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
+}
+
+- (void)onGetFileResponse:(SDLGetFileResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetFileResponse response:response];
 }
 
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
@@ -161,12 +187,16 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
 }
 
-- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response {
+- (void)onGetWayPointsResponse:(SDLGetWayPointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetWaypointsResponse response:response];
 }
 
 - (void)onListFilesResponse:(SDLListFilesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
+}
+
+- (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceivePerformAppServiceInteractionResponse response:response];
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
@@ -175,6 +205,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response {
     [self postRPCResponseNotification:SDLDidReceivePerformInteractionResponse response:response];
+}
+
+- (void)onPublishAppServiceResponse:(SDLPublishAppServiceResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceivePublishAppServiceResponse response:response];
 }
 
 - (void)onPutFileResponse:(SDLPutFileResponse *)response {
@@ -207,6 +241,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetAppIconResponse response:response];
+}
+
+- (void)onSetCloudAppPropertiesResponse:(SDLSetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSetCloudAppPropertiesResponse response:response];
 }
 
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
@@ -277,8 +315,236 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveUnsubscribeWaypointsResponse response:response];
 }
 
+# pragma mark - Requests
+
+- (void)onAddCommand:(SDLAddCommand *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAddCommandRequest request:request];
+}
+
+- (void)onAddSubMenu:(SDLAddSubMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAddSubMenuRequest request:request];
+}
+
+- (void)onAlert:(SDLAlert *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAlertRequest request:request];
+}
+
+- (void)onAlertManeuver:(SDLAlertManeuver *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAlertManeuverRequest request:request];
+}
+
+- (void)onButtonPress:(SDLButtonPress *)request {
+    [self postRPCRequestNotification:SDLDidReceiveButtonPressRequest request:request];
+}
+
+- (void)onChangeRegistration:(SDLChangeRegistration *)request {
+    [self postRPCRequestNotification:SDLDidReceiveChangeRegistrationRequest request:request];
+}
+
+- (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request {
+    [self postRPCRequestNotification:SDLDidReceiveCreateInteractionChoiceSetRequest request:request];
+}
+
+- (void)onDeleteCommand:(SDLDeleteCommand *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteCommandRequest request:request];
+}
+
+- (void)onDeleteFile:(SDLDeleteFile *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteFileRequest request:request];
+}
+
+- (void)onDeleteInteractionChoiceSet:(SDLDeleteInteractionChoiceSet *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteInteractionChoiceSetRequest request:request];
+}
+
+- (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteSubMenuRequest request:request];
+}
+
+- (void)onDiagnosticMessage:(SDLDiagnosticMessage *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDiagnosticMessageRequest request:request];
+}
+
+- (void)onDialNumber:(SDLDialNumber *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDialNumberRequest request:request];
+}
+
+- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveEncodedSyncPDataRequest request:request];
+}
+
+- (void)onEndAudioPassThru:(SDLEndAudioPassThru *)request {
+    [self postRPCRequestNotification:SDLDidReceiveEndAudioPassThruRequest request:request];
+}
+
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
+}
+
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetCloudAppPropertiesRequest request:request];
+}
+
+- (void)onGetDTCs:(SDLGetDTCs *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetDTCsRequest request:request];
+}
+
+- (void)onGetFile:(SDLGetFile *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetFileRequest request:request];
+}
+
+- (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetInteriorVehicleDataRequest request:request];
+}
+
+- (void)onGetSystemCapability:(SDLGetSystemCapability *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetSystemCapabilityRequest request:request];
+}
+
+- (void)onGetVehicleData:(SDLGetVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetVehicleDataRequest request:request];
+}
+
+- (void)onGetWayPoints:(SDLGetWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetWayPointsRequest request:request];
+}
+
+- (void)onListFiles:(SDLListFiles *)request {
+    [self postRPCRequestNotification:SDLDidReceiveListFilesRequest request:request];
+}
+
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
+}
+
+- (void)onPerformAudioPassThru:(SDLPerformAudioPassThru *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformAudioPassThruRequest request:request];
+}
+
+- (void)onPerformInteraction:(SDLPerformInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformInteractionRequest request:request];
+}
+
+- (void)onPublishAppService:(SDLPublishAppService *)request {
+    [self postRPCRequestNotification:SDLDidReceivePublishAppServiceRequest request:request];
+}
+
+- (void)onPutFile:(SDLPutFile *)request {
+    [self postRPCRequestNotification:SDLDidReceivePutFileRequest request:request];
+}
+
+- (void)onReadDID:(SDLReadDID *)request {
+    [self postRPCRequestNotification:SDLDidReceiveReadDIDRequest request:request];
+}
+
+- (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request {
+    [self postRPCRequestNotification:SDLDidReceiveRegisterAppInterfaceRequest request:request];
+}
+
+- (void)onResetGlobalProperties:(SDLResetGlobalProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveResetGlobalPropertiesRequest request:request];
+}
+
+- (void)onScrollableMessage:(SDLScrollableMessage *)request {
+    [self postRPCRequestNotification:SDLDidReceiveScrollableMessageRequest request:request];
+}
+
+- (void)onSendHapticData:(SDLSendHapticData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSendHapticDataRequest request:request];
+}
+
+- (void)onSendLocation:(SDLSendLocation *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSendLocationRequest request:request];
+}
+
+- (void)onSetAppIcon:(SDLSetAppIcon *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetAppIconRequest request:request];
+}
+
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetCloudAppPropertiesRequest request:request];
+}
+
+- (void)onSetDisplayLayout:(SDLSetDisplayLayout *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetDisplayLayoutRequest request:request];
+}
+
+- (void)onSetGlobalProperties:(SDLSetGlobalProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetGlobalPropertiesRequest request:request];
+}
+
+- (void)onSetInteriorVehicleData:(SDLSetInteriorVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetInteriorVehicleDataRequest request:request];
+}
+
+- (void)onSetMediaClockTimer:(SDLSetMediaClockTimer *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetMediaClockTimerRequest request:request];
+}
+
+- (void)onShow:(SDLShow *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowRequest request:request];
+}
+
+- (void)onShowConstantTBT:(SDLShowConstantTBT *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowConstantTBTRequest request:request];
+}
+
+- (void)onSlider:(SDLSlider *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSliderRequest request:request];
+}
+
+- (void)onSpeak:(SDLSpeak *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSpeakRequest request:request];
+}
+
+- (void)onSubscribeButton:(SDLSubscribeButton *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeButtonRequest request:request];
+}
+
+- (void)onSubscribeVehicleData:(SDLSubscribeVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeVehicleDataRequest request:request];
+}
+
+- (void)onSubscribeWayPoints:(SDLSubscribeWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeWayPointsRequest request:request];
+}
+
+- (void)onSyncPData:(SDLSyncPData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
+}
+
+-(void)onSystemRequest:(SDLSystemRequest *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
+}
+
+- (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnregisterAppInterfaceRequest request:request];
+}
+
+- (void)onUnsubscribeButton:(SDLUnsubscribeButton *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeButtonRequest request:request];
+}
+
+- (void)onUnsubscribeVehicleData:(SDLUnsubscribeVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeVehicleDataRequest request:request];
+}
+
+- (void)onUnsubscribeWayPoints:(SDLUnsubscribeWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeWayPointsRequest request:request];
+}
+
+- (void)onUpdateTurnList:(SDLUpdateTurnList *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUpdateTurnListRequest request:request];
+}
+
+# pragma mark - Notifications
+
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveAppUnregisteredNotification notification:notification];
+}
+
+- (void)onOnAppServiceData:(SDLOnAppServiceData *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveAppServiceDataNotification notification:notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
@@ -325,8 +591,16 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
 }
 
+- (void)onOnRCStatus:(SDLOnRCStatus *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveRemoteControlStatusNotification notification:notification];
+}
+
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
+}
+
+- (void)onOnSystemCapabilityUpdated:(SDLOnSystemCapabilityUpdated *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveSystemCapabilityUpdatedNotification notification:notification];
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {

@@ -12,15 +12,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLName SDL_SWIFT_ENUM;
+typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
-@interface NSMutableDictionary (Store)
+@interface NSDictionary (Store)
 
-- (void)sdl_setObject:(NSObject *)object forName:(SDLName)name;
-- (nullable id)sdl_objectForName:(SDLName)name;
-- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;
-- (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType;
+- (void)sdl_setObject:(NSObject *)object forName:(SDLRPCParameterName)name;
+
+- (nullable SDLEnum)sdl_enumForName:(SDLRPCParameterName)name error:(NSError * _Nullable *)error;
+- (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLRPCParameterName)name error:(NSError * _Nullable *)error;
+
+/**
+ *  @param classType expected class of returned object
+ *  @param error if stored value isn't classType
+ *  @return object of classType or nil
+*/
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable *)error;
+
+/**
+ *  @param classType expected class of array objects
+ *  @param error if array objects value isn't classType or stored objects aren't array
+ *  @return return array of classType or nil
+*/
+- (nullable NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable *)error;
 
 @end
 

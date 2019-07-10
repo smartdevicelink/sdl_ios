@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSoftButtonState
 
 - (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image {
+    NSParameterAssert((text != nil) || (image != nil));
+
     SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image persistent:YES asImageFormat:SDLArtworkImageFormatPNG];
     return [self initWithStateName:stateName text:text artwork:artwork];
 }
@@ -40,10 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    if (artwork == nil && text == nil) {
-        SDLLogE(@"Attempted to create an invalid soft button state: text and artwork are both nil");
-        return nil;
-    }
+    NSParameterAssert((text != nil) || (artwork != nil));
 
     _name = stateName;
     _text = text;
@@ -71,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLImage *)image {
     if (self.artwork == nil) { return nil; }
 
-    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic isTemplate:self.artwork.isTemplate];
+    return self.artwork.imageRPC;
 }
 
 - (NSString *)description {

@@ -10,7 +10,8 @@
 
 #import "SDLKeyboardEvent.h"
 #import "SDLOnKeyboardInput.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnKeyboardInputSpec)
 
@@ -26,12 +27,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameEvent:SDLKeyboardEventSubmitted,
-                                                   SDLNameData:@"qwertyg"},
-                                             SDLNameOperationName:SDLNameOnKeyboardInput}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameEvent:SDLKeyboardEventSubmitted,
+                                                   SDLRPCParameterNameData:@"qwertyg"},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnKeyboardInput}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnKeyboardInput* testNotification = [[SDLOnKeyboardInput alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.event).to(equal(SDLKeyboardEventSubmitted));
         expect(testNotification.data).to(equal(@"qwertyg"));

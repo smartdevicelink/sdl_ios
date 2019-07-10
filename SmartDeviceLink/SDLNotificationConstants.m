@@ -16,6 +16,7 @@ SDLNotificationUserInfoKey const SDLNotificationUserInfoObject = @"SDLNotificati
 #pragma mark - General notifications
 SDLNotificationName const SDLTransportDidDisconnect = @"com.sdl.transport.disconnect";
 SDLNotificationName const SDLTransportDidConnect = @"com.sdl.transport.connect";
+SDLNotificationName const SDLTransportConnectError = @"com.sdl.transport.connectError";
 SDLNotificationName const SDLDidReceiveError = @"com.sdl.general.error";
 SDLNotificationName const SDLDidReceiveLockScreenIcon = @"com.sdl.general.lockscreenIconReceived";
 SDLNotificationName const SDLDidBecomeReady = @"com.sdl.notification.managerReady";
@@ -39,14 +40,19 @@ SDLNotificationName const SDLDidReceiveDialNumberResponse = @"com.sdl.response.d
 SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse = @"com.sdl.response.encodedSyncPData";
 SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse = @"com.sdl.response.endAudioPassThru";
 SDLNotificationName const SDLDidReceiveGenericResponse = @"com.sdl.response.generic";
+SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesResponse = @"com.sdl.response.getCloudAppProperties";
+SDLNotificationName const SDLDidReceiveGetAppServiceDataResponse = @"com.sdl.response.getAppServiceData";
 SDLNotificationName const SDLDidReceiveGetDTCsResponse = @"com.sdl.response.getDTCs";
+SDLNotificationName const SDLDidReceiveGetFileResponse = @"com.sdl.response.getFile";
 SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse = @"com.sdl.response.getInteriorVehicleData";
 SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse = @"com.sdl.response.getSystemCapabilities";
 SDLNotificationName const SDLDidReceiveGetVehicleDataResponse = @"com.sdl.response.getVehicleData";
 SDLNotificationName const SDLDidReceiveGetWaypointsResponse = @"com.sdl.response.getWaypoints";
 SDLNotificationName const SDLDidReceiveListFilesResponse = @"com.sdl.response.listFiles";
+SDLNotificationName const SDLDidReceivePerformAppServiceInteractionResponse = @"com.sdl.response.performAppServiceInteraction";
 SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse = @"com.sdl.response.performAudioPassThru";
 SDLNotificationName const SDLDidReceivePerformInteractionResponse = @"com.sdl.response.performInteraction";
+SDLNotificationName const SDLDidReceivePublishAppServiceResponse = @"com.sdl.response.publishAppService";
 SDLNotificationName const SDLDidReceivePutFileResponse = @"com.sdl.response.putFile";
 SDLNotificationName const SDLDidReceiveReadDIDResponse = @"com.sdl.response.readDID";
 SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse = @"com.sdl.response.registerAppInterface";
@@ -55,6 +61,7 @@ SDLNotificationName const SDLDidReceiveScrollableMessageResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveSendHapticDataResponse = @"com.sdl.response.sendHapticData";
 SDLNotificationName const SDLDidReceiveSendLocationResponse = @"com.sdl.response.sendLocation";
 SDLNotificationName const SDLDidReceiveSetAppIconResponse = @"com.sdl.response.setAppIcon";
+SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesResponse = @"com.sdl.response.setCloudAppProperties";
 SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse = @"com.sdl.response.setDisplayLayout";
 SDLNotificationName const SDLDidReceiveSetGlobalPropertiesResponse = @"com.sdl.response.setGlobalProperties";
 SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse = @"com.sdl.response.setInteriorVehicleData";
@@ -73,11 +80,69 @@ SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
+#pragma mark - RPC Requests
+SDLNotificationName const SDLDidReceiveAddCommandRequest = @"com.sdl.request.addCommand";
+SDLNotificationName const SDLDidReceiveAddSubMenuRequest = @"com.sdl.request.addSubMenu";
+SDLNotificationName const SDLDidReceiveAlertRequest = @"com.sdl.request.alert";
+SDLNotificationName const SDLDidReceiveAlertManeuverRequest = @"com.sdl.request.alertManeuver";
+SDLNotificationName const SDLDidReceiveButtonPressRequest = @"com.sdl.request.buttonPress";
+SDLNotificationName const SDLDidReceiveChangeRegistrationRequest = @"com.sdl.request.changeRegistration";
+SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetRequest = @"com.sdl.request.createInteractionChoiceSet";
+SDLNotificationName const SDLDidReceiveDeleteCommandRequest = @"com.sdl.request.deleteCommand";
+SDLNotificationName const SDLDidReceiveDeleteFileRequest = @"com.sdl.request.deleteFile";
+SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetRequest = @"com.sdl.request.deleteInteractionChoiceSet";
+SDLNotificationName const SDLDidReceiveDeleteSubMenuRequest = @"com.sdl.request.deleteSubMenu";
+SDLNotificationName const SDLDidReceiveDiagnosticMessageRequest = @"com.sdl.request.diagnosticMessage";
+SDLNotificationName const SDLDidReceiveDialNumberRequest = @"com.sdl.request.dialNumber";
+SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest = @"com.sdl.request.encodedSyncPData";
+SDLNotificationName const SDLDidReceiveEndAudioPassThruRequest = @"com.sdl.request.endAudioPassThru";
+SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest = @"com.sdl.request.getAppServiceData";
+SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest = @"com.sdl.request.getCloudAppProperties";
+SDLNotificationName const SDLDidReceiveGetDTCsRequest = @"com.sdl.request.getDTCs";
+SDLNotificationName const SDLDidReceiveGetFileRequest = @"com.sdl.request.getFile";
+SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataRequest = @"com.sdl.request.getInteriorVehicleData";
+SDLNotificationName const SDLDidReceiveGetSystemCapabilityRequest = @"com.sdl.request.getSystemCapability";
+SDLNotificationName const SDLDidReceiveGetVehicleDataRequest = @"com.sdl.request.getVehicleData";
+SDLNotificationName const SDLDidReceiveGetWayPointsRequest = @"com.sdl.request.getWayPoints";
+SDLNotificationName const SDLDidReceiveListFilesRequest = @"com.sdl.request.listFiles";
+SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest = @"com.sdl.request.performAppServiceInteraction";
+SDLNotificationName const SDLDidReceivePerformAudioPassThruRequest = @"com.sdl.request.performAudioPassThru";
+SDLNotificationName const SDLDidReceivePerformInteractionRequest = @"com.sdl.request.performInteraction";
+SDLNotificationName const SDLDidReceivePublishAppServiceRequest = @"com.sdl.request.publishAppService";
+SDLNotificationName const SDLDidReceivePutFileRequest = @"com.sdl.request.putFile";
+SDLNotificationName const SDLDidReceiveReadDIDRequest = @"com.sdl.request.readDID";
+SDLNotificationName const SDLDidReceiveRegisterAppInterfaceRequest = @"com.sdl.request.registerAppInterface";
+SDLNotificationName const SDLDidReceiveResetGlobalPropertiesRequest = @"com.sdl.request.resetGlobalProperties";
+SDLNotificationName const SDLDidReceiveScrollableMessageRequest = @"com.sdl.request.scrollableMessage";
+SDLNotificationName const SDLDidReceiveSendHapticDataRequest = @"com.sdl.request.sendHapticData";
+SDLNotificationName const SDLDidReceiveSendLocationRequest = @"com.sdl.request.sendLocation";
+SDLNotificationName const SDLDidReceiveSetAppIconRequest = @"com.sdl.request.setAppIcon";
+SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest = @"com.sdl.request.setCloudAppProperties";
+SDLNotificationName const SDLDidReceiveSetDisplayLayoutRequest = @"com.sdl.request.setDisplayLayout";
+SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest = @"com.sdl.request.setGlobalProperties";
+SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest = @"com.sdl.request.setInteriorVehicleData";
+SDLNotificationName const SDLDidReceiveSetMediaClockTimerRequest = @"com.sdl.request.setMediaClockTimer";
+SDLNotificationName const SDLDidReceiveShowRequest = @"com.sdl.request.show";
+SDLNotificationName const SDLDidReceiveShowConstantTBTRequest = @"com.sdl.request.showConstantTBT";
+SDLNotificationName const SDLDidReceiveSliderRequest = @"com.sdl.request.slider";
+SDLNotificationName const SDLDidReceiveSpeakRequest = @"com.sdl.request.speak";
+SDLNotificationName const SDLDidReceiveSubscribeButtonRequest = @"com.sdl.request.subscribeButton";
+SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest = @"com.sdl.request.subscribeVehicleData";
+SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest = @"com.sdl.request.subscribeWayPoints";
+SDLNotificationName const SDLDidReceiveSyncPDataRequest = @"com.sdl.request.syncPData";
+SDLNotificationName const SDLDidReceiveSystemRequestRequest = @"com.sdl.request.systemRequest";
+SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceRequest = @"com.sdl.request.unregisterAppInterface";
+SDLNotificationName const SDLDidReceiveUnsubscribeButtonRequest = @"com.sdl.request.unsubscribeButton";
+SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataRequest = @"com.sdl.request.unsubscribeVehicleData";
+SDLNotificationName const SDLDidReceiveUnsubscribeWayPointsRequest = @"com.sdl.request.unsubscribeWayPoints";
+SDLNotificationName const SDLDidReceiveUpdateTurnListRequest = @"com.sdl.request.updateTurnList";
+
 #pragma mark - RPC Notifications
 SDLNotificationName const SDLDidChangeDriverDistractionStateNotification = @"com.sdl.notification.changeDriverDistractionStateNotification";
 SDLNotificationName const SDLDidChangeHMIStatusNotification = @"com.sdl.notification.changeHMIStatus";
-SDLNotificationName const SDLDidReceiveAudioPassThruNotification = @"com.sdl.notification.audioPassThru";
+SDLNotificationName const SDLDidReceiveAppServiceDataNotification = @"com.sdl.notification.appServiceData";
 SDLNotificationName const SDLDidReceiveAppUnregisteredNotification = @"com.sdl.notification.appUnregistered";
+SDLNotificationName const SDLDidReceiveAudioPassThruNotification = @"com.sdl.notification.audioPassThru";
 SDLNotificationName const SDLDidReceiveButtonEventNotification = @"com.sdl.notification.buttonEvent";
 SDLNotificationName const SDLDidReceiveButtonPressNotification = @"com.sdl.notification.buttonPress";
 SDLNotificationName const SDLDidReceiveCommandNotification = @"com.sdl.notification.command";
@@ -88,6 +153,8 @@ SDLNotificationName const SDLDidChangeLanguageNotification = @"com.sdl.notificat
 SDLNotificationName const SDLDidChangeLockScreenStatusNotification = @"com.sdl.notification.lockScreenStatus";
 SDLNotificationName const SDLDidReceiveNewHashNotification = @"com.sdl.notification.newHash";
 SDLNotificationName const SDLDidChangePermissionsNotification = @"com.sdl.notification.changePermission";
+SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification = @"com.sdl.notification.rcStatus";
+SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification = @"com.sdl.notification.systemCapabilityUpdated";
 SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.receiveSystemRequest";
 SDLNotificationName const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.changeTurnByTurnState";
 SDLNotificationName const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.touchEvent";
@@ -114,14 +181,19 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveEncodedSyncPDataResponse,
              SDLDidReceiveEndAudioPassThruResponse,
              SDLDidReceiveGenericResponse,
+             SDLDidReceiveGetCloudAppPropertiesResponse,
+             SDLDidReceiveGetAppServiceDataResponse,
              SDLDidReceiveGetDTCsResponse,
+             SDLDidReceiveGetFileResponse,
              SDLDidReceiveGetInteriorVehicleDataResponse,
              SDLDidReceiveGetSystemCapabilitiesResponse,
              SDLDidReceiveGetVehicleDataResponse,
              SDLDidReceiveGetWaypointsResponse,
              SDLDidReceiveListFilesResponse,
+             SDLDidReceivePerformAppServiceInteractionResponse,
              SDLDidReceivePerformAudioPassThruResponse,
              SDLDidReceivePerformInteractionResponse,
+             SDLDidReceivePublishAppServiceResponse,
              SDLDidReceivePutFileResponse,
              SDLDidReceiveReadDIDResponse,
              SDLDidReceiveRegisterAppInterfaceResponse,
@@ -130,6 +202,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSendHapticDataResponse,
              SDLDidReceiveSendLocationResponse,
              SDLDidReceiveSetAppIconResponse,
+             SDLDidReceiveSetCloudAppPropertiesResponse,
              SDLDidReceiveSetDisplayLayoutResponse,
              SDLDidReceiveSetGlobalPropertiesResponse,
              SDLDidReceiveSetInteriorVehicleDataResponse,

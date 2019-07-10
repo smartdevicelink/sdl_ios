@@ -11,7 +11,8 @@
 #import "SDLAlertManeuver.h"
 #import "SDLTTSChunk.h"
 #import "SDLSoftButton.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAlertManeuverSpec)
 
@@ -30,12 +31,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameTTSChunks:[@[tts] mutableCopy],
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameAlertManeuver}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameTTSChunks:[@[tts] mutableCopy],
+                                                                   SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlertManeuver}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlertManeuver* testRequest = [[SDLAlertManeuver alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

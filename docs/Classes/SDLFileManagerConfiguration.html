@@ -1,0 +1,119 @@
+<h1>SDLFileManagerConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-artworkRetryCount">artworkRetryCount</a></li>
+  <li><a href="#section-fileRetryCount">fileRetryCount</a></li>
+  <li><a href="#section-+defaultConfiguration">+defaultConfiguration</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithArtworkRetryCount:fileRetryCount:">-initWithArtworkRetryCount:fileRetryCount:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-artworkRetryCount">
+      artworkRetryCount
+  </h3>
+  
+  <p>Defines the number of times the file manager will attempt to reupload <code><a href="../Classes/SDLArtwork.html">SDLArtwork</a></code> files in the event of a failed upload to Core.</p>
+
+<p>Defaults to 1. To disable reuploads, set to 0.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt8</span> <span class="n">artworkRetryCount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">artworkRetryCount</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileRetryCount">
+      fileRetryCount
+  </h3>
+  
+  <p>Defines the number of times the file manager will attempt to reupload general <code><a href="../Classes/SDLFile.html">SDLFile</a></code>s in the event of a failed upload to Core.</p>
+
+<p>Defaults to 1. To disable reuploads, set to 0.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt8</span> <span class="n">fileRetryCount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fileRetryCount</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-+defaultConfiguration">
+      +defaultConfiguration
+  </h3>
+  
+  <p>Creates a default file manager configuration.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">defaultConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="p">`</span><span class="nv">default</span><span class="p">`()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A default configuration that may be customized.</p>
+  </div>
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Use <code>defaultConfiguration</code> instead</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initWithArtworkRetryCount:fileRetryCount:">
+      -initWithArtworkRetryCount:fileRetryCount:
+  </h3>
+  
+  <p>Creates a file manager configuration with customized upload retry counts.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithArtworkRetryCount</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">artworkRetryCount</span>
+                                   <span class="nf">fileRetryCount</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">fileRetryCount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">artworkRetryCount</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">fileRetryCount</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+</section>

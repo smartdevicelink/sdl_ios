@@ -5,15 +5,19 @@
 #import "SDLDialNumber.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 @implementation SDLDialNumber
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDialNumber]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDialNumber]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithNumber:(NSString *)number {
     self = [self init];
@@ -27,11 +31,12 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    [parameters sdl_setObject:number forName:SDLNameNumber];
+    [self.parameters sdl_setObject:number forName:SDLRPCParameterNameNumber];
 }
 
 - (NSString *)number {
-    return [parameters sdl_objectForName:SDLNameNumber];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameNumber ofClass:NSString.class error:&error];
 }
 
 @end

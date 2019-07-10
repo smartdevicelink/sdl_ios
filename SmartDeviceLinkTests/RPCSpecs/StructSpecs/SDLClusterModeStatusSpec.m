@@ -12,7 +12,7 @@
 #import "SDLClusterModeStatus.h"
 #import "SDLPowerModeQualificationStatus.h"
 #import "SDLPowerModeStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLClusterModeStatusSpec)
 
@@ -32,11 +32,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNamePowerModeActive:@NO,
-                                       SDLNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
-                                       SDLNameCarModeStatus:SDLCarModeStatusCrash,
-                                       SDLNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePowerModeActive:@NO,
+                                       SDLRPCParameterNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
+                                       SDLRPCParameterNameCarModeStatus:SDLCarModeStatusCrash,
+                                       SDLRPCParameterNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.powerModeActive).to(equal(@NO));
         expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusOk));

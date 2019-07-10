@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnInteriorVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLModuleData.h"
 
 QuickSpecBegin(SDLOnInteriorVehicleDataSpec)
@@ -30,11 +31,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameModuleData:someModuleData},
-                                                             SDLNameOperationName:SDLNameOnInteriorVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameModuleData:someModuleData},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnInteriorVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnInteriorVehicleData* testNotification = [[SDLOnInteriorVehicleData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.moduleData).to(equal(someModuleData));
     });

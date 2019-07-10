@@ -10,7 +10,7 @@
 
 #import "SDLTouchEvent.h"
 #import "SDLTouchCoord.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLTouchEventSpec)
 
@@ -30,10 +30,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameId:@3,
-                                                       SDLNameTimestamp:[@[@23, @52, @41345234] mutableCopy],
-                                                       SDLNameCoordinate:[@[coord] mutableCopy]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameId:@3,
+                                                       SDLRPCParameterNameTS:[@[@23, @52, @41345234] mutableCopy],
+                                                       SDLRPCParameterNameCoordinate:[@[coord] mutableCopy]} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTouchEvent* testStruct = [[SDLTouchEvent alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.touchEventId).to(equal(@3));
         expect(testStruct.timeStamp).to(equal([@[@23, @52, @41345234] mutableCopy]));

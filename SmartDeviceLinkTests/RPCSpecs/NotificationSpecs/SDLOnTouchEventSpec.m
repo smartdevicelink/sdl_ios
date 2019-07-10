@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnTouchEvent.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchType.h"
 
@@ -30,12 +31,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameType:SDLTouchTypeBegin,
-                                                   SDLNameEvent:[@[event] mutableCopy]},
-                                             SDLNameOperationName:SDLNameOnTouchEvent}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameType:SDLTouchTypeBegin,
+                                                   SDLRPCParameterNameEvent:[@[event] mutableCopy]},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnTouchEvent}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnTouchEvent* testNotification = [[SDLOnTouchEvent alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.type).to(equal(SDLTouchTypeBegin));
         expect(testNotification.event).to(equal([@[event] mutableCopy]));

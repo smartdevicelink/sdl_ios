@@ -29,11 +29,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Called when a file from the SDLAudioStreamManager could not play
 
- @param audioManager  A reference to the audio stream manager
+ @param audioManager A reference to the audio stream manager
  @param fileURL The URL that failed
  @param error The error that occurred
  */
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForFile:(NSURL *)fileURL error:(NSError *)error;
+
+@optional
+
+/**
+ Called when a data buffer from the SDLAudioStreamManager finishes playing
+
+ @param audioManager A reference to the audio stream manager
+ @param successfully Whether or not the data buffer played successfully
+ */
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager dataBufferDidFinishPlayingSuccessfully:(BOOL)successfully;
+
+/**
+ Called when a data buffer from the SDLAudioStreamManager could not play
+
+ @param audioManager A reference to the audio stream manager
+ @param error The error that occurred
+ */
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForDataBuffer:(NSError *)error;
 
 @end
 

@@ -4,72 +4,77 @@
 #import "SDLOnSystemRequest.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSystemRequest
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnSystemRequest]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnSystemRequest]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
+    [self.parameters sdl_setObject:requestType forName:SDLRPCParameterNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    return [parameters sdl_objectForName:SDLNameRequestType];
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameRequestType error:&error];
 }
 
 - (void)setRequestSubType:(nullable NSString *)requestSubType {
-    [parameters sdl_setObject:requestSubType forName:SDLNameRequestSubType];
+    [self.parameters sdl_setObject:requestSubType forName:SDLRPCParameterNameRequestSubType];
 }
 
 - (nullable NSString *)requestSubType {
-    return [parameters sdl_objectForName:SDLNameRequestSubType];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameRequestSubType ofClass:NSString.class error:nil];
 }
 
 - (void)setUrl:(nullable NSString *)url {
-    [parameters sdl_setObject:url forName:SDLNameURL];
+    [self.parameters sdl_setObject:url forName:SDLRPCParameterNameURL];
 }
 
 - (nullable NSString *)url {
-    return [parameters sdl_objectForName:SDLNameURL];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameURL ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [self.parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLNameFileType];
+    [self.parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameFileType error:nil];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLNameOffset];
+    [self.parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLength:(nullable NSNumber<SDLInt> *)length {
-    [parameters sdl_setObject:length forName:SDLNameLength];
+    [self.parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
 }
 
 @end

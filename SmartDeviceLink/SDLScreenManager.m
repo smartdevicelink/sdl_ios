@@ -7,7 +7,6 @@
 //
 
 #import "SDLScreenManager.h"
-
 #import "SDLArtwork.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
@@ -143,6 +142,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.choiceSetManager.keyboardConfiguration = keyboardConfiguration;
 }
 
+- (void)setDynamicMenuUpdatesMode:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
+    self.menuManager.dynamicMenuUpdatesMode = dynamicMenuUpdatesMode;
+}
+
 #pragma mark - Getters
 
 - (nullable NSString *)textField1 {
@@ -237,7 +240,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = NO;
 
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
-    [self.softButtonManager updateWithCompletionHandler:handler];
 }
 
 #pragma mark - Choice Sets

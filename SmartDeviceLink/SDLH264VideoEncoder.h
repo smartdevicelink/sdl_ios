@@ -58,7 +58,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions ssrc:(UInt32)ssrc properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (void)stop;
 

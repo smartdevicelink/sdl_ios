@@ -10,7 +10,8 @@
 
 #import "SDLDriverDistractionState.h"
 #import "SDLOnDriverDistraction.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnDriverDistractionSpec)
 
@@ -24,11 +25,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameState:SDLDriverDistractionStateOn},
-                                             SDLNameOperationName:SDLNameOnDriverDistraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameState:SDLDriverDistractionStateOn},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
     });

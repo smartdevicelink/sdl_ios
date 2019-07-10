@@ -5,9 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTCPTransport : NSObject <SDLTransportType> {
-    _Nullable CFSocketRef socket;
-}
+@interface SDLTCPTransport : NSObject <SDLTransportType, NSStreamDelegate>
 
 /**
  *  Convenience init

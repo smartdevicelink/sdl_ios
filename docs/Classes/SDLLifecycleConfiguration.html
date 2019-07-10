@@ -5,12 +5,15 @@
 <ul>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section-+defaultConfigurationWithAppName:appId:">+defaultConfigurationWithAppName:appId:</a></li>
+  <li><a href="#section-+defaultConfigurationWithAppName:fullAppId:">+defaultConfigurationWithAppName:fullAppId:</a></li>
   <li><a href="#section-+debugConfigurationWithAppName:appId:ipAddress:port:">+debugConfigurationWithAppName:appId:ipAddress:port:</a></li>
+  <li><a href="#section-+debugConfigurationWithAppName:fullAppId:ipAddress:port:">+debugConfigurationWithAppName:fullAppId:ipAddress:port:</a></li>
   <li><a href="#section-tcpDebugMode">tcpDebugMode</a></li>
   <li><a href="#section-tcpDebugIPAddress">tcpDebugIPAddress</a></li>
   <li><a href="#section-tcpDebugPort">tcpDebugPort</a></li>
   <li><a href="#section-appName">appName</a></li>
   <li><a href="#section-appId">appId</a></li>
+  <li><a href="#section-fullAppId">fullAppId</a></li>
   <li><a href="#section-resumeHash">resumeHash</a></li>
   <li><a href="#section-isMedia">isMedia</a></li>
   <li><a href="#section-appType">appType</a></li>
@@ -21,6 +24,10 @@
   <li><a href="#section-shortAppName">shortAppName</a></li>
   <li><a href="#section-ttsName">ttsName</a></li>
   <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
+  <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
+  <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
+  <li><a href="#section-minimumProtocolVersion">minimumProtocolVersion</a></li>
+  <li><a href="#section-minimumRPCVersion">minimumRPCVersion</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -54,8 +61,8 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                          <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span><span class="p">;</span></code></pre>
+    <span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                              <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -68,7 +75,38 @@
       <dt>appName</dt>
       <dd><p>The name of the app.</p></dd>
       <dt>appId</dt>
-      <dd><p>The appId to be used. This should be registered with the radio&rsquo;s manufacturer.</p></dd>
+      <dd><p>The app id to be used. This should be registered with the head unit&rsquo;s manufacturer.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The lifecycle configuration</p>
+  </div>
+  
+  <h3 id="section-+defaultConfigurationWithAppName:fullAppId:">
+      +defaultConfigurationWithAppName:fullAppId:
+  </h3>
+  
+  <p>A production configuration that runs using IAP. Additional functionality should be customized on the properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                          <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fullAppId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The name of the app.</p></dd>
+      <dt>fullAppId</dt>
+      <dd><p>The full app id to be used. This should be registered with the head unit&rsquo;s manufacturer. When set, the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> parameter will be set automatically to the first 10 non-dash characters of the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)fullAppId">fullAppId</a></code>.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -85,10 +123,10 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
-<span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
-                        <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
-                    <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
-                         <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+    <span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                            <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                        <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
+                             <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -101,7 +139,44 @@
       <dt>appName</dt>
       <dd><p>The name of the app.</p></dd>
       <dt>appId</dt>
-      <dd><p>The appId to be used. This should be registered with the radio&rsquo;s manufacturer.</p></dd>
+      <dd><p>The app id to be used. This should be registered with the head unit&rsquo;s manufacturer.</p></dd>
+      <dt>ipAddress</dt>
+      <dd><p>The ip address of the server to connect to</p></dd>
+      <dt>port</dt>
+      <dd><p>The port of the server to connect to</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The lifecycle configuration</p>
+  </div>
+  
+  <h3 id="section-+debugConfigurationWithAppName:fullAppId:ipAddress:port:">
+      +debugConfigurationWithAppName:fullAppId:ipAddress:port:
+  </h3>
+  
+  <p>A debug configuration that runs using TCP. Additional functionality should be customized on the properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                        <span class="nf">fullAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fullAppId</span>
+                        <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
+                             <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fullAppId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The name of the app.</p></dd>
+      <dt>fullAppId</dt>
+      <dd><p>The full app id to be used. This should be registered with the head unit&rsquo;s manufacturer. When set, the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> parameter will be set automatically to the first 10 non-dash characters of the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)fullAppId">fullAppId</a></code>.</p></dd>
       <dt>ipAddress</dt>
       <dd><p>The ip address of the server to connect to</p></dd>
       <dt>port</dt>
@@ -189,7 +264,14 @@
       appId
   </h3>
   
-  <p>The app id. This must be the same as the app id received from the SDL developer portal or OEM.</p>
+  <p>The app id. This must be the same as the app id received from the SDL developer portal.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)fullAppId">fullAppId</a></code>
+
+</div>
+
+<p>Required</p>
 
   
   
@@ -199,6 +281,28 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fullAppId">
+      fullAppId
+  </h3>
+  
+  <p>The full app id. This must be the same as the full app id received from the SDL developer portal.</p>
+
+<p>Optional</p>
+
+<p>@discussion  The <code>fullAppId</code> is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the <code>fullAppId</code> can be truncated to create the required <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> needed to register the app. The <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> is the first 10 non-dash (<q>-</q>) characters of the <code>fullAppId</code> (e.g. if you have a <code>fullAppId</code> of 123e4567-e89b-12d3-a456-426655440000, the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> will be 123e4567e8).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fullAppId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">fullAppId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -382,6 +486,81 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dayColorScheme">
+      dayColorScheme
+  </h3>
+  
+  <p>The color scheme to use when the head unit is in a light / day situation.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nightColorScheme">
+      nightColorScheme
+  </h3>
+  
+  <p>The color scheme to use when the head unit is in a dark / night situation.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minimumProtocolVersion">
+      minimumProtocolVersion
+  </h3>
+  
+  <p>The minimum protocol version that will be permitted to connect. This defaults to 1.0.0. If the protocol version of the head unit connected is below this version, the app will disconnect with an EndService protocol message and will not register.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">minimumProtocolVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minimumProtocolVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minimumRPCVersion">
+      minimumRPCVersion
+  </h3>
+  
+  <p>The minimum RPC version that will be permitted to connect. This defaults to 1.0.0. If the RPC version of the head unit connected is below this version, an UnregisterAppInterface will be sent.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">minimumRPCVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minimumRPCVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

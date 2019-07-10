@@ -8,6 +8,7 @@
 
 #import "SDLResponseDispatcher.h"
 
+#import "NSMutableArray+Safe.h"
 #import "NSMutableDictionary+SafeRemove.h"
 #import "SDLAddCommand.h"
 #import "SDLAlert.h"
@@ -15,6 +16,7 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLError.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
@@ -215,10 +217,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_runHandlerForButton:(SDLRPCNotificationNotification *)notification {
     __kindof SDLRPCNotification *rpcNotification = notification.notification;
-
-    SDLRPCButtonNotificationHandler handler = nil;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
+    SDLRPCButtonNotificationHandler handler = nil;
 
     if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
@@ -226,20 +227,26 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
+    } else {
+        return;
     }
 
     if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
+        // Custom buttons
         handler = self.customButtonHandlerMap[customID];
     } else {
+        // Static buttons
         handler = self.buttonHandlerMap[name];
     }
 
-    if (handler) {
-        if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
-            handler(nil, rpcNotification);
-        } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
-            handler(rpcNotification, nil);
-        }
+    if (handler == nil) {
+        return;
+    }
+
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
+        handler(nil, rpcNotification);
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
+        handler(rpcNotification, nil);
     }
 }
     

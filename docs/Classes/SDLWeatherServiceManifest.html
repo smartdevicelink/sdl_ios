@@ -1,0 +1,165 @@
+<h1>SDLWeatherServiceManifest Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithCurrentForecastSupported:maxMultidayForecastAmount:maxHourlyForecastAmount:maxMinutelyForecastAmount:weatherForLocationSupported:">-initWithCurrentForecastSupported:maxMultidayForecastAmount:maxHourlyForecastAmount:maxMinutelyForecastAmount:weatherForLocationSupported:</a></li>
+  <li><a href="#section-currentForecastSupported">currentForecastSupported</a></li>
+  <li><a href="#section-maxMultidayForecastAmount">maxMultidayForecastAmount</a></li>
+  <li><a href="#section-maxHourlyForecastAmount">maxHourlyForecastAmount</a></li>
+  <li><a href="#section-maxMinutelyForecastAmount">maxMinutelyForecastAmount</a></li>
+  <li><a href="#section-weatherForLocationSupported">weatherForLocationSupported</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>A weather service manifest.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithCurrentForecastSupported:maxMultidayForecastAmount:maxHourlyForecastAmount:maxMinutelyForecastAmount:weatherForLocationSupported:">
+      -initWithCurrentForecastSupported:maxMultidayForecastAmount:maxHourlyForecastAmount:maxMinutelyForecastAmount:weatherForLocationSupported:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithCurrentForecastSupported</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">currentForecastSupported</span>
+           <span class="nf">maxMultidayForecastAmount</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">maxMultidayForecastAmount</span>
+             <span class="nf">maxHourlyForecastAmount</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">maxHourlyForecastAmount</span>
+           <span class="nf">maxMinutelyForecastAmount</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">maxMinutelyForecastAmount</span>
+         <span class="nf">weatherForLocationSupported</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">weatherForLocationSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">currentForecastSupported</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">maxMultidayForecastAmount</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">maxHourlyForecastAmount</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">maxMinutelyForecastAmount</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">weatherForLocationSupported</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>currentForecastSupported</dt>
+      <dd><p>Whether or not the current forcast is supported.</p></dd>
+      <dt>maxMultidayForecastAmount</dt>
+      <dd><p>The maximum number of day-by-day forecasts.</p></dd>
+      <dt>maxHourlyForecastAmount</dt>
+      <dd><p>The maximum number of hour-by-hour forecasts.</p></dd>
+      <dt>maxMinutelyForecastAmount</dt>
+      <dd><p>The maximum number of minute-by-minute forecasts.</p></dd>
+      <dt>weatherForLocationSupported</dt>
+      <dd><p>Whether or not the weather for location is supported.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLWeatherServiceManifest object</p>
+  </div>
+  
+  <h3 id="section-currentForecastSupported">
+      currentForecastSupported
+  </h3>
+  
+  <p>Whether or not the current forcast is supported.</p>
+
+<p>Boolean, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">currentForecastSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentForecastSupported</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-maxMultidayForecastAmount">
+      maxMultidayForecastAmount
+  </h3>
+  
+  <p>The maximum number of day-by-day forecasts.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maxMultidayForecastAmount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maxMultidayForecastAmount</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-maxHourlyForecastAmount">
+      maxHourlyForecastAmount
+  </h3>
+  
+  <p>The maximum number of hour-by-hour forecasts.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maxHourlyForecastAmount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maxHourlyForecastAmount</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-maxMinutelyForecastAmount">
+      maxMinutelyForecastAmount
+  </h3>
+  
+  <p>The maximum number of minute-by-minute forecasts.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maxMinutelyForecastAmount</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maxMinutelyForecastAmount</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-weatherForLocationSupported">
+      weatherForLocationSupported
+  </h3>
+  
+  <p>Whether or not the weather for location is supported.</p>
+
+<p>Boolean, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">weatherForLocationSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">weatherForLocationSupported</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

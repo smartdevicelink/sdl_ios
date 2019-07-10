@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSetInteriorVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLModuleData.h"
 
 
@@ -26,11 +27,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameModuleData : someModuleData},
-                                                             SDLNameOperationName:SDLNameSetInteriorVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameModuleData : someModuleData},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetInteriorVehicleData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSetInteriorVehicleData* testRequest = [[SDLSetInteriorVehicleData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.moduleData).to(equal(someModuleData));
     });

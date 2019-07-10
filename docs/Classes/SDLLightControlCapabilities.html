@@ -1,0 +1,91 @@
+<h1>SDLLightControlCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithModuleName:supportedLights:">-initWithModuleName:supportedLights:</a></li>
+  <li><a href="#section-moduleName">moduleName</a></li>
+  <li><a href="#section-supportedLights">supportedLights</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithModuleName:supportedLights:">
+      -initWithModuleName:supportedLights:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLLightControlCapabilities object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                           <span class="nf">supportedLights</span><span class="p">:</span>
+                               <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLLightControlCapabilities.html#/c:objc(cs)SDLLightControlCapabilities(py)supportedLights">supportedLights</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">supportedLights</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>friendly name of the light control module</p></dd>
+      <dt>supportedLights</dt>
+      <dd><p>array of available LightCapabilities</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLLightControlCapabilities class</p>
+  </div>
+  
+  <h3 id="section-moduleName">
+      moduleName
+  </h3>
+  
+  <p>@abstract  The short friendly name of the light control module.
+ It should not be used to identify a module by mobile application.</p>
+
+<p>Required, Max String length 100 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">moduleName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-supportedLights">
+      supportedLights
+  </h3>
+  
+  <p>@abstract  An array of available LightCapabilities that are controllable.</p>
+
+<p>Required, NSArray of type SDLLightCapabilities minsize=<q>1</q> maxsize=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">supportedLights</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportedLights</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
