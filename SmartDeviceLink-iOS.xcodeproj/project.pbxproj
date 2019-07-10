@@ -912,6 +912,12 @@
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */; };
 		5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */; };
+		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D92934E20AF4BEF00FCC775 /* SDLRGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */; };
+		5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */; };
+		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */; };
+		5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */; };
 		5D92935A20B33D4F00FCC775 /* SDLChoiceCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92935B20B33D4F00FCC775 /* SDLChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */; };
 		5D92935E20B33FF700FCC775 /* SDLChoiceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -930,12 +936,6 @@
 		5D92937D20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */; };
 		5D92938020B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */; };
 		5D92938120B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */; };
-		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D92934E20AF4BEF00FCC775 /* SDLRGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */; };
-		5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */; };
-		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */; };
-		5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */; };
 		5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */; };
 		5D9F50791BE7DD4C00FEF399 /* testImageBMP.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */; };
 		5D9F507A1BE7DD4C00FEF399 /* testImageJPEG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */; };
@@ -2284,6 +2284,12 @@
 		5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumberResponse.h; sourceTree = "<group>"; };
 		5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponse.m; sourceTree = "<group>"; };
 		5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberSpec.m; sourceTree = "<group>"; };
+		5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRGBColor.h; sourceTree = "<group>"; };
+		5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColor.m; sourceTree = "<group>"; };
+		5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColorSpec.m; sourceTree = "<group>"; };
+		5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTemplateColorScheme.h; sourceTree = "<group>"; };
+		5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorScheme.m; sourceTree = "<group>"; };
+		5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorSchemeSpec.m; sourceTree = "<group>"; };
 		5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceCell.h; sourceTree = "<group>"; };
 		5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLChoiceCell.m; sourceTree = "<group>"; };
 		5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceSet.h; sourceTree = "<group>"; };
@@ -2302,12 +2308,6 @@
 		5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPresentKeyboardOperation.m; sourceTree = "<group>"; };
 		5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCheckChoiceVROptionalOperation.h; sourceTree = "<group>"; };
 		5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCheckChoiceVROptionalOperation.m; sourceTree = "<group>"; };
-		5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRGBColor.h; sourceTree = "<group>"; };
-		5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColor.m; sourceTree = "<group>"; };
-		5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColorSpec.m; sourceTree = "<group>"; };
-		5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTemplateColorScheme.h; sourceTree = "<group>"; };
-		5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorScheme.m; sourceTree = "<group>"; };
-		5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorSchemeSpec.m; sourceTree = "<group>"; };
 		5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFileJSON.json; sourceTree = "<group>"; };
 		5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = testImageBMP.bmp; sourceTree = "<group>"; };
 		5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImageJPEG.jpeg; sourceTree = "<group>"; };
@@ -5824,8 +5824,14 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				fr,
+				de,
+				ja,
+				"zh-Hans",
+				es,
 			);
 			mainGroup = 5D4019A61A76EC350006B0C2;
 			productRefGroup = 5D4019B01A76EC350006B0C2 /* Products */;
