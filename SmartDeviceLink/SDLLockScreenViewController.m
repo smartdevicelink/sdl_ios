@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowDownImageView;
+@property (strong, nonatomic) SwipeGestureCallbackBlock swipeGestureCallback;
 
 @end
 
@@ -48,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     return useWhiteIcon ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
-
 
 #pragma mark - Setters
 
@@ -76,6 +76,23 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_layoutViews];
 }
 
+#pragma mark - Swipe Gesture
+
+- (void)addSwipeGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback {
+    self.swipeGestureCallback = swipeGestureCallback;
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
+    [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
+    [self.view addGestureRecognizer:swipeGesture];
+}
+
+- (void)removeSwipeGesture {
+    self.view.gestureRecognizers = [[NSArray alloc] init];
+}
+
+- (void)didSwipeDown:(UISwipeGestureRecognizer *)gesture {
+    self.swipeGestureCallback();
+}
+
 #pragma mark - Layout
 
 - (void)sdl_layoutViews {
@@ -93,7 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         self.lockedLabel.textColor = iconColor;
         
-        // Translations needed
         if (self.lockedLabelText != nil) {
             self.lockedLabel.text = self.lockedLabelText;
         } else {

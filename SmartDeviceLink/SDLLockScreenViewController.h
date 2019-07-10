@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenViewController : UIViewController
 
+typedef void (^SwipeGestureCallbackBlock)(void);
+
 /**
  *  The app's icon. This will be set by the lock screen configuration.
  */
@@ -28,9 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) UIColor *backgroundColor;
 
 /**
- *  The locked label string.  This is settable by the lock screen manager to inform in the user about the dismissable state
+ *  The locked label string. This will be set by the lock screen manager to inform the user about the dismissable state.
  */
 @property (copy, nonatomic, nullable) NSString *lockedLabelText;
+
+/**
+ *  Adds a swipe gesture to the lock screen view controller.
+ */
+- (void)addSwipeGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback;
+
+/**
+ *  Remove swipe gesture to the lock screen view controller.
+ */
+- (void)removeSwipeGesture;
 
 @end
 

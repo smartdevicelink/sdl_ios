@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
-@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
 @property (assign, nonatomic) BOOL lockScreenDismissableEnabled;
 
 @end
@@ -97,16 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self.presenter.lockViewController;
 }
 
-// Lazy init of swipe gesture
-- (UISwipeGestureRecognizer *)swipeGesture {
-    if (!_swipeGesture) {
-        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeUp:)];
-        [swipeGesture setDirection: UISwipeGestureRecognizerDirectionUp];
-        _swipeGesture = swipeGesture;
-    }
-    return _swipeGesture;
-}
-
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
@@ -171,6 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_toggleLockscreenDismissalableState {
+    BOOL lastLockScreenDismissableEnabled = self.lastDriverDistractionNotification.lockScreenDismissalEnabled;
     if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
         ![self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue]) {
         self.lockScreenDismissableEnabled = NO;
@@ -178,36 +168,35 @@ NS_ASSUME_NONNULL_BEGIN
         self.lockScreenDismissableEnabled = YES;
     }
     
-    [self sdl_toggleLockscreenDismissalableWithState:self.lockScreenDismissableEnabled];
+    if (lastLockScreenDismissableEnabled != self.lockScreenDismissableEnabled) {
+        [self sdl_updateLockscreenDismissalableWithState:self.lockScreenDismissableEnabled];
+    }
 }
 
-- (void)sdl_toggleLockscreenDismissalableWithState:(BOOL)enabled {
-    // If the VC is our special type, then set the locked label text and swipe gesture. If they passed in a custom VC, there's no current way to update locked label text or swipe gesture. If they're managing it themselves, they can grab the notification themselves.
-    if (![self.lockScreenViewController isKindOfClass:[UIViewController class]]) {
+- (void)sdl_updateLockscreenDismissalableWithState:(BOOL)enabled {
+    if (![self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
         return;
     }
     
-    SDLLockScreenManager *__weak weakSelf = self;
+    __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        SDLLockScreenManager *strongSelf = weakSelf;
+        __strong typeof(self)strongSelf = weakself;
         if (enabled) {
-            [strongSelf.lockScreenViewController.view addGestureRecognizer:strongSelf.swipeGesture];
+            [(SDLLockScreenViewController *)strongSelf.lockScreenViewController addSwipeGestureWithCallback:^{
+                [self.presenter dismiss];
+            }];
             
             if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
                 ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = self.lastDriverDistractionNotification.lockScreenDismissalWarning;
             }
         } else {
-            [strongSelf.lockScreenViewController.view removeGestureRecognizer:strongSelf.swipeGesture];
+            [(SDLLockScreenViewController *)strongSelf.lockScreenViewController removeSwipeGesture];
             
             if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
                 ((SDLLockScreenViewController *)self.lockScreenViewController).lockedLabelText = nil;
             }
         }
     });
-}
-
-- (void)didSwipeUp:(UISwipeGestureRecognizer *)gesture {
-    [self.presenter dismiss];
 }
 
 @end
