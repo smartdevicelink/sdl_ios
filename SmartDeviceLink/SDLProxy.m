@@ -15,7 +15,6 @@
 #import "SDLIAPTransport.h"
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
-#import "SDLLockScreenStatusManager.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnHMIStatus.h"
@@ -56,9 +55,7 @@ const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
 static float DefaultConnectionTimeout = 45.0;
 
-@interface SDLProxy () {
-    SDLLockScreenStatusManager *_lsm;
-}
+@interface SDLProxy ()
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
@@ -76,7 +73,6 @@ static float DefaultConnectionTimeout = 45.0;
 - (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
     if (self = [super init]) {
         SDLLogD(@"Framework Version: %@", self.proxyVersion);
-        _lsm = [[SDLLockScreenStatusManager alloc] init];
         _rpcProcessingQueue = dispatch_queue_create("com.sdl.rpcProcessingQueue", DISPATCH_QUEUE_SERIAL);
         _mutableProxyListeners = [NSMutableSet setWithObject:delegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -449,16 +445,7 @@ static float DefaultConnectionTimeout = 45.0;
     if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
     }
-
-    // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
-    if ([functionName isEqualToString:@"OnHMIStatus"]) {
-        [self handleAfterHMIStatus:newMessage];
-    }
-
-    // When an OnDriverDistraction notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
-    if ([functionName isEqualToString:@"OnDriverDistraction"]) {
-        [self handleAfterDriverDistraction:newMessage];
-    }
+    
 }
 
 - (void)sdl_invokeDelegateMethodsWithFunction:(NSString *)functionName message:(SDLRPCMessage *)message {
@@ -614,26 +601,6 @@ static float DefaultConnectionTimeout = 45.0;
     return NO;
 }
 #pragma clang diagnostic pop
-
-
-#pragma mark Handle Post-Invoke of Delegate Methods
-- (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    SDLHMILevel hmiLevel = (SDLHMILevel)message.parameters[SDLRPCParameterNameHMILevel];
-    _lsm.hmiLevel = hmiLevel;
-
-    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-    [self invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
-}
-
-- (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)message.parameters[SDLRPCParameterNameState];
-    BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
-    _lsm.driverDistracted = state;
-
-    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-    [self invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
-}
-
 
 #pragma mark OnSystemRequest Handlers
 - (void)sdl_handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
