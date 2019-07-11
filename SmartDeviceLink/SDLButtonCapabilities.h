@@ -4,6 +4,7 @@
 #import "SDLRPCMessage.h"
 
 #import "SDLButtonName.h"
+#import "SDLModuleInfo.h"
 
 
 /**
@@ -43,6 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Required, Boolean
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *upDownAvailable;
+
+/**
+ *  Information about a RC module, including its id.
+ *
+ *  SDLModuleInfo
+ */
+@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

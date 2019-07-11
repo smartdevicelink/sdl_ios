@@ -41,6 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectsForName:SDLRPCParameterNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
 }
 
+- (void)setModuleInfo:(SDLModuleInfo *)moduleInfo {
+    [self.store sdl_setObject:moduleInfo forName:SDLRPCParameterNameModuleInfo];
+}
+
+- (SDLModuleInfo *)moduleInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleInfo ofClass:SDLModuleInfo.class error:nil];
+}
 
 @end
 

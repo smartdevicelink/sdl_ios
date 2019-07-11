@@ -2,6 +2,7 @@
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLModuleInfo.h"
 
 @class SDLLightCapabilities;
 
@@ -34,6 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSArray<SDLLightCapabilities *> *supportedLights;
 
+/**
+ *  Information about a RC module, including its id.
+ *
+ *  SDLModuleInfo
+ */
+@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

@@ -173,6 +173,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameSISDataAvailable ofClass:NSNumber.class error:nil];
 }
 
+- (void)setModuleInfo:(SDLModuleInfo *)moduleInfo {
+    [self.store sdl_setObject:moduleInfo forName:SDLRPCParameterNameModuleInfo];
+}
+
+- (SDLModuleInfo *)moduleInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleInfo ofClass:SDLModuleInfo.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

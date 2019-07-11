@@ -382,6 +382,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameMinutes;
 extern SDLRPCParameterName const SDLRPCParameterNameModel;
 extern SDLRPCParameterName const SDLRPCParameterNameModuleData;
 extern SDLRPCParameterName const SDLRPCParameterNameModuleId;
+extern SDLRPCParameterName const SDLRPCParameterNameModuleInfo;
 extern SDLRPCParameterName const SDLRPCParameterNameModuleName;
 extern SDLRPCParameterName const SDLRPCParameterNameModuleType;
 extern SDLRPCParameterName const SDLRPCParameterNameModelYear;

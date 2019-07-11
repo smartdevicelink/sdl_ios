@@ -2,6 +2,7 @@
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLModuleInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -70,6 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Integer 1 - 100
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *equalizerMaxChannelId;
+
+/**
+ *  Information about a RC module, including its id.
+ *
+ *  SDLModuleInfo
+ */
+@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

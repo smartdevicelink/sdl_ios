@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * @abstract id of seat that is a remote controllable seat.
+ * @warning This should not be used to identify a seat, this is a deprecated parameter.
  *
  * Required
  */

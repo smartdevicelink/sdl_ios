@@ -2,6 +2,7 @@
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLModuleInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,6 +57,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *displayModeUnitAvailable;
+
+/**
+ *  Information about a RC module, including its id.
+ *
+ *  SDLModuleInfo
+ */
+@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

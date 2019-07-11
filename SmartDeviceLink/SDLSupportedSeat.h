@@ -5,7 +5,7 @@
 
 /**
  * List possible seats that is a remote controllable seat.
- *
+ *  @warning This should not be used to supported seats, this is a deprecated parameter.
  */
 typedef SDLEnum SDLSupportedSeat SDL_SWIFT_ENUM;
 
