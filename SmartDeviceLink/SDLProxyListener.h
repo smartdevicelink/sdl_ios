@@ -15,6 +15,8 @@
 @class SDLButtonPressResponse;
 @class SDLChangeRegistration;
 @class SDLChangeRegistrationResponse;
+@class SDLCloseApplication;
+@class SDLCloseApplicationResponse;
 @class SDLCreateInteractionChoiceSet;
 @class SDLCreateInteractionChoiceSetResponse;
 @class SDLDeleteCommand;
@@ -210,6 +212,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLChangeRegistrationResponse object
  */
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
+
+/**
+ *  Called when a `CloseApplication` response is received from Core
+ *
+ *  @param response A SDLCloseApplicationResponse object
+ */
+- (void)onCloseApplicationResponse:(SDLCloseApplicationResponse *)response;
 
 /**
  *  Called when a Create Interaction Choice Set Response is received from Core
@@ -604,6 +613,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLChangeRegistration object
  */
 - (void)onChangeRegistration:(SDLChangeRegistration *)request;
+
+/**
+ *  Called when a `CloseApplication` request is received from Core
+ *
+ *  @param request A SDLCloseApplication object
+ */
+- (void)onCloseApplication:(SDLCloseApplication *)request;
 
 /**
  *  Called when a `CreateInteractionChoiceSet` request is received from Core

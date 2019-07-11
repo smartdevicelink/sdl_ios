@@ -1272,6 +1272,7 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
+		883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */; };
 		883C22C8222ED84D00939C4C /* SDLRPCFunctionNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883C22C9222ED84D00939C4C /* SDLRPCFunctionNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22C7222ED84D00939C4C /* SDLRPCFunctionNames.m */; };
 		883C22CB222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */; };
@@ -1305,6 +1306,7 @@
 		8855F9E9220CBA9200A5C897 /* SDLGetFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 8855F9E7220CBA9200A5C897 /* SDLGetFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8855F9EA220CBA9200A5C897 /* SDLGetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9E8220CBA9200A5C897 /* SDLGetFile.m */; };
 		8855F9EC220CBFB700A5C897 /* SDLGetFileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9EB220CBFB700A5C897 /* SDLGetFileSpec.m */; };
+		8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */; };
 		88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */; };
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
@@ -1337,6 +1339,10 @@
 		8881AFBF2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */; };
 		8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
+		888DBAEB22D52431002A0AE2 /* SDLCloseApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 888DBAE922D52431002A0AE2 /* SDLCloseApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		888DBAEC22D52431002A0AE2 /* SDLCloseApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBAEA22D52431002A0AE2 /* SDLCloseApplication.m */; };
+		888DBAEF22D528DE002A0AE2 /* SDLCloseApplicationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 888DBAED22D528DE002A0AE2 /* SDLCloseApplicationResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		888DBAF022D528DE002A0AE2 /* SDLCloseApplicationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBAEE22D528DE002A0AE2 /* SDLCloseApplicationResponse.m */; };
 		888F86FE221DEE200052FE4C /* SDLAsynchronousRPCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */; };
 		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
@@ -2923,6 +2929,7 @@
 		8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServicesCapabilities.h; sourceTree = "<group>"; };
 		8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilities.m; sourceTree = "<group>"; };
 		8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilitiesSpec.m; sourceTree = "<group>"; };
+		883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationResponseSpec.m; sourceTree = "<group>"; };
 		883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRPCFunctionNames.h; sourceTree = "<group>"; };
 		883C22C7222ED84D00939C4C /* SDLRPCFunctionNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNames.m; sourceTree = "<group>"; };
 		883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNamesSpec.m; sourceTree = "<group>"; };
@@ -2957,6 +2964,7 @@
 		8855F9E7220CBA9200A5C897 /* SDLGetFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetFile.h; sourceTree = "<group>"; };
 		8855F9E8220CBA9200A5C897 /* SDLGetFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetFile.m; sourceTree = "<group>"; };
 		8855F9EB220CBFB700A5C897 /* SDLGetFileSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetFileSpec.m; sourceTree = "<group>"; };
+		8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationSpec.m; sourceTree = "<group>"; };
 		88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPerformAppServiceInteractionResponse.h; sourceTree = "<group>"; };
 		88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponse.m; sourceTree = "<group>"; };
 		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
@@ -2983,6 +2991,10 @@
 		8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponse.m; sourceTree = "<group>"; };
 		8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponseSpec.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
+		888DBAE922D52431002A0AE2 /* SDLCloseApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCloseApplication.h; sourceTree = "<group>"; };
+		888DBAEA22D52431002A0AE2 /* SDLCloseApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplication.m; sourceTree = "<group>"; };
+		888DBAED22D528DE002A0AE2 /* SDLCloseApplicationResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCloseApplicationResponse.h; sourceTree = "<group>"; };
+		888DBAEE22D528DE002A0AE2 /* SDLCloseApplicationResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationResponse.m; sourceTree = "<group>"; };
 		888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperation.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperationSpec.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
@@ -3404,6 +3416,7 @@
 				162E82411A9BDE8A00906325 /* SDLAlertSpec.m */,
 				1EE8C4551F38788A00FDC2CF /* SDLButtonPressSpec.m */,
 				162E82421A9BDE8A00906325 /* SDLChangeRegistrationSpec.m */,
+				8863747D22D650DE00D2671F /* SDLCloseApplicationSpec.m */,
 				162E82431A9BDE8A00906325 /* SDLCreateInteractionChoiceSetSpec.m */,
 				162E82441A9BDE8A00906325 /* SDLDeleteCommandSpec.m */,
 				162E82451A9BDE8A00906325 /* SDLDeleteFileSpec.m */,
@@ -3467,6 +3480,7 @@
 				162E82691A9BDE8A00906325 /* SDLAlertResponseSpec.m */,
 				1EE8C4571F387ABD00FDC2CF /* SDLButtonPressResponseSpec.m */,
 				162E826A1A9BDE8A00906325 /* SDLChangeRegistrationResponseSpec.m */,
+				883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */,
 				162E826B1A9BDE8A00906325 /* SDLCreateInteractionChoiceSetResponseSpec.m */,
 				162E826C1A9BDE8A00906325 /* SDLDeleteCommandResponseSpec.m */,
 				162E826D1A9BDE8A00906325 /* SDLDeleteFileResponseSpec.m */,
@@ -4139,6 +4153,8 @@
 				1E5AD07F1F20B73E0029B8AF /* SDLButtonPress.m */,
 				5D61FA6E1A84238A00846EE7 /* SDLChangeRegistration.h */,
 				5D61FA6F1A84238A00846EE7 /* SDLChangeRegistration.m */,
+				888DBAE922D52431002A0AE2 /* SDLCloseApplication.h */,
+				888DBAEA22D52431002A0AE2 /* SDLCloseApplication.m */,
 				5D61FA7E1A84238A00846EE7 /* SDLCreateInteractionChoiceSet.h */,
 				5D61FA7F1A84238A00846EE7 /* SDLCreateInteractionChoiceSet.m */,
 				5D61FA851A84238A00846EE7 /* SDLDeleteCommand.h */,
@@ -4256,6 +4272,8 @@
 				1E5AD0831F20B9290029B8AF /* SDLButtonPressResponse.m */,
 				5D61FA701A84238A00846EE7 /* SDLChangeRegistrationResponse.h */,
 				5D61FA711A84238A00846EE7 /* SDLChangeRegistrationResponse.m */,
+				888DBAED22D528DE002A0AE2 /* SDLCloseApplicationResponse.h */,
+				888DBAEE22D528DE002A0AE2 /* SDLCloseApplicationResponse.m */,
 				5D61FA801A84238A00846EE7 /* SDLCreateInteractionChoiceSetResponse.h */,
 				5D61FA811A84238A00846EE7 /* SDLCreateInteractionChoiceSetResponse.m */,
 				5D61FA871A84238A00846EE7 /* SDLDeleteCommandResponse.h */,
@@ -6690,11 +6708,13 @@
 				5D61FCFC1A84238C00846EE7 /* SDLRPCParameterNames.h in Headers */,
 				DA9F7E8F1DCC04C000ACAE48 /* SDLUnsubscribeWayPointsResponse.h in Headers */,
 				5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */,
+				888DBAEF22D528DE002A0AE2 /* SDLCloseApplicationResponse.h in Headers */,
 				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
 				5D9FC29E1FD8813900ACA5C2 /* SDLAudioStreamManager.h in Headers */,
 				5DD67CB01E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h in Headers */,
 				5D61FCBF1A84238C00846EE7 /* SDLHexUtility.h in Headers */,
+				888DBAEB22D52431002A0AE2 /* SDLCloseApplication.h in Headers */,
 				5D00AC6B1F141339004000D9 /* SDLSystemCapability.h in Headers */,
 				5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */,
 				88F89103221DE29A00E056AD /* SDLAsynchronousRPCOperation.h in Headers */,
@@ -7021,6 +7041,7 @@
 				5D92935B20B33D4F00FCC775 /* SDLChoiceCell.m in Sources */,
 				E4139D1E1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.m in Sources */,
 				5D61FC6E1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.m in Sources */,
+				888DBAF022D528DE002A0AE2 /* SDLCloseApplicationResponse.m in Sources */,
 				5D61FD061A84238C00846EE7 /* SDLOnButtonPress.m in Sources */,
 				5D61FD5E1A84238C00846EE7 /* SDLRegisterAppInterface.m in Sources */,
 				5D61FCE11A84238C00846EE7 /* SDLKeyboardEvent.m in Sources */,
@@ -7094,6 +7115,7 @@
 				884E702821FBAC5B008D53BA /* SDLServiceUpdateReason.m in Sources */,
 				5D61FD781A84238C00846EE7 /* SDLSamplingRate.m in Sources */,
 				1EAA472A2034388D000FE74B /* SDLAudioControlData.m in Sources */,
+				888DBAEC22D52431002A0AE2 /* SDLCloseApplication.m in Sources */,
 				5D61FC681A84238C00846EE7 /* SDLComponentVolumeStatus.m in Sources */,
 				5D61FDB61A84238C00846EE7 /* SDLSyncMsgVersion.m in Sources */,
 				5D61FC501A84238C00846EE7 /* SDLBodyInformation.m in Sources */,
@@ -7711,6 +7733,7 @@
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
 				5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
+				8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */,
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
 				162E833E1A9BDE8B00906325 /* SDLShowSpec.m in Sources */,
 				5D6035D8202CF5C900A429C9 /* TestRequestProgressResponse.m in Sources */,
@@ -7883,6 +7906,7 @@
 				1EE8C4501F38629200FDC2CF /* SDLRemoteControlCapabilitiesSpec.m in Sources */,
 				1EAA47662035B8D3000FE74B /* SDLLightControlDataSpec.m in Sources */,
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
+				883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
 				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
