@@ -4,6 +4,7 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLImage;
 @class SDLSoftButton;
 @class SDLTTSChunk;
 
@@ -153,6 +154,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @see SDLSoftButton
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
+
+/**
+ Image struct determining whether static or dynamic icon.
+ If omitted on supported displays, no (or the default if applicable) icon should be displayed.
+ */
+@property (nullable, strong, nonatomic) SDLImage *alertIcon;
 
 @end
 

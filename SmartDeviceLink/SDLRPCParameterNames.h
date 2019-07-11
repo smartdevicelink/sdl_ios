@@ -20,6 +20,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameAddress;
 extern SDLRPCParameterName const SDLRPCParameterNameAddressLines;
 extern SDLRPCParameterName const SDLRPCParameterNameAdministrativeArea;
 extern SDLRPCParameterName const SDLRPCParameterNameAirbagStatus;
+extern SDLRPCParameterName const SDLRPCParameterNameAlertIcon;
 extern SDLRPCParameterName const SDLRPCParameterNameAlerts;
 extern SDLRPCParameterName const SDLRPCParameterNameAlertText1;
 extern SDLRPCParameterName const SDLRPCParameterNameAlertText2;

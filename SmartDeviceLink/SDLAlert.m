@@ -3,6 +3,7 @@
 #import "SDLAlert.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLImage.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
@@ -139,6 +140,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
+}
+
+- (void)setAlertIcon:(nullable SDLImage *)alertIcon {
+    [self.parameters setObject:alertIcon forKey:SDLRPCParameterNameAlertIcon];
+}
+
+- (nullable SDLImage *)alertIcon {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAlertIcon ofClass:SDLImage.class error:nil];
 }
 
 @end
