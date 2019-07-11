@@ -126,6 +126,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.textField4Type = textField4Type;
 }
 
+- (void)setTitle:(nullable NSString *)title {
+    self.textAndGraphicManager.title = title;
+}
+
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     self.softButtonManager.softButtonObjects = softButtonObjects;
 }
