@@ -514,7 +514,6 @@
 		5D535DC61B72473800CF7760 /* SDLGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D535DC41B72473800CF7760 /* SDLGlobals.m */; };
 		5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */; };
-		5D59DD471B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */; };
 		5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; };
 		5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */; };
@@ -2155,7 +2154,6 @@
 		5D535DC41B72473800CF7760 /* SDLGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGlobals.m; sourceTree = "<group>"; };
 		5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaManager.h; sourceTree = "<group>"; };
 		5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingMediaManager.m; sourceTree = "<group>"; };
-		5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenStatusManagerSpec.m; path = ProxySpecs/SDLLockScreenStatusManagerSpec.m; sourceTree = "<group>"; };
 		5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = sdl_ios/Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
 		5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenViewControllerSnapshotTests.m; path = DevAPISpecs/SDLLockScreenViewControllerSnapshotTests.m; sourceTree = "<group>"; };
 		5D6008881BE3ED540094A505 /* SDLStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStateMachine.h; sourceTree = "<group>"; };
@@ -4958,7 +4956,6 @@
 			isa = PBXGroup;
 			children = (
 				1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */,
-				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
 				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
 				EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */,
 			);
@@ -7565,7 +7562,6 @@
 				162E83911A9BDE8B00906325 /* SDLTouchCoordSpec.m in Sources */,
 				162E832B1A9BDE8B00906325 /* SDLDeleteSubMenuSpec.m in Sources */,
 				162E83411A9BDE8B00906325 /* SDLSubscribeButtonSpec.m in Sources */,
-				5D59DD471B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m in Sources */,
 				5D0A9F9A1F15636800CC80DD /* SDLGetSystemCapabilitiesSpec.m in Sources */,
 				162E82F31A9BDE8B00906325 /* SDLPrerecordedSpeechSpec.m in Sources */,
 				1EE8C45A1F387BBB00FDC2CF /* SDLGetInteriorVehicleDataSpec.m in Sources */,
