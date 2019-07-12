@@ -13,6 +13,8 @@
 @class SDLAlertResponse;
 @class SDLButtonPress;
 @class SDLButtonPressResponse;
+@class SDLCancelInteraction;
+@class SDLCancelInteractionResponse;
 @class SDLChangeRegistration;
 @class SDLChangeRegistrationResponse;
 @class SDLCloseApplication;
@@ -205,6 +207,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLButtonPressResponse object
  */
 - (void)onButtonPressResponse:(SDLButtonPressResponse *)response;
+
+/**
+ *  Called when a `CancelInteraction` response is received from Core
+ *
+ *  @param response A SDLCancelInteractionResponse object
+ */
+- (void)onCancelInteractionResponse:(SDLCancelInteractionResponse *)response;
 
 /**
  *  Called when a Change Registration Response is received from Core
@@ -606,6 +615,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLButtonPress object
  */
 - (void)onButtonPress:(SDLButtonPress *)request;
+
+/**
+ *  Called when a `CancelInteraction` request is received from Core
+ *
+ *  @param request A SDLCancelInteraction object
+ */
+- (void)onCancelInteraction:(SDLCancelInteraction *)request;
 
 /**
  *  Called when a `ChangeRegistration` request is received from Core

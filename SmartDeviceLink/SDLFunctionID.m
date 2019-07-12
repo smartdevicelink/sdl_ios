@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.functionIds = @{
+                         @00: SDLRPCFunctionNameCancelInteraction,
                          @0: SDLRPCFunctionNameReserved,
                          @1: SDLRPCFunctionNameRegisterAppInterface,
                          @2: SDLRPCFunctionNameUnregisterAppInterface,
