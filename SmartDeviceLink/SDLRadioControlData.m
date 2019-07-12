@@ -75,6 +75,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameRDSData ofClass:SDLRDSData.class error:nil];
 }
 
+- (void)setAvailableHDChannels:(nullable NSNumber<SDLInt> *)availableHDChannels {
+    [self.store sdl_setObject:availableHDChannels forName:SDLRPCParameterNameAvailableHDChannels];
+}
+
+- (nullable NSNumber<SDLInt> *)availableHDChannels {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAvailableHDChannels ofClass:NSNumber.class error:nil];
+}
+
 - (void)setAvailableHDs:(nullable NSNumber<SDLInt> *)availableHDs {
     [self.store sdl_setObject:availableHDs forName:SDLRPCParameterNameAvailableHDs];
 }

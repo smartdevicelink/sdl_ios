@@ -27,7 +27,11 @@ describe(@"Initialization tests", ^{
         expect(testStruct.frequencyFraction).to(beNil());
         expect(testStruct.band).to(beNil());
         expect(testStruct.rdsData).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testStruct.availableHDs).to(beNil());
+#pragma clang diagnostic pop
+        expect(testStruct.availableHDChannels).to(beNil());
         expect(testStruct.hdChannel).to(beNil());
         expect(testStruct.signalStrength).to(beNil());
         expect(testStruct.signalChangeThreshold).to(beNil());
@@ -42,6 +46,7 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameBand : SDLRadioBandAM,
                                        SDLRPCParameterNameRDSData : someRdsData,
                                        SDLRPCParameterNameAvailableHDs : @2,
+                                       SDLRPCParameterNameAvailableHDChannels : @2,
                                        SDLRPCParameterNameHDChannel : @2,
                                        SDLRPCParameterNameSignalStrength : @54,
                                        SDLRPCParameterNameSignalChangeThreshold : @76,
@@ -58,7 +63,10 @@ describe(@"Initialization tests", ^{
         expect(testStruct.frequencyFraction).to(equal(@7));
         expect(testStruct.band).to(equal(SDLRadioBandAM));
         expect(testStruct.rdsData).to(equal(someRdsData));
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testStruct.availableHDs).to(equal(@2));
+#pragma clang diagnostic pop
+        expect(testStruct.availableHDChannels).to(equal(@2));
         expect(testStruct.hdChannel).to(equal(@2));
         expect(testStruct.signalStrength).to(equal(@54));
         expect(testStruct.signalChangeThreshold).to(equal(@76));
@@ -74,6 +82,7 @@ describe(@"Initialization tests", ^{
         testStruct.band = SDLRadioBandAM;
         testStruct.rdsData = someRdsData;
         testStruct.availableHDs = @2;
+        testStruct.availableHDChannels = @2;
         testStruct.hdChannel = @2;
         testStruct.signalStrength = @54;
         testStruct.signalChangeThreshold = @76;
@@ -86,6 +95,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.band).to(equal(SDLRadioBandAM));
         expect(testStruct.rdsData).to(equal(someRdsData));
         expect(testStruct.availableHDs).to(equal(@2));
+        expect(testStruct.availableHDChannels).to(equal(@2));
         expect(testStruct.hdChannel).to(equal(@2));
         expect(testStruct.signalStrength).to(equal(@54));
         expect(testStruct.signalChangeThreshold).to(equal(@76));
