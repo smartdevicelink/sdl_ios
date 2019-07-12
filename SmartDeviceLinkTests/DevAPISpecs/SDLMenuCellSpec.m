@@ -9,6 +9,7 @@ QuickSpecBegin(SDLMenuCellSpec)
 describe(@"a menu cell", ^{
     __block SDLMenuCell *testCell = nil;
     __block SDLMenuCell *testCell2 = nil;
+    __block SDLMenuLayout testLayout = SDLMenuLayoutList;
 
     describe(@"initializing", ^{
         __block NSString *someTitle = nil;
@@ -43,29 +44,44 @@ describe(@"a menu cell", ^{
             expect(testCell.icon).to(beNil());
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
+            expect(testCell.submenuLayout).to(beNil());
             #pragma clang diagnostic pop
         });
 
         it(@"should initialize properly as a submenu item with icon", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
 
             expect(testCell.title).to(equal(someTitle));
             expect(testCell.icon).to(equal(someArtwork));
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
+            expect(testCell.submenuLayout).to(beNil());
+#pragma clang diagnostic pop
+        });
+
+        it(@"should initialize properly as a submenu item with icon and layout", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle submenuLayout:testLayout icon:someArtwork subCells:someSubcells];
+
+            expect(testCell.title).to(equal(someTitle));
+            expect(testCell.icon).to(equal(someArtwork));
+            expect(testCell.voiceCommands).to(beNil());
+            expect(testCell.subCells).to(equal(someSubcells));
+            expect(testCell.submenuLayout).to(equal(testLayout));
         });
     });
     describe(@"check cell eqality", ^{
         it(@"should compare cells and return true if cells equal", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil subCells:@[]];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil subCells:@[]];
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"Title" submenuLayout:testLayout icon:nil subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"Title" submenuLayout:testLayout icon:nil subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(true));
         });
 
         it(@"should compare cells and return false if not equal ", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:@"True" icon:nil subCells:@[]];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:nil subCells:@[]];
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"True" submenuLayout:testLayout icon:nil subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" submenuLayout:testLayout icon:nil subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(false));
         });

@@ -1011,6 +1011,8 @@
 		5D76750F22D8FB3700E8D71A /* SDLMenuLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76750D22D8FB3700E8D71A /* SDLMenuLayout.m */; };
 		5D76751322D9088F00E8D71A /* SDLMenuConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76751122D9088F00E8D71A /* SDLMenuConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D76751422D9088F00E8D71A /* SDLMenuConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76751222D9088F00E8D71A /* SDLMenuConfiguration.m */; };
+		5D76751622D920FD00E8D71A /* SDLMenuConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76751522D920FD00E8D71A /* SDLMenuConfigurationSpec.m */; };
+		5D76751822D921CB00E8D71A /* SDLMenuLayoutSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76751722D921CB00E8D71A /* SDLMenuLayoutSpec.m */; };
 		5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */; };
 		5D76E3211D39742300647CFA /* SDLViewControllerPresentable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */; };
 		5D76E3241D39767000647CFA /* SDLLockScreenPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */; };
@@ -2676,6 +2678,8 @@
 		5D76750D22D8FB3700E8D71A /* SDLMenuLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuLayout.m; sourceTree = "<group>"; };
 		5D76751122D9088F00E8D71A /* SDLMenuConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuConfiguration.h; sourceTree = "<group>"; };
 		5D76751222D9088F00E8D71A /* SDLMenuConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuConfiguration.m; sourceTree = "<group>"; };
+		5D76751522D920FD00E8D71A /* SDLMenuConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuConfigurationSpec.m; path = DevAPISpecs/SDLMenuConfigurationSpec.m; sourceTree = "<group>"; };
+		5D76751722D921CB00E8D71A /* SDLMenuLayoutSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuLayoutSpec.m; sourceTree = "<group>"; };
 		5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManagerSpec.m; path = DevAPISpecs/SDLLockScreenManagerSpec.m; sourceTree = "<group>"; };
 		5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLViewControllerPresentable.h; sourceTree = "<group>"; };
 		5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenPresenter.h; sourceTree = "<group>"; };
@@ -3326,6 +3330,7 @@
 				1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */,
 				162E82061A9BDE8A00906325 /* SDLMediaClockFormatSpec.m */,
 				88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */,
+				5D76751722D921CB00E8D71A /* SDLMenuLayoutSpec.m */,
 				8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */,
 				1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */,
 				88B58DC822204C9E0011B063 /* SDLNavigationActionSpec.m */,
@@ -5869,6 +5874,7 @@
 				5DAB5F5220989A8300A020C8 /* SDLVoiceCommandSpec.m */,
 				752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */,
 				752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */,
+				5D76751522D920FD00E8D71A /* SDLMenuConfigurationSpec.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -7508,11 +7514,13 @@
 				162E82FD1A9BDE8B00906325 /* SDLSystemContextSpec.m in Sources */,
 				162E82E21A9BDE8B00906325 /* SDLIgnitionStableStatusSpec.m in Sources */,
 				162E82EE1A9BDE8B00906325 /* SDLMediaClockFormatSpec.m in Sources */,
+				5D76751822D921CB00E8D71A /* SDLMenuLayoutSpec.m in Sources */,
 				5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */,
 				162E83901A9BDE8B00906325 /* SDLTireStatusSpec.m in Sources */,
 				162E82E01A9BDE8B00906325 /* SDLHMILevelSpec.m in Sources */,
 				88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */,
 				5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */,
+				5D76751622D920FD00E8D71A /* SDLMenuConfigurationSpec.m in Sources */,
 				1EB59CCE202DC97900343A61 /* SDLMassageCushionSpec.m in Sources */,
 				162E83041A9BDE8B00906325 /* SDLUpdateModeSpec.m in Sources */,
 				8855F9E0220C93B700A5C897 /* SDLWeatherDataSpec.m in Sources */,
