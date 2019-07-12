@@ -80,6 +80,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:[SDLImage class] error:nil];
 }
 
+- (void)setMenuLayout:(nullable SDLMenuLayout)menuLayout {
+    [self.parameters sdl_setObject:menuLayout forName:SDLRPCParameterNameMenuLayout];
+}
+
+- (nullable SDLMenuLayout)menuLayout {
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameMenuLayout error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

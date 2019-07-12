@@ -207,6 +207,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLMediaServiceManifest.h',
 'SmartDeviceLink/SDLMediaType.h',
 'SmartDeviceLink/SDLMenuCell.h',
+'SmartDeviceLink/SDLMenuLayout.h',
 'SmartDeviceLink/SDLMenuManagerConstants.h',
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMetadataTags.h',

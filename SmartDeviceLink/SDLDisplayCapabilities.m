@@ -89,6 +89,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameNumberCustomPresetsAvailable ofClass:NSNumber.class error:nil];
 }
 
+- (void)setMenuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable {
+    [self.store sdl_setObject:menuLayoutsAvailable forName:SDLRPCParameterNameMenuLayoutsAvailable];
+}
+
+- (nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable {
+    return [self.store sdl_enumsForName:SDLRPCParameterNameMenuLayoutsAvailable error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

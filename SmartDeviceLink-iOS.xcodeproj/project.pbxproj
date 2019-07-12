@@ -1007,6 +1007,8 @@
 		5D75960D22972F830013207C /* TestSystemCapabilityObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D75960C22972F830013207C /* TestSystemCapabilityObserver.m */; };
 		5D75961122972FCA0013207C /* SDLSystemCapabilityObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D75960F22972FCA0013207C /* SDLSystemCapabilityObserver.h */; };
 		5D75961222972FCA0013207C /* SDLSystemCapabilityObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D75961022972FCA0013207C /* SDLSystemCapabilityObserver.m */; };
+		5D76750E22D8FB3700E8D71A /* SDLMenuLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76750C22D8FB3700E8D71A /* SDLMenuLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D76750F22D8FB3700E8D71A /* SDLMenuLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76750D22D8FB3700E8D71A /* SDLMenuLayout.m */; };
 		5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */; };
 		5D76E3211D39742300647CFA /* SDLViewControllerPresentable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */; };
 		5D76E3241D39767000647CFA /* SDLLockScreenPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */; };
@@ -2668,6 +2670,8 @@
 		5D75960C22972F830013207C /* TestSystemCapabilityObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestSystemCapabilityObserver.m; path = DevAPISpecs/TestSystemCapabilityObserver.m; sourceTree = "<group>"; };
 		5D75960F22972FCA0013207C /* SDLSystemCapabilityObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityObserver.h; sourceTree = "<group>"; };
 		5D75961022972FCA0013207C /* SDLSystemCapabilityObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityObserver.m; sourceTree = "<group>"; };
+		5D76750C22D8FB3700E8D71A /* SDLMenuLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuLayout.h; sourceTree = "<group>"; };
+		5D76750D22D8FB3700E8D71A /* SDLMenuLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuLayout.m; sourceTree = "<group>"; };
 		5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManagerSpec.m; path = DevAPISpecs/SDLLockScreenManagerSpec.m; sourceTree = "<group>"; };
 		5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLViewControllerPresentable.h; sourceTree = "<group>"; };
 		5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenPresenter.h; sourceTree = "<group>"; };
@@ -4688,10 +4692,12 @@
 				5D61FB0A1A84238A00846EE7 /* SDLMediaClockFormat.m */,
 				88E6F1A5220E1588006156F9 /* SDLMediaType.h */,
 				88E6F1A6220E1588006156F9 /* SDLMediaType.m */,
-				1E5AD0461F1F773E0029B8AF /* SDLModuleType.h */,
-				1E5AD0471F1F773E0029B8AF /* SDLModuleType.m */,
+				5D76750C22D8FB3700E8D71A /* SDLMenuLayout.h */,
+				5D76750D22D8FB3700E8D71A /* SDLMenuLayout.m */,
 				8BBEA6041F324165003EEA26 /* SDLMetadataType.h */,
 				8BBEA6051F324165003EEA26 /* SDLMetadataType.m */,
+				1E5AD0461F1F773E0029B8AF /* SDLModuleType.h */,
+				1E5AD0471F1F773E0029B8AF /* SDLModuleType.m */,
 				88B58DC422204AF10011B063 /* SDLNavigationAction.h */,
 				88B58DC522204AF10011B063 /* SDLNavigationAction.m */,
 				88B58DBE222045320011B063 /* SDLNavigationJunction.h */,
@@ -6450,6 +6456,7 @@
 				5D61FC511A84238C00846EE7 /* SDLButtonCapabilities.h in Headers */,
 				5D61FDE91A84238C00846EE7 /* SDLUnsubscribeButtonResponse.h in Headers */,
 				5D61FCD51A84238C00846EE7 /* SDLImageType.h in Headers */,
+				5D76750E22D8FB3700E8D71A /* SDLMenuLayout.h in Headers */,
 				8803DCEF22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h in Headers */,
 				5D61FC2F1A84238C00846EE7 /* SDLAddCommandResponse.h in Headers */,
 				5D0C2A0020D9479B008B56CD /* SDLStreamingVideoLifecycleManager.h in Headers */,
@@ -7305,6 +7312,7 @@
 				5D61FDDE1A84238C00846EE7 /* SDLTTSChunk.m in Sources */,
 				5D61FD9E1A84238C00846EE7 /* SDLSliderResponse.m in Sources */,
 				1EAA47462035623B000FE74B /* SDLLightControlData.m in Sources */,
+				5D76750F22D8FB3700E8D71A /* SDLMenuLayout.m in Sources */,
 				5D61FC5C1A84238C00846EE7 /* SDLChangeRegistration.m in Sources */,
 				5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */,
 				5D61FDBA1A84238C00846EE7 /* SDLSyncPDataResponse.m in Sources */,
