@@ -1,39 +1,39 @@
 //
-//  SDLCloseApplicationResponseSpec.m
+//  SDLCancelInteractionResponseSpec.m
 //  SmartDeviceLinkTests
 //
-//  Created by Nicole on 7/10/19.
+//  Created by Nicole on 7/12/19.
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLCloseApplicationResponse.h"
-#import "SDLRPCParameterNames.h"
+#import "SDLCancelInteractionResponse.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 
-QuickSpecBegin(SDLCloseApplicationResponseSpec)
+QuickSpecBegin(SDLCancelInteractionResponseSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block SDLCloseApplicationResponse *testResponse = nil;
+    __block SDLCancelInteractionResponse *testResponse = nil;
 
     it(@"Should initialize correctly", ^{
-        testResponse = [[SDLCloseApplicationResponse alloc] init];
+         testResponse = [[SDLCancelInteractionResponse alloc] init];
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{},
-                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameCloseApplication}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameCancelInteraction}};
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testResponse = [[SDLCloseApplicationResponse alloc] initWithDictionary:dict];
+        testResponse = [[SDLCancelInteractionResponse alloc] initWithDictionary:dict];
         #pragma clang diagnostic pop
     });
 
     afterEach(^{
-        expect(testResponse.name).to(equal(SDLRPCFunctionNameCloseApplication));
+        expect(testResponse.name).to(match(SDLRPCFunctionNameCancelInteraction));
         expect(testResponse.parameters).to(beEmpty());
     });
 });

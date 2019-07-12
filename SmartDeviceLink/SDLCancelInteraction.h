@@ -10,6 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+ *  Used to dismiss a modal view programmatically without needing to wait for the timeout to complete. Can be used to dismiss alerts, scrollable messages, sliders, and perform interations (i.e. pop-up menus).
+ *
+ *  @see `SDLAlert`, `SDLScrollableMessage`, `SDLSlider`, `SDLPerformInteraction`
+ */
 @interface SDLCancelInteraction : SDLRPCRequest
 
 /**
