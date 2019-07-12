@@ -141,6 +141,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
+- (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    [self.parameters sdl_setObject:cancelID forName:SDLRPCParameterNameCancelID];
+}
+
+- (nullable NSNumber<SDLInt> *)cancelID {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCancelID ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

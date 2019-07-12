@@ -154,6 +154,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
+/**
+ * An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC.
+ *
+ * Integer, Optional
+ *
+ * @see SDLCancelInteraction
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *cancelID;
+
 @end
 
 NS_ASSUME_NONNULL_END
