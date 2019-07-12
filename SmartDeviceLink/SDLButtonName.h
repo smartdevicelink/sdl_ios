@@ -208,3 +208,79 @@ extern SDLButtonName const SDLButtonNameShuffle;
  * Represents a Repeat button.
  */
 extern SDLButtonName const SDLButtonNameRepeat;
+
+#pragma mark - Navigation Buttons
+/**
+ * Represents a Navigate to center button.
+ */
+extern SDLButtonName const SDLButtonNameNavCenter;
+
+/**
+ * Represents a Zoom in button.
+ */
+extern SDLButtonName const SDLButtonNameZoomIn;
+
+/**
+ * Represents a Zoom out button.
+ */
+extern SDLButtonName const SDLButtonNameZoomOut;
+
+/**
+ * Represents a Pan up button
+ */
+extern SDLButtonName const SDLButtonNamePanUP;
+
+/**
+ * Represents a Pan up/right button
+ */
+extern SDLButtonName const SDLButtonNamePanUpRight;
+
+/**
+ * Represents a Pan right button
+ */
+extern SDLButtonName const SDLButtonNamePanRight;
+
+/**
+ * Represents a Pan down/right button
+ */
+extern SDLButtonName const SDLButtonNamePanDownRight;
+
+/**
+ * Represents a Pan down button
+ */
+extern SDLButtonName const SDLButtonNamePanDown;
+
+/**
+ * Represents a Pan down left button
+ */
+extern SDLButtonName const SDLButtonNamePanDownLeft;
+
+/*
+ * Represents a Pan left button
+ */
+extern SDLButtonName const SDLButtonNamePanLeft;
+
+/*
+ * Represents a Pan up left button
+ */
+extern SDLButtonName const SDLButtonNamePanUpLeft;
+
+/*
+ * Represents a Tilt button. If supported, this toggles between a top-down view and an angled/3D view. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
+ */
+extern SDLButtonName const SDLButtonNameTiltToggle;
+
+/*
+ * Represents a Rotate clockwise button
+ */
+extern SDLButtonName const SDLButtonNameRotateClockwise;
+
+/*
+ * Represents a Rotate counterclockwise button
+ */
+extern SDLButtonName const SDLButtonNameRotateCounterClockWise;
+
+/*
+ * Represents a Heading toggle button. If supported, this toggles between locking the orientation to north or to the vehicle's heading. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
+ */
+extern SDLButtonName const SDLButtonNameHeadingToggle;
