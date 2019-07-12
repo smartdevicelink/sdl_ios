@@ -19,7 +19,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameAlert).to(equal(@"Alert"));
         expect(SDLRPCFunctionNameAlertManeuver).to(equal(@"AlertManeuver"));
         expect(SDLRPCFunctionNameButtonPress).to(equal(@"ButtonPress"));
+        expect(SDLRPCFunctionNameCancelInteraction).to(equal(@"CancelInteraction"));
         expect(SDLRPCFunctionNameChangeRegistration).to(equal(@"ChangeRegistration"));
+        expect(SDLRPCFunctionNameCloseApplication).to(equal(@"CloseApplication"));
         expect(SDLRPCFunctionNameCreateInteractionChoiceSet).to(equal(@"CreateInteractionChoiceSet"));
         expect(SDLRPCFunctionNameDeleteCommand).to(equal(@"DeleteCommand"));
         expect(SDLRPCFunctionNameDeleteFile).to(equal(@"DeleteFile"));

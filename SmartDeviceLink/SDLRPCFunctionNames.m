@@ -13,6 +13,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu = @"AddSubMenu";
 SDLRPCFunctionName const SDLRPCFunctionNameAlert = @"Alert";
 SDLRPCFunctionName const SDLRPCFunctionNameAlertManeuver = @"AlertManeuver";
 SDLRPCFunctionName const SDLRPCFunctionNameButtonPress = @"ButtonPress";
+SDLRPCFunctionName const SDLRPCFunctionNameCancelInteraction = @"CancelInteraction";
 SDLRPCFunctionName const SDLRPCFunctionNameChangeRegistration = @"ChangeRegistration";
 SDLRPCFunctionName const SDLRPCFunctionNameCloseApplication = @"CloseApplication";
 SDLRPCFunctionName const SDLRPCFunctionNameCreateInteractionChoiceSet = @"CreateInteractionChoiceSet";

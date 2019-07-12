@@ -24,6 +24,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAlert.h"
 #import "SDLAlertManeuver.h"
 #import "SDLButtonPress.h"
+#import "SDLCancelInteraction.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCloseApplication.h"
 #import "SDLCreateInteractionChoiceSet.h"
