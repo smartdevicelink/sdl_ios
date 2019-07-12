@@ -37,14 +37,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells {
-    return [self initWithTitle:title icon:nil subCells:subCells];
+    return [self initWithTitle:title submenuLayout:nil icon:nil subCells:subCells];
 }
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon subCells:(NSArray<SDLMenuCell *> *)subCells {
+    return [self initWithTitle:title submenuLayout:nil icon:nil subCells:subCells];
+}
+
+- (instancetype)initWithTitle:(NSString *)title submenuLayout:(nullable SDLMenuLayout)layout icon:(nullable SDLArtwork *)icon subCells:(NSArray<SDLMenuCell *> *)subCells {
     self = [super init];
     if (!self) { return nil; }
 
     _title = title;
+    _submenuLayout = layout;
     _icon = icon;
     _subCells = subCells;
 
@@ -55,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@", (unsigned int)_cellId, _title, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO")];
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
 }
 
 #pragma mark - Object Equality
@@ -69,7 +74,8 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5 );
+    ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
+    ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 6);
 }
 
 - (BOOL)isEqual:(id)object {

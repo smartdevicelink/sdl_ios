@@ -21,6 +21,7 @@
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
+#import "SDLMenuConfiguration.h"
 #import "SDLMenuParams.h"
 #import "SDLDynamicMenuUpdateRunScore.h"
 #import "SDLDynamicMenuUpdateAlgorithm.h"
@@ -30,6 +31,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
+#import "SDLSetGlobalProperties.h"
 #import "SDLScreenManager.h"
 #import "SDLVoiceCommand.h"
 
@@ -71,6 +73,7 @@ UInt32 const MenuCellIdMin = 1;
     if (!self) { return nil; }
 
     _lastMenuId = MenuCellIdMin;
+    _menuConfiguration = [[SDLMenuConfiguration alloc] init];
     _menuCells = @[];
     _oldMenuCells = @[];
     _dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeOnWithCompatibility;
@@ -108,6 +111,18 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Setters
+
+- (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
+    _menuConfiguration = menuConfiguration;
+
+    SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
+    setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
+    [self.connectionManager sendConnectionRequest:setGlobalsRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogW(@"Could not set main menu configuration: %@", error);
+        }
+    }];
+}
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     if (self.currentHMILevel == nil
@@ -556,7 +571,8 @@ UInt32 const MenuCellIdMin = 1;
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
-    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
+    SDLMenuLayout submenuLayout = cell.submenuLayout ?: self.menuConfiguration.defaultSubmenuLayout;
+    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuLayout:submenuLayout menuIcon:icon position:(UInt8)position];
 }
 
 #pragma mark - Calling handlers

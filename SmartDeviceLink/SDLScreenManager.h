@@ -19,6 +19,7 @@
 @class SDLFileManager;
 @class SDLKeyboardProperties;
 @class SDLMenuCell;
+@class SDLMenuConfiguration;
 @class SDLSoftButtonObject;
 @class SDLVoiceCommand;
 
@@ -114,6 +115,11 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 #pragma mark Menu
+
+/**
+ The configuration of the menu. Alter this to change the layout of the menu or sub-menus. If this is set after a menu already exists, the existing main menu layout will be updated, _HOWEVER_ sub-menus will not be updated.
+ */
+@property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
 
 /**
  The current list of menu cells displayed in the app's menu.

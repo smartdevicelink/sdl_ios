@@ -65,7 +65,7 @@ private extension MenuManager {
             })
         }
 
-        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, submenuLayout: .tiles, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
     }
 
     /// A list of all possible vehicle data types
@@ -149,7 +149,7 @@ private extension MenuManager {
             }
         }))
         
-        return SDLMenuCell(title: ACSubmenuTemplateMenuName, icon: nil, subCells: submenuItems)
+        return SDLMenuCell(title: ACSubmenuTemplateMenuName, submenuLayout: .list, icon: nil, subCells: submenuItems)
     }
 
     /// Menu item that opens a submenu when selected
@@ -172,7 +172,7 @@ private extension MenuManager {
             }))
         }
         
-        return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
+        return SDLMenuCell(title: ACSubmenuMenuName, submenuLayout: .list, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
     }
 }
 

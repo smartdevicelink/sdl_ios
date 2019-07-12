@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:submenuItems];
+    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName submenuLayout:SDLMenuLayoutTiles icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:submenuItems];
 }
 
 + (NSArray<NSString *> *)sdlex_allVehicleDataTypes {
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     [submenuItems addObject:cell2];
     
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName submenuLayout:SDLMenuLayoutList icon:nil subCells:[submenuItems copy]];
 }
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName submenuLayout:SDLMenuLayoutList icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:[submenuItems copy]];
 }
 
 #pragma mark - Voice Commands

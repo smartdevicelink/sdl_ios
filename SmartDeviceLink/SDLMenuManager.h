@@ -11,6 +11,7 @@
 
 @class SDLFileManager;
 @class SDLMenuCell;
+@class SDLMenuConfiguration;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -33,9 +34,12 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
  */
 - (void)stop;
 
+@property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
+
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 
 @property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
+
 @end
 
 NS_ASSUME_NONNULL_END
