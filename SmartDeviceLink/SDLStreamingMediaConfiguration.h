@@ -94,6 +94,16 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 
 /**
  Manually set all the properties to the streaming media configuration
+ 
+ @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
+ @param videoSettings Custom video encoder settings to be used in video streaming.
+ @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
+ @return The configuration
+ */
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
+
+/**
+ Manually set all the properties to the streaming media configuration
 
  @param securityManagers The security managers to use or nil for none.
  @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
@@ -101,7 +111,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController NS_SWIFT_UNAVAILABLE("Use initWithEncryptionFlag instead");
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -109,7 +119,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
+- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers NS_SWIFT_UNAVAILABLE("Use the standard initializer instead");
 
 /**
  Create a secure configuration for each of the security managers provided.

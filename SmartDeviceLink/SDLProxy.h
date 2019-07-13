@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Sends a RPC to Core.
  *
  *  @param message A SDLRPCMessage object
- *  @param message Flag indicating if the RPC needs to be encrypted
+ *  @param encryption Flag indicating if the RPC needs to be encrypted
  */
 - (void)sendRPC:(SDLRPCMessage *)message withEncryption:(BOOL)encryption;
 
