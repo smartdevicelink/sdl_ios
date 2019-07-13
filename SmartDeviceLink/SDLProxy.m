@@ -174,7 +174,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC];
+    [self sendRPC:HMIStatusRPC withEncryption:NO];
 }
 
 #pragma mark - Accessors
@@ -278,33 +278,17 @@ static float DefaultConnectionTimeout = 45.0;
 
 
 #pragma mark - Message sending
-- (void)sendRPC:(SDLRPCMessage *)message {
+- (void)sendRPC:(SDLRPCMessage *)message withEncryption:(BOOL)encryption {
     if ([message.name isEqualToString:SDLRPCFunctionNameSubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message];
+        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message withEncryption:encryption];
         if (handledRPC) { return; }
     } else if ([message.name isEqualToString:SDLRPCFunctionNameUnsubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message];
+        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message withEncryption:encryption];
         if (handledRPC) { return; }
     }
 
     @try {
-        [self.protocol sendRPC:message];
-    } @catch (NSException *exception) {
-        SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-    }
-}
-
-- (void)sendEncryptedRPC:(SDLRPCMessage *)message {
-    if ([message.getFunctionName isEqualToString:@"SubscribeButton"]) {
-        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessageEncrypted:(SDLSubscribeButton *)message];
-        if (handledRPC) { return; }
-    } else if ([message.getFunctionName isEqualToString:@"UnsubscribeButton"]) {
-        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessageEncrypted:(SDLUnsubscribeButton *)message];
-        if (handledRPC) { return; }
-    }
-    
-    @try {
-        [self.protocol sendEncryptedRPC:message];
+        [self.protocol sendRPC:message withEncryption:encryption];
     } @catch (NSException *exception) {
         SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
     }
@@ -312,15 +296,15 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message {
+- (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message withEncryption:(BOOL)encryption {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLSubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
 
             @try {
-                [self.protocol sendRPC:message];
-                [self.protocol sendRPC:playPauseMessage];
+                [self.protocol sendRPC:message withEncryption:encryption];
+                [self.protocol sendRPC:playPauseMessage withEncryption:encryption];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -337,7 +321,7 @@ static float DefaultConnectionTimeout = 45.0;
             okMessage.buttonName = SDLButtonNameOk;
 
             @try {
-                [self.protocol sendRPC:okMessage];
+                [self.protocol sendRPC:okMessage withEncryption:encryption];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -349,15 +333,15 @@ static float DefaultConnectionTimeout = 45.0;
     return NO;
 }
 
-- (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message {
+- (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message withEncryption:(BOOL)encryption {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLUnsubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
 
             @try {
-                [self.protocol sendRPC:message];
-                [self.protocol sendRPC:playPauseMessage];
+                [self.protocol sendRPC:message withEncryption:encryption];
+                [self.protocol sendRPC:playPauseMessage withEncryption:encryption];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -374,7 +358,7 @@ static float DefaultConnectionTimeout = 45.0;
             okMessage.buttonName = SDLButtonNameOk;
 
             @try {
-                [self.protocol sendRPC:okMessage];
+                [self.protocol sendRPC:okMessage withEncryption:encryption];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -383,83 +367,6 @@ static float DefaultConnectionTimeout = 45.0;
         }
     }
 
-    return NO;
-}
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (BOOL)sdl_adaptButtonSubscribeMessageEncrypted:(SDLSubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            SDLSubscribeButton *playPauseMessage = [message copy];
-            playPauseMessage.buttonName = SDLButtonNamePlayPause;
-            
-            @try {
-                [self.protocol sendEncryptedRPC:message];
-                [self.protocol sendEncryptedRPC:playPauseMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-            
-            return YES;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            return NO;
-        }
-    } else { // Major version < 5
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            return NO;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            SDLSubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-            
-            @try {
-                [self.protocol sendEncryptedRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-            
-            return YES;
-        }
-    }
-    
-    return NO;
-}
-
-- (BOOL)sdl_adaptButtonUnsubscribeMessageEncrypted:(SDLUnsubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            SDLUnsubscribeButton *playPauseMessage = [message copy];
-            playPauseMessage.buttonName = SDLButtonNamePlayPause;
-            
-            @try {
-                [self.protocol sendEncryptedRPC:message];
-                [self.protocol sendEncryptedRPC:playPauseMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-            
-            return YES;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            return NO;
-        }
-    } else { // Major version < 5
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            return NO;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            SDLUnsubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-            
-            @try {
-                [self.protocol sendEncryptedRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-            
-            return YES;
-        }
-    }
-    
     return NO;
 }
 #pragma clang diagnostic pop
@@ -796,7 +703,7 @@ static float DefaultConnectionTimeout = 45.0;
                         }
 
                         // Send the RPC Request
-                        [strongSelf sendRPC:request];
+                        [strongSelf sendRPC:request withEncryption:NO];
                     }];
 }
 
@@ -831,7 +738,7 @@ static float DefaultConnectionTimeout = 45.0;
                     SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
                     iconURLSystemRequest.bulkData = data;
 
-                    [strongSelf sendRPC:iconURLSystemRequest];
+                    [strongSelf sendRPC:iconURLSystemRequest withEncryption:NO];
                 }];
 }
 
@@ -867,7 +774,7 @@ static float DefaultConnectionTimeout = 45.0;
             putFile.bulkData = data;
 
             // Send RPC Request
-            [strongSelf sendRPC:putFile];
+            [strongSelf sendRPC:putFile withEncryption:NO];
         }];
 }
 
@@ -1054,7 +961,7 @@ static float DefaultConnectionTimeout = 45.0;
         request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
-        [self sendRPC:request];
+        [self sendRPC:request withEncryption:NO];
     }
 }
 
@@ -1087,7 +994,7 @@ static float DefaultConnectionTimeout = 45.0;
                 [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:(NSUInteger)nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
-                [self sendRPC:putFileRPCRequest];
+                [self sendRPC:putFileRPCRequest withEncryption:NO];
             }
 
             break;

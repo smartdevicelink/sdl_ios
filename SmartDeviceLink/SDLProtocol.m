@@ -260,12 +260,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Send Data
 
-- (void)sendRPC:(SDLRPCMessage *)message {
-    [self sendRPC:message encrypted:NO error:nil];
-}
-
-- (void)sendEncryptedRPC:(SDLRPCMessage *)message {
-    [self sendRPC:message encrypted:YES error:nil];
+- (void)sendRPC:(SDLRPCMessage *)message withEncryption:(BOOL)encryption {
+    [self sendRPC:message encrypted:encryption error:nil];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {

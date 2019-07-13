@@ -18,12 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager : NSObject
 
-@property (strong, nonatomic, readonly) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
-
-@property (assign, nonatomic, readonly) BOOL requiresEncryption;
-
-@property (copy, nonatomic, nullable, readonly) SDLHMILevel currentHMILevel;
-
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on `SDLManager`.
  *
@@ -89,6 +83,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param identifier The identifier specifying which observer to remove
  */
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier)identifier;
+
+/**
+ *  Flag indicating if the app requires an encryption service to be active.
+ */
+@property (assign, nonatomic, readonly) BOOL requiresEncryption;
+
+/**
+ *  Dictionary of RPC names and their permissions.
+ */
+@property (strong, nonatomic, readonly) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 
 @end
 

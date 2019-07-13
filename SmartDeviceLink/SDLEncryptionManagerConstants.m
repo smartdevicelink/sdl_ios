@@ -8,9 +8,6 @@
 
 #import "SDLEncryptionManagerConstants.h"
 
-NSString *const SDLEncryptionDidStartNotification = @"com.sdl.encryptionDidStart";
-NSString *const SDLEncryptionDidStopNotification = @"com.sdl.encryptionDidStop";
-
 SDLEncryptionManagerState *const SDLEncryptionManagerStateStopped = @"EncryptionStopped";
 SDLEncryptionManagerState *const SDLEncryptionManagerStateStarting = @"EncryptionStarting";
 SDLEncryptionManagerState *const SDLEncryptionManagerStateReady = @"EncryptionReady";

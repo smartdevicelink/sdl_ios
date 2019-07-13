@@ -36,17 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol;
 
-/**
- *  Called when protocol instance for encryption service has been updated.
- *
- *  If `newProtocol` is nil, it indicates that underlying transport
- *  becomes unavailable.
- *
- *  @param oldProtocol protocol instance that has been used for encryption.
- *  @param newProtocol protocol instance that will be used for encryption.
- */
-- (void)encryptionServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol;
-
 @end
 
 NS_ASSUME_NONNULL_END

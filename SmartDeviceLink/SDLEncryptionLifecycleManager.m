@@ -89,19 +89,19 @@
         return;
     }
 
-    if (!self.permissionManager || !self.permissionManager.currentHMILevel || !self.permissionManager.permissions) {
+    if (!self.permissionManager || !self.hmiLevel || !self.permissionManager.permissions) {
         SDLLogV(@"Permission Manager is not ready to encrypt.");
         return;
     }
     
     // TODO: check if permissionManager has requireEncyrption flag in any RPC or itself
-    if (![self.permissionManager.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send encryption start service request\n"
                 "permissionManager: %@\n"
                 "HMI state must be LIMITED, FULL, BACKGROUND: %@\n",
-                self.permissionManager.permissions, self.permissionManager.currentHMILevel);
+                self.permissionManager.permissions, self.hmiLevel);
     }
 }
 
@@ -140,14 +140,10 @@
 
 - (void)didEnterStateEncryptionReady {
     SDLLogD(@"Encryption manager is ready");
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLEncryptionDidStartNotification object:nil];
 }
 
 - (void)didEnterStateEncryptionStopped {
-    SDLLogD(@"Encryption manager stopped");
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLEncryptionDidStopNotification object:nil];
+    SDLLogD(@"Encryption manager stopped");    
 }
 
 #pragma mark - SDLProtocolListener
@@ -173,13 +169,13 @@
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            [self sdl_handleEncryptionStartServiceNak:startServiceNAK];
+            [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
         } break;
         default: break;
     }
 }
 
-- (void)sdl_handleEncryptionStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
+- (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
     SDLLogW(@"Encryption service failed to start due to NACK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
 }

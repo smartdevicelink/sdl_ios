@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @protocol SDLSecurityType;
-@protocol SDLStreamingMediaManagerDataSource;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		005DF3C122C59176006E01A9 /* SDLEncryptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 005DF3BF22C59176006E01A9 /* SDLEncryptionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		005DF3C222C59176006E01A9 /* SDLEncryptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 005DF3C022C59176006E01A9 /* SDLEncryptionManager.m */; };
 		005DF3C522C59191006E01A9 /* SDLEncryptionLifecycleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 005DF3C322C59191006E01A9 /* SDLEncryptionLifecycleManager.h */; };
 		005DF3C622C59191006E01A9 /* SDLEncryptionLifecycleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 005DF3C422C59191006E01A9 /* SDLEncryptionLifecycleManager.m */; };
 		005DF3CA22C62E00006E01A9 /* SDLEncryptionManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 005DF3C822C62E00006E01A9 /* SDLEncryptionManagerConstants.h */; };
@@ -1630,8 +1628,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		005DF3BF22C59176006E01A9 /* SDLEncryptionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionManager.h; sourceTree = "<group>"; };
-		005DF3C022C59176006E01A9 /* SDLEncryptionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionManager.m; sourceTree = "<group>"; };
 		005DF3C322C59191006E01A9 /* SDLEncryptionLifecycleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionLifecycleManager.h; sourceTree = "<group>"; };
 		005DF3C422C59191006E01A9 /* SDLEncryptionLifecycleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManager.m; sourceTree = "<group>"; };
 		005DF3C822C62E00006E01A9 /* SDLEncryptionManagerConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionManagerConstants.h; sourceTree = "<group>"; };
@@ -3281,8 +3277,6 @@
 				00E22CE922C2F1A400BC6B08 /* Configuration */,
 				005DF3BE22C590FB006E01A9 /* Lifecycle */,
 				005DF3C722C62DDA006E01A9 /* Utilities */,
-				005DF3BF22C59176006E01A9 /* SDLEncryptionManager.h */,
-				005DF3C022C59176006E01A9 /* SDLEncryptionManager.m */,
 			);
 			name = Encryption;
 			sourceTree = "<group>";
@@ -6746,7 +6740,6 @@
 				5D61FD4A1A84238C00846EE7 /* SDLProtocolMessageAssembler.h in Headers */,
 				5D61FD4C1A84238C00846EE7 /* SDLProtocolMessageDisassembler.h in Headers */,
 				5D4631141F2136B60092EFDC /* SDLControlFramePayloadNak.h in Headers */,
-				005DF3C122C59176006E01A9 /* SDLEncryptionManager.h in Headers */,
 				5D61FD4E1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.h in Headers */,
 				97E26DEC1E807AD70074A3C7 /* SDLMutableDataQueue.h in Headers */,
 				5D61FDF71A84238C00846EE7 /* SDLV1ProtocolMessage.h in Headers */,
@@ -7203,7 +7196,6 @@
 				5D00AC6C1F141339004000D9 /* SDLSystemCapability.m in Sources */,
 				5D61FC521A84238C00846EE7 /* SDLButtonCapabilities.m in Sources */,
 				5D61FC791A84238C00846EE7 /* SDLDeleteFileResponse.m in Sources */,
-				005DF3C222C59176006E01A9 /* SDLEncryptionManager.m in Sources */,
 				5D3E48801D6F88A30000BFEF /* SDLRPCNotificationNotification.m in Sources */,
 				DAC572581D1067270004288B /* SDLTouchManager.m in Sources */,
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,

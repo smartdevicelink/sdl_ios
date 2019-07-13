@@ -22,7 +22,7 @@
 #import "SDLLogMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
-#import "SDLEncryptionManager.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
@@ -82,8 +82,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
 
-typedef void (^EncryptionCompletionBlock)(BOOL);
-
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (strong, nonatomic, readwrite, nullable) NSString *authToken;
@@ -97,6 +95,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+@property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 @end
 
@@ -153,7 +152,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     }
     
     if (configuration.encryptionConfig != nil) {
-        _encryptionManager = [[SDLEncryptionManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
+        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
     }
 
     // Notifications
@@ -263,6 +262,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.screenManager stop];
+    [self.encryptionLifecycleManager stop];
     if (self.secondaryTransportManager != nil) {
         [self.secondaryTransportManager stop];
     } else {
@@ -303,10 +303,8 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
 
     // If we have security managers, add them to the proxy
-    if (self.configuration.streamingMediaConfig.securityManagers != nil) {
+    if (self.configuration.encryptionConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers");
-        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
-    } else if (self.configuration.encryptionConfig.securityManagers != nil) {
         [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
@@ -324,6 +322,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
+        requiresEncryption:NO
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             dispatch_async(weakSelf.lifecycleQueue, ^{
                 // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
@@ -428,8 +427,8 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         dispatch_group_leave(managerGroup);
     }];
     
-    if (self.encryptionManager != nil) {
-        [self encryptionServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+    if (self.encryptionLifecycleManager != nil) {
+        [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
     }
     
     // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
@@ -521,6 +520,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
+        requiresEncryption:NO
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
@@ -557,6 +557,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         setAppIcon.syncFileName = appIcon.name;
 
         [self sdl_sendRequest:setAppIcon
+          requiresEncryption:NO
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
               if (error != nil) {
                   SDLLogW(@"Error setting up app icon: %@", error);
@@ -592,6 +593,12 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     [self.rpcOperationQueue addOperation:op];
 }
 
+- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    if (self.encryptionLifecycleManager != nil) {
+        [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
+    }
+}
+
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     if (requests.count == 0) {
         completionHandler(YES);
@@ -621,7 +628,7 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:rpc withResponseHandler:nil];
+        [self sdl_sendRequest:rpc requiresEncryption:NO withResponseHandler:nil];
     });
 }
 
@@ -639,9 +646,9 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
 
     dispatch_async(_lifecycleQueue, ^{
         if ([self requestRequiresEncryption:request]) {
-            [self sdl_sendEncryptedRequest:request withResponseHandler:handler];
+            [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
         } else {
-            [self sdl_sendRequest:request withResponseHandler:handler];
+            [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
         }
     });
 }
@@ -659,18 +666,18 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     }
     
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendEncryptedRequest:request withResponseHandler:handler];
+        [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
     });
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
+        [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
     });
 }
 
-- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request requiresEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
@@ -692,39 +699,9 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
         NSNumber *corrID = [self sdl_getNextCorrelationId];
         requestRPC.correlationID = corrID;
         [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self.proxy sendRPC:requestRPC];
+        [self.proxy sendRPC:requestRPC withEncryption: encryption];
     } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self.proxy sendRPC:request];
-    } else {
-        SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
-    }
-}
-
-- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
-    NSParameterAssert(request != nil);
-    
-    // If, for some reason, the request is nil we should error out.
-    if (!request) {
-        NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
-        SDLLogW(@"%@", error);
-        if (handler) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                handler(nil, nil, error);
-            });
-        }
-        return;
-    }
-    
-    if ([request isKindOfClass:SDLRPCRequest.class]) {
-        // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
-        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
-        NSNumber *corrID = [self sdl_getNextCorrelationId];
-        requestRPC.correlationID = corrID;
-        [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self.proxy sendEncryptedRPC:requestRPC];
-    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self.proxy sendEncryptedRPC:request];
+        [self.proxy sendRPC:request withEncryption: encryption];
     } else {
         SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }
@@ -915,19 +892,6 @@ typedef void (^EncryptionCompletionBlock)(BOOL);
     }
     if (newProtocol != nil) {
         [self.streamManager startVideoWithProtocol:newProtocol];
-    }
-}
-
-- (void)encryptionServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
-    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
-        return;
-    }
-    
-    if (oldProtocol != nil) {
-        [self.encryptionManager stop];
-    }
-    if (newProtocol != nil) {
-        [self.encryptionManager startWithProtocol:newProtocol];
     }
 }
 

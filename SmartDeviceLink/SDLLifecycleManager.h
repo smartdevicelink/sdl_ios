@@ -35,7 +35,6 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
-@class SDLEncryptionManager;
 
 @protocol SDLManagerDelegate;
 
@@ -73,7 +72,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
 @property (strong, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (strong, nonatomic) SDLEncryptionManager *encryptionManager;
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
@@ -138,6 +136,14 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param handler The handler that will be called when the response returns
  */
 - (void)sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+
+/**
+ *  Send RPC request that will be encrypted and set a completion handler that will be called with the response when the response returns.
+ *
+ *  @param request The RPC request to send
+ *  @param handler The handler that will be called when the response returns
+ */
+- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 /**
  Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.

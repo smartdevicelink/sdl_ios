@@ -22,7 +22,6 @@
 @class SDLScreenManager;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
-@class SDLEncryptionManager;
 
 @protocol SDLManagerDelegate;
 
@@ -54,11 +53,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The current system context of the running app.
  */
 @property (copy, nonatomic, readonly) SDLSystemContext systemContext;
-
-/**
- *  The encryption manager to be used by the running app.
- */
-@property (copy, nonatomic, readonly) SDLEncryptionManager *encryptionManager;
 
 /**
  *  The file manager to be used by the running app.
@@ -165,6 +159,14 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param handler The handler that will be called when the response returns
  */
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler NS_SWIFT_NAME(send(request:responseHandler:));
+
+/**
+ *  Send an RPC request that will be encrypted and set a completion handler that will be called with the response when the response returns.
+ *
+ *  @param request The RPC request to send
+ *  @param handler The handler that will be called when the response returns
+ */
+- (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler NS_SWIFT_NAME(send(encryptedRequest:responseHandler:));
 
 /**
  Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.
