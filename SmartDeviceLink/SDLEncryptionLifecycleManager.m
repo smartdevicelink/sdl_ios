@@ -8,9 +8,9 @@
 
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLEncryptionManagerConstants.h"
+#import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLLogMacros.h"
 #import "SDLStateMachine.h"
-#import "SDLAsynchronousEncryptedRPCRequestOperation.h"
 #import "SDLProtocolMessage.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLOnHMIStatus.h"
@@ -73,7 +73,7 @@
         return;
     }
     
-    SDLAsynchronousEncryptedRPCRequestOperation *op = [[SDLAsynchronousEncryptedRPCRequestOperation alloc] initWithConnectionManager:self.connectionManager requestToEncrypt:request responseHandler:handler];
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self.connectionManager request:request withEncryption:YES responseHandler:handler];
     
     [self.rpcOperationQueue addOperation:op];
 }

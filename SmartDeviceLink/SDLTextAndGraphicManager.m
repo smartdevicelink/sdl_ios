@@ -205,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.inProgressUpdate == nil) { return; }
 
-    [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:self.inProgressUpdate withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Text and Graphic update completed");
 

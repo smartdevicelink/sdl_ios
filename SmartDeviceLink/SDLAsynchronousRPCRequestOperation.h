@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param responseHandler      Called when the request has a response from Core
  *  @return                     A SDLAsynchronousRPCRequestOperation object
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request responseHandler:(nullable SDLResponseHandler)responseHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request withEncryption:(BOOL)encryption responseHandler:(nullable SDLResponseHandler)responseHandler;
 
 @end
 

@@ -12,7 +12,6 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
-#import "SDLAsynchronousEncryptedRPCRequestOperation.h"
 #import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
 #import "SDLChoiceSetManager.h"
@@ -589,7 +588,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request withEncryption:NO responseHandler:handler];
     [self.rpcOperationQueue addOperation:op];
 }
 
@@ -632,7 +631,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     });
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
         if (handler) {
@@ -645,7 +644,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        if ([self requestRequiresEncryption:request]) {
+        if ([self requestRequiresEncryption:request] || encryption) {
             [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
         } else {
             [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];

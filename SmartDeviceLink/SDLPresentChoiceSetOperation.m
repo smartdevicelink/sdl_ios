@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     setProperties.keyboardProperties = self.keyboardProperties;
 
     __weak typeof(self) weakself = self;
-    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:setProperties withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
         }
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_presentChoiceSet {
     __weak typeof(self) weakself = self;
-    [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:self.performInteraction withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Presenting choice set failed with response: %@, error: %@", response, error);
             weakself.internalError = error;
@@ -244,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.originalKeyboardProperties;
 
-    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:setProperties withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }

@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSUInteger requestsStarted;
 @property (assign, nonatomic, readonly) float percentComplete;
 @property (assign, nonatomic) BOOL requestFailed;
+@property (assign, nonatomic) BOOL encryption;
 
 @end
 
@@ -45,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     _requestsComplete = 0;
     _requestsStarted = 0;
     _requestFailed = NO;
+    _encryption = NO;
 
     return self;
 }
@@ -60,12 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request responseHandler:(nullable SDLResponseHandler)responseHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request withEncryption:(BOOL)encryption responseHandler:(nullable SDLResponseHandler)responseHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
     _requests = @[request];
     _responseHandler = responseHandler;
+    _encryption = encryption;
 
     return self;
 }
@@ -90,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request {
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:request withEncryption:self.encryption withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
 
         if (strongSelf.isCancelled) {
