@@ -529,6 +529,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
 }
 
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnpublishAppServiceRequest request:request];
+}
+
 - (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {
     [self postRPCRequestNotification:SDLDidReceiveUnregisterAppInterfaceRequest request:request];
 }
