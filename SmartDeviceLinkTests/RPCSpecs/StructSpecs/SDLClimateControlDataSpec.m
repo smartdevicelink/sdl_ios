@@ -42,6 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.heatedWindshieldEnable = @YES;
         testStruct.heatedRearWindowEnable = @NO;
         testStruct.heatedMirrorsEnable = @YES;
+        testStruct.climateEnable = @YES;
         
         expect(testStruct.fanSpeed).to(equal(@43));
         expect(testStruct.currentTemperature).to(equal(currentTemp));
@@ -57,6 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(equal(@YES));
         expect(testStruct.heatedRearWindowEnable).to(equal(@NO));
         expect(testStruct.heatedMirrorsEnable).to(equal(@YES));
+        expect(testStruct.climateEnable).to(equal(@YES));
 
     });
 
@@ -78,11 +80,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(equal(NO));
         expect(testStruct.heatedRearWindowEnable).to(equal(NO));
         expect(testStruct.heatedMirrorsEnable).to(equal(NO));
+        expect(testStruct.climateEnable).to(beNil());
         #pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {
-        SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth heatedSteeringWheelEnable:@NO heatedWindshieldEnable:@YES heatedRearWindowEnable:@NO heatedMirrorsEnable:@YES];
+        SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth heatedSteeringWheelEnable:@NO heatedWindshieldEnable:@YES heatedRearWindowEnable:@NO heatedMirrorsEnable:@YES climateEnable:@YES];
 
         expect(testStruct.fanSpeed).to(equal(@43));
         expect(testStruct.desiredTemperature).to(equal(desiredTemp));
@@ -97,6 +100,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(equal(@YES));
         expect(testStruct.heatedRearWindowEnable).to(equal(@NO));
         expect(testStruct.heatedMirrorsEnable).to(equal(@YES));
+        expect(testStruct.climateEnable).to(equal(@YES));
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^ {
@@ -114,6 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameHeatedWindshieldEnable:@YES,
                                                        SDLRPCParameterNameHeatedRearWindowEnable:@NO,
                                                        SDLRPCParameterNameHeatedMirrorsEnable:@YES,
+                                                       SDLRPCParameterNameClimateEnable:@YES,
                                                        } mutableCopy];
 
 #pragma clang diagnostic push
@@ -135,6 +140,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(equal(@YES));
         expect(testStruct.heatedRearWindowEnable).to(equal(@NO));
         expect(testStruct.heatedMirrorsEnable).to(equal(@YES));
+        expect(testStruct.climateEnable).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -154,6 +160,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(beNil());
         expect(testStruct.heatedRearWindowEnable).to(beNil());
         expect(testStruct.heatedMirrorsEnable).to(beNil());
+        expect(testStruct.climateEnable).to(beNil());
     });
     
 });
