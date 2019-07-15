@@ -89,3 +89,5 @@ SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeButton = @"UnsubscribeButt
 SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeVehicleData = @"UnsubscribeVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeWayPoints = @"UnsubscribeWayPoints";
 SDLRPCFunctionName const SDLRPCFunctionNameUpdateTurnList = @"UpdateTurnList";
+SDLRPCFunctionName const SDLRPCFunctionNameCreateWindow = @"CreateWindow";
+SDLRPCFunctionName const SDLRPCFunctionNameDeleteWindow = @"DeleteWindow";

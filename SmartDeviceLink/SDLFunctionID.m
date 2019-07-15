@@ -112,7 +112,9 @@ NS_ASSUME_NONNULL_BEGIN
                          @65536: SDLRPCFunctionNameEncodedSyncPData,
                          @65537: SDLRPCFunctionNameSyncPData,
                          @98304: SDLRPCFunctionNameOnEncodedSyncPData,
-                         @98305: SDLRPCFunctionNameOnSyncPData
+                         @98305: SDLRPCFunctionNameOnSyncPData,
+                         @98306: SDLRPCFunctionNameCreateWindow,
+                         @98307: SDLRPCFunctionNameDeleteWindow
                          };
     return self;
 }
