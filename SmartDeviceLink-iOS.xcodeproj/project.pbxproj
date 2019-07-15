@@ -1436,6 +1436,8 @@
 		8B9376D71F3349FC009605C4 /* SDLMetadataTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataTags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B9376D81F3349FC009605C4 /* SDLMetadataTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376D61F3349FC009605C4 /* SDLMetadataTags.m */; };
 		8B9376DB1F33656C009605C4 /* SDLMetadataTagsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */; };
+		8BA12B1122DCCE1F00371E82 /* SDLUnpublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */; };
+		8BA12B1222DCCE1F00371E82 /* SDLUnpublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */; };
 		8BBEA6061F324165003EEA26 /* SDLMetadataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLMetadataType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8BBEA6071F324165003EEA26 /* SDLMetadataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6051F324165003EEA26 /* SDLMetadataType.m */; };
 		8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */; };
@@ -3093,6 +3095,8 @@
 		8B9376D51F3349FC009605C4 /* SDLMetadataTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataTags.h; sourceTree = "<group>"; };
 		8B9376D61F3349FC009605C4 /* SDLMetadataTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTags.m; sourceTree = "<group>"; };
 		8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTagsSpec.m; sourceTree = "<group>"; };
+		8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLUnpublishAppService.h; sourceTree = "<group>"; };
+		8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppService.m; sourceTree = "<group>"; };
 		8BBEA6041F324165003EEA26 /* SDLMetadataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataType.h; sourceTree = "<group>"; };
 		8BBEA6051F324165003EEA26 /* SDLMetadataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataType.m; sourceTree = "<group>"; };
 		8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTypeSpec.m; sourceTree = "<group>"; };
@@ -4253,6 +4257,8 @@
 				DA9F7E921DCC04E400ACAE48 /* SDLUnsubscribeWayPoints.m */,
 				5D61FC041A84238C00846EE7 /* SDLUpdateTurnList.h */,
 				5D61FC051A84238C00846EE7 /* SDLUpdateTurnList.m */,
+				8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */,
+				8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -6266,6 +6272,7 @@
 				EEB1932E205028B700A8940C /* SDLControlFramePayloadTransportEventUpdate.h in Headers */,
 				EE798CA420561210008EDE8E /* SDLSecondaryTransportManager.h in Headers */,
 				5DBF06271E64A91D00A5CF03 /* SDLLogFileModule.h in Headers */,
+				8BA12B1122DCCE1F00371E82 /* SDLUnpublishAppService.h in Headers */,
 				5D61FC531A84238C00846EE7 /* SDLButtonEventMode.h in Headers */,
 				88E6F1AD220E19DF006156F9 /* SDLMediaServiceData.h in Headers */,
 				1FF7DAB61F75B27300B46C30 /* SDLFocusableItemLocatorType.h in Headers */,
@@ -7105,6 +7112,7 @@
 				5D61FC8B1A84238C00846EE7 /* SDLDiagnosticMessageResponse.m in Sources */,
 				5DBF063A1E64ABBE00A5CF03 /* SDLLogConfiguration.m in Sources */,
 				5D92937120B5E0E500FCC775 /* SDLDeleteChoicesOperation.m in Sources */,
+				8BA12B1222DCCE1F00371E82 /* SDLUnpublishAppService.m in Sources */,
 				1EAA475220356CD2000FE74B /* SDLDistanceUnit.m in Sources */,
 				5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */,
 				5D61FD041A84238C00846EE7 /* SDLOnButtonEvent.m in Sources */,
