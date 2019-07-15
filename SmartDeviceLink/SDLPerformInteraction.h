@@ -48,8 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithInitialText:(NSString *)initialText initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(UInt16)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(UInt32)cancelID;
 
-// old
-
 /**
  *  Convenience init for setting the a single visual or voice-recognition menu choice.
  *
