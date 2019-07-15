@@ -18,6 +18,7 @@
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
@@ -33,6 +34,7 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLScreenManager.h"
+#import "SDLVersion.h"
 #import "SDLVoiceCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -113,14 +115,30 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Setters
 
 - (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
-    _menuConfiguration = menuConfiguration;
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
+        SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
+        return;
+    }
+
+    if (self.currentHMILevel == nil
+        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        SDLLogE(@"Could not set main menu configuration, HMI level: %@, required: 'Not-NONE', system context: %@, required: 'Not MENU'", self.currentHMILevel, self.currentSystemContext);
+        return;
+    }
 
     SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
     setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
+
+    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setGlobalsRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
         if (error != nil) {
-            SDLLogW(@"Could not set main menu configuration: %@", error);
+            SDLLogE(@"Could not set main menu configuration: %@", error);
+            return;
         }
+
+        strongself->_menuConfiguration = menuConfiguration;
     }];
 }
 

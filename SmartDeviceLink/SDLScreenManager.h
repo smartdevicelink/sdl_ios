@@ -117,7 +117,11 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 #pragma mark Menu
 
 /**
- The configuration of the menu. Alter this to change the layout of the menu or sub-menus. If this is set after a menu already exists, the existing main menu layout will be updated, _HOWEVER_ sub-menus will not be updated.
+ The configuration of the menu. Alter this to change the layout of the menu or sub-menus. If this is set after a menu already exists, the existing main menu layout will be updated, _HOWEVER_ sub-menus will not be automatically updated; you will have to send a new menu to see the new submenu layout.
+
+ Setting this parameter will send a message to the remote system. If that message is rejected, your new value will not be set and an error log will be emmitted.
+
+ This only works on head units supporting RPC spec version 6.0 and newer. If the connected head unit does not support this feature, a warning log will be emmitted.
  */
 @property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
 

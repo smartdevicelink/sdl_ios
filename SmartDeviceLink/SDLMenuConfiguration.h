@@ -22,6 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) SDLMenuLayout defaultSubmenuLayout;
 
+/**
+ Initialize a new menu configuration with a main menu layout and a default submenu layout which can be overriden per-submenu if desired.
+
+ @param mainMenuLayout The new main menu layout
+ @param defaultSubmenuLayout The new default submenu layout
+ @return The menu configuration
+ */
 - (instancetype)initWithMainMenuLayout:(SDLMenuLayout)mainMenuLayout defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
 
 @end

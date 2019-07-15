@@ -2,32 +2,10 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLAddCommand.h"
-#import "SDLAddSubMenu.h"
-#import "SDLDeleteCommand.h"
-#import "SDLDeleteSubMenu.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayType.h"
-#import "SDLFileManager.h"
-#import "SDLHMILevel.h"
-#import "SDLImage.h"
-#import "SDLImageField.h"
-#import "SDLImageFieldName.h"
-#import "SDLMediaClockFormat.h"
-#import "SDLMenuCell.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLGlobals.h"
 #import "SDLMenuManager.h"
-#import "SDLMenuManagerConstants.h"
-#import "SDLOnCommand.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRPCNotificationNotification.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLRPCResponseNotification.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLScreenManager.h"
-#import "SDLScreenParams.h"
-#import "SDLSystemContext.h"
-#import "SDLTextField.h"
+
 #import "TestConnectionManager.h"
 
 
@@ -75,6 +53,8 @@ describe(@"menu manager", ^{
     __block SDLMenuCell *submenuCell = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
+    __block SDLMenuConfiguration *testMenuConfiguration = nil;
+
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
@@ -82,8 +62,10 @@ describe(@"menu manager", ^{
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 subCells:@[textOnlyCell]];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" submenuLayout:SDLMenuLayoutTiles icon:testArtwork2 subCells:@[textOnlyCell]];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+        testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
 
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
@@ -103,6 +85,7 @@ describe(@"menu manager", ^{
         expect(testManager.lastMenuId).to(equal(1));
         expect(testManager.oldMenuCells).to(beEmpty());
         expect(testManager.waitingUpdateMenuCells).to(beNil());
+        expect(testManager.menuConfiguration).toNot(beNil());
     });
 
     describe(@"updating menu cells before HMI is ready", ^{
@@ -135,10 +118,16 @@ describe(@"menu manager", ^{
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
                 testManager.currentHMILevel = nil;
-                testManager.menuCells = @[textOnlyCell];
             });
 
-            it(@"should not update", ^{
+            it(@"should not update the menu configuration", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+            });
+
+            it(@"should not update the menu cells", ^{
+                testManager.menuCells = @[textOnlyCell];
                 expect(mockConnectionManager.receivedRequests).to(beEmpty());
             });
         });
@@ -147,10 +136,16 @@ describe(@"menu manager", ^{
             beforeEach(^{
                 testManager.currentHMILevel = SDLHMILevelFull;
                 testManager.currentSystemContext = SDLSystemContextMenu;
-                testManager.menuCells = @[textOnlyCell];
             });
 
-            it(@"should not update", ^{
+            it(@"should not update the menu configuration", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+            });
+
+            it(@"should not update the menu cells", ^{
+                testManager.menuCells = @[textOnlyCell];
                 expect(mockConnectionManager.receivedRequests).to(beEmpty());
             });
 
@@ -171,7 +166,7 @@ describe(@"menu manager", ^{
         });
     });
 
-    describe(@"Notificaiton Responses", ^{
+    describe(@"Notification Responses", ^{
         it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
             testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
 
@@ -593,7 +588,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" submenuLayout:SDLMenuLayoutTiles icon:nil subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
@@ -612,7 +607,46 @@ describe(@"menu manager", ^{
         });
     });
 
-    context(@"On disconnects", ^{
+    describe(@"updating the menu configuration", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        context(@"if the connection RPC version is less than 6.0.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"];
+            });
+
+            it(@"should fail to send a SetGlobalProperties RPC update", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+                expect(mockConnectionManager.receivedRequests).to(haveCount(0));
+            });
+        });
+
+        context(@"if the connection RPC version is greater than or equal to 6.0.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            });
+
+            it(@"should send a SetGlobalProperties RPC update", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+                expect(mockConnectionManager.receivedRequests).to(haveCount(1));
+
+                SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];
+                response.success = @YES;
+                [mockConnectionManager respondToLastRequestWithResponse:response];
+
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
+            });
+        });
+    });
+
+    context(@"when the manager stops", ^{
         beforeEach(^{
             [testManager stop];
         });
@@ -630,6 +664,7 @@ describe(@"menu manager", ^{
             expect(testManager.lastMenuId).to(equal(1));
             expect(testManager.oldMenuCells).to(beEmpty());
             expect(testManager.waitingUpdateMenuCells).to(beEmpty());
+            expect(testManager.menuConfiguration).toNot(beNil());
         });
     });
 
