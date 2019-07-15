@@ -94,6 +94,8 @@ describe(@"GetFunctionName Tests", ^ {
         
         expect([functionID functionNameForId:98304]).to(equal(SDLRPCFunctionNameOnEncodedSyncPData));
         expect([functionID functionNameForId:98305]).to(equal(SDLRPCFunctionNameOnSyncPData));
+        expect([functionID functionNameForId:98306]).to(equal(SDLRPCFunctionNameCreateWindow);
+        expect([functionID functionNameForId:98307]).to(equal(SDLRPCFunctionNameDeleteWindow));
     });
 });
 
@@ -176,7 +178,8 @@ describe(@"GetFunctionID Tests", ^ {
         
         expect([functionID functionIdForName:SDLRPCFunctionNameOnEncodedSyncPData]).to(equal(@98304));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnSyncPData]).to(equal(@98305));
-
+        expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@98306));
+        expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@98307));
     });
 });
 
