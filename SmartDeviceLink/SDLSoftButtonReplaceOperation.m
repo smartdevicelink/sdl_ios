@@ -56,11 +56,17 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
 
         // Send text buttons if all the soft buttons have text
-        [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^{}];
+        __weak typeof(self) weakself = self;
+        [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {
+            if (!success) {
+                SDLLogE(@"Head unit does not support images and some of the soft buttons do not have text, so none of the buttons will be sent.");
+                [weakself finishOperation];
+            }
+        }];
     } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
         // If there are images that aren't uploaded
         // Send text buttons if all the soft buttons have text
-        [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^{}];
+        [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {}];
 
         // Upload initial images
         __weak typeof(self) weakself = self;
@@ -205,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns text soft buttons representing the current states of the button objects, or returns if _any_ of the buttons' current states are image only buttons.
 */
-- (void)sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:(void (^)(void))handler {
+- (void)sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:(void (^)(BOOL success))handler {
     if (self.isCancelled) {
         [self finishOperation];
     }
@@ -216,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSoftButton *button = buttonObject.currentStateSoftButton;
         if (button.text == nil) {
             SDLLogW(@"Attempted to create text buttons, but some buttons don't support text, so no text-only soft buttons will be sent");
-            handler();
+            handler(NO);
             return;
         }
 
@@ -235,7 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         SDLLogD(@"Finished sending text only soft buttons");
-        handler();
+        handler(YES);
     }];
 }
 

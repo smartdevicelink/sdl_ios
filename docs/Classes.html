@@ -21,6 +21,7 @@
   <li><a href="#section-SDLArtwork">SDLArtwork</a></li>
   <li><a href="#section-SDLAudioControlCapabilities">SDLAudioControlCapabilities</a></li>
   <li><a href="#section-SDLAudioControlData">SDLAudioControlData</a></li>
+  <li><a href="#section-SDLAudioFile">SDLAudioFile</a></li>
   <li><a href="#section-SDLAudioPassThruCapabilities">SDLAudioPassThruCapabilities</a></li>
   <li><a href="#section-SDLAudioStreamManager">SDLAudioStreamManager</a></li>
   <li><a href="#section-SDLBeltStatus">SDLBeltStatus</a></li>
@@ -1103,6 +1104,70 @@
   
   
   
+  <h3 id="section-SDLAudioFile">
+      SDLAudioFile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAudioFile.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAudioFile</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/**
+ If initialized with a file URL, the file URL it came from
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">inputFileURL</span><span class="p">;</span>
+
+<span class="cm">/**
+ If initialized with a file URL, where the transcoder should produce the transcoded PCM audio file
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">outputFileURL</span><span class="p">;</span>
+
+<span class="cm">/**
+ In seconds. UINT32_MAX if unknown.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt32</span> <span class="n">estimatedDuration</span><span class="p">;</span>
+
+<span class="cm">/**
+ The PCM audio data to be transferred and played
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+
+<span class="cm">/**
+ The size of the PCM audio data in bytes
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">fileSize</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize an audio file to be queued and played
+
+ @param inputURL The file that exists on the device to be transcoded and queued
+ @param outputURL The target URL that the transcoded file will be output to
+ @param duration The duration of the file
+ @return The audio file object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInputFileURL</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputURL</span> <span class="nf">outputFileURL</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">outputURL</span> <span class="nf">estimatedDuration</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize a buffer of PCM audio data to be queued and played
+
+ @param data The PCM audio data buffer
+ @return The audio file object
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAudioFile</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLAudioPassThruCapabilities">
       SDLAudioPassThruCapabilities
   </h3>
@@ -1149,7 +1214,7 @@
 <span class="cm">/**
  The queue of audio files that will be played in sequence
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLAudioFile</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">queue</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLAudioFile.html">SDLAudioFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">queue</span><span class="p">;</span>
 
 <span class="cm">/**
  Init should only occur with dependencies. use `initWithManager:`
@@ -1176,6 +1241,22 @@
  @param fileURL File URL to convert
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushWithFileURL</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span><span class="p">;</span>
+
+<span class="cm">/**
+ Push a new audio buffer onto the queue. Call `playNextWhenReady` to start playing the pushed audio buffer.
+
+ This data must be of the required PCM format. See SDLSystemCapabilityManager.pcmStreamCapability and SDLAudioPassThruCapability.h.
+
+ This is *an example* of a PCM format used by some head units:
+ - audioType: PCM
+ - samplingRate: 16kHZ
+ - bitsPerSample: 16 bits
+
+ There is generally only one channel to the data.
+
+ @param data The audio buffer to be pushed onto the queue
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushWithData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span><span class="p">;</span>
 
 <span class="cm">/**
  Play the next item in the queue. If an item is currently playing, it will continue playing and this item will begin playing after it is completed.
@@ -4418,6 +4499,44 @@ cases the language of the head unit changes or does not match the app language.<
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendSequentialRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">sendSequential</span><span class="p">(</span><span class="n">requests</span><span class="o">:</span><span class="n">progressHandler</span><span class="o">:</span><span class="n">completionHandler</span><span class="o">:</span><span class="p">));</span>
 
+
+<span class="cp">#pragma mark - RPC Subscriptions
+</span>
+<span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span> <span class="p">(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">message</span><span class="p">);</span>
+
+<span class="cm">/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param block The block that will be called every time an RPC of the name and type specified is received.
+ * @return An object that can be passed to `unsubscribeFromRPC:ofType:withObserver:` to unsubscribe the block.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withBlock</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span><span class="nv">block</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">block</span><span class="o">:</span><span class="p">));</span>
+
+<span class="cm">/**
+ * Subscribe to callbacks about a particular RPC request, notification, or response with a selector callback.
+ *
+ * The selector supports the following parameters:
+ *
+ * 1. Zero parameters e.g. `- (void)registerAppInterfaceResponse`
+ * 2. One parameter e.g. `- (void)registerAppInterfaceResponse:(NSNotification *)notification;`
+ *
+ * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notifed of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to subscribe to.
+ * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.
+ * @param selector The selector on `observer` that will be called every time an RPC of the name and type specified is received.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="nf">selector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="n">selector</span><span class="o">:</span><span class="p">));</span>
+
+<span class="cm">/**
+ * Unsubscribe to callbacks about a particular RPC request, notification, or response.
+ *
+ * @param rpcName The name of the RPC request, response, or notification to unsubscribe from.
+ * @param observer The object representing a block callback or selector callback to be unsubscribed
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">unsubscribeFromRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">unsubscribe</span><span class="p">(</span><span class="n">from</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="p">));</span>
+
 <span class="k">@end</span></code></pre>
 
   
@@ -6178,11 +6297,7 @@ the application has subscribed.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">function</span><span class="p">;</span>
-    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">parameters</span><span class="p">;</span>
-    <span class="n">NSString</span> <span class="o">*</span><span class="n">messageType</span><span class="p">;</span>
-<span class="p">}</span>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
 
 <span class="cm">/**
  *  Convenience init
@@ -6190,29 +6305,21 @@ the application has subscribed.</p>
  *  @param name    The name of the message
  *  @return        A SDLRPCMessage object
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithName</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">name</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Convenience init
- *
- *  @param dict    A dictionary with the format @{messageType: @{parameters}}
- *  @return        A SDLRPCMessage object
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithName</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">name</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended to be a public facing API"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Returns the function name.
  *
  *  @return The function name
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">getFunctionName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">getFunctionName</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Call the .name property instead"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Sets the function name.
  *
  *  @param functionName The function name
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setFunctionName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setFunctionName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended to be a public facing API"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Returns the value associated with the provided key. If the key does not exist, null is returned.
@@ -6220,7 +6327,7 @@ the application has subscribed.</p>
  *  @param functionName    The key name
  *  @return                The value associated with the function name
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">getParameters</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nf">getParameters</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Call the .parameters property instead"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Sets a key-value pair using the function name as the key.
@@ -6228,7 +6335,7 @@ the application has subscribed.</p>
  *  @param functionName    The name for the key
  *  @param value           The value associated with the function name
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setParameters</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span> <span class="nf">value</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setParameters</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span> <span class="nf">value</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended to be a public facing API"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  The data in the message
@@ -6239,6 +6346,11 @@ the application has subscribed.</p>
  *  The name of the message
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+
+<span class="cm">/**
+ The JSON-RPC parameters
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">parameters</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The type of data in the message
@@ -6406,9 +6518,9 @@ the application has subscribed.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCStruct</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">store</span><span class="p">;</span>
-<span class="p">}</span>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCStruct</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">store</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Convenience init
@@ -6416,14 +6528,7 @@ the application has subscribed.</p>
  *  @param dict A dictionary
  *  @return     A SDLRPCStruct object
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithDictionary</span><span class="o">:</span><span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">dict</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Init
- *
- *  @return A SDLRPCStruct object
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended for public use"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Converts struct to JSON formatted data
@@ -6431,7 +6536,7 @@ the application has subscribed.</p>
  *  @param version The protocol version
  *  @return        JSON formatted data
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">serializeAsDictionary</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">version</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">serializeAsDictionary</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">version</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended for public use"</span><span class="p">);</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -6778,6 +6883,17 @@ the application has subscribed.</p>
  The current list of menu cells displayed in the app's menu.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLMenuCell.html">SDLMenuCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">menu</span><span class="p">;</span>
+
+<span class="cm">/**
+Change the mode of the dynamic menu updater to be enabled, disabled, or enabled on known compatible head units.
+
+The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to `SDLDynamicMenuUpdatesModeForceOn`, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.
+
+If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
+
+ We recommend using either `SDLDynamicMenuUpdatesModeOnWithCompatibility` or `SDLDynamicMenuUpdatesModeForceOn`. `SDLDynamicMenuUpdatesModeOnWithCompatibility` turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Enums/SDLDynamicMenuUpdatesMode.html">SDLDynamicMenuUpdatesMode</a></span> <span class="n">dynamicMenuUpdatesMode</span><span class="p">;</span>
 
 <span class="cm">/**
  The current list of voice commands available for the user to speak and be recognized by the IVI's voice recognition engine.
@@ -8197,7 +8313,9 @@ change the settings of a specific remote control module.</p>
 <span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendVideoData</span><span class="p">:(</span><span class="n">CVImageBufferRef</span><span class="p">)</span><span class="nv">imageBuffer</span> <span class="nf">presentationTimestamp</span><span class="p">:(</span><span class="n">CMTime</span><span class="p">)</span><span class="nv">presentationTimestamp</span><span class="p">;</span>
 
 <span class="cm">/**
- *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
+ *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback.
+ *
+ *  NOTE: See the `.audioManager` (SDLAudioStreamManager) `pushWithData:` method for a more modern API.
  *
  *  @param audioData The data in PCM audio format, to be played
  *
@@ -8479,171 +8597,13 @@ change the settings of a specific remote control module.</p>
       SDLSystemCapabilityManager
   </h3>
   
-  <p>Undocumented</p>
+  <p>A manager that handles updating and subscribing to SDL capabilities.</p>
 
   <a href="Classes/SDLSystemCapabilityManager.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapabilityManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
-
-<span class="cm">/**
- * @see SDLDisplayCapabilities
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span> <span class="o">*</span><span class="n">displayCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLHMICapabilities
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span> <span class="o">*</span><span class="n">hmiCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports on-screen SoftButtons
- *
- * @see SDLSoftButtonCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonCapabilities.html">SDLSoftButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLButtonCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLButtonCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">buttonCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports custom on-screen Presets
- *
- * @see SDLPresetBankCapabilities
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span> <span class="o">*</span><span class="n">presetBankCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLHMIZoneCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hmiZoneCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLSpeechCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">speechCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLPrerecordedSpeech
- *
- * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPrerecordedSpeech.h@T@SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">prerecordedSpeechCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLVRCapabilities
- *
- * True if the head unit supports voice recognition; false if not.
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">vrCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLAudioPassThruCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioPassThruCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * @see SDLAudioPassThruCapabilities
- *
- * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*</span><span class="n">pcmStreamCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports app services
- *
- * @see SDLAppServicesCapabilities
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span> <span class="o">*</span><span class="n">appServicesCapabilities</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports navigation
- *
- * @see SDLNavigationCapability
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports making phone calls
- *
- * @see SDLPhoneCapability
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports video streaming
- *
- * @see SDLVideoStreamingCapability
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- * If returned, the platform supports remote control capabilities
- *
- * @see SDLRemoteControlCapabilities
- *
- * Optional
- */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
- *
- *  @return nil
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Creates a new system capability manager with a specified connection manager
- *
- *  @param manager A connection manager to use to forward on RPCs
- *
- *  @return An instance of SDLSystemCapabilityManager
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">manager</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Stops the manager. This method is used internally.
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span>
-
-<span class="cm">/**
- *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
- *
- *  @param type The type of capability to retrieve
- *  @param handler The handler to be called when the retrieval is complete
- */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateCapabilityType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLUpdateCapabilityHandler">SDLUpdateCapabilityHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
-
-
-<span class="k">@end</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapabilityManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
 
   
   <h4>Swift</h4>

@@ -63,9 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
             [self.delegate dataSessionShouldRetry];
         }
 
-        self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
-        [self.ioStreamThread setName:IOStreamThreadName];
-        [self.ioStreamThread start];
+        if (self.eaSession != nil) {
+            self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
+            [self.ioStreamThread setName:IOStreamThreadName];
+            [self.ioStreamThread start];
+        }
     }
 }
 

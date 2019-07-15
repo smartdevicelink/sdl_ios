@@ -67,6 +67,7 @@
   <li><a href="#section-SDLLogFilterBlock">SDLLogFilterBlock</a></li>
   <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
   <li><a href="#section-SDLManagerReadyBlock">SDLManagerReadyBlock</a></li>
+  <li><a href="#section-SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></li>
   <li><a href="#section-SDLMassageCushion">SDLMassageCushion</a></li>
   <li><a href="#section-SDLMassageMode">SDLMassageMode</a></li>
   <li><a href="#section-SDLMassageZone">SDLMassageZone</a></li>
@@ -115,6 +116,7 @@
   <li><a href="#section-SDLSupportedSeat">SDLSupportedSeat</a></li>
   <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
   <li><a href="#section-SDLUpdateCapabilityHandler">SDLUpdateCapabilityHandler</a></li>
+  <li><a href="#section-SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></li>
   <li><a href="#section-SDLSystemCapabilityType">SDLSystemCapabilityType</a></li>
   <li><a href="#section-SDLSystemContext">SDLSystemContext</a></li>
   <li><a href="#section-SDLTBTState">SDLTBTState</a></li>
@@ -1504,6 +1506,24 @@
   
   
   
+  <h3 id="section-SDLRPCUpdatedBlock">
+      SDLRPCUpdatedBlock
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRPCUpdatedBlock</span><span class="p">)</span> <span class="p">(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">message</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLRPCUpdatedBlock</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLMassageCushion">
       SDLMassageCushion
   </h3>
@@ -2484,6 +2504,29 @@ c = character <br></p>
       <dd><p>The error returned if the request for a capability type failed. The error is nil if the request was successful.</p></dd>
       <dt>systemCapabilityManager</dt>
       <dd><p>The system capability manager</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLCapabilityUpdateHandler">
+      SDLCapabilityUpdateHandler
+  </h3>
+  
+  <p>An observer block for whenever a subscription is called.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLCapabilityUpdateHandler</span><span class="p">)(</span><span class="n"><a href="Classes/SDLSystemCapability.html">SDLSystemCapability</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLCapabilityUpdateHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLSystemCapability.html">SDLSystemCapability</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>capability</dt>
+      <dd><p>The capability that was updated.</p></dd>
   </dl>
   
   <h3 id="section-SDLSystemCapabilityType">

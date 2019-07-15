@@ -12,6 +12,7 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
+#import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
@@ -57,7 +58,6 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
@@ -71,6 +71,8 @@ SDLLifecycleState *const SDLLifecycleStateSettingUpAppIcon = @"SettingUpAppIcon"
 SDLLifecycleState *const SDLLifecycleStateSettingUpHMI = @"SettingUpHMI";
 SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
 SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+
+NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask";
 
 #pragma mark - SDLManager Private Interface
 
@@ -88,6 +90,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
+@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
 @end
 
@@ -149,6 +152,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
 
+    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName: BackgroundTaskTransportName];
+
     return self;
 }
 
@@ -208,9 +213,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateStarted {
-// Start up the internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    // Start a background task so a session can be established even when the app is backgrounded.
+    [self.backgroundTaskManager startBackgroundTask];
+
+    // Start up the internal proxy object
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
         // secondary transport manager is not used
         self.secondaryTransportManager = nil;
@@ -225,7 +233,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
                           secondaryTransportManager:self.secondaryTransportManager];
     }
-#pragma clang diagnostic pop
+    #pragma clang diagnostic pop
 }
 
 - (void)didEnterStateStopped {
@@ -273,6 +281,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
         if (shouldRestart) {
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
+        } else {
+            // End any background tasks because a session will not be established
+            [self.backgroundTaskManager endBackgroundTask];
         }
     });
 }
@@ -690,6 +701,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)transportDidConnect {
     SDLLogD(@"Transport connected");
+
+    // End any background tasks since the transport connected successfully
+    [self.backgroundTaskManager endBackgroundTask];
 
     dispatch_async(self.lifecycleQueue, ^{
         [self sdl_transitionToState:SDLLifecycleStateConnected];

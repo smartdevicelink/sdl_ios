@@ -2,7 +2,6 @@
 
 #import "SDLProxy.h"
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -51,7 +50,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"6.2.3";
+NSString *const SDLProxyVersion = @"6.3.0";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
@@ -95,7 +94,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.transport connect];
 
         SDLLogV(@"Proxy transport initialization");
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
         
         NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
@@ -134,8 +132,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-    
+
     [_urlSession invalidateAndCancel];
     SDLLogV(@"Proxy dealloc");
 }

@@ -184,9 +184,11 @@ UInt16 const ChoiceCellIdMin = 1;
 #pragma mark Upload / Delete
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
-        NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
-        handler(error);
+    if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+        if (handler != nil) {
+            NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
+            handler(error);
+        }
         return;
     }
 

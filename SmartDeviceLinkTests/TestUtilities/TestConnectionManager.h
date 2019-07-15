@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
 
-@property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler lastMultipleCompletionBlock;
+@property (copy, nonatomic, nullable) NSMutableArray<SDLMultipleRequestCompletionHandler> *multipleCompletionBlocks;
 
 /**
  *  Call the last request's block with a specific response.
