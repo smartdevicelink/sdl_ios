@@ -19,6 +19,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameAlert;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAlertManeuver;
 extern SDLRPCFunctionName const SDLRPCFunctionNameButtonPress;
 extern SDLRPCFunctionName const SDLRPCFunctionNameChangeRegistration;
+extern SDLRPCFunctionName const SDLRPCFunctionNameCloseApplication;
 extern SDLRPCFunctionName const SDLRPCFunctionNameCreateInteractionChoiceSet;
 extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteCommand;
 extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteFile;

@@ -18,7 +18,7 @@ QuickSpecBegin(SDLClimateControlCapabilitiesSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        
+
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] init];
         testStruct.moduleName = @"Name";
         testStruct.fanSpeedAvailable = @YES;
@@ -36,6 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.heatedWindshieldAvailable = @(NO);
         testStruct.heatedRearWindowAvailable = @(YES);
         testStruct.heatedMirrorsAvailable = @(NO);
+        testStruct.climateEnableAvailable = @(NO);
         
         expect(testStruct.moduleName).to(equal(@"Name"));
         expect(testStruct.fanSpeedAvailable).to(equal(@YES));
@@ -53,6 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
         expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
         expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+        expect(testStruct.climateEnableAvailable).to(equal(@NO));
 
     });
     
@@ -72,7 +74,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameHeatedSteeringWheelAvailable:@YES,
                                                            SDLRPCParameterNameHeatedWindshieldAvailable:@NO,
                                                            SDLRPCParameterNameHeatedRearWindowAvailable:@YES,
-                                                       SDLRPCParameterNameHeatedMirrorsAvailable:@NO
+                                                       SDLRPCParameterNameHeatedMirrorsAvailable:@NO,
+                                                       SDLRPCParameterNameClimateEnableAvailable:@NO,
                                                        } mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -95,6 +98,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
         expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
         expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+        expect(testStruct.climateEnableAvailable).to(equal(@NO));
     });
 
     it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
@@ -116,10 +120,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
         expect(testStruct.heatedRearWindowAvailable).to(equal(@NO));
         expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+        expect(testStruct.climateEnableAvailable).to(equal(@NO));
         #pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES heatedSteeringWheelAvailable:YES heatedWindshieldAvailable:NO heatedRearWindowAvailable:YES heatedMirrorsAvailable:NO];
 
         expect(testStruct.moduleName).to(equal(@"Name"));
@@ -136,8 +143,29 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
         expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
         expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+#pragma clang diagnostic pop
     });
     
+    it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
+        SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES heatedSteeringWheelAvailable:YES heatedWindshieldAvailable:NO heatedRearWindowAvailable:YES heatedMirrorsAvailable:NO climateEnableAvailable:NO];
+
+        expect(testStruct.moduleName).to(equal(@"Name"));
+        expect(testStruct.fanSpeedAvailable).to(equal(@YES));
+        expect(testStruct.desiredTemperatureAvailable).to(equal(@NO));
+        expect(testStruct.acEnableAvailable).to(equal(@NO));
+        expect(testStruct.acMaxEnableAvailable).to(equal(@YES));
+        expect(testStruct.circulateAirEnableAvailable).to(equal(@NO));
+        expect(testStruct.autoModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.dualModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.defrostZoneAvailable).to(equal(@YES));
+        expect(testStruct.ventilationModeAvailable).to(equal(@YES));
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@YES));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@YES));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));
+        expect(testStruct.climateEnableAvailable).to(equal(@NO));
+    });
+
     it(@"Should return nil if not set", ^ {
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] init];
         
@@ -157,7 +185,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldAvailable).to(beNil());
         expect(testStruct.heatedRearWindowAvailable).to(beNil());
         expect(testStruct.heatedMirrorsAvailable).to(beNil());
-
+        expect(testStruct.climateEnableAvailable).to(beNil());
     });
 });
 
