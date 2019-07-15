@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLUnregisterAppServiceResponse
+@implementation SDLUnpublishAppServiceResponse
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

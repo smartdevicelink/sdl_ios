@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The response to UnpublishAppService
  */
-@interface SDLUnregisterAppServiceResponse : SDLRPCResponse
+@interface SDLUnpublishAppServiceResponse : SDLRPCResponse
 
 @end
 

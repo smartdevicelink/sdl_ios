@@ -303,6 +303,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveUpdateTurnListResponse response:response];
 }
 
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveUnpublishAppServiceResponse response:response];
+}
+
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:response];
 }
