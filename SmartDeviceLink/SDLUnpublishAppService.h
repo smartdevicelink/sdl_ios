@@ -11,9 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * UnpublishAppServiceResponse being called indicates that SDL has responded to a request to close the application on the module.
+ * UnpublishAppService being called indicates that SDL has responded to a request to close the application on the module
  */
 @interface SDLUnpublishAppService : SDLRPCRequest
+
+/**
+ * Create an instance of UnpublishAppService with the serviceID that corresponds with the service to be unpublished
+ */
+- (instancetype)initWithServiceID:(NSString*)serviceID;
 
 /**
  * The ID of the service to be unpublished.

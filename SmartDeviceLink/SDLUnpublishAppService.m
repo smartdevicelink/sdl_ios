@@ -24,6 +24,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithServiceID:(NSString *)serviceID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.serviceID = serviceID;
+    
+    return self;
+}
 
 - (void)setServiceID:(NSString *)serviceID {
     [self.parameters sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
