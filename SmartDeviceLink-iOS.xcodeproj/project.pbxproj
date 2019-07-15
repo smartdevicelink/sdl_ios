@@ -1438,6 +1438,8 @@
 		8B9376DB1F33656C009605C4 /* SDLMetadataTagsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */; };
 		8BA12B1122DCCE1F00371E82 /* SDLUnpublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */; };
 		8BA12B1222DCCE1F00371E82 /* SDLUnpublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */; };
+		8BA12B1522DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA12B1322DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h */; };
+		8BA12B1622DCEACB00371E82 /* SDLUnpublishAppServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA12B1422DCEACB00371E82 /* SDLUnpublishAppServiceResponse.m */; };
 		8BBEA6061F324165003EEA26 /* SDLMetadataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLMetadataType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8BBEA6071F324165003EEA26 /* SDLMetadataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6051F324165003EEA26 /* SDLMetadataType.m */; };
 		8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */; };
@@ -3097,6 +3099,8 @@
 		8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTagsSpec.m; sourceTree = "<group>"; };
 		8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLUnpublishAppService.h; sourceTree = "<group>"; };
 		8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppService.m; sourceTree = "<group>"; };
+		8BA12B1322DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLUnpublishAppServiceResponse.h; sourceTree = "<group>"; };
+		8BA12B1422DCEACB00371E82 /* SDLUnpublishAppServiceResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppServiceResponse.m; sourceTree = "<group>"; };
 		8BBEA6041F324165003EEA26 /* SDLMetadataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataType.h; sourceTree = "<group>"; };
 		8BBEA6051F324165003EEA26 /* SDLMetadataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataType.m; sourceTree = "<group>"; };
 		8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTypeSpec.m; sourceTree = "<group>"; };
@@ -4380,6 +4384,8 @@
 				DA9F7E8E1DCC04C000ACAE48 /* SDLUnsubscribeWayPointsResponse.m */,
 				5D61FC061A84238C00846EE7 /* SDLUpdateTurnListResponse.h */,
 				5D61FC071A84238C00846EE7 /* SDLUpdateTurnListResponse.m */,
+				8BA12B1322DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h */,
+				8BA12B1422DCEACB00371E82 /* SDLUnpublishAppServiceResponse.m */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -6618,6 +6624,7 @@
 				1E5AD0881F20B9AA0029B8AF /* SDLGetInteriorVehicleData.h in Headers */,
 				1E5AD04C1F1F79640029B8AF /* SDLDefrostZone.h in Headers */,
 				1E5AD0601F207AB10029B8AF /* SDLRadioState.h in Headers */,
+				8BA12B1522DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h in Headers */,
 				1E5AD0801F20B73E0029B8AF /* SDLButtonPress.h in Headers */,
 				884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */,
 				8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */,
@@ -7471,6 +7478,7 @@
 				5D61FCB41A84238C00846EE7 /* SDLGetDTCsResponse.m in Sources */,
 				5D61FDFC1A84238C00846EE7 /* SDLV2ProtocolMessage.m in Sources */,
 				1EAA4726203416D3000FE74B /* SDLEqualizerSettings.m in Sources */,
+				8BA12B1622DCEACB00371E82 /* SDLUnpublishAppServiceResponse.m in Sources */,
 				5D61FD361A84238C00846EE7 /* SDLPowerModeStatus.m in Sources */,
 				5D61FD621A84238C00846EE7 /* SDLRequestType.m in Sources */,
 				1EAA473E203554B5000FE74B /* SDLLightState.m in Sources */,
