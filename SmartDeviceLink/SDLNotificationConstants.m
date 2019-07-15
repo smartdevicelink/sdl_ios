@@ -69,6 +69,7 @@ SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse = @"com.sd
 SDLNotificationName const SDLDidReceiveSetMediaClockTimerResponse = @"com.sdl.response.setMediaClockTimer";
 SDLNotificationName const SDLDidReceiveShowConstantTBTResponse = @"com.sdl.response.showConstantTBT";
 SDLNotificationName const SDLDidReceiveShowResponse = @"com.sdl.response.show";
+SDLNotificationName const SDLDidReceiveShowAppMenuResponse = @"com.sdl.response.showAppMenu";
 SDLNotificationName const SDLDidReceiveSliderResponse = @"com.sdl.response.slider";
 SDLNotificationName const SDLDidReceiveSpeakResponse = @"com.sdl.response.speak";
 SDLNotificationName const SDLDidReceiveSubscribeButtonResponse = @"com.sdl.response.subscribeButton";
@@ -125,6 +126,7 @@ SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest = @"com.sdl.re
 SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest = @"com.sdl.request.setInteriorVehicleData";
 SDLNotificationName const SDLDidReceiveSetMediaClockTimerRequest = @"com.sdl.request.setMediaClockTimer";
 SDLNotificationName const SDLDidReceiveShowRequest = @"com.sdl.request.show";
+SDLNotificationName const SDLDidReceiveShowAppMenuRequest = @"com.sdl.request.showAppMenu";
 SDLNotificationName const SDLDidReceiveShowConstantTBTRequest = @"com.sdl.request.showConstantTBT";
 SDLNotificationName const SDLDidReceiveSliderRequest = @"com.sdl.request.slider";
 SDLNotificationName const SDLDidReceiveSpeakRequest = @"com.sdl.request.speak";
@@ -212,6 +214,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSetMediaClockTimerResponse,
              SDLDidReceiveShowConstantTBTResponse,
              SDLDidReceiveShowResponse,
+             SDLDidReceiveShowAppMenuResponse,
              SDLDidReceiveSliderResponse,
              SDLDidReceiveSpeakResponse,
              SDLDidReceiveSubscribeButtonResponse,
