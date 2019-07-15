@@ -23,6 +23,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithAlertText:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(nullable NSNumber *)duration progressIndicator:(BOOL)progressIndicator cancelID:(nullable NSNumber *)cancelID {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.alertText1 = alertText1;
+    self.alertText2 = alertText2;
+    self.alertText3 = alertText3;
+    self.ttsChunks = [ttsChunks copy];
+    self.duration = duration;
+    self.playTone = @(playTone);
+    self.progressIndicator = @(progressIndicator);
+    self.softButtons = [softButtons copy];
+    self.cancelID = cancelID;
+
+    return self;
+}
+
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator cancelID:(UInt32)cancelID {
+    return [self initWithAlertText:alertText1 alertText2:alertText2 alertText3:alertText3 softButtons:softButtons playTone:playTone ttsChunks:ttsChunks duration:@(duration) progressIndicator:progressIndicator cancelID:@(cancelID)];
+}
+
+- (instancetype)initWithTTS:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone cancelID:(UInt32)cancelID {
+    return [self initWithAlertText1:nil alertText2:nil alertText3:nil softButtons:nil playTone:playTone ttsChunks:ttsChunks duration:SDLDefaultDuration progressIndicator:false cancelID:cancelID];
+}
+
+- (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks cancelID:(UInt32)cancelID {
+    return [self initWithAlertText1:alertText alertText2:nil alertText3:nil softButtons:softButtons playTone:playTone ttsChunks:ttsChunks duration:SDLDefaultDuration progressIndicator:false cancelID:cancelID];
+}
+
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:SDLDefaultDuration];
 }
@@ -61,21 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.ttsChunks = [ttsChunks mutableCopy];
-    self.alertText1 = alertText1;
-    self.alertText2 = alertText2;
-    self.alertText3 = alertText3;
-    self.playTone = @(playTone);
-    self.duration = @(duration);
-    self.softButtons = [softButtons mutableCopy];
-
-    return self;
+    return [self initWithAlertText:alertText1 alertText2:alertText2 alertText3:alertText3 softButtons:softButtons playTone:playTone ttsChunks:ttsChunks duration:@(duration) progressIndicator:false cancelID:nil];
 }
+
+
+#pragma mark - Getters and Setters
 
 - (void)setAlertText1:(nullable NSString *)alertText1 {
     [self.parameters sdl_setObject:alertText1 forName:SDLRPCParameterNameAlertText1];
