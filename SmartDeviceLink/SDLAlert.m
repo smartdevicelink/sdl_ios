@@ -24,18 +24,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithAlertText:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(nullable NSNumber *)duration progressIndicator:(BOOL)progressIndicator cancelID:(nullable NSNumber *)cancelID {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }
     self.alertText1 = alertText1;
     self.alertText2 = alertText2;
     self.alertText3 = alertText3;
-    self.ttsChunks = [ttsChunks copy];
+    self.ttsChunks = [ttsChunks mutableCopy];
     self.duration = duration;
     self.playTone = @(playTone);
     self.progressIndicator = @(progressIndicator);
-    self.softButtons = [softButtons copy];
+    self.softButtons = [softButtons mutableCopy];
     self.cancelID = cancelID;
 
     return self;
@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTTS:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone cancelID:(UInt32)cancelID {
-    return [self initWithAlertText1:nil alertText2:nil alertText3:nil softButtons:nil playTone:playTone ttsChunks:ttsChunks duration:SDLDefaultDuration progressIndicator:false cancelID:cancelID];
+    return [self initWithAlertText:nil alertText2:nil alertText3:nil softButtons:nil playTone:playTone ttsChunks:ttsChunks duration:nil progressIndicator:false cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks cancelID:(UInt32)cancelID {
-    return [self initWithAlertText1:alertText alertText2:nil alertText3:nil softButtons:softButtons playTone:playTone ttsChunks:ttsChunks duration:SDLDefaultDuration progressIndicator:false cancelID:cancelID];
+    return [self initWithAlertText:alertText alertText2:nil alertText3:nil softButtons:softButtons playTone:playTone ttsChunks:ttsChunks duration:nil progressIndicator:false cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 {
