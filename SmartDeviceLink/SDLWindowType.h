@@ -6,19 +6,26 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLRPCMessage.h"
+#import "SDLEnum.h"
 
-
-NS_ASSUME_NONNULL_BEGIN
 
 /**
  *
  *
  */
-@interface SDLWindowType : SDLRPCStruct
+typedef SDLEnum SDLWindowType SDL_SWIFT_ENUM;
 
 
-@end
+/**
+ *
+ *
+ */
+extern SDLWindowType const SDLWindowTypeMain;
 
-NS_ASSUME_NONNULL_END
+/**
+ *
+ *
+ */
+extern SDLWindowType const SDLWindowTypeWidget;
+
 

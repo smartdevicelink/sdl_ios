@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *
  */
-@property (strong, nonatomic) SDLWindowType *type;
+@property (strong, nonatomic) SDLWindowType type;
 
 /**
  *

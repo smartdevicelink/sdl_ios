@@ -7,14 +7,7 @@
 //
 
 #import "SDLWindowType.h"
-#import "SDLRPCFunctionNames.h"
-
-NS_ASSUME_NONNULL_BEGIN
-
-@implementation SDLWindowType
 
 
-
-@end
-
-NS_ASSUME_NONNULL_END
+SDLWindowType const SDLWindowTypeMain = @"MAIN";
+SDLWindowType const SDLWindowTypeWidget = @"WIDGET";

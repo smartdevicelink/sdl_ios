@@ -77,13 +77,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (void)setType:(SDLWindowType *)type {
+- (void)setType:(SDLWindowType)type {
     [self.parameters sdl_setObject:type forName:SDLRPCParameterNameWindowType];
 }
 
-- (SDLWindowType *)type {
+- (SDLWindowType)type {
     NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowType ofClass:SDLWindowType.class error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameWindowType error:&error];    
 }
 
 - (void)setAssociatedServiceType:(nullable NSString *)associatedServiceType {
