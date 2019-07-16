@@ -21,6 +21,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout cancelID:(UInt32)cancelID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.numTicks = @(numTicks);
+    self.position = @(position);
+    self.sliderHeader = sliderHeader;
+    self.sliderFooter = sliderFooters;
+    self.timeout = @(timeout);
+    self.cancelID = @(cancelID);
+
+    return self;
+}
+
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout {
     NSArray<NSString *> *footer = nil;
     if (sliderFooter != nil) {
@@ -96,6 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLInt> *)timeout {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
+}
+
+- (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    [self.parameters sdl_setObject:cancelID forName:SDLRPCParameterNameCancelID];
+}
+
+- (nullable NSNumber<SDLInt> *)cancelID {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCancelID ofClass:NSNumber.class error:nil];
 }
 
 @end
