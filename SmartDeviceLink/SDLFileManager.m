@@ -379,7 +379,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 
     // Check our overwrite settings and error out if it would overwrite
-    if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
+    if (!file.overwrite && [self.remoteFileNames containsObject:file.name]) {
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }

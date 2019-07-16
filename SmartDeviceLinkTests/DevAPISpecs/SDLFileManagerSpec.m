@@ -91,7 +91,6 @@ describe(@"uploading / deleting single files with the file manager", ^{
         testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
         testFileManager.suspended = YES;
-        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
         testFileManager.bytesAvailable = initialSpaceAvailable;
     });
 
@@ -102,21 +101,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
     describe(@"before starting", ^{
         it(@"should be in the shutdown state", ^{
             expect(testFileManager.currentState).to(match(SDLFileManagerStateShutdown));
-        });
-
-        it(@"bytesAvailable should be 0", ^{
-            expect(@(testFileManager.bytesAvailable)).to(equal(@0));
-        });
-
-        it(@"remoteFileNames should be empty", ^{
+            expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
             expect(testFileManager.remoteFileNames).to(beEmpty());
-        });
-
-        it(@"should have no pending operations", ^{
             expect(testFileManager.pendingTransactions).to(beEmpty());
-        });
-
-        it(@"should set the maximum number of upload attempts to 1", ^{
             expect(testFileManager.maxFileUploadAttempts).to(equal(1));
             expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
         });
@@ -139,16 +126,12 @@ describe(@"uploading / deleting single files with the file manager", ^{
         });
 
         it(@"should have queued a ListFiles request", ^{
+            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
             expect(testFileManager.pendingTransactions).to(haveCount(@1));
             expect(testFileManager.pendingTransactions.firstObject).to(beAnInstanceOf([SDLListFilesOperation class]));
         });
 
-        it(@"should be in the fetching initial list state", ^{
-            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
-        });
-
         describe(@"after going to the shutdown state and receiving a ListFiles response", ^{
-
             beforeEach(^{
                 [testFileManager stop];
                 SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
@@ -156,8 +139,8 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
 
             it(@"should remain in the stopped state after receiving the response if disconnected", ^{
-                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateShutdown));
-                expect(@(completionHandlerCalled)).toEventually(equal(@YES));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateShutdown));
+                expect(completionHandlerCalled).to(beTrue());
             });
         });
 
@@ -168,9 +151,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
 
             it(@"should handle the error properly", ^{
-                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateStartupError));
-                expect(testFileManager.remoteFileNames).toEventually(beEmpty());
-                expect(@(testFileManager.bytesAvailable)).toEventually(equal(initialSpaceAvailable));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
             });
         });
 
@@ -181,9 +164,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
 
             it(@"the file manager should be in the correct state", ^{
-                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
-                expect(testFileManager.remoteFileNames).toEventually(equal(testInitialFileNames));
-                expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(equal([NSSet setWithArray:testInitialFileNames]));
+                expect(@(testFileManager.bytesAvailable)).to(equal(@(initialSpaceAvailable)));
             });
         });
     });
@@ -194,10 +177,10 @@ describe(@"uploading / deleting single files with the file manager", ^{
         __block NSError *completionError = nil;
 
         beforeEach(^{
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
             [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
         });
 
-        // TODO: Here, removing all running of operations
         context(@"when the file is unknown", ^{
             beforeEach(^{
                 NSString *someUnknownFileName = @"Some Unknown File Name";
@@ -207,15 +190,14 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     completionError = error;
                 }];
 
-                SDLDeleteFileOperation *operation = testFileManager.pendingTransactions.firstObject;
-                operation.completionHandler(NO, initialSpaceAvailable, [NSError sdl_fileManager_noKnownFileError]);
+                expect(testFileManager.pendingTransactions).to(beEmpty());
             });
 
             it(@"should return the correct data", ^{
-                expect(@(completionSuccess)).toEventually(equal(@NO));
-                expect(@(completionBytesAvailable)).toEventually(equal(@250));
-                expect(completionError).toEventually(equal([NSError sdl_fileManager_noKnownFileError]));
-                expect(testFileManager.remoteFileNames).toEventually(haveCount(@(testInitialFileNames.count)));
+                expect(completionSuccess).to(beFalse());
+                expect(completionBytesAvailable).to(equal(initialSpaceAvailable));
+                expect(completionError).to(equal([NSError sdl_fileManager_noKnownFileError]));
+                expect(testFileManager.remoteFileNames).to(haveCount(testInitialFileNames.count));
             });
         });
 
@@ -258,6 +240,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
         __block NSData *testFileData = nil;
 
         beforeEach(^{
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
             [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
         });
 
@@ -269,35 +252,35 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
 
             context(@"when the file's overwrite property is YES", ^{
+                beforeEach(^{
+                    testUploadFile.overwrite = YES;
+
+                    [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                        completionSuccess = success;
+                        completionBytesAvailable = bytesAvailable;
+                        completionError = error;
+                    }];
+                });
+
                 context(@"when the connection returns a success", ^{
                     beforeEach(^{
-                        testUploadFile.overwrite = YES;
-
-                        [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                            completionSuccess = success;
-                            completionBytesAvailable = bytesAvailable;
-                            completionError = error;
-                        }];
+                        SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                        sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                     });
-                });
 
-                beforeEach(^{
-                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
-                    sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
-                });
+                    it(@"should set the file manager state to be waiting and set correct data", ^{
+                        expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                        expect(testFileManager.uploadedEphemeralFileNames).toNot(beEmpty());
 
-                it(@"should set the file manager state to be waiting and set correct data", ^{
-                    expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
-                    expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
+                        expect(completionBytesAvailable).to(equal(newBytesAvailable));
+                        expect(completionSuccess).to(equal(YES));
+                        expect(completionError).to(beNil());
 
-                    expect(completionBytesAvailable).to(equal(newBytesAvailable));
-                    expect(completionSuccess).to(equal(YES));
-                    expect(completionError).to(beNil());
-
-                    expect(@(testFileManager.bytesAvailable)).to(equal(newBytesAvailable));
-                    expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
-                    expect(testFileManager.remoteFileNames).to(contain(testFileName));
-                    expect(testFileManager.uploadedEphemeralFileNames).to(contain(testFileName));
+                        expect(@(testFileManager.bytesAvailable)).to(equal(newBytesAvailable));
+                        expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                        expect(testFileManager.remoteFileNames).to(contain(testFileName));
+                        expect(testFileManager.uploadedEphemeralFileNames).to(contain(testFileName));
+                    });
                 });
 
                 context(@"when the connection returns failure", ^{
@@ -307,9 +290,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     });
 
                     it(@"should set the file manager data correctly", ^{
-                        expect(testFileManager.bytesAvailable).toEventually(equal(initialSpaceAvailable));
-                        expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
-                        expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                        expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
+                        expect(testFileManager.remoteFileNames).to(contain(testFileName));
+                        expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
 
                         expect(completionBytesAvailable).to(equal(failureSpaceAvailabe));
@@ -419,21 +402,18 @@ describe(@"uploading / deleting single files with the file manager", ^{
         __block NSString *expectedArtworkName = nil;
 
         beforeEach(^{
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), YES, 0);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            [[UIColor blackColor] setFill];
-            CGContextFillRect(context, CGRectMake(0, 0, 5, 5));
-            UIImage *blackSquareImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            testUIImage = blackSquareImage;
+            testUIImage = [FileManagerSpecHelper imagesForCount:1].firstObject;
 
+            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
             [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
         });
 
         it(@"should not upload the artwork again and simply return the artwork name when sending artwork that has already been uploaded", ^{
             expectedArtworkName = testInitialFileNames.firstObject;
 
-            [testFileManager uploadArtwork:[SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            SDLArtwork *art = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+            [testFileManager uploadArtwork:art completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
                 expect(success).to(beFalse());
                 expect(bytesAvailable).to(equal(initialSpaceAvailable));
                 expect(error).toNot(beNil());
@@ -472,7 +452,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
     });
 });
 
-describe(@"uploading/deleting multiple files in the file manager", ^{
+fdescribe(@"uploading/deleting multiple files in the file manager", ^{
     __block TestMultipleFilesConnectionManager *testConnectionManager;
     __block SDLFileManager *testFileManager;
     __block NSUInteger initialSpaceAvailable = 123;
@@ -495,6 +475,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
         __block NSMutableArray<SDLFile *> *testSDLFiles;
 
         beforeEach(^{
+            testSDLFiles = [NSMutableArray array];
             [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
         });
 
@@ -612,26 +593,9 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
         });
 
         context(@"and file uploads fail", ^{
-            __block NSMutableDictionary *testConnectionManagerResponses;
-            __block NSMutableDictionary *expectedFailedUploads;
-            __block NSError *expectedError;
-            __block int testFailureIndexStart;
-            __block int testFailureIndexEnd;
-
-            beforeEach(^{
-                testConnectionManagerResponses = [[NSMutableDictionary alloc] init];
-                expectedFailedUploads = [[NSMutableDictionary alloc] init];
-                expectedError = nil;
-            });
-
             context(@"file upload failure", ^{
-                beforeEach(^{
-                    testFailureIndexStart = -1;
-                    testFailureIndexEnd = INT8_MAX;
-                });
-
                 it(@"should return an error when all files fail", ^{
-                    for(int i = 0; i < 5; i += 1) {
+                    for(int i = 0; i < 5; i++) {
                         NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                         SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
                         testSDLFile.overwrite = true;
@@ -643,9 +607,9 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     }];
 
                     expect(testFileManager.pendingTransactions.count).to(equal(5));
-                    for (int i = 0; i < 5; i += 1) {
+                    for (int i = 0; i < 5; i++) {
                         SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
-                        sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, nil);
+                        sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
                     }
 
                     expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
@@ -665,7 +629,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
 
                     expect(testFileManager.pendingTransactions.count).to(equal(5));
                     SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
-                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, nil);
+                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
 
                     for (int i = 1; i < 5; i += 1) {
                         SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
@@ -694,7 +658,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     }
 
                     SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.lastObject;
-                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, nil);
+                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
 
                     expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
                 });
@@ -722,7 +686,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     expect(testFileManager.pendingTransactions.count).to(equal(5));
                     for (int i = 0; i < images.count; i += 1) {
                         SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
-                        sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, nil);
+                        sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
                     }
 
                     expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
@@ -746,7 +710,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                         sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                     }
                     SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.lastObject;
-                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, nil);
+                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
 
                     expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
                 });
@@ -1188,21 +1152,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
 
     context(@"The file manager should handle exceptions correctly", ^{
         beforeEach(^{
-            SDLListFilesResponse *testListFilesResponse = [[SDLListFilesResponse alloc] init];
-            testListFilesResponse.success = @YES;
-            testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
-            testListFilesResponse.filenames = [[NSArray alloc] initWithObjects:@"AA", nil];
-
-            waitUntilTimeout(10, ^(void (^done)(void)){
-                [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
-                    done();
-                }];
-                
-                // Need to wait state machine transitions to complete before sending testListFilesResponse
-                [NSThread sleepForTimeInterval:0.3];
-                
-                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
-            });
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithObjects:@"AA", nil];
         });
         
         it(@"should throw an exception when the upload function is passed an empty array", ^{
@@ -1310,6 +1260,7 @@ describe(@"SDLFileManager reupload failed files", ^{
             testConnectionManager = [[TestConnectionManager alloc] init];
             testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
             testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+            testFileManager.suspended = YES;
             testFailedFileUploadsCount = [NSMutableDictionary dictionary];
             testFile = [[SDLFile alloc] initWithData:[@"someData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin" persistent:false];
         });
