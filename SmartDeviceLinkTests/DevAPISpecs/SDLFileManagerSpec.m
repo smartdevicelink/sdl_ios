@@ -1032,51 +1032,26 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
         });
 
         context(@"When an upload is canceled it should only cancel files that were passed with the same file array", ^{
-            // When canceled is called in this test group, the rest of the files should be canceled
-            __block NSMutableDictionary *testResponses;
-            __block NSMutableDictionary *testProgressResponses;
-            __block NSString *testFileNameBase;
-            __block int testFileCount = 0;
-            __block int testCancelIndex = 0;
-            __block NSError *expectedError;
-
-            // Another group of uploads. These uploads should not be canceled when the other files are canceled
+            // Another group of uploads. These uploads should not be canceled when the other files are canceled.
             __block NSMutableArray<SDLFile *> *testOtherSDLFiles;
-            __block NSString *testOtherFileNameBase;
-            __block int testOtherFileCount = 0;
-            __block NSError *expectedOtherError;
 
             beforeEach(^{
-                testResponses = [[NSMutableDictionary alloc] init];
-                testProgressResponses = [[NSMutableDictionary alloc] init];
-
                 testOtherSDLFiles = [[NSMutableArray alloc] init];
             });
 
             it(@"should only cancel the remaining files that were passed with the same file. Other files in the queue that were not passed in the same array should not be canceled", ^{
-                testFileCount = 11;
-                testCancelIndex = 0;
-                testFileNameBase = @"TestUploadFilesCancelGroupOnly";
-                expectedError = [NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:testResponses];
-
-                testOtherFileNameBase = @"TestOtherUploadFilesCancelGroupOnly";
-                testOtherFileCount = 22;
-                expectedOtherError = nil;
-
                 // Files to be cancelled
                 for(int i = 0; i < 5; i += 1) {
                     NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
-                    testSDLFile.overwrite = true;
                     [testSDLFiles addObject:testSDLFile];
                 }
 
                 // Files not to be cancelled
                 for(int i = 0; i < 5; i += 1) {
-                    NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
+                    NSString *testFileName = [NSString stringWithFormat:@"TestOtherFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
-                    testSDLFile.overwrite = true;
-                    [testSDLFiles addObject:testSDLFile];
+                    [testOtherSDLFiles addObject:testSDLFile];
                 }
 
                 __block NSUInteger numberOfFilesDone = 0;
@@ -1090,7 +1065,11 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     expect(error).toNot(beNil());
                 }];
 
-                expect(testFileManager.pendingTransactions.count).to(equal(5));
+                [testFileManager uploadFiles:testOtherSDLFiles completionHandler:^(NSError * _Nullable error) {
+                    expect(error).to(beNil());
+                }];
+
+                expect(testFileManager.pendingTransactions.count).to(equal(10));
                 SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
                 sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
 
@@ -1099,227 +1078,111 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     expect(sentOperation.cancelled).to(beTrue());
                     sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
                 }
+
+                for (int i = 5; i < 10; i++) {
+                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
+                    expect(sentOperation.cancelled).to(beTrue());
+                    sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
+                }
                 expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
-            });
-
-            it(@"should not fail if no files are canceled", ^{
-                testFileCount = 1;
-                testCancelIndex = 0;
-                testFileNameBase = @"TestUploadFilesCancelGroupOnlyOneFile";
-                expectedError = nil;
-
-                testOtherFileNameBase = @"TestOtherUploadFilesCancelGroupOnlyOneFile";
-                testOtherFileCount = 2;
-                expectedOtherError = nil;
-            });
-
-            afterEach(^{
-                for(int i = 0; i < testFileCount; i += 1) {
-                    NSString *testFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, i];
-                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
-                    testSDLFile.overwrite = true;
-                    [testSDLFiles addObject:testSDLFile];
-
-                    if (i <= testCancelIndex) {
-                        [expectedSuccessfulFileNames addObject:testFileName];
-                    }
-
-                    testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
-                    testProgressResponses[testFileName] = [[TestFileProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
-                }
-
-                for(int i = 0; i < testOtherFileCount; i += 1) {
-                    NSString *testFileName = [NSString stringWithFormat:@"%@%d", testOtherFileNameBase, i];
-                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someOtherTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
-                    testSDLFile.overwrite = true;
-                    [testOtherSDLFiles addObject:testSDLFile];
-
-                    [expectedSuccessfulFileNames addObject:testFileName];
-
-                    testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
-                }
-
-                testConnectionManager.responses = testResponses;
-
-                waitUntilTimeout(1.0, ^(void (^done)(void)){
-                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-                        // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
-                        TestFileProgressResponse *testProgressResponse = testProgressResponses[fileName];
-                        expect(fileName).to(equal(testProgressResponse.testFileName));
-
-                        NSString *cancelFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, testCancelIndex];
-                        if ([fileName isEqual:cancelFileName]) {
-                            return NO;
-                        }
-                        return YES;
-                    } completionHandler:^(NSError * _Nullable error) {
-                        if (expectedError != nil) {
-                            expect(error.code).to(equal(SDLFileManagerMultipleFileUploadTasksFailed));
-                        } else {
-                            expect(error).to(beNil());
-                        }
-                    }];
-
-                    [testFileManager uploadFiles:testOtherSDLFiles completionHandler:^(NSError * _Nullable error) {
-                        expect(error).to(beNil());
-                        // Since the queue is serial, we know that these files will finish after the first uploadFiles() batch.
-                        for(int i = 0; i < expectedSuccessfulFileNames.count; i += 1) {
-                            expect(testFileManager.remoteFileNames).to(contain(expectedSuccessfulFileNames[i]));
-                        }
-                        done();
-                    }];
-                });
             });
         });
     });
 
     context(@"When the file manager is passed multiple files to delete", ^{
-        __block SDLListFilesResponse *testListFilesResponse;
-        __block NSArray<NSString *> *testRemoteFileNames;
-        __block NSMutableArray<NSString *> *expectedRemoteFileNames;
-        __block NSNumber *expectedSpaceLeft;
-        __block NSMutableArray *testDeleteFileNames;
-        __block SDLDeleteFileResponse *failedDeleteResponse;
-        __block SDLDeleteFileResponse *successfulDeleteResponse;
-        __block NSError *expectedError = nil;
-
         beforeEach(^{
-            testRemoteFileNames = [[NSArray alloc] initWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
-            expectedRemoteFileNames = [[NSMutableArray alloc] init];
-
-            testListFilesResponse = [[SDLListFilesResponse alloc] init];
-            testListFilesResponse.success = @YES;
-            testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
-            testListFilesResponse.filenames = testRemoteFileNames;
-
-            // Failed delete response
-            failedDeleteResponse = [[SDLDeleteFileResponse alloc] init];
-            failedDeleteResponse.spaceAvailable = @10;
-            failedDeleteResponse.success = @NO;
-
-            // Successful delete response
-            successfulDeleteResponse = [[SDLDeleteFileResponse alloc] init];
-            successfulDeleteResponse.spaceAvailable = @9;
-            successfulDeleteResponse.success = @YES;
-
-            waitUntilTimeout(10, ^(void (^done)(void)){
-                [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
-                    done();
-                }];
-
-                // Need to wait state machine transitions to complete before sending testListFilesResponse
-                [NSThread sleepForTimeInterval:0.3];
-
-                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
-            });
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
+            testFileManager.bytesAvailable = initialSpaceAvailable;
         });
 
         context(@"and all files are deleted successfully", ^{
-            __block NSMutableDictionary *testResponses;
-            __block int testFileCount = 0;
+            it(@"should not return an error when one remote file is deleted", ^{
+                [testFileManager deleteRemoteFilesWithNames:@[@"AA"] completionHandler:^(NSError * _Nullable error) {
+                    expect(error).to(beNil());
+                }];
 
-            beforeEach(^{
-                testResponses = [[NSMutableDictionary alloc] init];
-                testDeleteFileNames = [[NSMutableArray alloc] init];
+                expect(testFileManager.pendingTransactions.count).to(equal(1));
+                SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions.firstObject;
+                deleteOp.completionHandler(YES, newBytesAvailable, nil);
+
+                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.remoteFileNames).toNot(contain(@"AA"));
             });
 
-            context(@"When the file manager receives a successful notification for each deleted file", ^{
-                it(@"should not return an error when one remote file is deleted", ^{
-                    testFileCount = 1;
-                });
+            it(@"should not return an error when all remote files are deleted", ^{
+                [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
+                    expect(error).to(beNil());
+                }];
 
-                it(@"should not return an error when all remote files are deleted", ^{
-                    testFileCount = (int)testRemoteFileNames.count;
-                });
+                expect(testFileManager.pendingTransactions.count).to(equal(6));
+                for (int i = 0; i < 6; i++) {
+                    SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions[i];
+                    deleteOp.completionHandler(YES, newBytesAvailable, nil);
+                }
 
-                afterEach(^{
-                    NSInteger testSpaceAvailable = initialSpaceAvailable;
-                    for(int i = 0; i < testFileCount; i += 1) {
-                        NSString *testFileName = [testRemoteFileNames objectAtIndex:i];
-                        successfulDeleteResponse.spaceAvailable = @(testSpaceAvailable += 91);
-                        testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulDeleteResponse error:nil];
-                        [testDeleteFileNames addObject:testFileName];
-                    }
-                    expectedSpaceLeft = @(testSpaceAvailable);
-                    [expectedRemoteFileNames removeAllObjects];
-                    testConnectionManager.responses = testResponses;
-                });
+                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.remoteFileNames).to(haveCount(0));
             });
         });
 
         context(@"and all files are not deleted successfully", ^{
-            __block NSMutableDictionary *testConnectionManagerResponses;
-            __block NSMutableDictionary *expectedFailedDeletes;
+            __block int testFailureIndexStart;
+            __block int testFailureIndexEnd;
 
             beforeEach(^{
-                testConnectionManagerResponses = [[NSMutableDictionary alloc] init];
-                testDeleteFileNames = [[NSMutableArray alloc] init];
-                expectedFailedDeletes = [[NSMutableDictionary alloc] init];
+                testFailureIndexStart = -1;
+                testFailureIndexEnd = INT8_MAX;
             });
 
-            context(@"When the file manager receives a unsuccessful notification for a deleted file", ^{
-                __block int testFailureIndexStart;
-                __block int testFailureIndexEnd;
-
-                beforeEach(^{
-                    testFailureIndexStart = -1;
-                    testFailureIndexEnd = INT8_MAX;
-                });
-
-                it(@"should return an error if the first remote file fails to delete", ^{
-                    testFailureIndexStart = 0;
-                });
-
-                it(@"should return an error if the last remote file fails to delete", ^{
-                    testFailureIndexEnd = (int)testRemoteFileNames.count - 1;
-                });
-
-                it(@"should return an error if all files fail to delete", ^{
-                    testFailureIndexStart = (int)testRemoteFileNames.count;
-                });
-
-                afterEach(^{
-                    NSInteger testSpaceAvailable = initialSpaceAvailable;
-                    for(int i = 0; i < testRemoteFileNames.count; i += 1) {
-                        NSString *testFileName = [testRemoteFileNames objectAtIndex:i];
-
-                        SDLDeleteFileResponse *response;
-                        NSError *responseError;
-                        if (i <= testFailureIndexStart || i >= testFailureIndexEnd) {
-                            failedDeleteResponse.spaceAvailable = @(testSpaceAvailable);
-                            response = failedDeleteResponse;
-                            responseError = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:[NSString stringWithFormat:@"file upload failed: %d", i] andReason: [NSString stringWithFormat:@"some error reason: %d", i]];
-                            expectedFailedDeletes[testFileName] = responseError;
-                            [expectedRemoteFileNames addObject:testFileName];
-                        } else {
-                            successfulDeleteResponse.spaceAvailable = @(testSpaceAvailable += 891);
-                            response = successfulDeleteResponse;
-                            responseError = nil;
-                        }
-
-                        testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:response error:responseError];
-                        [testDeleteFileNames addObject:testFileName];
-                    }
-
-                    testConnectionManager.responses = testConnectionManagerResponses;
-                    expectedError = [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:expectedFailedDeletes];
-                    expectedSpaceLeft = @(testSpaceAvailable);
-                });
-            });
-        });
-
-        afterEach(^{
-            waitUntilTimeout(10, ^(void (^done)(void)){
-                [testFileManager deleteRemoteFilesWithNames:testDeleteFileNames completionHandler:^(NSError * _Nullable error) {
-                    expect(error).to(expectedError == nil ? beNil() : equal(expectedError));
-                    expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
-                    done();
+            it(@"should return an error if the first remote file fails to delete", ^{
+                [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
+                    expect(error).toNot(beNil());
                 }];
+
+                expect(testFileManager.pendingTransactions.count).to(equal(6));
+                SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions.firstObject;
+                deleteOp.completionHandler(NO, newBytesAvailable, [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:@{}]);
+
+                for (int i = 1; i < 6; i++) {
+                    SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions[i];
+                    deleteOp.completionHandler(YES, newBytesAvailable, nil);
+                }
+
+                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.remoteFileNames).to(haveCount(1));
             });
 
-            for(int i = 0; i < expectedRemoteFileNames.count; i += 1) {
-                expect(testFileManager.remoteFileNames).to(contain(expectedRemoteFileNames[i]));
-            }
+            it(@"should return an error if the last remote file fails to delete", ^{
+                [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
+                    expect(error).toNot(beNil());
+                }];
+
+                expect(testFileManager.pendingTransactions.count).to(equal(6));
+                for (int i = 0; i < 5; i++) {
+                    SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions[i];
+                    deleteOp.completionHandler(YES, newBytesAvailable, nil);
+                }
+                SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions.lastObject;
+                deleteOp.completionHandler(NO, newBytesAvailable, [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:@{}]);
+
+                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.remoteFileNames).to(haveCount(1));
+            });
+
+            it(@"should return an error if all files fail to delete", ^{
+                [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
+                    expect(error).toNot(beNil());
+                }];
+
+                expect(testFileManager.pendingTransactions.count).to(equal(6));
+                for (int i = 0; i < 6; i++) {
+                    SDLDeleteFileOperation *deleteOp = testFileManager.pendingTransactions[i];
+                    deleteOp.completionHandler(NO, newBytesAvailable, [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:@{}]);
+                }
+
+                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.remoteFileNames).to(haveCount(6));
+            });
         });
     });
 
