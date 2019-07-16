@@ -590,6 +590,7 @@ SDLRPCParameterName const SDLRPCParameterNameTemperatureHigh = @"temperatureHigh
 SDLRPCParameterName const SDLRPCParameterNameTemperatureLow = @"temperatureLow";
 SDLRPCParameterName const SDLRPCParameterNameTemperatureUnit = @"temperatureUnit";
 SDLRPCParameterName const SDLRPCParameterNameTemplate = @"template";
+SDLRPCParameterName const SDLRPCParameterNameTemplateConfiguration = @"templateConfiguration";
 SDLRPCParameterName const SDLRPCParameterNameTemperatureUnitAvailable = @"temperatureUnitAvailable";
 SDLRPCParameterName const SDLRPCParameterNameTemplatesAvailable = @"templatesAvailable";
 SDLRPCParameterName const SDLRPCParameterNameTertiaryText = @"tertiaryText";

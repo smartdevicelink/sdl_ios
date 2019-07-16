@@ -11,6 +11,7 @@
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
+//#import "SDLTemplateConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -203,6 +204,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLMetadataTags *)metadataTags {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameMetadataTags ofClass:SDLMetadataTags.class error:nil];
 }
+
+- (void)setWindowID:(nullable NSNumber<SDLInt> *)windowID {
+    [self.parameters sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
+}
+
+- (nullable NSNumber<SDLInt> *)windowID {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowId ofClass:NSNumber.class error:&error];
+}
+
+//- (void)setTemplateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
+//    [self.store sdl_setObject:templateConfiguration forName:SDLRPCParameterNameTemplateConfiguration];
+//}
+//
+//- (nullable SDLTemplateConfiguration *)templateConfiguration {
+//    return [self.store sdl_objectForName:SDLRPCParameterNameTemplateConfiguration ofClass:SDLTemplateColorScheme.class error:nil];
+//}
 
 @end
 

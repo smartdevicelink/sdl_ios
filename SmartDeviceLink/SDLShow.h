@@ -6,6 +6,7 @@
 #import "SDLTextAlignment.h"
 #import "SDLMetadataType.h"
 
+
 @class SDLImage;
 @class SDLSoftButton;
 @class SDLMetadataTags;
@@ -245,6 +246,20 @@ NS_ASSUME_NONNULL_BEGIN
  @since SmartDeviceLink 2.0
  */
 @property (strong, nonatomic, nullable) SDLMetadataTags *metadataTags;
+
+
+/**
+ *
+ *
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
+
+///**
+// *
+// *
+// */
+//@property (strong, nonatomic, nullable) SDLTemplateConfiguration *templateConfiguration;
+
 
 @end
 
