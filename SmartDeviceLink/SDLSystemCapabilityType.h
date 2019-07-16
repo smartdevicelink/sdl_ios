@@ -37,3 +37,9 @@ extern SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming;
  The remote control capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl;
+
+
+/**
+ 
+ */
+extern SDLSystemCapabilityType const SDLSystemCapabilityTypeDisplay;
