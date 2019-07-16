@@ -120,11 +120,11 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
-        let ch = SDLChoiceSet(title: <#T##String#>, delegate: <#T##SDLChoiceSetDelegate#>, choices: <#T##[SDLChoiceCell]#>)
+    
         /// Lets give an example of 2 templates
         var submenuItems = [SDLMenuCell]()
-        let errorMessage = "Changing the template failed
-        let s = SDLSoftButtonState(stateName: <#T##String#>, text: <#T##String?#>, artwork: <#T##SDLArtwork?#>)
+        let errorMessage = "Changing the template failed"
+        
         /// Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
