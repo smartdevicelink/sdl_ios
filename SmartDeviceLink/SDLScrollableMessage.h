@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLScrollableMessage : SDLRPCRequest
 
-// new
-
 /**
  *  Convenience init for creating a scrolling message with text.
  *
@@ -36,8 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             A SDLScrollableMessage object
  */
 - (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID;
-
-// old
 
 /**
  *  Convenience init for creating a scrolling message with text.
