@@ -17,6 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((deprecated("This RPC is deprecated. Use Show RPC to change layout.")))
 @interface SDLSetDisplayLayout : SDLRPCRequest
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
