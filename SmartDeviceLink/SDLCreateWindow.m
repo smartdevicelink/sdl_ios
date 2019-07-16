@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSNumber<SDLInt> *)windowID {
     NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setWindowName:(NSString *)windowName {
