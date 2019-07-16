@@ -47,6 +47,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *imageSupported;
 
+/**
+ * The button supports the use of text.
+ * If not included, the default value should be considered true that the button will support text.
+ *
+ * Required, Boolean
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *textSupported;
+
 @end
 
 NS_ASSUME_NONNULL_END

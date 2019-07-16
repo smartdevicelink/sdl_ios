@@ -598,6 +598,7 @@ SDLRPCParameterName const SDLRPCParameterNameTertiaryText = @"tertiaryText";
 SDLRPCParameterName const SDLRPCParameterNameText = @"text";
 SDLRPCParameterName const SDLRPCParameterNameTextFields = @"textFields";
 SDLRPCParameterName const SDLRPCParameterNameTextMessageAvailable = @"textMsgAvailable";
+SDLRPCParameterName const SDLRPCParameterNameTextSupported = @"textSupported";
 SDLRPCParameterName const SDLRPCParameterNameThoroughfare = @"thoroughfare";
 SDLRPCParameterName const SDLRPCParameterNameTimeIssued = @"timeIssued";
 SDLRPCParameterName const SDLRPCParameterNameTime = @"time";

@@ -603,6 +603,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameTertiaryText;
 extern SDLRPCParameterName const SDLRPCParameterNameText;
 extern SDLRPCParameterName const SDLRPCParameterNameTextFields;
 extern SDLRPCParameterName const SDLRPCParameterNameTextMessageAvailable;
+extern SDLRPCParameterName const SDLRPCParameterNameTextSupported;
 extern SDLRPCParameterName const SDLRPCParameterNameThoroughfare;
 extern SDLRPCParameterName const SDLRPCParameterNameTime;
 extern SDLRPCParameterName const SDLRPCParameterNameTimeIssued;
