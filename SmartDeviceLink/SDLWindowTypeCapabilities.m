@@ -8,6 +8,44 @@
 
 #import "SDLWindowTypeCapabilities.h"
 
+
+#import "NSMutableDictionary+Store.h"
+#import "SDLRPCParameterNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLWindowTypeCapabilities
 
+- (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.type = type;
+    self.maximumNumberOfWindows = @(maximumNumberOfWindows);
+    return self;
+}
+
+
+- (void)setType:(SDLWindowType)type {
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameWindowType];
+}
+
+- (SDLWindowType)type {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameWindowType error:&error];
+}
+
+- (void)setMaximumNumberOfWindows:(NSNumber<SDLInt> *)maximumNumberOfWindows {
+    [self.store sdl_setObject:maximumNumberOfWindows forName:SDLRPCParameterNameMaximumNumberOfWindows];
+}
+
+- (NSNumber<SDLInt> *)maximumNumberOfWindows {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameMaximumNumberOfWindows ofClass:NSNumber.class error:&error];
+}
+
 @end
+
+NS_ASSUME_NONNULL_END
+

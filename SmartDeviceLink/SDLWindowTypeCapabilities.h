@@ -6,11 +6,29 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SDLRPCStruct.h"
+#import "SDLWindowType.h"
+
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLWindowTypeCapabilities : NSObject
+@interface SDLWindowTypeCapabilities : SDLRPCStruct
+
+
+/**
+ *
+ *
+ */
+@property (strong, nonatomic) SDLWindowType type;
+
+/**
+ *
+ *
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *maximumNumberOfWindows;
+
+
 
 @end
 
