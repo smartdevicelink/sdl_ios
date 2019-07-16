@@ -11,9 +11,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLWindowTypeCapabilities.h"
-#import "SDLWindowCapability.m"
-
-
+#import "SDLWindowCapability.h"
 
 @implementation SDLDisplayCapability
 
@@ -28,7 +26,22 @@
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithDisplayName:(NSString *)displayName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    return self;
+}
 
+- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported windowCapabilities:(nullable SDLWindowCapability *)windowCapabilities{
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    return self;
+}
 
 - (void)setDisplayName:(NSString *)displayName {
     [self.store sdl_setObject:displayName forName:SDLRPCParameterNameTimezoneMinuteOffset];
