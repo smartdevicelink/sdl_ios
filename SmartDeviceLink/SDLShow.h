@@ -10,6 +10,7 @@
 @class SDLImage;
 @class SDLSoftButton;
 @class SDLMetadataTags;
+@class SDLTemplateConfiguration;
 
 
 /**
@@ -254,11 +255,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
 
-///**
-// *
-// *
-// */
-//@property (strong, nonatomic, nullable) SDLTemplateConfiguration *templateConfiguration;
+/**
+ *
+ *
+ */
+@property (strong, nonatomic, nullable) SDLTemplateConfiguration *templateConfiguration;
 
 
 @end
