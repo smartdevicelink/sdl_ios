@@ -78,7 +78,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
     });
 
-    describe(@"initializing", ^{
+    describe(@"Initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^{
             NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
                                                        @{SDLRPCParameterNameParameters:
@@ -324,7 +324,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     afterEach(^{
-        expect(testRequest.name).to(match(SDLRPCFunctionNameAlert));
+        expect(testRequest.name).to(equal(SDLRPCFunctionNameAlert));
     });
 });
 

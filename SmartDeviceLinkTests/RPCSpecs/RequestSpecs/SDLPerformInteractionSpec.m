@@ -93,7 +93,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
     });
 
-    describe(@"initializing", ^{
+    describe(@"Initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^ {
             NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
                                                @{SDLRPCParameterNameParameters:
