@@ -6,11 +6,43 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SDLTemplateColorScheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTemplateConfiguration : NSObject
+@interface SDLTemplateConfiguration : SDLRPCStruct
+
+
+
+/**
+ *
+ *
+ */
+- (instancetype)initWithTemplate:(NSString *)templateName NS_DESIGNATED_INITIALIZER;
+
+
+/**
+ *
+ *
+ */
+- (instancetype)initWithTemplate:(NSString *)templateName dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+
+/**
+ * Predefined or dynamically created window template.
+ * Currently only predefined window template layouts are defined.
+ */
+@property (strong, nonatomic) NSString *templateName;
+
+/**
+ *
+ *
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
+/**
+ *
+ *
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 
 @end
 
