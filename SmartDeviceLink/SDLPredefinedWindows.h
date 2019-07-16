@@ -6,12 +6,25 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SDLEnum.h"
 
-NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLPredefinedWindows : NSObject
+/**
+ *
+ *
+ */
 
-@end
+typedef SDLEnum SDLPredefinedWindows SDL_SWIFT_ENUM;
 
-NS_ASSUME_NONNULL_END
+/**
+ *
+ *
+ */
+extern SDLPredefinedWindows const SDLPredefinedWindowsDefaultWindow;
+
+/**
+ *
+ *
+ */
+extern SDLPredefinedWindows const SDLPredefinedWindowsPrimaryWidget;
+

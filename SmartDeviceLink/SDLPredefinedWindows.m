@@ -8,6 +8,5 @@
 
 #import "SDLPredefinedWindows.h"
 
-@implementation SDLPredefinedWindows
-
-@end
+SDLPredefinedWindows const SDLPredefinedWindowsDefaultWindow = @"0";
+SDLPredefinedWindows const SDLPredefinedWindowsPrimaryWidget = @"1";
