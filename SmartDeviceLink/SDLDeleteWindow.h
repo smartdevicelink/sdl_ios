@@ -6,11 +6,23 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SDLRPCRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLDeleteWindow : NSObject
+
+/**
+ * Deletes previously created window of the SDL application.
+ *
+ */
+@interface SDLDeleteWindow : SDLRPCRequest
+
+/**
+ * A unique ID to identify the window.
+ * The value of '0' will always be the default main window on the main display and cannot be deleted.
+ * @see PredefinedWindows enum.
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *windowID;
 
 @end
 
