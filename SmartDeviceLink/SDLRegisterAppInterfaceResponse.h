@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities __attribute__((deprecated("See DisplayCapabilities. This parameter is deprecated and replaced by SystemCapability using DISPLAY.")));
 
 /**
  * Contains information about the head unit button capabilities.
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities __attribute__((deprecated("See ButtonCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY.")));
 
 /**
  * Contains information about the head unit soft button capabilities.
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 2.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __attribute__((deprecated("If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities.  This parameter is deprecated and replaced by  SystemCapability using DISPLAY.")));
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 2.0
  */
-@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities __attribute__((deprecated("If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities.  This parameter is deprecated and replaced by  SystemCapability using DISPLAY.")));
 
 /**
  * Contains information about the HMI zone capabilities.
