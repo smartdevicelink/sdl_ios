@@ -4,16 +4,15 @@
 
 #import "SDLRPCRequest.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
- * Creates a full screen or pop-up overlay (depending on platform) with a single user controlled slider
+ * Creates a full screen or pop-up overlay (depending on platform) with a single user controlled slider.
  *
  * HMILevel needs to be FULL
  *
- * Since SmartDeviceLink 2.0
+ * Since SDL 2.0
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLSlider : SDLRPCRequest
 
 /**
@@ -50,49 +49,52 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
 
 /**
- * Represents a number of selectable items on a horizontal axis
+ *  Represents a number of selectable items on a horizontal axis
  *
- * Required, Integer, 2 - 26
+ *  Required, Integer, 2 - 26
+ *
+ *  Since SDL 2.0
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *numTicks;
 
 /**
- * An Initial position of slider control
+ *  Initial position of slider control (cannot exceed numTicks).
  *
- * Required, Integer, 1 - 26
+ *  Integer, Required, Min Value: 1, Max Value: 26
+ *
+ *  @since SDL 2.0
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
- * A text header to display
+ *  Text header to display.
  *
- * Required, Max length 500 chars
+ *  String, Required, Max length 500 chars
+ *
+ *  Since SDL 2.0
  */
 @property (strong, nonatomic) NSString *sliderHeader;
 
 /**
- * A text footer to display
+ *  Text footer to display (meant to display min/max threshold descriptors).
  *
- * @discussion For a static text footer, only one footer string shall be provided in the array.
- * 
- * For a dynamic text footer, the number of footer text string in the array must match the numTicks value.
+ *  For a static text footer, only one footer string shall be provided in the array.
+ *  For a dynamic text footer, the number of footer text string in the array must match the numTicks value.
+ *  For a dynamic text footer, text array string should correlate with potential slider position index.
+ *  If omitted on supported displays, no footer text shall be displayed.
  *
- * For a dynamic text footer, text array string should correlate with potential slider position index.
+ *  Array of Strings, Optional, Array length 1 - 26, Max length 500 chars
  *
- * If omitted on supported displays, no footer text shall be displayed.
- *
- * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
+ *  Since SDL 2.0
  */
 @property (strong, nonatomic, nullable) NSArray<NSString *> *sliderFooter;
 
 /**
- * An App defined timeout in milliseconds
+ *  App defined timeout. Indicates how long of a timeout from the last action (i.e. sliding control resets timeout). If omitted, the value is set to 10 seconds.
  *
- * @discussion Indicates how long of a timeout from the last action (i.e. sliding control resets timeout).
+ *  Integer, Optional, Min value: 1000, Max value: 65535, Default value: 10000
  *
- * If omitted, the value is set to 10000.
- *
- * Optional, Integer, 1000 - 65535
+ *  Since SDL 2.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *timeout;
 

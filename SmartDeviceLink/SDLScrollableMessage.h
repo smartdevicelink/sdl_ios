@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Body of text that can include newlines and tabs.
  *
- *  String, Required, Max number of characters: 500
+ *  String, Required, Max length 500 chars
  *
  *  @since SDL 2.0
  */
