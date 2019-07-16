@@ -679,6 +679,8 @@ extern SDLRPCParameterName const SDLRPCParameterNameWiperStatus;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowId;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowName;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowType;
+extern SDLRPCParameterName const SDLRPCParameterNameAssociatedServiceType;
+extern SDLRPCParameterName const SDLRPCParameterNameDuplicateUpdatesFromWindowID;
 extern SDLRPCParameterName const SDLRPCParameterNameX;
 extern SDLRPCParameterName const SDLRPCParameterNameY;
 extern SDLRPCParameterName const SDLRPCParameterNameYear;

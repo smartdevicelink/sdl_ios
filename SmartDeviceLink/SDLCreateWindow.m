@@ -7,10 +7,10 @@
 //
 
 #import "SDLCreateWindow.h"
+
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,15 +67,42 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
+- (void)setWindowName:(NSString *)windowName {
+    [self.parameters sdl_setObject:windowName forName:SDLRPCParameterNameWindowName];
+}
+
+- (NSString *)windowName {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowName ofClass:NSString.class error:&error];
+}
 
 
+- (void)setType:(SDLWindowType *)type {
+    [self.parameters sdl_setObject:type forName:SDLRPCParameterNameWindowType];
+}
 
-//- (NSNumber<SDLInt> *)cmdID {
-//    NSError *error = nil;
-//    return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
-//}
+- (SDLWindowType *)type {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowType ofClass:SDLWindowType.class error:&error];
+}
 
+- (void)setAssociatedServiceType:(nullable NSString *)associatedServiceType {
+    [self.parameters sdl_setObject:associatedServiceType forName:SDLRPCParameterNameAssociatedServiceType];
+}
 
+- (nullable NSString *)associatedServiceType {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAssociatedServiceType ofClass:NSString.class error:&error];
+}
+
+- (void)setDuplicateUpdatesFromWindowID:(nullable NSNumber<SDLInt> *)duplicateUpdatesFromWindowID {
+    [self.parameters sdl_setObject:duplicateUpdatesFromWindowID forName:SDLRPCParameterNameDuplicateUpdatesFromWindowID];
+}
+
+- (nullable NSNumber<SDLInt> *)duplicateUpdatesFromWindowID {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDuplicateUpdatesFromWindowID ofClass:NSNumber.class error:&error];
+}
 
 @end
 
