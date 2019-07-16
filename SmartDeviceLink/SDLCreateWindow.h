@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                                       Creating a window with a name which is already in use by the app will result in `DUPLICATE_NAME`.
  *  @param windowType                    The type of the window to be created. Main window or widget.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType *)windowType NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create a new window on the display with the specified window type.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                                       Still the app can create widgets omitting this parameter.
  *                                       Those widgets would be available as app specific widgets that are permanently included in the HMI.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType *)windowType associatedServiceType:(nullable NSString *)associatedServiceType;
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType;
 
 
 
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param duplicateUpdatesFromWindowID  Specify whether the content sent to an existing window should be duplicated to the created window.
  *                                       If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType *)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
 
 
 /**

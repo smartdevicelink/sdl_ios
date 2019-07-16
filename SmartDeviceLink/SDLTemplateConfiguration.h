@@ -6,7 +6,7 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLRPCStruct.h"
+
 #import "SDLTemplateColorScheme.h"
 
 NS_ASSUME_NONNULL_BEGIN

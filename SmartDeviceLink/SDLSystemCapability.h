@@ -14,6 +14,7 @@
 @class SDLNavigationCapability;
 @class SDLVideoStreamingCapability;
 @class SDLRemoteControlCapabilities;
+@class SDLDisplayCapabilities;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,6 +104,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional
  */
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
+
+/**
+ *
+ *
+ */
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 
 @end
 

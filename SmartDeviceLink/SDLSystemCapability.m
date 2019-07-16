@@ -16,6 +16,7 @@
 #import "SDLSystemCapabilityType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
