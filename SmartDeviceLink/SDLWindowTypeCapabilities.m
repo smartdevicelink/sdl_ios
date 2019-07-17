@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLWindowTypeCapabilities
 
 - (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows {
-    self = [self init];
+    self = [super init];
     if (!self) {
         return nil;
     }

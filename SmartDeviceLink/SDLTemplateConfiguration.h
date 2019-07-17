@@ -12,27 +12,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLTemplateConfiguration : SDLRPCStruct
 
 /**
- * @param templateName Predefined or dynamically created window template.
+ * @param template Predefined or dynamically created window template.
  *                     Currently only predefined window template layouts are defined.
  */
-- (instancetype)initWithTemplate:(NSString *)templateName NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTemplate:(NSString *)template NS_DESIGNATED_INITIALIZER;
 
 
 /**
- * @param templateName Predefined or dynamically created window template.
- *                     Currently only predefined window template layouts are defined.
+ * @param template         Predefined or dynamically created window template.
+ *                         Currently only predefined window template layouts are defined.
  *
- * @param dayColorScheme The color scheme to use when the head unit is in a light / day situation.
+ * @param dayColorScheme   The color scheme to use when the head unit is in a light / day situation.
  *
  * @param nightColorScheme The color scheme to use when the head unit is in a dark / night situation.
  */
-- (instancetype)initWithTemplate:(NSString *)templateName dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+- (instancetype)initWithTemplate:(NSString *)template dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
 
 /**
  * Predefined or dynamically created window template.
  * Currently only predefined window template layouts are defined.
  */
-@property (strong, nonatomic) NSString *templateName;
+@property (strong, nonatomic) NSString *template;
 
 /**
  * dayColorScheme The color scheme to use when the head unit is in a light / day situation.

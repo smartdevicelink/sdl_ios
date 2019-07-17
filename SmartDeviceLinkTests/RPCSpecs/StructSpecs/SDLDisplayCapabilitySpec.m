@@ -25,11 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
         
         testStruct.displayName = @"Display Name";
         
-        SDLWindowTypeCapabilities* testWindowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:4]
+        SDLWindowTypeCapabilities* testWindowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:4];
         testStruct.windowTypeSupported = @[testWindowTypeCapabilities];
         
         
-        SDLWindowCapability* WindowCapability = [[SDLWindowCapability alloc] init]
+        SDLWindowCapability* WindowCapability = [[SDLWindowCapability alloc] init];
         
         WindowCapability.windowID = @444;
         
@@ -56,7 +56,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSoftButtonCapabilities *capabilities = [[SDLSoftButtonCapabilities alloc] init];
         capabilities.imageSupported = @YES;
         
-        WindowCapability.softButtonCapabilities = @[button1];
+        WindowCapability.softButtonCapabilities = @[buttonCapabilities];
         
         testStruct.windowCapabilities = @[WindowCapability];
         
@@ -66,17 +66,17 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.windowTypeSupported.firstObject.type).to(equal(SDLWindowTypeMain));
         expect(testStruct.windowTypeSupported.firstObject.maximumNumberOfWindows).to(equal(@4));
         
-        expect(testStruct.windowID).to(equal(@444));
+        expect(testStruct.windowCapabilities.firstObject.windowID).to(equal(444));
         
-        expect(testStruct.windowCapabilities.firstObject.testTextField.firstObject.name).to(equal(@"test text field"));
-        expect(testStruct.windowCapabilities.firstObject.testImageField.firstObject.name).to(equal(@"test text field"));
+        expect(testStruct.windowCapabilities.firstObject.textFields.firstObject.name).to(equal(@"test text field"));
+        expect(testStruct.windowCapabilities.firstObject.imageFields.firstObject.name).to(equal(@"test Image field"));
         
         expect(testStruct.windowCapabilities.firstObject.numCustomPresetsAvailable).to(equal(@10));
         
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.shortPressAvailable).to(equal(@YES));
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.longPressAvailable).to(equal(@YES));
-        expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.name).to(equal(@YES));
+        expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
     });
 });
 

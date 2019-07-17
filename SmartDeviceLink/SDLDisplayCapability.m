@@ -14,7 +14,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    self = [self init];
+    self = [super init];
     if (!self) {
         return nil;
     }
@@ -54,7 +54,7 @@
 }
 
 - (nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported {
-    return [self.store sdl_objectForName:SDLRPCParameterNameWindowTypeSupported ofClass:SDLWindowTypeCapabilities.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameWindowTypeSupported ofClass:SDLWindowTypeCapabilities.class error:nil];
 }
 
 - (void)setWindowCapabilities:(nullable NSArray<SDLWindowCapability *>  *)windowCapabilities {
@@ -62,7 +62,7 @@
 }
 
 - (nullable NSArray<SDLWindowCapability *> *)windowCapabilities {
-    return [self.store sdl_objectForName:SDLRPCParameterNameWindowCapabilities ofClass:SDLWindowCapability.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameWindowCapabilities ofClass:SDLWindowCapability.class error:nil];
 }
 
 

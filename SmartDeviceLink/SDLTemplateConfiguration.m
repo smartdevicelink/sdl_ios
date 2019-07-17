@@ -9,18 +9,17 @@
 
 @implementation SDLTemplateConfiguration
 
-- (instancetype)initWithTemplate:(NSString *)templateName {
-    self = [self init];
+- (instancetype)initWithTemplate:(NSString *)template {
+    self = [super init];
     if (!self) {
         return nil;
     }
-    
-    self.templateName = templateName;
+    self.template = template;
     return self;
 }
 
-- (instancetype)initWithTemplate:(NSString *)templateName dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithTemplate:templateName];
+- (instancetype)initWithTemplate:(NSString *)template dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithTemplate:template];
     if (!self) {
         return nil;
     }
@@ -29,11 +28,11 @@
     return self;
 }
 
-- (void)setTemplate:(NSString *)templateName {
-    [self.store sdl_setObject:templateName forName:SDLRPCParameterNameTemplate];
+- (void)setTemplate:(NSString *)template {
+    [self.store sdl_setObject:template forName:SDLRPCParameterNameTemplate];
 }
 
-- (NSString *)templateName {
+- (NSString *)template {
     return [self.store sdl_objectForName:SDLRPCParameterNameTemplate ofClass:NSString.class error:nil];
 }
 
@@ -41,12 +40,12 @@
     [self.store sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
 }
 
-- (nullable SDLTemplateColorScheme *)turnIcon {
+- (nullable SDLTemplateColorScheme *)dayColorScheme {
     return [self.store sdl_objectForName:SDLRPCParameterNameDayColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
 }
 
 - (void)setNightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    [self.store sdl_setObject:nightColorScheme forName:SDLRPCParameterNameTurnIcon];
+    [self.store sdl_setObject:nightColorScheme forName:SDLRPCParameterNameNightColorScheme];
 }
 
 - (nullable SDLTemplateColorScheme *)nightColorScheme {
