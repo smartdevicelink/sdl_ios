@@ -414,9 +414,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
 
             SDLArtwork *art = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
             [testFileManager uploadArtwork:art completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                expect(success).to(beFalse());
+                expect(success).to(beTrue());
                 expect(bytesAvailable).to(equal(initialSpaceAvailable));
-                expect(error).toNot(beNil());
+                expect(error).to(beNil());
             }];
 
             expect(testFileManager.pendingTransactions.count).to(equal(0));
@@ -940,7 +940,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                 expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
             });
 
-            fit(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
+            it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
                 for(int i = 0; i < 5; i += 1) {
                     NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
@@ -971,7 +971,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
 
                 expect(testFileManager.pendingTransactions.count).to(equal(5));
                 for (int i = 0; i < 3; i++) {
-                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
                     sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                 }
 
@@ -1004,7 +1004,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
 
                 expect(testFileManager.pendingTransactions.count).to(equal(5));
                 for (int i = 0; i < 5; i++) {
-                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
                     sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                 }
                 expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
@@ -1155,7 +1155,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                 expect(testFileManager.remoteFileNames).to(haveCount(1));
             });
 
-            fit(@"should return an error if all files fail to delete", ^{
+            it(@"should return an error if all files fail to delete", ^{
                 [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
                     expect(error).toNot(beNil());
                 }];

@@ -430,7 +430,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (completion == nil) { return; }
         if ([weakself sdl_isErrorCannotOverwriteError:error]) {
             // Artwork with same name already uploaded to remote
-            return completion(true, artwork.name, bytesAvailable, nil);
+            return completion(YES, artwork.name, bytesAvailable, nil);
         }
         completion(success, artwork.name, bytesAvailable, error);
     }];
