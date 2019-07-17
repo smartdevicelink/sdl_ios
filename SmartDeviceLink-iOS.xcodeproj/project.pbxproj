@@ -1459,16 +1459,6 @@
 		9FA0D00C22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00B22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m */; };
 		9FA0D00F22DF0B90009CF344 /* SDLDeleteWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */; };
 		9FA0D01222DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */; };
-		9FC3592222DF671E00028E72 /* SDLCreateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD334DF22DC6E7500F62736 /* SDLCreateWindow.m */; };
-		9FC3592322DF671E00028E72 /* SDLCreateWindowResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471022D77AA400F8D2FC /* SDLCreateWindowResponse.m */; };
-		9FC3592422DF674400028E72 /* SDLTemplateConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F425ACD22DD97DE00BE3245 /* SDLTemplateConfiguration.m */; };
-		9FC3592522DF675300028E72 /* SDLDeleteWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2470822D77A3600F8D2FC /* SDLDeleteWindow.m */; };
-		9FC3592622DF675300028E72 /* SDLDeleteWindowResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2470C22D77A5A00F8D2FC /* SDLDeleteWindowResponse.m */; };
-		9FC3592722DF676A00028E72 /* SDLWindowCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F425AD122DD980200BE3245 /* SDLWindowCapability.m */; };
-		9FC3592822DF677400028E72 /* SDLWindowTypeCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F425AD522DD981E00BE3245 /* SDLWindowTypeCapabilities.m */; };
-		9FC3592922DF679000028E72 /* SDLDisplayCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F425AD922DD983500BE3245 /* SDLDisplayCapability.m */; };
-		9FC3592A22DF67A800028E72 /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
-		9FC3592B22DF67C000028E72 /* SDLPredefinedWindows.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471822D77AED00F8D2FC /* SDLPredefinedWindows.m */; };
 		9FD334E022DC6E7500F62736 /* SDLCreateWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD334DE22DC6E7500F62736 /* SDLCreateWindow.h */; };
 		9FD334E122DC6E7500F62736 /* SDLCreateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD334DF22DC6E7500F62736 /* SDLCreateWindow.m */; };
 		9FE2470922D77A3600F8D2FC /* SDLDeleteWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2470722D77A3600F8D2FC /* SDLDeleteWindow.h */; };
@@ -7597,16 +7587,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FC3592B22DF67C000028E72 /* SDLPredefinedWindows.m in Sources */,
-				9FC3592A22DF67A800028E72 /* SDLWindowType.m in Sources */,
-				9FC3592922DF679000028E72 /* SDLDisplayCapability.m in Sources */,
-				9FC3592822DF677400028E72 /* SDLWindowTypeCapabilities.m in Sources */,
-				9FC3592722DF676A00028E72 /* SDLWindowCapability.m in Sources */,
-				9FC3592522DF675300028E72 /* SDLDeleteWindow.m in Sources */,
-				9FC3592622DF675300028E72 /* SDLDeleteWindowResponse.m in Sources */,
-				9FC3592422DF674400028E72 /* SDLTemplateConfiguration.m in Sources */,
-				9FC3592222DF671E00028E72 /* SDLCreateWindow.m in Sources */,
-				9FC3592322DF671E00028E72 /* SDLCreateWindowResponse.m in Sources */,
 				5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */,
 				162E83951A9BDE8B00906325 /* SDLTurnSpec.m in Sources */,
 				162E83481A9BDE8B00906325 /* SDLUpdateTurnListSpec.m in Sources */,
@@ -8073,9 +8053,9 @@
 				1EB59CD0202DC9F200343A61 /* SDLSupportedSeatSpec.m in Sources */,
 				162E82EB1A9BDE8B00906325 /* SDLLayoutModeSpec.m in Sources */,
 				1680B1181A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m in Sources */,
+				162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */,
 				162E82EC1A9BDE8B00906325 /* SDLLockScreenStatusSpec.m in Sources */,
 				DA96C0661D4D4F730022F520 /* SDLAppInfoSpec.m in Sources */,
-				162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
