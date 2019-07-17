@@ -1,10 +1,6 @@
 //
 //  SDLDeleteWindow.m
 //  SmartDeviceLink
-//
-//  Created by cssoeutest1 on 11.07.19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
 
 #import "SDLDeleteWindow.h"
 
@@ -16,24 +12,15 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameDeleteWindow]) {
-    }
-    return self;
-}
-#pragma clang diagnostic pop
-
 - (instancetype)initWithId:(UInt32)windowId {
-    self = [self init];
+    self = [super initWithName:SDLRPCFunctionNameDeleteWindow];
     if (!self) {
         return nil;
     }
-    
-    self.windowID = @(windowId);
-    
+    self.windowID = @(windowId);    
     return self;
 }
-
+#pragma clang diagnostic pop
 
 - (void)setWindowID:(NSNumber<SDLInt> *)windowID {
     [self.parameters sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];

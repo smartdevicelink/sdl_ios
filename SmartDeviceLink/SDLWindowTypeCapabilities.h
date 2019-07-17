@@ -1,34 +1,34 @@
 //
 //  SDLWindowTypeCapabilities.h
 //  SmartDeviceLink
-//
-//  Created by cssoeutest1 on 16.07.19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
 
 #import "SDLRPCStruct.h"
 #import "SDLWindowType.h"
 
-
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * @since 6.0
+ */
 @interface SDLWindowTypeCapabilities : SDLRPCStruct
-
 
 /**
  *
+ * @param type                   Type of windows available, to create.
  *
+ * @param maximumNumberOfWindows Nuber of windows available, to create.
+ */
+- (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows NS_DESIGNATED_INITIALIZER;
+
+/**
+ * Type of windows available, to create.
  */
 @property (strong, nonatomic) SDLWindowType type;
 
 /**
- *
- *
+ * Nuber of windows available, to create.
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *maximumNumberOfWindows;
-
-
 
 @end
 

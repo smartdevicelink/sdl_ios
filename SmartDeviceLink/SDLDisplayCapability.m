@@ -1,10 +1,6 @@
 //
 //  SDLDisplayCapability.m
 //  SmartDeviceLink
-//
-//  Created by cssoeutest1 on 16.07.19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
 
 #import "SDLDisplayCapability.h"
 
@@ -31,15 +27,17 @@
     if (!self) {
         return nil;
     }
-    
+    self.displayName = displayName;
     return self;
 }
 
 - (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported windowCapabilities:(nullable SDLWindowCapability *)windowCapabilities{
-    self = [self init];
+    self = [self initWithDisplayName:displayName];
     if (!self) {
         return nil;
     }
+    self.windowTypeSupported = windowTypeSupported;
+    self.windowCapabilities = windowCapabilities;
     return self;
 }
 
@@ -50,7 +48,6 @@
 - (NSString *)displayName {
     return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset ofClass:NSString.class error:nil];
 }
-
 
 - (void)setWindowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported {
     [self.store sdl_setObject:windowTypeSupported forName:SDLRPCParameterNameWindowTypeSupported];

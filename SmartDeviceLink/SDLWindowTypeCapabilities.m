@@ -26,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-
 - (void)setType:(SDLWindowType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameWindowType];
 }

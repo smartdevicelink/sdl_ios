@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Since SmartDeviceLink 2.0
  */
-__attribute__((deprecated("This RPC is deprecated. Use Show RPC to change layout.")))
+__attribute__((deprecated("This RPC is deprecated. Use Show RPC to change layout. @since 6.0")))
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
 /**

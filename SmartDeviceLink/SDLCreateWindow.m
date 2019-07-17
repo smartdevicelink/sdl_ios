@@ -1,10 +1,6 @@
 //
 //  SDLCreateWindow.m
 //  SmartDeviceLink
-//
-//  Created by cssoeutest1 on 15.07.19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
 
 #import "SDLCreateWindow.h"
 
@@ -18,45 +14,45 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)init {
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
     if (self = [super initWithName:SDLRPCFunctionNameCreateWindow]) {
+    
     }
+    self.windowID = @(windowId);
+    self.windowName = windowName;
+    self.type = windowType;
     return self;
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
-    
-    self = [self init];
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
+    self = [self initWithId:windowId windowName:windowName windowType:windowType];
     if (!self) {
         return nil;
     }
-    self.windowID = @(windowId);
     
     return self;
 }
 
 - (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType {
-    self = [self init];
+    self = [self initWithId:windowId windowName:windowName windowType:windowType];
     if (!self) {
         return nil;
     }
-    self.windowID = @(windowId);
-    
+    self.associatedServiceType = associatedServiceType;
     return self;
-    
 }
 
 - (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
-    
-    self = [self init];
+    self = [self initWithId:windowId windowName:windowName windowType:windowType];
     if (!self) {
         return nil;
     }
-    
+    self.associatedServiceType = associatedServiceType;
+    self.duplicateUpdatesFromWindowID = @(duplicateUpdatesFromWindowID);
     return self;
-    
 }
+
 
 #pragma mark - Getters / Setters
 

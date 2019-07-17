@@ -1,10 +1,6 @@
 //
 //  SDLTemplateConfiguration.m
 //  SmartDeviceLink
-//
-//  Created by cssoeutest1 on 16.07.19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
 
 #import "SDLTemplateConfiguration.h"
 
@@ -12,7 +8,6 @@
 #import "SDLRPCParameterNames.h"
 
 @implementation SDLTemplateConfiguration
-
 
 - (instancetype)initWithTemplate:(NSString *)templateName {
     self = [self init];
@@ -24,19 +19,15 @@
     return self;
 }
 
-
 - (instancetype)initWithTemplate:(NSString *)templateName dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self init];
+    self = [self initWithTemplate:templateName];
     if (!self) {
         return nil;
     }
-    
-    self.templateName = templateName;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
     return self;
 }
-
 
 - (void)setTemplate:(NSString *)templateName {
     [self.store sdl_setObject:templateName forName:SDLRPCParameterNameTemplate];
@@ -45,7 +36,6 @@
 - (NSString *)templateName {
     return [self.store sdl_objectForName:SDLRPCParameterNameTemplate ofClass:NSString.class error:nil];
 }
-
 
 - (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {
     [self.store sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
