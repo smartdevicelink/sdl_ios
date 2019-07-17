@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param displayName          Name of the display.
  *
  * @param windowTypeSupported  Informs the application how many windows the app is allowed to create per type.
+ *                             Min size 1
+ *                             Max size 100
  *
  * @param windowCapabilities   Contains a list of capabilities of all windows related to the app.
  *                             Once the app has registered the capabilities of all windows are provided.
@@ -31,8 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
  *                             1. App creates a new window. After the window is created, a system capability notification will be sent related only to the created window.
  *                             2. App sets a new template to the window. The new template changes window capabilties.
  *                             The notification will reflect those changes to the single window.
+ *                             Min size 1
+ *                             Max size 1000
  */
-- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported windowCapabilities:(nullable SDLWindowCapability *)windowCapabilities;
+- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowCapability *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowCapabilities;
 
 /**
  * Name of the display.
@@ -41,8 +45,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Informs the application how many windows the app is allowed to create per type.
+ * Min size 1
+ * Max size 100
  */
-@property (strong, nonatomic, nullable) SDLWindowTypeCapabilities *windowTypeSupported;
+@property (strong, nonatomic, nullable) NSArray<SDLWindowTypeCapabilities *> *windowTypeSupported;
 
 /**
  * Contains a list of capabilities of all windows related to the app.
@@ -51,8 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
  * After registration, only windows with capabilities changed will be included. Following cases will cause only affected windows to be included:
  * 1. App creates a new window. After the window is created, a system capability notification will be sent related only to the created window.
  * 2. App sets a new template to the window. The new template changes window capabilties. The notification will reflect those changes to the single window.
+ * Min size 1
+ * Max size 1000
  */
-@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapabilities;
+@property (strong, nonatomic, nullable) NSArray<SDLWindowCapability *> *windowCapabilities;
 
 @end
 

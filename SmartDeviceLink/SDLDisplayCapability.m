@@ -31,7 +31,7 @@
     return self;
 }
 
-- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported windowCapabilities:(nullable SDLWindowCapability *)windowCapabilities{
+- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowCapability *> *)windowCapabilities{
     self = [self initWithDisplayName:displayName];
     if (!self) {
         return nil;
@@ -49,19 +49,19 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset ofClass:NSString.class error:nil];
 }
 
-- (void)setWindowTypeSupported:(nullable SDLWindowTypeCapabilities *)windowTypeSupported {
+- (void)setWindowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported {
     [self.store sdl_setObject:windowTypeSupported forName:SDLRPCParameterNameWindowTypeSupported];
 }
 
-- (nullable SDLWindowTypeCapabilities *)windowTypeSupported {
+- (nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported {
     return [self.store sdl_objectForName:SDLRPCParameterNameWindowTypeSupported ofClass:SDLWindowTypeCapabilities.class error:nil];
 }
 
-- (void)setWindowCapabilities:(nullable SDLWindowCapability *)windowCapabilities {
+- (void)setWindowCapabilities:(nullable NSArray<SDLWindowCapability *>  *)windowCapabilities {
     [self.store sdl_setObject:windowCapabilities forName:SDLRPCParameterNameWindowCapabilities];
 }
 
-- (nullable SDLWindowCapability *)windowCapabilities {
+- (nullable NSArray<SDLWindowCapability *> *)windowCapabilities {
     return [self.store sdl_objectForName:SDLRPCParameterNameWindowCapabilities ofClass:SDLWindowCapability.class error:nil];
 }
 
