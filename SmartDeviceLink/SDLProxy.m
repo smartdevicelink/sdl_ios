@@ -149,9 +149,13 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)sendMobileHMIState {
     __block UIApplicationState appState = UIApplicationStateInactive;
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    if ([NSThread isMainThread]) {
         appState = [UIApplication sharedApplication].applicationState;
-    });
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            appState = [UIApplication sharedApplication].applicationState;
+        });
+    }
 
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
