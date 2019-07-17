@@ -305,6 +305,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __block float totalBytesUploaded = 0.0;
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
+    dispatch_group_enter(uploadFilesTask);
+
     // Wait for all files to be uploaded
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (completionHandler == nil) { return; }
@@ -314,10 +316,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return completionHandler(nil);
     });
 
-    dispatch_group_enter(uploadFilesTask);
-    for(SDLFile *file in files) {
+    for(NSUInteger i = 0; i < files.count; i++) {
+        SDLFile *file = files[i];
         dispatch_group_enter(uploadFilesTask);
-
         __weak typeof(self) weakself = self;
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if(!success) {
@@ -331,9 +332,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 BOOL continueWithRemainingUploads = progressHandler(file.name, uploadPercentage, error);
                 if (!continueWithRemainingUploads) {
                     // Cancel any remaining files waiting to be uploaded
-                    for(SDLFile *file in files) {
+                    for(NSUInteger j = i + 1; j < files.count; j++) {
+                        SDLFile *cancelFile = files[j];
                         for (SDLUploadFileOperation *op in weakself.transactionQueue.operations) {
-                            if ([op.fileWrapper.file isEqual:file]) {
+                            if ([op.fileWrapper.file isEqual:cancelFile]) {
                                 [op cancel];
                                 break;
                             }

@@ -452,7 +452,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
     });
 });
 
-fdescribe(@"uploading/deleting multiple files in the file manager", ^{
+describe(@"uploading/deleting multiple files in the file manager", ^{
     __block TestMultipleFilesConnectionManager *testConnectionManager;
     __block SDLFileManager *testFileManager;
     __block NSUInteger initialSpaceAvailable = 123;
@@ -611,7 +611,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                         SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
                         sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_dataMissingError]);
                     }
-
+                    
                     expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
                 });
 
@@ -717,25 +717,24 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
 
                 it(@"should not return any errors that are overwrite errors", ^{
                     NSArray<UIImage *> *images = [FileManagerSpecHelper imagesForCount:5];
-                    for(int i = 0; i < images.count; i += 1) {
+                    for(int i = 0; i < images.count; i++) {
                         SDLArtwork *artwork = [SDLArtwork artworkWithImage:images[i] asImageFormat:SDLArtworkImageFormatPNG];
                         [testArtworks addObject:artwork];
                     }
 
                     [testFileManager uploadArtworks:testArtworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-                        expect(artworkNames).to(haveCount(images.count - 1));
-                        expect(error).toNot(beNil());
+                        expect(artworkNames).to(haveCount(images.count));
+                        expect(error).to(beNil());
                     }];
 
                     expect(testFileManager.pendingTransactions.count).to(equal(5));
-                    for (int i = 0; i < images.count; i += 1) {
-                        SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
+                    
+                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                    sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
 
-                        if (i % 2 == 0) {
-                            sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
-                        } else {
-                            sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
-                        }
+                    for (int i = 1; i < images.count; i++) {
+                        SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
+                        sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                     }
 
                     expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
@@ -749,8 +748,8 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                     }
 
                     [testFileManager uploadArtworks:testArtworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-                        expect(artworkNames).to(haveCount(images.count - 1));
-                        expect(error).toNot(beNil());
+                        expect(artworkNames).to(haveCount(images.count));
+                        expect(error).to(beNil());
                     }];
 
                     expect(testFileManager.pendingTransactions.count).to(equal(5));
@@ -759,7 +758,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                         sentOperation.fileWrapper.completionHandler(NO, failureBytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
                     }
 
-                    expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                    expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
                 });
             });
         });
@@ -783,8 +782,8 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
 
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                         expect(fileName).to(equal(testFileName));
-                        expect(uploadPercentage).to(beCloseTo(100.0));
-                        expect(error).toNot(beNil());
+                        expect(uploadPercentage).to(beCloseTo(1.0));
+                        expect(error).to(beNil());
                         return YES;
                     } completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
@@ -809,8 +808,8 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                         numberOfFilesDone++;
                         expect(fileName).to(equal([NSString stringWithFormat:@"TestSmallFilesMemory%ld", numberOfFilesDone-1]));
-                        expect(uploadPercentage).to(beCloseTo(numberOfFilesDone / 5));
-                        expect(error).toNot(beNil());
+                        expect(uploadPercentage).to(beCloseTo((float)numberOfFilesDone / 5.0));
+                        expect(error).to(beNil());
                         return YES;
                     } completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
@@ -847,8 +846,8 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
 
                     [testFileManager uploadArtworks:testArtworks progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
                         expect(artworkName).to(equal(testArtwork.name));
-                        expect(uploadPercentage).to(beCloseTo(100.0));
-                        expect(error).toNot(beNil());
+                        expect(uploadPercentage).to(beCloseTo(1.0));
+                        expect(error).to(beNil());
                         return YES;
                     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
                         expect(artworkNames).to(haveCount(1));
@@ -875,8 +874,9 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                     __block NSUInteger artworksDone = 0;
                     [testFileManager uploadArtworks:testArtworks progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
                         artworksDone++;
-                        expect(artworkName).to(equal(expectedArtworkNames[artworksDone]));
-                        expect(uploadPercentage).to(beCloseTo(artworksDone / 200));
+                        expect(artworkName).to(equal(expectedArtworkNames[artworksDone - 1]));
+                        expect(uploadPercentage).to(beCloseTo((float)artworksDone / 200.0));
+                        expect(error).to(beNil());
                         return YES;
                     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
                         expect(artworkNames).to(haveCount(200));
@@ -915,9 +915,15 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                     numberOfFilesDone++;
                     expect(fileName).to(equal([NSString stringWithFormat:@"TestSmallFilesMemory%ld", numberOfFilesDone-1]));
-                    expect(uploadPercentage).to(beCloseTo(numberOfFilesDone / 5));
-                    expect(error).toNot(beNil());
-                    return numberOfFilesDone == 1 ? NO : YES;
+                    expect(uploadPercentage).to(beCloseTo((float)numberOfFilesDone / 5.0));
+
+                    if (numberOfFilesDone == 1) {
+                        expect(error).to(beNil());
+                        return NO;
+                    } else {
+                        expect(error).toNot(beNil());
+                        return YES;
+                    }
                 } completionHandler:^(NSError * _Nullable error) {
                     expect(error).toNot(beNil());
                 }];
@@ -934,7 +940,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
             });
 
-            it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
+            fit(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
                 for(int i = 0; i < 5; i += 1) {
                     NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
@@ -946,9 +952,19 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                     numberOfFilesDone++;
                     expect(fileName).to(equal([NSString stringWithFormat:@"TestSmallFilesMemory%ld", numberOfFilesDone-1]));
-                    expect(uploadPercentage).to(beCloseTo(numberOfFilesDone / 5));
-                    expect(error).toNot(beNil());
-                    return numberOfFilesDone == 3 ? NO : YES;
+                    expect(uploadPercentage).to(beCloseTo((float)numberOfFilesDone / 5.0));
+
+                    if (numberOfFilesDone <= 3) {
+                        expect(error).to(beNil());
+                    } else {
+                        expect(error).toNot(beNil());
+                    }
+
+                    if (numberOfFilesDone == 3) {
+                        return NO;
+                    } else {
+                        return YES;
+                    }
                 } completionHandler:^(NSError * _Nullable error) {
                     expect(error).toNot(beNil());
                 }];
@@ -979,7 +995,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                     numberOfFilesDone++;
                     expect(fileName).to(equal([NSString stringWithFormat:@"TestSmallFilesMemory%ld", numberOfFilesDone-1]));
-                    expect(uploadPercentage).to(beCloseTo(numberOfFilesDone / 5));
+                    expect(uploadPercentage).to(beCloseTo((float)numberOfFilesDone / 5));
                     expect(error).to(beNil());
                     return numberOfFilesDone == 5 ? NO : YES;
                 } completionHandler:^(NSError * _Nullable error) {
@@ -1022,9 +1038,15 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                     numberOfFilesDone++;
                     expect(fileName).to(equal([NSString stringWithFormat:@"TestSmallFilesMemory%ld", numberOfFilesDone-1]));
-                    expect(uploadPercentage).to(beCloseTo(numberOfFilesDone / 5));
-                    expect(error).toNot(beNil());
-                    return numberOfFilesDone == 1 ? NO : YES;
+                    expect(uploadPercentage).to(beCloseTo((float)numberOfFilesDone / 5));
+
+                    if (numberOfFilesDone == 1) {
+                        expect(error).to(beNil());
+                    } else {
+                        expect(error).toNot(beNil());
+                    }
+
+                    return NO;
                 } completionHandler:^(NSError * _Nullable error) {
                     expect(error).toNot(beNil());
                 }];
@@ -1045,7 +1067,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
 
                 for (int i = 5; i < 10; i++) {
                     SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions[i];
-                    expect(sentOperation.cancelled).to(beTrue());
+                    expect(sentOperation.cancelled).to(beFalse());
                     sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
                 }
                 expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
@@ -1133,7 +1155,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                 expect(testFileManager.remoteFileNames).to(haveCount(1));
             });
 
-            it(@"should return an error if all files fail to delete", ^{
+            fit(@"should return an error if all files fail to delete", ^{
                 [testFileManager deleteRemoteFilesWithNames:@[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"] completionHandler:^(NSError * _Nullable error) {
                     expect(error).toNot(beNil());
                 }];
@@ -1144,7 +1166,7 @@ fdescribe(@"uploading/deleting multiple files in the file manager", ^{
                     deleteOp.completionHandler(NO, newBytesAvailable, [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:@{}]);
                 }
 
-                expect(testFileManager.bytesAvailable).to(equal(newBytesAvailable));
+                expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
                 expect(testFileManager.remoteFileNames).to(haveCount(6));
             });
         });
