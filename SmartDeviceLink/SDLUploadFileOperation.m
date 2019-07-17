@@ -72,11 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) {
         completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
         [self finishOperation];
+        return;
     }
 
     if (file == nil) {
         completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
+        return;
     }
 
     self.inputStream = [self sdl_openInputStreamWithFile:file];
@@ -86,6 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
+        return;
     }
 
     dispatch_group_t putFileGroup = dispatch_group_create();
