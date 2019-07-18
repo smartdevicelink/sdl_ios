@@ -37,12 +37,12 @@ typedef void (^SwipeGestureCallbackBlock)(void);
 /**
  *  Adds a swipe gesture to the lock screen view controller.
  */
-- (void)addSwipeGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback;
+- (void)addDismissGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback;
 
 /**
  *  Remove swipe gesture to the lock screen view controller.
  */
-- (void)removeSwipeGesture;
+- (void)removeDismissGesture;
 
 @end
 

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowDownImageView;
-@property (strong, nonatomic) SwipeGestureCallbackBlock swipeGestureCallback;
+@property (strong, nonatomic) SwipeGestureCallbackBlock dismissGestureCallback;
 
 @end
 
@@ -78,19 +78,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Swipe Gesture
 
-- (void)addSwipeGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback {
-    self.swipeGestureCallback = swipeGestureCallback;
-    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeDown:)];
+- (void)addDismissGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback {
+    self.dismissGestureCallback = swipeGestureCallback;
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(sdl_didSwipeToDismiss:)];
     [swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
     [self.view addGestureRecognizer:swipeGesture];
 }
 
-- (void)removeSwipeGesture {
+- (void)removeDismissGesture {
     self.view.gestureRecognizers = [[NSArray alloc] init];
 }
 
-- (void)didSwipeDown:(UISwipeGestureRecognizer *)gesture {
-    self.swipeGestureCallback();
+- (void)sdl_didSwipeToDismiss:(UISwipeGestureRecognizer *)gesture {
+    self.dismissGestureCallback();
 }
 
 #pragma mark - Layout

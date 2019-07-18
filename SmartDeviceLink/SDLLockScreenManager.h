@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Whether or not the lock screen is currently dismissable
  */
-@property (assign, nonatomic, readonly, getter=isLockScreenDismissable) BOOL lockScreenDismissableEnabled;
+@property (assign, nonatomic, readonly, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
 
 /**
  *  The lock screen configuration used to set up the manager
