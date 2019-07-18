@@ -583,10 +583,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangeLanguageNotification notification:notification];
 }
 
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
-    [self postRPCNotificationNotification:SDLDidChangeLockScreenStatusNotification notification:notification];
-}
-
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
 }

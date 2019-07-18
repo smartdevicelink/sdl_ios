@@ -146,7 +146,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnInteriorVehicleData.h"
 #import "SDLOnKeyboardInput.h"
 #import "SDLOnLanguageChange.h"
-#import "SDLOnLockScreenStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLOnRCStatus.h"
 #import "SDLOnSyncPData.h"

@@ -747,8 +747,6 @@
 		5D61FD121A84238C00846EE7 /* SDLOnKeyboardInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB251A84238B00846EE7 /* SDLOnKeyboardInput.m */; };
 		5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB261A84238B00846EE7 /* SDLOnLanguageChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD141A84238C00846EE7 /* SDLOnLanguageChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB271A84238B00846EE7 /* SDLOnLanguageChange.m */; };
-		5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FD161A84238C00846EE7 /* SDLOnLockScreenStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */; };
 		5D61FD171A84238C00846EE7 /* SDLOnPermissionsChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB2A1A84238B00846EE7 /* SDLOnPermissionsChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD181A84238C00846EE7 /* SDLOnPermissionsChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */; };
 		5D61FD191A84238C00846EE7 /* SDLOnSyncPData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB2C1A84238B00846EE7 /* SDLOnSyncPData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2396,8 +2394,6 @@
 		5D61FB251A84238B00846EE7 /* SDLOnKeyboardInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnKeyboardInput.m; sourceTree = "<group>"; };
 		5D61FB261A84238B00846EE7 /* SDLOnLanguageChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnLanguageChange.h; sourceTree = "<group>"; };
 		5D61FB271A84238B00846EE7 /* SDLOnLanguageChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnLanguageChange.m; sourceTree = "<group>"; };
-		5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnLockScreenStatus.h; sourceTree = "<group>"; };
-		5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnLockScreenStatus.m; sourceTree = "<group>"; };
 		5D61FB2A1A84238B00846EE7 /* SDLOnPermissionsChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnPermissionsChange.h; sourceTree = "<group>"; };
 		5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnPermissionsChange.m; sourceTree = "<group>"; };
 		5D61FB2C1A84238B00846EE7 /* SDLOnSyncPData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnSyncPData.h; sourceTree = "<group>"; };
@@ -4837,8 +4833,6 @@
 				5D61FB251A84238B00846EE7 /* SDLOnKeyboardInput.m */,
 				5D61FB261A84238B00846EE7 /* SDLOnLanguageChange.h */,
 				5D61FB271A84238B00846EE7 /* SDLOnLanguageChange.m */,
-				5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */,
-				5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */,
 				5D61FB2A1A84238B00846EE7 /* SDLOnPermissionsChange.h */,
 				5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */,
 				1EAA47092032BAE5000FE74B /* SDLOnRCStatus.h */,
@@ -6231,7 +6225,6 @@
 				8817C2802289F4B900DB2DEC /* SDLIAPDataSessionDelegate.h in Headers */,
 				5D61FC841A84238C00846EE7 /* SDLDeviceLevelStatus.h in Headers */,
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
-				5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */,
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
 				884E702321FBA952008D53BA /* SDLAppServiceType.h in Headers */,
 				DAC572571D1067270004288B /* SDLTouchManager.h in Headers */,
@@ -7207,7 +7200,6 @@
 				5D00AC681F140F0A004000D9 /* SDLSystemCapabilityType.m in Sources */,
 				E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */,
 				5D61FCC61A84238C00846EE7 /* SDLHMIZoneCapabilities.m in Sources */,
-				5D61FD161A84238C00846EE7 /* SDLOnLockScreenStatus.m in Sources */,
 				5D61FDAE1A84238C00846EE7 /* SDLSubscribeButton.m in Sources */,
 				DA9F7E6C1DCBFB0700ACAE48 /* SDLDeliveryMode.m in Sources */,
 				5D61FC581A84238C00846EE7 /* SDLButtonPressMode.m in Sources */,
