@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLSyncMsgVersion;
+@class SDLSyncMsgVersion; // This class is deprecated
+@class SDLMsgVersion;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,8 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)versionWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
 - (nullable instancetype)initWithString:(NSString *)versionString;
 + (nullable instancetype)versionWithString:(NSString *)versionString;
-- (instancetype)initWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion;
-+ (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+- (instancetype)initWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion __deprecated_msg(("Use initWithSDLMsgVersion:sdlMsgVersion: instead"));
++ (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion __deprecated_msg(("Use versionWithSDLMsgVersion:sdlMsgVersion instead"));
+#pragma clang diagnostic pop
+- (instancetype)initWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion;
++ (instancetype)versionWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion;
 
 - (NSComparisonResult)compare:(SDLVersion *)otherVersion;
 - (BOOL)isLessThanVersion:(SDLVersion *)otherVersion;

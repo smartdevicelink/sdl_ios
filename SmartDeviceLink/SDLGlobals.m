@@ -10,7 +10,6 @@
 
 #import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
-#import "SDLSyncMsgVersion.h"
 #import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -10,6 +10,7 @@
 @class SDLDeviceInfo;
 @class SDLLifecycleConfiguration;
 @class SDLSyncMsgVersion;
+@class SDLMsgVersion;
 @class SDLTemplateColorScheme;
 @class SDLTTSChunk;
 
@@ -105,7 +106,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
+@property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion __deprecated_msg(("Use sdlMsgVersion instead"));
+
+/**
+ * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
+ *
+ * SDLSyncMsgVersion, Required
+ *
+ * @since SDL 1.0
+ */
+@property (strong, nonatomic) SDLMsgVersion *sdlMsgVersion;
 
 /**
  * The mobile application's name. This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink. Applications with the same name will be rejected.
