@@ -86,6 +86,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameSubscribeWayPoints).to(equal(@"SubscribeWayPoints"));
         expect(SDLRPCFunctionNameSyncPData).to(equal(@"SyncPData"));
         expect(SDLRPCFunctionNameSystemRequest).to(equal(@"SystemRequest"));
+        expect(SDLRPCFunctionNameUnpublishAppService).to(equal(@"UnpublishAppService"));
         expect(SDLRPCFunctionNameUnregisterAppInterface).to(equal(@"UnregisterAppInterface"));
         expect(SDLRPCFunctionNameUnsubscribeButton).to(equal(@"UnsubscribeButton"));
         expect(SDLRPCFunctionNameUnsubscribeVehicleData).to(equal(@"UnsubscribeVehicleData"));

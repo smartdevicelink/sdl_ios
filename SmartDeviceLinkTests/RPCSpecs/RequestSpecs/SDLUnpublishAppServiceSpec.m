@@ -27,10 +27,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
-                                                           @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameServiceID:@"idToUnpublish"},
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnpublishAppService}} mutableCopy];
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
+                                                   @{SDLRPCParameterNameParameters:
+                                                         @{SDLRPCParameterNameServiceID:@"idToUnpublish"},
+                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnpublishAppService}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnpublishAppService* testRequest = [[SDLUnpublishAppService alloc] initWithDictionary:dict];

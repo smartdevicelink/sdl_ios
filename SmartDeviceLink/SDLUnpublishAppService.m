@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceID {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 @end
