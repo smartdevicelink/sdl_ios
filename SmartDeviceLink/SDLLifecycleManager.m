@@ -282,7 +282,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         if (shouldRestart) {
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
         } else {
-            // End any background tasks because a session will not be established
+            // End the background task because a session will not be established
             [self.backgroundTaskManager endBackgroundTask];
         }
     });
@@ -492,6 +492,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
     }
+
+	// Stop the background task now that setup has completed
+    [self.backgroundTaskManager endBackgroundTask];
 }
 
 - (void)didEnterStateUnregistering {
@@ -701,9 +704,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 - (void)transportDidConnect {
     SDLLogD(@"Transport connected");
-
-    // End any background tasks since the transport connected successfully
-    [self.backgroundTaskManager endBackgroundTask];
 
     dispatch_async(self.lifecycleQueue, ^{
         [self sdl_transitionToState:SDLLifecycleStateConnected];
