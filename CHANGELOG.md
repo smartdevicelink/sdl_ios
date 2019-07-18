@@ -1,4 +1,9 @@
 # Changelog
+## 6.3.1
+### Bug Fixes
+* Fix unregistering for EATransport notifications can interfere with other apps' EATransport notifications (https://www.github.com/smartdevicelink/sdl_ios/issues/1329).
+* Fix issues related to the background task running when the device is in the process of making an IAP connection but is in the background (https://www.github.com/smartdevicelink/sdl_ios/issues/1326, https://www.github.com/smartdevicelink/sdl_ios/issues/1327).
+
 ## 6.3.0
 ### Versions
 * Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
