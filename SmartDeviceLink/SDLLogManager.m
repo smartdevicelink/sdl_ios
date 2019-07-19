@@ -340,7 +340,11 @@ static dispatch_queue_t _logQueue = NULL;
 + (dispatch_queue_t)logQueue {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _logQueue = dispatch_queue_create_with_target("com.sdl.log", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+        if (@available(iOS 10.0, *)) {
+            _logQueue = dispatch_queue_create_with_target("com.sdl.log", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+        } else {
+            _logQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
+        }
     });
 
     return _logQueue;

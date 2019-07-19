@@ -39,8 +39,13 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     if (!self) { return nil; }
 
     _mutableQueue = [NSMutableArray array];
-    _audioQueue = dispatch_queue_create_with_target("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _shouldPlayWhenReady = NO;
+
+    if (@available(iOS 10.0, *)) {
+        _audioQueue = dispatch_queue_create_with_target("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+    } else {
+        _audioQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
+    }
 
     _streamManager = streamManager;
 
