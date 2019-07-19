@@ -28,8 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler;
 
-@property (strong, nonatomic, readonly) NSUUID *operationId;
+/**
+ The connection manager which will handle transporting the request to the remote system.
+ */
 @property (weak, nonatomic, readonly) id<SDLConnectionManagerType> connectionManager;
+
+/**
+ A completion handler for when the response returns.
+ */
 @property (copy, nonatomic, nullable, readonly) SDLFileManagerListFilesCompletionHandler completionHandler;
 
 @end
