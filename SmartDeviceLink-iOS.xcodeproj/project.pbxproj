@@ -85,7 +85,6 @@
 		162E83171A9BDE8B00906325 /* SDLOnHMIStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82311A9BDE8A00906325 /* SDLOnHMIStatusSpec.m */; };
 		162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82321A9BDE8A00906325 /* SDLOnKeyboardInputSpec.m */; };
 		162E83191A9BDE8B00906325 /* SDLOnLanguageChangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82331A9BDE8A00906325 /* SDLOnLanguageChangeSpec.m */; };
-		162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */; };
 		162E831B1A9BDE8B00906325 /* SDLOnPermissionsChangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82351A9BDE8A00906325 /* SDLOnPermissionsChangeSpec.m */; };
 		162E831C1A9BDE8B00906325 /* SDLOnSyncPDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82361A9BDE8A00906325 /* SDLOnSyncPDataSpec.m */; };
 		162E831D1A9BDE8B00906325 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
@@ -1693,7 +1692,6 @@
 		162E82311A9BDE8A00906325 /* SDLOnHMIStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnHMIStatusSpec.m; sourceTree = "<group>"; };
 		162E82321A9BDE8A00906325 /* SDLOnKeyboardInputSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnKeyboardInputSpec.m; sourceTree = "<group>"; };
 		162E82331A9BDE8A00906325 /* SDLOnLanguageChangeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnLanguageChangeSpec.m; sourceTree = "<group>"; };
-		162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnLockScreenStatusSpec.m; sourceTree = "<group>"; };
 		162E82351A9BDE8A00906325 /* SDLOnPermissionsChangeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnPermissionsChangeSpec.m; sourceTree = "<group>"; };
 		162E82361A9BDE8A00906325 /* SDLOnSyncPDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnSyncPDataSpec.m; sourceTree = "<group>"; };
 		162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnSystemRequestSpec.m; sourceTree = "<group>"; };
@@ -3363,7 +3361,6 @@
 				1EE8C4531F38762E00FDC2CF /* SDLOnInteriorVehicleDataSpec.m */,
 				162E82321A9BDE8A00906325 /* SDLOnKeyboardInputSpec.m */,
 				162E82331A9BDE8A00906325 /* SDLOnLanguageChangeSpec.m */,
-				162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */,
 				162E82351A9BDE8A00906325 /* SDLOnPermissionsChangeSpec.m */,
 				1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */,
 				162E82361A9BDE8A00906325 /* SDLOnSyncPDataSpec.m */,
@@ -7707,7 +7704,6 @@
 				1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */,
 				88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */,
 				8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */,
-				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
 				162E83431A9BDE8B00906325 /* SDLSyncPDataSpec.m in Sources */,
 				167ED9461A9BCE5D00797BE5 /* SwiftSpec.swift in Sources */,
 				162E838B1A9BDE8B00906325 /* SDLSoftButtonCapabilitiesSpec.m in Sources */,
