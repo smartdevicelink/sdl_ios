@@ -19,6 +19,7 @@
                                  [self sdl_rpcModule],
                                  [self sdl_dispatcherModule],
                                  [self sdl_fileManagerModule],
+                                 [self sdl_encryptionLifecycleManagerModule],
                                  [self sdl_lifecycleManagerModule],
                                  [self sdl_systemCapabilityModule],
                                  [self sdl_lockscreenManagerModule],
@@ -57,6 +58,10 @@
 
 + (SDLLogFileModule *)sdl_fileManagerModule {
     return [SDLLogFileModule moduleWithName:@"File" files:[NSSet setWithArray:@[@"SDLFileManager", @"SDLFile", @"SDLArtwork", @"SDLListFilesOperation", @"SDLUploadFileOperation", @"SDLDeleteFileOperation"]]];
+}
+
++ (SDLLogFileModule *)sdl_encryptionLifecycleManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Encryption" files:[NSSet setWithArray:@[@"SDLEncryptionLifecycleManager", @"SDLEncryptionConfiguration", @"SDLEncryptionManagerConstants"]]];
 }
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
