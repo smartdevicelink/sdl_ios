@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.receivedRequests addObject:rpc];
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
     SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
     requestRPC.correlationID = [self test_nextCorrelationID];
@@ -39,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sendConnectionRequest:request withResponseHandler:handler];
+    [self sendConnectionRequest:request withEncryption:NO withResponseHandler:handler];
 }
 
 - (void)sendRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
+        [self sendConnectionRequest:request withEncryption:NO withResponseHandler:nil];
 
         if (progressHandler != nil) {
             progressHandler(request, nil, nil, (double)idx / (double)requests.count);
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
+        [self sendConnectionRequest:request withEncryption:NO withResponseHandler:nil];
         progressHandler(request, nil, nil, (double)idx / (double)requests.count);
     }];
 

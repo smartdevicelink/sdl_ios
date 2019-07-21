@@ -230,7 +230,7 @@ describe(@"a lifecycle manager", ^{
         describe(@"after receiving a connect notification", ^{
             beforeEach(^{
                 // When we connect, we should be creating an sending an RAI
-                OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
+                OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]] withEncryption:NO]);
                 
                 [testManager.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
                 [NSThread sleepForTimeInterval:0.1];
@@ -485,7 +485,7 @@ describe(@"a lifecycle manager", ^{
 
                 [NSThread sleepForTimeInterval:0.1];
 
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class]]);
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class] withEncryption:NO]);
             });
 
             it(@"can send an RPC of type Response", ^{
@@ -498,7 +498,7 @@ describe(@"a lifecycle manager", ^{
 
                 [NSThread sleepForTimeInterval:0.1];
 
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class]]);
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class] withEncryption:NO]);
             });
 
             it(@"can send an RPC of type Notification", ^{
@@ -507,7 +507,7 @@ describe(@"a lifecycle manager", ^{
 
                 [NSThread sleepForTimeInterval:0.1];
 
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class]]);
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class] withEncryption:NO]);
             });
 
             it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
@@ -548,7 +548,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should attempt to unregister", ^{
-                    OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]] withEncryption:NO]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
                 

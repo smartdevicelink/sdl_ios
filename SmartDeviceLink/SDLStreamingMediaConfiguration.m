@@ -23,10 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] init];
 }
 
-- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController {
-    return [self initWithSecurityManagers:nil encryptionFlag:encryptionFlag videoSettings:videoSettings dataSource:dataSource rootViewController:rootViewController];
-}
-
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *,id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController {
     self = [super init];
     if (!self) {

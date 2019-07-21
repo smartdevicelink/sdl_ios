@@ -302,8 +302,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
 
     // If we have security managers, add them to the proxy
+    if (self.configuration.streamingMediaConfig.securityManagers != nil) {
+        SDLLogD(@"Adding security managers from streamingMedia configuration");
+        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+    }
     if (self.configuration.encryptionConfig.securityManagers != nil) {
-        SDLLogD(@"Adding security managers");
+        SDLLogD(@"Adding security managers from encryption configuration");
         [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 

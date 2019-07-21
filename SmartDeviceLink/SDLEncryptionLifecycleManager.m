@@ -40,7 +40,7 @@
     _connectionManager = connectionManager;
     _permissionManager = permissionManager;
     _rpcOperationQueue = rpcOperationQueue;
-    _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
+    _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
@@ -79,7 +79,7 @@
 }
 
 - (BOOL)isEncryptionReady {
-    return [self.encryptionStateMachine isCurrentState:SDLEncryptionManagerStateReady];
+    return [self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateReady];
 }
 
 - (void)sdl_startEncryptionService {
@@ -94,9 +94,8 @@
         return;
     }
     
-    // TODO: check if permissionManager has requireEncyrption flag in any RPC or itself
     if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
-        [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStarting];
+        [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send encryption start service request\n"
                 "permissionManager: %@\n"
@@ -110,7 +109,7 @@
     [self.protocol startSecureServiceWithType:SDLServiceTypeRPC payload:nil completionHandler:^(BOOL success, NSError *error) {
         if (error) {
             SDLLogE(@"TLS setup error: %@", error);
-            [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
+            [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
         }
     }];
 }
@@ -118,16 +117,16 @@
 - (void)sdl_stopEncryptionService {
     _protocol = nil;
     
-    [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
+    [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
 }
 
 #pragma mark Encryption
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_encryptionStateTransitionDictionary {
     return @{
-             SDLEncryptionManagerStateStopped : @[SDLEncryptionManagerStateStarting],
-             SDLEncryptionManagerStateStarting : @[SDLEncryptionManagerStateStopped, SDLEncryptionManagerStateReady],
-             SDLEncryptionManagerStateReady : @[SDLEncryptionManagerStateShuttingDown, SDLEncryptionManagerStateStopped],
-             SDLEncryptionManagerStateShuttingDown : @[SDLEncryptionManagerStateStopped]
+             SDLEncryptionLifecycleManagerStateStopped : @[SDLEncryptionLifecycleManagerStateStarting],
+             SDLEncryptionLifecycleManagerStateStarting : @[SDLEncryptionLifecycleManagerStateStopped, SDLEncryptionLifecycleManagerStateReady],
+             SDLEncryptionLifecycleManagerStateReady : @[SDLEncryptionLifecycleManagerStateShuttingDown, SDLEncryptionLifecycleManagerStateStopped],
+             SDLEncryptionLifecycleManagerStateShuttingDown : @[SDLEncryptionLifecycleManagerStateStopped]
              };
 }
 
@@ -159,9 +158,13 @@
 }
 
 - (void)sdl_handleEncryptionStartServiceAck:(SDLProtocolMessage *)encryptionStartServiceAck {
-    SDLLogD(@"Encryption service started");
-
-    [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateReady];
+    if (encryptionStartServiceAck.header.encrypted) {
+        SDLLogD(@"Encryption service started");
+        [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateReady];
+    } else {
+        SDLLogD(@"Encryption service ACK received encryption = OFF");
+        [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+    }
 }
 
 #pragma mark Encryption Start Service NAK
@@ -177,7 +180,7 @@
 
 - (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
     SDLLogW(@"Encryption service failed to start due to NACK");
-    [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
+    [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
 }
 
 #pragma mark Encryption End Service
@@ -186,7 +189,7 @@
     switch (endServiceACK.header.serviceType) {
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service ACK");
-            [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
+            [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
         } break;
         default: break;
     }
@@ -196,7 +199,7 @@
     switch (endServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service NACK");
-            [self.encryptionStateMachine transitionToState:SDLEncryptionManagerStateStopped];
+            [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
         } break;
         default: break;
     }

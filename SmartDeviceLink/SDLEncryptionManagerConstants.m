@@ -8,7 +8,7 @@
 
 #import "SDLEncryptionManagerConstants.h"
 
-SDLEncryptionManagerState *const SDLEncryptionManagerStateStopped = @"EncryptionStopped";
-SDLEncryptionManagerState *const SDLEncryptionManagerStateStarting = @"EncryptionStarting";
-SDLEncryptionManagerState *const SDLEncryptionManagerStateReady = @"EncryptionReady";
-SDLEncryptionManagerState *const SDLEncryptionManagerStateShuttingDown = @"EncryptionShuttingDown";
+SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStopped = @"EncryptionStopped";
+SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStarting = @"EncryptionStarting";
+SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateReady = @"EncryptionReady";
+SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateShuttingDown = @"EncryptionShuttingDown";

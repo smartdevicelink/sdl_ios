@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const SDLEncryptionDidStartNotification;
 extern NSString *const SDLEncryptionDidStopNotification;
 
-typedef NSString SDLEncryptionManagerState;
-extern SDLEncryptionManagerState *const SDLEncryptionManagerStateStopped;
-extern SDLEncryptionManagerState *const SDLEncryptionManagerStateStarting;
-extern SDLEncryptionManagerState *const SDLEncryptionManagerStateReady;
-extern SDLEncryptionManagerState *const SDLEncryptionManagerStateShuttingDown;
+typedef NSString SDLEncryptionLifecycleManagerState;
+extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStopped;
+extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStarting;
+extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateReady;
+extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateShuttingDown;
 
 NS_ASSUME_NONNULL_END
