@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
  *
- * SDLSyncMsgVersion, Required
+ * SDLMsgVersion, Required
  *
  * @since SDL 1.0
  */

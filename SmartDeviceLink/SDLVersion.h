@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLSyncMsgVersion; // This class is deprecated
+@class SDLSyncMsgVersion;
 @class SDLMsgVersion;
 
 NS_ASSUME_NONNULL_BEGIN

@@ -15,20 +15,27 @@
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
 
-SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
-SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
-SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
-SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
-SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
-SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
-SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
-SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+__block SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+#pragma clang diagnostic pop
+__block SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+__block SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
+__block SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
+__block SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
+__block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];__block
+__block SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
+__block SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
+__block SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testResponse.syncMsgVersion = version;
+#pragma clang diagnostic pop
+
         testResponse.language = SDLLanguageEsMx;
         testResponse.hmiDisplayLanguage = SDLLanguageRuRu;
         testResponse.displayCapabilities = info;
@@ -47,8 +54,12 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         testResponse.iconResumed = @YES;
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testResponse.syncMsgVersion).to(equal(version));
+#pragma clang diagnostic pop
+        testResponse.sdlMsgVersion = sdlVersion;
+        expect(testResponse.sdlMsgVersion).to(equal(sdlVersion));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
         expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
         expect(testResponse.displayCapabilities).to(equal(info));
@@ -68,61 +79,108 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
         expect(testResponse.iconResumed).to(beTrue());
     });
-    
-    it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLRPCParameterNameRequest:
-                                           @{SDLRPCParameterNameParameters:
-                                                 @{SDLRPCParameterNameSyncMessageVersion:version,
-                                                   SDLRPCParameterNameLanguage:SDLLanguageEsMx,
-                                                   SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageRuRu,
-                                                   SDLRPCParameterNameDisplayCapabilities:info,
-                                                   SDLRPCParameterNameButtonCapabilities:@[button],
-                                                   SDLRPCParameterNameSoftButtonCapabilities:@[softButton],
-                                                   SDLRPCParameterNamePresetBankCapabilities:presetBank,
-                                                   SDLRPCParameterNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
-                                                   SDLRPCParameterNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
-                                                   SDLRPCParameterNameVRCapabilities:@[SDLVRCapabilitiesText],
-                                                   SDLRPCParameterNameAudioPassThruCapabilities:@[audioPassThru],
-                                                   SDLRPCParameterNamePCMStreamCapabilities: audioPassThru,
-                                                   SDLRPCParameterNameVehicleType:vehicle,
-                                                   SDLRPCParameterNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
-                                                   SDLRPCParameterNameSupportedDiagnosticModes:@[@67, @99, @111],
-                                                   SDLRPCParameterNameHMICapabilities: hmiCapabilities,
-                                                   SDLRPCParameterNameSDLVersion: @"sdlVersion",
-                                                   SDLRPCParameterNameSystemSoftwareVersion: @"systemSoftwareVersion",
-                                                   SDLRPCParameterNameIconResumed: @YES,
-                                                   },
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+    describe(@"Setting With Dictionary", ^{
+        __block NSDictionary *dict = nil;
+        beforeEach( ^{
+            dict = @{SDLRPCParameterNameRequest:
+                         @{SDLRPCParameterNameParameters:
+                               @{SDLRPCParameterNameSyncMessageVersion:@{
+                                         SDLRPCParameterNameMajorVersion: @6,
+                                         SDLRPCParameterNameMinorVersion: @0,
+                                         SDLRPCParameterNamePatchVersion: @0
+                                         },
+                                 SDLRPCParameterNameLanguage:SDLLanguageEsMx,
+                                 SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageRuRu,
+                                 SDLRPCParameterNameDisplayCapabilities:info,
+                                 SDLRPCParameterNameButtonCapabilities:@[button],
+                                 SDLRPCParameterNameSoftButtonCapabilities:@[softButton],
+                                 SDLRPCParameterNamePresetBankCapabilities:presetBank,
+                                 SDLRPCParameterNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
+                                 SDLRPCParameterNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
+                                 SDLRPCParameterNameVRCapabilities:@[SDLVRCapabilitiesText],
+                                 SDLRPCParameterNameAudioPassThruCapabilities:@[audioPassThru],
+                                 SDLRPCParameterNamePCMStreamCapabilities: audioPassThru,
+                                 SDLRPCParameterNameVehicleType:vehicle,
+                                 SDLRPCParameterNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
+                                 SDLRPCParameterNameSupportedDiagnosticModes:@[@67, @99, @111],
+                                 SDLRPCParameterNameHMICapabilities: hmiCapabilities,
+                                 SDLRPCParameterNameSDLVersion: @"sdlVersion",
+                                 SDLRPCParameterNameSystemSoftwareVersion: @"systemSoftwareVersion",
+                                 SDLRPCParameterNameIconResumed: @YES,
+                                 },
+                           SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+        });
+        it(@"Should get correctly when initialized with a dictionary and get syncMsgVersion first", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+            SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-        
-        expect(testResponse.syncMsgVersion).to(equal(version));
-        expect(testResponse.language).to(equal(SDLLanguageEsMx));
-        expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
-        expect(testResponse.displayCapabilities).to(equal(info));
-        expect(testResponse.buttonCapabilities).to(equal(@[button]));
-        expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
-        expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
-        expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
-        expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
-        expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
-        expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
-        expect(testResponse.vehicleType).to(equal(vehicle));
-        expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
-        expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
-        expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
-        expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
-        expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
-        expect(testResponse.iconResumed).to(beTrue());
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
+#pragma clang diagnostic pop
+            expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
+            expect(testResponse.language).to(equal(SDLLanguageEsMx));
+            expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
+            expect(testResponse.displayCapabilities).to(equal(info));
+            expect(testResponse.buttonCapabilities).to(equal(@[button]));
+            expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
+            expect(testResponse.presetBankCapabilities).to(equal(presetBank));
+            expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
+            expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
+            expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
+            expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
+            expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
+            expect(testResponse.vehicleType).to(equal(vehicle));
+            expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
+            expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
+            expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
+            expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+            expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+            expect(testResponse.iconResumed).to(beTrue());
+        });
+
+        it(@"Should get correctly when initialized with a dictionary and get sdlMsgVersion first", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
+
+            expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0 ]));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
+#pragma clang diagnostic pop
+            expect(testResponse.language).to(equal(SDLLanguageEsMx));
+            expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
+            expect(testResponse.displayCapabilities).to(equal(info));
+            expect(testResponse.buttonCapabilities).to(equal(@[button]));
+            expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
+            expect(testResponse.presetBankCapabilities).to(equal(presetBank));
+            expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
+            expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
+            expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
+            expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
+            expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
+            expect(testResponse.vehicleType).to(equal(vehicle));
+            expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
+            expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
+            expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
+            expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+            expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+            expect(testResponse.iconResumed).to(beTrue());
+        });
+
     });
     
     it(@"Should return nil if not set", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testResponse.syncMsgVersion).to(beNil());
+#pragma clang diagnostic pop
+        expect(testResponse.sdlMsgVersion).to(beNil());
         expect(testResponse.language).to(beNil());
         expect(testResponse.hmiDisplayLanguage).to(beNil());
         expect(testResponse.displayCapabilities).to(beNil());
@@ -172,7 +230,11 @@ describe(@"Getter/Setter Tests", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expectAction(^{ [testResponse syncMsgVersion]; }).to(raiseException());
+#pragma clang diagnostic pop
+        expectAction(^{ [testResponse sdlMsgVersion]; }).to(raiseException());
         expectAction(^{ [testResponse language]; }).to(raiseException());
         expectAction(^{ [testResponse hmiDisplayLanguage]; }).to(raiseException());
         expectAction(^{ [testResponse displayCapabilities]; }).to(raiseException());
