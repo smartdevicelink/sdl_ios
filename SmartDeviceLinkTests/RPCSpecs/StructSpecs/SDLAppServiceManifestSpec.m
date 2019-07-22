@@ -69,7 +69,6 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testStruct.rpcSpecVersion = testSyncMsgVersion;
 #pragma clang diagnostic pop
-        testStruct.maxRPCSpecVersion = testSDLMsgVersion;
         testStruct.handledRPCs = testHandledRPCs;
         testStruct.weatherServiceManifest = testWeatherServiceManifest;
         testStruct.mediaServiceManifest = testMediaServiceManifest;
@@ -83,6 +82,8 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testStruct.rpcSpecVersion).to(equal(testSyncMsgVersion));
 #pragma clang diagnostic pop
+        testStruct.maxRPCSpecVersion = testSDLMsgVersion;
+        expect(testStruct.maxRPCSpecVersion).to(equal(testSDLMsgVersion));
         expect(testStruct.maxRPCSpecVersion).to(equal(testSDLMsgVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
         expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));

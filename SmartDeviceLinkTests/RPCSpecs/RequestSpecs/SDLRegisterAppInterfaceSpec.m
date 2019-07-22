@@ -316,7 +316,6 @@ describe(@"RegisterAppInterface Tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash];
 #pragma clang diagnostic pop
-
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
 #pragma clang diagnostic push

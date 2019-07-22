@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setSyncMsgVersion:(nullable SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion == nil) {
-        [self.store sdl_setObject:nil forName:SDLRPCParameterNameSyncMessageVersion];
+        [self.parameters sdl_setObject:nil forName:SDLRPCParameterNameSyncMessageVersion];
         return;
     }
     SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)[syncMsgVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[syncMsgVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[syncMsgVersion.patchVersion unsignedIntValue]];

@@ -35,7 +35,6 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testResponse.syncMsgVersion = version;
 #pragma clang diagnostic pop
-
         testResponse.language = SDLLanguageEsMx;
         testResponse.hmiDisplayLanguage = SDLLanguageRuRu;
         testResponse.displayCapabilities = info;
@@ -81,6 +80,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     describe(@"Setting With Dictionary", ^{
         __block NSDictionary *dict = nil;
+
         beforeEach( ^{
             dict = @{SDLRPCParameterNameRequest:
                          @{SDLRPCParameterNameParameters:
@@ -110,6 +110,7 @@ describe(@"Getter/Setter Tests", ^ {
                                  },
                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
         });
+
         it(@"Should get correctly when initialized with a dictionary and get syncMsgVersion first", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -146,8 +147,7 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-
-            expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0 ]));
+            expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
@@ -171,7 +171,6 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
             expect(testResponse.iconResumed).to(beTrue());
         });
-
     });
     
     it(@"Should return nil if not set", ^ {
