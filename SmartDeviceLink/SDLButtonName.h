@@ -218,27 +218,27 @@ extern SDLButtonName const SDLButtonNameNavCenter;
 /**
  * Represents a Zoom in button.
  */
-extern SDLButtonName const SDLButtonNameZoomIn;
+extern SDLButtonName const SDLButtonNameNavZoomIn;
 
 /**
  * Represents a Zoom out button.
  */
-extern SDLButtonName const SDLButtonNameZoomOut;
+extern SDLButtonName const SDLButtonNameNavZoomOut;
 
 /**
  * Represents a Pan up button
  */
-extern SDLButtonName const SDLButtonNamePanUP;
+extern SDLButtonName const SDLButtonNameNavPanUp;
 
 /**
  * Represents a Pan up/right button
  */
-extern SDLButtonName const SDLButtonNamePanUpRight;
+extern SDLButtonName const SDLButtonNameNavPanUpRight;
 
 /**
  * Represents a Pan right button
  */
-extern SDLButtonName const SDLButtonNamePanRight;
+extern SDLButtonName const SDLButtonNameNavPanRight;
 
 /**
  * Represents a Pan down/right button
@@ -248,39 +248,39 @@ extern SDLButtonName const SDLButtonNamePanDownRight;
 /**
  * Represents a Pan down button
  */
-extern SDLButtonName const SDLButtonNamePanDown;
+extern SDLButtonName const SDLButtonNameNavPanDown;
 
 /**
  * Represents a Pan down left button
  */
-extern SDLButtonName const SDLButtonNamePanDownLeft;
+extern SDLButtonName const SDLButtonNameNavPanDownLeft;
 
 /*
  * Represents a Pan left button
  */
-extern SDLButtonName const SDLButtonNamePanLeft;
+extern SDLButtonName const SDLButtonNameNavPanLeft;
 
 /*
  * Represents a Pan up left button
  */
-extern SDLButtonName const SDLButtonNamePanUpLeft;
+extern SDLButtonName const SDLButtonNameNavPanUpLeft;
 
 /*
  * Represents a Tilt button. If supported, this toggles between a top-down view and an angled/3D view. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
  */
-extern SDLButtonName const SDLButtonNameTiltToggle;
+extern SDLButtonName const SDLButtonNameNavTiltToggle;
 
 /*
  * Represents a Rotate clockwise button
  */
-extern SDLButtonName const SDLButtonNameRotateClockwise;
+extern SDLButtonName const SDLButtonNameNavRotateClockwise;
 
 /*
  * Represents a Rotate counterclockwise button
  */
-extern SDLButtonName const SDLButtonNameRotateCounterClockWise;
+extern SDLButtonName const SDLButtonNameNavRotateCounterClockwise;
 
 /*
  * Represents a Heading toggle button. If supported, this toggles between locking the orientation to north or to the vehicle's heading. If your app supports different, but substantially similar options, then you may implement those. If you don't implement these or similar options, do not subscribe to this button.
  */
-extern SDLButtonName const SDLButtonNameHeadingToggle;
+extern SDLButtonName const SDLButtonNameNavHeadingToggle;
