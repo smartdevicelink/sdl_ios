@@ -21,12 +21,23 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLCancelInteraction.h"
+#import "SDLFunctionID.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+
+@end
+
+@interface SDLChoiceSet()
+
+@property (assign, nonatomic) UInt16 cancelId;
+@property (assign, nonatomic, readwrite) BOOL cancelShow;
+@property (copy, nonatomic) SDLChoiceSetCancelledHandler cancelledHandler;
+
 
 @end
 
@@ -59,6 +70,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _choiceSet = choiceSet;
+
+    __weak typeof(self) weakSelf = self;
+    [_choiceSet setCancelledHandler:^(BOOL value){
+        __strong typeof(self) strongSelf = weakSelf;
+        if (value == YES) {
+            NSLog(@"The choice was cancelled.");
+            [strongSelf cancelOperation];
+        }
+    }];
+
     _presentationMode = mode;
 
     _originalKeyboardProperties = originalKeyboardProperties;
@@ -68,6 +89,23 @@ NS_ASSUME_NONNULL_BEGIN
     _selectedCellRow = NSNotFound;
 
     return self;
+}
+
+- (void)cancelOperation {
+    if (self.isFinished || self.isCancelled) {
+        // do nothing
+    } else if (self.isExecuting) {
+        // Send the cancel interaction
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
+
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                SDLLogE(@"Error cancelling the perform interaction: %@, with error: %@", request, error);
+            } else {
+                SDLLogV(@"%@", response);
+            }
+        }];
+    }
 }
 
 - (void)start {
@@ -125,6 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentChoiceSet {
+//    if (self.choiceSet.cancelShow) {
+//        [self finishOperation];
+//        return;
+//    }
+
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
@@ -263,6 +306,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSError *)error {
     return self.internalError;
+}
+
+- (void)dealloc {
+
 }
 
 @end

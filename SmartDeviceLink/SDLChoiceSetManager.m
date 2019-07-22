@@ -52,6 +52,14 @@ typedef NSNumber * SDLChoiceId;
 
 @end
 
+@interface SDLChoiceSet()
+
+@property (assign, nonatomic) UInt16 cancelId;
+@property (assign, nonatomic, readwrite) BOOL cancelShow;
+
+@end
+
+
 @interface SDLChoiceSetManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -71,11 +79,13 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
+@property (assign, nonatomic) UInt16 nextCancelId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
+UInt16 const ChoiceCellCancelIdMin = 1;
 
 @implementation SDLChoiceSetManager
 
@@ -94,6 +104,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _pendingMutablePreloadChoices = [NSMutableSet set];
 
     _nextChoiceId = ChoiceCellIdMin;
+    _nextCancelId = ChoiceCellCancelIdMin;
     _vrOptional = YES;
     _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
 
@@ -150,6 +161,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     _vrOptional = YES;
     _nextChoiceId = ChoiceCellIdMin;
+    _nextCancelId = ChoiceCellCancelIdMin;
 }
 
 - (void)didEnterStateCheckingVoiceOptional {
@@ -275,6 +287,11 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+//    if (choiceSet.cancelShow) {
+//        SDLLogD(@"Choice set cancelled, ignoring");
+//        return;
+//    }
+
     if (choiceSet == nil) {
         SDLLogW(@"Attempted to present a nil choice set, ignoring.");
         return;
@@ -293,6 +310,7 @@ UInt16 const ChoiceCellIdMin = 1;
     }];
 
     [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
+    self.pendingPresentationSet.cancelId = self.nextCancelId++;
 
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
