@@ -14,7 +14,7 @@
 @class SDLVRHelpItem;
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void (^SDLChoiceSetCancelledHandler)(BOOL isCancelled);
+typedef void (^SDLChoiceSetCanceledHandler)(void);
 
 typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
     SDLChoiceSetLayoutList,
@@ -82,12 +82,6 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  */
 @property (copy, nonatomic) NSArray<SDLChoiceCell *> *choices;
 
-
-/**
- Whether or not the the choice set is cancelled.
- */
-//@property (assign, nonatomic, readonly) BOOL cancelShow;
-
 /**
  Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
 
@@ -134,7 +128,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 /**
  Cancels the choice set. If the menu has not yet been sent to Core, it will not be sent. If the menu is already presented on Core, the menu will be dismissed. Cancelling an already presented menu will only work if connected to Core v.6.0+. On older versions of Core, the menu can not be dismissed. 
  */
-- (void)cancelStuff;
+- (void)cancel;
 
 @end
 

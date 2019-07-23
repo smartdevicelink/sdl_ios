@@ -55,7 +55,6 @@ typedef NSNumber * SDLChoiceId;
 @interface SDLChoiceSet()
 
 @property (assign, nonatomic) UInt16 cancelId;
-@property (assign, nonatomic, readwrite) BOOL cancelShow;
 
 @end
 
@@ -287,10 +286,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-//    if (choiceSet.cancelShow) {
-//        SDLLogD(@"Choice set cancelled, ignoring");
-//        return;
-//    }
 
     if (choiceSet == nil) {
         SDLLogW(@"Attempted to present a nil choice set, ignoring.");

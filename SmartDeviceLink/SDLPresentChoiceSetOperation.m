@@ -35,8 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceSet()
 
 @property (assign, nonatomic) UInt16 cancelId;
-@property (assign, nonatomic, readwrite) BOOL cancelShow;
-@property (copy, nonatomic) SDLChoiceSetCancelledHandler cancelledHandler;
+@property (copy, nonatomic) SDLChoiceSetCanceledHandler cancelledHandler;
 
 
 @end
@@ -72,12 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
     _choiceSet = choiceSet;
 
     __weak typeof(self) weakSelf = self;
-    [_choiceSet setCancelledHandler:^(BOOL value){
+    [_choiceSet setCancelledHandler:^(){
         __strong typeof(self) strongSelf = weakSelf;
-        if (value == YES) {
-            NSLog(@"The choice was cancelled.");
-            [strongSelf cancelOperation];
-        }
+        [strongSelf cancelInteraction];
     }];
 
     _presentationMode = mode;
@@ -91,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)cancelOperation {
+- (void)cancelInteraction {
     if (self.isFinished || self.isCancelled) {
         // do nothing
     } else if (self.isExecuting) {
@@ -105,6 +101,8 @@ NS_ASSUME_NONNULL_BEGIN
                 SDLLogV(@"%@", response);
             }
         }];
+    } else {
+        [self cancel];
     }
 }
 
@@ -163,10 +161,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentChoiceSet {
-//    if (self.choiceSet.cancelShow) {
-//        [self finishOperation];
-//        return;
-//    }
+    if (self.isCancelled) {
+        [self finishOperation];
+        return;
+    }
 
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {

@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceSet()
 
 @property (assign, nonatomic) UInt16 cancelId;
-@property (assign, nonatomic) BOOL cancelShow;
-@property (copy, nonatomic) SDLChoiceSetCancelledHandler cancelledHandler;
+@property (nullable, copy, nonatomic) SDLChoiceSetCanceledHandler cancelledHandler;
 
 @end
 
@@ -34,7 +33,6 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
     _timeout = self.class.defaultTimeout;
     _layout = self.class.defaultLayout;
-    _cancelShow = NO;
 
     return self;
 }
@@ -116,12 +114,9 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 #pragma mark - Cancel
 
-- (void)cancelStuff {
-    if (self.cancelledHandler == nil) {
-        return;
-    }
-
-    self.cancelledHandler(YES);
+- (void)cancel {
+    if (self.cancelledHandler == nil) { return; }
+    self.cancelledHandler();
 }
 
 #pragma mark - Getters / Setters
