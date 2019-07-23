@@ -58,6 +58,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
+@property (strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 
@@ -707,6 +709,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
+        self.videoStreamingCapability = videoCapability;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];
