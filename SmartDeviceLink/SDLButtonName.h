@@ -213,7 +213,7 @@ extern SDLButtonName const SDLButtonNameRepeat;
 /**
  * Represents a Navigate to center button.
  */
-extern SDLButtonName const SDLButtonNameNavCenter;
+extern SDLButtonName const SDLButtonNameNavCenterLocation;
 
 /**
  * Represents a Zoom in button.
@@ -243,7 +243,7 @@ extern SDLButtonName const SDLButtonNameNavPanRight;
 /**
  * Represents a Pan down/right button
  */
-extern SDLButtonName const SDLButtonNamePanDownRight;
+extern SDLButtonName const SDLButtonNameNavPanDownRight;
 
 /**
  * Represents a Pan down button
