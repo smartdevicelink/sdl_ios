@@ -127,7 +127,7 @@ describe(@"Getter/Setter Tests", ^ {
         resolution.resolutionHeight = @500;
 
         int32_t maxBitrate = 100;
-        NSNumber *hapticDataSupported = @YES;
+        BOOL hapticDataSupported = YES;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;

@@ -22,4 +22,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Test response: %@, error: %@", _testResponse, _testError];
+}
+
 @end

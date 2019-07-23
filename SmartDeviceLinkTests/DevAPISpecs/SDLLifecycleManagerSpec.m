@@ -136,7 +136,6 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.streamManager).toNot(beNil());
         expect(testManager.systemCapabilityManager).toNot(beNil());
         expect(testManager.rpcOperationQueue).toNot(beNil());
-        expect(testManager.rpcOperationQueue.maxConcurrentOperationCount).to(equal(3));
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
         expect(testManager.authToken).to(beNil());
     });
@@ -255,12 +254,10 @@ describe(@"a lifecycle manager", ^{
             });
             
             describe(@"stopping the manager", ^{
-                beforeEach(^{
-                    [testManager stop];
-                });
-                
                 it(@"should simply stop", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                    [testManager stop];
+                    
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
                 });
             });
         });
