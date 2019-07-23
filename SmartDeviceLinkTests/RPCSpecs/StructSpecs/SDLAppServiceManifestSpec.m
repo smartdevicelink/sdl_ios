@@ -90,7 +90,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.mediaServiceManifest).to(equal(testMediaServiceManifest));
         expect(testStruct.navigationServiceManifest).to(equal(testNavigationServiceManifest));
     });
-    describe(@"Test Dict", ^{
+    describe(@"test initializing with dictionary", ^{
        __block NSDictionary *dict = nil;
         beforeEach( ^{
              dict = @{SDLRPCParameterNameServiceName:testServiceName,
@@ -132,7 +132,7 @@ describe(@"Getter/Setter Tests", ^ {
         it(@"Should get correctly when initialized with a dictionary and using SDLMsgVersion", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithDictionary:dict];
+        SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
             expect(testStruct.serviceName).to(match(testServiceName));
             expect(testStruct.serviceType).to(equal(testServiceType));

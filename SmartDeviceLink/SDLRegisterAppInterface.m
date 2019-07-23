@@ -20,7 +20,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLRegisterAppInterface 
+@implementation SDLRegisterAppInterface
 
 #pragma mark - Lifecycle
 
@@ -123,13 +123,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)[syncMsgVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[syncMsgVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[syncMsgVersion.patchVersion unsignedIntValue]];
+    SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)syncMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)syncMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)syncMsgVersion.patchVersion.unsignedIntValue];
     [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
     SDLMsgVersion * sdlMsgVersion = [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLMsgVersion.class error:nil];
-    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)[sdlMsgVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[sdlMsgVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[sdlMsgVersion.patchVersion unsignedIntValue]];
+    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)sdlMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)sdlMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)sdlMsgVersion.patchVersion.unsignedIntValue];
 }
 #pragma clang diagnostic pop
 

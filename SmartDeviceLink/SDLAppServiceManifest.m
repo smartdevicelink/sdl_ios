@@ -144,17 +144,18 @@ NS_ASSUME_NONNULL_BEGIN
         [self.store sdl_setObject:nil forName:SDLRPCParameterNameRPCSpecVersion];
         return;
     }
-    SDLMsgVersion *maxRPCSpecVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)[rpcSpecVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[rpcSpecVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[rpcSpecVersion.patchVersion unsignedIntValue]];
+    SDLMsgVersion *maxRPCSpecVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)rpcSpecVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)rpcSpecVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)rpcSpecVersion.patchVersion.unsignedIntValue];
     [self.store sdl_setObject:maxRPCSpecVersion forName:SDLRPCParameterNameRPCSpecVersion];
 }
 
 - (nullable SDLSyncMsgVersion *)rpcSpecVersion {
-    SDLMsgVersion * maxRPCSpecVersion = [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLMsgVersion.class error:nil];
+    SDLMsgVersion *maxRPCSpecVersion = [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLMsgVersion.class error:nil];
 
     if(maxRPCSpecVersion == nil) {
         return [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class error:nil];
     }
-    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)[maxRPCSpecVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[maxRPCSpecVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[maxRPCSpecVersion.patchVersion unsignedIntValue]];
+
+    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)maxRPCSpecVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)maxRPCSpecVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)maxRPCSpecVersion.patchVersion.unsignedIntValue];
 }
 #pragma clang diagnostic pop
 

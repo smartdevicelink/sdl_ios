@@ -114,7 +114,7 @@ describe(@"Getter/Setter Tests", ^ {
         it(@"Should get correctly when initialized with a dictionary and get syncMsgVersion first", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
 #pragma clang diagnostic push

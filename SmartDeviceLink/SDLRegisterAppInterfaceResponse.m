@@ -36,18 +36,19 @@ NS_ASSUME_NONNULL_BEGIN
         [self.parameters sdl_setObject:nil forName:SDLRPCParameterNameSyncMessageVersion];
         return;
     }
-    SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)[syncMsgVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[syncMsgVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[syncMsgVersion.patchVersion unsignedIntValue]];
+
+    SDLMsgVersion *sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)syncMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)syncMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)syncMsgVersion.patchVersion.unsignedIntValue];
     [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
 }
 
 - (nullable SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLMsgVersion.class error:nil];
+    SDLMsgVersion *sdlMsgVersion = [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLMsgVersion.class error:nil];
 
     if(sdlMsgVersion == nil) {
         return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class error:nil];
     }
 
-    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)[sdlMsgVersion.majorVersion unsignedIntValue] minorVersion:(uint8_t)[sdlMsgVersion.minorVersion unsignedIntValue] patchVersion:(uint8_t)[sdlMsgVersion.patchVersion unsignedIntValue]];
+    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)sdlMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)sdlMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)sdlMsgVersion.patchVersion.unsignedIntValue];
 }
 
 - (void)setSdlMsgVersion:(nullable SDLMsgVersion *)sdlMsgVersion {
