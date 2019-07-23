@@ -59,6 +59,12 @@ typedef NSNumber *MTUBox;
     _rpcVersion = [[SDLVersion alloc] initWithString:@"1.0.0"];
     _dynamicMTUDict = [NSMutableDictionary dictionary];
 
+    dispatch_queue_attr_t qosSerial = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+    dispatch_queue_attr_t qosConcurrent = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0);
+
+    _sdlProcessingQueue = dispatch_queue_create("com.sdl.serialProcessing", qosSerial);
+    _sdlConcurrentQueue = dispatch_queue_create("com.sdl.concurrentProcessing", qosConcurrent);
+
     return self;
 }
 
