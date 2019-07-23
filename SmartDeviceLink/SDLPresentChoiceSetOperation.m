@@ -215,6 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.timeout = @((NSUInteger)(self.choiceSet.timeout * 1000));
     performInteraction.interactionLayout = self.layoutMode;
     performInteraction.interactionChoiceSetIDList = self.choiceIds;
+    performInteraction.cancelID = @(self.choiceSet.cancelId);
 
     return performInteraction;
 }

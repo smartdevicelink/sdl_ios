@@ -143,6 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.interactionMode = SDLInteractionModeManualOnly;
     performInteraction.interactionChoiceSetIDList = @[];
     performInteraction.interactionLayout = SDLLayoutModeKeyboard;
+    performInteraction.cancelID = @(self.cancelId);
 
     return performInteraction;
 }
