@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 
 
 /**
- Cancels the choice set. If the menu has not yet been sent to Core, it will not be sent. If the menu is already presented on Core, the menu will be dismissed. Cancelling an already presented menu will only work if connected to Core v.6.0+. On older versions of Core, the menu can not be dismissed. 
+ Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be dismissed. Cancelling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set can not be dismissed.
  */
 - (void)cancel;
 

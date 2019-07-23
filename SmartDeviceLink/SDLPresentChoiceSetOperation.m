@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [_choiceSet setCancelledHandler:^(){
         __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf cancelInteraction];
+        [strongSelf sdl_cancelInteraction];
     }];
 
     _presentationMode = mode;
@@ -85,25 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
     _selectedCellRow = NSNotFound;
 
     return self;
-}
-
-- (void)cancelInteraction {
-    if (self.isFinished || self.isCancelled) {
-        // do nothing
-    } else if (self.isExecuting) {
-        // Send the cancel interaction
-        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
-
-        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"Error cancelling the perform interaction: %@, with error: %@", request, error);
-            } else {
-                SDLLogV(@"%@", response);
-            }
-        }];
-    } else {
-        [self cancel];
-    }
 }
 
 - (void)start {
@@ -194,6 +175,29 @@ NS_ASSUME_NONNULL_BEGIN
             weakself.selectedCellRow = i;
         }
     }];
+}
+
+/**
+ * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be dismissed using the `CancelInteraction` RPC.
+ */
+- (void)sdl_cancelInteraction {
+    if (self.isFinished || self.isCancelled) {
+        return;
+    } else if (self.isExecuting) {
+        // Send a cancel interaction for the choice set to Core
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
+
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
+            }
+
+            [self finishOperation];
+        }];
+    } else {
+        // Cancel any choice set that has not yet been sent to Core
+        [self cancel];
+    }
 }
 
 #pragma mark - Getters
