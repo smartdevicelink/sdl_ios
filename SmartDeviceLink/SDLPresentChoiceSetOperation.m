@@ -182,11 +182,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_cancelInteraction {
     if (self.isFinished || self.isCancelled) {
+        // Choice set already finished presenting or was cancelled
         return;
     } else if (self.isExecuting) {
-        // Send a cancel interaction for the choice set to Core
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
 
+        SDLLogV(@"Canceling the choice set interaction.");
         [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
@@ -195,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
             [self finishOperation];
         }];
     } else {
-        // Cancel any choice set that has not yet been sent to Core
+        SDLLogV(@"Canceling choice set that has not yet been sent to Core.");
         [self cancel];
     }
 }
