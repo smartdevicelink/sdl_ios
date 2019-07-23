@@ -6,7 +6,7 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLRPCMessage.h"
+#import "SDLRPCStruct.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -16,6 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLMsgVersion : SDLRPCStruct
 
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param majorVersion         Major version
+ *  @param minorVersion         Minor version
+ *  @param patchVersion         Patch version
+ *  @return                     A SDLMsgVersion object
+ */
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;
 
 /**
@@ -24,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Required, Integer, 1 - 10
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *majorVersion;
+
 /**
  * The minor version indicates a change to a previous version that should still allow to be run on an older version (with limited functionality)
  *

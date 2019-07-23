@@ -57,10 +57,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] init];
-#pragma clang diagnostic pop
+
         testStruct.serviceName = testServiceName;
         testStruct.serviceType = testServiceType;
         testStruct.serviceIcon = testServiceIcon;
