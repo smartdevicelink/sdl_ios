@@ -17,7 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentKeyboardOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID;
+
+
+/**
+ Cancels the keyboard operation
+ */
+- (void)cancelKeyboard;
 
 @end
 

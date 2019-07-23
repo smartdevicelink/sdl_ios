@@ -277,6 +277,12 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
+
+/**
+ Cancels the keyboard. If the keyboard has not yet been sent to Core, it will not be sent. If the keyboard is already presented on Core, the keyboard will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the keyboard can not be dismissed.
+ */
+- (void)dismissKeyboard;
+
 @end
 
 NS_ASSUME_NONNULL_END

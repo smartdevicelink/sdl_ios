@@ -343,8 +343,19 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     // Present a keyboard with the choice set that we used to test VR's optional state
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate];
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:self.nextCancelId++];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
+}
+
+- (void)dismissKeyboard {
+    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
+        if ([op isKindOfClass:SDLPresentKeyboardOperation.class]) {
+            // Find first instance of the keyboard in the queue
+            SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
+            [keyboardOperation cancelKeyboard];
+            break;
+        }
+    }
 }
 
 #pragma mark - Choice Management Helpers

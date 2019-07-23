@@ -102,6 +102,11 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
  */
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
+/**
+ Cancels the keyboard-only interface.
+ */
+- (void)dismissKeyboard;
+
 @end
 
 NS_ASSUME_NONNULL_END

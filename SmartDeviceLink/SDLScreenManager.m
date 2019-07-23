@@ -264,6 +264,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
 }
 
+- (void)dismissKeyboard {
+    [self.choiceSetManager dismissKeyboard];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

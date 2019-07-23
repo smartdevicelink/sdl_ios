@@ -8,7 +8,9 @@
 
 #import "SDLPresentKeyboardOperation.h"
 
+#import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLFunctionID.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -28,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *initialText;
 @property (strong, nonatomic) SDLKeyboardProperties *originalKeyboardProperties;
 @property (strong, nonatomic) SDLKeyboardProperties *keyboardProperties;
+@property (assign, nonatomic) UInt16 cancelId;
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
@@ -37,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentKeyboardOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
     self = [super init];
     if (!self) { return self; }
 
@@ -46,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
     _keyboardDelegate = keyboardDelegate;
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
+    _cancelId = cancelID;
 
     return self;
 }
@@ -106,6 +110,29 @@ NS_ASSUME_NONNULL_BEGIN
 
         [self finishOperation];
     }];
+}
+
+- (void)cancelKeyboard {
+    if (self.isFinished || self.isCancelled) {
+        // Keyboard already finished presenting or is already cancelled
+        return;
+    } else if (self.isExecuting) {
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.cancelId];
+
+        SDLLogV(@"Canceling the keyboard interaction.");
+        __weak typeof(self) weakSelf = self;
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                weakSelf.internalError = error;
+                SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
+            }
+
+            [weakSelf finishOperation];
+        }];
+    } else {
+        SDLLogV(@"Canceling a keyboard that has not yet been sent to Core.");
+        [self cancel];
+    }
 }
 
 #pragma mark - Private Getters / Setters

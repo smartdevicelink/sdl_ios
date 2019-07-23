@@ -8,10 +8,12 @@
 
 #import "SDLPresentChoiceSetOperation.h"
 
+#import "SDLCancelInteraction.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLFunctionID.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -21,8 +23,6 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
-#import "SDLCancelInteraction.h"
-#import "SDLFunctionID.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -72,8 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     __weak typeof(self) weakSelf = self;
     [_choiceSet setCancelledHandler:^(){
-        __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf sdl_cancelInteraction];
+        [weakSelf sdl_cancelInteraction];
     }];
 
     _presentationMode = mode;
@@ -182,18 +181,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_cancelInteraction {
     if (self.isFinished || self.isCancelled) {
-        // Choice set already finished presenting or was cancelled
+        // Choice set already finished presenting or is already cancelled
         return;
     } else if (self.isExecuting) {
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
 
         SDLLogV(@"Canceling the choice set interaction.");
+        __weak typeof(self) weakSelf = self;
         [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
+                weakSelf.internalError = error;
                 SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
             }
 
-            [self finishOperation];
+            [weakSelf finishOperation];
         }];
     } else {
         SDLLogV(@"Canceling choice set that has not yet been sent to Core.");
