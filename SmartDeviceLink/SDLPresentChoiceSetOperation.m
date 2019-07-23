@@ -313,10 +313,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self.internalError;
 }
 
-- (void)dealloc {
-
-}
-
 @end
 
 NS_ASSUME_NONNULL_END
