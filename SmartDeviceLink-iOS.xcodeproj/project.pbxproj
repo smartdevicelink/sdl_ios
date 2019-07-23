@@ -1449,7 +1449,6 @@
 		DA318C201DD0F06C00C035AC /* NSMutableDictionary+Store.m in Sources */ = {isa = PBXBuildFile; fileRef = DA318C1E1DD0F06C00C035AC /* NSMutableDictionary+Store.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
-		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
 		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
 		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
 		DA4F47961E771AA100FC809E /* SDLEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4F47951E771AA100FC809E /* SDLEnum.m */; };
@@ -1507,8 +1506,6 @@
 		DAC572631D10C5020004288B /* SDLPinchGesture.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572611D10C5020004288B /* SDLPinchGesture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAC572661D10C5640004288B /* CGPoint_Util.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572641D10C5640004288B /* CGPoint_Util.m */; };
 		DAC572671D10C5640004288B /* CGPoint_Util.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572651D10C5640004288B /* CGPoint_Util.h */; };
-		DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572681D10D5FC0004288B /* dispatch_timer.m */; };
-		DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572691D10D5FC0004288B /* dispatch_timer.h */; };
 		DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4139D1D1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = E4139D1B1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4139D1E1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = E4139D1C1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.m */; };
@@ -3109,7 +3106,6 @@
 		DA318C1E1DD0F06C00C035AC /* NSMutableDictionary+Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Store.m"; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
-		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
 		DA4F47951E771AA100FC809E /* SDLEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnum.m; sourceTree = "<group>"; };
@@ -3170,8 +3166,6 @@
 		DAC572611D10C5020004288B /* SDLPinchGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPinchGesture.h; sourceTree = "<group>"; };
 		DAC572641D10C5640004288B /* CGPoint_Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPoint_Util.m; sourceTree = "<group>"; };
 		DAC572651D10C5640004288B /* CGPoint_Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGPoint_Util.h; sourceTree = "<group>"; };
-		DAC572681D10D5FC0004288B /* dispatch_timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dispatch_timer.m; sourceTree = "<group>"; };
-		DAC572691D10D5FC0004288B /* dispatch_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dispatch_timer.h; sourceTree = "<group>"; };
 		E4139D1B1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLifecycleConfigurationUpdate.h; sourceTree = "<group>"; };
 		E4139D1C1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdate.m; sourceTree = "<group>"; };
 		E9C32B891AB20BA200F283AF /* SDLIAPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSession.h; sourceTree = "<group>"; };
@@ -5646,9 +5640,9 @@
 				5D82041C1BCD8E6100D0A41B /* SDLConfiguration.h */,
 				5D82041D1BCD8E6100D0A41B /* SDLConfiguration.m */,
 				5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */,
+				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D1654571D3E79CA00554D93 /* Lifecycle */,
 				5DBAE0A51D355EE700CE00BF /* Lock Screen */,
-				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
 				DA8966E71E56937100413EAB /* Streaming */,
 				5D0A736F203F0C450001595D /* Screen */,
@@ -6082,7 +6076,6 @@
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
 			children = (
-				DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */,
 				DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */,
 				DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */,
 				DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */,
@@ -6169,8 +6162,6 @@
 				DAC572601D10C5020004288B /* SDLPinchGesture.m */,
 				DAC572651D10C5640004288B /* CGPoint_Util.h */,
 				DAC572641D10C5640004288B /* CGPoint_Util.m */,
-				DAC572691D10D5FC0004288B /* dispatch_timer.h */,
-				DAC572681D10D5FC0004288B /* dispatch_timer.m */,
 			);
 			name = Touches;
 			sourceTree = "<group>";
@@ -6351,7 +6342,6 @@
 				5D92938020B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h in Headers */,
 				5D339CEF207C08BA000CC364 /* SDLVoiceCommand.h in Headers */,
 				5D61FC4B1A84238C00846EE7 /* SDLBeltStatus.h in Headers */,
-				DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */,
 				DA9F7E991DCC052C00ACAE48 /* SDLLocationCoordinate.h in Headers */,
 				5D0A7382203F23F30001595D /* SDLSoftButtonManager.h in Headers */,
 				5D61FC351A84238C00846EE7 /* SDLAirbagStatus.h in Headers */,
@@ -7441,7 +7431,6 @@
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
 				5D9FDA911F2A7D3400A495C8 /* bson_object.c in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
-				DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */,
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
 				5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */,
 				1EB59CA4202D92F600343A61 /* SDLMassageMode.m in Sources */,
@@ -7632,7 +7621,6 @@
 				88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */,
 				162E83231A9BDE8B00906325 /* SDLAddSubMenuSpec.m in Sources */,
 				5DCC458D221C9F6600036C2F /* SDLVersionSpec.m in Sources */,
-				DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */,
 				1EE8C45D1F387D1C00FDC2CF /* SDLGetInteriorVehicleDataResponseSpec.m in Sources */,
 				162E82F21A9BDE8B00906325 /* SDLPredefinedLayoutSpec.m in Sources */,
 				162E83521A9BDE8B00906325 /* SDLDeleteSubMenuResponseSpec.m in Sources */,

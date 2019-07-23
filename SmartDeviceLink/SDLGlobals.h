@@ -32,6 +32,9 @@ extern NSUInteger const SDLV3MTUSize;
 @property (strong, nonatomic) SDLVersion *rpcVersion;
 @property (copy, nonatomic) SDLVersion *maxHeadUnitProtocolVersion;
 
+@property (copy, nonatomic) dispatch_queue_t sdlProcessingQueue;
+@property (copy, nonatomic) dispatch_queue_t sdlConcurrentQueue;
+
 + (instancetype)sharedGlobals;
 
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType;
