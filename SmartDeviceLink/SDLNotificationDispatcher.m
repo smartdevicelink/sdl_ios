@@ -119,6 +119,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveChangeRegistrationResponse response:response];
 }
 
+- (void)onCloseApplicationResponse:(SDLCloseApplicationResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveCloseApplicationResponse response:response];
+}
+
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveCreateInteractionChoiceSetResponse response:response];
 }
@@ -339,6 +343,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onChangeRegistration:(SDLChangeRegistration *)request {
     [self postRPCRequestNotification:SDLDidReceiveChangeRegistrationRequest request:request];
+}
+
+- (void)onCloseApplication:(SDLCloseApplication *)request {
+    [self postRPCRequestNotification:SDLDidReceiveCloseApplicationRequest request:request];
 }
 
 - (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request {

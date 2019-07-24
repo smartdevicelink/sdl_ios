@@ -38,6 +38,30 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode heatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable heatedWindshieldEnable:(nullable NSNumber<SDLBool> *)heatedWindshieldEnable heatedRearWindowEnable:(nullable NSNumber<SDLBool> *)heatedRearWindowEnable heatedMirrorsEnable:(nullable NSNumber<SDLBool> *)heatedMirrorsEnable climateEnable:(nullable NSNumber<SDLBool> *)climateEnable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.fanSpeed = fanSpeed;
+    self.desiredTemperature = desiredTemperature;
+    self.acEnable = acEnable;
+    self.circulateAirEnable = circulateAirEnable;
+    self.autoModeEnable = autoModeEnable;
+    self.defrostZone = defrostZone;
+    self.dualModeEnable = dualModeEnable;
+    self.acMaxEnable = acMaxEnable;
+    self.ventilationMode = ventilationMode;
+    self.heatedSteeringWheelEnable = heatedSteeringWheelEnable;
+    self.heatedWindshieldEnable = heatedWindshieldEnable;
+    self.heatedRearWindowEnable = heatedRearWindowEnable;
+    self.heatedMirrorsEnable = heatedMirrorsEnable;
+    self.climateEnable = climateEnable;
+
+    return self;
+}
+
 - (void)setFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed {
     [self.store sdl_setObject:fanSpeed forName:SDLRPCParameterNameFanSpeed];
 }
@@ -148,6 +172,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)heatedMirrorsEnable {
     return [self.store sdl_objectForName:SDLRPCParameterNameHeatedMirrorsEnable ofClass:NSNumber.class error:nil];
+}
+
+- (void)setClimateEnable:(nullable NSNumber<SDLBool> *)climateEnable {
+    [self.store sdl_setObject:climateEnable forName:SDLRPCParameterNameClimateEnable];
+}
+
+- (nullable NSNumber<SDLBool> *)climateEnable {
+    return [self.store sdl_objectForName:SDLRPCParameterNameClimateEnable ofClass:NSNumber.class error:nil];
 }
 
 @end

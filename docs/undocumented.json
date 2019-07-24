@@ -218,6 +218,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioFile.h",
+      "line": 13,
+      "symbol": "SDLAudioFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
       "line": 19,
       "symbol": "SDLErrorDomainAudioStreamManager",
@@ -599,6 +606,13 @@
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
       "line": 126,
       "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorFailedToCreateMenuItems",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 127,
+      "symbol": "SDLChoiceSetManagerError.SDLChoiceSetManagerErrorInvalidState",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
@@ -1030,6 +1044,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
+      "line": 184,
+      "symbol": "SDLRPCUpdatedBlock",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManagerDelegate.h",
       "line": 19,
       "symbol": "SDLManagerDelegate",
@@ -1048,6 +1069,62 @@
       "line": 19,
       "symbol": "SDLMenuCell",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 19,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeForceOn",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 20,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeForceOff",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 21,
+      "symbol": "SDLDynamicMenuUpdatesMode.SDLDynamicMenuUpdatesModeOnWithCompatibility",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 24,
+      "symbol": "MenuCellState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 24,
+      "symbol": "MenuCellState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 25,
+      "symbol": "MenuCellState.MenuCellStateDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 26,
+      "symbol": "MenuCellState.MenuCellStateAdd",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLMenuManagerConstants.h",
+      "line": 27,
+      "symbol": "MenuCellState.MenuCellStateKeep",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
@@ -2997,27 +3074,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 11,
-      "symbol": "SDLRPCMessage.function",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 12,
-      "symbol": "SDLRPCMessage.parameters",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessage.h",
-      "line": 13,
-      "symbol": "SDLRPCMessage.messageType",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCMessageType.h",
       "line": 14,
       "symbol": "SDLRPCMessageType.SDLRPCMessageTypeRequest",
@@ -3061,9 +3117,9 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRPCStruct.h",
-      "line": 12,
+      "line": 13,
       "symbol": "SDLRPCStruct.store",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.ivar",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
@@ -3096,14 +3152,14 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
-      "line": 44,
+      "line": 45,
       "symbol": "SDLScreenManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
-      "line": 214,
+      "line": 226,
       "symbol": "SDLScreenManager.-softButtonObjectNamed:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -4827,13 +4883,6 @@
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSyncPData.h",
       "line": 14,
       "symbol": "SDLSyncPData",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSystemCapabilityManager.h",
-      "line": 44,
-      "symbol": "SDLSystemCapabilityManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },

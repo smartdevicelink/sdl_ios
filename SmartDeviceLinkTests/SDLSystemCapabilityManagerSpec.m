@@ -398,7 +398,7 @@ describe(@"System capability manager", ^{
             __block id blockObserver = nil;
 
             beforeEach(^{
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     blockObserverTriggeredCount++;
                 }];
 
@@ -439,7 +439,7 @@ describe(@"System capability manager", ^{
             __block id blockObserver = nil;
 
             beforeEach(^{
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall usingBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
+                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     blockObserverTriggeredCount++;
                 }];
 

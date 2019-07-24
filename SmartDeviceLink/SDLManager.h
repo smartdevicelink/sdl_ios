@@ -181,7 +181,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 #pragma mark - RPC Subscriptions
 
-typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *);
+typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
 
 /**
  * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
@@ -197,12 +197,10 @@ typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *);
  *
  * The selector supports the following parameters:
  *
- * 1. One parameter e.g. `- (void)registerAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;`
- * 2. Two parameters e.g. `- (void)registerAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response error:(nullable NSError *)error;`
+ * 1. Zero parameters e.g. `- (void)registerAppInterfaceResponse`
+ * 2. One parameter e.g. `- (void)registerAppInterfaceResponse:(NSNotification *)notification;`
  *
  * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notifed of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
- *
- * The error will be called if `response.success` is `NO` and will be filled with the info field.
  *
  * @param rpcName The name of the RPC request, response, or notification to subscribe to.
  * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.

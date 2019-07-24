@@ -43,7 +43,7 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
 
-    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:1 patchVersion:0];
+    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0];
 
     beforeEach(^{
         testRegisterAppInterface = nil;

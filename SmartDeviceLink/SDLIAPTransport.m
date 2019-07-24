@@ -15,12 +15,10 @@
 #import "SDLIAPDataSession.h"
 #import "SDLIAPDataSessionDelegate.h"
 #import "SDLLogMacros.h"
-#import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 int const CreateSessionRetries = 3;
 
 @interface SDLIAPTransport () <SDLIAPControlSessionDelegate, SDLIAPDataSessionDelegate>
@@ -30,7 +28,6 @@ int const CreateSessionRetries = 3;
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
 @property (assign, nonatomic) BOOL transportDestroyed;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 
 @end
@@ -60,39 +57,6 @@ int const CreateSessionRetries = 3;
     return self;
 }
 
-#pragma mark - Background Task
-
-/**
- *  Starts a background task that allows the app to search for accessories and while the app is in the background.
- */
-- (void)sdl_backgroundTaskStart {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        SDLLogV(@"A background task is already running. No need to start a background task.");
-        return;
-    }
-
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
-        SDLLogD(@"Background task expired");
-        [self sdl_backgroundTaskEnd];
-    }];
-
-    SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
-}
-
-/**
- *  Cleans up a background task when it is stopped.
- */
-- (void)sdl_backgroundTaskEnd {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
-        SDLLogV(@"No background task running. No need to stop the background task. Returning...");
-        return;
-    }
-    
-    SDLLogD(@"Ending background task with id: %lu", (unsigned long)self.backgroundTaskId);
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-    self.backgroundTaskId = UIBackgroundTaskInvalid;
-}
-
 #pragma mark - Notifications
 
 /**
@@ -108,14 +72,6 @@ int const CreateSessionRetries = 3;
                                              selector:@selector(sdl_accessoryDisconnected:)
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationWillEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
@@ -124,7 +80,6 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -145,11 +100,6 @@ int const CreateSessionRetries = 3;
 
     double retryDelay = self.sdl_retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
-    
-    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
-        SDLLogD(@"Accessory connected while app is in background. Starting background task.");
-        [self sdl_backgroundTaskStart];
-    }
 
     self.retryCounter = 0;
     [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
@@ -182,7 +132,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
-    SDLLogD(@"Accessory with serial number %@ and connectionID %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
+    SDLLogD(@"Accessory with serial number: %@, and connectionID: %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
 
     if (self.accessoryConnectDuringActiveSession == YES) {
         SDLLogD(@"Switching transports from Bluetooth to USB. Will reconnect over Bluetooth after disconnecting the USB session.");
@@ -227,31 +177,6 @@ int const CreateSessionRetries = 3;
     [self.delegate onTransportDisconnected];
 }
 
-#pragma mark App Lifecycle Notifications
-
-/**
- *  Handles a notification sent by the system when the app enters the foreground.
- *
- *  If the app is still searching for an accessory, a background task will be started so the app can still search for and/or connect with an accessory while it is in the background.
- *
- *  @param notification Notification
- */
-- (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
-    SDLLogV(@"App foregrounded, attempting connection");
-    [self sdl_backgroundTaskEnd];
-    [self connect];
-}
-
-/**
- *  Handles a notification sent by the system when the app enters the background.
- *
- *  @param notification Notification
- */
-- (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
-    SDLLogV(@"App backgrounded, starting background task");
-    [self sdl_backgroundTaskStart];
-}
-
 #pragma mark - Stream Lifecycle
 
 #pragma mark SDLTransportTypeProtocol
@@ -273,12 +198,6 @@ int const CreateSessionRetries = 3;
  *  Attempts to connect to an accessory.
  */
 - (void)connect {
-    UIApplicationState state = [UIApplication sharedApplication].applicationState;
-    if (state != UIApplicationStateActive) {
-        SDLLogV(@"App inactive on connect, starting background task");
-        [self sdl_backgroundTaskStart];
-    }
-
     [self sdl_connect:nil];
 }
 
@@ -329,7 +248,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
-    SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
+    SDLLogD(@"Attempting to connect accessory named: %@, with connectionID: %lu", accessory.name, (unsigned long)accessory.connectionID);
     if (self.retryCounter < CreateSessionRetries) {
         self.retryCounter++;
 
@@ -399,7 +318,6 @@ int const CreateSessionRetries = 3;
  */
 - (void)dataSessionDidReceiveData:(nonnull NSData *)data {
     [self.delegate onDataReceived:data];
-    [self sdl_backgroundTaskStart];
 }
 
 /**
@@ -598,7 +516,6 @@ int const CreateSessionRetries = 3;
 - (void)dealloc {
     SDLLogV(@"SDLIAPTransport dealloc");
     [self disconnect];
-    [self sdl_backgroundTaskEnd];
     self.controlSession = nil;
     self.dataSession = nil;
     self.delegate = nil;
