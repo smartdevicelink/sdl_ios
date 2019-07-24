@@ -38,6 +38,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(equal(testDataSource));
             expect(testConfig.rootViewController).to(equal(testViewController));
+            expect(testConfig.showVideoBackgroundDisplay).to(equal(YES));
         });
     });
 
@@ -53,6 +54,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(beNil());
             expect(testConfig.rootViewController).to(beNil());
+            expect(testConfig.showVideoBackgroundDisplay).to(equal(YES));
         });
     });
 
@@ -72,6 +74,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(beNil());
             expect(testConfig.rootViewController).to(beNil());
+            expect(testConfig.showVideoBackgroundDisplay).to(equal(YES));
         });
     });
 });
