@@ -11,7 +11,6 @@
 #import "SDLProtocolConstants.h"
 
 @class SDLProtocolHeader;
-@class SDLSyncMsgVersion;
 @class SDLVersion;
 
 NS_ASSUME_NONNULL_BEGIN

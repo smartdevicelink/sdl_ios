@@ -333,7 +333,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
             }
 
             weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
             [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
         }];
 }

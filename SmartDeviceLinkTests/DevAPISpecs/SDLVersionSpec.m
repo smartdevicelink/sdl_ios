@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSyncMsgVersion.h"
+#import "SDLMsgVersion.h"
 #import "SDLVersion.h"
 
 QuickSpecBegin(SDLVersionSpec)
@@ -57,8 +58,24 @@ describe(@"a version object", ^{
 
         context(@"created from a SyncMsgVersion object", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 SDLSyncMsgVersion *msgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:major minorVersion:minor patchVersion:patch];
                 testVersion = [[SDLVersion alloc] initWithSyncMsgVersion:msgVersion];
+#pragma clang diagnostic pop
+            });
+
+            it(@"should match the parameters", ^{
+                expect(testVersion.major).to(equal(major));
+                expect(testVersion.minor).to(equal(minor));
+                expect(testVersion.patch).to(equal(patch));
+            });
+        });
+
+        context(@"created from a SDLMsgVersion object", ^{
+            beforeEach(^{
+                SDLMsgVersion *msgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:major minorVersion:minor patchVersion:patch];
+                testVersion = [[SDLVersion alloc] initWithSDLMsgVersion:msgVersion];
             });
 
             it(@"should match the parameters", ^{
@@ -76,7 +93,6 @@ describe(@"a version object", ^{
 
         beforeEach(^{
             testVersion = [[SDLVersion alloc] initWithMajor:major minor:minor patch:patch];
-
             lowerVersion = [[SDLVersion alloc] initWithMajor:4 minor:1 patch:0];
             equalVersion = [[SDLVersion alloc] initWithMajor:major minor:minor patch:patch];
             higherVersion = [[SDLVersion alloc] initWithMajor:7 minor:2 patch:4];
