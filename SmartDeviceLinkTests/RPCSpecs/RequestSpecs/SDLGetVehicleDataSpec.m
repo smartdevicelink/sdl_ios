@@ -294,11 +294,11 @@ describe(@"initializers", ^{
     context(@"should set and get generic Network data", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
 
-        [testRequest setGenericNetworkData:@"GPS" withVehicleDataState:NO];
-        [testRequest setGenericNetworkData:@"turnSignal" withVehicleDataState:YES];
+        [testRequest setOEMCustomVehicleData:@"GPS" withVehicleDataState:NO];
+        [testRequest setOEMCustomVehicleData:@"turnSignal" withVehicleDataState:YES];
 
-        expect([testRequest genericNetworkData:@"GPS"]).to(equal(NO));
-        expect([testRequest genericNetworkData:@"turnSignal"]).to(equal(@YES));
+        expect([testRequest getOEMCustomVehicleData:@"GPS"]).to(equal(NO));
+        expect([testRequest getOEMCustomVehicleData:@"turnSignal"]).to(equal(@YES));
 
     });
 

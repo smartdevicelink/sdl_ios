@@ -224,11 +224,11 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"should set and get generic Network data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
 
-        [testRequest setGenericNetworkData:@"speed" withVehicleDataState:@100];
-        [testRequest setGenericNetworkData:@"turnSignal" withVehicleDataState:SDLTurnSignalOff];
+        [testRequest setOEMCustomVehicleData:@"speed" withVehicleDataState:@100];
+        [testRequest setOEMCustomVehicleData:@"turnSignal" withVehicleDataState:SDLTurnSignalOff];
 
-        expect([testRequest genericNetworkData:@"speed"]).to(equal(@100));
-        expect([testRequest genericNetworkData:@"turnSignal"]).to(equal(SDLTurnSignalOff));
+        expect([testRequest getOEMCustomVehicleData:@"speed"]).to(equal(@100));
+        expect([testRequest getOEMCustomVehicleData:@"turnSignal"]).to(equal(SDLTurnSignalOff));
 
     });
 });

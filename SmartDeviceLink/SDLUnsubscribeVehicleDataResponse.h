@@ -218,9 +218,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *cloudAppVehicleID;
 
-- (void)setGenericNetworkData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState;
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState;
 
-- (SDLVehicleDataResult *)genericNetworkData:(NSString *)vehicleDataName;
+- (SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 

@@ -186,9 +186,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSString *cloudAppVehicleID;
 
-- (void)setGenericNetworkData:(NSString *)vehicleDataName withVehicleDataState:(id)vehicleDataState;
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(id)vehicleDataState;
 
-- (id)genericNetworkData:(NSString *)vehicleDataName;
+- (id)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 

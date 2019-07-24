@@ -300,11 +300,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:nil];
 }
 
-- (void)setGenericNetworkData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState {
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState {
     [self.parameters sdl_setObject:@(vehicleDataState) forName:vehicleDataName];
 }
 
-- (NSNumber<SDLBool> *)genericNetworkData:(NSString *)vehicleDataName {
+- (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
 }
 
