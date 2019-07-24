@@ -61,6 +61,11 @@ NSString * const PICSFirstChoice = @"First Choice";
 NSString * const PICSSecondChoice = @"Second Choice";
 NSString * const PICSThirdChoice = @"Third Choice";
 
+#pragma mark - SDL Perform Interaction Choice Set Menu VR Commands
+NSString * const VCPICSFirstChoice = @"First";
+NSString * const VCPICSecondChoice = @"Second";
+NSString * const VCPICSThirdChoice = @"Third";
+
 #pragma mark - SDL Add Command Menu
 NSString * const ACSpeakAppNameMenuName = @"Speak App Name";
 NSString * const ACShowChoiceSetMenuName = @"Show Perform Interaction Choice Set";
