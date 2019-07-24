@@ -17,7 +17,7 @@ typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
 @interface NSDictionary (Store)
 
-- (void)sdl_setObject:(NSObject *)object forName:(SDLRPCParameterName)name;
+- (void)sdl_setObject:(nullable NSObject *)object forName:(SDLRPCParameterName)name;
 
 - (nullable SDLEnum)sdl_enumForName:(SDLRPCParameterName)name error:(NSError * _Nullable *)error;
 - (nullable NSArray<SDLEnum> *)sdl_enumsForName:(SDLRPCParameterName)name error:(NSError * _Nullable *)error;
