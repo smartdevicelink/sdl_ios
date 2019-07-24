@@ -123,7 +123,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
-    _showVideoBackgroundDisplay = configuration.showVideoBackgroundDisplay;
+    _showVideoBackgroundDisplay = configuration.streamingMediaConfig.showVideoBackgroundDisplay;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
