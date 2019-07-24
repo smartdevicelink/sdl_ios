@@ -384,6 +384,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLTTSChunk.h',
 'SmartDeviceLink/SDLTurn.h',
 'SmartDeviceLink/SDLTurnSignal.h',
+'SmartDeviceLink/SDLUnpublishAppService.h',
+'SmartDeviceLink/SDLUnpublishAppServiceResponse.h',
 'SmartDeviceLink/SDLUnregisterAppInterface.h',
 'SmartDeviceLink/SDLUnregisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLUnsubscribeButton.h',

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Registers a service offered by this app on the module.
+ *  Subsequent calls with the same service type will update the manifest for that service.
  */
 @interface SDLPublishAppService : SDLRPCRequest
 
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The manifest of the service that wishes to be published.
+ *  If already published, the updated manifest for this service.
  *
  *  SDLAppServiceManifest, Required
  */
