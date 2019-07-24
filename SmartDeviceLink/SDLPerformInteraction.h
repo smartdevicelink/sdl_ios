@@ -218,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLVRHelpItem *> *vrHelp;
 
 /**
- *  For touchscreen interactions, the mode of how the choices are presented.
+ *  For touchscreen interactions, the layout mode of how the choices are presented.
  *
  *  SDLLayoutMode, Optional
  *
