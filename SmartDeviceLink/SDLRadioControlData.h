@@ -78,12 +78,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Integer value Min Value - 1 Max Value -7
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs __deprecated_msg("Use availableHDChannels instead");
+
+/**
+ * the list of available hd sub-channel indexes, empty list means no Hd channel is available, read-only
+ *
+ * @warning This property is readonly and cannot be set on the module.
+ *
+ * Integer value Min Value - 0 Max Value -7
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDChannels;
 
 /**
  * Current HD sub-channel if available
  *
- * Integer value Min Value - 1 Max Value -7
+ * Integer value Min Value - 0 Max Value -7
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *hdChannel;
 

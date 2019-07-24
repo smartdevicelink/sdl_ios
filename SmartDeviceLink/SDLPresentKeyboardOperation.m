@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentKeyboardOperation()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) id<SDLKeyboardDelegate> keyboardDelegate;
 @property (copy, nonatomic) NSString *initialText;
@@ -50,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
     _cancelId = cancelID;
+    _operationId = [NSUUID UUID];
 
     return self;
 }
@@ -191,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
-    return @"com.sdl.choicesetmanager.presentKeyboard";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {

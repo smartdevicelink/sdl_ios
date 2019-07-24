@@ -80,7 +80,7 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
-    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark EAAccessory Notifications

@@ -60,7 +60,7 @@
 }
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager", @"SDLAsynchronousOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_systemCapabilityModule {

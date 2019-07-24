@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic, readwrite) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic) SDLInteractionMode presentationMode;
@@ -76,6 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 
     _presentationMode = mode;
+    _operationId = [NSUUID UUID];
 
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
@@ -302,7 +304,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)name {
-    return @"com.sdl.choicesetmanager.presentChoiceSet";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {
