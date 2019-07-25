@@ -14,6 +14,10 @@
 @class SDLVRHelpItem;
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Notifies the subscriber that the choice set should be cancelled.
+ */
 typedef void (^SDLChoiceSetCanceledHandler)(void);
 
 typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
