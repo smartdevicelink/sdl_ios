@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceSet()
 
 @property (assign, nonatomic) UInt16 cancelId;
-@property (copy, nonatomic) SDLChoiceSetCanceledHandler cancelledHandler;
+@property (copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
 
 
 @end
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     _choiceSet = choiceSet;
 
     __weak typeof(self) weakSelf = self;
-    [_choiceSet setCancelledHandler:^(){
+    [_choiceSet setCanceledHandler:^(){
         [weakSelf sdl_cancelInteraction];
     }];
 

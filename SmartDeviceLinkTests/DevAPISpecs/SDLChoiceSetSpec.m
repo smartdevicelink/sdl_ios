@@ -9,6 +9,13 @@
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 
+@interface SDLChoiceSet()
+
+@property (assign, nonatomic) UInt16 cancelId;
+@property (nullable, copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
+
+@end
+
 QuickSpecBegin(SDLChoiceSetSpec)
 
 describe(@"an SDLChoiceSet", ^{
@@ -22,12 +29,12 @@ describe(@"an SDLChoiceSet", ^{
     __block NSString *testHelpPrompt = @"help prompt";
     __block NSString *testTimeoutPrompt = @"timeout prompt";
     __block SDLVRHelpItem *testHelpItem = nil;
+    __block UInt16 testCancelID = 65;
 
     beforeEach(^{
         testCell = [[SDLChoiceCell alloc] initWithText:@"cell text"];
         testDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
         testHelpItem = [[SDLVRHelpItem alloc] initWithText:@"help item" image:nil];
-
         testChoiceSet = nil;
     });
 
@@ -43,6 +50,35 @@ describe(@"an SDLChoiceSet", ^{
 
             expect(@(SDLChoiceSet.defaultLayout)).to(equal(@(SDLChoiceSetLayoutTiles)));
             expect(SDLChoiceSet.defaultTimeout).to(equal(6));
+        });
+
+        it(@"should get and set correctly", ^{
+            NSArray<SDLTTSChunk *> *testTTSInitialPrompt = [SDLTTSChunk textChunksFromString:testInitialPrompt];
+            NSArray<SDLTTSChunk *> *testTTSTimeoutPrompt = [SDLTTSChunk textChunksFromString:testTimeoutPrompt];
+            NSArray<SDLTTSChunk *> *testTTSHelpPrompt = [SDLTTSChunk textChunksFromString:testHelpPrompt];
+
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+            testChoiceSet.title = testTitle;
+            testChoiceSet.initialPrompt = testTTSInitialPrompt;
+            testChoiceSet.layout = testLayout;
+            testChoiceSet.timeout = testTimeout;
+            testChoiceSet.timeoutPrompt = testTTSTimeoutPrompt;
+            testChoiceSet.helpPrompt = testTTSHelpPrompt;
+            testChoiceSet.helpList = @[testHelpItem];
+            testChoiceSet.delegate = testDelegate;
+            testChoiceSet.choices = @[testCell];
+            testChoiceSet.cancelId = testCancelID;
+
+            expect(testChoiceSet.title).to(equal(testTitle));
+            expect(testChoiceSet.initialPrompt).to(equal(testTTSInitialPrompt));
+            expect(@(testChoiceSet.layout)).to(equal(@(SDLChoiceSet.defaultLayout)));
+            expect(testChoiceSet.timeout).to(equal(testTimeout));
+            expect(testChoiceSet.timeoutPrompt).to(equal(testTTSTimeoutPrompt));
+            expect(testChoiceSet.helpPrompt).to(equal(testTTSHelpPrompt));
+            expect(testChoiceSet.helpList).to(equal(@[testHelpItem]));
+            expect(testChoiceSet.delegate).to(equal(testDelegate));
+            expect(testChoiceSet.choices).to(equal(@[testCell]));
+            expect(@(testChoiceSet.cancelId)).to(equal(testCancelID));
         });
 
         it(@"should initialize correctly with initWithTitle:delegate:choices:", ^{
@@ -149,6 +185,23 @@ describe(@"an SDLChoiceSet", ^{
                     expect(testChoiceSet).to(beNil());
                 });
             });
+        });
+    });
+
+    describe(@"canceling the choice set", ^{
+        __block BOOL canceledHandlerCalled = false;
+
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+            testChoiceSet.canceledHandler = ^{
+                canceledHandlerCalled = true;
+            };
+            expect(canceledHandlerCalled).to(beFalse());
+        });
+
+        it(@"should call the cancelled handler", ^{
+            [testChoiceSet cancel];
+            expect(canceledHandlerCalled).to(beTrue());
         });
     });
 
