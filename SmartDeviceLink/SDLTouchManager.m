@@ -22,6 +22,7 @@
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManagerDelegate.h"
+#import "SDLVideoStreamingCapability.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -180,7 +181,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+    SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
+    onTouchEvent = [self applyScaleToEventCoordinates:onTouchEvent];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -206,6 +208,19 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
         });
     }];
+}
+
+- (SDLOnTouchEvent *)applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
+    float scale = self.videoStreamingCapability.scale.floatValue;
+    if (scale > 0) {
+        for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
+            for (SDLTouchCoord *coord in touchEvent.coord) {
+                coord.x = @(coord.x.floatValue / scale);
+                coord.y = @(coord.y.floatValue / scale);
+            }
+        }
+    }
+    return onTouchEvent;
 }
 
 #pragma mark - Private

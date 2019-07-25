@@ -14,6 +14,7 @@
 @protocol SDLTouchManagerDelegate;
 
 @class SDLTouch;
+@class SDLVideoStreamingCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,6 +78,11 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  *      Default is true.
  */
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
+
+/**
+ Provides all video streaming capabilities defined in the HMI.
+ */
+@property (strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
  *  @abstract

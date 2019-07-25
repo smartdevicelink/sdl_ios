@@ -710,6 +710,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         self.videoStreamingCapability = videoCapability;
+        self.touchManager.videoStreamingCapability = videoCapability;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];
