@@ -14,6 +14,7 @@
 @class SDLNavigationCapability;
 @class SDLVideoStreamingCapability;
 @class SDLRemoteControlCapabilities;
+@class SDLSeatLocationCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,6 +104,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional
  */
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
+
+/**
+ *  Contains information about the locations of each seat
+ *
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) SDLSeatLocationCapability *seatLocationCapability;
 
 @end
 

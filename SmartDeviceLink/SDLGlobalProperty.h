@@ -45,3 +45,8 @@ extern SDLGlobalProperty const SDLGlobalPropertyMenuIcon;
  * Property related to the keyboard
  */
 extern SDLGlobalProperty const SDLGlobalPropertyKeyboard;
+
+/**
+ * Location of the user's seat of setGlobalProperties
+ */
+extern SDLGlobalProperty const SDLGlobalPropertyUserLocation;

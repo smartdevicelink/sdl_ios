@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSeatLocationCapability : SDLRPCStruct
 
+- (instancetype)initWithSeats:(SDLSeatLocation *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels;
+
 /**
  *
  * Optional, Integer, 1 - 100

@@ -13,6 +13,20 @@
 
 @implementation SDLSeatLocationCapability
 
+- (instancetype)initWithSeats:(SDLSeatLocation *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels {
+    self = [self init];
+    if (!self) {
+        return self;
+    }
+    
+    self.seats = seats;
+    self.cols = cols;
+    self.rows = rows;
+    self.levels = levels;
+
+    return self;
+}
+
 - (void)setCol:(NSNumber<SDLInt> *)cols {
     [self.store sdl_setObject:cols forName:SDLRPCParameterNameColumns];
 }

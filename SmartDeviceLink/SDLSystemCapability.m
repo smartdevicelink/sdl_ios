@@ -16,6 +16,7 @@
 #import "SDLSystemCapabilityType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLSeatLocationCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -128,6 +129,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
     return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
+}
+
+- (void)setSeatLocationCapability:(nullable SDLSeatLocationCapability *)seatLocationCapability {
+    [self.store sdl_setObject:seatLocationCapability forName:SDLRPCParameterNameSeatLocationCapability];
+}
+
+- (nullable SDLSeatLocationCapability *)seatLocationCapability {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeatLocationCapability ofClass:SDLSeatLocationCapability.class error:nil];
 }
 
 @end
