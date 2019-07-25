@@ -23,6 +23,8 @@
 #import "SDLTouchManagerDelegate.h"
 #import "SDLTouchType.h"
 #import "SDLTouch.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLImageResolution.h"
 
 @interface SDLTouchManager ()
 
@@ -214,6 +216,7 @@ describe(@"SDLTouchManager Tests", ^{
 
         describe(@"When receiving a tap gesture", ^{
             __block SDLTouchCoord* firstTouchCoord;
+            __block SDLTouchCoord* firstTouchCoordEnd;
             __block NSUInteger firstTouchTimeStamp;
             __block SDLOnTouchEvent* firstOnTouchEventStart;
             __block SDLOnTouchEvent* firstOnTouchEventEnd;
@@ -223,19 +226,24 @@ describe(@"SDLTouchManager Tests", ^{
                 firstTouchCoord.x = @(controlPoint.x);
                 firstTouchCoord.y = @(controlPoint.y);
                 firstTouchTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+                
+                firstTouchCoordEnd = firstTouchCoord.copy;
 
-                SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
-                touchEvent.touchEventId = @0;
-                touchEvent.coord = [NSArray arrayWithObject:firstTouchCoord];
-                touchEvent.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                SDLTouchEvent *touchEventStart = [[SDLTouchEvent alloc] init];
+                touchEventStart.touchEventId = @0;
+                touchEventStart.coord = [NSArray arrayWithObject:firstTouchCoord];
+                touchEventStart.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                
+                SDLTouchEvent *touchEventEnd = touchEventStart.copy;
+                touchEventEnd.coord = [NSArray arrayWithObject:firstTouchCoordEnd];
 
                 firstOnTouchEventStart = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventStart.type = SDLTouchTypeBegin;
-                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEventStart];
 
                 firstOnTouchEventEnd = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventEnd.type = SDLTouchTypeEnd;
-                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEventEnd];
             });
 
             describe(@"when receiving a single tap", ^{
@@ -253,6 +261,40 @@ describe(@"SDLTouchManager Tests", ^{
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
 
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                });
+                
+                it(@"should correctly use scale = 1.5 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        controlPoint = CGPointMake(66.666664123535156, 133.33332824707031);
+                        expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
+                    };
+                    
+                    touchManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false diagonalScreenSize:22.0 pixelPerInch:96.0 scale:1.5];
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                });
+                
+                it(@"should correctly use scale = 0.75 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        controlPoint = CGPointMake(133.33332824707031, 266.66665649414063);
+                        expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
+                    };
+                    
+                    touchManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false diagonalScreenSize:22.0 pixelPerInch:96.0 scale:0.75];
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
                 });

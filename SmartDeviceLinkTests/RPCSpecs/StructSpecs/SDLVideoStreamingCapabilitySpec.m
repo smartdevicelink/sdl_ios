@@ -89,6 +89,9 @@ describe(@"Initialization tests", ^{
         expect(testStruct.maxBitrate).to(equal(maxBitrate));
         expect(testStruct.supportedFormats).to(equal(formatArray));
         expect(testStruct.hapticSpatialDataSupported).to(equal(hapticDataSupported));
+        expect(testStruct.diagonalScreenSize).to(equal(diagonalScreenSize));
+        expect(testStruct.pixelPerInch).to(equal(pixelPerInch));
+        expect(testStruct.scale).to(equal(scale));
     });
     
 });

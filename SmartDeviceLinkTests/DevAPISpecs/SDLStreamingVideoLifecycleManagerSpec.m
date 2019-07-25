@@ -491,6 +491,12 @@ describe(@"the streaming video manager", ^{
                             expect(preferredResolution.resolutionHeight).to(equal(@69));
                             expect(preferredResolution.resolutionWidth).to(equal(@42));
                         });
+                        
+                        it(@"should have correct video streaming capability values", ^{
+                            expect(streamingLifecycleManager.videoStreamingCapability.diagonalScreenSize).to(equal(22.0));
+                            expect(streamingLifecycleManager.videoStreamingCapability.pixelPerInch).to(equal(96.0));
+                            expect(streamingLifecycleManager.videoStreamingCapability.scale).to(equal(1.0));
+                        });
                     });
                 });
             });
