@@ -33,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
         testRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:nil radioControlCapabilities:nil buttonCapabilities:nil seatControlCapabilities:nil audioControlCapabilities:nil hmiSettingsControlCapabilities:nil lightControlCapabilities:nil];
-        testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false];
+        testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false diagonalScreenSize:22.0 pixelPerInch:96.0 scale:1.0];
     });
 
     it(@"Should set and get correctly", ^ {
@@ -128,6 +128,9 @@ describe(@"Getter/Setter Tests", ^ {
 
         int32_t maxBitrate = 100;
         NSNumber *hapticDataSupported = @YES;
+        float diagonalScreenSize = 22.0;
+        float pixelPerInch = 96.0;
+        float scale = 1.0;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -139,7 +142,7 @@ describe(@"Getter/Setter Tests", ^ {
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
+        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:testVidStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));

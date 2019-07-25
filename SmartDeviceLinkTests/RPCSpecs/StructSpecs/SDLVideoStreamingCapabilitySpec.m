@@ -69,6 +69,9 @@ describe(@"Initialization tests", ^{
 
         int32_t maxBitrate = 100;
         NSNumber *hapticDataSupported = @YES;
+        float diagonalScreenSize = 22.0;
+        float pixelPerInch = 96.0;
+        float scale = 1.0;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -80,7 +83,7 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));

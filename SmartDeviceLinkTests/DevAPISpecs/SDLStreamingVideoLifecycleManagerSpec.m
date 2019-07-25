@@ -446,6 +446,9 @@ describe(@"the streaming video manager", ^{
                         __block int32_t maxBitrate = 0;
                         __block NSArray<SDLVideoStreamingFormat *> *testFormats = nil;
                         __block BOOL testHapticsSupported = NO;
+                        __block float diagonalScreenSize = 0.0;
+                        __block float pixelPerInch = 0.0;
+                        __block float scale = 0.0;
 
                         beforeEach(^{
                             SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -457,7 +460,11 @@ describe(@"the streaming video manager", ^{
                             maxBitrate = 12345;
                             testFormats = @[[[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP], [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP]];
                             testHapticsSupported = YES;
-                            response.systemCapability.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported];
+                            diagonalScreenSize = 22.0;
+                            pixelPerInch = 96.0;
+                            scale = 1.0;
+                            
+                            response.systemCapability.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
                             [testConnectionManager respondToLastRequestWithResponse:response];
                         });
 
