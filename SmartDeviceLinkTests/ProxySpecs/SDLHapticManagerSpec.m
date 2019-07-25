@@ -311,7 +311,7 @@ describe(@"the haptic manager", ^{
             OCMVerify(sdlLifecycleManager);
 
             int expectedCount = 2;
-            expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
+            expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
 
             if(sentHapticRequest.hapticRectData.count == expectedCount) {
                 NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;

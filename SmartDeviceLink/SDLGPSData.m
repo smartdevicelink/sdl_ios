@@ -156,6 +156,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameSpeed ofClass:NSNumber.class error:nil];
 }
 
+- (void)setShifted:(nullable NSNumber<SDLBool> *)shifted {
+    [self.store sdl_setObject:shifted forName:SDLRPCParameterNameShifted];
+}
+
+- (nullable NSNumber<SDLBool> *)shifted {
+    return [self.store sdl_objectForName:SDLRPCParameterNameShifted ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

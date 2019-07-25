@@ -127,7 +127,7 @@ describe(@"Getter/Setter Tests", ^ {
         resolution.resolutionHeight = @500;
 
         int32_t maxBitrate = 100;
-        NSNumber *hapticDataSupported = @YES;
+        BOOL hapticDataSupported = YES;
         float diagonalScreenSize = 22.0;
         float pixelPerInch = 96.0;
         float scale = 1.0;

@@ -18,6 +18,7 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLSyncMsgVersion.h"
+#import "SDLMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
 #import "SDLTTSChunk.h"
 
@@ -37,17 +38,28 @@ describe(@"RegisterAppInterface Tests", ^{
     __block NSArray<SDLAppHMIType> *appTypes = @[SDLAppHMITypeMedia, SDLAppHMITypeNavigation, SDLAppHMITypeInformation];
     __block SDLLanguage language = SDLLanguageElGr;
     __block SDLLanguage hmiDisplayLanguage = SDLLanguageArSa;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     __block SDLSyncMsgVersion *version = nil;
+#pragma clang diagnostic pop
+    __block SDLMsgVersion *msgVersion = nil;
     __block SDLTTSChunk *chunk = nil;
     __block SDLDeviceInfo *info = nil;
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
-
-    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:1 patchVersion:0];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0];
+#pragma clang diagnostic pop
+    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0];
 
     beforeEach(^{
         testRegisterAppInterface = nil;
-        version = [[SDLSyncMsgVersion alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        version = [[SDLSyncMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+#pragma clang diagnostic pop
+        msgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
         chunk = [[SDLTTSChunk alloc] init];
         info = [[SDLDeviceInfo alloc] init];
         appInfo = [[SDLAppInfo alloc] init];
@@ -56,8 +68,10 @@ describe(@"RegisterAppInterface Tests", ^{
 
     it(@"Should set and get correctly", ^ {
         testRegisterAppInterface = [[SDLRegisterAppInterface alloc] init];
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRegisterAppInterface.syncMsgVersion = version;
+#pragma clang diagnostic pop
         testRegisterAppInterface.appName = appName;
         testRegisterAppInterface.ttsName = @[chunk];
         testRegisterAppInterface.ngnMediaScreenAppName = shortAppName;
@@ -73,8 +87,12 @@ describe(@"RegisterAppInterface Tests", ^{
         testRegisterAppInterface.appInfo = appInfo;
         testRegisterAppInterface.dayColorScheme = colorScheme;
         testRegisterAppInterface.nightColorScheme = colorScheme;
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));
+#pragma clang diagnostic pop
+        testRegisterAppInterface.sdlMsgVersion = msgVersion;
+        expect(testRegisterAppInterface.sdlMsgVersion).to(equal(msgVersion));
         expect(testRegisterAppInterface.appName).to(equal(appName));
         expect(testRegisterAppInterface.ttsName).to(contain(chunk));
         expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -92,33 +110,46 @@ describe(@"RegisterAppInterface Tests", ^{
         expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
     });
 
-    it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary* dict = @{SDLRPCParameterNameRequest:
-                                           @{SDLRPCParameterNameParameters:
-                                                 @{SDLRPCParameterNameSyncMessageVersion:version,
-                                                   SDLRPCParameterNameAppName:appName,
-                                                   SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
-                                                   SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
-                                                   SDLRPCParameterNameVRSynonyms:@[vrSynonyms],
-                                                   SDLRPCParameterNameIsMediaApplication:isMediaApp,
-                                                   SDLRPCParameterNameLanguageDesired:SDLLanguageNoNo,
-                                                   SDLRPCParameterNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
-                                                   SDLRPCParameterNameAppHMIType:appTypes,
-                                                   SDLRPCParameterNameHashId:resumeHash,
-                                                   SDLRPCParameterNameDeviceInfo:info,
-                                                   SDLRPCParameterNameFullAppID:fullAppId,
-                                                   SDLRPCParameterNameAppId:appId,
-                                                   SDLRPCParameterNameAppInfo:appInfo,
-                                                   SDLRPCParameterNameDayColorScheme: colorScheme,
-                                                   SDLRPCParameterNameNightColorScheme: colorScheme,
-                                                   },
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+ describe(@"Setting With Dictionary", ^{
+      __block NSDictionary *dict = nil;
+     beforeEach( ^{
+         dict = @{SDLRPCParameterNameRequest:
+                      @{SDLRPCParameterNameParameters:
+                            @{SDLRPCParameterNameSyncMessageVersion:@{
+                                      SDLRPCParameterNameMajorVersion: @6,
+                                      SDLRPCParameterNameMinorVersion: @0,
+                                      SDLRPCParameterNamePatchVersion: @0
+                                      },
+                              SDLRPCParameterNameAppName:appName,
+                              SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
+                              SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
+                              SDLRPCParameterNameVRSynonyms:@[vrSynonyms],
+                              SDLRPCParameterNameIsMediaApplication:isMediaApp,
+                              SDLRPCParameterNameLanguageDesired:SDLLanguageNoNo,
+                              SDLRPCParameterNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
+                              SDLRPCParameterNameAppHMIType:appTypes,
+                              SDLRPCParameterNameHashId:resumeHash,
+                              SDLRPCParameterNameDeviceInfo:info,
+                              SDLRPCParameterNameFullAppID:fullAppId,
+                              SDLRPCParameterNameAppId:appId,
+                              SDLRPCParameterNameAppInfo:appInfo,
+                              SDLRPCParameterNameDayColorScheme: colorScheme,
+                              SDLRPCParameterNameNightColorScheme: colorScheme,
+                              },
+                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+     });
+
+    it(@"Should get correctly when initialized with a dictionary and get syncMsgVersion first", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRegisterAppInterface* testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
-        expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+        expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
         expect(testRegisterAppInterface.appName).to(match(appName));
         expect(testRegisterAppInterface.ttsName).to(equal([@[chunk] mutableCopy]));
         expect(testRegisterAppInterface.ngnMediaScreenAppName).to(match(shortAppName));
@@ -136,11 +167,42 @@ describe(@"RegisterAppInterface Tests", ^{
         expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
     });
 
+     it(@"Should get correctly when initialized with a dictionary and sdlMsgVersion first", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+         SDLRegisterAppInterface* testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
+         expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+         expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+         expect(testRegisterAppInterface.appName).to(match(appName));
+         expect(testRegisterAppInterface.ttsName).to(equal([@[chunk] mutableCopy]));
+         expect(testRegisterAppInterface.ngnMediaScreenAppName).to(match(shortAppName));
+         expect(testRegisterAppInterface.vrSynonyms).to(equal(@[vrSynonyms]));
+         expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
+         expect(testRegisterAppInterface.languageDesired).to(equal(SDLLanguageNoNo));
+         expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(SDLLanguagePtPt));
+         expect(testRegisterAppInterface.appHMIType).to(equal(appTypes));
+         expect(testRegisterAppInterface.hashID).to(match(resumeHash));
+         expect(testRegisterAppInterface.deviceInfo).to(equal(info));
+         expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
+         expect(testRegisterAppInterface.appID).to(match(appId));
+         expect(testRegisterAppInterface.appInfo).to(equal(appInfo));
+         expect(testRegisterAppInterface.dayColorScheme).to(equal(colorScheme));
+         expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
+     });
+ });
+
     describe(@"initializers", ^{
         it(@"init", ^{
             testRegisterAppInterface = [[SDLRegisterAppInterface alloc] init];
-
-            expect(testRegisterAppInterface.syncMsgVersion).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
             expect(testRegisterAppInterface.appName).to(beNil());
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -173,7 +235,11 @@ describe(@"RegisterAppInterface Tests", ^{
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:testLifecyleConfiguration];
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -197,7 +263,11 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -218,10 +288,13 @@ describe(@"RegisterAppInterface Tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
 #pragma clang diagnostic pop
-
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -239,13 +312,17 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
         });
         it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash];
-
+#pragma clang diagnostic pop
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -261,15 +338,17 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
             expect(testRegisterAppInterface.dayColorScheme).to(beNil());
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
-            #pragma clang diagnostic pop
         });
-
         it(@"initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(appId));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
+#pragma clang diagnostic pop
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));

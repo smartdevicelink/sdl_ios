@@ -15,6 +15,8 @@
 @class SDLButtonPressResponse;
 @class SDLChangeRegistration;
 @class SDLChangeRegistrationResponse;
+@class SDLCloseApplication;
+@class SDLCloseApplicationResponse;
 @class SDLCreateInteractionChoiceSet;
 @class SDLCreateInteractionChoiceSetResponse;
 @class SDLDeleteCommand;
@@ -126,6 +128,8 @@
 @class SDLSyncPData;
 @class SDLSyncPDataResponse;
 @class SDLSystemRequest;
+@class SDLUnpublishAppService;
+@class SDLUnpublishAppServiceResponse;
 @class SDLUnregisterAppInterface;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButton;
@@ -210,6 +214,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLChangeRegistrationResponse object
  */
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
+
+/**
+ *  Called when a `CloseApplication` response is received from Core
+ *
+ *  @param response A SDLCloseApplicationResponse object
+ */
+- (void)onCloseApplicationResponse:(SDLCloseApplicationResponse *)response;
 
 /**
  *  Called when a Create Interaction Choice Set Response is received from Core
@@ -534,6 +545,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
 
 /**
+ *  Called when an Unpublish App Service Response is received from Core
+ *
+ *  @param response A SDLUnpublishAppServiceResponse object
+ */
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response;
+
+/**
  *  Called when an Unregister App Interface Response is received from Core
  *
  *  @param response A SDLUnregisterAppInterfaceResponse object
@@ -604,6 +622,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLChangeRegistration object
  */
 - (void)onChangeRegistration:(SDLChangeRegistration *)request;
+
+/**
+ *  Called when a `CloseApplication` request is received from Core
+ *
+ *  @param request A SDLCloseApplication object
+ */
+- (void)onCloseApplication:(SDLCloseApplication *)request;
 
 /**
  *  Called when a `CreateInteractionChoiceSet` request is received from Core
@@ -912,6 +937,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLSystemRequest object
  */
 - (void)onSystemRequest:(SDLSystemRequest *)request;
+
+/**
+ *  Called when a `SDLUnpublishAppService` request is received from Core
+ *
+ *  @param request A SDLUnpublishAppService object
+ */
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request;
 
 /**
  *  Called when a `UnregisterAppInterface` request is received from Core
