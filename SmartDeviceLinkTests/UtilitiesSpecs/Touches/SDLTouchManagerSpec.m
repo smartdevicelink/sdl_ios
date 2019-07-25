@@ -351,6 +351,10 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
                 });
+                
+                afterEach(^{
+                    touchManager.videoStreamingCapability.scale = @(1.0);
+                });
             });
             
             describe(@"when receiving a single tap with small movement", ^{
@@ -397,10 +401,6 @@ describe(@"SDLTouchManager Tests", ^{
 
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 3;
-
-                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
-
-                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
