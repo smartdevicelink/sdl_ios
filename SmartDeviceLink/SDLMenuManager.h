@@ -36,6 +36,10 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 
 @property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
+
+- (void)openMenu;
+- (void)openSubmenu:(SDLMenuCell *)cell;
+
 @end
 
 NS_ASSUME_NONNULL_END

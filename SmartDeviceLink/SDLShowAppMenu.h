@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLShowAppMenu : SDLRPCRequest
 
+- (instancetype)initWithMenuID:(UInt32)menuID;
+
 /**
  * a Menu ID that identifies the sub menu to open. If not set the top level menu will be opened.
  */

@@ -277,6 +277,11 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
+#pragma mark Menu
+
+- (BOOL)openMenu;
+- (BOOL)openSubmenu:(SDLMenuCell *)cell;
+
 @end
 
 NS_ASSUME_NONNULL_END

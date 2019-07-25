@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with dictonary", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+        NSDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameMenuId:@4345645,
                                                                    },

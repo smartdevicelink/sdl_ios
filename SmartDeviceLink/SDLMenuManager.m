@@ -31,6 +31,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLScreenManager.h"
+#import "SDLShowAppMenu.h"
 #import "SDLVoiceCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -636,6 +637,22 @@ UInt32 const MenuCellIdMin = 1;
             self.waitingUpdateMenuCells = @[];
         }
     }
+}
+
+- (void)openMenu {
+    [self.connectionManager sendConnectionRequest:[[SDLShowAppMenu alloc] init] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application menu: %@", error);
+        }
+    }];
+}
+
+- (void)openSubmenu:(SDLMenuCell *)cell {
+    [self.connectionManager sendConnectionRequest:[[SDLShowAppMenu alloc] initWithMenuID:cell.cellId] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application menu: %@", error);
+        }
+    }];
 }
 
 @end
