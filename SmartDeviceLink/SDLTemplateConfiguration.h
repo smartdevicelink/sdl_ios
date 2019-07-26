@@ -7,6 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Used to set an alternate template layout to a window.
  * @since 6.0
  */
 @interface SDLTemplateConfiguration : SDLRPCStruct

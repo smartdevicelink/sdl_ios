@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Contain the display related information and all windows related to that display.
  * @since 6.0
  */
 @interface SDLDisplayCapability : SDLRPCStruct
