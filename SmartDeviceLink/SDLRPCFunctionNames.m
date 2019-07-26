@@ -64,6 +64,7 @@ SDLRPCFunctionName const SDLRPCFunctionNamePerformInteraction = @"PerformInterac
 SDLRPCFunctionName const SDLRPCFunctionNamePublishAppService = @"PublishAppService";
 SDLRPCFunctionName const SDLRPCFunctionNamePutFile = @"PutFile";
 SDLRPCFunctionName const SDLRPCFunctionNameReadDID = @"ReadDID";
+SDLRPCFunctionName const SDLRPCFunctionNameReleaseInteriorVehicleDataModule = @"ReleaseInteriorVehicleDataModuleID";
 SDLRPCFunctionName const SDLRPCFunctionNameRegisterAppInterface = @"RegisterAppInterface";
 SDLRPCFunctionName const SDLRPCFunctionNameReserved = @"reserved";
 SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties = @"ResetGlobalProperties";

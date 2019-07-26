@@ -69,6 +69,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNamePerformInteraction;
 extern SDLRPCFunctionName const SDLRPCFunctionNamePublishAppService;
 extern SDLRPCFunctionName const SDLRPCFunctionNamePutFile;
 extern SDLRPCFunctionName const SDLRPCFunctionNameReadDID;
+extern SDLRPCFunctionName const SDLRPCFunctionNameReleaseInteriorVehicleDataModule;
 extern SDLRPCFunctionName const SDLRPCFunctionNameRegisterAppInterface;
 extern SDLRPCFunctionName const SDLRPCFunctionNameReserved;
 extern SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties;

@@ -1,35 +1,36 @@
 //
-//  SDLGetInteriorVehicleDataConsent.m
+//  SDLReleaseInteriorVehicleDataModule.m
 //  SmartDeviceLink
 //
 //  Created by standa1 on 7/25/19.
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLGetInteriorVehicleDataConsent.h"
+#import "SDLReleaseInteriorVehicleDataModule.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-#import "NSMutableDictionary+Store.h"
 
-@implementation SDLGetInteriorVehicleDataConsent
+@implementation SDLReleaseInteriorVehicleDataModule
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameGetInteriorVehicleDataConsent]) {
+    if (self = [super initWithName:SDLRPCFunctionNameReleaseInteriorVehicleDataModule]) {
     }
     return self;
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleIds:(NSArray<NSString *> *)moduleIds {
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId {
     self = [self init];
     if (!self) {
         return nil;
     }
     
     self.moduleType = moduleType;
-    self.moduleIds = moduleIds;
+    self.moduleId = moduleId;
     
     return self;
 }
@@ -44,12 +45,12 @@
 }
 
 - (void)setModuleIds:(NSArray<NSString *> *)moduleIds {
-    [self.parameters sdl_setObject:moduleIds forName:SDLRPCParameterNameModuleIds];
+    [self.parameters sdl_setObject:moduleIds forName:SDLRPCParameterNameModuleId];
 }
 
-- (NSArray<NSString *> *)moduleIds {
+- (NSString *)moduleId {
     NSError *error = nil;
-    return [self.parameters sdl_objectsForName:SDLRPCParameterNameModuleIds ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
 }
 
 @end
