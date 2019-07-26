@@ -303,6 +303,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveUpdateTurnListResponse response:response];
 }
 
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveUnpublishAppServiceResponse response:response];
+}
+
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:response];
 }
@@ -523,6 +527,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)onSystemRequest:(SDLSystemRequest *)request {
     [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
+}
+
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnpublishAppServiceRequest request:request];
 }
 
 - (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {

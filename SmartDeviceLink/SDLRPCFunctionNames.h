@@ -89,6 +89,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSyncPData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSystemRequest;
+extern SDLRPCFunctionName const SDLRPCFunctionNameUnpublishAppService;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnregisterAppInterface;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeButton;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeVehicleData;

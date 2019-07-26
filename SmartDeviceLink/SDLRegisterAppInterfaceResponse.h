@@ -17,6 +17,7 @@
 @class SDLPresetBankCapabilities;
 @class SDLSoftButtonCapabilities;
 @class SDLSyncMsgVersion;
+@class SDLMsgVersion;
 @class SDLVehicleType;
 
 
@@ -36,7 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
+@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion __deprecated_msg(("Use sdlMsgVersion Instead"));
+
+/**
+ * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.
+ *
+ * SDLMsgVersion, Optional
+ *
+ * @since SDL 1.0
+ */
+@property(nullable, strong, nonatomic) SDLMsgVersion *sdlMsgVersion;
 
 /**
  * The currently active VR+TTS language on the module. See "Language" for options.

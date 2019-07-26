@@ -2,32 +2,9 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLAddCommand.h"
-#import "SDLAddSubMenu.h"
-#import "SDLDeleteCommand.h"
-#import "SDLDeleteSubMenu.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayType.h"
-#import "SDLFileManager.h"
-#import "SDLHMILevel.h"
-#import "SDLImage.h"
-#import "SDLImageField.h"
-#import "SDLImageFieldName.h"
-#import "SDLMediaClockFormat.h"
-#import "SDLMenuCell.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLMenuManager.h"
-#import "SDLMenuManagerConstants.h"
-#import "SDLOnCommand.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRPCNotificationNotification.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLRPCResponseNotification.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLScreenManager.h"
-#import "SDLScreenParams.h"
-#import "SDLSystemContext.h"
-#import "SDLTextField.h"
 #import "TestConnectionManager.h"
 
 
