@@ -13,7 +13,7 @@
 
 @implementation SDLSeatLocationCapability
 
-- (instancetype)initWithSeats:(SDLSeatLocation *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels {
+- (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels {
     self = [self init];
     if (!self) {
         return self;
@@ -54,13 +54,13 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameLevels ofClass:NSNumber.class error:&error];
 }
 
-- (void)setSeats:(SDLSeatLocation *)seats {
+- (void)setSeats:(NSArray<SDLSeatLocation *> *)seats {
     [self.store sdl_setObject:seats forName:SDLRPCParameterNameSeats];
 }
 
-- (SDLSeatLocation *)seats {
+- (NSArray<SDLSeatLocation *> *)seats {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameSeats ofClass:SDLSeatLocation.class error:&error];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameSeats ofClass:SDLSeatLocation.class error:&error];
 }
 
 @end

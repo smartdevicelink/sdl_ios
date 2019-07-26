@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSeatLocationCapability : SDLRPCStruct
 
-- (instancetype)initWithSeats:(SDLSeatLocation *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels;
+- (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels;
 
 /**
  *
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Contains a list of SeatLocation in the vehicle, the first element is the driver's seat
  * Optional
  */
-@property (strong, nonatomic) SDLSeatLocation *seats;
+@property (strong, nonatomic) NSArray<SDLSeatLocation *> *seats;
 
 @end
 

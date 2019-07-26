@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnable heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 /**
  * @abstract id of seat that is a remote controllable seat.
  * @warning This should not be used to identify a seat, this is a deprecated parameter.
@@ -55,6 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Required
  */
 @property (strong, nonatomic) SDLSupportedSeat id;
+#pragma clang diagnostic pop
 
 /**
  * @abstract Whether or not heating is enabled.
