@@ -7,8 +7,8 @@
 //
 
 #import "SDLGetInteriorVehicleDataConsentResponse.h"
-#import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
 
 @implementation SDLGetInteriorVehicleDataConsentResponse
