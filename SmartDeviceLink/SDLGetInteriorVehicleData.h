@@ -18,11 +18,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetInteriorVehicleData : SDLRPCRequest
 
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
+
+- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
+
+- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initWithModuleType:(SDLModuleType)moduleType;
+#pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType;
+#pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType;
+#pragma clang diagnostic pop
 
 /**
  * The type of a RC module to retrieve module data from the vehicle.
