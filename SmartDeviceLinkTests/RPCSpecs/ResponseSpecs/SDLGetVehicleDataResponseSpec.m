@@ -30,6 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* vin = nil;
     __block NSString* cloudAppVehicleID = nil;
+    
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];
@@ -224,11 +225,9 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"should set and get generic Network data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"speed" withVehicleDataState:@100];
-        [testRequest setOEMCustomVehicleData:@"turnSignal" withVehicleDataState:SDLTurnSignalOff];
+        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:@"OEMVehicleDataState"];
 
-        expect([testRequest getOEMCustomVehicleData:@"speed"]).to(equal(@100));
-        expect([testRequest getOEMCustomVehicleData:@"turnSignal"]).to(equal(SDLTurnSignalOff));
+        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(@"OEMVehicleDataState"));
 
     });
 });

@@ -27,6 +27,20 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.customDataType).to(equal(SDLVehicleDataTypeAirbagStatus));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
+
+    it(@"Should set and get correctly", ^ {
+        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDataType:SDLVehicleDataTypeAirbagStatus SDLVehicleDataResultCode:SDLVehicleDataResultCodeDisallowed];
+
+        expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
+    });
+
+    it(@"Should set and get correctly", ^ {
+        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithCustomDataType:@"CustomOEMData" SDLVehicleDataResultCode:SDLVehicleDataResultCodeDisallowed];
+
+        expect(testStruct.customDataType).to(equal(@"CustomOEMData"));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
+    });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameDataType:SDLVehicleDataTypeAirbagStatus,

@@ -13,10 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLVehicleDataResult : SDLRPCStruct
 
+- (instancetype)initWithDataType:(SDLVehicleDataType)dataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
+
+- (instancetype)initWithCustomDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
+
 /**
  Defined published data element type
  */
-@property (strong, nonatomic) SDLVehicleDataType dataType __deprecated_msg("Use customDataType parameter");
+@property (strong, nonatomic) SDLVehicleDataType dataType;
 
 /**
  Defined published data element type
