@@ -349,12 +349,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)dismissKeyboard {
+    // The keyboard will only be dismissed if the operation is executing. If the keyboard is not being shown, the `CancelInteraction` will not be sent.
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if ([op isKindOfClass:SDLPresentKeyboardOperation.class]) {
-            // Find first instance of the keyboard in the queue
             SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
             [keyboardOperation cancelKeyboard];
-            break;
         }
     }
 }

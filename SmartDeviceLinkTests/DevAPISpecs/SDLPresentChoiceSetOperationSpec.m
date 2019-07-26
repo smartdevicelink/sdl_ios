@@ -94,6 +94,7 @@ describe(@"present choice operation", ^{
                 expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
                 expect(request.vrHelp).to(beNil());
                 expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
+                expect(request.cancelID).to(equal(testChoiceSet.cancelId));
             });
 
             describe(@"after a perform interaction response", ^{
@@ -294,6 +295,7 @@ describe(@"present choice operation", ^{
                 expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
                 expect(request.vrHelp).to(beNil());
                 expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
+                expect(request.cancelID).to(equal(testChoiceSet.cancelId));
             });
 
             it(@"should respond to submitted notifications", ^{
