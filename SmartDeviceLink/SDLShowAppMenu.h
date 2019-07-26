@@ -15,6 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLShowAppMenu : SDLRPCRequest
 
+/**
+ *  Convenience init for setting menuID
+ *
+ *  @param menuID       Menu id of requsted sub menu
+ *
+ *  @return             A SDLShowAppMenu object
+ */
 - (instancetype)initWithMenuID:(UInt32)menuID;
 
 /**
