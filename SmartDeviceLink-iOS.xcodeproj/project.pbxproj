@@ -15,6 +15,8 @@
 		0055412F22D759BD003194D3 /* SDLSeatLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0055412D22D759BC003194D3 /* SDLSeatLocation.m */; };
 		0055413222D75A7B003194D3 /* SDLSeatLocationCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 0055413022D75A7A003194D3 /* SDLSeatLocationCapability.h */; };
 		0055413322D75A7B003194D3 /* SDLSeatLocationCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0055413122D75A7B003194D3 /* SDLSeatLocationCapability.m */; };
+		008DB36122EA7482003F458C /* SDLGetInteriorVehicleDataConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 008DB35F22EA7481003F458C /* SDLGetInteriorVehicleDataConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		008DB36222EA7482003F458C /* SDLGetInteriorVehicleDataConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 008DB36022EA7481003F458C /* SDLGetInteriorVehicleDataConsent.m */; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
 		162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */; };
 		162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */; };
@@ -1647,6 +1649,8 @@
 		0055412D22D759BC003194D3 /* SDLSeatLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatLocation.m; sourceTree = "<group>"; };
 		0055413022D75A7A003194D3 /* SDLSeatLocationCapability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatLocationCapability.h; sourceTree = "<group>"; };
 		0055413122D75A7B003194D3 /* SDLSeatLocationCapability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatLocationCapability.m; sourceTree = "<group>"; };
+		008DB35F22EA7481003F458C /* SDLGetInteriorVehicleDataConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetInteriorVehicleDataConsent.h; sourceTree = "<group>"; };
+		008DB36022EA7481003F458C /* SDLGetInteriorVehicleDataConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetInteriorVehicleDataConsent.m; sourceTree = "<group>"; };
 		162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAmbientLightStatusSpec.m; sourceTree = "<group>"; };
 		162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppHMITypeSpec.m; sourceTree = "<group>"; };
 		162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInterfaceUnregisteredReasonSpec.m; sourceTree = "<group>"; };
@@ -4283,6 +4287,8 @@
 				5D61FC051A84238C00846EE7 /* SDLUpdateTurnList.m */,
 				8BA12B0F22DCCE1F00371E82 /* SDLUnpublishAppService.h */,
 				8BA12B1022DCCE1F00371E82 /* SDLUnpublishAppService.m */,
+				008DB35F22EA7481003F458C /* SDLGetInteriorVehicleDataConsent.h */,
+				008DB36022EA7481003F458C /* SDLGetInteriorVehicleDataConsent.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -6253,6 +6259,7 @@
 				1EB59CBF202DA26000343A61 /* SDLSeatControlData.h in Headers */,
 				1EB59CB3202D9B5F00343A61 /* SDLSeatMemoryActionType.h in Headers */,
 				88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */,
+				008DB36122EA7482003F458C /* SDLGetInteriorVehicleDataConsent.h in Headers */,
 				1EB59CC3202DB40400343A61 /* SDLSeatControlCapabilities.h in Headers */,
 				1EB59CB7202D9C8100343A61 /* SDLSeatMemoryAction.h in Headers */,
 				1EB59CBB202DA1B400343A61 /* SDLSupportedSeat.h in Headers */,
@@ -7341,6 +7348,7 @@
 				5D61FD841A84238C00846EE7 /* SDLSetDisplayLayout.m in Sources */,
 				DA9F7E701DCBFFDB00ACAE48 /* SDLGetWayPoints.m in Sources */,
 				1EAA4756203583BC000FE74B /* SDLHMISettingsControlData.m in Sources */,
+				008DB36222EA7482003F458C /* SDLGetInteriorVehicleDataConsent.m in Sources */,
 				5D00AC741F151CFE004000D9 /* SDLGetSystemCapabilityResponse.m in Sources */,
 				5D61FE001A84238C00846EE7 /* SDLVehicleDataEventStatus.m in Sources */,
 				5D61FDC41A84238C00846EE7 /* SDLTBTState.m in Sources */,

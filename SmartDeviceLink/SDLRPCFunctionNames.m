@@ -30,6 +30,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameGetDTCs = @"GetDTCs";
 SDLRPCFunctionName const SDLRPCFunctionNameGetFile = @"GetFile";
 SDLRPCFunctionName const SDLRPCFunctionNameGetCloudAppProperties = @"GetCloudAppProperties";
 SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleData = @"GetInteriorVehicleData";
+SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleDataConsent = @"GetInteriorVehicleDataConsentID";
 SDLRPCFunctionName const SDLRPCFunctionNameGetSystemCapability = @"GetSystemCapability";
 SDLRPCFunctionName const SDLRPCFunctionNameGetVehicleData = @"GetVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints = @"GetWayPoints";

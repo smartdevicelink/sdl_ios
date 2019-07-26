@@ -35,6 +35,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameGetDTCs;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetFile;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetCloudAppProperties;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleDataConsent;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetSystemCapability;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints;

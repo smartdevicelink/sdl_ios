@@ -379,6 +379,7 @@ SDLRPCParameterName const SDLRPCParameterNameMinutes = @"minutes";
 SDLRPCParameterName const SDLRPCParameterNameModel = @"model";
 SDLRPCParameterName const SDLRPCParameterNameModuleData = @"moduleData";
 SDLRPCParameterName const SDLRPCParameterNameModuleId = @"moduleId";
+SDLRPCParameterName const SDLRPCParameterNameModuleIds = @"moduleIds";
 SDLRPCParameterName const SDLRPCParameterNameModuleInfo = @"moduleInfo";
 SDLRPCParameterName const SDLRPCParameterNameModuleName = @"moduleName";
 SDLRPCParameterName const SDLRPCParameterNameModuleType = @"moduleType";
