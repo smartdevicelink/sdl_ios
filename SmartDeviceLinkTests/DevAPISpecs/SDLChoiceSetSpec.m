@@ -71,7 +71,7 @@ describe(@"an SDLChoiceSet", ^{
 
             expect(testChoiceSet.title).to(equal(testTitle));
             expect(testChoiceSet.initialPrompt).to(equal(testTTSInitialPrompt));
-            expect(@(testChoiceSet.layout)).to(equal(@(SDLChoiceSet.defaultLayout)));
+            expect(@(testChoiceSet.layout)).to(equal(testLayout));
             expect(testChoiceSet.timeout).to(equal(testTimeout));
             expect(testChoiceSet.timeoutPrompt).to(equal(testTTSTimeoutPrompt));
             expect(testChoiceSet.helpPrompt).to(equal(testTTSHelpPrompt));
