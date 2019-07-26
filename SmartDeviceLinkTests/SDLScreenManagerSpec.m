@@ -152,7 +152,7 @@ describe(@"screen manager", ^{
         });
     });
 
-    describe(@"open menu when RPC is not supported", ^{
+    describe(@"open menu when spec versioning is not supported", ^{
         beforeEach(^{
             SDLVersion *oldVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
             id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
@@ -172,7 +172,7 @@ describe(@"screen manager", ^{
 
     });
 
-    describe(@"open menu when RPC is supported", ^{
+    describe(@"open menu when spec versioning supported", ^{
         beforeEach(^{
             SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
             id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
@@ -189,7 +189,7 @@ describe(@"screen manager", ^{
             OCMVerify([mockMenuManger openMenu]);
         });
 
-        it(@"should return NO if spec versioning is supported when openSubMenu is called", ^{
+        it(@"should return YES if spec versioning is supported when openSubMenu is called", ^{
             SDLMenuCell *cell = [[SDLMenuCell alloc] init];
             BOOL canSendRPC = [testScreenManager openSubmenu:cell];
 

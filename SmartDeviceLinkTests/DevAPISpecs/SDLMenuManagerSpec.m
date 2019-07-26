@@ -610,6 +610,38 @@ describe(@"menu manager", ^{
         });
     });
 
+    describe(@"Opening Menu", ^{
+        it(@"should send showAppMenu RPC", ^{
+            [testManager openMenu];
+
+            NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+            NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+            expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+            expect(openMenu).to(haveCount(0));
+       });
+
+        it(@"should send showAppMenu RPC with cellID ", ^ {
+            [testManager openSubmenu:submenuCell];
+
+            NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+            NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+            expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+            expect(openMenu).to(haveCount(1));
+        });
+
+        it(@"should not send a showAppMenu RPC when cellID is invalid ", ^ {
+            [testManager openSubmenu:textOnlyCell];
+
+            NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+            NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+            expect(mockConnectionManager.receivedRequests).to(beEmpty());
+            expect(openMenu).to(haveCount(0));
+        });
+    });
+
     afterEach(^{
         testManager = nil;
     });

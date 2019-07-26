@@ -643,12 +643,20 @@ UInt32 const MenuCellIdMin = 1;
     [self.connectionManager sendConnectionRequest:[[SDLShowAppMenu alloc] init] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error opening application menu: %@", error);
+            return;
         }
     }];
 }
 
 - (void)openSubmenu:(SDLMenuCell *)cell {
-    [self.connectionManager sendConnectionRequest:[[SDLShowAppMenu alloc] initWithMenuID:cell.cellId] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    if (cell.subCells == 0) {
+        SDLLogW(@"The cell does not contain any sub cells, RPC will not be sent");
+        return;
+    }
+
+    SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
+
+    [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error opening application menu: %@", error);
         }
