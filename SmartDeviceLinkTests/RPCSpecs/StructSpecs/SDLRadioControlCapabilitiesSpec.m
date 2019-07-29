@@ -221,26 +221,6 @@ describe(@"Initialization tests", ^{
 
     });
     
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
-        SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" moduleInfo:testModuleInfo radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO hdRadioEnableAvailable:YES siriusXMRadioAvailable:YES sisDataAvailable:YES];
-        
-        expect(testStruct.moduleName).to(equal(@"someName"));
-        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
-        expect(testStruct.radioEnableAvailable).to(equal(@YES));
-        expect(testStruct.radioBandAvailable).to(equal(@NO));
-        expect(testStruct.radioFrequencyAvailable).to(equal(@YES));
-        expect(testStruct.hdChannelAvailable).to(equal(@NO));
-        expect(testStruct.rdsDataAvailable).to(equal(@NO));
-        expect(testStruct.availableHDsAvailable).to(equal(@NO));
-        expect(testStruct.stateAvailable).to(equal(@YES));
-        expect(testStruct.signalStrengthAvailable).to(equal(@YES));
-        expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
-        expect(testStruct.hdRadioEnableAvailable).to(equal(YES));
-        expect(testStruct.siriusXMRadioAvailable).to(equal(@YES));
-        expect(testStruct.sisDataAvailable).to(equal(@YES));
-        
-    });
-
 });
 
 QuickSpecEnd
