@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 @property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
+@property (assign, nonatomic) BOOL lockScreenDismissed;
 
 @end
 
@@ -47,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lockScreenDismissable = NO;
     _config = config;
     _presenter = presenter;
+    _lockScreenDismissed = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
@@ -142,13 +144,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
-    BOOL lockScreenDismissableEnabled = [self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue];
     if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent && !lockScreenDismissableEnabled) {
+        if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissed) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent && !lockScreenDismissableEnabled) {
+        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent && !self.lockScreenDismissed) {
             [self.presenter present];
         } else if (!self.config.showInOptionalState && self.presenter.presented) {
             [self.presenter dismiss];
@@ -161,15 +162,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateLockScreenDismissable {
-    BOOL lastLockScreenDismissableEnabled = [self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue];
     if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
         ![self.lastDriverDistractionNotification.lockScreenDismissalEnabled boolValue]) {
         self.lockScreenDismissable = NO;
     } else {
         self.lockScreenDismissable = YES;
     }
-    
-    if (lastLockScreenDismissableEnabled != self.lockScreenDismissable) {
+
+    if (!self.lockScreenDismissed) {
         [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
     }
 }
@@ -186,10 +186,11 @@ NS_ASSUME_NONNULL_BEGIN
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
                 [strongSelf.presenter dismiss];
+                strongSelf.lockScreenDismissed = YES;
             }];
             lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;
         } else {
-            [(SDLLockScreenViewController *)strongSelf.lockScreenViewController removeDismissGesture];
+            [lockscreenViewController removeDismissGesture];
             lockscreenViewController.lockedLabelText = nil;
         }
     });
