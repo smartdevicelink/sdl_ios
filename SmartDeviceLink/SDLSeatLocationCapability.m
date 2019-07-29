@@ -11,6 +11,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSeatLocationCapability
 
 - (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels {
@@ -27,7 +29,7 @@
     return self;
 }
 
-- (void)setCol:(NSNumber<SDLInt> *)cols {
+- (void)setCols:(NSNumber<SDLInt> *)cols {
     [self.store sdl_setObject:cols forName:SDLRPCParameterNameColumns];
 }
 
@@ -36,7 +38,7 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameColumns ofClass:NSNumber.class error:&error];
 }
 
-- (void)setRow:(NSNumber<SDLInt> *)rows {
+- (void)setRows:(NSNumber<SDLInt> *)rows {
     [self.store sdl_setObject:rows forName:SDLRPCParameterNameRows];
 }
 
@@ -45,7 +47,7 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameRows ofClass:NSNumber.class error:&error];
 }
 
-- (void)setLevel:(NSNumber<SDLInt> *)levels {
+- (void)setLevels:(NSNumber<SDLInt> *)levels {
     [self.store sdl_setObject:levels forName:SDLRPCParameterNameLevels];
 }
 
@@ -64,3 +66,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

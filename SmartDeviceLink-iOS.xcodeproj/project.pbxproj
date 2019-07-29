@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000DD56C22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */; };
 		0055412622D40DAB003194D3 /* SDLModuleInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0055412422D40DAB003194D3 /* SDLModuleInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0055412722D40DAB003194D3 /* SDLModuleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0055412522D40DAB003194D3 /* SDLModuleInfo.m */; };
 		0055412A22D5DC0B003194D3 /* SDLGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 0055412822D5DC0B003194D3 /* SDLGrid.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1647,6 +1648,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatLocationCapabilitySpec.m; sourceTree = "<group>"; };
 		0055412422D40DAB003194D3 /* SDLModuleInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLModuleInfo.h; sourceTree = "<group>"; };
 		0055412522D40DAB003194D3 /* SDLModuleInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLModuleInfo.m; sourceTree = "<group>"; };
 		0055412822D5DC0B003194D3 /* SDLGrid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGrid.h; sourceTree = "<group>"; };
@@ -3679,6 +3681,7 @@
 				8855F9DF220C93B700A5C897 /* SDLWeatherDataSpec.m */,
 				880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */,
 				880D267F220E038800B3F496 /* SDLWeatherServiceManifestSpec.m */,
+				000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */,
 			);
 			path = StructSpecs;
 			sourceTree = "<group>";
@@ -7600,6 +7603,7 @@
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
 				5DB2022A1F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m in Sources */,
+				000DD56C22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m in Sources */,
 				5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
 				1EAA47622035B1AE000FE74B /* SDLDistanceUnitSpec.m in Sources */,
