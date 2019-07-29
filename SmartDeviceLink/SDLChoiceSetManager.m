@@ -21,6 +21,7 @@
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -127,9 +128,9 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (NSOperationQueue *)sdl_newTransactionQueue {
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.name = @"SDLChoiceSetManager Transaction Queue";
+    queue.name = @"com.sdl.screenManager.choiceSetManager.transactionQueue";
     queue.maxConcurrentOperationCount = 1;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;

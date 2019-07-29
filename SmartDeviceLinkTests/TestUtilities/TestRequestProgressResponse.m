@@ -21,4 +21,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Progress Response: correlation id: %@, percent complete: %0.03f, error: %@", _correlationId, _percentComplete, _error];
+}
+
 @end

@@ -30,6 +30,7 @@ SDLNotificationName const SDLDidReceiveAlertResponse = @"com.sdl.response.alert"
 SDLNotificationName const SDLDidReceiveAlertManeuverResponse = @"com.sdl.response.alertManeuver";
 SDLNotificationName const SDLDidReceiveButtonPressResponse = @"com.sdl.response.buttonPress";
 SDLNotificationName const SDLDidReceiveChangeRegistrationResponse = @"com.sdl.response.changeRegistration";
+SDLNotificationName const SDLDidReceiveCloseApplicationResponse = @"com.sdl.response.closeApplication";
 SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetResponse = @"com.sdl.response.createInteractionChoiceSet";
 SDLNotificationName const SDLDidReceiveDeleteCommandResponse = @"com.sdl.response.deleteCommand";
 SDLNotificationName const SDLDidReceiveDeleteFileResponse = @"com.sdl.response.deleteFile";
@@ -75,6 +76,7 @@ SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse = @"com.sdl.
 SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse = @"com.sdl.response.subscribeWaypoints";
 SDLNotificationName const SDLDidReceiveSyncPDataResponse = @"com.sdl.response.syncPData";
 SDLNotificationName const SDLDidReceiveUpdateTurnListResponse = @"com.sdl.response.updateTurnList";
+SDLNotificationName const SDLDidReceiveUnpublishAppServiceResponse = @"com.sdl.response.unpublishAppService";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceResponse = @"com.sdl.response.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.response.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
@@ -87,6 +89,7 @@ SDLNotificationName const SDLDidReceiveAlertRequest = @"com.sdl.request.alert";
 SDLNotificationName const SDLDidReceiveAlertManeuverRequest = @"com.sdl.request.alertManeuver";
 SDLNotificationName const SDLDidReceiveButtonPressRequest = @"com.sdl.request.buttonPress";
 SDLNotificationName const SDLDidReceiveChangeRegistrationRequest = @"com.sdl.request.changeRegistration";
+SDLNotificationName const SDLDidReceiveCloseApplicationRequest = @"com.sdl.request.closeApplication";
 SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetRequest = @"com.sdl.request.createInteractionChoiceSet";
 SDLNotificationName const SDLDidReceiveDeleteCommandRequest = @"com.sdl.request.deleteCommand";
 SDLNotificationName const SDLDidReceiveDeleteFileRequest = @"com.sdl.request.deleteFile";
@@ -131,6 +134,7 @@ SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest = @"com.sdl.r
 SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest = @"com.sdl.request.subscribeWayPoints";
 SDLNotificationName const SDLDidReceiveSyncPDataRequest = @"com.sdl.request.syncPData";
 SDLNotificationName const SDLDidReceiveSystemRequestRequest = @"com.sdl.request.systemRequest";
+SDLNotificationName const SDLDidReceiveUnpublishAppServiceRequest = @"com.sdl.request.unpublishAppService";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceRequest = @"com.sdl.request.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonRequest = @"com.sdl.request.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataRequest = @"com.sdl.request.unsubscribeVehicleData";
@@ -171,6 +175,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveAlertManeuverResponse,
              SDLDidReceiveButtonPressResponse,
              SDLDidReceiveChangeRegistrationResponse,
+             SDLDidReceiveCloseApplicationResponse,
              SDLDidReceiveCreateInteractionChoiceSetResponse,
              SDLDidReceiveDeleteCommandResponse,
              SDLDidReceiveDeleteFileResponse,
@@ -216,6 +221,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSubscribeWaypointsResponse,
              SDLDidReceiveSyncPDataResponse,
              SDLDidReceiveUpdateTurnListResponse,
+             SDLDidReceiveUnpublishAppServiceResponse,
              SDLDidReceiveUnregisterAppInterfaceResponse,
              SDLDidReceiveUnsubscribeButtonResponse,
              SDLDidReceiveUnsubscribeVehicleDataResponse,

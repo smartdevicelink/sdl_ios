@@ -29,6 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler;
 
+/**
+ The name of the file to be deleted on the remote system.
+ */
+@property (copy, nonatomic, readonly) NSString *fileName;
+
+/**
+ The connection manager which will handle transporting the request to the remote system.
+ */
+@property (weak, nonatomic, readonly) id<SDLConnectionManagerType> connectionManager;
+
+/**
+ A completion handler to be called when the delete finishes.
+ */
+@property (copy, nonatomic, nullable, readonly) SDLFileManagerDeleteCompletionHandler completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
