@@ -73,14 +73,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSoftButtonObject *)sdlex_softButtonAlertWithManager:(SDLManager *)manager {
-    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText artwork:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG]];
+    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText artwork:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] name:CarBWIconImageName asImageFormat:SDLArtworkImageFormatPNG]];
     SDLSoftButtonState *alertTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
     SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
-        [weakself.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You pushed the soft button!" textField2:nil]];
+        [weakself.sdlManager.fileManager uploadArtwork:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            [weakself.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You pushed the soft button!" textField2:nil iconName:@"ABCDEFG"] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                NSLog(@"ALERT req: %@, res: %@, err: %@", request, response, error);
+            }];
+        }];
 
         SDLLogD(@"Star icon soft button press fired");
     }];

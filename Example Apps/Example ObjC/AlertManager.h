@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AlertManager : NSObject
 
 + (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(nullable NSString *)textField2;
-+ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2;
++ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName;
 
 @end
 

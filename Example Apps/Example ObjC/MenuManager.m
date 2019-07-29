@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLMenuCell *)sdlex_menuCellDialNumberWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:PhoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:manager]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil iconName:nil]];
             return;
         }
 
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
             if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
     }];
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
             if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
     }];
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray *submenuItems = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil iconName:nil]];
         }];
         [submenuItems addObject:cell];
     }
@@ -134,13 +134,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStartWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStop] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil]];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil iconName:nil]];
     }];
 }
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStopWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStart] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil]];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil iconName:nil]];
     }];
 }
 
