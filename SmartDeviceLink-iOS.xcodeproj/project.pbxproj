@@ -711,6 +711,8 @@
 		5D61FCED1A84238C00846EE7 /* SDLListFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB001A84238A00846EE7 /* SDLListFiles.m */; };
 		5D61FCEE1A84238C00846EE7 /* SDLListFilesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB011A84238A00846EE7 /* SDLListFilesResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCEF1A84238C00846EE7 /* SDLListFilesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB021A84238A00846EE7 /* SDLListFilesResponse.m */; };
+		5D61FCF01A84238C00846EE7 /* SDLLockScreenStatusManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB031A84238A00846EE7 /* SDLLockScreenStatusManager.h */; };
+		5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB041A84238A00846EE7 /* SDLLockScreenStatusManager.m */; };
 		5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCF31A84238C00846EE7 /* SDLLockScreenStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB061A84238A00846EE7 /* SDLLockScreenStatus.m */; };
 		5D61FCF41A84238C00846EE7 /* SDLMaintenanceModeStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB071A84238A00846EE7 /* SDLMaintenanceModeStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2360,6 +2362,8 @@
 		5D61FB001A84238A00846EE7 /* SDLListFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLListFiles.m; sourceTree = "<group>"; };
 		5D61FB011A84238A00846EE7 /* SDLListFilesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLListFilesResponse.h; sourceTree = "<group>"; };
 		5D61FB021A84238A00846EE7 /* SDLListFilesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLListFilesResponse.m; sourceTree = "<group>"; };
+		5D61FB031A84238A00846EE7 /* SDLLockScreenStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenStatusManager.h; sourceTree = "<group>"; };
+		5D61FB041A84238A00846EE7 /* SDLLockScreenStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenStatusManager.m; sourceTree = "<group>"; };
 		5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenStatus.h; sourceTree = "<group>"; };
 		5D61FB061A84238A00846EE7 /* SDLLockScreenStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenStatus.m; sourceTree = "<group>"; };
 		5D61FB071A84238A00846EE7 /* SDLMaintenanceModeStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMaintenanceModeStatus.h; sourceTree = "<group>"; };
@@ -4062,6 +4066,8 @@
 				EE798CA2205611DC008EDE8E /* Secondary Transport */,
 				5D6CC8ED1C610E490027F60A /* Security */,
 				5D5934FE1A851B2500687FB9 /* @protocols */,
+				5D61FB031A84238A00846EE7 /* SDLLockScreenStatusManager.h */,
+				5D61FB041A84238A00846EE7 /* SDLLockScreenStatusManager.m */,
 				5D61FB441A84238B00846EE7 /* SDLPolicyDataParser.h */,
 				5D61FB451A84238B00846EE7 /* SDLPolicyDataParser.m */,
 				5D61FB631A84238B00846EE7 /* SDLProxy.h */,
@@ -6691,6 +6697,7 @@
 				88F89103221DE29A00E056AD /* SDLAsynchronousRPCOperation.h in Headers */,
 				5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */,
 				5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */,
+				5D61FCF01A84238C00846EE7 /* SDLLockScreenStatusManager.h in Headers */,
 				5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7336,6 +7343,7 @@
 				5DA49CE61F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m in Sources */,
 				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
 				5DD60D99221C5D7D00A82A4F /* SDLVersion.m in Sources */,
+				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,
 				5D61FDAC1A84238C00846EE7 /* SDLStartTime.m in Sources */,
 				5D61FDA01A84238C00846EE7 /* SDLSoftButton.m in Sources */,
 				5D61FCD21A84238C00846EE7 /* SDLImageFieldName.m in Sources */,
