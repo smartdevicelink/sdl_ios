@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000DD56C22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */; };
+		000DD56E22EF01FC005AB7A7 /* SDLSeatLocationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */; };
 		0055412622D40DAB003194D3 /* SDLModuleInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0055412422D40DAB003194D3 /* SDLModuleInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0055412722D40DAB003194D3 /* SDLModuleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0055412522D40DAB003194D3 /* SDLModuleInfo.m */; };
 		0055412A22D5DC0B003194D3 /* SDLGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 0055412822D5DC0B003194D3 /* SDLGrid.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1649,6 +1650,7 @@
 
 /* Begin PBXFileReference section */
 		000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatLocationCapabilitySpec.m; sourceTree = "<group>"; };
+		000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatLocationSpec.m; sourceTree = "<group>"; };
 		0055412422D40DAB003194D3 /* SDLModuleInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLModuleInfo.h; sourceTree = "<group>"; };
 		0055412522D40DAB003194D3 /* SDLModuleInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLModuleInfo.m; sourceTree = "<group>"; };
 		0055412822D5DC0B003194D3 /* SDLGrid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGrid.h; sourceTree = "<group>"; };
@@ -3682,6 +3684,7 @@
 				880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */,
 				880D267F220E038800B3F496 /* SDLWeatherServiceManifestSpec.m */,
 				000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */,
+				000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */,
 			);
 			path = StructSpecs;
 			sourceTree = "<group>";
@@ -8005,6 +8008,7 @@
 				162E83731A9BDE8B00906325 /* SDLBeltStatusSpec.m in Sources */,
 				162E83551A9BDE8B00906325 /* SDLEndAudioPassThruResponseSpec.m in Sources */,
 				8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */,
+				000DD56E22EF01FC005AB7A7 /* SDLSeatLocationSpec.m in Sources */,
 				162E83251A9BDE8B00906325 /* SDLAlertSpec.m in Sources */,
 				2BF2F85220ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m in Sources */,
 				5D6035D2202CD46200A429C9 /* SDLSpecUtilities.m in Sources */,
