@@ -67,6 +67,7 @@
 @class SDLOnInteriorVehicleData;
 @class SDLOnKeyboardInput;
 @class SDLOnLanguageChange;
+@class SDLOnLockScreenStatus;
 @class SDLOnPermissionsChange;
 @class SDLOnRCStatus;
 @class SDLOnSyncPData;
@@ -1042,6 +1043,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnLanguageChange object
  */
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
+
+/**
+ *  Called when an On Lock Screen notification is received from Core
+ *
+ *  @param notification A SDLOnLockScreenStatus object
+ */
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
 
 /**
  *  Called when an On Permissions Change notification is received from Core
