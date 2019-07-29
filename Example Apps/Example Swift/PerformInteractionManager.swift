@@ -21,7 +21,8 @@ class PerformInteractionManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     func show(from triggerSource: SDLTriggerSource) {
-        manager.screenManager.presentSearchableChoiceSet(choiceSet, mode: interactionMode(for: triggerSource), with: self)
+        //manager.screenManager.presentSearchableChoiceSet(choiceSet, mode: interactionMode(for: triggerSource), with: self)
+        manager.screenManager.present(choiceSet, mode: .voiceRecognitionOnly)
     }
 }
 
@@ -30,15 +31,23 @@ class PerformInteractionManager: NSObject {
 private extension PerformInteractionManager {
     /// The PICS menu items
     var choiceCells: [SDLChoiceCell] {
-        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: nil)
-        let secondChoice = SDLChoiceCell(text: PICSSecondChoice)
-        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice)
+        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: [VCPICSFirstChoice])
+        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: SDLArtwork(staticIcon: .microphone),  voiceCommands: [VCPICSecondChoice])
+        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: [VCPICSThirdChoice])
         return [firstChoice, secondChoice, thirdChoice]
+    }
+
+    var vrHelpList: [SDLVRHelpItem] {
+        let vrHelpListFirst = SDLVRHelpItem(text: VCPICSFirstChoice, image: nil)
+        let vrHelpListSecond = SDLVRHelpItem(text: VCPICSecondChoice, image: nil)
+        let vrHelpListThird = SDLVRHelpItem(text: VCPICSThirdChoice, image: nil)
+
+        return [vrHelpListFirst, vrHelpListSecond, vrHelpListThird]
     }
 
     /// Creates a PICS with three menu items and customized voice commands
     var choiceSet: SDLChoiceSet {
-        return SDLChoiceSet(title: PICSInitialPrompt, delegate: self, layout: .list, timeout: 10, initialPromptString: PICSInitialPrompt, timeoutPromptString: PICSTimeoutPrompt, helpPromptString: PICSHelpPrompt, vrHelpList: nil, choices: choiceCells)
+        return SDLChoiceSet(title: PICSInitialPrompt, delegate: self, layout: .list, timeout: 10, initialPromptString: PICSInitialPrompt, timeoutPromptString: PICSTimeoutPrompt, helpPromptString: PICSHelpPrompt, vrHelpList: vrHelpList, choices: choiceCells)
     }
 
     func interactionMode(for triggerSource: SDLTriggerSource) -> SDLInteractionMode {
