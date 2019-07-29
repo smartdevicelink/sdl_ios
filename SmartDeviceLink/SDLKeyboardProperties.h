@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Allows an app to show a list of possible autocomplete suggestions as the user types
 
- Optional, 1-100 items
+ Optional, 1-100 items, max string length 1000 characters (note that these may not all be displayed on the screen)
  */
 @property (nullable, strong, nonatomic) NSArray<NSString *> *autoCompleteList;
 
