@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLReleaseInteriorVehicleDataModule : SDLRPCRequest
 
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSArray<NSString *> *)moduleId;
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
 
 /**
  * The module type that the app requests to control.

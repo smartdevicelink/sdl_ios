@@ -44,8 +44,8 @@
     return [self.parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
-- (void)setModuleIds:(NSArray<NSString *> *)moduleIds {
-    [self.parameters sdl_setObject:moduleIds forName:SDLRPCParameterNameModuleId];
+- (void)setModuleId:(NSArray<NSString *> *)moduleId {
+    [self.parameters sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
 }
 
 - (NSString *)moduleId {
