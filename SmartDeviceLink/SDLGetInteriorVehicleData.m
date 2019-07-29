@@ -111,12 +111,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleId:(NSString *)moduleId {
-    [self.store sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
+    [self.parameters sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
 }
 
 - (NSString *)moduleId {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
 }
 
 @end

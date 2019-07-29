@@ -66,6 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability;
 
 /**
+ *  Convenience init for a Remote Control Capability
+ *
+ *  @param capability   Describes information about the locations of each seat
+ *  @return             A SDLSystemCapability object
+ */
+- (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability;
+
+/**
  *  Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.
  */
 @property (strong, nonatomic) SDLSystemCapabilityType systemCapabilityType;
@@ -106,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
- *  Contains information about the locations of each seat
+ *  Describes information about the locations of each seat
  *
  *  Optional
  */

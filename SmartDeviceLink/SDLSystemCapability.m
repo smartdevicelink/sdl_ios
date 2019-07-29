@@ -82,6 +82,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeSeatLocation;
+    self.seatLocationCapability = capability;
+    
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
