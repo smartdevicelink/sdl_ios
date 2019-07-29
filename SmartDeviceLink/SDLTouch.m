@@ -58,6 +58,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.identifier == SDLTouchIdentifierSecondFinger;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLTouch: ID: %ld, Location: %@, Timestamp: %lu, firstFinger? %@, secondFinger? %@", (long)_identifier, NSStringFromCGPoint(_location), (unsigned long)_timeStamp, (self.isFirstFinger ? @"YES" : @"NO"), (self.isSecondFinger ? @"YES" : @"NO")];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

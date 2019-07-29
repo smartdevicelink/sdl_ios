@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPreloadChoicesOperation()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
 @property (strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -51,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     _displayCapabilities = displayCapabilities;
     _vrOptional = isVROptional;
     _cellsToUpload = [cells mutableCopy];
+    _operationId = [NSUUID UUID];
 
     _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
 
@@ -191,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)name {
-    return @"com.sdl.choicesetmanager.preloadChoices";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {
