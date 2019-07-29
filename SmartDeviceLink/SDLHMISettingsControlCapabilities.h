@@ -15,7 +15,17 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return An instance of the SDLHMISettingsControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName;
+- (instancetype)initWithModuleName:(NSString *)moduleName  __deprecated_msg("Use initWithModuleName:moduleInfo:");
+
+/**
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with moduleName
+ 
+ @param moduleName The short friendly name of the hmi setting module
+ @param moduleInfo Information about a RC module, including its id.
+ 
+ @return An instance of the SDLHMISettingsControlCapabilities class
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo;
 
 /**
  Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
@@ -27,7 +37,20 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return An instance of the SDLHMISettingsControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable  __deprecated_msg("Use initWithModuleName:moduleInfo:distanceUnitAvailable:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:");
+
+/**
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
+ 
+ @param moduleName The short friendly name of the hmi setting module.
+ @param moduleInfo Information about a RC module, including its id.
+ @param distanceUnitAvailable Availability of the control of distance unit.
+ @param temperatureUnitAvailable Availability of the control of temperature unit.
+ @param displayModeUnitAvailable Availability of the control of displayMode unit.
+ 
+ @return An instance of the SDLHMISettingsControlCapabilities class
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable;
 
 /**
  * @abstract The short friendly name of the hmi setting module.

@@ -22,6 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    self.moduleInfo = moduleInfo;
+    self.supportedLights = supportedLights;
+    
+    return self;
+}
+
 - (void)setModuleName:(NSString *)moduleName {
     [self.store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
 }

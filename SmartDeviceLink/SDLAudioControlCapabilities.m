@@ -19,6 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithModuleName:(NSString *)name moduleInfo:(SDLModuleInfo *)moduleInfo {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = name;
+    self.moduleInfo = moduleInfo;
+
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
     self = [self init];
     if (!self) {
@@ -33,6 +44,25 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+
+- (instancetype)initWithModuleName:(NSString *)name moduleInfo:(SDLModuleInfo *)moduleInfo sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.moduleName = name;
+    self.moduleInfo = moduleInfo;
+    self.sourceAvailable = sourceAvailable;
+    self.keepContextAvailable = keepContextAvailable;
+    self.volumeAvailable = volumeAvailable;
+    self.equalizerAvailable = equalizerAvailable;
+    self.equalizerMaxChannelId = equalizerMaxChannelID;
+
+    return self;
+
+}
+
 
 - (void)setModuleName:(NSString *)moduleName {
     [self.store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
