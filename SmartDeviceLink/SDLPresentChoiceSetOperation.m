@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self finishOperation];
         return;
     } else if (self.isExecuting) {
-        SDLLogV(@"Canceling the presented choice set interaction.");
+        SDLLogD(@"Canceling the presented choice set interaction.");
 
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
 
@@ -200,8 +200,8 @@ NS_ASSUME_NONNULL_BEGIN
             [weakSelf finishOperation];
         }];
     } else {
-        SDLLogV(@"Canceling a choice set that has not yet been sent to Core.");
-        [self finishOperation];
+        SDLLogD(@"Canceling a choice set that has not yet been sent to Core.");
+        [self cancel];
     }
 }
 

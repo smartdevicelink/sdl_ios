@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self finishOperation];
         return;
     } else if (self.isExecuting) {
-        SDLLogV(@"Canceling the keyboard interaction.");
+        SDLLogD(@"Canceling the keyboard interaction.");
 
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.cancelId];
 
