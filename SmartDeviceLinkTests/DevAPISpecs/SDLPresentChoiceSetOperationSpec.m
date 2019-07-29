@@ -248,11 +248,22 @@ describe(@"present choice operation", ^{
                     expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
                 });
 
-                it(@"should finish", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(notStartedtestOp.isExecuting).toEventually(beFalse());
-                    expect(notStartedtestOp.isFinished).toEventually(beTrue());
-                    expect(notStartedtestOp.isCancelled).toEventually(beFalse());
+                context(@"Once the operation has started", ^{
+                    beforeEach(^{
+                        [notStartedtestOp start];
+                    });
+
+                    it(@"should not attempt to send a cancel interaction", ^{
+                        SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                        expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                    });
+
+                    it(@"should finish", ^{
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(notStartedtestOp.isExecuting).toEventually(beFalse());
+                        expect(notStartedtestOp.isFinished).toEventually(beTrue());
+                        expect(notStartedtestOp.isCancelled).toEventually(beTrue());
+                    });
                 });
             });
         });

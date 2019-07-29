@@ -143,11 +143,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentChoiceSet {
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
-
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
