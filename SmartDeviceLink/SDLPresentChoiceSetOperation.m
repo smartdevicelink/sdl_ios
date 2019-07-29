@@ -177,7 +177,10 @@ NS_ASSUME_NONNULL_BEGIN
  * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be dismissed using the `CancelInteraction` RPC.
  */
 - (void)sdl_cancelInteraction {
-    if (self.isCancelled || self.isFinished) {
+    if (self.isFinished) {
+        return;
+    } else if (self.isCancelled) {
+        if (!self.isExecuting) { return; }
         [self finishOperation];
         return;
     } else if (self.isExecuting) {
