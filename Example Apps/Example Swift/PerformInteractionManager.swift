@@ -21,8 +21,7 @@ class PerformInteractionManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     func show(from triggerSource: SDLTriggerSource) {
-        //manager.screenManager.presentSearchableChoiceSet(choiceSet, mode: interactionMode(for: triggerSource), with: self)
-        manager.screenManager.present(choiceSet, mode: .voiceRecognitionOnly)
+        manager.screenManager.presentSearchableChoiceSet(choiceSet, mode: interactionMode(for: triggerSource), with: self)
     }
 }
 
