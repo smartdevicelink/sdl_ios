@@ -194,13 +194,6 @@ describe(@"present choice operation", ^{
                      SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                      expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
                  });
-
-                it(@"should finish", ^{
-                     expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                     expect(testOp.isFinished).toEventually(beTrue());
-                     expect(testOp.selectedCell).to(beNil());
-                     expect(testOp.selectedTriggerSource).to(beNil());
-                 });
              });
 
              context(@"If the started operation has been canceled", ^{
