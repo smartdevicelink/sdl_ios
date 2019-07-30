@@ -345,6 +345,7 @@ SDLRPCParameterName const SDLRPCParameterNameMediaClock = @"mediaClock";
 SDLRPCParameterName const SDLRPCParameterNameMediaClockFormats = @"mediaClockFormats";
 SDLRPCParameterName const SDLRPCParameterNameMediaServiceData = @"mediaServiceData";
 SDLRPCParameterName const SDLRPCParameterNameMediaServiceManifest = @"mediaServiceManifest";
+SDLRPCParameterName const SDLRPCParameterNameMediaImage = @"mediaImage";
 SDLRPCParameterName const SDLRPCParameterNameMediaTitle = @"mediaTitle";
 SDLRPCParameterName const SDLRPCParameterNameMediaTrack = @"mediaTrack";
 SDLRPCParameterName const SDLRPCParameterNameMediaType = @"mediaType";
