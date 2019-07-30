@@ -109,6 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.arrowDownImageView.tintColor = iconColor;
 
         self.lockedLabel.textColor = iconColor;
+        self.lockedLabel.numberOfLines = 0;
         
         if (self.lockedLabelText != nil) {
             self.lockedLabel.text = self.lockedLabelText;
