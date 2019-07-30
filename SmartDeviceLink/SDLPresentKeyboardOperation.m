@@ -152,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
                     newList = updatedAutoCompleteList;
                 }
 
-                weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : nil;
+                weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
                 weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
