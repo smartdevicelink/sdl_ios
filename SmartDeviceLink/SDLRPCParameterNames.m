@@ -54,6 +54,7 @@ SDLRPCParameterName const SDLRPCParameterNameAudioStreamingIndicator = @"audioSt
 SDLRPCParameterName const SDLRPCParameterNameAudioStreamingState = @"audioStreamingState";
 SDLRPCParameterName const SDLRPCParameterNameAudioType = @"audioType";
 SDLRPCParameterName const SDLRPCParameterNameAuthToken = @"authToken";
+SDLRPCParameterName const SDLRPCParameterNameAutoCompleteList = @"autoCompleteList";
 SDLRPCParameterName const SDLRPCParameterNameAutoCompleteText = @"autoCompleteText";
 SDLRPCParameterName const SDLRPCParameterNameAutoModeEnable = @"autoModeEnable";
 SDLRPCParameterName const SDLRPCParameterNameAutoModeEnableAvailable = @"autoModeEnableAvailable";

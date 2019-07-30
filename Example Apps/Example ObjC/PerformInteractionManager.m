@@ -78,15 +78,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
 }
 
-- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler {
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText autoCompleteResultsHandler:(SDLKeyboardAutoCompleteResultsHandler)resultsHandler {
     if ([currentInputText.lowercaseString hasPrefix:@"f"]) {
-        completionHandler(PICSFirstChoice);
+        resultsHandler(@[PICSFirstChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"s"]) {
-        completionHandler(PICSSecondChoice);
+        resultsHandler(@[PICSSecondChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"t"]) {
-        completionHandler(PICSThirdChoice);
+        resultsHandler(@[PICSThirdChoice]);
     } else {
-        completionHandler(nil);
+        resultsHandler(nil);
     }
 }
 
