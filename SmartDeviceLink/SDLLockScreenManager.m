@@ -170,11 +170,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateLockScreenDismissable {
-    if (self.lastDriverDistractionNotification == nil || self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
+    if (self.lastDriverDistractionNotification == nil ||
+        self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
         !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue) {
         self.lockScreenDismissable = NO;
     } else {
         self.lockScreenDismissable = YES;
+    }
+    
+    if (self.lockScreenDismissedByUser &&
+        [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] &&
+        !self.lockScreenDismissable) {
+        self.lockScreenDismissedByUser = NO;
     }
 
     if (!self.lockScreenDismissedByUser) {
