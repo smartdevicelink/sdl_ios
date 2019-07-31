@@ -266,6 +266,7 @@ private extension ProxyManager {
 
         screenManager.beginUpdates()
         screenManager.textAlignment = .left
+        screenManager.title = isTextVisible ? "Home" : nil
         screenManager.textField1 = isTextVisible ? SmartDeviceLinkText : nil
         screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil

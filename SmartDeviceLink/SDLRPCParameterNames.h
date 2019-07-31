@@ -598,6 +598,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameTemperatureLow;
 extern SDLRPCParameterName const SDLRPCParameterNameTemperatureUnit;
 extern SDLRPCParameterName const SDLRPCParameterNameTemperatureUnitAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameTemplatesAvailable;
+extern SDLRPCParameterName const SDLRPCParameterNameTemplateTitle;
 extern SDLRPCParameterName const SDLRPCParameterNameTertiaryText;
 extern SDLRPCParameterName const SDLRPCParameterNameText;
 extern SDLRPCParameterName const SDLRPCParameterNameTextFields;
