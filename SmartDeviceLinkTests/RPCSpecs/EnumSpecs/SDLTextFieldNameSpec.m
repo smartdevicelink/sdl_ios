@@ -18,6 +18,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameMainField2).to(equal(@"mainField2"));
         expect(SDLTextFieldNameMainField3).to(equal(@"mainField3"));
         expect(SDLTextFieldNameMainField4).to(equal(@"mainField4"));
+        expect(SDLTextFieldNameTemplateTitle).to(equal(@"templateTitle"));
         expect(SDLTextFieldNameStatusBar).to(equal(@"statusBar"));
         expect(SDLTextFieldNameMediaClock).to(equal(@"mediaClock"));
         expect(SDLTextFieldNameMediaTrack).to(equal(@"mediaTrack"));
