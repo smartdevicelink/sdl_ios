@@ -214,7 +214,7 @@ describe(@"Alert spec", ^{
             expect(testAlert.alertIcon).to(beNil());
         });
 
-        it(@"should initialize correctly with initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:", ^{
+        it(@"should initialize correctly with initWithAlertText1:alertText2:alertText3:ttsChunks:playTone:progressIndicator:duration:softButtons:alertIcon:", ^{
             SDLAlert *testAlert = [[SDLAlert alloc] initWithAlertText1:testText1 alertText2:testText2 alertText3:testText3 ttsChunks:@[tts] playTone:testPlayTone progressIndicator:testProgressIndicator duration:testDuration softButtons:@[button] alertIcon:testImage];
 
             expect(testAlert.alertText1).to(equal(testText1));
@@ -323,6 +323,5 @@ describe(@"Alert spec", ^{
         });
     });
 });
-
 
 QuickSpecEnd
