@@ -9,6 +9,8 @@
 #import "SDLVersion.h"
 
 #import "SDLSyncMsgVersion.h"
+#import "SDLMsgVersion.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -74,6 +76,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     return [[self alloc] initWithSyncMsgVersion:syncMsgVersion];
+}
+
+- (instancetype)initWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _major = sdlMsgVersion.majorVersion.unsignedIntegerValue;
+    _minor = sdlMsgVersion.minorVersion.unsignedIntegerValue;
+    _patch = sdlMsgVersion.patchVersion.unsignedIntegerValue;
+
+    return self;
+}
+
++ (instancetype)versionWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion {
+    return [[self alloc] initWithSDLMsgVersion:sdlMsgVersion];
 }
 
 #pragma mark - Setters / Getters

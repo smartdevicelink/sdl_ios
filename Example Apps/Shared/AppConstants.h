@@ -64,6 +64,11 @@ extern NSString * const PICSFirstChoice;
 extern NSString * const PICSSecondChoice;
 extern NSString * const PICSThirdChoice;
 
+#pragma mark - SDL Perform Interaction Choice Set Menu VR Commands
+extern NSString  * const VCPICSFirstChoice;
+extern NSString  * const VCPICSecondChoice;
+extern NSString  * const VCPICSThirdChoice;
+
 #pragma mark - SDL Add Command Menu
 extern NSString * const ACSpeakAppNameMenuName;
 extern NSString * const ACShowChoiceSetMenuName;

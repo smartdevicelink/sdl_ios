@@ -388,7 +388,7 @@ describe(@"present choice operation", ^{
                 NSString *inputData = @"Test";
                 SDLRPCNotificationNotification *notification = nil;
 
-                OCMStub([testKeyboardDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:inputData, nil])]);
+                OCMStub([testKeyboardDelegate updateAutocompleteWithInput:[OCMArg any] autoCompleteResultsHandler:([OCMArg invokeBlockWithArgs:@[inputData], nil])]);
 
                 // Submit notification
                 SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
@@ -406,7 +406,7 @@ describe(@"present choice operation", ^{
 
                 OCMVerify([testKeyboardDelegate updateAutocompleteWithInput:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [(NSString *)obj isEqualToString:inputData];
-                }] completionHandler:[OCMArg any]]);
+                }] autoCompleteResultsHandler:[OCMArg any]]);
 
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLSetGlobalProperties class]));
 

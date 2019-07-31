@@ -130,6 +130,8 @@
 @class SDLSyncPData;
 @class SDLSyncPDataResponse;
 @class SDLSystemRequest;
+@class SDLUnpublishAppService;
+@class SDLUnpublishAppServiceResponse;
 @class SDLUnregisterAppInterface;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButton;
@@ -552,6 +554,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
 
 /**
+ *  Called when an Unpublish App Service Response is received from Core
+ *
+ *  @param response A SDLUnpublishAppServiceResponse object
+ */
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response;
+
+/**
  *  Called when an Unregister App Interface Response is received from Core
  *
  *  @param response A SDLUnregisterAppInterfaceResponse object
@@ -944,6 +953,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLSystemRequest object
  */
 - (void)onSystemRequest:(SDLSystemRequest *)request;
+
+/**
+ *  Called when a `SDLUnpublishAppService` request is received from Core
+ *
+ *  @param request A SDLUnpublishAppService object
+ */
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request;
 
 /**
  *  Called when a `UnregisterAppInterface` request is received from Core

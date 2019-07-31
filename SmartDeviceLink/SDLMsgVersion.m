@@ -1,18 +1,16 @@
-//  SDLSyncMsgVersion.m
+//
+//  SDLMsgVersion.m
+//  SmartDeviceLink
+//
+//  Created by Justin Gluck on 7/18/19.
+//  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-
-#import "SDLSyncMsgVersion.h"
-
+#import "SDLMsgVersion.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-@implementation SDLSyncMsgVersion
-#pragma clang diagnostic pop
+@implementation SDLMsgVersion
 
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion {
     self = [self init];
@@ -56,6 +54,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, self.patchVersion];
 }
-@end
 
-NS_ASSUME_NONNULL_END
+@end

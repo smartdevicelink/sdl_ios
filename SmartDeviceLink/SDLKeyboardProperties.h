@@ -14,7 +14,30 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLKeyboardProperties : SDLRPCStruct
 
-- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText;
+/**
+ Create a Keyboard Properties RPC object
+
+ @param language The language to set the keyboard to
+ @param layout The layout of the keyboard
+ @param keypressMode The mode of keypresses to use
+ @param limitedCharacterList A list of characters restricting what the user is allowed to press
+ @param autoCompleteText A string to show the user to complete what they are typing
+ @return The RPC object
+ */
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText __deprecated_msg(("use initWithLanguagelayout:keypressMode:limitedCharacterList:autoCompleteText:autoCompleteList: instead"));
+
+/**
+ Create a Keyboard Properties RPC object
+
+ @param language The language to set the keyboard to
+ @param layout The layout of the keyboard
+ @param keypressMode The mode of keypresses to use
+ @param limitedCharacterList A list of characters restricting what the user is allowed to press
+ @param autoCompleteText A string to show to user to complete what they are typing
+ @param autoCompleteList A list of strings to show the user to complete what they are typing.
+ @return The RPC object
+ */
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList;
 
 /**
  The keyboard language
@@ -52,6 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (nullable, strong, nonatomic) NSString *autoCompleteText;
+
+/**
+ Allows an app to show a list of possible autocomplete suggestions as the user types
+
+ Optional, 1-100 items, max string length 1000 characters (note that these may not all be displayed on the screen)
+ */
+@property (nullable, strong, nonatomic) NSArray<NSString *> *autoCompleteList;
 
 @end
 

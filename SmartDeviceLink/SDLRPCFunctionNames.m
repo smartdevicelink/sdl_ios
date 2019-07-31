@@ -85,6 +85,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData = @"SubscribeVeh
 SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints = @"SubscribeWayPoints";
 SDLRPCFunctionName const SDLRPCFunctionNameSyncPData = @"SyncPData";
 SDLRPCFunctionName const SDLRPCFunctionNameSystemRequest = @"SystemRequest";
+SDLRPCFunctionName const SDLRPCFunctionNameUnpublishAppService = @"UnpublishAppService";
 SDLRPCFunctionName const SDLRPCFunctionNameUnregisterAppInterface = @"UnregisterAppInterface";
 SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeButton = @"UnsubscribeButton";
 SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeVehicleData = @"UnsubscribeVehicleData";
