@@ -18,6 +18,7 @@ SDLRPCParameterName const SDLRPCParameterNameAddress = @"address";
 SDLRPCParameterName const SDLRPCParameterNameAddressLines = @"addressLines";
 SDLRPCParameterName const SDLRPCParameterNameAdministrativeArea = @"administrativeArea";
 SDLRPCParameterName const SDLRPCParameterNameAirbagStatus = @"airbagStatus";
+SDLRPCParameterName const SDLRPCParameterNameAlertIcon = @"alertIcon";
 SDLRPCParameterName const SDLRPCParameterNameAlerts = @"alerts";
 SDLRPCParameterName const SDLRPCParameterNameAlertText1 = @"alertText1";
 SDLRPCParameterName const SDLRPCParameterNameAlertText2 = @"alertText2";

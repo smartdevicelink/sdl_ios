@@ -70,8 +70,10 @@ private extension ButtonManager {
         let textSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
         return SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
-            let alert = AlertManager.alertWithMessageAndCloseButton("You pressed the button!")
-            manager.send(alert)
+            manager.fileManager.upload(artwork: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG), completionHandler: { (success, artworkName, bytesAvailable, err) in
+                let alert = AlertManager.alertWithMessageAndCloseButton("You pressed the button!", iconName: artworkName)
+                manager.send(alert)
+            })
         }
     }
 

@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startRecording {
     if (self.speechRecognitionAuthState != SpeechRecognitionAuthStateAuthorized) {
         SDLLogW(@"This app does not have permission to access the Speech Recognition API");
-        [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You must give this app permission to access Speech Recognition" textField2:nil]];
+        [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You must give this app permission to access Speech Recognition" textField2:nil iconName:nil]];
         return;
     }
 
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
                 // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
                 SDLLogD(@"Audio Pass Thru ended successfully");
                 NSString *alertMessage = [NSString stringWithFormat:@"You said: %@", weakSelf.speechTranscription.length == 0 ? @"No speech detected" : weakSelf.speechTranscription];
-                [weakSelf.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil]];
+                [weakSelf.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil]];
             } else if ([resultCode isEqualToEnum:SDLResultAborted]) {
                 // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
                 SDLLogD(@"Audio recording canceled");
