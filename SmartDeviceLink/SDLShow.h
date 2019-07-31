@@ -250,6 +250,8 @@ NS_ASSUME_NONNULL_BEGIN
  The title of the current template.
 
  How this will be displayed is dependent on the OEM design and implementation of the template.
+
+ Optional, since SmartDeviceLink 6.0
  */
 @property (strong, nonatomic, nullable) NSString *templateTitle;
 
