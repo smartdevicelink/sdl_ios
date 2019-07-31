@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowDownImageView;
 @property (strong, nonatomic) SwipeGestureCallbackBlock dismissGestureCallback;
-@property (strong, nonatomic) UISwipeGestureRecognizer *swipeGesture;
+@property (strong, nonatomic, nullable) UISwipeGestureRecognizer *swipeGesture;
 
 @end
 
@@ -90,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeDismissGesture {
     [self.view removeGestureRecognizer:self.swipeGesture];
+    self.swipeGesture = nil;
 }
 
 - (void)sdl_didSwipeToDismiss:(UISwipeGestureRecognizer *)gesture {
