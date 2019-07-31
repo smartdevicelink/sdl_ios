@@ -49,7 +49,6 @@ describe(@"screen manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
     __block SDLScreenManager *testScreenManager = nil;
-     __block SDLMenuManager *mockMenuManger = nil;
 
     __block NSString *testString1 = @"test1";
     __block NSString *testString2 = @"test2";
@@ -149,52 +148,6 @@ describe(@"screen manager", ^{
 
             expect(testScreenManager.softButtonManager.softButtonObjects).to(haveCount(1));
             expect(testScreenManager.softButtonManager.softButtonObjects.firstObject.name).to(equal(testSBObjectName));
-        });
-    });
-
-    describe(@"open menu when spec versioning is not supported", ^{
-        beforeEach(^{
-            SDLVersion *oldVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
-            id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-            OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
-        });
-
-        it(@"should return NO if spec versioning is not supported when openMenu is called", ^{
-            BOOL canSendRPC = [testScreenManager openMenu];
-            expect(canSendRPC).to(equal(NO));
-        });
-
-        it(@"should return NO if spec versioning is not supported when openSubMenu is called", ^{
-            SDLMenuCell *cell = [[SDLMenuCell alloc] init];
-            BOOL canSendRPC = [testScreenManager openSubmenu:cell];
-            expect(canSendRPC).to(equal(NO));
-        });
-
-    });
-
-    describe(@"open menu when spec versioning supported", ^{
-        beforeEach(^{
-            SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-            id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-            OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
-
-            mockMenuManger = OCMClassMock([SDLMenuManager class]);
-            testScreenManager.menuManager = mockMenuManger;
-        });
-
-        it(@"should return YES if spec versioning is supported when openMenu is called", ^{
-            BOOL canSendRPC = [testScreenManager openMenu];
-
-            expect(canSendRPC).to(equal(YES));
-            OCMVerify([mockMenuManger openMenu]);
-        });
-
-        it(@"should return YES if spec versioning is supported when openSubMenu is called", ^{
-            SDLMenuCell *cell = [[SDLMenuCell alloc] init];
-            BOOL canSendRPC = [testScreenManager openSubmenu:cell];
-
-            OCMVerify([mockMenuManger openSubmenu:[OCMArg any]]);
-            expect(canSendRPC).to(equal(YES));
         });
     });
 });

@@ -37,8 +37,9 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;
 
-- (void)openMenu;
-- (void)openSubmenu:(SDLMenuCell *)cell;
+- (BOOL)openMenu;
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell;
 
 @end
 

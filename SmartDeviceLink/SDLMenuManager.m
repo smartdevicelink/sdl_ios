@@ -18,6 +18,7 @@
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
@@ -32,6 +33,7 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLScreenManager.h"
 #import "SDLShowAppMenu.h"
+#import "SDLVersion.h"
 #import "SDLVoiceCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -639,28 +641,43 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
-- (void)openMenu {
-    [self.connectionManager sendConnectionRequest:[[SDLShowAppMenu alloc] init] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+- (BOOL)openMenu {
+    if([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        return NO;
+    }
+
+    SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
+
+    [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error opening application menu: %@", error);
-            return;
         }
     }];
+
+    return YES;
 }
 
-- (void)openSubmenu:(SDLMenuCell *)cell {
-    if (cell.subCells == 0) {
-        SDLLogW(@"The cell does not contain any sub cells, RPC will not be sent");
-        return;
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+    if(cell.subCells == 0) {
+        SDLLogW(@"The cell does not contain any sub cells, so no submenu can be opened");
+        return NO;
+    }else if([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogW(@"The RPC Version does not support Open Menu. Please make sure you have the most up to date version");
+        return NO;
+    }else if(![self.menuCells containsObject:cell]) {
+        SDLLogW(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
+        return NO;
     }
 
     SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
 
     [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"Error opening application menu: %@", error);
+            SDLLogE(@"Error opening application to submenu cell: %@, with error: %@", cell, error);
         }
     }];
+
+    return YES;
 }
 
 @end

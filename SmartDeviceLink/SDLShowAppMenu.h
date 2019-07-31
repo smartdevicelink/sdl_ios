@@ -16,11 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLShowAppMenu : SDLRPCRequest
 
 /**
- *  Convenience init for setting menuID
- *
- *  @param menuID       Menu id of requsted sub menu
- *
- *  @return             A SDLShowAppMenu object
+ Creates an open sub menu RPC
+
+ @param menuID The ID of the sub menu to open
+ @return SDLShowAppMenu RPCRequest
  */
 - (instancetype)initWithMenuID:(UInt32)menuID;
 

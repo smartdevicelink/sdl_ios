@@ -268,19 +268,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Menu
 
 - (BOOL)openMenu {
-    if([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        return NO;
-    }
-    [self.menuManager openMenu];
-    return YES;
+   return [self.menuManager openMenu];
 }
 
 - (BOOL)openSubmenu:(SDLMenuCell *)cell {
-    if([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        return NO;
-    }
-    [self.menuManager openSubmenu:cell];
-    return YES;
+  return [self.menuManager openSubmenu:cell];
 }
 
 
