@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defined published data element type
  */
-@property (strong, nonatomic) NSString *customDataType;
+@property (nullable, strong, nonatomic) NSString *oemCustomDataType;
 
 /**
  Published data result code

@@ -20,7 +20,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] init];
         
         testStruct.dataType = SDLVehicleDataTypeAirbagStatus;
-        testStruct.customDataType = SDLVehicleDataTypeAirbagStatus;
+        testStruct.oemCustomDataType = SDLVehicleDataTypeAirbagStatus;
         testStruct.resultCode = SDLVehicleDataResultCodeDisallowed;
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithCustomDataType:@"CustomOEMData" SDLVehicleDataResultCode:SDLVehicleDataResultCodeDisallowed];
 
-        expect(testStruct.customDataType).to(equal(@"CustomOEMData"));
+        expect(testStruct.oemCustomDataType).to(equal(@"CustomOEMData"));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
     
@@ -53,7 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic pop
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
-        expect(testStruct.customDataType).to(equal(SDLVehicleDataTypeRPM));
+        expect(testStruct.oemCustomDataType).to(equal(SDLVehicleDataTypeRPM));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
     
@@ -61,7 +61,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] init];
         
         expect(testStruct.dataType).to(beNil());
-        expect(testStruct.customDataType).to(beNil());
+        expect(testStruct.oemCustomDataType).to(beNil());
         expect(testStruct.resultCode).to(beNil());
     });
 });
