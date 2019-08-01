@@ -33,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.functionIds = @{
-                         @59: SDLRPCFunctionNameCancelInteraction,
                          @0: SDLRPCFunctionNameReserved,
                          @1: SDLRPCFunctionNameRegisterAppInterface,
                          @2: SDLRPCFunctionNameUnregisterAppInterface,
@@ -90,6 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @54: SDLRPCFunctionNameGetFile,
                          @55: SDLRPCFunctionNamePerformAppServiceInteraction,
                          @56: SDLRPCFunctionNameUnpublishAppService,
+                         @57: SDLRPCFunctionNameCancelInteraction,
                          @58: SDLRPCFunctionNameCloseApplication,
                          @32768: SDLRPCFunctionNameOnHMIStatus,
                          @32769: SDLRPCFunctionNameOnAppInterfaceUnregistered,
