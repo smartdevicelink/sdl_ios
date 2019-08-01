@@ -227,7 +227,11 @@ describe(@"the lockscreen status manager", ^{
     });
     
     describe(@"when getting lock screen status notification", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLOnLockScreenStatus *onLockScreenStatusNotification = nil;
+#pragma clang diagnostic pop
+        
         beforeEach(^{
             lockScreenManager.userSelected = YES;
             lockScreenManager.driverDistracted = NO;

@@ -24,6 +24,6 @@ extern SDLLockScreenStatus const SDLLockScreenStatusOff;
 extern SDLLockScreenStatus const SDLLockScreenStatusOptional;
 
 /**
- * LockScreen is Not Required
+ * LockScreen is Required
  */
 extern SDLLockScreenStatus const SDLLockScreenStatusRequired;

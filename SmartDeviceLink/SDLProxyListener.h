@@ -1065,7 +1065,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param notification A SDLOnLockScreenStatus object
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+#pragma clang diagnostic pop
 
 /**
  *  Called when an On Permissions Change notification is received from Core
