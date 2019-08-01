@@ -222,6 +222,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameTemplateConfiguration ofClass:SDLTemplateColorScheme.class error:nil];
 }
 
+- (void)setTemplateTitle:(nullable NSString *)templateTitle {
+    [self.parameters sdl_setObject:templateTitle forName:SDLRPCParameterNameTemplateTitle];
+}
+
+- (nullable NSString *)templateTitle {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTemplateTitle ofClass:NSString.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

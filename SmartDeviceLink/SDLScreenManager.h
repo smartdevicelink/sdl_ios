@@ -106,6 +106,11 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
  */
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
+/**
+ The title of the current template layout.
+ */
+@property (copy, nonatomic, nullable) NSString *title;
+
 #pragma mark Soft Buttons
 
 /**
