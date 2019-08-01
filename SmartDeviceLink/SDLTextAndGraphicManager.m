@@ -282,6 +282,12 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         show.mediaTrack = @"";
     }
+
+    if (self.title != nil) {
+        show.templateTitle = self.title;
+    } else {
+        show.templateTitle = @"";
+    }
     
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
@@ -435,6 +441,7 @@ NS_ASSUME_NONNULL_BEGIN
     show.mainField3 = @"";
     show.mainField4 = @"";
     show.mediaTrack = @"";
+    show.templateTitle = @"";
 
     return show;
 }
@@ -448,6 +455,7 @@ NS_ASSUME_NONNULL_BEGIN
     newShow.mainField3 = show.mainField3;
     newShow.mainField4 = show.mainField4;
     newShow.mediaTrack = show.mediaTrack;
+    newShow.templateTitle = show.templateTitle;
     newShow.metadataTags = show.metadataTags;
 
     return newShow;
@@ -481,6 +489,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.mainField3 = show.mainField3 ?: self.currentScreenData.mainField3;
     self.currentScreenData.mainField4 = show.mainField4 ?: self.currentScreenData.mainField4;
     self.currentScreenData.mediaTrack = show.mediaTrack ?: self.currentScreenData.mediaTrack;
+    self.currentScreenData.templateTitle = show.templateTitle ?: self.currentScreenData.templateTitle;
     self.currentScreenData.metadataTags = show.metadataTags ?: self.currentScreenData.metadataTags;
     self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
     self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
@@ -590,6 +599,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setMediaTrackTextField:(nullable NSString *)mediaTrackTextField {
     _mediaTrackTextField = mediaTrackTextField;
+    _isDirty = YES;
+    if (!self.isBatchingUpdates) {
+        [self updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setTitle:(nullable NSString *)title {
+    _title = title;
     _isDirty = YES;
     if (!self.isBatchingUpdates) {
         [self updateWithCompletionHandler:nil];

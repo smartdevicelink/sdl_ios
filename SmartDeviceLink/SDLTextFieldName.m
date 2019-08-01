@@ -8,6 +8,7 @@ SDLTextFieldName const SDLTextFieldNameMainField1 = @"mainField1";
 SDLTextFieldName const SDLTextFieldNameMainField2 = @"mainField2";
 SDLTextFieldName const SDLTextFieldNameMainField3 = @"mainField3";
 SDLTextFieldName const SDLTextFieldNameMainField4 = @"mainField4";
+SDLTextFieldName const SDLTextFieldNameTemplateTitle = @"templateTitle";
 SDLTextFieldName const SDLTextFieldNameStatusBar = @"statusBar";
 SDLTextFieldName const SDLTextFieldNameMediaClock = @"mediaClock";
 SDLTextFieldName const SDLTextFieldNameMediaTrack = @"mediaTrack";

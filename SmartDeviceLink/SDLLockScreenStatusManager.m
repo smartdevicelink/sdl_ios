@@ -55,8 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Custom Getters
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (SDLOnLockScreenStatus *)lockScreenStatusNotification {
     SDLOnLockScreenStatus *notification = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
     notification.driverDistractionStatus = @(self.driverDistracted);
     notification.hmiLevel = self.hmiLevel;
     notification.userSelected = @(self.userSelected);

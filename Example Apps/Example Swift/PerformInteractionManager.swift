@@ -30,15 +30,23 @@ class PerformInteractionManager: NSObject {
 private extension PerformInteractionManager {
     /// The PICS menu items
     var choiceCells: [SDLChoiceCell] {
-        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: nil)
-        let secondChoice = SDLChoiceCell(text: PICSSecondChoice)
-        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice)
+        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: [VCPICSFirstChoice])
+        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: SDLArtwork(staticIcon: .microphone),  voiceCommands: [VCPICSecondChoice])
+        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice, artwork: SDLArtwork(staticIcon: .key), voiceCommands: [VCPICSThirdChoice])
         return [firstChoice, secondChoice, thirdChoice]
+    }
+
+    var vrHelpList: [SDLVRHelpItem] {
+        let vrHelpListFirst = SDLVRHelpItem(text: VCPICSFirstChoice, image: nil)
+        let vrHelpListSecond = SDLVRHelpItem(text: VCPICSecondChoice, image: nil)
+        let vrHelpListThird = SDLVRHelpItem(text: VCPICSThirdChoice, image: nil)
+
+        return [vrHelpListFirst, vrHelpListSecond, vrHelpListThird]
     }
 
     /// Creates a PICS with three menu items and customized voice commands
     var choiceSet: SDLChoiceSet {
-        return SDLChoiceSet(title: PICSInitialPrompt, delegate: self, layout: .list, timeout: 10, initialPromptString: PICSInitialPrompt, timeoutPromptString: PICSTimeoutPrompt, helpPromptString: PICSHelpPrompt, vrHelpList: nil, choices: choiceCells)
+        return SDLChoiceSet(title: PICSInitialPrompt, delegate: self, layout: .list, timeout: 10, initialPromptString: PICSInitialPrompt, timeoutPromptString: PICSTimeoutPrompt, helpPromptString: PICSHelpPrompt, vrHelpList: vrHelpList, choices: choiceCells)
     }
 
     func interactionMode(for triggerSource: SDLTriggerSource) -> SDLInteractionMode {
@@ -77,15 +85,15 @@ extension PerformInteractionManager: SDLKeyboardDelegate {
         }
     }
 
-    func updateAutocomplete(withInput currentInputText: String, completionHandler: @escaping SDLKeyboardAutocompleteCompletionHandler) {
+    func updateAutocomplete(withInput currentInputText: String, autoCompleteResultsHandler resultsHandler: @escaping SDLKeyboardAutoCompleteResultsHandler) {
         if currentInputText.lowercased().hasPrefix("f") {
-            completionHandler(PICSFirstChoice)
+            resultsHandler([PICSFirstChoice])
         } else if currentInputText.lowercased().hasPrefix("s") {
-            completionHandler(PICSSecondChoice)
+            resultsHandler([PICSSecondChoice])
         } else if currentInputText.lowercased().hasPrefix("t") {
-            completionHandler(PICSThirdChoice)
+            resultsHandler([PICSThirdChoice])
         } else {
-            completionHandler(nil)
+            resultsHandler(nil)
         }
     }
 }

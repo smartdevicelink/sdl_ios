@@ -63,6 +63,7 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField3).to(beNil());
         expect(testManager.textField4).to(beNil());
         expect(testManager.mediaTrackTextField).to(beNil());
+        expect(testManager.title).to(beNil());
         expect(testManager.primaryGraphic).to(beNil());
         expect(testManager.secondaryGraphic).to(beNil());
         expect(testManager.alignment).to(equal(SDLTextAlignmentCenter));
@@ -155,6 +156,14 @@ describe(@"text and graphic manager", ^{
                 testManager.mediaTrackTextField = testString;
 
                 expect(testManager.mediaTrackTextField).to(equal(testString));
+                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.isDirty).to(beTrue());
+            });
+
+            it(@"should set template title", ^{
+                testManager.title = testString;
+
+                expect(testManager.title).to(equal(testString));
                 expect(testManager.inProgressUpdate).to(beNil());
                 expect(testManager.isDirty).to(beTrue());
             });
@@ -261,6 +270,14 @@ describe(@"text and graphic manager", ^{
                 expect(testManager.isDirty).to(beFalse());
             });
 
+            it(@"should set template title text field", ^{
+                testManager.title = testString;
+
+                expect(testManager.title).to(equal(testString));
+                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.isDirty).to(beFalse());
+            });
+
             it(@"should set primary graphic", ^{
                 testManager.primaryGraphic = testArtwork;
 
@@ -325,6 +342,7 @@ describe(@"text and graphic manager", ^{
         NSString *textLine3 = @"line3";
         NSString *textLine4 = @"line4";
         NSString *textMediaTrack = @"line5";
+        NSString *textTitle = @"title";
 
         SDLMetadataType line1Type = SDLMetadataTypeMediaTitle;
         SDLMetadataType line2Type = SDLMetadataTypeMediaAlbum;
@@ -340,6 +358,7 @@ describe(@"text and graphic manager", ^{
             testManager.textField3 = nil;
             testManager.textField4 = nil;
             testManager.mediaTrackTextField = nil;
+            testManager.title = nil;
             testManager.textField1Type = nil;
             testManager.textField2Type = nil;
             testManager.textField3Type = nil;
@@ -361,6 +380,17 @@ describe(@"text and graphic manager", ^{
                 [testManager updateWithCompletionHandler:nil];
 
                 expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
+            });
+
+            it(@"should set title properly", ^{
+                testManager.title = textTitle;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
@@ -451,6 +481,17 @@ describe(@"text and graphic manager", ^{
                 [testManager updateWithCompletionHandler:nil];
 
                 expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
+            });
+
+            it(@"should set title properly", ^{
+                testManager.title = textTitle;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
@@ -554,6 +595,17 @@ describe(@"text and graphic manager", ^{
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
+            it(@"should set title properly", ^{
+                testManager.title = textTitle;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
+            });
+
             it(@"should format a one line text and metadata update properly", ^{
                 testManager.textField1 = textLine1;
                 testManager.textField1Type = line1Type;
@@ -653,6 +705,17 @@ describe(@"text and graphic manager", ^{
                 [testManager updateWithCompletionHandler:nil];
 
                 expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
+            });
+
+            it(@"should set title properly", ^{
+                testManager.title = textTitle;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });

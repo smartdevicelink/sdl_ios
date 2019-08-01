@@ -15,6 +15,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLScreenshotViewController.h"
 #import "SDLViewControllerPresentable.h"
@@ -27,7 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
+#pragma clang diagnostic pop
+
+@property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
+@property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
+@property (assign, nonatomic) BOOL lockScreenDismissedByUser;
 
 @end
 
@@ -41,12 +50,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _canPresent = NO;
+    _lockScreenDismissable = NO;
     _config = config;
     _presenter = presenter;
-
+    _lockScreenDismissedByUser = NO;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
 }
@@ -91,11 +103,13 @@ NS_ASSUME_NONNULL_BEGIN
     return self.presenter.lockViewController;
 }
 
-
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (![notification isNotificationMemberOfClass:[SDLOnLockScreenStatus class]]) {
+#pragma clang diagnostic pop
         return;
     }
 
@@ -121,6 +135,14 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_checkLockScreen];
 }
 
+- (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) {
+        return;
+    }
+
+    self.lastDriverDistractionNotification = notification.notification;
+    [self sdl_updateLockScreenDismissable];
+}
 
 #pragma mark - Private Helpers
 
@@ -131,11 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Present the VC depending on the lock screen status
     if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent) {
+        if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
+        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
         } else if (!self.config.showInOptionalState && self.presenter.presented) {
             [self.presenter dismiss];
@@ -145,6 +167,48 @@ NS_ASSUME_NONNULL_BEGIN
             [self.presenter dismiss];
         }
     }
+}
+
+- (void)sdl_updateLockScreenDismissable {
+    if (self.lastDriverDistractionNotification == nil ||
+        self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
+        !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue) {
+        self.lockScreenDismissable = NO;
+    } else {
+        self.lockScreenDismissable = YES;
+    }
+    
+    if (self.lockScreenDismissedByUser &&
+        [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] &&
+        !self.lockScreenDismissable) {
+        self.lockScreenDismissedByUser = NO;
+    }
+
+    if (!self.lockScreenDismissedByUser) {
+        [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
+    }
+}
+
+- (void)sdl_updateLockscreenViewControllerWithDismissableState:(BOOL)enabled {
+    if (![self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+        return;
+    }
+    
+    __weak typeof(self) weakself = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(self) strongSelf = weakself;
+        SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
+        if (enabled) {
+            [lockscreenViewController addDismissGestureWithCallback:^{
+                [strongSelf.presenter dismiss];
+                strongSelf.lockScreenDismissedByUser = YES;
+            }];
+            lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;
+        } else {
+            [lockscreenViewController removeDismissGesture];
+            lockscreenViewController.lockedLabelText = nil;
+        }
+    });
 }
 
 @end

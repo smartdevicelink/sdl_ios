@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Property Overrides
 
 - (nullable NSString *)name {
-    return self.fileName;
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.fileName];
 }
 
 - (NSOperationQueuePriority)queuePriority {

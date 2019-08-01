@@ -23,6 +23,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+__deprecated
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
 /**

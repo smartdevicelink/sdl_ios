@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "6.3.0"
+s.version      = "6.3.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -70,6 +70,8 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLChoiceSetDelegate.h',
 'SmartDeviceLink/SDLClimateControlCapabilities.h',
 'SmartDeviceLink/SDLClimateControlData.h',
+'SmartDeviceLink/SDLCloseApplication.h',
+'SmartDeviceLink/SDLCloseApplicationResponse.h',
 'SmartDeviceLink/SDLCloudAppProperties.h',
 'SmartDeviceLink/SDLClusterModeStatus.h',
 'SmartDeviceLink/SDLCompassDirection.h',
@@ -326,6 +328,8 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSetMediaClockTimer.h',
 'SmartDeviceLink/SDLSetMediaClockTimerResponse.h',
 'SmartDeviceLink/SDLShow.h',
+'SmartDeviceLink/SDLShowAppMenu.h',
+'SmartDeviceLink/SDLShowAppMenuResponse.h',
 'SmartDeviceLink/SDLShowConstantTBT.h',
 'SmartDeviceLink/SDLShowConstantTBTResponse.h',
 'SmartDeviceLink/SDLShowResponse.h',
@@ -355,6 +359,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSubscribeWaypoints.h',
 'SmartDeviceLink/SDLSubscribeWaypointsResponse.h',
 'SmartDeviceLink/SDLSyncMsgVersion.h',
+'SmartDeviceLink/SDLMsgVersion.h',
 'SmartDeviceLink/SDLSyncPData.h',
 'SmartDeviceLink/SDLSyncPDataResponse.h',
 'SmartDeviceLink/SDLSystemAction.h',
@@ -384,6 +389,8 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLTTSChunk.h',
 'SmartDeviceLink/SDLTurn.h',
 'SmartDeviceLink/SDLTurnSignal.h',
+'SmartDeviceLink/SDLUnpublishAppService.h',
+'SmartDeviceLink/SDLUnpublishAppServiceResponse.h',
 'SmartDeviceLink/SDLUnregisterAppInterface.h',
 'SmartDeviceLink/SDLUnregisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLUnsubscribeButton.h',

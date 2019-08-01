@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSMutableDictionary (Store)
 
-- (void)sdl_setObject:(NSObject *)object forName:(SDLRPCParameterName)name {
+- (void)sdl_setObject:(nullable NSObject *)object forName:(SDLRPCParameterName)name {
     if (object != nil) {
         self[name] = object;
     } else {

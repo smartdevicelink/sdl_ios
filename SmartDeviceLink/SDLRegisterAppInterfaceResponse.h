@@ -17,145 +17,196 @@
 @class SDLPresetBankCapabilities;
 @class SDLSoftButtonCapabilities;
 @class SDLSyncMsgVersion;
+@class SDLMsgVersion;
 @class SDLVehicleType;
 
 
-/**
- Response to SDLRegisterAppInterface
-
- Since SmartDeviceLink 1.0
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Response to SDLRegisterAppInterface
+ *
+ * @since SDL 1.0
+ */
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
- The RPC spec version supported by the connected IVI system.
-
- Optional
+ * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.
+ *
+ * SDLSyncMsgVersion, Optional
+ *
+ * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
+@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion __deprecated_msg(("Use sdlMsgVersion Instead"));
 
 /**
- The currently active VR+TTS language on the module. See "Language" for options.
+ * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.
+ *
+ * SDLMsgVersion, Optional
+ *
+ * @since SDL 1.0
+ */
+@property(nullable, strong, nonatomic) SDLMsgVersion *sdlMsgVersion;
 
- Optional
+/**
+ * The currently active VR+TTS language on the module. See "Language" for options.
+ *
+ * SDLLanguage, Optional
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) SDLLanguage language;
 
 /**
- The currently active display language on the module. See "Language" for options.
-
- Since SmartDeviceLink 2.0
-
- Optional
+ * The currently active display language on the module. See "Language" for options.
+ *
+ * SDLLanguage, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
- Contains information about the display for the SDL system to which the application is currently connected.
-
- Optional
+ * Contains information about the display's capabilities.
+ *
+ * SDLDisplayCapabilities, Optional
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 
 /**
- Provides information about the capabilities of a SDL HMI button.
-
- Optional, Array of length 1 - 100, of SDLButtonCapabilities
+ * Contains information about the head unit button capabilities.
+ *
+ * Array of SDLButtonCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
- Contains information about a SoftButton's capabilities.
-
- Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
+ * Contains information about the head unit soft button capabilities.
+ *
+ * Array of SDLSoftButtonCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 
 /**
- If returned, the platform supports custom on-screen Presets
- 
- Optional
+ * If returned, the platform supports custom on-screen Presets
+ *
+ * SDLPresetBankCapabilities, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 /**
- Specifies HMI Zones in the vehicle.
-
- Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
+ * Contains information about the HMI zone capabilities.
+ *
+ * Array of SDLHMIZoneCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
- Contains information about TTS capabilities on the SDL platform.
-
- Optional, Array of length 1 - 100, of SDLSpeechCapabilities
+ * Contains information about the text-to-speech capabilities.
+ *
+ * Array of SDLSpeechCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 
 /**
- Contains information about the speech capabilities on the SDL platform
+ * Contains a list of prerecorded speech items present on the platform.
  *
- * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
+ * Array of SDLPrerecordedSpeech, Optional, Array of length 1 - 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
- The VR capabilities of the connected SDL platform.
-
- Optional, Array of length 1 - 100, of SDLVRCapabilities
+ * Contains information about the VR capabilities.
+ *
+ * Array of SDLVRCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
- Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}
-
- Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
+ * Describes different audio type configurations for PerformAudioPassThru, e.g. {8kHz,8-bit,PCM}. The audio is recorded in monaural.
+ *
+ * Array of SDLAudioPassThruCapabilities, Optional, Array of length 1 - 100
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 
 /**
- Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}
+ * Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}
+ *
+ * SDLAudioPassThruCapabilities, Optional
+ *
+ * @since SDL 4.1
  */
 @property (nullable, strong, nonatomic) SDLAudioPassThruCapabilities *pcmStreamCapabilities;
 
 /**
- Specifies the connected vehicle's type
+ * Specifies the connected vehicle's type.
+ *
+ * SDLVehicleType, Optional
+ *
+ * @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) SDLVehicleType *vehicleType;
 
 /**
- Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
-
- Optional, Array of length 1 - 100, Integer 0 - 255
+ * Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
+ *
+ * Array of Integers, Optional, Array of length 1 - 100, Value range: 0 - 255
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *supportedDiagModes;
 
 /**
- Specifies the availability of various SDL features.
-
- Optional
+ * Specifies the HMI capabilities.
+ *
+ * SDLHMICapabilities, Optional
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) SDLHMICapabilities *hmiCapabilities;
 
 /**
- The SmartDeviceLink Core version
-
- Optional, String max length 100
+ * The version of SDL Core running on the connected head unit
+ *
+ * String, Optional, Max length: 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSString *sdlVersion;
 
 /**
- The software version of the system that implements SmartDeviceLink Core
-
- Optional, String max length 100
+ * The software version of the system that implements the SmartDeviceLink core.
+ *
+ * String, Optional, Max length: 100
+ *
+ * @since SDL 3.0
  */
 @property (nullable, strong, nonatomic) NSString *systemSoftwareVersion;
 
 /**
- Whether or not the app's icon already existed on the system and was resumed. That means that the icon does not need to be sent by the app.
+ * Existence of apps icon at system. If true, apps icon was resumed at system. If false, apps icon is not resumed at system.
+ *
+ * Bool, Optional
+ *
+ * @since SDL 5.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *iconResumed;
 
