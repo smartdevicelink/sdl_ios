@@ -770,9 +770,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogD(@"Transport connected");
 
-    dispatch_async(self.lifecycleQueue, ^{
-        [self sdl_transitionToState:SDLLifecycleStateConnected];
-    });
+        dispatch_async(self.lifecycleQueue, ^{
+            [self sdl_transitionToState:SDLLifecycleStateConnected];
+        });
+    }
 }
 
 - (void)transportDidDisconnect {
