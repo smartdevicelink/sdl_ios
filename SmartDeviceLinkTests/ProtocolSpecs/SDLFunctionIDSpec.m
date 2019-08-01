@@ -68,6 +68,8 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:53]).to(equal(SDLRPCFunctionNameGetAppServiceData));
         expect([functionID functionNameForId:54]).to(equal(SDLRPCFunctionNameGetFile));
         expect([functionID functionNameForId:55]).to(equal(SDLRPCFunctionNamePerformAppServiceInteraction));
+        expect([functionID functionNameForId:60]).to(equal(SDLRPCFunctionNameCreateWindow));
+        expect([functionID functionNameForId:61]).to(equal(SDLRPCFunctionNameDeleteWindow));
         expect([functionID functionNameForId:32768]).to(equal(SDLRPCFunctionNameOnHMIStatus));
         expect([functionID functionNameForId:32769]).to(equal(SDLRPCFunctionNameOnAppInterfaceUnregistered));
         expect([functionID functionNameForId:32770]).to(equal(SDLRPCFunctionNameOnButtonEvent));
@@ -94,8 +96,6 @@ describe(@"GetFunctionName Tests", ^ {
         
         expect([functionID functionNameForId:98304]).to(equal(SDLRPCFunctionNameOnEncodedSyncPData));
         expect([functionID functionNameForId:98305]).to(equal(SDLRPCFunctionNameOnSyncPData));
-        expect([functionID functionNameForId:98306]).to(equal(SDLRPCFunctionNameCreateWindow));
-        expect([functionID functionNameForId:98307]).to(equal(SDLRPCFunctionNameDeleteWindow));
     });
 });
 
@@ -178,8 +178,8 @@ describe(@"GetFunctionID Tests", ^ {
         
         expect([functionID functionIdForName:SDLRPCFunctionNameOnEncodedSyncPData]).to(equal(@98304));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnSyncPData]).to(equal(@98305));
-        expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@98306));
-        expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@98307));
+        expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@60));
+        expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@61));
     });
 });
 

@@ -90,6 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @55: SDLRPCFunctionNamePerformAppServiceInteraction,
                          @56: SDLRPCFunctionNameUnpublishAppService,
                          @58: SDLRPCFunctionNameCloseApplication,
+                         @60: SDLRPCFunctionNameCreateWindow,
+                         @61: SDLRPCFunctionNameDeleteWindow,
                          @32768: SDLRPCFunctionNameOnHMIStatus,
                          @32769: SDLRPCFunctionNameOnAppInterfaceUnregistered,
                          @32770: SDLRPCFunctionNameOnButtonEvent,
@@ -113,9 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @65536: SDLRPCFunctionNameEncodedSyncPData,
                          @65537: SDLRPCFunctionNameSyncPData,
                          @98304: SDLRPCFunctionNameOnEncodedSyncPData,
-                         @98305: SDLRPCFunctionNameOnSyncPData,
-                         @98306: SDLRPCFunctionNameCreateWindow,
-                         @98307: SDLRPCFunctionNameDeleteWindow
+                         @98305: SDLRPCFunctionNameOnSyncPData                         
                          };
     return self;
 }
