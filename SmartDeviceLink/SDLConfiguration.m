@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
-    _encryptionConfig = encryptionConfig;
+    _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration defaultConfiguration];
 
     return self;
 }
@@ -83,7 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
     _lifecycleConfig = lifecycleConfig;
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
-    _encryptionConfig = encryptionConfig;
 
     _streamingMediaConfig = streamingMediaConfig;
     if (_streamingMediaConfig != nil) {
@@ -96,6 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
+    _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration defaultConfiguration];
 
     return self;
 }

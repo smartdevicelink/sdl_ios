@@ -20,6 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
 
 /**
+ *  Creates a default encryption configuration.
+ *
+ *  @return A default configuration that may be customized.
+ */
++ (instancetype)defaultConfiguration;
+
+/**
  Create a secure configuration for each of the security managers provided.
  
  @param securityManagers The security managers to be used.

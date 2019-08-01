@@ -10,6 +10,10 @@
 
 @implementation SDLEncryptionConfiguration
 
++ (instancetype)defaultConfiguration {
+    return [[self.class alloc] initWithSecurityManagers:nil];
+}
+
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers {
     self = [super init];
     if (!self) {
