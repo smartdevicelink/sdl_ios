@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:nil encryption: nil];
 }
 
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:fileManagerConfig encryption:nil];
+}
+
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig {
     self = [super init];
     if (!self) {
@@ -64,6 +68,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig {
     return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig streamingMedia:streamingMediaConfig fileManager:nil encryption:nil];
+}
+
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig streamingMedia:streamingMediaConfig fileManager:fileManagerConfig encryption:nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig {
