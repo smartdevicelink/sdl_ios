@@ -279,14 +279,14 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark Menu
 /**
- Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
+ Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
  */
 - (BOOL)openMenu;
 
 /**
- Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden. You must update the menu with the proper cells before calling this method. This RPC will fail if the cell does not exist, is not a sub menu or is not in the menu array.
+ Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden. You must update the menu with the proper cells before calling this method. This RPC will fail if the cell does not contain a sub menu, or is not in the menu array.
 
-@param cell The submenu cell that should be opened
+@param cell The submenu cell that should be opened as a sub menu, with its sub cells as the options.
  */
 - (BOOL)openSubmenu:(SDLMenuCell *)cell;
 

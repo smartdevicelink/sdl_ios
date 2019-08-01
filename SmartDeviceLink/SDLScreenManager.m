@@ -13,8 +13,6 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
-#import "SDLVersion.h"
-#import "SDLGlobals.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLScreenManager()
