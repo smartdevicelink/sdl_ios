@@ -13,7 +13,6 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLScreenManager()
@@ -267,6 +266,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
     [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
 }
+
+#pragma mark - Menu
+
+- (BOOL)openMenu {
+   return [self.menuManager openMenu];
+}
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+  return [self.menuManager openSubmenu:cell];
+}
+
 
 @end
 
