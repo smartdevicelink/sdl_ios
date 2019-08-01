@@ -25,19 +25,19 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.rpcName = @"RPCNameThing";
         testStruct.hmiPermissions = hmiPermissions;
         testStruct.parameterPermissions = parameterPermissions;
-        testStruct.requireEncryption = @1;
+        testStruct.requireEncryption = @YES;
         
         expect(testStruct.rpcName).to(equal(@"RPCNameThing"));
         expect(testStruct.hmiPermissions).to(equal(hmiPermissions));
         expect(testStruct.parameterPermissions).to(equal(parameterPermissions));
-        expect(testStruct.requireEncryption).to(beTrue());
+        expect(testStruct.requireEncryption.boolValue).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRPCName:@"RPCNameThing",
                                                        SDLRPCParameterNameHMIPermissions:hmiPermissions,
                                                        SDLRPCParameterNameParameterPermissions:parameterPermissions,
-                                                       SDLRPCParameterNameRequireEncryption:@1} mutableCopy];
+                                                       SDLRPCParameterNameRequireEncryption:@YES} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPermissionItem *testStruct = [[SDLPermissionItem alloc] initWithDictionary:dict];
@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.rpcName).to(equal(@"RPCNameThing"));
         expect(testStruct.hmiPermissions).to(equal(hmiPermissions));
         expect(testStruct.parameterPermissions).to(equal(parameterPermissions));
-        expect(testStruct.requireEncryption).to(beTrue());
+        expect(testStruct.requireEncryption.boolValue).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
