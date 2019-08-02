@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLCancelInteraction.h"
+#import "SDLFunctionID.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
 
@@ -71,6 +72,34 @@ describe(@"Getter/Setter Tests", ^{
             testRequest = [[SDLCancelInteraction alloc] initWithfunctionID:testFunctionID cancelID:testCancelID];
 
             expect(testRequest.functionID).to(equal(testFunctionID));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
+        it(@"Should initialize correctly with initWithAlertCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithAlertCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert]));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
+        it(@"Should initialize correctly with initWithSliderCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithSliderCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider]));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
+        it(@"Should initialize correctly with initWithScrollableMessageCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithScrollableMessageCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage]));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
+        it(@"Should initialize correctly with initWithPerformInteractionCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
     });

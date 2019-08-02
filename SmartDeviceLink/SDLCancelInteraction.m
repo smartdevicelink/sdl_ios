@@ -9,9 +9,9 @@
 #import "SDLCancelInteraction.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLFunctionID.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +24,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
     return self;
 }
+
+- (instancetype)initWithAlertCancelID:(UInt32)cancelID {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue cancelID:cancelID];
+}
+
+- (instancetype)initWithSliderCancelID:(UInt32)cancelID {
+     return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue cancelID:cancelID];
+}
+
+- (instancetype)initWithScrollableMessageCancelID:(UInt32)cancelID {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue cancelID:cancelID];
+}
+
+- (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:cancelID];
+}
+
 #pragma clang diagnostic pop
 
 

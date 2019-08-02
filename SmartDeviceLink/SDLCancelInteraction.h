@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *  Used to dismiss a modal view programmatically without needing to wait for the timeout to complete. Can be used to dismiss alerts, scrollable messages, sliders, and perform interactions (i.e. pop-up menus).
  *
- *  @see `SDLAlert`, `SDLScrollableMessage`, `SDLSlider`, `SDLPerformInteraction`
+ *  @see SDLAlert, SDLScrollableMessage, SDLSlider, SDLPerformInteraction
  */
 @interface SDLCancelInteraction : SDLRPCRequest
 
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Convenience init for dismissing an interaction type.
  *
  *  @param functionID           The ID of the type of interaction to dismiss
- *  @return                     A SDLPublishAppService object
+ *  @return                     A SDLCancelInteraction object
  */
 - (instancetype)initWithfunctionID:(UInt32)functionID;
 
@@ -30,9 +30,41 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param functionID           The ID of the type of interaction to dismiss
  *  @param cancelID             The ID of the specific interaction to dismiss
- *  @return                     A SDLPublishAppService object
+ *  @return                     A SDLCancelInteraction object
  */
 - (instancetype)initWithfunctionID:(UInt32)functionID cancelID:(UInt32)cancelID;
+
+/**
+ *  Convenience init for dismissing an alert
+ *
+ *  @param cancelID The ID of the specific interaction to dismiss
+ *  @return         A SDLCancelInteraction object
+ */
+- (instancetype)initWithAlertCancelID:(UInt32)cancelID;
+
+/**
+ *  Convenience init for dismissing a slider
+ *
+ *  @param cancelID The ID of the specific interaction to dismiss
+ *  @return         A SDLCancelInteraction object
+ */
+- (instancetype)initWithSliderCancelID:(UInt32)cancelID;
+
+/**
+ *  Convenience init for dismissing a scrollable message
+ *
+ *  @param cancelID The ID of the specific interaction to dismiss
+ *  @return         A SDLCancelInteraction object
+ */
+- (instancetype)initWithScrollableMessageCancelID:(UInt32)cancelID;
+
+/**
+ *  Convenience init for dismissing a perform interaction
+ *
+ *  @param cancelID The ID of the specific interaction to dismiss
+ *  @return         A SDLCancelInteraction object
+ */
+- (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID;
 
 /**
  *  The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
