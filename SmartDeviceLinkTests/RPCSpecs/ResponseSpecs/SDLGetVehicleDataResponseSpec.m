@@ -225,10 +225,9 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"should set and get generic Network data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:@"OEMVehicleDataState"];
-
-        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(@"OEMVehicleDataState"));
-
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+        
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
     });
 });
 

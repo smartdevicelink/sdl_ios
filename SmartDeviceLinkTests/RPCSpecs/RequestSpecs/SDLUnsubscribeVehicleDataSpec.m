@@ -292,11 +292,11 @@ describe(@"initializers", ^{
     context(@"should set and get generic Network data", ^{
         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"GPS" withVehicleDataState:NO];
-        [testRequest setOEMCustomVehicleData:@"turnSignal" withVehicleDataState:YES];
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
+        [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
-        expect([testRequest getOEMCustomVehicleData:@"GPS"]).to(equal(NO));
-        expect([testRequest getOEMCustomVehicleData:@"turnSignal"]).to(equal(@YES));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(NO));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
 
     });
 });

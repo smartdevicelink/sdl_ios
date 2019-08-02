@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDataType:(SDLVehicleDataType)dataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
 
-- (instancetype)initWithOEMCustomDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
+- (instancetype)initWithCustomOEMDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
 
 /**
  Defined published data element type
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defined published data element type
  */
-@property (nullable, strong, nonatomic) NSString *oemCustomDataType;
+@property (nullable, strong, nonatomic) NSString *customOEMDataType;
 
 /**
  Published data result code

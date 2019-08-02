@@ -221,11 +221,9 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"should set and get generic Network data", ^{
         SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"speed" withVehicleDataState:@100];
-        [testRequest setOEMCustomVehicleData:@"turnSignal" withVehicleDataState:SDLTurnSignalOff];
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
-        expect([testRequest getOEMCustomVehicleData:@"speed"]).to(equal(@100));
-        expect([testRequest getOEMCustomVehicleData:@"turnSignal"]).to(equal(SDLTurnSignalOff));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
 
     });
 });
