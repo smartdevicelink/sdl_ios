@@ -318,10 +318,10 @@ describe(@"present keyboard operation", ^{
                     expect(testOp.error).to(equal(testError));
                 });
 
-                it(@"should finish", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(testOp.isExecuting).toEventually(beFalse());
-                    expect(testOp.isFinished).toEventually(beTrue());
+                it(@"should not finish", ^{
+                    expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
+                    expect(testOp.isExecuting).toEventually(beTrue());
+                    expect(testOp.isFinished).toEventually(beFalse());
                     expect(testOp.isCancelled).toEventually(beFalse());
                 });
             });

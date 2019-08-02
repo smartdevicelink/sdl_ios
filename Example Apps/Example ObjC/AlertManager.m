@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             An SDLAlert object
  */
 + (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
-    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:nil playTone:true ttsChunks:nil duration:5000 progressIndicator:false cancelID:1000];
+    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:nil playTone:true ttsChunks:nil duration:5000 progressIndicator:false cancelID:0];
 }
 
 /**
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return            An SDLAlert object
  */
 + (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
-    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self sdlex_okSoftButton]] playTone:true ttsChunks:nil duration:5000 progressIndicator:false cancelID:1001];
+    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self sdlex_okSoftButton]] playTone:true ttsChunks:nil duration:5000 progressIndicator:false cancelID:0];
 }
 
 + (SDLSoftButton *)sdlex_okSoftButton {

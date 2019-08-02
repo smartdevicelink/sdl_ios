@@ -193,6 +193,8 @@ NS_ASSUME_NONNULL_BEGIN
             if (error != nil) {
                 weakSelf.internalError = error;
                 SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
+                // Don't finish the operation as Core will send a response when the user selects a choice or a timeout occurs
+                return;
             }
 
             [weakSelf finishOperation];
