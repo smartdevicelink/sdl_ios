@@ -149,11 +149,11 @@ describe(@"present choice operation", ^{
                          expect(testOp.error).to(beNil());
                      });
 
-                     it(@"should finish", ^{
-                         expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                         expect(testOp.isExecuting).toEventually(beFalse());
-                         expect(testOp.isFinished).toEventually(beTrue());
-                         expect(testOp.isCancelled).toEventually(beFalse());
+                     it(@"should not finish", ^{
+                         expect(hasCalledOperationCompletionHandler).to(beFalse());
+                         expect(testOp.isExecuting).to(beTrue());
+                         expect(testOp.isFinished).to(beFalse());
+                         expect(testOp.isCancelled).to(beFalse());
                      });
                  });
 
@@ -171,10 +171,10 @@ describe(@"present choice operation", ^{
                      });
 
                      it(@"should not finish", ^{
-                         expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
-                         expect(testOp.isExecuting).toEventually(beTrue());
-                         expect(testOp.isFinished).toEventually(beFalse());
-                         expect(testOp.isCancelled).toEventually(beFalse());
+                         expect(hasCalledOperationCompletionHandler).to(beFalse());
+                         expect(testOp.isExecuting).to(beTrue());
+                         expect(testOp.isFinished).to(beFalse());
+                         expect(testOp.isCancelled).to(beFalse());
                      });
                  });
              });
