@@ -20,11 +20,11 @@ describe(@"Getter/Setter Tests", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] init];
         
         testStruct.dataType = SDLVehicleDataTypeAirbagStatus;
-        testStruct.oemCustomDataType = SDLVehicleDataTypeAirbagStatus;
+        testStruct.oemCustomDataType = @"CustomOEMData";
         testStruct.resultCode = SDLVehicleDataResultCodeDisallowed;
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
-        expect(testStruct.customDataType).to(equal(SDLVehicleDataTypeAirbagStatus));
+        expect(testStruct.oemCustomDataType).to(equal(@"CustomOEMData"));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
 
