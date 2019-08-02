@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     _backgroundColor = backgroundColor;
     _appIcon = appIcon;
     _customViewController = customViewController;
+    _showDeviceLogo = true;
 
     return self;
 }

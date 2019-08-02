@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIImage *icon = notification.userInfo[SDLNotificationUserInfoObject];
 
     // If the VC is our special type, then add the vehicle icon. If they passed in a custom VC, there's no current way to show the vehicle icon. If they're managing it themselves, they can grab the notification themselves.
-    if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+    if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]] && self.config.showDeviceLogo) {
         ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
     }
 }

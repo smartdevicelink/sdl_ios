@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL showInOptionalState;
 
 /**
+ *  Set showDeviceLogo to false to hide the vehicle logo.
+ */
+@property (assign, nonatomic) BOOL showDeviceLogo;
+
+/**
  *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged.
  */
 @property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen;
