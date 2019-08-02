@@ -33,11 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param connectionManager The pass-through for RPCs
  @param configuration This session's configuration
- @param permissionManager The permission manager passed in from the proxy that knowledge whether an RPC needs encryption
  @param rpcOperationQueue The RPC operation queue that the encrypted RPC will be sent on
  @return A new encryption lifecycle manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration permissionManager:(SDLPermissionManager *)permissionManager rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue;
 
 /**
  *  Start the manager. This is used internally to get notified of the ACK message.

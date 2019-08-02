@@ -14,12 +14,14 @@
 #import "SDLProtocolMessage.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLOnPermissionsChange.h"
+#import "SDLPermissionItem.h"
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
 
 @property (strong, nonatomic, readonly) NSOperationQueue *rpcOperationQueue;
-@property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
@@ -29,7 +31,7 @@
 
 @implementation SDLEncryptionLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration permissionManager:(SDLPermissionManager *)permissionManager rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
     self = [super init];
     if (!self) {
         return nil;
@@ -38,11 +40,12 @@
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _hmiLevel = SDLHMILevelNone;
     _connectionManager = connectionManager;
-    _permissionManager = permissionManager;
+    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _rpcOperationQueue = rpcOperationQueue;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
 
     return self;
 }
@@ -57,11 +60,11 @@
     }
     
     SDLLogD(@"Starting encryption manager");
-    [self sdl_startEncryptionService];
 }
 
 - (void)stop {
     _hmiLevel = SDLHMILevelNone;
+    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _protocol = nil;
     
     SDLLogD(@"Stopping encryption manager");
@@ -90,8 +93,8 @@
         return;
     }
 
-    if (!self.permissionManager || !self.hmiLevel || !self.permissionManager.permissions) {
-        SDLLogV(@"Permission Manager is not ready to encrypt.");
+    if (!self.hmiLevel || !self.permissions) {
+        SDLLogV(@"Encryption Manager is not ready to encrypt.");
         return;
     }
     
@@ -99,9 +102,9 @@
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send encryption start service request\n"
-                "permissionManager: %@\n"
+                "permissions: %@\n"
                 "HMI state must be LIMITED, FULL, BACKGROUND: %@\n",
-                self.permissionManager.permissions, self.hmiLevel);
+                self.permissions, self.hmiLevel);
     }
 }
 
@@ -180,7 +183,7 @@
 }
 
 - (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
-    SDLLogW(@"Encryption service failed to start due to NACK");
+    SDLLogW(@"Encryption service failed to start due to NAK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
 }
 
@@ -199,7 +202,7 @@
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     switch (endServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            SDLLogW(@"Encryption RPC service ended with end service NACK");
+            SDLLogW(@"Encryption RPC service ended with end service NAK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
         } break;
         default: break;
@@ -208,7 +211,6 @@
 
 #pragma mark - SDL RPC Notification callbacks
 - (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
     if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
@@ -221,6 +223,18 @@
     
     if (!self.isEncryptionReady) {
         [self sdl_startEncryptionService];
+    }
+}
+
+- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
+        return;
+    }
+    
+    SDLOnPermissionsChange *onPermissionChange = notification.notification;
+    
+    for (SDLPermissionItem *item in onPermissionChange.permissionItem) {
+        self.permissions[item.rpcName] = item;
     }
 }
 

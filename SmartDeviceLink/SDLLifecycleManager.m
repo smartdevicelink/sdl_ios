@@ -156,7 +156,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     
     if (configuration.encryptionConfig != nil) {
-        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
+        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig rpcOperationQueue:_rpcOperationQueue];
     }
 
     // Notifications
@@ -653,23 +653,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         } else {
             [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
         }
-    });
-}
-
-- (void)sendEncryptedConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        SDLLogW(@"Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-            });
-        }
-        
-        return;
-    }
-    
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
     });
 }
 
