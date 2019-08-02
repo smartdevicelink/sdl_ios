@@ -140,11 +140,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
-            completionHandler(success, error);
+            tlsInitializationHandler(success, error);
             BLOCK_RETURN;
         }
 
@@ -309,17 +309,8 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
             // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
-            if (encryption) {
-                NSError *encryptError = nil;
-                messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
-                
-                if (encryptError) {
-                    SDLLogE(@"Error attempting to encrypt RPC, error: %@", encryptError);
-                }
-            } else {
-                messagePayload = rpcPayload.data;
-            }
-            
+            messagePayload = encryption ? [self.securityManager encryptData:rpcPayload.data withError:error] : rpcPayload.data;
+
             if (!messagePayload) {
                 return NO;
             }

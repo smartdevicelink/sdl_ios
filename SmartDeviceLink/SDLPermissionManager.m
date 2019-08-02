@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    self.requiresEncryption = onPermissionChange.requireEncryption ? YES : NO;
+    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue ? YES : NO;
     
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];

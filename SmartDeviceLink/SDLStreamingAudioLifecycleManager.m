@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
     if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil tlsInitializationHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];

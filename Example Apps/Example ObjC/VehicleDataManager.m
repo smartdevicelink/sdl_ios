@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Subscribing to odometer vehicle data");
     SDLSubscribeVehicleData *subscribeToVehicleOdometer = [[SDLSubscribeVehicleData alloc] init];
     subscribeToVehicleOdometer.odometer = @YES;
-    [self.sdlManager sendRequest:subscribeToVehicleOdometer withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.sdlManager sendRequest:subscribeToVehicleOdometer withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLSubscribeVehicleDataResponse.class]) {
             SDLLogE(@"Error sending Get Vehicle Data RPC: %@", error);
         }
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)unsubscribeToVehicleOdometer {
     SDLUnsubscribeVehicleData *unsubscribeToVehicleOdometer = [[SDLUnsubscribeVehicleData alloc] init];
     unsubscribeToVehicleOdometer.odometer = @YES;
-    [self.sdlManager sendRequest:unsubscribeToVehicleOdometer withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.sdlManager sendRequest:unsubscribeToVehicleOdometer withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (!response.success.boolValue) { return; }
         [self sdlex_resetOdometer];
     }];
@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
     SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 
-    [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [manager sendRequest:getAllVehicleData withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
             [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle data" textField2:nil iconName:nil]];
             return;
@@ -279,7 +279,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)sdlex_dialPhoneNumber:(NSString *)phoneNumber manager:(SDLManager *)manager {
     SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:phoneNumber];
-    [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [manager sendRequest:dialNumber withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (!response.resultCode) { return; }
         SDLLogD(@"Sent dial number request: %@", response.resultCode == SDLResultSuccess ? @"successfully" : @"unsuccessfully");
     }];

@@ -56,6 +56,7 @@
         }
     }
     
+    SDLLogD(@"Starting encryption manager");
     [self sdl_startEncryptionService];
 }
 
@@ -69,7 +70,7 @@
 
 - (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
     if (!self.protocol || !self.isEncryptionReady) {
-        SDLLogV(@"Encryption manager is not yet ready, wait until after proxy is opened");
+        SDLLogW(@"Encryption manager is not yet ready, wait until after proxy is opened");
         return;
     }
     
@@ -106,7 +107,7 @@
 
 - (void)sdl_sendEncryptionStartService {
     SDLLogD(@"Sending secure rpc start service");
-    [self.protocol startSecureServiceWithType:SDLServiceTypeRPC payload:nil completionHandler:^(BOOL success, NSError *error) {
+    [self.protocol startSecureServiceWithType:SDLServiceTypeRPC payload:nil tlsInitializationHandler:^(BOOL success, NSError *error) {
         if (error) {
             SDLLogE(@"TLS setup error: %@", error);
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];

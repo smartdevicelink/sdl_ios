@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
     UInt32 recordingDurationInMilliseconds = 10000;
     SDLPerformAudioPassThru *performAudioPassThru = [[SDLPerformAudioPassThru alloc] initWithInitialPrompt:@"Starting sound recording" audioPassThruDisplayText1:@"Say Something" audioPassThruDisplayText2:[NSString stringWithFormat:@"Recording for %d seconds", (recordingDurationInMilliseconds / 1000)] samplingRate:SDLSamplingRate16KHZ bitsPerSample:SDLBitsPerSample16Bit audioType:SDLAudioTypePCM maxDuration:recordingDurationInMilliseconds muteAudio:true audioDataHandler:self.audioDataReceivedHandler];
 
-    [self.sdlManager sendRequest:performAudioPassThru withResponseHandler:self.audioPassThruEndedHandler];
+    [self.sdlManager sendRequest:performAudioPassThru withEncryption:NO withResponseHandler:self.audioPassThruEndedHandler];
 }
 
 /**

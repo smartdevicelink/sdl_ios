@@ -143,7 +143,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */
-- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+- (void)sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 /**
  Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.

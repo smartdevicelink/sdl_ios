@@ -22,7 +22,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         testNotification.permissionItem = [@[item] mutableCopy];
-        testNotification.requireEncryption = @1;
+        testNotification.requireEncryption = @YES;
 
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
         expect(testNotification.requireEncryption).to(beTrue());
@@ -32,22 +32,21 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy],
-                                                                   SDLRPCParameterNameRequireEncryption:@1},
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
+                                                                   SDLRPCParameterNameRequireEncryption:@YES}, SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
         
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
-        expect(testNotification.requireEncryption).to(beTrue());
+        expect(testNotification.requireEncryption.boolValue).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
         SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         expect(testNotification.permissionItem).to(beNil());
-        expect(testNotification.requireEncryption).to(beNil());
+        expect(testNotification.requireEncryption.boolValue).to(beNil());
     });
 });
 

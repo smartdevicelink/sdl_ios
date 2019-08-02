@@ -742,7 +742,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Decide if we need to start a secure service or not
     if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
-        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data tlsInitializationHandler:^(BOOL success, NSError *error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

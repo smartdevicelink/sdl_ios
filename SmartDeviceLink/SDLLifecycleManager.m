@@ -598,7 +598,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sdl_sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (self.encryptionLifecycleManager != nil) {
         [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
     }
@@ -648,7 +648,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        if ([self requestRequiresEncryption:request] || encryption) {
+        if ([self sdl_requestRequiresEncryption:request] || encryption) {
             [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
         } else {
             [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
@@ -757,9 +757,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     return self.proxy.protocol.authToken;
 }
 
-- (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
-    if (self.permissionManager.permissions[request.name] != nil) {
-        return self.permissionManager.permissions[request.name].requireEncryption;
+- (BOOL)sdl_requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
+    if (self.permissionManager.permissions[request.name].requireEncryption != nil) {
+        return self.permissionManager.permissions[request.name].requireEncryption.boolValue;
     }
     return NO;
 }

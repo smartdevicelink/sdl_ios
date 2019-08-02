@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Optional boolean available since core 5.1
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *requireEncryption;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *requireEncryption;
 
 @end
 

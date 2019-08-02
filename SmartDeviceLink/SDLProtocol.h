@@ -87,9 +87,9 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *
  *  @param serviceType A SDLServiceType object
  *  @param payload The data to send in the message
- *  @param completionHandler The handler is called when the secure service is started. If a secure service can not be started, an error message is also returned
+ *  @param tlsInitializationHandler The handler is called when the secure service is started. If a secure service can not be started, an error message is also returned
  */
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler;
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler;
 
 /**
  *  Sends an end service message to Core
