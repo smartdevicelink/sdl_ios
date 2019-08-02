@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Performs an application-initiated interaction in which the user can select a choice from the passed choice set. For instance, an application may use a `PerformInteraction` to ask a user to say the name of a song to play. The user's response is only valid if it appears in the specified choice set.
  *
+ *  If connecting to SDL Core v.6.0+, the perform interaction can be cancelled programatically using the `cancelID`. On older versions of SDL Core, the perform interaction will persist until the user has interacted with the perform interaction or the specified timeout has elapsed.
+ *
  *  @see SDLCreateInteractionChoiceSet, SDLDeleteInteractionChoiceSet
  *
  *  @since SDL 1.0
@@ -175,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  List of interaction choice set IDs to use with an interaction.
  *
- *  Array of Integers, Required, Array size: 0-100, Min value: 0, Max value: 2,000,000,000
+ *  Array of Integers, Required, Array size: 0-100, Min value: 0, Max value: 2000000000
  *
  *  @since SDL 1.0
  */
