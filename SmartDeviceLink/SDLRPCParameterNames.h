@@ -120,7 +120,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameCurrentTemperature;
 extern SDLRPCParameterName const SDLRPCParameterNameCushion;
 extern SDLRPCParameterName const SDLRPCParameterNameCustomButtonId;
 extern SDLRPCParameterName const SDLRPCParameterNameCustomPresets;
-extern SDLRPCParameterName const SDLRPCParameterNameCustomDataType;
+extern SDLRPCParameterName const SDLRPCParameterNameOEMCustomDataType;
 extern SDLRPCParameterName const SDLRPCParameterNameData;
 extern SDLRPCParameterName const SDLRPCParameterNameDataResult;
 extern SDLRPCParameterName const SDLRPCParameterNameDataType;
