@@ -34,6 +34,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
++ (instancetype)sharedInstance {
+    static SDLPermissionManager *sharedInstace = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstace = [[SDLPermissionManager alloc] init];
+    });
+    return sharedInstace;
+}
+
 - (instancetype)init {
     self = [super init];
     if (!self) {
@@ -352,6 +361,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [modifiedPermissions copy];
+}
+
+
+- (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
+    if (self.permissions[request.name].requireEncryption != nil) {
+        return self.permissions[request.name].requireEncryption.boolValue;
+    }
+    return NO;
 }
 
 @end

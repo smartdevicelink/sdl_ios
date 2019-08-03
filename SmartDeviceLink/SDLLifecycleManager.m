@@ -141,7 +141,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
-    _permissionManager = [[SDLPermissionManager alloc] init];
+    _permissionManager = [SDLPermissionManager sharedInstance];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
@@ -330,7 +330,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
-        requiresEncryption: [self sdl_requestRequiresEncryption:regRequest]
+        requiresEncryption: [self.permissionManager requestRequiresEncryption:regRequest]
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
@@ -525,7 +525,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
-        requiresEncryption:[self sdl_requestRequiresEncryption:unregisterRequest]
+        requiresEncryption:[self.permissionManager requestRequiresEncryption:unregisterRequest]
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
@@ -562,7 +562,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         setAppIcon.syncFileName = appIcon.name;
 
         [self sdl_sendRequest:setAppIcon
-          requiresEncryption:[self sdl_requestRequiresEncryption:setAppIcon]
+          requiresEncryption:[self.permissionManager requestRequiresEncryption:setAppIcon]
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
               if (error != nil) {
                   SDLLogW(@"Error setting up app icon: %@", error);
@@ -633,7 +633,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:rpc requiresEncryption:[self sdl_requestRequiresEncryption:rpc] withResponseHandler:nil];
+        [self sdl_sendRequest:rpc requiresEncryption:[self.permissionManager requestRequiresEncryption:rpc] withResponseHandler:nil];
     });
 }
 
@@ -648,7 +648,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        if ([self sdl_requestRequiresEncryption:request] || encryption) {
+        if ([self.permissionManager requestRequiresEncryption:request] || encryption) {
             [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
         } else {
             [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
@@ -659,7 +659,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request requiresEncryption:[self sdl_requestRequiresEncryption:request] withResponseHandler:handler];
+        [self sdl_sendRequest:request requiresEncryption:[self.permissionManager requestRequiresEncryption:request] withResponseHandler:handler];
     });
 }
 
@@ -738,13 +738,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
  */
 - (nullable NSString *)authToken {
     return self.proxy.protocol.authToken;
-}
-
-- (BOOL)sdl_requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
-    if (self.permissionManager.permissions[request.name].requireEncryption != nil) {
-        return self.permissionManager.permissions[request.name].requireEncryption.boolValue;
-    }
-    return NO;
 }
 
 #pragma mark SDL notification observers

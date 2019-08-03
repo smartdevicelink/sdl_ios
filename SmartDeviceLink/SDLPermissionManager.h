@@ -10,6 +10,7 @@
 
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
+#import "SDLRPCMessage.h"
 
 @class SDLPermissionItem;
 
@@ -17,6 +18,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager : NSObject
+
+/**
+ *  Shared instance of the manager. This method is used internally.
+ */
++ (instancetype)sharedInstance;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on `SDLManager`.
@@ -90,9 +96,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) BOOL requiresEncryption;
 
 /**
- *  Dictionary of RPC names and their permissions.
+ *  Check whether or not an RPC needs encryption
  */
-@property (strong, nonatomic, readonly) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+- (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request;
 
 @end
 

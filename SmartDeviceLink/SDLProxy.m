@@ -39,6 +39,7 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
+#import "SDLPermissionManager.h"
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
@@ -174,7 +175,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC withEncryption:NO];
+    [self sendRPC:HMIStatusRPC withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:HMIStatusRPC]];
 }
 
 #pragma mark - Accessors
@@ -703,7 +704,7 @@ static float DefaultConnectionTimeout = 45.0;
                         }
 
                         // Send the RPC Request
-                        [strongSelf sendRPC:request withEncryption:NO];
+                        [strongSelf sendRPC:request withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:request]];
                     }];
 }
 
@@ -738,7 +739,7 @@ static float DefaultConnectionTimeout = 45.0;
                     SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
                     iconURLSystemRequest.bulkData = data;
 
-                    [strongSelf sendRPC:iconURLSystemRequest withEncryption:NO];
+                    [strongSelf sendRPC:iconURLSystemRequest withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:iconURLSystemRequest]];
                 }];
 }
 
@@ -774,7 +775,7 @@ static float DefaultConnectionTimeout = 45.0;
             putFile.bulkData = data;
 
             // Send RPC Request
-            [strongSelf sendRPC:putFile withEncryption:NO];
+            [strongSelf sendRPC:putFile withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:putFile]];
         }];
 }
 
@@ -959,7 +960,7 @@ static float DefaultConnectionTimeout = 45.0;
         request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
-        [self sendRPC:request withEncryption:NO];
+        [self sendRPC:request withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:request]];
     }
 }
 
@@ -992,7 +993,7 @@ static float DefaultConnectionTimeout = 45.0;
                 [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:(NSUInteger)nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
-                [self sendRPC:putFileRPCRequest withEncryption:NO];
+                [self sendRPC:putFileRPCRequest withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:putFileRPCRequest]];
             }
 
             break;
