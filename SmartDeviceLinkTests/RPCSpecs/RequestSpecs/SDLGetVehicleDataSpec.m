@@ -291,7 +291,7 @@ describe(@"initializers", ^{
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 
-    context(@"should set and get generic Network data", ^{
+    context(@"Should set and get Generic Network Signal Data", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];

@@ -189,7 +189,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.wiperStatus).to(beNil());
     });
 
-    it(@"should set and get generic Network data", ^{
+    it(@"Should set and get Generic Network Signal Data", ^{
         SDLSubscribeVehicleDataResponse *testRequest = [[SDLSubscribeVehicleDataResponse alloc] init];
 
 

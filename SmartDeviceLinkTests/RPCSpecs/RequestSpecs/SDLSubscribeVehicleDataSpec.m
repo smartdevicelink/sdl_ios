@@ -291,7 +291,7 @@ describe(@"initializers", ^{
         #pragma clang diagnostic pop
     });
 
-    context(@"should set and get generic Network data", ^{
+    context(@"Should set and get Generic Network Signal Data", ^{
         SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];

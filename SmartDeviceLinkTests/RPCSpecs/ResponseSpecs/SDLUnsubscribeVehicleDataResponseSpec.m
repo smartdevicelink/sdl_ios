@@ -189,7 +189,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
 
-    it(@"should set and get generic Network data", ^{
+    it(@"Should set and get Generic Network Signal Data", ^{
         SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
 

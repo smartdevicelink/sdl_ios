@@ -13,8 +13,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLVehicleDataResult : SDLRPCStruct
 
+/**
+ *  Convenience init for creating a SDLVehicleDataResult with a dataType
+ *
+ *  @param dataType - The Vehicle DataType data
+ *  @param resultCode - The VehicleData ResultCode data
+ */
 - (instancetype)initWithDataType:(SDLVehicleDataType)dataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
 
+/**
+ *  Convenience init for creating a SDLVehicleDataResult with a customDataType
+ *
+ *  @param customDataType - The custom dataType data
+ *  @param resultCode - The VehicleData ResultCode data
+ */
 - (instancetype)initWithCustomOEMDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
 
 /**

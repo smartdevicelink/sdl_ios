@@ -218,7 +218,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.wiperStatus).to(beNil());
     });
 
-    it(@"should set and get generic Network data", ^{
+    it(@"Should set and get generic Network Signal Data", ^{
         SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
