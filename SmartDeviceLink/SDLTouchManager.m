@@ -186,7 +186,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
-    onTouchEvent = [self applyScaleToEventCoordinates:onTouchEvent];
+    onTouchEvent = [self applyScaleToEventCoordinates:onTouchEvent.copy];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
