@@ -76,6 +76,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameSetGlobalProperties = @"SetGlobalProp
 SDLRPCFunctionName const SDLRPCFunctionNameSetInteriorVehicleData = @"SetInteriorVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameSetMediaClockTimer = @"SetMediaClockTimer";
 SDLRPCFunctionName const SDLRPCFunctionNameShow = @"Show";
+SDLRPCFunctionName const SDLRPCFunctionNameShowAppMenu = @"ShowAppMenu";
 SDLRPCFunctionName const SDLRPCFunctionNameShowConstantTBT = @"ShowConstantTBT";
 SDLRPCFunctionName const SDLRPCFunctionNameSlider = @"Slider";
 SDLRPCFunctionName const SDLRPCFunctionNameSpeak = @"Speak";

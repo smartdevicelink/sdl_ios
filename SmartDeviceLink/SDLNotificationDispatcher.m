@@ -275,6 +275,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveShowResponse response:response];
 }
 
+- (void)onShowAppMenuResponse:(SDLShowAppMenuResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveShowAppMenuResponse response:response];
+}
+
 - (void)onSliderResponse:(SDLSliderResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSliderResponse response:response];
 }
@@ -495,6 +499,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onShow:(SDLShow *)request {
     [self postRPCRequestNotification:SDLDidReceiveShowRequest request:request];
+}
+
+- (void)onShowAppMenu:(SDLShowAppMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowAppMenuRequest request:request];
 }
 
 - (void)onShowConstantTBT:(SDLShowConstantTBT *)request {

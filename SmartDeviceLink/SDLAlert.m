@@ -3,12 +3,13 @@
 #import "SDLAlert.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLImage.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
 
-static UInt16 const SDLDefaultDuration = 5000;
+static UInt16 const DefaultAlertDuration = 5000;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,55 +25,65 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 {
-    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:SDLDefaultDuration];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:nil playTone:NO progressIndicator:NO duration:DefaultAlertDuration softButtons:nil alertIcon:nil];
 }
 
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration {
-    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil duration:duration];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil ttsChunks:nil playTone:NO progressIndicator:NO duration:duration softButtons:nil alertIcon:nil];
+
 }
 
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration {
-    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:duration softButtons:nil];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:nil playTone:NO progressIndicator:NO duration:duration softButtons:nil alertIcon:nil];
 }
 
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:nil playTone:NO progressIndicator:NO duration:duration softButtons:softButtons alertIcon:nil];
 }
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone {
-    return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:SDLDefaultDuration];
+    return [self initWithAlertText1:nil alertText2:nil alertText3:nil ttsChunks:[SDLTTSChunk textChunksFromString:ttsText] playTone:playTone progressIndicator:NO duration:DefaultAlertDuration softButtons:nil alertIcon:nil];
 }
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration {
-    return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil ttsChunks:[SDLTTSChunk textChunksFromString:ttsText] playTone:playTone progressIndicator:NO duration:duration softButtons:nil alertIcon:nil];
 }
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
-    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
-    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
-}
-
-- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone {
-    return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:SDLDefaultDuration softButtons:nil];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:[SDLTTSChunk textChunksFromString:ttsText] playTone:playTone progressIndicator:NO duration:duration softButtons:nil alertIcon:nil];
 }
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:SDLDefaultDuration softButtons:softButtons];
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:ttsChunks playTone:playTone progressIndicator:NO duration:DefaultAlertDuration softButtons:softButtons alertIcon:nil];
 }
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 ttsChunks:ttsChunks playTone:playTone progressIndicator:NO duration:duration softButtons:softButtons alertIcon:nil];
+}
+
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(nullable NSString *)alertText2 {
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil ttsChunks:nil playTone:NO progressIndicator:NO duration:DefaultAlertDuration softButtons:nil alertIcon:nil];
+}
+
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone {
+    return [self initWithAlertText1:nil alertText2:nil alertText3:nil ttsChunks:ttsChunks playTone:playTone progressIndicator:NO duration:DefaultAlertDuration softButtons:nil alertIcon:nil];
+}
+
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone progressIndicator:(BOOL)showProgressIndicator duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons alertIcon:(nullable SDLImage *)icon {
     self = [self init];
     if (!self) {
         return nil;
     }
 
-    self.ttsChunks = [ttsChunks mutableCopy];
+    self.ttsChunks = [ttsChunks copy];
     self.alertText1 = alertText1;
     self.alertText2 = alertText2;
     self.alertText3 = alertText3;
     self.playTone = @(playTone);
+    self.progressIndicator = @(showProgressIndicator);
     self.duration = @(duration);
-    self.softButtons = [softButtons mutableCopy];
+    self.softButtons = [softButtons copy];
+    self.alertIcon = icon;
 
     return self;
 }
@@ -139,6 +150,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
+}
+
+- (void)setAlertIcon:(nullable SDLImage *)alertIcon {
+    [self.parameters sdl_setObject:alertIcon forName:SDLRPCParameterNameAlertIcon];
+}
+
+- (nullable SDLImage *)alertIcon {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAlertIcon ofClass:SDLImage.class error:nil];
 }
 
 @end

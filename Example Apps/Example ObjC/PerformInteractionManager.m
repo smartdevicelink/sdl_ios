@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) SDLChoiceSet *choiceSet;
 @property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *cells;
+@property (copy, nonatomic, readonly) NSArray<SDLVRHelpItem *> *vrHelpList;
 
 @end
 
@@ -39,15 +40,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLChoiceSet *)choiceSet {
-    return [[SDLChoiceSet alloc] initWithTitle:PICSInitialPrompt delegate:self layout:SDLChoiceSetLayoutList timeout:10 initialPromptString:PICSInitialPrompt timeoutPromptString:PICSTimeoutPrompt helpPromptString:PICSHelpPrompt vrHelpList:nil choices:self.cells];
+    return [[SDLChoiceSet alloc] initWithTitle:PICSInitialPrompt delegate:self layout:SDLChoiceSetLayoutList timeout:10 initialPromptString:PICSInitialPrompt timeoutPromptString:PICSTimeoutPrompt helpPromptString:PICSHelpPrompt vrHelpList:self.vrHelpList choices:self.cells];
 }
 
 - (NSArray<SDLChoiceCell *> *)cells {
-    SDLChoiceCell *firstChoice = [[SDLChoiceCell alloc] initWithText:PICSFirstChoice artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey] voiceCommands:nil];
-    SDLChoiceCell *secondChoice = [[SDLChoiceCell alloc] initWithText:PICSSecondChoice];
-    SDLChoiceCell *thirdChoice = [[SDLChoiceCell alloc] initWithText:PICSThirdChoice];
+    SDLChoiceCell *firstChoice = [[SDLChoiceCell alloc] initWithText:PICSFirstChoice artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey] voiceCommands:@[VCPICSFirstChoice]];
+    SDLChoiceCell *secondChoice = [[SDLChoiceCell alloc] initWithText:PICSSecondChoice artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameMicrophone] voiceCommands:@[VCPICSecondChoice]];
+    SDLChoiceCell *thirdChoice = [[SDLChoiceCell alloc] initWithText:PICSThirdChoice artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey] voiceCommands:@[VCPICSThirdChoice]];
 
     return @[firstChoice, secondChoice, thirdChoice];
+}
+
+- (NSArray<SDLVRHelpItem *> *)vrHelpList {
+    SDLVRHelpItem *vrHelpListFirst = [[SDLVRHelpItem alloc] initWithText:VCPICSFirstChoice image:nil];
+    SDLVRHelpItem *vrHelpListSecond = [[SDLVRHelpItem alloc] initWithText:VCPICSecondChoice image:nil];
+    SDLVRHelpItem *vrHelpListThird = [[SDLVRHelpItem alloc] initWithText:VCPICSThirdChoice image:nil];
+
+    return @[vrHelpListFirst, vrHelpListSecond, vrHelpListThird];
 }
 
 - (SDLInteractionMode)modeForTriggerSource:(SDLTriggerSource)source {
@@ -78,15 +87,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
 }
 
-- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler {
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText autoCompleteResultsHandler:(SDLKeyboardAutoCompleteResultsHandler)resultsHandler {
     if ([currentInputText.lowercaseString hasPrefix:@"f"]) {
-        completionHandler(PICSFirstChoice);
+        resultsHandler(@[PICSFirstChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"s"]) {
-        completionHandler(PICSSecondChoice);
+        resultsHandler(@[PICSSecondChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"t"]) {
-        completionHandler(PICSThirdChoice);
+        resultsHandler(@[PICSThirdChoice]);
     } else {
-        completionHandler(nil);
+        resultsHandler(nil);
     }
 }
 

@@ -17,9 +17,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This handler is called when you wish to update your autocomplete text in response to the user's input
 
- @param updatedAutocompleteText The new autocomplete text to use
+ @param updatedAutocompleteText The autocomplete results to use
  */
 typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSString  *_Nullable updatedAutocompleteText);
+
+/**
+ This handler is called when you wish to update your autocomplete text in response to the user's input.
+
+ @param updatedAutoCompleteList The list of autocomplete results to use, a max of 100 items are allowed
+ */
+typedef void(^SDLKeyboardAutoCompleteResultsHandler)(NSArray<NSString *> *_Nullable updatedAutoCompleteList);
 
 /**
  This handler is called when you wish to update your keyboard's limitedCharacterSet in response to the user's input
@@ -65,7 +72,17 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
  @param currentInputText The user's full current input text
  @param completionHandler A completion handler to update the autoCompleteText
  */
-- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler;
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler __deprecated_msg("Use updateAutocompleteWithInput:autoCompleteResultsHandler:");
+
+/**
+ Implement this if you wish to updated the KeyboardProperties.autoCompleteList as the user updates their input. This is called upon a KEYPRESS event.
+
+ This allows you to present a list of options that the user can use to fill in the search / text box with suggestions you provide.
+
+ @param currentInputText The user's full current input text
+ @param resultsHandler A completion handler to update the autoCompleteList
+ */
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText autoCompleteResultsHandler:(SDLKeyboardAutoCompleteResultsHandler)resultsHandler;
 
 /**
  Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.
