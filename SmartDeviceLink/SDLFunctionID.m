@@ -90,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @55: SDLRPCFunctionNamePerformAppServiceInteraction,
                          @56: SDLRPCFunctionNameUnpublishAppService,
                          @58: SDLRPCFunctionNameCloseApplication,
+                         @59: SDLRPCFunctionNameShowAppMenu,
                          @60: SDLRPCFunctionNameCreateWindow,
                          @61: SDLRPCFunctionNameDeleteWindow,
                          @32768: SDLRPCFunctionNameOnHMIStatus,

@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowDownImageView;
+@property (strong, nonatomic) SwipeGestureCallbackBlock dismissGestureCallback;
+@property (strong, nonatomic, nullable) UISwipeGestureRecognizer *swipeGesture;
 
 @end
 
@@ -49,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
     return useWhiteIcon ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
-
 #pragma mark - Setters
 
 - (void)setAppIcon:(UIImage *_Nullable)appIcon {
@@ -70,6 +71,31 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_layoutViews];
 }
 
+- (void)setLockedLabelText:(NSString *_Nullable)lockedLabelText {
+    _lockedLabelText = lockedLabelText;
+    
+    [self sdl_layoutViews];
+}
+
+#pragma mark - Swipe Gesture
+
+- (void)addDismissGestureWithCallback:(SwipeGestureCallbackBlock)swipeGestureCallback {
+    if (!self.swipeGesture) {
+        self.dismissGestureCallback = swipeGestureCallback;
+        self.swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(sdl_didSwipeToDismiss:)];
+        [self.swipeGesture setDirection: UISwipeGestureRecognizerDirectionDown];
+        [self.view addGestureRecognizer:self.swipeGesture];
+    }
+}
+
+- (void)removeDismissGesture {
+    [self.view removeGestureRecognizer:self.swipeGesture];
+    self.swipeGesture = nil;
+}
+
+- (void)sdl_didSwipeToDismiss:(UISwipeGestureRecognizer *)gesture {
+    self.dismissGestureCallback();
+}
 
 #pragma mark - Layout
 
@@ -87,7 +113,14 @@ NS_ASSUME_NONNULL_BEGIN
         self.arrowDownImageView.tintColor = iconColor;
 
         self.lockedLabel.textColor = iconColor;
-
+        self.lockedLabel.numberOfLines = 0;
+        
+        if (self.lockedLabelText != nil) {
+            self.lockedLabel.text = self.lockedLabelText;
+        } else {
+            self.lockedLabel.text = NSLocalizedString(@"Locked for your safety", nil);
+        }
+        
         self.view.backgroundColor = self.backgroundColor;
 
         if (self.vehicleIcon != nil && self.appIcon != nil) {
