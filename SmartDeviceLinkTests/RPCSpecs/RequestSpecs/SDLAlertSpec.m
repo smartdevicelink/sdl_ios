@@ -124,20 +124,6 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
-        it(@"Should initialize correctly with initWithTTS:playTone:cancelID:", ^{
-            testRequest = [[SDLAlert alloc] initWithTTS:testTTSChunks playTone:testPlayTone cancelID:testCancelID];
-
-            expect(testRequest.alertText1).to(beNil());
-            expect(testRequest.alertText2).to(beNil());
-            expect(testRequest.alertText3).to(beNil());
-            expect(testRequest.ttsChunks).to(equal(testTTSChunks));
-            expect(testRequest.duration).to(beNil());
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.cancelID).to(equal(testCancelID));
-        });
-
         it(@"Should initialize correctly with initWithAlertText:softButtons:playTone:ttsChunks:cancelID:", ^{
             testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 softButtons:testSoftButtons playTone:testPlayTone ttsChunks:testTTSChunks duration:testDuration progressIndicator:testProgressIndicator cancelID:testCancelID];
 
