@@ -10,9 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Shows an alert which typically consists of text-to-speech message and text on the display. It is required that either `alertText1`, `alertText2` or `TTSChunks` needs to be set or the request will be rejected.
+ *  Shows an alert which typically consists of text-to-speech message and text on the display. Either `alertText1`, `alertText2` or `TTSChunks` needs to be set or the request will be rejected.
  *
- *  If connecting to SDL Core v.6.0+, the alert can be cancelled programatically using the `cancelID`. On older versions of SDL Core, the alert will persist until the user has interacted with the alert or the specified timeout has elapsed.
+ *  If connecting to SDL Core v.6.0+, the alert can be cancelled programatically using the `cancelID`. Cancelling will not dismiss the alert's speech - only the modal view will be dismissed. On older versions of SDL Core, the alert will persist until the user has interacted with the alert or the specified timeout has elapsed.
  *
  *  @since SDL 1.0
  */
@@ -33,12 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for creating a sound-only alert.
  *
- *  @param ttsChunks   Speech or a sound file to be played
- *  @param playTone    Whether the alert tone should be played before the TTS is spoken
- *  @param cancelID    An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
- *  @return            An SDLAlert object
+ *  @param ttsChunks    Speech or a sound file to be played when the alert shows
+ *  @param playTone     Whether the alert tone should be played before the TTS is spoken
+ *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTS:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone cancelID:(UInt32)cancelID;
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
 
 /**
  *  Convenience init for setting all alert parameters.
@@ -132,15 +131,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             An SDLAlert object
  */
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
-
-/**
- *  Convenience init for creating a sound-only alert.
- *
- *  @param ttsChunks    Speech or a sound file to be played when the alert shows
- *  @param playTone     Whether the alert tone should be played before the TTS is spoken
- *  @return             An SDLAlert object
- */
-- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone __deprecated_msg("Use initWithTTS:playTone:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text, soft buttons, and optional sound cues.
