@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param softButtons  Soft buttons to be displayed
  *  @param playTone     Whether the alert tone should be played before the TTS (if any) is spoken
  *  @param ttsChunks    Speech or a sound file to be played when the alert shows
- *  @param alertIcon    Image to be displayed in the alert
  *  @param cancelID     An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
+ *  @param icon         Image to be displayed in the alert
  *  @return             An SDLAlert object
  */
 - (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
@@ -52,8 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param ttsChunks           An array of text chunks to be spoken or a prerecorded sound file
  *  @param duration            The duration of the displayed portion of the alert, in milliseconds
  *  @param progressIndicator   Whether an animation indicating that loading of a feature is progressing should be shown
- *  @param alertIcon           Image to be displayed in the alert
  *  @param cancelID            An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
+ *  @param icon                Image to be displayed in the alert
  *  @return                    An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
