@@ -13,7 +13,6 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLScreenManager()
@@ -124,6 +123,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTextField4Type:(nullable SDLMetadataType)textField4Type {
     self.textAndGraphicManager.textField4Type = textField4Type;
+}
+
+- (void)setTitle:(nullable NSString *)title {
+    self.textAndGraphicManager.title = title;
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
@@ -266,6 +269,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dismissKeyboard {
     [self.choiceSetManager dismissKeyboard];
+}
+
+#pragma mark - Menu
+
+- (BOOL)openMenu {
+   return [self.menuManager openMenu];
+}
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+  return [self.menuManager openSubmenu:cell];
 }
 
 @end

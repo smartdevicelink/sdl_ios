@@ -10,6 +10,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 
 
@@ -46,10 +47,17 @@ describe(@"a lock screen manager", ^{
             });
             
             describe(@"when the lock screen status becomes REQUIRED", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 __block SDLOnLockScreenStatus *testRequiredStatus = nil;
-                
+#pragma clang diagnostic pop
+
                 beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
+
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     
                     [testNotificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
@@ -84,10 +92,17 @@ describe(@"a lock screen manager", ^{
             });
             
             describe(@"when the lock screen status becomes REQUIRED", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 __block SDLOnLockScreenStatus *testRequiredStatus = nil;
-                
+#pragma clang diagnostic pop
+                __block SDLOnDriverDistraction *testDriverDistraction = nil;
+
                 beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     
                     SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
@@ -116,6 +131,59 @@ describe(@"a lock screen manager", ^{
                     });
                 });
                 
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled as true", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        testDriverDistraction.lockScreenDismissalEnabled = @YES;
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should be able to be dismissed", ^{
+                        expect(testManager.isLockScreenDismissable).toEventually(equal(YES));
+                    });
+                    
+                });
+                
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled 0 bit", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+                    
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        testDriverDistraction.lockScreenDismissalEnabled = @0;
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should not be able to be dismissed", ^{
+                        expect(testManager.isLockScreenDismissable).toEventually(equal(NO));
+                    });
+                    
+                });
+                
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled nil bit", ^{
+                    __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+                    
+                    beforeEach(^{
+                        testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                        
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                    });
+                    
+                    it(@"should not be able to be dismissed", ^{
+                        expect(testManager.isLockScreenDismissable).toEventually(equal(NO));
+                    });
+                    
+                });
+                
                 describe(@"then the manager is stopped", ^{
                     beforeEach(^{
                         [testManager stop];
@@ -127,10 +195,16 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 describe(@"then the status becomes OFF", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     __block SDLOnLockScreenStatus *testOffStatus = nil;
+#pragma clang diagnostic pop
                     
                     beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         testOffStatus = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
                         
                         SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOffStatus];
@@ -211,8 +285,10 @@ describe(@"a lock screen manager", ^{
 
         beforeEach(^{
             mockViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
             testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
             testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
 

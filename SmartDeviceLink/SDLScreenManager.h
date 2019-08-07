@@ -106,6 +106,11 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
  */
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
+/**
+ The title of the current template layout.
+ */
+@property (copy, nonatomic, nullable) NSString *title;
+
 #pragma mark Soft Buttons
 
 /**
@@ -277,11 +282,25 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
-
 /**
  Dismisses a currently presented keyboard. Canceling a keyboard only works when connected to SDL Core v.6.0+. On older versions of SDL Core the keyboard can not be dismissed.
  */
 - (void)dismissKeyboard;
+
+#pragma mark Menu
+
+/**
+ Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
+ */
+- (BOOL)openMenu;
+
+/**
+ Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden. You must update the menu with the proper cells before calling this method. This RPC will fail if the cell does not contain a sub menu, or is not in the menu array.
+
+@param cell The submenu cell that should be opened as a sub menu, with its sub cells as the options.
+ */
+- (BOOL)openSubmenu:(SDLMenuCell *)cell;
+
 
 @end
 

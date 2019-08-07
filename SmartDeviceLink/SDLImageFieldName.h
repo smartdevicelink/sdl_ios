@@ -12,6 +12,11 @@
 typedef SDLEnum SDLImageFieldName SDL_SWIFT_ENUM;
 
 /**
+ The image field for Alert
+ */
+extern SDLImageFieldName const SDLImageFieldNameAlertIcon;
+
+/**
  The image field for SoftButton
  */
 extern SDLImageFieldName const SDLImageFieldNameSoftButtonImage;

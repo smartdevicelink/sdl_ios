@@ -4,6 +4,7 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLImage;
 @class SDLSoftButton;
 @class SDLTTSChunk;
 
@@ -25,10 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param softButtons  Soft buttons to be displayed
  *  @param playTone     Whether the alert tone should be played before the TTS (if any) is spoken
  *  @param ttsChunks    Speech or a sound file to be played when the alert shows
+ *  @param alertIcon    Image to be displayed in the alert
  *  @param cancelID     An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks cancelID:(UInt32)cancelID;
+- (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
 
 /**
  *  Convenience init for creating a sound-only alert.
@@ -50,10 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param ttsChunks           An array of text chunks to be spoken or a prerecorded sound file
  *  @param duration            The duration of the displayed portion of the alert, in milliseconds
  *  @param progressIndicator   Whether an animation indicating that loading of a feature is progressing should be shown
+ *  @param alertIcon           Image to be displayed in the alert
  *  @param cancelID            An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
  *  @return                    An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator cancelID:(UInt32)cancelID;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
 
 /**
  *  Convenience init for creating an alert with two lines of text and a timeout.
@@ -63,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param duration     The duration of the displayed portion of the alert, in milliseconds
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text.
@@ -73,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param alertText3   The third line of the alert
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text and a timeout.
@@ -84,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param duration     The duration of the displayed portion of the alert, in milliseconds
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text and a timeout.
@@ -96,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param softButtons  Buttons for the alert
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating a speech-only alert.
@@ -105,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param playTone     Whether the alert tone should be played before the TTS is spoken
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone __deprecated_msg("Use initWithTTS:playTone:cancelID: instead");
+- (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone __deprecated_msg("Use initWithTTS:playTone: instead");
 
 /**
  *  Convenience init for creating an alert with two lines of text, optional sound cues, and a timout.
@@ -117,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param duration     The duration of the displayed portion of the alert, in milliseconds
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text, optional sound cues, and a timout.
@@ -130,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param duration     The duration of the displayed portion of the alert, in milliseconds
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text, soft buttons, and optional sound cues.
@@ -143,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param softButtons  Buttons for the alert
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  Convenience init for creating an alert with three lines of text, soft buttons, optional sound cues, and a timout.
@@ -157,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param softButtons  Buttons for the alert
  *  @return             An SDLAlert object
  */
-- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:cancelID: instead");
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  *  The first line of the alert text field.
@@ -184,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The optional third line of the alert text field.
  *
- *  @discussion     If supported, the `displayCapabilities` will have a `TextField` with a `name` of `alertText3`
+ *  @discussion If supported, the `displayCapabilities` will have a `TextField` with a `name` of `alertText3`
  *
  *  String, Optional, Max length 500 chars
  *  @since SDL 2.0
@@ -194,9 +197,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  An array of text chunks to be spoken or a prerecorded sound file.
  *
+ *  @discussion At least either `alertText1`, `alertText2` or `ttsChunks` need to be provided.
+ *
  *  Optional, Array of SDLTTSChunk, Array length 1 - 100
  *
- *  @see SDLTTSChunk
  *  @since SDL 1.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
@@ -233,7 +237,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Optional, Array of SDLSoftButton, Array size 0 - 4
  *
- *  @see SDLSoftButton
  *  @since SDL 2.0
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
@@ -247,6 +250,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @since SDL 6.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *cancelID;
+
+/**
+ *  Image to be displayed in the alert. If omitted on supported displays, no (or the default if applicable) icon should be displayed.
+ *
+ *  SDLImage, Optional
+ *  @since SDL 6.0
+ */
+@property (nullable, strong, nonatomic) SDLImage *alertIcon;
 
 @end
 

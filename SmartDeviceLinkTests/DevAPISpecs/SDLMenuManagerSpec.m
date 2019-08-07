@@ -6,6 +6,7 @@
 
 #import "SDLMenuManager.h"
 #import "TestConnectionManager.h"
+#import "SDLGlobals.h"
 
 
 @interface SDLMenuCell()
@@ -607,6 +608,91 @@ describe(@"menu manager", ^{
             expect(testManager.lastMenuId).to(equal(1));
             expect(testManager.oldMenuCells).to(beEmpty());
             expect(testManager.waitingUpdateMenuCells).to(beEmpty());
+        });
+    });
+
+    describe(@"ShowMenu RPC", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+        });
+
+        context(@"when open menu RPC can be sent", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+            });
+
+            it(@"should send showAppMenu RPC", ^{
+                BOOL canSendRPC = [testManager openMenu];
+
+                NSPredicate *showMenu = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:showMenu];
+
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(openMenu).to(haveCount(1));
+                expect(canSendRPC).to(equal(YES));
+           });
+
+            it(@"should send showAppMenu RPC with cellID", ^ {
+                testManager.menuCells = @[submenuCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(openMenu).to(haveCount(1));
+                expect(canSendRPC).to(equal(YES));
+            });
+        });
+
+        context(@"when open menu RPC can not be sent", ^{
+            it(@"should not send a showAppMenu RPC when cell has no subcells", ^ {
+                BOOL canSendRPC = [testManager openSubmenu:textOnlyCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
+
+            it(@"should not send a showAppMenu RPC when RPC verison is not at least 6.0.0", ^ {
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
+
+            it(@"should not send a showAppMenu RPC when the cell is not in the menu array", ^ {
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
         });
     });
 

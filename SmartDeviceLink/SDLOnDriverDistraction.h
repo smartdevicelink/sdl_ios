@@ -28,6 +28,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLDriverDistractionState state;
 
+/**
+ If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users the ability to interact with the app.
+ 
+ Optional, Boolean
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *lockScreenDismissalEnabled;
+
+/**
+ Warning message to be displayed on the lock screen when dismissal is enabled.  This warning should be used to ensure that the user is not the driver of the vehicle, ex. `Swipe up to dismiss, acknowledging that you are not the driver.`.  This parameter must be present if "lockScreenDismissalEnabled" is set to true.
+ 
+ Optional,  String
+ */
+@property (strong, nonatomic) NSString *lockScreenDismissalWarning;
+
 @end
 
 NS_ASSUME_NONNULL_END

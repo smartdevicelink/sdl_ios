@@ -69,6 +69,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onSetMediaClockTimerResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShowConstantTBTResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShowResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onShowAppMenuResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSliderResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSpeakResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSubscribeButtonResponse:)])).to(beTruthy());
@@ -122,6 +123,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onSetInteriorVehicleData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetMediaClockTimer:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShow:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onShowAppMenu:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShowConstantTBT:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSlider:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSpeak:)])).to(beTruthy());

@@ -6,6 +6,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAlert.h"
+#import "SDLImage.h"
 #import "SDLTTSChunk.h"
 #import "SDLSoftButton.h"
 #import "SDLRPCParameterNames.h"
@@ -26,12 +27,14 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSArray<SDLSoftButton *> *testSoftButtons = nil;
     __block NSArray<SDLTTSChunk *> *testTTSChunks = nil;
     __block NSString *testTTSString = nil;
+    __block SDLImage *testImage = nil;
     __block int testCancelID = 456;
 
     beforeEach(^{
         testTTSChunks = @[[[SDLTTSChunk alloc] init]];
         testTTSString = @"Hello World";
         testSoftButtons = @[[[SDLSoftButton alloc] init]];
+        testImage = [[SDLImage alloc] initWithStaticIconName:SDLStaticIconNameBack];
     });
 
     context(@"Getter/Setter Tests", ^{
@@ -46,6 +49,7 @@ describe(@"Getter/Setter Tests", ^ {
             testRequest.playTone = @(testPlayTone);
             testRequest.progressIndicator = @(testProgressIndicator);
             testRequest.softButtons = testSoftButtons;
+            testRequest.alertIcon = testImage;
             testRequest.cancelID = @(testCancelID);
 
             expect(testRequest.alertText1).to(equal(testAlertText1));
@@ -56,9 +60,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(equal(testProgressIndicator));
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(equal(testImage));
             expect(testRequest.cancelID).to(equal(testCancelID));
 
-            expect(testRequest.parameters.count).to(equal(9));
+            expect(testRequest.parameters.count).to(equal(10));
         });
 
         it(@"Should return nil if not set", ^{
@@ -72,6 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(beNil());
             expect(testRequest.progressIndicator).to(beNil());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
 
             expect(testRequest.parameters.count).to(equal(0));
@@ -90,6 +96,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                SDLRPCParameterNamePlayTone:@(testPlayTone),
                                                                SDLRPCParameterNameProgressIndicator:@(testProgressIndicator),
                                                                SDLRPCParameterNameSoftButtons:testSoftButtons,
+                                                               SDLRPCParameterNameAlertIcon:testImage,
                                                                SDLRPCParameterNameCancelID:@(testCancelID)},
                                                          SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}};
             #pragma clang diagnostic push
@@ -105,13 +112,14 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(equal(testProgressIndicator));
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(equal(testImage));
             expect(testRequest.cancelID).to(equal(testCancelID));
 
-            expect(testRequest.parameters.count).to(equal(9));
+            expect(testRequest.parameters.count).to(equal(10));
         });
 
         it(@"Should initialize correctly with initWithAlertText:softButtons:playTone:ttsChunks:cancelID:", ^{
-            testRequest = [[SDLAlert alloc] initWithAlertText:testAlertText1 softButtons:testSoftButtons playTone:testPlayTone ttsChunks:testTTSChunks cancelID:testCancelID];
+            testRequest = [[SDLAlert alloc] initWithAlertText:testAlertText1 softButtons:testSoftButtons playTone:testPlayTone ttsChunks:testTTSChunks alertIcon:testImage cancelID:testCancelID];
 
             expect(testRequest.alertText1).to(equal(testAlertText1));
             expect(testRequest.alertText2).to(beNil());
@@ -121,11 +129,12 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(equal(testImage));
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
         it(@"Should initialize correctly with initWithAlertText:softButtons:playTone:ttsChunks:cancelID:", ^{
-            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 softButtons:testSoftButtons playTone:testPlayTone ttsChunks:testTTSChunks duration:testDuration progressIndicator:testProgressIndicator cancelID:testCancelID];
+            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 softButtons:testSoftButtons playTone:testPlayTone ttsChunks:testTTSChunks duration:testDuration progressIndicator:testProgressIndicator alertIcon:testImage cancelID:testCancelID];
 
             expect(testRequest.alertText1).to(equal(testAlertText1));
             expect(testRequest.alertText2).to(equal(testAlertText2));
@@ -135,6 +144,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(equal(testProgressIndicator));
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(equal(testImage));
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
@@ -152,6 +162,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(beFalse());
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -169,6 +180,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(beFalse());
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -186,6 +198,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(beFalse());
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -203,6 +216,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(beFalse());
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -220,6 +234,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -237,6 +252,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -254,6 +270,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -271,6 +288,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -288,6 +306,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
 
@@ -305,6 +324,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });
     });
