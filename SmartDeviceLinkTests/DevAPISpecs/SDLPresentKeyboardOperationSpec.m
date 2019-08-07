@@ -268,7 +268,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp cancelKeyboard];
+                [testOp dismissKeyboard];
             });
 
             it(@"should attempt to send a cancel interaction", ^{
@@ -333,7 +333,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp cancelKeyboard];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{
@@ -361,7 +361,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beTrue());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp cancelKeyboard];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{
@@ -379,7 +379,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beTrue());
 
-                [testOp cancelKeyboard];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{

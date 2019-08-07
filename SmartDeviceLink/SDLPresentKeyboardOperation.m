@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)cancelKeyboard {
+- (void)dismissKeyboard {
     if (self.isCancelled) {
         [self finishOperation];
         return;

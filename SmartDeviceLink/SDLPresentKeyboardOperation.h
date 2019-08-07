@@ -19,11 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID;
 
-
 /**
- Cancels the keyboard operation
+ Cancels a currently executing keyboard operation
  */
-- (void)cancelKeyboard;
+- (void)dismissKeyboard;
 
 @end
 
