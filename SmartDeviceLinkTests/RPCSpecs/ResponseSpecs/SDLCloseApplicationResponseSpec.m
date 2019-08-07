@@ -16,23 +16,20 @@
 QuickSpecBegin(SDLCloseApplicationResponseSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block SDLCloseApplicationResponse *testResponse = nil;
-
     it(@"Should initialize correctly", ^{
-        testResponse = [[SDLCloseApplicationResponse alloc] init];
+        SDLCloseApplicationResponse *testResponse = [[SDLCloseApplicationResponse alloc] init];
+        expect(testResponse.name).to(equal(SDLRPCFunctionNameCloseApplication));
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{},
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameCloseApplication}};
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testResponse = [[SDLCloseApplicationResponse alloc] initWithDictionary:dict];
-        #pragma clang diagnostic pop
-    });
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLCloseApplicationResponse *testResponse = [[SDLCloseApplicationResponse alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
-    afterEach(^{
         expect(testResponse.name).to(equal(SDLRPCFunctionNameCloseApplication));
         expect(testResponse.parameters).to(beEmpty());
     });
