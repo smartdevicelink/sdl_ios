@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     _choiceSet = choiceSet;
 
     __weak typeof(self) weakSelf = self;
-    [_choiceSet setCanceledHandler:^(){
+    self.choiceSet.canceledHandler = ^{
         [weakSelf sdl_cancelInteraction];
     }];
 
