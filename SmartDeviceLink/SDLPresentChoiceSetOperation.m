@@ -14,6 +14,7 @@
 #import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -23,6 +24,7 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -177,15 +179,16 @@ NS_ASSUME_NONNULL_BEGIN
  * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be dismissed using the `CancelInteraction` RPC.
  */
 - (void)sdl_cancelInteraction {
+    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
+        return;
+    }
+
     if (self.isFinished) {
         // This operation has already finished, so we can't cancel.
         return;
-    } else if (self.isCancelled) {
-        if (!self.isExecuting) { return; }
-        [self finishOperation];
-        return;
     } else if (self.isExecuting) {
-        SDLLogD(@"Canceling the presented choice set interaction.");
+        SDLLogD(@"Canceling the presented choice set interaction");
 
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.choiceSet.cancelId];
 
@@ -198,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }];
     } else {
-        SDLLogD(@"Canceling a choice set that has not yet been sent to Core.");
+        SDLLogD(@"Canceling a choice set that has not yet been sent to Core");
         [self cancel];
     }
 }

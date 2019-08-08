@@ -11,6 +11,7 @@
 #import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -20,6 +21,7 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -115,23 +117,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)dismissKeyboard {
-    if (self.isCancelled) {
-        [self finishOperation];
+    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
         return;
-    } else if (self.isExecuting) {
-        SDLLogD(@"Canceling the keyboard interaction.");
-
-        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.cancelId];
-
-        __weak typeof(self) weakSelf = self;
-        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if (error != nil) {
-                weakSelf.internalError = error;
-                SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
-                return;
-            }
-        }];
     }
+
+    if (!self.isExecuting) {
+        SDLLogV(@"Keyboard is not being presented so it can not be canceled");
+        return;
+    }
+
+    SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.cancelId];
+
+    SDLLogD(@"Canceling the presented keyboard");
+    __weak typeof(self) weakSelf = self;
+    [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            weakSelf.internalError = error;
+            SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
+            return;
+        }
+    }];
 }
 
 #pragma mark - Private Getters / Setters
