@@ -102,6 +102,34 @@ describe(@"Getter/Setter Tests", ^{
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
+
+        it(@"Should initialize correctly with initWithAlert:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithAlert];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert]));
+            expect(testRequest.cancelID).to(beNil());
+        });
+
+        it(@"Should initialize correctly with initWithSlider:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithSlider];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider]));
+            expect(testRequest.cancelID).to(beNil());
+        });
+
+        it(@"Should initialize correctly with initWithScrollableMessage:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithScrollableMessage];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage]));
+            expect(testRequest.cancelID).to(beNil());
+        });
+
+        it(@"Should initialize correctly with initWithPerformInteraction:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithPerformInteraction];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
+            expect(testRequest.cancelID).to(beNil());
+        });
     });
 
     afterEach(^{

@@ -65,6 +65,22 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:cancelID];
 }
 
+- (instancetype)initWithAlert {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue];
+}
+
+- (instancetype)initWithSlider {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue];
+}
+
+- (instancetype)initWithScrollableMessage {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue];
+}
+
+- (instancetype)initWithPerformInteraction {
+    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
+}
+
 - (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
     [self.parameters sdl_setObject:cancelID forName:SDLRPCParameterNameCancelID];
 }
