@@ -194,7 +194,7 @@ describe(@"an SDLChoiceSet", ^{
         beforeEach(^{
             testChoiceSet = [[SDLChoiceSet alloc] init];
             testChoiceSet.canceledHandler = ^{
-                canceledHandlerCalled = true;
+                canceledHandlerCalled = YES;
             };
             expect(canceledHandlerCalled).to(beFalse());
         });
