@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     self.choiceSet.canceledHandler = ^{
         [weakSelf sdl_cancelInteraction];
-    }];
+    };
 
     _presentationMode = mode;
     _operationId = [NSUUID UUID];
