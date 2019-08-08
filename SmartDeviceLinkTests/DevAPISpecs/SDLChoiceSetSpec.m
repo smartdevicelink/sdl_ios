@@ -189,7 +189,7 @@ describe(@"an SDLChoiceSet", ^{
     });
 
     describe(@"canceling the choice set", ^{
-        __block BOOL canceledHandlerCalled = false;
+        __block BOOL canceledHandlerCalled = NO;
 
         beforeEach(^{
             testChoiceSet = [[SDLChoiceSet alloc] init];
