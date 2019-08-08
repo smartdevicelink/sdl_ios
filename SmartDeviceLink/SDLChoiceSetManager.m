@@ -37,6 +37,7 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
 #import "SDLSystemContext.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -349,6 +350,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)dismissKeyboard {
+    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
+        return;
+    }
+
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
 

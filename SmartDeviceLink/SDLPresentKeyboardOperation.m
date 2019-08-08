@@ -11,7 +11,6 @@
 #import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLFunctionID.h"
-#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -21,7 +20,6 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
-#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -117,11 +115,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)dismissKeyboard {
-    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
-        return;
-    }
-
     if (!self.isExecuting) {
         SDLLogV(@"Keyboard is not being presented so it can not be canceled");
         return;
