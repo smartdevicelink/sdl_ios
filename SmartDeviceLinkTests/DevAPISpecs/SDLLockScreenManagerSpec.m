@@ -326,6 +326,57 @@ describe(@"a lock screen manager", ^{
         });
     });
 
+    describe(@"with an always enabled configuration", ^{
+        __block SDLFakeViewControllerPresenter *fakePresenter = nil;
+        __block SDLRPCNotificationNotification *testLockStatusNotification = nil;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        __block SDLOnLockScreenStatus *testStatus = nil;
+#pragma clang diagnostic pop
+
+        beforeEach(^{
+            fakePresenter = [[SDLFakeViewControllerPresenter alloc] init];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            testStatus = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
+
+            SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+            config.displayMode = SDLLockScreenConfigurationDisplayModeAlways;
+
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakePresenter];
+            [testManager start];
+        });
+
+        context(@"receiving a lock screen status of required", ^{
+            beforeEach(^{
+                testStatus.lockScreenStatus = SDLLockScreenStatusRequired;
+                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+
+                [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+            });
+
+            it(@"should present the lock screen if not already presented", ^{
+                expect(fakePresenter.presented).to(beTrue());
+            });
+        });
+
+        context(@"receiving a lock screen status of off", ^{
+            beforeEach(^{
+                testStatus.lockScreenStatus = SDLLockScreenStatusOff;
+                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+
+                [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+            });
+
+            it(@"should present the lock screen if not already presented", ^{
+                expect(fakePresenter.presented).to(beTrue());
+            });
+        });
+    });
+
     describe(@"A lock screen status of OPTIONAL", ^{
         __block SDLLockScreenManager *testLockScreenManager = nil;
         __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
@@ -346,7 +397,10 @@ describe(@"a lock screen manager", ^{
 
         context(@"showInOptionalState is true", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testLockScreenConfig.showInOptionalState = true;
+#pragma clang diagnostic pop
 
                 testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
 
@@ -365,7 +419,10 @@ describe(@"a lock screen manager", ^{
 
         context(@"showInOptionalState is false", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testLockScreenConfig.showInOptionalState = false;
+#pragma clang diagnostic pop
 
                 testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
 

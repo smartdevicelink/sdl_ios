@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.canPresent = NO;
 
     // Create and initialize the lock screen controller depending on the configuration
-    if (!self.config.enableAutomaticLockScreen) {
+    if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeNever) {
         self.presenter.lockViewController = nil;
         return;
     } else if (self.config.customViewController != nil) {
@@ -152,14 +152,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
-    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
+    if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
+        if (!self.presenter.presented && self.canPresent) {
+            [self.presenter present];
+        }
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
+        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
-        } else if (!self.config.showInOptionalState && self.presenter.presented) {
+        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.presenter.presented) {
             [self.presenter dismiss];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
