@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSlider : SDLRPCRequest
 
 /**
- *  Convenience init for creating a slider with a header and footer.
+ *  Convenience init with all parameters.
  *
  *  @param numTicks         Number of selectable items on a horizontal axis
  *  @param position         Initial position of slider control
