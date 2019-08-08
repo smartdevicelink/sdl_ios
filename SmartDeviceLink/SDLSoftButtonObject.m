@@ -64,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
+    if (self.states.count == 1) {
+        SDLLogW(@"There's only one state, so no transitioning is possible!");
+        return NO;
+    }
+
     SDLLogD(@"Transitioning button %@ to state %@", self.name, stateName);
     self.currentStateName = stateName;
     [self.manager sdl_transitionSoftButton:self];
