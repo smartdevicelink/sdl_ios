@@ -172,7 +172,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_updateLockScreenDismissable {
     if (self.lastDriverDistractionNotification == nil ||
         self.lastDriverDistractionNotification.lockScreenDismissalEnabled == nil ||
-        !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue) {
+        !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue ||
+        !self.config.enableDismissGesture) {
         self.lockScreenDismissable = NO;
     } else {
         self.lockScreenDismissable = YES;
