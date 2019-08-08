@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param numTicks         Number of selectable items on a horizontal axis
  *  @param position         Initial position of slider control
  *  @param sliderHeader     Text header to display
- *  @param sliderFooters    Text footers to display
+ *  @param sliderFooters    Text footers to display. See the `sliderFooter` documentation for how placing various numbers of footers will affect the display
  *  @param timeout          Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
  *  @param cancelID         An ID for this specific slider to allow cancellation through the `CancelInteraction` RPC.
  *  @return                 An SDLSlider object
