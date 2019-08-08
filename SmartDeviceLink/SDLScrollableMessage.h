@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Creates a full screen overlay containing a large block of formatted text that can be scrolled with up to 8 `SDLSoftButtons` defined.
  *
-  *  If connecting to SDL Core v.6.0+, the scrollable message can be canceled programatically using the `cancelID`. On older versions of SDL Core, the scrollable message will persist until the user has interacted with the scrollable message or the specified timeout has elapsed.
+  *  If connecting to SDL Core v.6.0+, the scrollable message can be canceled programmatically using the `cancelID`. On older versions of SDL Core, the scrollable message will persist until the user has interacted with the scrollable message or the specified timeout has elapsed.
  *
  *  @since SDL 2.0
  */

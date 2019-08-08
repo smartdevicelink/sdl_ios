@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Shows an alert which typically consists of text-to-speech message and text on the display. Either `alertText1`, `alertText2` or `TTSChunks` needs to be set or the request will be rejected.
  *
- *  If connecting to SDL Core v.6.0+, the alert can be canceled programatically using the `cancelID`. Canceling will not dismiss the alert's speech - only the modal view will be dismissed. On older versions of SDL Core, the alert will persist until the user has interacted with the alert or the specified timeout has elapsed.
+ *  If connecting to SDL Core v.6.0+, the alert can be canceled programmatically using the `cancelID`. Canceling will not dismiss the alert's speech - only the modal view will be dismissed. On older versions of SDL Core, the alert will persist until the user has interacted with the alert or the specified timeout has elapsed.
  *
  *  @since SDL 1.0
  */

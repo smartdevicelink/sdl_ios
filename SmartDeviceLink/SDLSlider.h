@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Creates a full screen or pop-up overlay (depending on platform) with a single user controlled slider.
  *
- *  If connecting to SDL Core v.6.0+, the slider can be canceled programatically using the `cancelID`. On older versions of SDL Core, the slider will persist until the user has interacted with the slider or the specified timeout has elapsed.
+ *  If connecting to SDL Core v.6.0+, the slider can be canceled programmatically using the `cancelID`. On older versions of SDL Core, the slider will persist until the user has interacted with the slider or the specified timeout has elapsed.
  *
  * Since SDL 2.0
  */
