@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Performs an application-initiated interaction in which the user can select a choice from the passed choice set.
 
- There are several ways to present a choice set: as visual pop-up menu (with an optional keyboard that allows for searches), as voice-recognition (VR) only menu, or as both the VR and visual menu. It is also possible to present only the keyboard for doing searches.
+ There are several ways to present a choice set: as visual pop-up menu (with an optional keyboard that allows for searches), as voice-recognition (VR) only menu, or as both a VR and visual menu. It is also possible to present only the keyboard for doing searches.
 
  A choice set can have up to 100 items, however if you are presenting a visual only menu please be aware that the OEM may choose to limit the number of presented choices when the driver is distracted (i.e. the car is moving).
 
