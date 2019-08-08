@@ -10,7 +10,6 @@
 
 #import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLFunctionID.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -120,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:self.cancelId];
+    SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
 
     SDLLogD(@"Canceling the presented keyboard");
     __weak typeof(self) weakSelf = self;
