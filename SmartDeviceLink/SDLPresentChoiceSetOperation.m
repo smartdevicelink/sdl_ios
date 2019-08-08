@@ -178,6 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_cancelInteraction {
     if (self.isFinished) {
+        // This operation has already finished, so we can't cancel.
         return;
     } else if (self.isCancelled) {
         if (!self.isExecuting) { return; }
