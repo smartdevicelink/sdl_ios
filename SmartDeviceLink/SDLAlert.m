@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.alertText1 = alertText1;
     self.alertText2 = alertText2;
     self.alertText3 = alertText3;
-    self.ttsChunks = [ttsChunks mutableCopy];
+    self.ttsChunks = ttsChunks;
     self.duration = duration;
     self.playTone = @(playTone);
     self.progressIndicator = @(progressIndicator);
-    self.softButtons = [softButtons mutableCopy];
+    self.softButtons = softButtons;
     self.alertIcon = icon;
     self.cancelID = cancelID;
 
