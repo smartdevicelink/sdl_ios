@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *initialText;
 
 /**
- *  This is the initial prompt spoken to the user at the start of an interaction.
+ *  This is the TTS prompt spoken to the user at the start of an interaction.
  *
  *  Array of SDLTTSChunk, Optional, Array size: 1-100
  *
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *initialPrompt;
 
 /**
- *  For application-requested interactions, this mode indicates the method in which the user is notified and uses the interaction. Users can choose either by voice (VR_ONLY), by visual selection from the menu (MANUAL_ONLY), or by either mode (BOTH)
+ *  For application-requested interactions, this mode indicates the method in which the user is notified and uses the interaction. Users can choose either only by voice (VR_ONLY), by tactile selection from the menu (MANUAL_ONLY), or by either mode (BOTH).
  *
  *  SDLInteractionMode, Required
  *
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
 
 /**
- *  Help text. This is the spoken text when a user speaks "help" when the interaction is occurring.
+ *  Help text. This is the spoken text when a user speaks "help" while the interaction is occurring.
  *
  *  SDLTTSChunk, Optional
  *
@@ -220,7 +220,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLVRHelpItem *> *vrHelp;
 
 /**
- *  For touchscreen interactions, the layout mode of how the choices are presented.
+ *  For tactile interaction modes (MANUAL_ONLY, or BOTH), the layout mode of how the choices are presented.
  *
  *  SDLLayoutMode, Optional
  *

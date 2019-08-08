@@ -72,9 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
     _choiceSet = choiceSet;
 
     __weak typeof(self) weakSelf = self;
-    [_choiceSet setCanceledHandler:^(){
+    self.choiceSet.canceledHandler = ^{
         [weakSelf sdl_cancelInteraction];
-    }];
+    };
 
     _presentationMode = mode;
     _operationId = [NSUUID UUID];
@@ -178,6 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_cancelInteraction {
     if (self.isFinished) {
+        // This operation has already finished, so we can't cancel.
         return;
     } else if (self.isCancelled) {
         if (!self.isExecuting) { return; }
