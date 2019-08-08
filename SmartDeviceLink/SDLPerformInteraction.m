@@ -51,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithInitialDisplayText:initialText initialPrompt:initialPrompt interactionMode:interactionMode interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt timeout:@(timeout) vrHelp:vrHelp interactionLayout:interactionLayout cancelID:@(cancelID)];
 }
 
-// old
 
 - (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId {
     return [self initWithInteractionChoiceSetIdList:@[@(interactionChoiceSetId)]];
