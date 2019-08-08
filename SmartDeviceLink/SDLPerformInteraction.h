@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *initialText;
 
 /**
- *  This is the initial prompt spoken to the user at the start of an interaction.
+ *  This is the TTS prompt spoken to the user at the start of an interaction.
  *
  *  Array of SDLTTSChunk, Optional, Array size: 1-100
  *
