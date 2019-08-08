@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL enableDismissGesture;
 
 /**
+*  If YES, then the lockscreen will show the vehicle logo. If NO, then the lockscreen will not show the vehicle logo.
+    Defaults to YES.
+*/
+@property (assign, nonatomic) BOOL showDeviceLogo;
+
+/**
  *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.
  */
 @property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen;
