@@ -351,6 +351,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)dismissKeyboard {
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
+
         SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
         if (!keyboardOperation.isExecuting) { continue; }
         [keyboardOperation dismissKeyboard];
