@@ -15,30 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation AlertManager
 
 + (SDLSoftButton *)sdlex_okSoftButton {
-    return [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"OK" image:nil highlighted:YES buttonId:1 systemAction:nil handler:nil];
+    return [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:AlertOKButtonText image:nil highlighted:YES buttonId:1 systemAction:nil handler:nil];
 }
 
-/**
- *  Creates an alert with a single line of text
- *
- *  @param textField1   The first line of a message to display in the alert
- *  @param textField2   The second line of a message to display in the alert
- *  @return             An SDLAlert object
- */
 + (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
-    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:nil playTone:true ttsChunks:nil duration:5000 progressIndicator:false alertIcon:nil cancelID:0];
+    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:nil playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:nil cancelID:0];
 }
 
-/**
- *  Creates an alert with up to two lines of text and a close button that will dismiss the alert when tapped
- *
- *  @param textField1 The first line of a message to display in the alert
- *  @param textField2 The second line of a message to display in the alert
- *  @param iconName The name of the uploaded icon artwork
- *  @return An SDLAlert object
- */
 + (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName {
-    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self.class sdlex_okSoftButton]] playTone:true ttsChunks:nil duration:5000 progressIndicator:false alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:true] : nil) cancelID:0];
+    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self.class sdlex_okSoftButton]] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) cancelID:0];
 }
 
 @end
