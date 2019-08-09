@@ -96,10 +96,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should correctly initialize with initWithNumTicks:position:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLSlider alloc] initWithNumTicks:testNumTicks position:testPosition];
-            #pragma clang diagnostic pop
 
             expect(testRequest.numTicks).to(equal(testNumTicks));
             expect(testRequest.position).to(equal(testPosition));
@@ -110,10 +107,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should correctly initialize with initWithNumTicks:position:sliderHeader:sliderFooters:timeout:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLSlider alloc] initWithNumTicks:testNumTicks position:testPosition sliderHeader:testHeader sliderFooters:testFooters timeout:testTimeout];
-            #pragma clang diagnostic pop
 
             expect(testRequest.numTicks).to(equal(testNumTicks));
             expect(testRequest.position).to(equal(testPosition));
@@ -124,10 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should correctly initialize with initWithNumTicks:position:sliderHeader:sliderFooter:timeout:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLSlider alloc] initWithNumTicks:testNumTicks position:testPosition sliderHeader:testHeader sliderFooter:testFooter timeout:testTimeout];
-            #pragma clang diagnostic pop
 
             expect(testRequest.numTicks).to(equal(testNumTicks));
             expect(testRequest.position).to(equal(testPosition));
