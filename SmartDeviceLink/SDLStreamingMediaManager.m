@@ -163,6 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self.videoLifecycleManager.requestedEncryptionType;
 }
 
+- (BOOL)showVideoBackgroundDisplay {
+    // both audio and video managers should have same type
+    return self.videoLifecycleManager.showVideoBackgroundDisplay;
+}
+
 #pragma mark - Setters
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
     self.videoLifecycleManager.rootViewController = rootViewController;
@@ -171,6 +176,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.videoLifecycleManager.requestedEncryptionType = requestedEncryptionType;
     self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
+}
+
+- (void)setShowVideoBackgroundDisplay:(BOOL)showVideoBackgroundDisplay {
+    self.videoLifecycleManager.showVideoBackgroundDisplay = showVideoBackgroundDisplay;
 }
 
 @end

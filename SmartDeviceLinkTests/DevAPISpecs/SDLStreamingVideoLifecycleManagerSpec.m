@@ -90,6 +90,7 @@ describe(@"the streaming video manager", ^{
         expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(equal(@YES));
         expect(@(streamingLifecycleManager.pixelBufferPool == NULL)).to(equal(@YES));
         expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
+        expect(@(streamingLifecycleManager.showVideoBackgroundDisplay)).to(equal(@YES));
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
         expect(streamingLifecycleManager.videoFormat).to(beNil());
