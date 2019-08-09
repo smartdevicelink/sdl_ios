@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self finishOperation];
         return;
     }
-    
+
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
     if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
@@ -190,6 +190,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.isFinished) {
         // This operation has already finished so it can not be canceled.
+        return;
+    } else if (self.isCancelled) {
+        // This operation has been canceled. It will be finished at some point during the operation.
         return;
     } else if (self.isExecuting) {
         SDLLogD(@"Canceling the presented choice set interaction");

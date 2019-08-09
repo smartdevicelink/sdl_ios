@@ -359,9 +359,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
 
         SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
-        if (!keyboardOperation.isExecuting) { continue; }
         [keyboardOperation dismissKeyboard];
-        break;
     }
 }
 
