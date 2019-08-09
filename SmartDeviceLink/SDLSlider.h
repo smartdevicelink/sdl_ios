@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *sliderHeader;
 
 /**
- Text footer to display (meant to display min/max threshold descriptors).
+ Text footer to display.
 
  For a static text footer, only one footer string shall be provided in the array.
  For a dynamic text footer, the number of footer text string in the array must match the numTicks value.
