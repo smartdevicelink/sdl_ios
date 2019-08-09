@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceSet()
 
-@property (assign, nonatomic) UInt16 cancelId;
 @property (nullable, copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
 
 @end

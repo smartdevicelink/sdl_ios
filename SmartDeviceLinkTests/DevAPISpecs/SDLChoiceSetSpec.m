@@ -11,7 +11,6 @@
 
 @interface SDLChoiceSet()
 
-@property (assign, nonatomic) UInt16 cancelId;
 @property (nullable, copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
 
 @end
@@ -29,7 +28,6 @@ describe(@"an SDLChoiceSet", ^{
     __block NSString *testHelpPrompt = @"help prompt";
     __block NSString *testTimeoutPrompt = @"timeout prompt";
     __block SDLVRHelpItem *testHelpItem = nil;
-    __block UInt16 testCancelID = 65;
 
     beforeEach(^{
         testCell = [[SDLChoiceCell alloc] initWithText:@"cell text"];
@@ -67,7 +65,6 @@ describe(@"an SDLChoiceSet", ^{
             testChoiceSet.helpList = @[testHelpItem];
             testChoiceSet.delegate = testDelegate;
             testChoiceSet.choices = @[testCell];
-            testChoiceSet.cancelId = testCancelID;
 
             expect(testChoiceSet.title).to(equal(testTitle));
             expect(testChoiceSet.initialPrompt).to(equal(testTTSInitialPrompt));
@@ -78,7 +75,6 @@ describe(@"an SDLChoiceSet", ^{
             expect(testChoiceSet.helpList).to(equal(@[testHelpItem]));
             expect(testChoiceSet.delegate).to(equal(testDelegate));
             expect(testChoiceSet.choices).to(equal(@[testCell]));
-            expect(@(testChoiceSet.cancelId)).to(equal(testCancelID));
         });
 
         it(@"should initialize correctly with initWithTitle:delegate:choices:", ^{

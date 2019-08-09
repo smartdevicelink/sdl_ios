@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 @property (strong, nonatomic, readonly) SDLLayoutMode layoutMode;
 @property (strong, nonatomic, readonly) NSArray<NSNumber<SDLInt> *> *choiceIds;
+@property (assign, nonatomic) UInt16 cancelId;
 @property (assign, nonatomic) BOOL updatedKeyboardProperties;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -65,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
     self = [super init];
     if (!self) { return self; }
 
@@ -83,6 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
+    _cancelId = cancelID;
 
     _selectedCellRow = NSNotFound;
 
@@ -197,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (self.isExecuting) {
         SDLLogD(@"Canceling the presented choice set interaction");
 
-        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.choiceSet.cancelId];
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
 
         __weak typeof(self) weakSelf = self;
         [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -226,7 +228,7 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.timeout = @((NSUInteger)(self.choiceSet.timeout * 1000));
     performInteraction.interactionLayout = self.layoutMode;
     performInteraction.interactionChoiceSetIDList = self.choiceIds;
-    performInteraction.cancelID = @(self.choiceSet.cancelId);
+    performInteraction.cancelID = @(self.cancelId);
 
     return performInteraction;
 }

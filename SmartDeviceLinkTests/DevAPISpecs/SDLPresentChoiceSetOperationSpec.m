@@ -40,6 +40,7 @@ describe(@"present choice operation", ^{
     __block SDLChoiceSet *testChoiceSet = nil;
     __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
     __block NSArray<SDLChoiceCell *> *testChoices = nil;
+    __block int testCancelID = 98;
 
     __block id<SDLKeyboardDelegate> testKeyboardDelegate = nil;
     __block SDLKeyboardProperties *testKeyboardProperties = nil;
@@ -57,7 +58,6 @@ describe(@"present choice operation", ^{
         SDLChoiceCell *cell1 = [[SDLChoiceCell alloc] initWithText:@"Cell 1"];
         testChoices = @[cell1];
         testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"Test Title" delegate:testChoiceDelegate layout:SDLChoiceSetLayoutTiles timeout:13 initialPromptString:@"Test initial prompt" timeoutPromptString:@"Test timeout prompt" helpPromptString:@"Test help prompt" vrHelpList:nil choices:testChoices];
-        testChoiceSet.cancelId = 673;
 
         testKeyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testKeyboardDelegate customKeyboardConfiguration]).andReturn(nil);
@@ -72,7 +72,7 @@ describe(@"present choice operation", ^{
 
     describe(@"running a non-searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil];
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
@@ -96,7 +96,7 @@ describe(@"present choice operation", ^{
                 expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
                 expect(request.vrHelp).to(beNil());
                 expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
-                expect(request.cancelID).to(equal(testChoiceSet.cancelId));
+                expect(request.cancelID).to(equal(testCancelID));
             });
 
             describe(@"after a perform interaction response", ^{
@@ -142,7 +142,7 @@ describe(@"present choice operation", ^{
                      it(@"should attempt to send a cancel interaction", ^{
                          SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                          expect(lastRequest).to(beAnInstanceOf([SDLCancelInteraction class]));
-                         expect(lastRequest.cancelID).to(equal(testChoiceSet.cancelId));
+                         expect(lastRequest.cancelID).to(equal(testCancelID));
                          expect(lastRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
                      });
 
@@ -232,7 +232,7 @@ describe(@"present choice operation", ^{
                     __block SDLPresentChoiceSetOperation *notStartedtestOp = nil;
 
                     beforeEach(^{
-                        notStartedtestOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil];
+                        notStartedtestOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
                         notStartedtestOp.completionBlock = ^{
                             hasCalledOperationCompletionHandler = YES;
                         };
@@ -292,7 +292,7 @@ describe(@"present choice operation", ^{
 
     describe(@"running a searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate];
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID];
 
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
@@ -327,7 +327,7 @@ describe(@"present choice operation", ^{
                 expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
                 expect(request.vrHelp).to(beNil());
                 expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
-                expect(request.cancelID).to(equal(testChoiceSet.cancelId));
+                expect(request.cancelID).to(equal(testCancelID));
             });
 
             it(@"should respond to submitted notifications", ^{
