@@ -73,14 +73,15 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
-        it(@"Should initialize correctly with initWithMessage:cancelID:", ^{
-            testRequest = [[SDLScrollableMessage alloc] initWithMessage:testScrollableMessageBody cancelID:testCancelID];
+        it(@"Should initialize correctly with initWithMessage:", ^{
+            testRequest = [[SDLScrollableMessage alloc] initWithMessage:testScrollableMessageBody];
 
             expect(testRequest.scrollableMessageBody).to(equal(testScrollableMessageBody));
             expect(testRequest.timeout).to(beNil());
             expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.cancelID).to(equal(testCancelID));
+            expect(testRequest.cancelID).to(beNil());
         });
+
 
         it(@"Should initialize correctly with initWithMessage:timeout:softButtons:cancelID:", ^{
             testRequest = [[SDLScrollableMessage alloc] initWithMessage:testScrollableMessageBody timeout:testTimeout softButtons:testSoftButtons cancelID:testCancelID];
@@ -89,18 +90,6 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.timeout).to(equal(testTimeout));
             expect(testRequest.softButtons).to(equal(testSoftButtons));
             expect(testRequest.cancelID).to(equal(testCancelID));
-        });
-
-        it(@"Should initialize correctly with initWithMessage:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLScrollableMessage alloc] initWithMessage:testScrollableMessageBody];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.scrollableMessageBody).to(equal(testScrollableMessageBody));
-            expect(testRequest.timeout).to(beNil());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
         });
 
         it(@"Should initialize correctly with initWithMessage:timeout:softButtons:", ^{
