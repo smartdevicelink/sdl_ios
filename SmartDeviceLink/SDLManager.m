@@ -131,15 +131,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request {
-    [self sendRequest:request withEncryption:NO withResponseHandler:nil];
+    [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (encryption) {
-        [self.lifecycleManager sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
-    } else {
-        [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
-    }
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {

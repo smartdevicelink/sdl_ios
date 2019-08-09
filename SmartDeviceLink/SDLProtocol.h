@@ -108,17 +108,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *
  *  @param message A SDLRPCMessage message
  */
-- (void)sendRPC:(SDLRPCMessage *)message withEncryption:(BOOL)encryption;
-
-/**
- *  Sends an RPC to Core
- *
- *  @param message     A SDLRPCMessage message
- *  @param encryption  Whether or not the message should be encrypted
- *  @param error       A pointer to a NSError object
- *  @return            YES if the message was created successfully, NO if not
- */
-- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError **)error;
+- (void)sendRPC:(SDLRPCMessage *)message;
 
 /**
  *  Sends an unencrypted message to Core

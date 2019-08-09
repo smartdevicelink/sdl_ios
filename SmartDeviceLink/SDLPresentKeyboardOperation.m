@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.keyboardProperties;
 
-    [self.connectionManager sendConnectionRequest:setProperties withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
         }
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentKeyboard {
-    [self.connectionManager sendConnectionRequest:self.performInteraction withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (self.isCancelled) {
             [self finishOperation];
             return;
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.originalKeyboardProperties;
 
-    [self.connectionManager sendConnectionRequest:setProperties withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }

@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Describes whether or not the RPC needs encryption
  
- Optional Boolean
+ Optional, Boolean, since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *requireEncryption;
 

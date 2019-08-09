@@ -16,12 +16,13 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
+#import "SDLError.h"
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
 
 @property (strong, nonatomic, readonly) NSOperationQueue *rpcOperationQueue;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) SDLPermissionManager *permissionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
@@ -31,7 +32,7 @@
 
 @implementation SDLEncryptionLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration permissionManager:(SDLPermissionManager *)permissionManager rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
     self = [super init];
     if (!self) {
         return nil;
@@ -40,12 +41,11 @@
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _hmiLevel = SDLHMILevelNone;
     _connectionManager = connectionManager;
-    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
+    _permissionManager = permissionManager;
     _rpcOperationQueue = rpcOperationQueue;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
 
     return self;
 }
@@ -64,20 +64,23 @@
 
 - (void)stop {
     _hmiLevel = SDLHMILevelNone;
-    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
+    _permissionManager = nil;
     _protocol = nil;
     
     SDLLogD(@"Stopping encryption manager");
-    [self sdl_stopEncryptionService];
 }
 
 - (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
     if (!self.protocol || !self.isEncryptionReady) {
-        SDLLogW(@"Encryption manager is not yet ready, wait until after proxy is opened");
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
+        }
+        
         return;
     }
     
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self.connectionManager request:request withEncryption:YES responseHandler:handler];
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self.connectionManager request:request responseHandler:handler];
     
     [self.rpcOperationQueue addOperation:op];
 }
@@ -93,18 +96,18 @@
         return;
     }
 
-    if (!self.hmiLevel || !self.permissions) {
+    if (!self.hmiLevel) {
         SDLLogV(@"Encryption Manager is not ready to encrypt.");
         return;
     }
     
-    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
+    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone] && self.permissionManager.containsAtLeastOneRPCThatRequiresEncryption) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send encryption start service request\n"
                 "permissions: %@\n"
                 "HMI state must be LIMITED, FULL, BACKGROUND: %@\n",
-                self.permissions, self.hmiLevel);
+                self.permissionManager, self.hmiLevel);
     }
 }
 
@@ -116,12 +119,6 @@
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
         }
     }];
-}
-
-- (void)sdl_stopEncryptionService {
-    _protocol = nil;
-    
-    [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
 }
 
 #pragma mark Encryption
@@ -223,18 +220,6 @@
     
     if (!self.isEncryptionReady) {
         [self sdl_startEncryptionService];
-    }
-}
-
-- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
-        return;
-    }
-    
-    SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    
-    for (SDLPermissionItem *item in onPermissionChange.permissionItem) {
-        self.permissions[item.rpcName] = item;
     }
 }
 

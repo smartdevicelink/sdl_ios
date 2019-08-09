@@ -175,7 +175,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:HMIStatusRPC]];
+    [self sendRPC:HMIStatusRPC];
 }
 
 #pragma mark - Accessors
@@ -279,17 +279,17 @@ static float DefaultConnectionTimeout = 45.0;
 
 
 #pragma mark - Message sending
-- (void)sendRPC:(SDLRPCMessage *)message withEncryption:(BOOL)encryption {
+- (void)sendRPC:(SDLRPCMessage *)message {
     if ([message.name isEqualToString:SDLRPCFunctionNameSubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message withEncryption:encryption];
+        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message];
         if (handledRPC) { return; }
     } else if ([message.name isEqualToString:SDLRPCFunctionNameUnsubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message withEncryption:encryption];
+        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message];
         if (handledRPC) { return; }
     }
 
     @try {
-        [self.protocol sendRPC:message withEncryption:encryption];
+        [self.protocol sendRPC:message];
     } @catch (NSException *exception) {
         SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
     }
@@ -297,15 +297,15 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message withEncryption:(BOOL)encryption {
+- (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLSubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
 
             @try {
-                [self.protocol sendRPC:message withEncryption:encryption];
-                [self.protocol sendRPC:playPauseMessage withEncryption:encryption];
+                [self.protocol sendRPC:message];
+                [self.protocol sendRPC:playPauseMessage];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -322,7 +322,7 @@ static float DefaultConnectionTimeout = 45.0;
             okMessage.buttonName = SDLButtonNameOk;
 
             @try {
-                [self.protocol sendRPC:okMessage withEncryption:encryption];
+                [self.protocol sendRPC:okMessage];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -334,15 +334,15 @@ static float DefaultConnectionTimeout = 45.0;
     return NO;
 }
 
-- (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message withEncryption:(BOOL)encryption {
+- (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLUnsubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
 
             @try {
-                [self.protocol sendRPC:message withEncryption:encryption];
-                [self.protocol sendRPC:playPauseMessage withEncryption:encryption];
+                [self.protocol sendRPC:message];
+                [self.protocol sendRPC:playPauseMessage];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -359,7 +359,7 @@ static float DefaultConnectionTimeout = 45.0;
             okMessage.buttonName = SDLButtonNameOk;
 
             @try {
-                [self.protocol sendRPC:okMessage withEncryption:encryption];
+                [self.protocol sendRPC:okMessage];
             } @catch (NSException *exception) {
                 SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
             }
@@ -704,7 +704,7 @@ static float DefaultConnectionTimeout = 45.0;
                         }
 
                         // Send the RPC Request
-                        [strongSelf sendRPC:request withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:request]];
+                        [strongSelf sendRPC:request];
                     }];
 }
 
@@ -739,7 +739,7 @@ static float DefaultConnectionTimeout = 45.0;
                     SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
                     iconURLSystemRequest.bulkData = data;
 
-                    [strongSelf sendRPC:iconURLSystemRequest withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:iconURLSystemRequest]];
+                    [strongSelf sendRPC:iconURLSystemRequest];
                 }];
 }
 
@@ -775,7 +775,7 @@ static float DefaultConnectionTimeout = 45.0;
             putFile.bulkData = data;
 
             // Send RPC Request
-            [strongSelf sendRPC:putFile withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:putFile]];
+            [strongSelf sendRPC:putFile];
         }];
 }
 
@@ -960,7 +960,7 @@ static float DefaultConnectionTimeout = 45.0;
         request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
-        [self sendRPC:request withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:request]];
+        [self sendRPC:request];
     }
 }
 
@@ -993,7 +993,7 @@ static float DefaultConnectionTimeout = 45.0;
                 [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:(NSUInteger)nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
-                [self sendRPC:putFileRPCRequest withEncryption:[[SDLPermissionManager sharedInstance] requestRequiresEncryption:putFileRPCRequest]];
+                [self sendRPC:putFileRPCRequest];
             }
 
             break;

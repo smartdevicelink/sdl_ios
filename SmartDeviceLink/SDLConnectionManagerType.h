@@ -30,10 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  Sends an RPC of type `SDLRPCRequest` without bypassing the block on RPC sends before managers complete setup.
  *
  *  @param request      An RPC of type `SDLRPCRequest` be sent to Core.
- *  @param encryption   Whether or not the RPC should be encrypted.
  *  @param handler      Called when the response is received by Core
  */
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler;
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 /**
  *  Sends an RPC of type `SDLRPCResponse` or `SDLRPCNotification` without bypassing the block on RPC sends before managers complete setup. Unlike requests, responses and notifications sent to Core do not get a response from Core, so no handler is needed.

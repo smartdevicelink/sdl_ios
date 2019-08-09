@@ -141,7 +141,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
-    _permissionManager = [SDLPermissionManager sharedInstance];
+    _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
@@ -156,7 +156,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     
     if (configuration.encryptionConfig != nil) {
-        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig rpcOperationQueue:_rpcOperationQueue];
+        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
     }
 
     // Notifications
@@ -330,7 +330,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
-        requiresEncryption: [self.permissionManager requestRequiresEncryption:regRequest]
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
@@ -525,7 +524,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
-        requiresEncryption:[self.permissionManager requestRequiresEncryption:unregisterRequest]
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
@@ -562,7 +560,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         setAppIcon.syncFileName = appIcon.name;
 
         [self sdl_sendRequest:setAppIcon
-          requiresEncryption:[self.permissionManager requestRequiresEncryption:setAppIcon]
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
               if (error != nil) {
                   SDLLogW(@"Error setting up app icon: %@", error);
@@ -594,13 +591,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request withEncryption:NO responseHandler:handler];
-    [self.rpcOperationQueue addOperation:op];
-}
-
-- (void)sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (self.encryptionLifecycleManager != nil) {
+    if (request.isPayloadProtected) {
         [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
+    } else {
+        SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+        [self.rpcOperationQueue addOperation:op];
     }
 }
 
@@ -633,37 +628,33 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:rpc requiresEncryption:[self.permissionManager requestRequiresEncryption:rpc] withResponseHandler:nil];
-    });
-}
-
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        SDLLogW(@"Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-        }
-
-        return;
-    }
-
-    dispatch_async(_lifecycleQueue, ^{
-        if ([self.permissionManager requestRequiresEncryption:request] || encryption) {
-            [self sdl_sendRequest:request requiresEncryption:YES withResponseHandler:handler];
-        } else {
-            [self sdl_sendRequest:request requiresEncryption:NO withResponseHandler:handler];
-        }
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
     });
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request requiresEncryption:[self.permissionManager requestRequiresEncryption:request] withResponseHandler:handler];
+        [self sdl_sendRequest:request withResponseHandler:handler];
     });
 }
 
-- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request requiresEncryption:(BOOL)encryption withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        SDLLogW(@"Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+        }
+        
+        return;
+    }
+    
+    dispatch_async(_lifecycleQueue, ^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    });
+}
+
+- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
@@ -683,9 +674,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         NSNumber *corrID = [self sdl_getNextCorrelationId];
         requestRPC.correlationID = corrID;
         [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self.proxy sendRPC:requestRPC withEncryption: encryption];
+        [self.proxy sendRPC:requestRPC];
     } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self.proxy sendRPC:request withEncryption: encryption];
+        [self.proxy sendRPC:request];
     } else {
         SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }

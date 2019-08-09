@@ -11,6 +11,16 @@
 /**
  *  Errors associated with the SDLManager class.
  */
+typedef NS_ENUM(NSInteger, SDLEncryptionLifecycleManagerError) {
+    /**
+     *  Some action was attempted that requires a connection to the remote head unit.
+     */
+    SDLEncryptionLifecycleManagerErrorNotConnected = -1,
+};
+
+/**
+ *  Errors associated with the SDLManager class.
+ */
 typedef NS_ENUM(NSInteger, SDLManagerError) {
     /**
      *  An RPC request failed to send.

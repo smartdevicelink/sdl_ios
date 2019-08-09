@@ -34,15 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-+ (instancetype)sharedInstance {
-    static SDLPermissionManager *sharedInstace = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstace = [[SDLPermissionManager alloc] init];
-    });
-    return sharedInstace;
-}
-
 - (instancetype)init {
     self = [super init];
     if (!self) {
@@ -193,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue ? YES : NO;
+    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue;
     
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
@@ -364,9 +355,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (BOOL)requestRequiresEncryption:(__kindof SDLRPCMessage *)request {
-    if (self.permissions[request.name].requireEncryption != nil) {
-        return self.permissions[request.name].requireEncryption.boolValue;
+- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
+    if (self.permissions[rpc.name].requireEncryption != nil) {
+        return self.permissions[rpc.name].requireEncryption.boolValue;
+    }
+    return NO;
+}
+
+- (BOOL)containsAtLeastOneRPCThatRequiresEncryption {
+    for (SDLPermissionItem *item in self.permissions) {
+        SDLPermissionItem *currentItem = self.permissions[item.rpcName];
+        if(currentItem.requireEncryption.boolValue) {
+            return YES;
+        }
     }
     return NO;
 }

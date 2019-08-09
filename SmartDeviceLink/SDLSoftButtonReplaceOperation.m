@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
     show.mainField1 = self.mainField1;
     show.softButtons = [softButtons copy];
 
-    [self.connectionManager sendConnectionRequest:show withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Failed to update soft buttons with text buttons: %@", error);
         }
@@ -235,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
     show.mainField1 = self.mainField1;
     show.softButtons = [textButtons copy];
 
-    [self.connectionManager sendConnectionRequest:show withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Failed to update soft buttons with text buttons: %@", error);
         }

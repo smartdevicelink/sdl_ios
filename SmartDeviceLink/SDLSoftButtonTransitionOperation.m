@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     newShow.mainField1 = self.mainField1;
     newShow.softButtons = [self sdl_currentStateSoftButtonsForObjects:self.softButtons];
 
-    [self.connectionManager sendConnectionRequest:newShow withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:newShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Failed to transition soft button to new state. Error: %@, Response: %@", error, response);
             self.internalError = error;

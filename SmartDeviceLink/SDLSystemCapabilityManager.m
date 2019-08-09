@@ -267,7 +267,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_sendGetSystemCapability:(SDLGetSystemCapability *)getSystemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:getSystemCapability withEncryption:NO withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             // An error is returned if the request was unsuccessful or if a Generic Response was returned
             if (handler == nil) { return; }
