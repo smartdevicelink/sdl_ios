@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Response to the request to dismiss a modal view. If no applicable request can be dismissed, the `resultCode` will be `IGNORED`.
+ Response to the request to dismiss a modal view. If no applicable request can be dismissed, the `resultCode` will be `IGNORED`.
  */
 @interface SDLCancelInteractionResponse : SDLRPCResponse
 

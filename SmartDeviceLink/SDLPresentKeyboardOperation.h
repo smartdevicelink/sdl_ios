@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPresentKeyboardOperation : SDLAsynchronousOperation
 
 /**
- Creates a keyboard operation.
+ An operation to present a keyboard.
 
  @param connectionManager           The connection manager
  @param originalKeyboardProperties  The keyboard configuration
