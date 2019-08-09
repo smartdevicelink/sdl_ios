@@ -70,7 +70,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
-@property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
 @property (assign, nonatomic) BOOL useDisplayLink;
@@ -123,7 +122,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
-    _showVideoBackgroundDisplay = configuration.streamingMediaConfig.showVideoBackgroundDisplay;
+    _showVideoBackgroundDisplay = YES;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
