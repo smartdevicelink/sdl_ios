@@ -247,7 +247,7 @@ describe(@"SendRPCRequest Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendRPC:mockRequest withEncryption:NO];
+            [testProtocol sendRPC:mockRequest];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -297,7 +297,7 @@ describe(@"SendRPCRequest Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendRPC:mockRequest withEncryption:NO];
+            [testProtocol sendRPC:mockRequest];
             
             expect(@(verified)).toEventually(beTruthy());
         });

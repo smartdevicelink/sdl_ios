@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         expect(testNotification.permissionItem).to(beNil());
-        expect(testNotification.requireEncryption.boolValue).to(beNil());
+        expect(testNotification.requireEncryption.boolValue).to(beFalse());
     });
 });
 
