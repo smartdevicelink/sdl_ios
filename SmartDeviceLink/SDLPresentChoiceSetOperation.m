@@ -190,10 +190,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.isFinished) {
-        // This operation has already finished so it can not be canceled.
+        SDLLogW(@"This operation has already finished so it can not be canceled.");
         return;
     } else if (self.isCancelled) {
-        // This operation has already been canceled. It will be finished at some point during the operation.
+        SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
     } else if (self.isExecuting) {
         SDLLogD(@"Canceling the presented choice set interaction");

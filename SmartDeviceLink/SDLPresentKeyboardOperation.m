@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dismissKeyboard {
     if (self.isCancelled) {
-        // This operation has been canceled. It will be finished at some point during the operation.
+        SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
     }
 
