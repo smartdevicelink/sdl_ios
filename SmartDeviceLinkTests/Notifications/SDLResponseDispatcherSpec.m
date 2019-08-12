@@ -591,7 +591,7 @@ describe(@"a response dispatcher", ^{
         __block SDLSoftButton *testSoftButton1 = nil;
         
         beforeEach(^{
-            testScrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:@"test" timeout:1 softButtons:nil];
+            testScrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:@"test" timeout:1 softButtons:nil cancelID:0];
             testScrollableMessage.correlationID = @1;
         });
         

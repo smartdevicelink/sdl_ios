@@ -81,7 +81,7 @@ describe(@"choice set manager tests", ^{
     it(@"should be in the correct startup state", ^{
         expect(testManager.currentState).to(equal(SDLChoiceManagerStateShutdown));
 
-        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
