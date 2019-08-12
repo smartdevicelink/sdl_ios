@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  * If not included, the default value should be considered true that the button will support text.
  *
  * Required, Boolean
- * @since 6.0
+ * @since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *textSupported;
 
