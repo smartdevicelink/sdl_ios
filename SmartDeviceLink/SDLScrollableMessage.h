@@ -20,29 +20,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for creating a scrolling message with text.
 
- @param message  Body of text that can include newlines and tabs
- @return         A SDLScrollableMessage object
+ @param message Body of text that can include newlines and tabs
+ @return A SDLScrollableMessage object
  */
 - (instancetype)initWithMessage:(NSString *)message;
 
 /**
  Convenience init for creating a scrolling message with text and buttons.
 
- @param message      Body of text that can include newlines and tabs
- @param timeout      Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)
- @param softButtons  Buttons for the displayed scrollable message
- @param cancelID     An ID for this specific scrollable message to allow cancellation through the `CancelInteraction` RPC
- @return             A SDLScrollableMessage object
+ @param message Body of text that can include newlines and tabs
+ @param timeout Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)
+ @param softButtons Buttons for the displayed scrollable message
+ @param cancelID An ID for this specific scrollable message to allow cancellation through the `CancelInteraction` RPC
+ @return A SDLScrollableMessage object
  */
 - (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for creating a scrolling message with text and buttons.
 
- @param message      Body of text that can include newlines and tabs
- @param timeout      Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)
- @param softButtons  Buttons for the displayed scrollable message
- @return             A SDLScrollableMessage object
+ @param message Body of text that can include newlines and tabs
+ @param timeout Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)
+ @param softButtons Buttons for the displayed scrollable message
+ @return A SDLScrollableMessage object
  */
 - (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithMessage:timeout:softButtons:cancelID: instead");
 
@@ -86,4 +86,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

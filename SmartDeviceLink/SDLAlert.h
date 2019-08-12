@@ -22,143 +22,143 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for creating a modal view with text, buttons, and optional sound cues.
 
- @param alertText    The string to be displayed in the first field of the display
- @param softButtons  Soft buttons to be displayed
- @param playTone     Whether the alert tone should be played before the TTS (if any) is spoken
- @param ttsChunks    Speech or a sound file to be played when the alert shows
- @param cancelID     An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
- @param icon         Image to be displayed in the alert
- @return             An SDLAlert object
+ @param alertText The string to be displayed in the first field of the display
+ @param softButtons Soft buttons to be displayed
+ @param playTone Whether the alert tone should be played before the TTS (if any) is spoken
+ @param ttsChunks Speech or a sound file to be played when the alert shows
+ @param cancelID An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
+ @param icon Image to be displayed in the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for creating a sound-only alert.
 
- @param ttsChunks    Speech or a sound file to be played when the alert shows
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @return             An SDLAlert object
+ @param ttsChunks Speech or a sound file to be played when the alert shows
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
 
 /**
  Convenience init for setting all alert parameters.
 
- @param alertText1          The first line of the alert
- @param alertText2          The second line of the alert
- @param alertText3          The third line of the alert
- @param softButtons         Buttons for the alert
- @param playTone            Whether the alert tone should be played before the TTS (if any) is spoken
- @param ttsChunks           An array of text chunks to be spoken or a prerecorded sound file
- @param duration            The duration of the displayed portion of the alert, in milliseconds
- @param progressIndicator   Whether an animation indicating that loading of a feature is progressing should be shown
- @param cancelID            An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
- @param icon                Image to be displayed in the alert
- @return                    An SDLAlert object
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param softButtons Buttons for the alert
+ @param playTone Whether the alert tone should be played before the TTS (if any) is spoken
+ @param ttsChunks An array of text chunks to be spoken or a prerecorded sound file
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @param progressIndicator Whether an animation indicating that loading of a feature is progressing should be shown
+ @param cancelID An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC
+ @param icon Image to be displayed in the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for creating an alert with two lines of text and a timeout.
 
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @return             An SDLAlert object
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text.
 
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @return             An SDLAlert object
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text and a timeout.
 
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @return             An SDLAlert object
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text and a timeout.
 
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @param softButtons  Buttons for the alert
- @return             An SDLAlert object
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @param softButtons Buttons for the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating a speech-only alert.
 
- @param ttsText      Speech to be played
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @return             An SDLAlert object
+ @param ttsText Speech to be played
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone __deprecated_msg("Use initWithTTS:playTone: instead");
 
 /**
  Convenience init for creating an alert with two lines of text, optional sound cues, and a timout.
 
- @param ttsText      Speech to be played
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @return             An SDLAlert object
+ @param ttsText Speech to be played
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text, optional sound cues, and a timout.
 
- @param ttsText      Speech to be played
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @return             An SDLAlert object
+ @param ttsText Speech to be played
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text, soft buttons, and optional sound cues.
 
- @param ttsChunks    Speech or a sound file to be played when the alert shows
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @param softButtons  Buttons for the alert
- @return             An SDLAlert object
+ @param ttsChunks Speech or a sound file to be played when the alert shows
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @param softButtons Buttons for the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating an alert with three lines of text, soft buttons, optional sound cues, and a timout.
 
- @param ttsChunks    Speech or a sound file to be played when the alert shows
- @param alertText1   The first line of the alert
- @param alertText2   The second line of the alert
- @param alertText3   The third line of the alert
- @param playTone     Whether the alert tone should be played before the TTS is spoken
- @param duration     The duration of the displayed portion of the alert, in milliseconds
- @param softButtons  Buttons for the alert
- @return             An SDLAlert object
+ @param ttsChunks Speech or a sound file to be played when the alert shows
+ @param alertText1 The first line of the alert
+ @param alertText2 The second line of the alert
+ @param alertText3 The third line of the alert
+ @param playTone Whether the alert tone should be played before the TTS is spoken
+ @param duration The duration of the displayed portion of the alert, in milliseconds
+ @param softButtons Buttons for the alert
+ @return An SDLAlert object
  */
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID: instead");
 
@@ -262,4 +262,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

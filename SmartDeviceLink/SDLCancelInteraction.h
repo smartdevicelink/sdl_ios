@@ -20,17 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for dismissing the currently presented modal view (either an alert, slider, scrollable message, or perform interation).
 
- @param functionID           The ID of the type of modal view to dismiss
- @return                     A SDLCancelInteraction object
+ @param functionID The ID of the type of modal view to dismiss
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithFunctionID:(UInt32)functionID;
 
 /**
  Convenience init for dismissing a specific view.
 
- @param functionID           The ID of the type of interaction to dismiss
- @param cancelID             The ID of the specific interaction to dismiss
- @return                     A SDLCancelInteraction object
+ @param functionID The ID of the type of interaction to dismiss
+ @param cancelID The ID of the specific interaction to dismiss
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID;
 
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convenience init for dismissing an alert.
 
  @param cancelID The ID of the specific interaction to dismiss
- @return         A SDLCancelInteraction object
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithAlertCancelID:(UInt32)cancelID;
 
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convenience init for dismissing a slider.
 
  @param cancelID The ID of the specific interaction to dismiss
- @return         A SDLCancelInteraction object
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithSliderCancelID:(UInt32)cancelID;
 
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convenience init for dismissing a scrollable message.
 
  @param cancelID The ID of the specific interaction to dismiss
- @return         A SDLCancelInteraction object
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithScrollableMessageCancelID:(UInt32)cancelID;
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convenience init for dismissing a perform interaction.
 
  @param cancelID The ID of the specific interaction to dismiss
- @return         A SDLCancelInteraction object
+ @return A SDLCancelInteraction object
  */
 - (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID;
 
@@ -113,4 +113,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

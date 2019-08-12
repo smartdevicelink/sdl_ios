@@ -17,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
 
- @param textField1  The first line of the message to display in the alert
- @param textField2  The second line of the message to display in the alert
- @param iconName    An image to show in the alert.
- @return            An SDLAlert object
+ @param textField1 The first line of the message to display in the alert
+ @param textField2 The second line of the message to display in the alert
+ @param iconName An image to show in the alert.
+ @return An SDLAlert object
  */
 + (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName;
 

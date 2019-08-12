@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  A choice set can have up to 100 items, however if you are presenting a visual only menu please be aware that the OEM may choose to limit the number of presented choices when the driver is distracted (i.e. the car is moving).
 
- * A VR-only menu could be used to ask a user to say the name of a song to play. The user's response would only be valid if it appears in the specified choice set.
- * A visual popup-menu could be used to present a list of albums to the user. The user would select the album they want to play from the list of presented choices.
- * A keyboard can be used for searches. For example, the user could be asked to enter the name of a restaurant. The name can be used to search for local restaurants with the same name. When the search is completed another menu can be presented with a list of potential addresses for the destination.
+ A VR-only menu could be used to ask a user to say the name of a song to play. The user's response would only be valid if it appears in the specified choice set.
+ A visual popup-menu could be used to present a list of albums to the user. The user would select the album they want to play from the list of presented choices.
+ A keyboard can be used for searches. For example, the user could be asked to enter the name of a restaurant. The name can be used to search for local restaurants with the same name. When the search is completed another menu can be presented with a list of potential addresses for the destination.
 
  If connecting to SDL Core v.6.0+, the perform interaction can be canceled programmatically using the `cancelID`. On older versions of SDL Core, the perform interaction will persist until the user has interacted with the perform interaction or the specified timeout has elapsed.
 
@@ -33,125 +33,125 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for creating a basic display or voice-recognition menu.
 
- @param initialText                  Text to be displayed first
- @param interactionMode              Indicates the method in which the user is notified and uses the interaction
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param cancelID                     An ID for this specific perform interaction to allow cancellation through the `CancelInteraction` RPC
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param interactionMode Indicates the method in which the user is notified and uses the interaction
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param cancelID An ID for this specific perform interaction to allow cancellation through the `CancelInteraction` RPC
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialText:(NSString *)initialText interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for setting all parameters of a display or voice-recognition menu.
 
- @param initialText                  Text to be displayed first
- @param initialPrompt                The initial prompt spoken to the user at the start of an interaction
- @param interactionMode              The method in which the user is notified and uses the interaction (voice, visual or both)
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param helpPrompt                   The spoken text when a user speaks "help" when the interaction is occurring
- @param timeoutPrompt                The text spoken when a VR interaction times out
- @param timeout                      Timeout in milliseconds
- @param vrHelp                       Suggested voice recognition help items to display on-screen during a perform interaction
- @param interactionLayout            For touchscreen interactions, the mode of how the choices are presented
- @param cancelID                     An ID for this specific perform interaction to allow cancellation through the `CancelInteraction` RPC.
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param initialPrompt The initial prompt spoken to the user at the start of an interaction
+ @param interactionMode The method in which the user is notified and uses the interaction (voice, visual or both)
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param helpPrompt The spoken text when a user speaks "help" when the interaction is occurring
+ @param timeoutPrompt The text spoken when a VR interaction times out
+ @param timeout Timeout in milliseconds
+ @param vrHelp Suggested voice recognition help items to display on-screen during a perform interaction
+ @param interactionLayout For touchscreen interactions, the mode of how the choices are presented
+ @param cancelID An ID for this specific perform interaction to allow cancellation through the `CancelInteraction` RPC.
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialText:(NSString *)initialText initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(UInt16)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for setting the a single visual or voice-recognition menu choice.
 
- @param interactionChoiceSetId       Single interaction choice set ID to use with an interaction
- @return                             An SDLPerformInteraction object
+ @param interactionChoiceSetId Single interaction choice set ID to use with an interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId __deprecated_msg("Use initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID: instead");
 
 /**
  Convenience init for setting the a visual or voice-recognition menu choices.
 
- @param interactionChoiceSetIdList   List of interaction choice set IDs to use with an interaction
- @return                             An SDLPerformInteraction object
+ @param interactionChoiceSetIdList List of interaction choice set IDs to use with an interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInteractionChoiceSetIdList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIdList __deprecated_msg("Use initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID: instead");
 
 /**
  Convenience init for creating a visual or voice-recognition menu with one choice.
 
- @param initialPrompt                The initial prompt spoken to the user at the start of an interaction
- @param initialText                  Text to be displayed first
- @param interactionChoiceSetID       Single interaction choice set ID to use with an interaction
- @return                             An SDLPerformInteraction object
+ @param initialPrompt The initial prompt spoken to the user at the start of an interaction
+ @param initialText Text to be displayed first
+ @param interactionChoiceSetID Single interaction choice set ID to use with an interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID __deprecated_msg("Use initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID: instead");
 
 /**
  Convenience init for creating a visual or voice-recognition menu with one choice and VR help items.
 
- @param initialPrompt                The initial prompt spoken to the user at the start of an interaction
- @param initialText                  Text to be displayed first
- @param interactionChoiceSetID       Single interaction choice set ID to use with an interaction
- @param vrHelp                       Suggested voice recognition help items to display on-screen during a perform interaction
- @return                             An SDLPerformInteraction object
+ @param initialPrompt The initial prompt spoken to the user at the start of an interaction
+ @param initialText Text to be displayed first
+ @param interactionChoiceSetID Single interaction choice set ID to use with an interaction
+ @param vrHelp Suggested voice recognition help items to display on-screen during a perform interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp __deprecated_msg("Use initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID: instead");
 
 /**
  Convenience init for creating a visual or voice-recognition menu using the default display layout and VR help items. Prompts are created from the passed strings.
 
- @param initialText                  Text to be displayed first
- @param initialPrompt                The initial prompt spoken to the user at the start of an interaction
- @param interactionMode              The method in which the user is notified and uses the interaction (voice, visual or both)
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param helpPrompt                   The spoken text when a user speaks "help" when the interaction is occurring
- @param timeoutPrompt                The text spoken when a VR interaction times out
- @param timeout                      Timeout in milliseconds
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param initialPrompt The initial prompt spoken to the user at the start of an interaction
+ @param interactionMode The method in which the user is notified and uses the interaction (voice, visual or both)
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param helpPrompt The spoken text when a user speaks "help" when the interaction is occurring
+ @param timeoutPrompt The text spoken when a VR interaction times out
+ @param timeout Timeout in milliseconds
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSString *)helpPrompt timeoutPrompt:(nullable NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout __deprecated_msg("Use initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID: instead");
 
 /**
  Convenience init for creating a visual or voice-recognition menu using the default display layout. Prompts are created from the passed strings.
 
- @param initialText                  Text to be displayed first
- @param initialPrompt                The initial prompt spoken to the user at the start of an interaction
- @param interactionMode              The method in which the user is notified and uses the interaction (voice, visual or both)
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param helpPrompt                   The spoken text when a user speaks "help" when the interaction is occurring
- @param timeoutPrompt                The text spoken when a VR interaction times out
- @param timeout                      Timeout in milliseconds
- @param vrHelp                       Suggested voice recognition help items to display on-screen during a perform interaction
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param initialPrompt The initial prompt spoken to the user at the start of an interaction
+ @param interactionMode The method in which the user is notified and uses the interaction (voice, visual or both)
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param helpPrompt The spoken text when a user speaks "help" when the interaction is occurring
+ @param timeoutPrompt The text spoken when a VR interaction times out
+ @param timeout Timeout in milliseconds
+ @param vrHelp Suggested voice recognition help items to display on-screen during a perform interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSString *)helpPrompt timeoutPrompt:(nullable NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp __deprecated_msg("Use initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID: instead");
 
 /**
  Convenience init for creating a visual or voice-recognition menu using the default display layout.
 
- @param initialText                  Text to be displayed first
- @param initialChunks                The initial prompt spoken to the user at the start of an interaction
- @param interactionMode              The method in which the user is notified and uses the interaction (voice, visual or both)
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param helpChunks                   The spoken text when a user speaks "help" when the interaction is occurring
- @param timeoutChunks                The text spoken when a VR interaction times out
- @param timeout                      Timeout in milliseconds
- @param vrHelp                       Suggested voice recognition help items to display on-screen during a perform interaction
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param initialChunks The initial prompt spoken to the user at the start of an interaction
+ @param interactionMode The method in which the user is notified and uses the interaction (voice, visual or both)
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param helpChunks The spoken text when a user speaks "help" when the interaction is occurring
+ @param timeoutChunks The text spoken when a VR interaction times out
+ @param timeout Timeout in milliseconds
+ @param vrHelp Suggested voice recognition help items to display on-screen during a perform interaction
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp __deprecated_msg("Use initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID: instead");
 
 /**
  Convenience init for setting all parameters of a visual or voice-recognition menu.
 
- @param initialText                  Text to be displayed first
- @param initialChunks                The initial prompt spoken to the user at the start of an interaction
- @param interactionMode              The method in which the user is notified and uses the interaction (voice, visual or both)
- @param interactionChoiceSetIDList   List of interaction choice set IDs to use with an interaction
- @param helpChunks                   The spoken text when a user speaks "help" when the interaction is occurring
- @param timeoutChunks                The text spoken when a VR interaction times out
- @param timeout                      Timeout in milliseconds
- @param vrHelp                       Suggested voice recognition help items to display on-screen during a perform interaction
- @param layout                       For touchscreen interactions, the mode of how the choices are presented
- @return                             An SDLPerformInteraction object
+ @param initialText Text to be displayed first
+ @param initialChunks The initial prompt spoken to the user at the start of an interaction
+ @param interactionMode The method in which the user is notified and uses the interaction (voice, visual or both)
+ @param interactionChoiceSetIDList List of interaction choice set IDs to use with an interaction
+ @param helpChunks The spoken text when a user speaks "help" when the interaction is occurring
+ @param timeoutChunks The text spoken when a VR interaction times out
+ @param timeout Timeout in milliseconds
+ @param vrHelp Suggested voice recognition help items to display on-screen during a perform interaction
+ @param layout For touchscreen interactions, the mode of how the choices are presented
+ @return An SDLPerformInteraction object
  */
 - (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)layout __deprecated_msg("Use initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID: instead");
 
@@ -249,4 +249,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

@@ -18,46 +18,46 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init with all parameters.
 
- @param numTicks         Number of selectable items on a horizontal axis
- @param position         Initial position of slider control
- @param sliderHeader     Text header to display
- @param sliderFooters    Text footers to display. See the `sliderFooter` documentation for how placing various numbers of footers will affect the display
- @param timeout          Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
- @param cancelID         An ID for this specific slider to allow cancellation through the `CancelInteraction` RPC.
- @return                 An SDLSlider object
+ @param numTicks Number of selectable items on a horizontal axis
+ @param position Initial position of slider control
+ @param sliderHeader Text header to display
+ @param sliderFooters Text footers to display. See the `sliderFooter` documentation for how placing various numbers of footers will affect the display
+ @param timeout Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
+ @param cancelID An ID for this specific slider to allow cancellation through the `CancelInteraction` RPC.
+ @return An SDLSlider object
  */
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout cancelID:(UInt32)cancelID;
 
 /**
  Creates a slider with only the number of ticks and position. Note that this is not enough to get a SUCCESS response. You must supply additional data. See below for required parameters.
 
- @param numTicks         Number of selectable items on a horizontal axis
- @param position         Initial position of slider control
- @return                 An SDLSlider object
+ @param numTicks Number of selectable items on a horizontal axis
+ @param position Initial position of slider control
+ @return An SDLSlider object
  */
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position;
 
 /**
  Creates a slider with all required data and a static footer (or no footer).
 
- @param numTicks         Number of selectable items on a horizontal axis
- @param position         Initial position of slider control
- @param sliderHeader     Text header to display
- @param sliderFooter     Text footer to display
- @param timeout          Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
- @return                 An SDLSlider object
+ @param numTicks Number of selectable items on a horizontal axis
+ @param position Initial position of slider control
+ @param sliderHeader Text header to display
+ @param sliderFooter Text footer to display
+ @param timeout Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
+ @return An SDLSlider object
  */
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout;
 
 /**
  Creates an slider with all required data and a dynamic footer (or no footer).
 
- @param numTicks         Number of selectable items on a horizontal axis
- @param position         Initial position of slider control
- @param sliderHeader     Text header to display
- @param sliderFooters    Text footers to display
- @param timeout          Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
- @return                 An SDLSlider object
+ @param numTicks Number of selectable items on a horizontal axis
+ @param position Initial position of slider control
+ @param sliderHeader Text header to display
+ @param sliderFooters Text footers to display
+ @param timeout Indicates how long of a timeout from the last action (i.e. sliding control resets timeout)
+ @return An SDLSlider object
  */
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
 
