@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone {
-    return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:DefaultAlertDuration softButtons:nil];
+    return [self initWithAlertText:nil alertText2:nil alertText3:nil softButtons:nil playTone:playTone ttsChunks:ttsChunks duration:nil progressIndicator:false alertIcon:nil cancelID:nil];
 }
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {

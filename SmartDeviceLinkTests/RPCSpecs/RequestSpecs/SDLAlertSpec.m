@@ -284,7 +284,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.alertText2).to(beNil());
             expect(testRequest.alertText3).to(beNil());
             expect(testRequest.ttsChunks).to(equal(testTTSChunks));
-            expect(testRequest.duration).to(equal(SDLDefaultDuration));
+            expect(testRequest.duration).to(beNil());
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
