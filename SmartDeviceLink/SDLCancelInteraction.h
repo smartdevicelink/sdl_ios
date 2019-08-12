@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param functionID           The ID of the type of modal view to dismiss
  @return                     A SDLCancelInteraction object
  */
-- (instancetype)initWithfunctionID:(UInt32)functionID;
+- (instancetype)initWithFunctionID:(UInt32)functionID;
 
 /**
  Convenience init for dismissing a specific view.
