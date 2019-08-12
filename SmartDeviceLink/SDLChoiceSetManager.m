@@ -54,12 +54,6 @@ typedef NSNumber * SDLChoiceId;
 
 @end
 
-@interface SDLChoiceSet()
-
-@property (assign, nonatomic) UInt16 cancelId;
-
-@end
-
 
 @interface SDLChoiceSetManager()
 
