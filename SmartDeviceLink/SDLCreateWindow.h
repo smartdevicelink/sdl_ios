@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Create a new window on the display with the specified window type.
+ *  Create a new window on the display with the specified window type and associated with a specific App Service type.
  *
  *  @param windowId                      A unique ID to identify the window. The value of '0' will always be the default main window on the main
  *                                       display and should not be used in this context as it will already be created for the app. See PredefinedWindows enum.
