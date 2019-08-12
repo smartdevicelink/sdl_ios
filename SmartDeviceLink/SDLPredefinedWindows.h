@@ -5,7 +5,7 @@
 #import "SDLEnum.h"
 
 /**
- * specifies what windows and IDs are predefined and pre-created on behalf of the app.
+ * Specifies which windows and IDs are predefined and pre-created on behalf of the app.
  *
  * The default window is always available and represents the app window on the main display.
  * It's an equivalent to today's app window.
