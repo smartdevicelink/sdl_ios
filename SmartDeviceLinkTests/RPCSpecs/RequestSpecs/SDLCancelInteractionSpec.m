@@ -62,14 +62,14 @@ describe(@"Getter/Setter Tests", ^{
         });
 
         it(@"Should initialize correctly with initWithfunctionID:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithfunctionID:testFunctionID];
+            testRequest = [[SDLCancelInteraction alloc] initWithFunctionID:testFunctionID];
 
             expect(testRequest.functionID).to(equal(testFunctionID));
             expect(testRequest.cancelID).to(beNil());
         });
 
         it(@"Should initialize correctly with initWithfunctionID:cancelID:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithfunctionID:testFunctionID cancelID:testCancelID];
+            testRequest = [[SDLCancelInteraction alloc] initWithFunctionID:testFunctionID cancelID:testCancelID];
 
             expect(testRequest.functionID).to(equal(testFunctionID));
             expect(testRequest.cancelID).to(equal(testCancelID));

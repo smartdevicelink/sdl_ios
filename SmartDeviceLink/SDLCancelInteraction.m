@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID {
-    self = [self initWithfunctionID:functionID];
+    self = [self initWithFunctionID:functionID];
     if (!self) {
         return nil;
     }
@@ -50,35 +50,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithAlertCancelID:(UInt32)cancelID {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue cancelID:cancelID];
 }
 
 - (instancetype)initWithSliderCancelID:(UInt32)cancelID {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue cancelID:cancelID];
 }
 
 - (instancetype)initWithScrollableMessageCancelID:(UInt32)cancelID {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue cancelID:cancelID];
 }
 
 - (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:cancelID];
 }
 
 - (instancetype)initWithAlert {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue];
 }
 
 - (instancetype)initWithSlider {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue];
 }
 
 - (instancetype)initWithScrollableMessage {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue];
 }
 
 - (instancetype)initWithPerformInteraction {
-    return [self initWithfunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
+    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
 }
 
 - (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
@@ -97,7 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameFunctionID ofClass:NSNumber.class error:&error];
 }
-
 
 @end
 
