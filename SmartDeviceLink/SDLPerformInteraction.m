@@ -30,13 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.initialText = initialText;
-    self.initialPrompt = [initialPrompt mutableCopy];
+    self.initialPrompt = initialPrompt;
     self.interactionMode = interactionMode;
-    self.interactionChoiceSetIDList = [interactionChoiceSetIDList mutableCopy];
-    self.helpPrompt = [helpPrompt mutableCopy];
-    self.timeoutPrompt = [timeoutPrompt mutableCopy];
+    self.interactionChoiceSetIDList = interactionChoiceSetIDList;
+    self.helpPrompt = helpPrompt;
+    self.timeoutPrompt = timeoutPrompt;
     self.timeout = timeout;
-    self.vrHelp = [vrHelp mutableCopy];
+    self.vrHelp = vrHelp;
     self.interactionLayout = interactionLayout;
     self.cancelID = cancelID;
 
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    self.vrHelp = [vrHelp mutableCopy];
+    self.vrHelp = vrHelp;
     
     return self;
 }
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    self.interactionChoiceSetIDList = [interactionChoiceSetIdList mutableCopy];
+    self.interactionChoiceSetIDList = interactionChoiceSetIdList;
 
     return self;
 }

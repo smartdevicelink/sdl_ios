@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.sliderHeader = sliderHeader;
-    self.sliderFooter = [sliderFooters mutableCopy];
+    self.sliderFooter = sliderFooters;
     self.timeout = @(timeout);
 
     return self;
