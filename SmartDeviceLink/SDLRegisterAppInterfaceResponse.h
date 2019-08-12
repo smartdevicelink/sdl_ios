@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities __attribute__((deprecated("See ButtonCapabilities. This parameter is deprecated and replaced by  SystemCapability using DISPLAY. @since 6.0")));
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities  __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support.");
 
 /**
  * Contains information about the head unit soft button capabilities.
