@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Informs the application how many windows the app is allowed to create per type.
- * Min size 1
+ *
  * Max size 100
  */
 @property (strong, nonatomic, nullable) NSArray<SDLWindowTypeCapabilities *> *windowTypeSupported;
