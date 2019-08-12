@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 2.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __attribute__((deprecated("If returned, the platform supports on-screen SoftButtons; see SoftButtonCapabilities.  This parameter is deprecated and replaced by  SystemCapability using DISPLAY. @since 6.0")));
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support."");
 
 /**
  * If returned, the platform supports custom on-screen Presets
