@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @65536: SDLRPCFunctionNameEncodedSyncPData,
                          @65537: SDLRPCFunctionNameSyncPData,
                          @98304: SDLRPCFunctionNameOnEncodedSyncPData,
-                         @98305: SDLRPCFunctionNameOnSyncPData                         
+                         @98305: SDLRPCFunctionNameOnSyncPData
                          };
     return self;
 }
