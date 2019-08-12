@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_cancelInteraction {
     if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
+        SDLLogE(@"Canceling a choice set is not supported on this head unit");
         return;
     }
 
@@ -207,6 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
                 return;
             }
+            SDLLogD(@"The presented choice set was canceled successfully");
         }];
     } else {
         SDLLogD(@"Canceling a choice set that has not yet been sent to Core");

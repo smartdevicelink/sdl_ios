@@ -344,7 +344,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (void)dismissKeyboard {
     if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"Canceling a presented choice set is not supported on this head unit");
+        SDLLogE(@"Canceling a keyboard is not supported on this head unit");
         return;
     }
 

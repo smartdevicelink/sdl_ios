@@ -134,6 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
             return;
         }
+        SDLLogD(@"The presented keyboard was canceled successfully");
     }];
 }
 
