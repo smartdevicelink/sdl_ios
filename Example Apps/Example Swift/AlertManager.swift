@@ -14,16 +14,6 @@ class AlertManager {
         return SDLSoftButton(type: .text, text: AlertOKButtonText, image: nil, highlighted: true, buttonId: 1, systemAction: nil, handler: nil)
     }
 
-    /// Creates an alert with up to two lines of text.
-    ///
-    /// - Parameters:
-    ///   - textField1: The first line of a message to display in the alert
-    ///   - textField2: The second line of a message to display in the alert
-    /// - Returns: An SDLAlert object
-    class func alertWithMessage(_ textField1: String, textField2: String? = nil) -> SDLAlert {
-        return SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, softButtons: nil, playTone: true, ttsChunks: nil, duration: 5000, progressIndicator: false, alertIcon:nil, cancelID: 0)
-    }
-
     /// Creates an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
     ///
     /// - Parameters:

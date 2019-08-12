@@ -13,14 +13,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AlertManager : NSObject
-/**
- Creates an alert with up to two lines of text.
-
- @param textField1  The first line of the message to display in the alert
- @param textField2  The second line of the message to display in the alert
- @return            An SDLAlert object
- */
-+ (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(nullable NSString *)textField2;
 
 /**
  Creates an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
