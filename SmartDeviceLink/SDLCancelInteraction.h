@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cancelID             The ID of the specific interaction to dismiss
  @return                     A SDLCancelInteraction object
  */
-- (instancetype)initWithfunctionID:(UInt32)functionID cancelID:(UInt32)cancelID;
+- (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID;
 
 /**
  Convenience init for dismissing an alert.
