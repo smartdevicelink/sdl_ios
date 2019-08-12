@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 
-- (instancetype)initWithfunctionID:(UInt32)functionID {
+- (instancetype)initWithFunctionID:(UInt32)functionID {
     self = [self init];
     if (!self) {
         return nil;
