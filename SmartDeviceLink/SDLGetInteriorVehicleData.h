@@ -24,20 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType;
-#pragma clang diagnostic pop
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initWithModuleType:moduleId:");
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType;
-#pragma clang diagnostic pop
+- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndSubscribeToModuleType:moduleId:");
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType;
-#pragma clang diagnostic pop
+- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndUnsubscribeToModuleType:moduleId:");
 
 /**
  * The type of a RC module to retrieve module data from the vehicle.
