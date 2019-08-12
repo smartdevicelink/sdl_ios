@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithfunctionID:(UInt32)functionID cancelID:(UInt32)cancelID {
+- (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID {
     self = [self initWithfunctionID:functionID];
     if (!self) {
         return nil;
