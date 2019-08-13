@@ -113,29 +113,35 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)dismissKeyboard {
-    if (self.isCancelled) {
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID {
+    if (!(cancelID.unsignedShortValue == self.cancelId)) {
+        return;
+    }
+
+    if (self.isFinished) {
+        SDLLogW(@"This operation has already finished so it can not be canceled.");
+        return;
+    } else if (self.isCancelled) {
         SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
+    } else if (self.isExecuting) {
+        SDLLogD(@"Canceling the presented keyboard");
+
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
+
+        __weak typeof(self) weakSelf = self;
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                weakSelf.internalError = error;
+                SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
+                return;
+            }
+            SDLLogD(@"The presented keyboard was canceled successfully");
+        }];
+    } else {
+        SDLLogD(@"Canceling a keyboard that has not yet been sent to Core");
+        [self cancel];
     }
-
-    if (!self.isExecuting) {
-        SDLLogV(@"Keyboard is not being presented so it can not be canceled");
-        return;
-    }
-
-    SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
-
-    SDLLogD(@"Canceling the presented keyboard");
-    __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
-            weakSelf.internalError = error;
-            SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
-            return;
-        }
-        SDLLogD(@"The presented keyboard was canceled successfully");
-    }];
 }
 
 #pragma mark - Private Getters / Setters

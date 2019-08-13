@@ -264,11 +264,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
+    [self.choiceSetManager presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
 }
 
-- (void)dismissKeyboard {
-    [self.choiceSetManager dismissKeyboard];
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
+    return [self.choiceSetManager presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
+}
+
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID{
+    [self.choiceSetManager dismissKeyboardWithCancelID:cancelID];
 }
 
 #pragma mark - Menu

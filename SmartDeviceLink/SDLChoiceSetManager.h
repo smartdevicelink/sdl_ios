@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLInteractionMode.h"
+#import "NSNumber+NumberType.h"
 
 @class SDLChoiceCell;
 @class SDLChoiceSet;
@@ -100,12 +101,23 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
  */
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate __deprecated_msg("Use presentKeyboardWithInitialText:keyboardDelegate: instead");
 
 /**
- Cancels the keyboard-only interface if it is currently showing.
+ Present a keyboard-only interface to the user and receive input. The user will be able to input text in the keyboard when in a non-driver distraction situation.
+
+ @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
+ @param delegate The keyboard delegate called when the user interacts with the keyboard
+ @return An unique id that can be used to cancel this keyboard. If `null`, no keyboard was created.
  */
-- (void)dismissKeyboard;
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
+
+/**
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
+
+ @param cancelID The unique ID assigned to the keyboard
+ */
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 
 @end
 

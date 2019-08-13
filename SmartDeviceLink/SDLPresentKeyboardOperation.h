@@ -7,6 +7,7 @@
 //
 
 #import "SDLAsynchronousOperation.h"
+#import "NSNumber+NumberType.h"
 
 @class SDLKeyboardProperties;
 
@@ -30,9 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID;
 
 /**
- Cancels a currently presented keyboard.
+ Cancels a keyboard. If the keyboard is currently presented, it will be dismissed. If the keyboard has not yet been sent to Core, it will not be sent.
+
+ @param cancelID The unique ID assigned to the keyboard
  */
-- (void)dismissKeyboard;
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 
 @end
 

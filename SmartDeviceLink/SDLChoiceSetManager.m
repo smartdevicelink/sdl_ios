@@ -330,7 +330,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+    [self presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
+}
+
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return nil; }
 
     if (self.pendingPresentationSet != nil) {
         [self.pendingPresentOperation cancel];
@@ -338,11 +342,13 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     // Present a keyboard with the choice set that we used to test VR's optional state
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:self.nextCancelId++];
+    UInt16 keyboardCancelId = self.nextCancelId++;
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
+    return @(keyboardCancelId);
 }
 
-- (void)dismissKeyboard {
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID {
     if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
         SDLLogE(@"Canceling a keyboard is not supported on this head unit");
         return;
@@ -352,7 +358,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
 
         SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
-        [keyboardOperation dismissKeyboard];
+        [keyboardOperation dismissKeyboardWithCancelID:cancelID];
     }
 }
 
