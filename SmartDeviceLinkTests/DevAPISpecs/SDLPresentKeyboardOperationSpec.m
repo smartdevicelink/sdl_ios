@@ -406,6 +406,25 @@ describe(@"present keyboard operation", ^{
                 });
             });
         });
+
+        context(@"If the canceIDs do not match", ^{
+            __block int testWrongCancelID = 998745;
+
+            beforeEach(^{
+                [testOp start];
+
+                expect(testOp.isExecuting).to(beTrue());
+                expect(testOp.isFinished).to(beFalse());
+                expect(testOp.isCancelled).to(beFalse());
+
+                [testOp dismissKeyboardWithCancelID:@(testWrongCancelID)];
+            });
+
+            it(@"should not attempt to send a cancel interaction", ^{
+                SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+            });
+        });
     });
 });
 
