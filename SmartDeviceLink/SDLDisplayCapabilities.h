@@ -75,11 +75,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLBool> *graphicSupported;
 
 /**
- * Number of presets the screen supports
+ * An array of all predefined persistent display templates available on the head unit.
  *
- * @discussion The number of on-screen custom presets available (if any)
+ * Optional, Array of String, max string size 100, 0 - 100 objects, since SDL 3.0
  *
- * Optional, Array of String, max string size 100, 0 - 100 objects
+ * See SDLPredefinedLayout
  */
 @property (nullable, strong, nonatomic) NSArray<NSString *> *templatesAvailable;
 
