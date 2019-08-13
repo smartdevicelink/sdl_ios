@@ -143,11 +143,27 @@ NS_ASSUME_NONNULL_BEGIN
         [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
         // Notify of keypress
-        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
-            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:autoCompleteResultsHandler:)]) {
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data autoCompleteResultsHandler:^(NSArray<NSString *> * _Nullable updatedAutoCompleteList) {
+                NSArray<NSString *> *newList = nil;
+                if (updatedAutoCompleteList.count > 100) {
+                    newList = [updatedAutoCompleteList subarrayWithRange:NSMakeRange(0, 100)];
+                } else {
+                    newList = updatedAutoCompleteList;
+                }
+
+                weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
+                weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
+                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+        } else if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString * _Nullable updatedAutocompleteText) {
                 weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
+#pragma clang diagnostic pop
         }
 
         if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {

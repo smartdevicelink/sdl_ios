@@ -4,6 +4,7 @@
 
 #import "SDLImageFieldName.h"
 
+SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
 SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
 SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
 SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";

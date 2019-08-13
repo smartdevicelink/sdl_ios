@@ -83,6 +83,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameSetGlobalProperties;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSetInteriorVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSetMediaClockTimer;
 extern SDLRPCFunctionName const SDLRPCFunctionNameShow;
+extern SDLRPCFunctionName const SDLRPCFunctionNameShowAppMenu;
 extern SDLRPCFunctionName const SDLRPCFunctionNameShowConstantTBT;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSlider;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSpeak;

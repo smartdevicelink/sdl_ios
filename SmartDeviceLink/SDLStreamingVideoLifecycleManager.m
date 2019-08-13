@@ -122,6 +122,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
+    _showVideoBackgroundDisplay = YES;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
@@ -272,7 +273,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"App became inactive");
     if (!self.protocol) { return; }
 
-    [self sdl_sendBackgroundFrames];
+    if (_showVideoBackgroundDisplay) {
+        [self sdl_sendBackgroundFrames];
+    }
     [self.touchManager cancelPendingTouches];
 
     if (self.isVideoConnected) {

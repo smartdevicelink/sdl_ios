@@ -116,6 +116,8 @@
 @class SDLSetMediaClockTimer;
 @class SDLSetMediaClockTimerResponse;
 @class SDLShow;
+@class SDLShowAppMenu;
+@class SDLShowAppMenuResponse;
 @class SDLShowConstantTBT;
 @class SDLShowConstantTBTResponse;
 @class SDLShowResponse;
@@ -512,6 +514,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLShowResponse object
  */
 - (void)onShowResponse:(SDLShowResponse *)response;
+
+/**
+ *  Called when a ShowAppMenu Response is received from Core
+ *
+ *  @param response A SDLShowAppMenuResponse object
+ */
+- (void)onShowAppMenuResponse:(SDLShowAppMenuResponse *)response;
 
 /**
  *  Called when a Slider Response is received from Core
@@ -915,6 +924,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onShow:(SDLShow *)request;
 
 /**
+ *  Called when a `ShowAppMenu` is received from Core
+ *
+ *  @param request A SDLShowAppMenu object
+ */
+- (void)onShowAppMenu:(SDLShowAppMenu *)request;
+
+/**
  *  Called when a `ShowConstantTBT` request is received from Core
  *
  *  @param request A SDLShowConstantTBT object
@@ -1097,7 +1113,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param notification A SDLOnLockScreenStatus object
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+#pragma clang diagnostic pop
 
 /**
  *  Called when an On Permissions Change notification is received from Core
