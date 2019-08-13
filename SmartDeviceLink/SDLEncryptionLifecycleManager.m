@@ -16,6 +16,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
+#import "SDLPermissionConstants.h"
 #import "SDLError.h"
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
@@ -48,6 +49,7 @@
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    SDLLogD(@"Starting encryption manager");
     _protocol = protocol;
     
     @synchronized(self.protocol.protocolDelegateTable) {
@@ -56,7 +58,6 @@
         }
     }
     
-    SDLLogD(@"Starting encryption manager");
 }
 
 - (void)stop {
@@ -140,13 +141,13 @@
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     switch (startServiceACK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            [self sdl_handleEncryptionStartServiceAck:startServiceACK];
+            [self sdl_handleEncryptionStartServiceACK:startServiceACK];
         } break;
         default: break;
     }
 }
 
-- (void)sdl_handleEncryptionStartServiceAck:(SDLProtocolMessage *)encryptionStartServiceAck {
+- (void)sdl_handleEncryptionStartServiceACK:(SDLProtocolMessage *)encryptionStartServiceAck {
     if (encryptionStartServiceAck.header.encrypted) {
         SDLLogD(@"Encryption service started");
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateReady];

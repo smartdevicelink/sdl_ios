@@ -128,6 +128,7 @@ describe(@"SDLPermissionsManager", ^{
         expect(testPermissionsManager.filters).to(beEmpty());
         expect(testPermissionsManager.permissions).to(beEmpty());
         expect(testPermissionsManager.currentHMILevel).to(beNil());
+        expect(testPermissionsManager.requiresEncryption).to(beFalse());
     });
     
     describe(@"checking if a permission is allowed", ^{

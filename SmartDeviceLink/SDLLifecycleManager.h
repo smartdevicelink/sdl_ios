@@ -15,7 +15,6 @@
 #import "SDLSystemContext.h"
 
 @class SDLConfiguration;
-@class SDLEncryptionConfiguration;
 @class SDLFileManager;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;

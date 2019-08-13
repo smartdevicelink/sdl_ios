@@ -40,7 +40,6 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
-#import "SDLPermissionItem.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"

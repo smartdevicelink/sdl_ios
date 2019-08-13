@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Describes whether or not the app needs the encryption permission
  
- Optional boolean available since core 5.1
+ Optional, Boolean, since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *requireEncryption;
 

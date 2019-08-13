@@ -7,6 +7,7 @@
 #import "SDLLogConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 
 QuickSpecBegin(SDLConfigurationSpec)
 
@@ -104,7 +105,7 @@ describe(@"a configuration", ^{
             });
 
             it(@"initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:", ^{
-                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig encryption:nil];
+                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 
                 expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
                 expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));

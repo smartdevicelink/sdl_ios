@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The encryption configuration.
  */
-@property (copy, nonatomic, nullable, readonly) SDLEncryptionConfiguration *encryptionConfig;
+@property (copy, nonatomic, readonly) SDLEncryptionConfiguration *encryptionConfig;
 
 /**
  *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.

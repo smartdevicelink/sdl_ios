@@ -10,10 +10,9 @@
 
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
-#import "SDLRPCMessage.h"
 
 @class SDLPermissionItem;
-
+@class SDLRPCMessage;
 
 NS_ASSUME_NONNULL_BEGIN
 
