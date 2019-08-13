@@ -480,7 +480,7 @@ describe(@"a response dispatcher", ^{
         __block SDLSoftButton *testSoftButton1 = nil;
         
         beforeEach(^{
-            testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:1 softButtons:nil];
+            testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 2" alertText3:nil softButtons:nil playTone:false ttsChunks:nil duration:1 progressIndicator:false alertIcon:nil cancelID:0];
             testAlert.correlationID = @1;
         });
         
