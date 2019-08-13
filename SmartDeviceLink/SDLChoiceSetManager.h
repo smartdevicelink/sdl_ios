@@ -108,7 +108,7 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
- @return An unique id that can be used to cancel this keyboard. If `null`, no keyboard was created.
+ @return A unique id that can be used to cancel this keyboard. If `null`, no keyboard was created.
  */
 - (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
 
