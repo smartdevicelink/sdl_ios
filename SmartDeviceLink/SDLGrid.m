@@ -31,38 +31,38 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameRow ofClass:NSNumber.class error:&error];
 }
 
-- (void)setLevel:(NSNumber<SDLInt> *)level {
+- (void)setLevel:(nullable NSNumber<SDLInt> *)level {
     [self.store sdl_setObject:level forName:SDLRPCParameterNameLevel];
 }
 
-- (NSNumber<SDLInt> *)level {
+- (nullable NSNumber<SDLInt> *)level {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLevel ofClass:NSNumber.class error:&error];
 }
 
-- (void)setColspan:(NSNumber<SDLInt> *)colspan {
+- (void)setColspan:(nullable NSNumber<SDLInt> *)colspan {
     [self.store sdl_setObject:colspan forName:SDLRPCParameterNameColSpan];
 }
 
-- (NSNumber<SDLInt> *)colspan {
+- (nullable NSNumber<SDLInt> *)colspan {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameColSpan ofClass:NSNumber.class error:&error];
 }
 
-- (void)setRowspan:(NSNumber<SDLInt> *)rowspan {
+- (void)setRowspan:(nullable NSNumber<SDLInt> *)rowspan {
     [self.store sdl_setObject:rowspan forName:SDLRPCParameterNameRowSpan];
 }
 
-- (NSNumber<SDLInt> *)rowspan {
+- (nullable NSNumber<SDLInt> *)rowspan {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameRowSpan ofClass:NSNumber.class error:&error];
 }
 
-- (void)setLevelspan:(NSNumber<SDLInt> *)levelspan {
+- (void)setLevelspan:(nullable NSNumber<SDLInt> *)levelspan {
     [self.store sdl_setObject:levelspan forName:SDLRPCParameterNameLevelSpan];
 }
 
-- (NSNumber<SDLInt> *)levelspan {
+- (nullable NSNumber<SDLInt> *)levelspan {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLevelSpan ofClass:NSNumber.class error:&error];
 }

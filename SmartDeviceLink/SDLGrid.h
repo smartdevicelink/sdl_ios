@@ -31,25 +31,25 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer, -1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *level;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *level;
 
 /**
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *colspan;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *colspan;
 
 /**
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *rowspan;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *rowspan;
 
 /**
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *levelspan;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *levelspan;
 
 @end
 

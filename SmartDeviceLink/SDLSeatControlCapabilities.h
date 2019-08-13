@@ -136,11 +136,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *memoryAvailable;
 
 /**
- *  Information about a RC module, including its id.
+ *  @abstract Information about a RC module, including its id.
  *
- *  SDLModuleInfo
+ *  Optional
  */
-@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
+@property (nullable, strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

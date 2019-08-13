@@ -29,38 +29,38 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setCols:(NSNumber<SDLInt> *)cols {
+- (void)setCols:(nullable NSNumber<SDLInt> *)cols {
     [self.store sdl_setObject:cols forName:SDLRPCParameterNameColumns];
 }
 
-- (NSNumber<SDLInt> *)cols {
+- (nullable NSNumber<SDLInt> *)cols {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameColumns ofClass:NSNumber.class error:&error];
 }
 
-- (void)setRows:(NSNumber<SDLInt> *)rows {
+- (void)setRows:(nullable NSNumber<SDLInt> *)rows {
     [self.store sdl_setObject:rows forName:SDLRPCParameterNameRows];
 }
 
-- (NSNumber<SDLInt> *)rows {
+- (nullable NSNumber<SDLInt> *)rows {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameRows ofClass:NSNumber.class error:&error];
 }
 
-- (void)setLevels:(NSNumber<SDLInt> *)levels {
+- (void)setLevels:(nullable NSNumber<SDLInt> *)levels {
     [self.store sdl_setObject:levels forName:SDLRPCParameterNameLevels];
 }
 
-- (NSNumber<SDLInt> *)levels {
+- (nullable NSNumber<SDLInt> *)levels {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLevels ofClass:NSNumber.class error:&error];
 }
 
-- (void)setSeats:(NSArray<SDLSeatLocation *> *)seats {
+- (void)setSeats:(nullable NSArray<SDLSeatLocation *> *)seats {
     [self.store sdl_setObject:seats forName:SDLRPCParameterNameSeats];
 }
 
-- (NSArray<SDLSeatLocation *> *)seats {
+- (nullable NSArray<SDLSeatLocation *> *)seats {
     NSError *error = nil;
     return [self.store sdl_objectsForName:SDLRPCParameterNameSeats ofClass:SDLSeatLocation.class error:&error];
 }

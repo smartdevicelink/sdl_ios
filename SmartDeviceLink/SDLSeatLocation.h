@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Optional
  */
-@property (strong, nonatomic) SDLGrid *grid;
+@property (strong, nonatomic, nullable) SDLGrid *grid;
 
 @end
 

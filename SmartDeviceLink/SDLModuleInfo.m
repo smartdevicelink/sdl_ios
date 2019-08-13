@@ -22,29 +22,29 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
 }
 
-- (void)setLocation:(SDLGrid *)location {
+- (void)setLocation:(nullable SDLGrid *)location {
     [self.store sdl_setObject:location forName:SDLRPCParameterNameLocation];
 }
 
-- (SDLGrid *)location {
+- (nullable SDLGrid *)location {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLGrid.class error:&error];
 }
 
-- (void)setServiceArea:(SDLGrid *)serviceArea {
+- (void)setServiceArea:(nullable SDLGrid *)serviceArea {
     [self.store sdl_setObject:serviceArea forName:SDLRPCParameterNameServiceArea];
 }
 
-- (SDLGrid *)serviceArea {
+- (nullable SDLGrid *)serviceArea {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameServiceArea ofClass:SDLGrid.class error:&error];
 }
 
-- (void)setAllowMultipleAccess:(NSNumber<SDLBool> *)allowMultipleAccess {
+- (void)setAllowMultipleAccess:(nullable NSNumber<SDLBool> *)allowMultipleAccess {
     [self.store sdl_setObject:allowMultipleAccess forName:SDLRPCParameterNameAllowMultipleAccess];
 }
 
-- (NSNumber<SDLBool> *)allowMultipleAccess {
+- (nullable NSNumber<SDLBool> *)allowMultipleAccess {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameAllowMultipleAccess ofClass:NSNumber.class error:&error];
 }

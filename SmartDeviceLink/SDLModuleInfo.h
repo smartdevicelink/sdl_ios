@@ -23,19 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
  
  Required
  */
-@property (strong, nonatomic) NSString *moduleId;
+@property (nullable, strong, nonatomic) NSString *moduleId;
 
 /**
  * Location of a module.
  * Optional
  */
-@property (strong, nonatomic) SDLGrid *location;
+@property (nullable, strong, nonatomic) SDLGrid *location;
 
 /**
  * Service area of a module.
  * Optional
  */
-@property (strong, nonatomic) SDLGrid *serviceArea;
+@property (nullable, strong, nonatomic) SDLGrid *serviceArea;
 
 /**
  * Allow multiple users/apps to access the module or not

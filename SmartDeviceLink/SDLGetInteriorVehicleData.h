@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  SDLModuleInfo
  */
-@property (strong, nonatomic) NSString *moduleId;
+@property (nullable, strong, nonatomic) NSString *moduleId;
 
 /**
  * If subscribe is true, the head unit will register OnInteriorVehicleData notifications for the requested module (moduleId and moduleType).

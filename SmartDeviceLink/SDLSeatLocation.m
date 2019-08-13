@@ -13,11 +13,11 @@
 
 @implementation SDLSeatLocation
 
-- (void)setGrid:(SDLGrid *)grid {
+- (void)setGrid:(nullable SDLGrid *)grid {
     [self.store sdl_setObject:grid forName:SDLRPCParameterNameGrid];
 }
 
-- (SDLGrid *)grid {
+- (nullable SDLGrid *)grid {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameGrid ofClass:SDLGrid.class error:&error];
 }

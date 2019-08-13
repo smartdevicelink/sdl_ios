@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  SDLModuleInfo
  */
-@property (strong, nonatomic) NSString *moduleId;
+@property (nullable, strong, nonatomic) NSString *moduleId;
 
 /**
  * The name of supported RC climate or radio button.

@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  SDLModuleInfo
  */
-@property (strong, nonatomic) SDLModuleInfo *moduleInfo;
+@property (nullable, strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

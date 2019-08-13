@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Optional
  */
-@property (strong, nonatomic) NSString *moduleId;
+@property (nullable, strong, nonatomic) NSString *moduleId;
 
 /**
  The radio control data

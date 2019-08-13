@@ -44,11 +44,11 @@
     return [self.parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
-- (void)setModuleId:(NSArray<NSString *> *)moduleId {
+- (void)setModuleId:(nullable NSString *)moduleId {
     [self.parameters sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
 }
 
-- (NSString *)moduleId {
+- (nullable NSString *)moduleId {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
 }

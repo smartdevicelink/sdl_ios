@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required
  */
-@property (strong, nonatomic, nullable) SDLModuleType moduleType;
+@property (strong, nonatomic) SDLModuleType moduleType;
 
 /**
  * Ids of a module of same type, published by System Capability.
  *
  * Required
  */
-@property (strong, nonatomic, nullable) NSArray<NSString *> *moduleIds;
+@property (strong, nonatomic) NSArray<NSString *> *moduleIds;
 
 @end
 

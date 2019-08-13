@@ -23,25 +23,25 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *cols;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *cols;
 
 /**
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *rows;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *rows;
 
 /**
  *
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *levels;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *levels;
 
 /**
  * Contains a list of SeatLocation in the vehicle, the first element is the driver's seat
  * Optional
  */
-@property (strong, nonatomic) NSArray<SDLSeatLocation *> *seats;
+@property (strong, nonatomic, nullable) NSArray<SDLSeatLocation *> *seats;
 
 @end
 
