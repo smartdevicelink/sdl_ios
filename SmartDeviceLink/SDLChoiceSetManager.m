@@ -53,7 +53,6 @@ typedef NSNumber * SDLChoiceId;
 
 @end
 
-
 @interface SDLChoiceSetManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;

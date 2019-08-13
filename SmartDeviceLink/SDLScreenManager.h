@@ -315,7 +315,6 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (BOOL)openSubmenu:(SDLMenuCell *)cell;
 
-
 @end
 
 NS_ASSUME_NONNULL_END
