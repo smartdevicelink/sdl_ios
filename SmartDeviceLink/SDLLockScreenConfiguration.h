@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL enableDismissGesture;
 
 /**
-*  If YES, then the lockscreen will show the vehicle logo. If NO, then the lockscreen will not show the vehicle logo.
+*  If YES, then the lockscreen will show the vehicle's logo if the vehicle has made it available. If NO, then the lockscreen will not show the vehicle logo.
     Defaults to YES.
 */
 @property (assign, nonatomic) BOOL showDeviceLogo;
