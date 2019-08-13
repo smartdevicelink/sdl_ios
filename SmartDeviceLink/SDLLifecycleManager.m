@@ -591,6 +591,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
+        request.payloadProtected = YES;
+    }
+    
     if (request.isPayloadProtected) {
         [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
     } else {
