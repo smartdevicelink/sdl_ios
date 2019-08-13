@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param rpcOperationQueue The RPC operation queue that the encrypted RPC will be sent on
  @return A new encryption lifecycle manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration permissionManager:(SDLPermissionManager *)permissionManager rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue;
 
 /**
  *  Start the manager. This is used internally to get notified of the ACK message.

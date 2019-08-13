@@ -37,17 +37,15 @@ describe(@"the encryption lifecycle manager", ^{
     __block SDLEncryptionConfiguration *testConfiguration = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFakeSecurityManager *testFakeSecurityManager = nil;
-    __block SDLPermissionManager *testPermissionManager = nil;
     __block NSOperationQueue *testRPCOperationQueue = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
         testConfiguration = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class]];
-        testPermissionManager = OCMClassMock([SDLPermissionManager class]);
         testRPCOperationQueue = OCMClassMock([NSOperationQueue class]);
         
-        encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration permissionManager:testPermissionManager rpcOperationQueue:testRPCOperationQueue];
+        encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration rpcOperationQueue:testRPCOperationQueue];
     });
     
     it(@"should initialize properties", ^{

@@ -22,17 +22,17 @@
 
 @property (strong, nonatomic, readonly) NSOperationQueue *rpcOperationQueue;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic) SDLPermissionManager *permissionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 
 @end
 
 @implementation SDLEncryptionLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration permissionManager:(SDLPermissionManager *)permissionManager rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
     self = [super init];
     if (!self) {
         return nil;
@@ -41,11 +41,10 @@
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _hmiLevel = SDLHMILevelNone;
     _connectionManager = connectionManager;
-    _permissionManager = permissionManager;
     _rpcOperationQueue = rpcOperationQueue;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
 
     return self;
 }
@@ -64,7 +63,7 @@
 
 - (void)stop {
     _hmiLevel = SDLHMILevelNone;
-    _permissionManager = nil;
+    _permissions = nil;
     _protocol = nil;
     
     SDLLogD(@"Stopping encryption manager");
@@ -101,13 +100,14 @@
         return;
     }
     
-    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone] && self.permissionManager.containsAtLeastOneRPCThatRequiresEncryption) {
+    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone]
+        && [self containsAtLeastOneRPCThatRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send encryption start service request\n"
                 "permissions: %@\n"
                 "HMI state must be LIMITED, FULL, BACKGROUND: %@\n",
-                self.permissionManager, self.hmiLevel);
+                self.permissions, self.hmiLevel);
     }
 }
 
@@ -173,7 +173,11 @@
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
+            if (startServiceNAK.header.encrypted) {
+                [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
+            } else {
+                SDLLogW(@"Encryption service failed to start due to encryption bit set to 0 in ACK");
+            }
         } break;
         default: break;
     }
@@ -221,6 +225,44 @@
     if (!self.isEncryptionReady) {
         [self sdl_startEncryptionService];
     }
+}
+
+- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
+        return;
+    }
+    
+    SDLOnPermissionsChange *onPermissionChange = notification.notification;
+
+    NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
+    
+    for (SDLPermissionItem *item in newPermissionItems) {
+        self.permissions[item.rpcName] = item;
+    }
+    
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
+    
+    if (!self.isEncryptionReady) {
+        [self sdl_startEncryptionService];
+    }
+}
+
+- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
+    if (self.permissions[rpc.name].requireEncryption != nil) {
+        return self.permissions[rpc.name].requireEncryption.boolValue;
+    }
+    return NO;
+}
+
+- (BOOL)containsAtLeastOneRPCThatRequiresEncryption {
+    for (SDLPermissionItem *item in self.permissions) {
+        SDLPermissionItem *currentItem = self.permissions[item.rpcName];
+        if(currentItem.requireEncryption.boolValue) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

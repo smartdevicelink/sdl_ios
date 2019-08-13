@@ -156,7 +156,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     
     if (configuration.encryptionConfig != nil) {
-        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig permissionManager:_permissionManager rpcOperationQueue:_rpcOperationQueue];
+        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig rpcOperationQueue:_rpcOperationQueue];
     }
 
     // Notifications
