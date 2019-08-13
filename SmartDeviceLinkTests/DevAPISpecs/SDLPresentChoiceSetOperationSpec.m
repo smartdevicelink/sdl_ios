@@ -122,6 +122,15 @@ describe(@"present choice operation", ^{
         });
 
         describe(@"Canceling the choice set", ^{
+            __block SDLPresentChoiceSetOperation *testCancelOp = nil;
+
+            beforeEach(^{
+                testCancelOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
+                testCancelOp.completionBlock = ^{
+                    hasCalledOperationCompletionHandler = YES;
+                };
+            });
+
             context(@"Head unit supports the `CancelInteration` RPC", ^{
                 beforeEach(^{
                     SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
@@ -131,9 +140,11 @@ describe(@"present choice operation", ^{
 
                  context(@"If the operation is executing", ^{
                      beforeEach(^{
-                         expect(testOp.isExecuting).to(beTrue());
-                         expect(testOp.isFinished).to(beFalse());
-                         expect(testOp.isCancelled).to(beFalse());
+                         [testCancelOp start];
+
+                         expect(testCancelOp.isExecuting).to(beTrue());
+                         expect(testCancelOp.isFinished).to(beFalse());
+                         expect(testCancelOp.isCancelled).to(beFalse());
 
                          [testChoiceSet cancel];
                      });
@@ -153,14 +164,14 @@ describe(@"present choice operation", ^{
                          });
 
                          it(@"should not error", ^{
-                             expect(testOp.error).to(beNil());
+                             expect(testCancelOp.error).to(beNil());
                          });
 
                          it(@"should not finish", ^{
                              expect(hasCalledOperationCompletionHandler).to(beFalse());
-                             expect(testOp.isExecuting).to(beTrue());
-                             expect(testOp.isFinished).to(beFalse());
-                             expect(testOp.isCancelled).to(beFalse());
+                             expect(testCancelOp.isExecuting).to(beTrue());
+                             expect(testCancelOp.isFinished).to(beFalse());
+                             expect(testCancelOp.isCancelled).to(beFalse());
                          });
                      });
 
@@ -174,25 +185,25 @@ describe(@"present choice operation", ^{
                          });
 
                          it(@"should error", ^{
-                             expect(testOp.error).to(equal(testError));
+                             expect(testCancelOp.error).to(equal(testError));
                          });
 
                          it(@"should not finish", ^{
                              expect(hasCalledOperationCompletionHandler).to(beFalse());
-                             expect(testOp.isExecuting).to(beTrue());
-                             expect(testOp.isFinished).to(beFalse());
-                             expect(testOp.isCancelled).to(beFalse());
+                             expect(testCancelOp.isExecuting).to(beTrue());
+                             expect(testCancelOp.isFinished).to(beFalse());
+                             expect(testCancelOp.isCancelled).to(beFalse());
                          });
                      });
                  });
 
                  context(@"If the operation has already finished", ^{
                      beforeEach(^{
-                         [testOp finishOperation];
+                         [testCancelOp finishOperation];
 
-                         expect(testOp.isExecuting).to(beFalse());
-                         expect(testOp.isFinished).to(beTrue());
-                         expect(testOp.isCancelled).to(beFalse());
+                         expect(testCancelOp.isExecuting).to(beFalse());
+                         expect(testCancelOp.isFinished).to(beTrue());
+                         expect(testCancelOp.isCancelled).to(beFalse());
 
                          [testChoiceSet cancel];
                      });
@@ -205,11 +216,12 @@ describe(@"present choice operation", ^{
 
                  context(@"If the started operation has been canceled", ^{
                      beforeEach(^{
-                         [testOp cancel];
+                         [testCancelOp start];
+                         [testCancelOp cancel];
 
-                         expect(testOp.isExecuting).to(beTrue());
-                         expect(testOp.isFinished).to(beFalse());
-                         expect(testOp.isCancelled).to(beTrue());
+                         expect(testCancelOp.isExecuting).to(beTrue());
+                         expect(testCancelOp.isFinished).to(beFalse());
+                         expect(testCancelOp.isCancelled).to(beTrue());
 
                          [testChoiceSet cancel];
                      });
@@ -221,24 +233,17 @@ describe(@"present choice operation", ^{
 
                      it(@"should not finish", ^{
                          expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
-                         expect(testOp.isExecuting).toEventually(beTrue());
-                         expect(testOp.isFinished).toEventually(beFalse());
-                         expect(testOp.isCancelled).toEventually(beTrue());
+                         expect(testCancelOp.isExecuting).toEventually(beTrue());
+                         expect(testCancelOp.isFinished).toEventually(beFalse());
+                         expect(testCancelOp.isCancelled).toEventually(beTrue());
                      });
                  });
 
                 context(@"If the operation has not started", ^{
-                    __block SDLPresentChoiceSetOperation *notStartedtestOp = nil;
-
                     beforeEach(^{
-                        notStartedtestOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
-                        notStartedtestOp.completionBlock = ^{
-                            hasCalledOperationCompletionHandler = YES;
-                        };
-
-                        expect(notStartedtestOp.isExecuting).to(beFalse());
-                        expect(notStartedtestOp.isFinished).to(beFalse());
-                        expect(notStartedtestOp.isCancelled).to(beFalse());
+                        expect(testCancelOp.isExecuting).to(beFalse());
+                        expect(testCancelOp.isFinished).to(beFalse());
+                        expect(testCancelOp.isCancelled).to(beFalse());
 
                         [testChoiceSet cancel];
                     });
@@ -250,7 +255,7 @@ describe(@"present choice operation", ^{
 
                     context(@"Once the operation has started", ^{
                         beforeEach(^{
-                            [notStartedtestOp start];
+                            [testCancelOp start];
                         });
 
                         it(@"should not attempt to send a cancel interaction", ^{
@@ -260,9 +265,9 @@ describe(@"present choice operation", ^{
 
                         it(@"should finish", ^{
                             expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                            expect(notStartedtestOp.isExecuting).toEventually(beFalse());
-                            expect(notStartedtestOp.isFinished).toEventually(beTrue());
-                            expect(notStartedtestOp.isCancelled).toEventually(beTrue());
+                            expect(testCancelOp.isExecuting).toEventually(beFalse());
+                            expect(testCancelOp.isFinished).toEventually(beTrue());
+                            expect(testCancelOp.isCancelled).toEventually(beTrue());
                         });
                     });
                 });
@@ -273,17 +278,34 @@ describe(@"present choice operation", ^{
                     SDLVersion *unsupportedVersion = [SDLVersion versionWithMajor:5 minor:1 patch:0];
                     id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
                     OCMStub([globalMock rpcVersion]).andReturn(unsupportedVersion);
-
-                    expect(testOp.isExecuting).to(beTrue());
-                    expect(testOp.isFinished).to(beFalse());
-                    expect(testOp.isCancelled).to(beFalse());
-
-                    [testChoiceSet cancel];
                 });
 
-                it(@"should not attempt to send a cancel interaction", ^{
+                it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
+                    [testCancelOp start];
+
+                    expect(testCancelOp.isExecuting).to(beTrue());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beFalse());
+
+                    [testChoiceSet cancel];
+
                     SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                     expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                });
+
+                it(@"should cancel the operation if it has not yet been run", ^{
+                    expect(testCancelOp.isExecuting).to(beFalse());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beFalse());
+
+                    [testChoiceSet cancel];
+
+                    SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                    expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+
+                    expect(testCancelOp.isExecuting).to(beFalse());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beTrue());
                 });
             });
         });

@@ -181,14 +181,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be dismissed using the `CancelInteraction` RPC.
+ * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.
  */
 - (void)sdl_cancelInteraction {
-    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"Canceling a choice set is not supported on this head unit");
-        return;
-    }
-
     if (self.isFinished) {
         SDLLogW(@"This operation has already finished so it can not be canceled.");
         return;
@@ -196,6 +191,11 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
     } else if (self.isExecuting) {
+        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogE(@"Canceling a choice set is not supported on this head unit");
+            return;
+        }
+
         SDLLogD(@"Canceling the presented choice set interaction");
 
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];

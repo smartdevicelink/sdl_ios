@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPresentKeyboardOperation : SDLAsynchronousOperation
 
 /**
+ A unique ID that can be used to cancel this keyboard.
+ */
+@property (assign, nonatomic, readonly) UInt16 cancelId;
+
+/**
  An operation to present a keyboard.
 
  @param connectionManager The connection manager
@@ -31,11 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID;
 
 /**
- Cancels a keyboard. If the keyboard is currently presented, it will be dismissed. If the keyboard has not yet been sent to Core, it will not be sent.
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
 
- @param cancelID The unique ID assigned to the keyboard
+ This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
  */
-- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
+- (void)dismissKeyboard;
 
 @end
 

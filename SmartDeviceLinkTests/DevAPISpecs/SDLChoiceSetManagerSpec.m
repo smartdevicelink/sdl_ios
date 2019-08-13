@@ -373,10 +373,10 @@ describe(@"choice set manager tests", ^{
 
             beforeEach(^{
                 mockKeyboardOp1 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
-                OCMStub([mockKeyboardOp1 isExecuting]).andReturn(true);
+                OCMStub([mockKeyboardOp1 cancelId]).andReturn(88);
 
                 mockKeyboardOp2 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
-                OCMStub([mockKeyboardOp1 isExecuting]).andReturn(false);
+                OCMStub([mockKeyboardOp2 cancelId]).andReturn(testCancelId);
 
                 mockQueue = OCMPartialMock([[NSOperationQueue alloc] init]);
                 NSArray<SDLAsynchronousOperation *> *keyboardOps = @[mockKeyboardOp1, mockKeyboardOp2];
@@ -385,35 +385,21 @@ describe(@"choice set manager tests", ^{
                 testManager.transactionQueue = mockQueue;
             });
 
-            context(@"head unit supports the `CancelInteration` RPC", ^{
-                beforeEach(^{
-                    SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                    OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+           it(@"should dismiss the keyboard operation with the matching cancelID if it is executing", ^{
+               OCMStub([mockKeyboardOp2 isExecuting]).andReturn(true);
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
-                    [testManager dismissKeyboardWithCancelID:@(testCancelId)];
-                });
+               OCMReject([mockKeyboardOp1 dismissKeyboard]);
+               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+           });
 
-                it(@"should dismiss all keyboard operations", ^{
-                    OCMVerify([mockKeyboardOp1 dismissKeyboardWithCancelID:@(testCancelId)]);
-                    OCMVerify([mockKeyboardOp2 dismissKeyboardWithCancelID:@(testCancelId)]);
-                });
-            });
+           it(@"should dismiss the keyboard operation with the matching cancelID if it is not executing", ^{
+               OCMStub([mockKeyboardOp2 isExecuting]).andReturn(false);
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
-            context(@"head unit does not support the `CancelInteration` RPC", ^{
-                beforeEach(^{
-                    SDLVersion *unsupportedVersion = [SDLVersion versionWithMajor:4 minor:5 patch:2];
-                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                    OCMStub([globalMock rpcVersion]).andReturn(unsupportedVersion);
-
-                    [testManager dismissKeyboardWithCancelID:@(testCancelId)];
-                });
-
-                it(@"should not dismiss any keyboard operations", ^{
-                    OCMReject([mockKeyboardOp1 dismissKeyboardWithCancelID:@(testCancelId)]);
-                    OCMReject([mockKeyboardOp2 dismissKeyboardWithCancelID:@(testCancelId)]);
-                });
-            });
+               OCMReject([mockKeyboardOp1 dismissKeyboard]);
+               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+           });
         });
     });
 });

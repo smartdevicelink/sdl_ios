@@ -37,7 +37,6 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
 #import "SDLSystemContext.h"
-#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -349,16 +348,14 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID {
-    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"Canceling a keyboard is not supported on this head unit");
-        return;
-    }
-
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
 
         SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
-        [keyboardOperation dismissKeyboardWithCancelID:cancelID];
+        if (keyboardOperation.cancelId != cancelID.unsignedShortValue) { continue; }
+
+        [keyboardOperation dismissKeyboard];
+        break;
     }
 }
 

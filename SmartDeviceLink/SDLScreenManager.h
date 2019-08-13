@@ -288,14 +288,16 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
- @return An unique cancelID that can be used to cancel this keyboard
+ @return A unique cancelID that can be used to cancel this keyboard
  */
 - (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
 
 /**
- Dismisses a currently presented keyboard with the associated ID. Canceling a keyboard only works when connected to SDL Core v.6.0+. When connected to older versions of SDL Core the keyboard will not be dismissed.
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
 
- @param cancelID The unique ID assigned to the keyboard
+ This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+
+ @param cancelID The unique ID assigned to the keyboard, passed as the return value from `presentKeyboardWithInitialText:keyboardDelegate:`
  */
 - (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 

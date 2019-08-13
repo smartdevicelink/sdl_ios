@@ -10,6 +10,7 @@
 
 #import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -19,6 +20,7 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *initialText;
 @property (strong, nonatomic) SDLKeyboardProperties *originalKeyboardProperties;
 @property (strong, nonatomic) SDLKeyboardProperties *keyboardProperties;
-@property (assign, nonatomic) UInt16 cancelId;
+@property (assign, nonatomic, readwrite) UInt16 cancelId;
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
@@ -113,11 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID {
-    if (!(cancelID.unsignedShortValue == self.cancelId)) {
-        return;
-    }
-
+- (void)dismissKeyboard {
     if (self.isFinished) {
         SDLLogW(@"This operation has already finished so it can not be canceled.");
         return;
@@ -125,6 +123,11 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
     } else if (self.isExecuting) {
+        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogE(@"Canceling a keyboard is not supported on this head unit");
+            return;
+        }
+
         SDLLogD(@"Canceling the presented keyboard");
 
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];

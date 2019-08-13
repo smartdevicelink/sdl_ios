@@ -8,6 +8,7 @@
 #import "SDLCancelInteractionResponse.h"
 #import "SDLError.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLOnKeyboardInput.h"
@@ -17,6 +18,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLSetGlobalPropertiesResponse.h"
 #import "TestConnectionManager.h"
+#import "SDLVersion.h"
 
 QuickSpecBegin(SDLPresentKeyboardOperationSpec)
 
@@ -262,13 +264,17 @@ describe(@"present keyboard operation", ^{
 
         context(@"If the operation is executing", ^{
             beforeEach(^{
+                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+
                 [testOp start];
 
                 expect(testOp.isExecuting).to(beTrue());
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp dismissKeyboardWithCancelID:@(testCancelID)];
+                [testOp dismissKeyboard];
             });
 
             it(@"should attempt to send a cancel interaction", ^{
@@ -327,6 +333,42 @@ describe(@"present keyboard operation", ^{
             });
         });
 
+        context(@"The head unit does not support the `CancelInteraction` RPC", ^{
+            beforeEach(^{
+                SDLVersion *unsupportedVersion = [SDLVersion versionWithMajor:4 minor:5 patch:2];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(unsupportedVersion);
+            });
+
+            it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
+                [testOp start];
+
+                expect(testOp.isExecuting).to(beTrue());
+                expect(testOp.isFinished).to(beFalse());
+                expect(testOp.isCancelled).to(beFalse());
+
+                [testOp dismissKeyboard];
+
+                SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+            });
+
+            it(@"should cancel the operation if it has not yet been run", ^{
+                expect(testOp.isExecuting).to(beFalse());
+                expect(testOp.isFinished).to(beFalse());
+                expect(testOp.isCancelled).to(beFalse());
+
+                [testOp dismissKeyboard];
+
+                SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                expect(lastRequest).to(beNil());
+
+                expect(testOp.isExecuting).to(beFalse());
+                expect(testOp.isFinished).to(beFalse());
+                expect(testOp.isCancelled).to(beTrue());
+            });
+        });
+
         context(@"If the operation has already finished", ^{
             beforeEach(^{
                 [testOp start];
@@ -340,7 +382,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beTrue());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp dismissKeyboardWithCancelID:@(testCancelID)];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{
@@ -358,7 +400,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beTrue());
 
-                [testOp dismissKeyboardWithCancelID:@(testCancelID)];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{
@@ -380,7 +422,7 @@ describe(@"present keyboard operation", ^{
                 expect(testOp.isFinished).to(beFalse());
                 expect(testOp.isCancelled).to(beFalse());
 
-                [testOp dismissKeyboardWithCancelID:@(testCancelID)];
+                [testOp dismissKeyboard];
             });
 
             it(@"should not attempt to send a cancel interaction", ^{
@@ -404,25 +446,6 @@ describe(@"present keyboard operation", ^{
                     expect(testOp.isFinished).toEventually(beTrue());
                     expect(testOp.isCancelled).toEventually(beTrue());
                 });
-            });
-        });
-
-        context(@"If the canceIDs do not match", ^{
-            __block int testWrongCancelID = 998745;
-
-            beforeEach(^{
-                [testOp start];
-
-                expect(testOp.isExecuting).to(beTrue());
-                expect(testOp.isFinished).to(beFalse());
-                expect(testOp.isCancelled).to(beFalse());
-
-                [testOp dismissKeyboardWithCancelID:@(testWrongCancelID)];
-            });
-
-            it(@"should not attempt to send a cancel interaction", ^{
-                SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
             });
         });
     });
