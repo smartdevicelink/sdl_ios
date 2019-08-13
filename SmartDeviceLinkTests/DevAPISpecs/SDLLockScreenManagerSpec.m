@@ -234,7 +234,7 @@ describe(@"a lock screen manager", ^{
         });
     });
 
-    context(@"with showDeviceLogo as false",  ^{
+    fcontext(@"with showDeviceLogo as NO",  ^{
         beforeEach(^{
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.showDeviceLogo = NO;
@@ -251,7 +251,7 @@ describe(@"a lock screen manager", ^{
                 [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
             });
 
-            it(@"should have a vehicle icon if showDeviceLogo is set to true", ^{
+            it(@"should not have a vehicle icon if showDeviceLogo is set to NO", ^{
                 expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(beNil());
             });
         });
