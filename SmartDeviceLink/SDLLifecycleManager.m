@@ -654,7 +654,15 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     
     dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
+        if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
+            request.payloadProtected = YES;
+        }
+        
+        if (request.isPayloadProtected) {
+            [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
+        } else {
+            [self sdl_sendRequest:request withResponseHandler:handler];
+        }
     });
 }
 
