@@ -234,7 +234,7 @@ describe(@"a lock screen manager", ^{
         });
     });
 
-    fcontext(@"with showDeviceLogo as NO",  ^{
+    context(@"with showDeviceLogo as NO",  ^{
         beforeEach(^{
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.showDeviceLogo = NO;
