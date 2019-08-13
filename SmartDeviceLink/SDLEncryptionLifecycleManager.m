@@ -25,7 +25,6 @@
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
-@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 
 @end
@@ -39,7 +38,6 @@
     }
     
     SDLLogV(@"Creating EncryptionLifecycleManager");
-    _hmiLevel = SDLHMILevelNone;
     _connectionManager = connectionManager;
     _rpcOperationQueue = rpcOperationQueue;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
@@ -62,7 +60,6 @@
 }
 
 - (void)stop {
-    _hmiLevel = SDLHMILevelNone;
     _permissions = nil;
     _protocol = nil;
     
@@ -94,20 +91,11 @@
         SDLLogV(@"Encryption manager is not yet started");
         return;
     }
-
-    if (!self.hmiLevel) {
-        SDLLogV(@"Encryption Manager is not ready to encrypt.");
-        return;
-    }
     
-    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone]
-        && [self containsAtLeastOneRPCThatRequiresEncryption]) {
+    if (!self.permissions && [self containsAtLeastOneRPCThatRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
-        SDLLogE(@"Unable to send encryption start service request\n"
-                "permissions: %@\n"
-                "HMI state must be LIMITED, FULL, BACKGROUND: %@\n",
-                self.permissions, self.hmiLevel);
+        SDLLogE(@"Encryption Manager is not ready to encrypt.");
     }
 }
 
@@ -211,22 +199,6 @@
 }
 
 #pragma mark - SDL RPC Notification callbacks
-- (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
-        return;
-    }
-    
-    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
-    self.hmiLevel = hmiStatus.hmiLevel;
-    
-    // if startWithProtocol has not been called yet, abort here
-    if (!self.protocol) { return; }
-    
-    if (!self.isEncryptionReady) {
-        [self sdl_startEncryptionService];
-    }
-}
-
 - (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
     if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
         return;
