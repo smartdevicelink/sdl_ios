@@ -119,14 +119,22 @@ UInt32 const MenuCellIdMin = 1;
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
         return;
-    }
-
-    if (self.currentHMILevel == nil
+    } else if (self.displayCapabilities.menuLayoutsAvailable == nil) {
+        SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
+        return;
+    } else if (![self.displayCapabilities.menuLayoutsAvailable containsObject:menuConfiguration.mainMenuLayout]
+              || ![self.displayCapabilities.menuLayoutsAvailable containsObject:menuConfiguration.defaultSubmenuLayout]) {
+        SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", self.displayCapabilities.menuLayoutsAvailable, menuConfiguration);
+        return;
+    } else if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         SDLLogE(@"Could not set main menu configuration, HMI level: %@, required: 'Not-NONE', system context: %@, required: 'Not MENU'", self.currentHMILevel, self.currentSystemContext);
         return;
     }
+
+    SDLMenuConfiguration *oldConfig = self.menuConfiguration;
+    self.menuConfiguration = menuConfiguration;
 
     SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
     setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
@@ -136,10 +144,9 @@ UInt32 const MenuCellIdMin = 1;
         __strong typeof(weakself) strongself = weakself;
         if (error != nil) {
             SDLLogE(@"Could not set main menu configuration: %@", error);
+            strongself.menuConfiguration = oldConfig;
             return;
         }
-
-        strongself->_menuConfiguration = menuConfiguration;
     }];
 }
 
@@ -590,7 +597,12 @@ UInt32 const MenuCellIdMin = 1;
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
-    SDLMenuLayout submenuLayout = cell.submenuLayout ?: self.menuConfiguration.defaultSubmenuLayout;
+
+    SDLMenuLayout submenuLayout = nil;
+    if (!cell.submenuLayout || ![self.displayCapabilities.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
+        submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
+    }
+
     return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuLayout:submenuLayout menuIcon:icon position:(UInt8)position];
 }
 
