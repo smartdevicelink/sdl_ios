@@ -91,7 +91,7 @@ int const CreateSessionRetries = 3;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
-    EAAccessory *newAccessory = [notification.userInfo objectForKey:EAAccessoryKey];
+    EAAccessory *newAccessory = notification.userInfo[EAAccessoryKey];
 
     if ([self sdl_isDataSessionActive:self.dataSession newAccessory:newAccessory]) {
         self.accessoryConnectDuringActiveSession = YES;
@@ -99,10 +99,10 @@ int const CreateSessionRetries = 3;
     }
 
     double retryDelay = self.sdl_retryDelay;
-    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
+    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", newAccessory, retryDelay);
 
     self.retryCounter = 0;
-    [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
+    [self sdl_connect:newAccessory];
 }
 
 /**
@@ -304,6 +304,7 @@ int const CreateSessionRetries = 3;
  *  @param protocolString   The protocol string to be used to open the data session
  */
 - (void)controlSession:(nonnull SDLIAPControlSession *)controlSession didReceiveProtocolString:(nonnull NSString *)protocolString {
+    SDLLogD(@"Control transport session received data session number: %@", protocolString);
     self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:controlSession.accessory delegate:self forProtocol:protocolString];
     [self.dataSession startSession];
 }
@@ -499,7 +500,7 @@ int const CreateSessionRetries = 3;
         return YES;
     } else if ([protocolString isEqualToString:ControlProtocolString]) {
         self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
-        [self.controlSession startSession];
+        [self.controlSession performSelector:@selector(startSession) withObject:nil afterDelay:[self sdl_retryDelay]];
         return YES;
     } else if ([protocolString isEqualToString:LegacyProtocolString]) {
         self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
