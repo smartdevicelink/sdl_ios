@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *
  */
-@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) SDLDisplayCapability *displayCapabilities;
 
 @end
 
