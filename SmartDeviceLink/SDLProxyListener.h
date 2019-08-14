@@ -112,6 +112,8 @@
 @class SDLSetMediaClockTimer;
 @class SDLSetMediaClockTimerResponse;
 @class SDLShow;
+@class SDLShowAppMenu;
+@class SDLShowAppMenuResponse;
 @class SDLShowConstantTBT;
 @class SDLShowConstantTBTResponse;
 @class SDLShowResponse;
@@ -128,6 +130,8 @@
 @class SDLSyncPData;
 @class SDLSyncPDataResponse;
 @class SDLSystemRequest;
+@class SDLUnpublishAppService;
+@class SDLUnpublishAppServiceResponse;
 @class SDLUnregisterAppInterface;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButton;
@@ -494,6 +498,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onShowResponse:(SDLShowResponse *)response;
 
 /**
+ *  Called when a ShowAppMenu Response is received from Core
+ *
+ *  @param response A SDLShowAppMenuResponse object
+ */
+- (void)onShowAppMenuResponse:(SDLShowAppMenuResponse *)response;
+
+/**
  *  Called when a Slider Response is received from Core
  *
  *  @param response A SDLSliderResponse object
@@ -541,6 +552,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLUpdateTurnListResponse object
  */
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
+
+/**
+ *  Called when an Unpublish App Service Response is received from Core
+ *
+ *  @param response A SDLUnpublishAppServiceResponse object
+ */
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response;
 
 /**
  *  Called when an Unregister App Interface Response is received from Core
@@ -874,6 +892,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onShow:(SDLShow *)request;
 
 /**
+ *  Called when a `ShowAppMenu` is received from Core
+ *
+ *  @param request A SDLShowAppMenu object
+ */
+- (void)onShowAppMenu:(SDLShowAppMenu *)request;
+
+/**
  *  Called when a `ShowConstantTBT` request is received from Core
  *
  *  @param request A SDLShowConstantTBT object
@@ -928,6 +953,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLSystemRequest object
  */
 - (void)onSystemRequest:(SDLSystemRequest *)request;
+
+/**
+ *  Called when a `SDLUnpublishAppService` request is received from Core
+ *
+ *  @param request A SDLUnpublishAppService object
+ */
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request;
 
 /**
  *  Called when a `UnregisterAppInterface` request is received from Core
@@ -1049,7 +1081,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param notification A SDLOnLockScreenStatus object
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+#pragma clang diagnostic pop
 
 /**
  *  Called when an On Permissions Change notification is received from Core

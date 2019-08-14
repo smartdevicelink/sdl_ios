@@ -275,6 +275,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveShowResponse response:response];
 }
 
+- (void)onShowAppMenuResponse:(SDLShowAppMenuResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveShowAppMenuResponse response:response];
+}
+
 - (void)onSliderResponse:(SDLSliderResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSliderResponse response:response];
 }
@@ -301,6 +305,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUpdateTurnListResponse response:response];
+}
+
+- (void)onUnpublishAppServiceResponse:(SDLUnpublishAppServiceResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveUnpublishAppServiceResponse response:response];
 }
 
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
@@ -493,6 +501,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveShowRequest request:request];
 }
 
+- (void)onShowAppMenu:(SDLShowAppMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowAppMenuRequest request:request];
+}
+
 - (void)onShowConstantTBT:(SDLShowConstantTBT *)request {
     [self postRPCRequestNotification:SDLDidReceiveShowConstantTBTRequest request:request];
 }
@@ -523,6 +535,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)onSystemRequest:(SDLSystemRequest *)request {
     [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
+}
+
+- (void)onUnpublishAppService:(SDLUnpublishAppService *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnpublishAppServiceRequest request:request];
 }
 
 - (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {

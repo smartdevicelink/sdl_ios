@@ -35,7 +35,7 @@ describe(@"present keyboard operation", ^{
         testDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testDelegate customKeyboardConfiguration]).andReturn(nil);
 
-        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa layout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa layout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -163,7 +163,7 @@ describe(@"present keyboard operation", ^{
                 NSString *inputData = @"Test";
                 SDLRPCNotificationNotification *notification = nil;
 
-                OCMStub([testDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:inputData, nil])]);
+                OCMStub([testDelegate updateAutocompleteWithInput:[OCMArg any] autoCompleteResultsHandler:([OCMArg invokeBlockWithArgs:@[inputData], nil])]);
 
                 // Submit notification
                 SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
@@ -181,7 +181,7 @@ describe(@"present keyboard operation", ^{
 
                 OCMVerify([testDelegate updateAutocompleteWithInput:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [(NSString *)obj isEqualToString:inputData];
-                }] completionHandler:[OCMArg any]]);
+                }] autoCompleteResultsHandler:[OCMArg any]]);
 
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLSetGlobalProperties class]));
 

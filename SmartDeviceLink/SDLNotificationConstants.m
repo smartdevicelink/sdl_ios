@@ -69,6 +69,7 @@ SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse = @"com.sd
 SDLNotificationName const SDLDidReceiveSetMediaClockTimerResponse = @"com.sdl.response.setMediaClockTimer";
 SDLNotificationName const SDLDidReceiveShowConstantTBTResponse = @"com.sdl.response.showConstantTBT";
 SDLNotificationName const SDLDidReceiveShowResponse = @"com.sdl.response.show";
+SDLNotificationName const SDLDidReceiveShowAppMenuResponse = @"com.sdl.response.showAppMenu";
 SDLNotificationName const SDLDidReceiveSliderResponse = @"com.sdl.response.slider";
 SDLNotificationName const SDLDidReceiveSpeakResponse = @"com.sdl.response.speak";
 SDLNotificationName const SDLDidReceiveSubscribeButtonResponse = @"com.sdl.response.subscribeButton";
@@ -76,6 +77,7 @@ SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse = @"com.sdl.
 SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse = @"com.sdl.response.subscribeWaypoints";
 SDLNotificationName const SDLDidReceiveSyncPDataResponse = @"com.sdl.response.syncPData";
 SDLNotificationName const SDLDidReceiveUpdateTurnListResponse = @"com.sdl.response.updateTurnList";
+SDLNotificationName const SDLDidReceiveUnpublishAppServiceResponse = @"com.sdl.response.unpublishAppService";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceResponse = @"com.sdl.response.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.response.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
@@ -125,6 +127,7 @@ SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest = @"com.sdl.re
 SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest = @"com.sdl.request.setInteriorVehicleData";
 SDLNotificationName const SDLDidReceiveSetMediaClockTimerRequest = @"com.sdl.request.setMediaClockTimer";
 SDLNotificationName const SDLDidReceiveShowRequest = @"com.sdl.request.show";
+SDLNotificationName const SDLDidReceiveShowAppMenuRequest = @"com.sdl.request.showAppMenu";
 SDLNotificationName const SDLDidReceiveShowConstantTBTRequest = @"com.sdl.request.showConstantTBT";
 SDLNotificationName const SDLDidReceiveSliderRequest = @"com.sdl.request.slider";
 SDLNotificationName const SDLDidReceiveSpeakRequest = @"com.sdl.request.speak";
@@ -133,6 +136,7 @@ SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest = @"com.sdl.r
 SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest = @"com.sdl.request.subscribeWayPoints";
 SDLNotificationName const SDLDidReceiveSyncPDataRequest = @"com.sdl.request.syncPData";
 SDLNotificationName const SDLDidReceiveSystemRequestRequest = @"com.sdl.request.systemRequest";
+SDLNotificationName const SDLDidReceiveUnpublishAppServiceRequest = @"com.sdl.request.unpublishAppService";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceRequest = @"com.sdl.request.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonRequest = @"com.sdl.request.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataRequest = @"com.sdl.request.unsubscribeVehicleData";
@@ -212,6 +216,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSetMediaClockTimerResponse,
              SDLDidReceiveShowConstantTBTResponse,
              SDLDidReceiveShowResponse,
+             SDLDidReceiveShowAppMenuResponse,
              SDLDidReceiveSliderResponse,
              SDLDidReceiveSpeakResponse,
              SDLDidReceiveSubscribeButtonResponse,
@@ -219,6 +224,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSubscribeWaypointsResponse,
              SDLDidReceiveSyncPDataResponse,
              SDLDidReceiveUpdateTurnListResponse,
+             SDLDidReceiveUnpublishAppServiceResponse,
              SDLDidReceiveUnregisterAppInterfaceResponse,
              SDLDidReceiveUnsubscribeButtonResponse,
              SDLDidReceiveUnsubscribeVehicleDataResponse,

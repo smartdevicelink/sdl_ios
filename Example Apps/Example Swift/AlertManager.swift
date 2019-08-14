@@ -21,7 +21,7 @@ class AlertManager {
     ///   - textField2: The second line of a message to display in the alert
     /// - Returns: An SDLAlert object
     class func alertWithMessage(_ textField1: String, textField2: String? = nil) -> SDLAlert {
-        return SDLAlert(alertText1: textField1, alertText2: nil, alertText3: nil)
+        return SDLAlert(alertText1: textField1, alertText2: nil)
     }
 
     /// Creates an alert with up to two lines of text and a close button that will dismiss the alert when tapped
@@ -29,8 +29,9 @@ class AlertManager {
     /// - Parameters:
     ///   - textField1: The first line of a message to display in the alert
     ///   - textField2: The second line of a message to display in the alert
+    ///   - iconName: The name of the uploaded icon artwork
     /// - Returns: An SDLAlert object
-    class func alertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil) -> SDLAlert {
-        return SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, duration: 5000, softButtons: [AlertManager.okSoftButton])
+    class func alertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil, iconName: String? = nil) -> SDLAlert {
+        return SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, ttsChunks: nil, playTone: false, progressIndicator: false, duration: 5000, softButtons: [AlertManager.okSoftButton], alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil)
     }
 }

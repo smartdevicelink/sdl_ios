@@ -19,6 +19,8 @@ class MenuManager: NSObject {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
+                sliderMenuCell(with: manager),
+                scrollableMessageMenuCell(with: manager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellChangeTemplate(with: manager),
@@ -173,6 +175,20 @@ private extension MenuManager {
         }
         
         return SDLMenuCell(title: ACSubmenuMenuName, submenuLayout: .list, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
+    }
+
+    private class func sliderMenuCell(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACSliderMenuName, icon: nil, voiceCommands: [ACSliderMenuName], handler: { _ in
+            let slider = SDLSlider(numTicks: 3, position: 1, sliderHeader: "Select a letter", sliderFooters: ["A", "B", "C"], timeout: 10000)
+            manager.send(slider)
+        })
+    }
+
+    private class func scrollableMessageMenuCell(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
+            let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines", timeout: 10000, softButtons: nil)
+            manager.send(scrollableMessage)
+        })
     }
 }
 

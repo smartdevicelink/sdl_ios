@@ -188,6 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [screenManager beginUpdates];
     screenManager.textAlignment = SDLTextAlignmentLeft;
+    screenManager.title = isTextEnabled ? @"Home" : nil;
     screenManager.textField1 = isTextEnabled ? SmartDeviceLinkText : nil;
     screenManager.textField2 = isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
