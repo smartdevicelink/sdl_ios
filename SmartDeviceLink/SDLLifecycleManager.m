@@ -590,16 +590,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
-        request.payloadProtected = YES;
-    }
-    
-    if (request.isPayloadProtected) {
-        [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
-    } else {
-        SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
-        [self.rpcOperationQueue addOperation:op];
-    }
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+    [self.rpcOperationQueue addOperation:op];
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
@@ -652,17 +644,20 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
     
-    dispatch_async(_lifecycleQueue, ^{
-        if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
-            request.payloadProtected = YES;
+    if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
+        request.payloadProtected = YES;
+    }
+    
+    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
         }
         
-        if (request.isPayloadProtected) {
-            [self.encryptionLifecycleManager sendEncryptedRequest:request withResponseHandler:handler];
-        } else {
-            [self sdl_sendRequest:request withResponseHandler:handler];
-        }
-    });
+        return;
+    }
+    
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
