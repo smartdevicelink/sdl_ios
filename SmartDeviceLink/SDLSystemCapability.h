@@ -14,7 +14,7 @@
 @class SDLNavigationCapability;
 @class SDLVideoStreamingCapability;
 @class SDLRemoteControlCapabilities;
-@class SDLDisplayCapabilities;
+@class SDLDisplayCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
