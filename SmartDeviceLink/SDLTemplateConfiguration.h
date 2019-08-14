@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *template;
 
 /**
- * dayColorScheme The color scheme to use when the head unit is in a light / day situation.
+ * The color scheme to use when the head unit is in a light / day situation.
  */
 @property (strong, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
 
