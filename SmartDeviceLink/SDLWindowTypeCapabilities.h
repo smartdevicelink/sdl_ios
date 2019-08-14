@@ -9,7 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Used to inform an app how many window instances per type that can be created.
- * @since 6.0
+ *
+ * @since SDL 6.0
  */
 @interface SDLWindowTypeCapabilities : SDLRPCStruct
 
