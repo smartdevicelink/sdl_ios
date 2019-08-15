@@ -334,17 +334,6 @@ describe(@"choice set manager tests", ^{
                 testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
             });
 
-            it(@"should properly start the keyboard presentation with presentKeyboardWithInitialText:delegate:", ^{
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
-                #pragma clang diagnostic pop
-
-                OCMVerify([pendingPresentOp cancel]);
-                expect(testManager.transactionQueue.operations).to(haveCount(1));
-                expect(testManager.pendingPresentOperation).to(beAnInstanceOf([SDLPresentKeyboardOperation class]));
-            });
-
             it(@"should return a cancelID and should properly start the keyboard presentation with presentKeyboardWithInitialText:keyboardDelegate:", ^{
                 NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText keyboardDelegate:testKeyboardDelegate];
 

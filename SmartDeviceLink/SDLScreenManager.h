@@ -280,17 +280,9 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
- */
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate __deprecated_msg("Use presentKeyboardWithInitialText:keyboardDelegate: instead");
-
-/**
- Present a keyboard-only interface to the user and receive input. The user will be able to input text in the keyboard when in a non-driver distraction situation.
-
- @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
- @param delegate The keyboard delegate called when the user interacts with the keyboard
  @return A unique cancelID that can be used to cancel this keyboard
  */
-- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
 
 /**
  Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.

@@ -263,11 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager presentChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
 }
 
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    [self presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
-}
-
-- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
     return [self.choiceSetManager presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
 }
 
