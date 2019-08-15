@@ -26,6 +26,7 @@
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 
 @end
@@ -41,9 +42,11 @@
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _connectionManager = connectionManager;
     _rpcOperationQueue = rpcOperationQueue;
+    _currentHMILevel = nil;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
 }
@@ -63,7 +66,8 @@
 - (void)stop {
     _permissions = nil;
     _protocol = nil;
-    
+    _currentHMILevel = nil;
+
     SDLLogD(@"Stopping encryption manager");
 }
 
@@ -88,12 +92,13 @@
 
 - (void)sdl_startEncryptionService {
     SDLLogV(@"Attempting to start Encryption Service");
-    if (!self.protocol) {
+    if (!self.protocol || !self.currentHMILevel) {
         SDLLogV(@"Encryption manager is not yet started");
         return;
     }
     
-    if (!self.permissions && [self containsAtLeastOneRPCThatRequiresEncryption]) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && !self.permissions
+        && [self containsAtLeastOneRPCThatRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
@@ -212,6 +217,23 @@
     for (SDLPermissionItem *item in newPermissionItems) {
         self.permissions[item.rpcName] = item;
     }
+    
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol  || ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) { return; }
+    
+    if (!self.isEncryptionReady) {
+        [self sdl_startEncryptionService];
+    }
+}
+
+- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
+        return;
+    }
+    
+    SDLOnHMIStatus *hmiStatus = notification.notification;
+    
+    self.currentHMILevel = hmiStatus.hmiLevel;
     
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }
