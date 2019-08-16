@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLProtocol.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLProtocolListener.h"
 
 @class SDLStateMachine;
 @class SDLEncryptionConfiguration;
+@class SDLProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 

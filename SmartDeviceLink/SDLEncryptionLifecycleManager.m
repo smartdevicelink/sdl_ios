@@ -17,6 +17,7 @@
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionConstants.h"
+#import "SDLProtocol.h"
 #import "SDLError.h"
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
@@ -205,7 +206,7 @@
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol  || ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) { return; }
     
-    if (!self.isEncryptionReady) {
+    if (![self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStarting] && self.isEncryptionReady) {
         [self sdl_startEncryptionService];
     }
 }
