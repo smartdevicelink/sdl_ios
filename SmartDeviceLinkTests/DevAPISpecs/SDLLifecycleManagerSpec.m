@@ -668,6 +668,28 @@ describe(@"a lifecycle manager", ^{
     });
 });
 
+describe(@"configuring the lifecycle manager", ^{
+    __block SDLLifecycleConfiguration *lifecycleConfig = nil;
+    __block SDLLifecycleManager *testManager = nil;
+
+    beforeEach(^{
+        lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test app" fullAppId:@"Test ID"];
+    });
+
+    context(@"if no secondary transport is allowed", ^{
+        beforeEach(^{
+            lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsNone;
+
+            SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+            testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+        });
+
+        it(@"should not create a secondary transport manager", ^{
+            expect(testManager.secondaryTransportManager).to(beNil());
+        });
+    });
+});
+
 QuickSpecEnd
 
 #pragma clang diagnostic pop
