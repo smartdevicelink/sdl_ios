@@ -238,7 +238,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
                           secondaryTransportManager:self.secondaryTransportManager
                          encryptionLifecycleManager:self.encryptionLifecycleManager];
-                          secondaryTransportManager:self.secondaryTransportManager];
     } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
