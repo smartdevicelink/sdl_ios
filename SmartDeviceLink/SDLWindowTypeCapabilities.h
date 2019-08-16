@@ -15,10 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWindowTypeCapabilities : SDLRPCStruct
 
 /**
+ * @param type Type of windows available, to create.
  *
- * @param type                   Type of windows available, to create.
- *
- * @param maximumNumberOfWindows Nuber of windows available, to create.
+ * @param maximumNumberOfWindows Number of windows available, to create.
  */
 - (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows NS_DESIGNATED_INITIALIZER;
 

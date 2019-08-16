@@ -27,12 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setType:(SDLWindowType)type {
-    [self.store sdl_setObject:type forName:SDLRPCParameterNameWindowType];
+    [self.store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLWindowType)type {
     NSError *error = nil;
-    return [self.store sdl_enumForName:SDLRPCParameterNameWindowType error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 - (void)setMaximumNumberOfWindows:(NSNumber<SDLInt> *)maximumNumberOfWindows {
