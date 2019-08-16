@@ -250,18 +250,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * This is the unique ID assigned to the window that this RPC is intended.
- * If this param is not included, it will be assumed that this request is specifically for the main window on the main display.
+ This is the unique ID assigned to the window that this RPC is intended.
  
- * @see PredefinedWindows enum.
- * @since SDL 6.0
+ If this param is not included, it will be assumed that this request is specifically for the main window on the main display.
+ 
+ @see PredefinedWindows enum.
+ @since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
 
 /**
- * Used to set an alternate template layout to a window.
- *
- * @since SDL 6.0
+ Used to set an alternate template layout to a window.
+ 
+ @since SDL 6.0
  */
 @property (strong, nonatomic, nullable) SDLTemplateConfiguration *templateConfiguration;
 
