@@ -45,10 +45,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLSystemContext systemContext;
 
 /**
- * This is the unique ID assigned to the window that this RPC is intended for.
- * If this param is not included, it will be assumed that this request is specifically for the main window on the main display.
- * @see PredefinedWindows enum.
- * @since SDL 6.0
+ This is the unique ID assigned to the window that this RPC is intended for. If this param is not included, it will be assumed that this request is specifically for the main window on the main display.
+ 
+ @see PredefinedWindows enum.
+ @since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
 

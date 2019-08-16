@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @since 6.0
+ * @since SDL 6.0
  */
 @interface SDLWindowCapability : SDLRPCStruct
 
