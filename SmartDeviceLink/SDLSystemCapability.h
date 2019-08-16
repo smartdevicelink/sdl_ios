@@ -106,8 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
+ *  Contain the display related information and all windows related to that display
  *
- *
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLDisplayCapability *displayCapabilities;
 

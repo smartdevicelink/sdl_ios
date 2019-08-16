@@ -131,6 +131,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
 }
 
+
+- (void)setDisplayCapabilities:(nullable SDLDisplayCapability *)displayCapabilities {
+    [self.store sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];
+}
+
+- (nullable SDLDisplayCapability *)displayCapabilities {
+    return [self.store sdl_objectForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
