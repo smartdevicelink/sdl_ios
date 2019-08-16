@@ -8,6 +8,7 @@
 #import "SDLAudioStreamingState.h"
 #import "SDLLogMacros.h"
 #import "SDLEncodedSyncPData.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
 #import "SDLGlobals.h"
@@ -39,7 +40,6 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
-#import "SDLPermissionManager.h"
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
@@ -108,6 +108,42 @@ static float DefaultConnectionTimeout = 45.0;
     return self;
 }
 
+- (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
+    if (self = [super init]) {
+        SDLLogD(@"Framework Version: %@", self.proxyVersion);
+        _lsm = [[SDLLockScreenStatusManager alloc] init];
+        _mutableProxyListeners = [NSMutableSet setWithObject:delegate];
+        _securityManagers = [NSMutableDictionary dictionary];
+        
+        _protocol = [[SDLProtocol alloc] initWithEncryptionLifecycleManager:encryptionLifecycleManager];
+        _transport = transport;
+        _transport.delegate = _protocol;
+        
+        [_protocol.protocolDelegateTable addObject:self];
+        _protocol.transport = transport;
+        
+        // make sure that secondary transport manager is started prior to starting protocol
+        if (secondaryTransportManager != nil) {
+            [secondaryTransportManager startWithPrimaryProtocol:_protocol];
+        }
+        
+        [self.transport connect];
+        
+        SDLLogV(@"Proxy transport initialization");
+        
+        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
+        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
+        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+        
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+        
+    }
+    
+    return self;
+}
+
+
 + (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
     SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
     SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
@@ -119,6 +155,21 @@ static float DefaultConnectionTimeout = 45.0;
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] initWithHostName:ipaddress portNumber:port];
 
     SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
+
+    return ret;
+}
+
++ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
+    SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager encryptionLifecycleManager:encryptionLifecycleManager];
+    
+    return ret;
+}
+
++ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
+    SDLTCPTransport *transport = [[SDLTCPTransport alloc] initWithHostName:ipaddress portNumber:port];
+    
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager encryptionLifecycleManager:encryptionLifecycleManager];
 
     return ret;
 }

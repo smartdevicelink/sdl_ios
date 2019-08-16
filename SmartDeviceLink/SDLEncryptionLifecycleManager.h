@@ -47,12 +47,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 /**
- *  Send an Encrypted RPC request and set a completion handler that will be called with the response when the response returns.
- *
- *  @param request The RPC request to send
- *  @param handler The handler that will be called when the response returns
+ *  Check whether or not an RPC needs encryption
  */
-- (void)sendEncryptedRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc;
 
 @end
 

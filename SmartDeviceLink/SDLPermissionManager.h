@@ -89,11 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier)identifier;
 
-/**
- *  Check whether or not an RPC needs encryption
- */
-- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc;
-
 @end
 
 NS_ASSUME_NONNULL_END

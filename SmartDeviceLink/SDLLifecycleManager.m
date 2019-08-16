@@ -237,13 +237,15 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
                                        tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
-                          secondaryTransportManager:self.secondaryTransportManager];
+                          secondaryTransportManager:self.secondaryTransportManager
+                         encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
         // we reuse our queue to run secondary transport manager's state machine
         self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
                                                                                                      serialQueue:self.lifecycleQueue];
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
-                          secondaryTransportManager:self.secondaryTransportManager];
+                          secondaryTransportManager:self.secondaryTransportManager
+                         encryptionLifecycleManager:self.encryptionLifecycleManager];
     }
     #pragma clang diagnostic pop
 }
@@ -639,19 +641,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
         if (handler) {
             handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-        }
-        
-        return;
-    }
-    
-    if (!request.isPayloadProtected && [self.permissionManager rpcRequiresEncryption:request]) {
-        request.payloadProtected = YES;
-    }
-    
-    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
         }
         
         return;

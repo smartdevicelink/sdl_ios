@@ -9,6 +9,7 @@
 #import "SDLSecurityType.h"
 #import "SDLTransportDelegate.h"
 
+@class SDLEncryptionLifecycleManager;
 @class SDLProtocolHeader;
 @class SDLProtocolRecievedMessageRouter;
 @class SDLRPCMessage;
@@ -60,6 +61,16 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  The auth token, if any, returned with the `StartServiceACK` for the RPC service from the module.
  */
 @property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
+#pragma mark - Init
+/**
+ *  Initialize the protocol with an encryption lifecycle manager.
+ *
+ *  @param encryptionLifecycleManager An encryption lifecycle manager.
+ *
+ *  @return An instance of SDLProtocol
+ */
+- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager;
 
 #pragma mark - Sending
 

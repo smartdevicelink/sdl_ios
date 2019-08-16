@@ -11,6 +11,7 @@
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -46,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @property (assign, nonatomic) int32_t hashId;
+@property (nonatomic, strong) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 // Readonly public properties
 @property (strong, nonatomic, readwrite, nullable) NSString *authToken;
@@ -73,6 +75,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
+    if (self = [super init]) {
+        _messageID = 0;
+        _hashId = SDLControlFrameInt32NotFound;
+        _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
+        _serviceHeaders = [[NSMutableDictionary alloc] init];
+        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
+        _messageRouter.delegate = self;
+        _encryptionLifecycleManager = encryptionLifecycleManager;
+    }
+    
+    return self;
+}
 
 #pragma mark - Service metadata
 - (BOOL)storeHeader:(SDLProtocolHeader *)header forServiceType:(SDLServiceType)serviceType {
@@ -257,6 +273,15 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Send Data
 
 - (void)sendRPC:(SDLRPCMessage *)message {
+    if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
+        message.payloadProtected = YES;
+    }
+    
+    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", message);
+        return;
+    }
+
     [self sendRPC:message encrypted:message.isPayloadProtected error:nil];
 }
 

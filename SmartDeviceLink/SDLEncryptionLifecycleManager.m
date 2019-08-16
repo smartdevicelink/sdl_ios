@@ -71,21 +71,6 @@
     SDLLogD(@"Stopping encryption manager");
 }
 
-- (void)sendEncryptedRequest:(SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
-    if (!self.protocol || !self.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
-        }
-        
-        return;
-    }
-    
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self.connectionManager request:request responseHandler:handler];
-    
-    [self.rpcOperationQueue addOperation:op];
-}
-
 - (BOOL)isEncryptionReady {
     return [self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateReady];
 }
@@ -128,7 +113,6 @@
 #pragma mark - State Machine
 - (void)didEnterStateEncryptionStarting {
     SDLLogD(@"Encryption manager is starting");
-    
     [self sdl_sendEncryptionStartService];
 }
 
@@ -137,7 +121,7 @@
 }
 
 - (void)didEnterStateEncryptionStopped {
-    SDLLogD(@"Encryption manager stopped");    
+    SDLLogD(@"Encryption manager stopped");
 }
 
 #pragma mark - SDLProtocolListener
