@@ -13,6 +13,22 @@
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 
+@interface SDLLockScreenManager ()
+
+@property (assign, nonatomic) BOOL canPresent;
+@property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
+@property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
+#pragma clang diagnostic pop
+
+@property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
+@property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
+@property (assign, nonatomic) BOOL lockScreenDismissedByUser;
+
+@end
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
 
@@ -32,7 +48,7 @@ describe(@"a lock screen manager", ^{
         
         it(@"should set properties correctly", ^{
             // Note: We can't check the "lockScreenPresented" flag on the Lock Screen Manager because it's a computer property checking the window
-            expect(@(fakePresenter.presented)).to(beFalsy());
+            expect(fakePresenter.presented).to(beFalse());
             expect(testManager.lockScreenViewController).to(beNil());
         });
         
@@ -110,7 +126,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should have presented the lock screen", ^{
-                    expect(@(fakePresenter.presented)).to(beTruthy());
+                    expect(fakePresenter.presented).to(beTrue());
                 });
                 
                 it(@"should not have a vehicle icon", ^{
@@ -146,10 +162,9 @@ describe(@"a lock screen manager", ^{
                     it(@"should be able to be dismissed", ^{
                         expect(testManager.isLockScreenDismissable).toEventually(equal(YES));
                     });
-                    
                 });
                 
-                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled 0 bit", ^{
+                describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled as false", ^{
                     __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
                     
                     beforeEach(^{
@@ -218,7 +233,31 @@ describe(@"a lock screen manager", ^{
             });
         });
     });
-    
+
+    context(@"with showDeviceLogo as NO",  ^{
+        beforeEach(^{
+            SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+            config.showDeviceLogo = NO;
+
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakePresenter];
+            [testManager start];
+        });
+
+        describe(@"when a vehicle icon is received", ^{
+            __block UIImage *testIcon = nil;
+
+            beforeEach(^{
+                testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
+            });
+
+            it(@"should not have a vehicle icon if showDeviceLogo is set to NO", ^{
+                expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(beNil());
+            });
+        });
+
+    });
+
     context(@"with a custom color configuration", ^{
         __block UIColor *testColor = nil;
         __block UIImage *testImage = nil;
@@ -273,6 +312,40 @@ describe(@"a lock screen manager", ^{
                 expect(testManager.lockScreenViewController).toNot(beNil());
                 expect(testManager.lockScreenViewController).toNot(beAnInstanceOf([SDLLockScreenViewController class]));
                 expect(testManager.lockScreenViewController).to(equal(testViewController));
+            });
+        });
+    });
+
+    context(@"with a dismissable false configuration", ^{
+        beforeEach(^{
+            SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+            config.enableDismissGesture = NO;
+
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakePresenter];
+            [testManager start];
+        });
+
+        describe(@"when a driver distraction notification is posted with lockScreenDismissableEnabled as true", ^{
+            __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+            beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                SDLOnLockScreenStatus *status = [[SDLOnLockScreenStatus alloc] init];
+#pragma clang diagnostic pop
+                status.lockScreenStatus = SDLLockScreenStatusRequired;
+                testManager.lastLockNotification = status;
+
+                SDLOnDriverDistraction *testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                testDriverDistraction.lockScreenDismissalEnabled = @YES;
+
+                testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+
+                [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+            });
+
+            it(@"should not be able to be dismissed", ^{
+                expect(testManager.isLockScreenDismissable).toEventually(equal(NO));
             });
         });
     });
