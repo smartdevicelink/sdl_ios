@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLWindowType type;
 
 /**
- * Nuber of windows available, to create.
+ * Number of windows available, to create.
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *maximumNumberOfWindows;
 
