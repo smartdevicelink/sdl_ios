@@ -11,8 +11,6 @@
 
 @implementation SDLDisplayCapability
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     self = [super init];
     if (!self) {
@@ -20,7 +18,6 @@
     }
     return self;
 }
-#pragma clang diagnostic pop
 
 - (instancetype)initWithDisplayName:(NSString *)displayName {
     self = [self init];
@@ -42,11 +39,11 @@
 }
 
 - (void)setDisplayName:(NSString *)displayName {
-    [self.store sdl_setObject:displayName forName:SDLRPCParameterNameTimezoneMinuteOffset];
+    [self.store sdl_setObject:displayName forName:SDLRPCParameterNameDisplayName];
 }
 
 - (NSString *)displayName {
-    return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDisplayName ofClass:NSString.class error:nil];
 }
 
 - (void)setWindowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported {

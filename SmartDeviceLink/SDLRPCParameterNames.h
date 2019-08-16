@@ -688,7 +688,6 @@ extern SDLRPCParameterName const SDLRPCParameterNameWindSpeed;
 extern SDLRPCParameterName const SDLRPCParameterNameWiperStatus;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowId;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowName;
-extern SDLRPCParameterName const SDLRPCParameterNameWindowType;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowTypeSupported;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowCapabilities;
 extern SDLRPCParameterName const SDLRPCParameterNameAssociatedServiceType;
