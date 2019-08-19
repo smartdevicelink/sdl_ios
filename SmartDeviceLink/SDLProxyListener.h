@@ -704,7 +704,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param request A SDLDeleteWindow object
  */
-- (void)onDeleteWindow:(SDLDeleteWindow *)request
+- (void)onDeleteWindow:(SDLDeleteWindow *)request;
 
 /**
  *  Called when a `DiagnosticMessage` request is received from Core
