@@ -374,7 +374,7 @@
 		1FF7DABA1F75B2A800B46C30 /* SDLFocusableItemLocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF7DAB91F75B2A800B46C30 /* SDLFocusableItemLocator.h */; };
 		1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DABB1F75B2BF00B46C30 /* SDLFocusableItemLocator.m */; };
 		1FF7DAC01F75CF6C00B46C30 /* SDLHapticManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */; };
-		2B6D962E230A9286004B6C4E /* SDLEnumTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B6D962C230A9286004B6C4E /* SDLEnumTypes.h */; };
+		2B6D962E230A9286004B6C4E /* SDLEnumTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B6D962C230A9286004B6C4E /* SDLEnumTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BF2F84F20ED004000A26EF2 /* SDLAudioStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF2F84D20ED004000A26EF2 /* SDLAudioStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BF2F85020ED004000A26EF2 /* SDLAudioStreamingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2F84E20ED004000A26EF2 /* SDLAudioStreamingIndicator.m */; };
 		2BF2F85220ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2F85120ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m */; };
@@ -6336,6 +6336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F425AD222DD980200BE3245 /* SDLWindowCapability.h in Headers */,
+				2B6D962E230A9286004B6C4E /* SDLEnumTypes.h in Headers */,
 				9F425ADA22DD983500BE3245 /* SDLDisplayCapability.h in Headers */,
 				9F425ACE22DD97DE00BE3245 /* SDLTemplateConfiguration.h in Headers */,
 				9F425AD622DD981E00BE3245 /* SDLWindowTypeCapabilities.h in Headers */,
@@ -6764,7 +6765,6 @@
 				5D61FC331A84238C00846EE7 /* SDLAddSubMenuResponse.h in Headers */,
 				5D61FD5D1A84238C00846EE7 /* SDLRegisterAppInterface.h in Headers */,
 				5D61FC9A1A84238C00846EE7 /* SDLEmergencyEvent.h in Headers */,
-				2B6D962E230A9286004B6C4E /* SDLEnumTypes.h in Headers */,
 				5D61FC651A84238C00846EE7 /* SDLCompassDirection.h in Headers */,
 				5D61FC8E1A84238C00846EE7 /* SDLDimension.h in Headers */,
 				5D61FD6B1A84238C00846EE7 /* SDLRPCMessageType.h in Headers */,
