@@ -14,32 +14,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
+- (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameCreateWindow]) {
-    
     }
-    self.windowID = @(windowId);
-    self.windowName = windowName;
-    self.type = windowType;
     return self;
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
-    self = [self initWithId:windowId windowName:windowName windowType:windowType];
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
+    self = [self init];
     if (!self) {
         return nil;
     }
-    
-    return self;
-}
-
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType {
-    self = [self initWithId:windowId windowName:windowName windowType:windowType];
-    if (!self) {
-        return nil;
-    }
-    self.associatedServiceType = associatedServiceType;
+    self.windowID = @(windowId);
+    self.windowName = windowName;
+    self.type = windowType;
     return self;
 }
 

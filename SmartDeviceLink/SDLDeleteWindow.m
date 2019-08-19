@@ -12,15 +12,21 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (instancetype)init {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteWindow]) {
+    }
+    return self;
+}
+#pragma clang diagnostic pop
+
 - (instancetype)initWithId:(UInt32)windowId {
-    self = [super initWithName:SDLRPCFunctionNameDeleteWindow];
+    self = [self init];
     if (!self) {
         return nil;
     }
     self.windowID = @(windowId);    
     return self;
 }
-#pragma clang diagnostic pop
 
 - (void)setWindowID:(NSNumber<SDLInt> *)windowID {
     [self.parameters sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
