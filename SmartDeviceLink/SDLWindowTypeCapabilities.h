@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param maximumNumberOfWindows Number of windows available, to create.
  */
-- (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithType:(SDLWindowType)type maximumNumberOfWindows:(UInt32)maximumNumberOfWindows;
 
 /**
  * Type of windows available, to create.
