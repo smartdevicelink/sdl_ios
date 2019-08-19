@@ -7,21 +7,22 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Deletes previously created window of the SDL application.
- * @since SDL 6.0
+ Deletes previously created window of the SDL application.
+ @since SDL 6.0
  */
 @interface SDLDeleteWindow : SDLRPCRequest
 
 /**
- * @param windowId A unique ID to identify the window.
- *        The value of '0' will always be the default main window on the main display and cannot be deleted.
+ @param windowId A unique ID to identify the window. The value of '0' will always be the default main window on the main display and cannot be deleted.
  */
 - (instancetype)initWithId:(UInt32)windowId NS_DESIGNATED_INITIALIZER;
 
 /**
- * A unique ID to identify the window.
- * The value of '0' will always be the default main window on the main display and cannot be deleted.
- * @see PredefinedWindows enum.
+ A unique ID to identify the window.
+ 
+ The value of '0' will always be the default main window on the main display and cannot be deleted.
+ 
+ @see PredefinedWindows enum.
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *windowID;
 
