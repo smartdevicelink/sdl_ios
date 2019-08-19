@@ -9,6 +9,11 @@
 
 @implementation SDLTemplateConfiguration
 
+
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
+    return [self initWithTemplate:predefinedLayout];
+}
+
 - (instancetype)initWithTemplate:(NSString *)template {
     self = [super init];
     if (!self) {
