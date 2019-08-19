@@ -20,6 +20,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -243,6 +244,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     self.hmiLevel = hmiStatus.hmiLevel;
 
     // if startWithProtocol has not been called yet, abort here

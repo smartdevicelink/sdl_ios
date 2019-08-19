@@ -38,6 +38,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
@@ -739,6 +740,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
+    
+    if (hmiStatusNotification.windowID != nil && hmiStatusNotification.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 

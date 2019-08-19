@@ -575,6 +575,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
     self.hmiLevel = hmiStatus.hmiLevel;
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
