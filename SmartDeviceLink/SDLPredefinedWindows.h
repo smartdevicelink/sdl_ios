@@ -13,7 +13,7 @@
  
   @since SDL 6.0
  */
-typedef SDLEnum SDLPredefinedWindows SDL_SWIFT_ENUM;
+typedef SDLIntEnum SDLPredefinedWindows SDL_SWIFT_ENUM;
 
 /**
  The default window is a main window pre-created on behalf of the app.
