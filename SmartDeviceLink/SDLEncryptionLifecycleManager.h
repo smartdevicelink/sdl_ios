@@ -10,7 +10,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLProtocolListener.h"
 
-@class SDLStateMachine;
 @class SDLEncryptionConfiguration;
 @class SDLProtocol;
 
@@ -27,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- Create a new encryption lifecycle manager for apps that need an
+ Create a new encryption lifecycle manager for apps that need encryption.
  
  @param connectionManager The pass-through for RPCs
  @param configuration This session's configuration

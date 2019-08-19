@@ -10,9 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLEncryptionDidStartNotification;
-extern NSString *const SDLEncryptionDidStopNotification;
-
 typedef NSString SDLEncryptionLifecycleManagerState;
 extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStopped;
 extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStarting;

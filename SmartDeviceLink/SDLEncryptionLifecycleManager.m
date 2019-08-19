@@ -106,9 +106,8 @@
     return @{
              SDLEncryptionLifecycleManagerStateStopped : @[SDLEncryptionLifecycleManagerStateStarting],
              SDLEncryptionLifecycleManagerStateStarting : @[SDLEncryptionLifecycleManagerStateStopped, SDLEncryptionLifecycleManagerStateReady],
-             SDLEncryptionLifecycleManagerStateReady : @[SDLEncryptionLifecycleManagerStateShuttingDown, SDLEncryptionLifecycleManagerStateStopped],
-             SDLEncryptionLifecycleManagerStateShuttingDown : @[SDLEncryptionLifecycleManagerStateStopped]
-             };
+             SDLEncryptionLifecycleManagerStateReady : @[SDLEncryptionLifecycleManagerStateShuttingDown, SDLEncryptionLifecycleManagerStateStopped]
+            };
 }
 
 #pragma mark - State Machine
@@ -197,7 +196,7 @@
     
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
 
-    NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
+    NSArray<SDLPermissionItem *> *newPermissionItems = onPermissionChange.permissionItem;
     
     for (SDLPermissionItem *item in newPermissionItems) {
         self.permissions[item.rpcName] = item;
@@ -206,7 +205,7 @@
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol  || ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) { return; }
     
-    if (![self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStarting] && self.isEncryptionReady) {
+    if (self.isEncryptionReady) {
         [self sdl_startEncryptionService];
     }
 }

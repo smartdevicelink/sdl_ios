@@ -35,8 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)requireEncryption {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameRequireEncryption ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameRequireEncryption ofClass:NSNumber.class error:nil];
 }
 
 @end
