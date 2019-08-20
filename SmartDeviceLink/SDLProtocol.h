@@ -98,7 +98,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *
  *  @param serviceType A SDLServiceType object
  *  @param payload The data to send in the message
- *  @param tlsInitializationHandler The handler is called when the secure service is started. If a secure service can not be started, an error message is also returned
+ *  @param tlsInitializationHandler Handler called when the app is authenticated via TLS handshake and a secure service has started. If a secure service can not be started an error message is returned.
  */
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler;
 

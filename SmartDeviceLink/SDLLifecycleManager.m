@@ -627,13 +627,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     });
 }
 
-// Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
-- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
-    });
-}
-
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
@@ -644,7 +637,27 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
     
+    if (!request.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:request]) {
+        request.payloadProtected = YES;
+    }
+    
+    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
+        }
+        
+        return;
+    }
+    
     [self sdl_sendRequest:request withResponseHandler:handler];
+}
+
+// Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    dispatch_async(_lifecycleQueue, ^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    });
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {

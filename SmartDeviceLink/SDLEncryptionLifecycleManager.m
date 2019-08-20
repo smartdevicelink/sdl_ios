@@ -205,7 +205,7 @@
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol  || ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) { return; }
     
-    if (self.isEncryptionReady) {
+    if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
         [self sdl_startEncryptionService];
     }
 }
@@ -222,7 +222,7 @@
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }
     
-    if (!self.isEncryptionReady) {
+    if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
         [self sdl_startEncryptionService];
     }
 }
