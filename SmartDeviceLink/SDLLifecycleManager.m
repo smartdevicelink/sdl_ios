@@ -622,9 +622,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:rpc withResponseHandler:nil];
-    });
+    [self sdl_sendRequest:rpc withResponseHandler:nil];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -655,9 +653,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    dispatch_async(_lifecycleQueue, ^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
-    });
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
