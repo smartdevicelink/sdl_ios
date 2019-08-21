@@ -14,6 +14,7 @@
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -224,6 +225,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentLevel;
     if (![oldHMILevel isEqualToEnum:hmiStatus.hmiLevel]) {
         if ([hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelNone]) {

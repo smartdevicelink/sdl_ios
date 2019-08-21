@@ -28,6 +28,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPerformInteractionResponse.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
@@ -440,6 +441,11 @@ UInt16 const ChoiceCellIdMin = 1;
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     // We can only present a choice set if we're in FULL
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
 

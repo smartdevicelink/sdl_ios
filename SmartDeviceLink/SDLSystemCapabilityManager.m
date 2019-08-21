@@ -24,6 +24,7 @@
 #import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -216,6 +217,11 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     if (self.isFirstHMILevelFull || ![hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
