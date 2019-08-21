@@ -7,6 +7,7 @@
 
 #import "SDLCreateWindow.h"
 #import "SDLWindowType.h"
+#import "SDLPredefinedWindows.h"
 
 QuickSpecBegin(SDLCreateWindowSpec)
 
@@ -14,11 +15,12 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLWindowType testWindowType = nil;
     __block NSString *testAasociatedServiceType = nil;
     __block NSString *testWindowName = nil;
-    __block int testWindowID = 4;
+    __block SDLPredefinedWindows testWindowID;
     __block int testDuplicateUpdatesFromWindowID = 8;
     
     
     beforeEach(^{
+        testWindowID = SDLPredefinedWindowsDefaultWindow;
         testWindowType = SDLWindowTypeMain;
         testAasociatedServiceType = @"SDLWINDOW";
         testWindowName = @"MAINWINDOW";
@@ -40,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should create correctrly", ^ {
-        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType];
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:(int)testWindowID windowName:testWindowName windowType:testWindowType];
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
@@ -50,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should create correctrly", ^ {
-        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAasociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:(int)testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAasociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
