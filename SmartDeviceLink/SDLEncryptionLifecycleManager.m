@@ -20,6 +20,8 @@
 #import "SDLProtocol.h"
 #import "SDLError.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
 
 @property (strong, nonatomic, readonly) NSOperationQueue *rpcOperationQueue;
@@ -45,6 +47,7 @@
     _rpcOperationQueue = rpcOperationQueue;
     _currentHMILevel = nil;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
+    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
@@ -195,6 +198,10 @@
     }
     
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
+    
+    if (!onPermissionChange.requireEncryption.boolValue) {
+        return;
+    }
 
     NSArray<SDLPermissionItem *> *newPermissionItems = onPermissionChange.permissionItem;
     
@@ -245,3 +252,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
