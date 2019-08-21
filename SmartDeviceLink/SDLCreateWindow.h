@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  MaxLenght 100.
  @param windowType The type of the window to be created. Main window or widget.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
+- (instancetype)initWithId:(NSInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
 
 
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  should be duplicated to the created window.
  If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
+- (instancetype)initWithId:(NSInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
 
 
 /**

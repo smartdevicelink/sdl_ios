@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should create correctrly", ^ {
-        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:(int)testWindowID windowName:testWindowName windowType:testWindowType];
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType];
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
@@ -52,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should create correctrly", ^ {
-        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:(int)testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAasociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAasociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
