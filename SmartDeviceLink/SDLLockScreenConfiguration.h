@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenConfiguration : NSObject <NSCopying>
 
 /**
- *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to false.
+ *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to NO.
  *
- *  @discussion In order for the "lock screen optional" state to occur, the following must be true:
+ *  In order for the "lock screen optional" state to occur, the following must be true:
  *  1. The app should have received at least 1 driver distraction notification (i.e. a `OnDriverDistraction` notification) from SDL Core. Older versions of Core did not send a notification immediately on connection.
  *  2. The driver is not distracted (i.e. the last `OnDriverDistraction` notification received was for a driver distraction state off).
  *  3. The `hmiLevel` can not be `NONE`.
@@ -25,7 +25,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL showInOptionalState;
 
 /**
- *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged.
+ If YES, then the lock screen can be dismissed with a downward swipe on compatible head units. Requires a connection of SDL 6.0+ and the head unit to enable the feature. Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL enableDismissGesture;
+
+/**
+*  If YES, then the lockscreen will show the vehicle's logo if the vehicle has made it available. If NO, then the lockscreen will not show the vehicle logo.
+    Defaults to YES.
+*/
+@property (assign, nonatomic) BOOL showDeviceLogo;
+
+/**
+ *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.
  */
 @property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen;
 
