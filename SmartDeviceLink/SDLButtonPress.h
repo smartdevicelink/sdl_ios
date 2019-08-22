@@ -15,7 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLButtonPress : SDLRPCRequest
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType) moduleType;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType) moduleType __deprecated_msg(("Use initWithButtonName:moduleType:moduleId instead"));;
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType) moduleType moduleId:(nullable NSString *)moduleId;
 
 /**
  * The module where the button should be pressed.

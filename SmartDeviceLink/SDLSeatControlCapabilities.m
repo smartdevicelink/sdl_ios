@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo {
+- (instancetype)initWithName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
     if (self = [super init]) {
         self.moduleName = moduleName;
         self.moduleInfo = moduleInfo;
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo heatingEnabledAvailable:(BOOL)heatingEnabledAvail
+- (instancetype)initWithName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo heatingEnabledAvailable:(BOOL)heatingEnabledAvail
      coolingEnabledAvailable:(BOOL)coolingEnabledAvail heatingLevelAvailable:(BOOL)heatingLevelAvail coolingLevelAvailable:(BOOL)coolingLevelAvail horizontalPositionAvailable:(BOOL)horizontalPositionAvail verticalPositionAvailable:(BOOL)verticalPositionAvail frontVerticalPositionAvailable:(BOOL)frontVerticalPositionAvail backVerticalPositionAvailable:(BOOL)backVerticalPositionAvail backTiltAngleAvailable:(BOOL)backTitlAngleAvail headSupportHorizontalPositionAvailable:(BOOL)headSupportHorizontalPositionAvail headSupportVerticalPositionAvailable:(BOOL)headSupportVerticalPositionAvail massageEnabledAvailable:(BOOL)massageEnabledAvail massageModeAvailable:(BOOL)massageModeAvail massageCushionFirmnessAvailable:(BOOL)massageCushionFirmnessAvail memoryAvailable:(BOOL)memoryAvail {
     
     self = [super init];

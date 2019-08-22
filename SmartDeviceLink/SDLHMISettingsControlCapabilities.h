@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An instance of the SDLHMISettingsControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo;
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo;
 
 /**
  Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An instance of the SDLHMISettingsControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(SDLModuleInfo *)moduleInfo distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable;
 
 /**
  * @abstract The short friendly name of the hmi setting module.

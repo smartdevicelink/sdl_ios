@@ -32,6 +32,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType) moduleType moduleId:(nullable NSString *)moduleId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.buttonName = buttonName;
+    self.moduleType = moduleType;
+    self.moduleId = moduleId;
+    
+    return self;
+}
+
 - (void)setModuleType:(SDLModuleType)moduleType {
     [self.parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
