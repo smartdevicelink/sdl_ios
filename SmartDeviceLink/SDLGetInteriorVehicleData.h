@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
 
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initWithModuleType:moduleId:");
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initWithModuleType:moduleId: instead");
 
-- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndSubscribeToModuleType:moduleId:");
+- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndSubscribeToModuleType:moduleId: instead");
 
 - (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndUnsubscribeToModuleType:moduleId:");
 
@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLModuleType moduleType;
 
 /**
- *  Information about a RC module, including its id.
+ *  Id of a module, published by System Capability.
  *
- *  SDLModuleInfo
+ *  Optional
  */
 @property (nullable, strong, nonatomic) NSString *moduleId;
 

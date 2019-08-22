@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Information about a RC module, including its id.
  *
- *  SDLModuleInfo
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLModuleInfo *moduleInfo;
 

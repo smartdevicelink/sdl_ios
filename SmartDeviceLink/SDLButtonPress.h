@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLModuleType moduleType;
 
 /**
- *  Information about a RC module, including its id.
+ *  Id of a module, published by System Capability.
  *
- *  SDLModuleInfo
+ *  Optional
  */
 @property (nullable, strong, nonatomic) NSString *moduleId;
 
