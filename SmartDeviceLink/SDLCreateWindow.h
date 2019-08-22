@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param windowName The window name to be used by the HMI. The name of the pre-created default window will match the app name.
  Multiple apps can share the same window name except for the default main window.
  Creating a window with a name which is already in use by the app will result in `DUPLICATE_NAME`.
- MaxLenght 100.
+ MaxLength 100.
  @param windowType The type of the window to be created. Main window or widget.
  @param associatedServiceType Allows an app to create a widget related to a specific service type.
  As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be
