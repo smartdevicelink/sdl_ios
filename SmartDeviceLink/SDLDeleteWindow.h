@@ -8,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Deletes previously created window of the SDL application.
+ 
  @since SDL 6.0
  */
 @interface SDLDeleteWindow : SDLRPCRequest

@@ -40,6 +40,7 @@ extern SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl;
 
 /**
  The Display type capability
+ 
  @since SDL 6.0
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeDisplays;

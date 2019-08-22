@@ -5,6 +5,7 @@
 #import "SDLEnum.h"
 /**
  * The type of the window to be created. Main window or widget.
+ *
  * @since SDL 6.0
  */
 typedef SDLEnum SDLWindowType SDL_SWIFT_ENUM;
