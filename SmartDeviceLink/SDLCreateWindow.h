@@ -8,9 +8,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
- * Create a new window on the display with the specified window type.
- * @since SDL 6.0
+/**
+ Create a new window on the display with the specified window type.
+ 
+ Windows of different types like MAIN or WIDGET windows can be created. Every application will have a pre-created MAIN window available. A widget is a small window that the app can create to provide information and soft buttons for quick app control. Widgets can be created depending on the capabilities of the system.
+ 
+ Widgets can be associated with a specific App Service type such as `MEDIA` or `NAVIGATION`. As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. If the media app has created a widget with `MEDIA` type associated, this widget will automatically be activated together with the app.
+ 
+ @since SDL 6.0
  */
 @interface SDLCreateWindow : SDLRPCRequest
 
