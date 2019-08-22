@@ -255,6 +255,7 @@ NS_ASSUME_NONNULL_BEGIN
  If this param is not included, it will be assumed that this request is specifically for the main window on the main display.
  
  @see PredefinedWindows enum.
+ 
  @since SDL 6.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
