@@ -13,7 +13,7 @@ QuickSpecBegin(SDLCreateWindowSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block SDLWindowType testWindowType = nil;
-    __block NSString *testAasociatedServiceType = nil;
+    __block NSString *testAssociatedServiceType = nil;
     __block NSString *testWindowName = nil;
     __block SDLPredefinedWindows testWindowID;
     __block int testDuplicateUpdatesFromWindowID = 8;
@@ -22,7 +22,7 @@ describe(@"Getter/Setter Tests", ^ {
     beforeEach(^{
         testWindowID = SDLPredefinedWindowsDefaultWindow;
         testWindowType = SDLWindowTypeMain;
-        testAasociatedServiceType = @"SDLWINDOW";
+        testAssociatedServiceType = @"SDLWINDOW";
         testWindowName = @"MAINWINDOW";
     });
     
@@ -31,13 +31,13 @@ describe(@"Getter/Setter Tests", ^ {
         testRPC.windowID = @(testWindowID);
         testRPC.windowName = testWindowName;
         testRPC.type = testWindowType;
-        testRPC.associatedServiceType = testAasociatedServiceType;
+        testRPC.associatedServiceType = testAssociatedServiceType;
         testRPC.duplicateUpdatesFromWindowID = @(testDuplicateUpdatesFromWindowID);
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
         expect(testRPC.type).to(equal(testWindowType));
-        expect(testRPC.associatedServiceType).to(equal(testAasociatedServiceType));
+        expect(testRPC.associatedServiceType).to(equal(testAssociatedServiceType));
         expect(testRPC.duplicateUpdatesFromWindowID).to(equal(testDuplicateUpdatesFromWindowID));
     });
     
@@ -52,12 +52,21 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should create correctrly", ^ {
-        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAasociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAssociatedServiceType];
         
         expect(testRPC.windowID).to(equal(testWindowID));
         expect(testRPC.windowName).to(equal(testWindowName));
         expect(testRPC.type).to(equal(testWindowType));
-        expect(testRPC.associatedServiceType).to(equal(testAasociatedServiceType));
+        expect(testRPC.associatedServiceType).to(equal(testAssociatedServiceType));
+    });
+    
+    it(@"Should create correctrly", ^ {
+        SDLCreateWindow *testRPC = [[SDLCreateWindow alloc] initWithId:testWindowID windowName:testWindowName windowType:testWindowType associatedServiceType:testAssociatedServiceType duplicateUpdatesFromWindowID:testDuplicateUpdatesFromWindowID];
+        
+        expect(testRPC.windowID).to(equal(testWindowID));
+        expect(testRPC.windowName).to(equal(testWindowName));
+        expect(testRPC.type).to(equal(testWindowType));
+        expect(testRPC.associatedServiceType).to(equal(testAssociatedServiceType));
         expect(testRPC.duplicateUpdatesFromWindowID).to(equal(testDuplicateUpdatesFromWindowID));
     });
     
