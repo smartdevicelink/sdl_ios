@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The button supports the use of text.
  * If not included, the default value should be considered true that the button will support text.
  *
- * Required, Boolean
+ * Optional, Boolean
  *
  * @since SDL 6.0
  */
