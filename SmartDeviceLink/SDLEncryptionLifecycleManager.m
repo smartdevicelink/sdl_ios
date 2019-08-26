@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -46,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _rpcOperationQueue = rpcOperationQueue;
     _currentHMILevel = nil;
+    _requiresEncryption = NO;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
 
@@ -71,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = nil;
     _protocol = nil;
     _currentHMILevel = nil;
+    _requiresEncryption = NO;
 
     SDLLogD(@"Stopping encryption manager");
 }
@@ -86,8 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && !self.permissions
-        && [self containsAtLeastOneRPCThatRequiresEncryption]) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        && self.requiresEncryption) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
@@ -192,31 +195,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDL RPC Notification callbacks
-- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
-        return;
-    }
-    
-    SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    
-    if (!onPermissionChange.requireEncryption.boolValue) {
-        return;
-    }
-
-    NSArray<SDLPermissionItem *> *newPermissionItems = onPermissionChange.permissionItem;
-    
-    for (SDLPermissionItem *item in newPermissionItems) {
-        self.permissions[item.rpcName] = item;
-    }
-    
-    // if startWithProtocol has not been called yet, abort here
-    if (!self.protocol  || ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) { return; }
-    
-    if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
-        [self sdl_startEncryptionService];
-    }
-}
-
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
     if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
@@ -234,19 +212,35 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
+        return;
+    }
+    
+    SDLOnPermissionsChange *onPermissionChange = notification.notification;
+    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue;
+    
+    if (!self.requiresEncryption) {
+        return;
+    }
+    
+    NSArray<SDLPermissionItem *> *newPermissionItems = onPermissionChange.permissionItem;
+    
+    for (SDLPermissionItem *item in newPermissionItems) {
+        self.permissions[item.rpcName] = item;
+    }
+    
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
+    
+    if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
+        [self sdl_startEncryptionService];
+    }
+}
+
 - (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
     if (self.permissions[rpc.name].requireEncryption != nil) {
         return self.permissions[rpc.name].requireEncryption.boolValue;
-    }
-    return NO;
-}
-
-- (BOOL)containsAtLeastOneRPCThatRequiresEncryption {
-    for (SDLPermissionItem *item in self.permissions) {
-        SDLPermissionItem *currentItem = self.permissions[item.rpcName];
-        if(currentItem.requireEncryption.boolValue) {
-            return YES;
-        }
     }
     return NO;
 }
