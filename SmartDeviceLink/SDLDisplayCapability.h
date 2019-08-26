@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLDisplayCapability : SDLRPCStruct
 
 /**
+Init with required properties
+
  * @param displayName Name of the display.
  */
 - (instancetype)initWithDisplayName:(NSString *)displayName;
