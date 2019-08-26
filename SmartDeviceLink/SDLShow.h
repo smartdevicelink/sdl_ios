@@ -6,7 +6,6 @@
 #import "SDLTextAlignment.h"
 #import "SDLMetadataType.h"
 
-
 @class SDLImage;
 @class SDLSoftButton;
 @class SDLMetadataTags;
