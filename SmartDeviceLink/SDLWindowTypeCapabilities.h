@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Type of windows available, to create.
+ 
+ Required
  */
 @property (strong, nonatomic) SDLWindowType type;
 
