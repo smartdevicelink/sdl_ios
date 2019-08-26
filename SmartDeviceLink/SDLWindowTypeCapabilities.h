@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Number of windows available, to create.
+ 
+ Required
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *maximumNumberOfWindows;
 
