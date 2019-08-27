@@ -271,6 +271,7 @@ NS_ASSUME_NONNULL_BEGIN
  A boolean value. If true, requests the Cloud App Vehicle ID.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *cloudAppVehicleID;
+
 /**
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
 
