@@ -188,7 +188,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.cloudAppVehicleID).to(beNil());
     });
 
-
     it(@"Should set and get Generic Network Signal Data", ^{
         SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
