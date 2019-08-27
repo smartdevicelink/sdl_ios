@@ -279,7 +279,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Gets the OEM custom vehicle data state for any given OEM custom vehicle data name.
  
- @param vehicleDataName - The name of the OEM custom vehicle data item to unsubscribe for.
+ @param vehicleDataName The name of the OEM custom vehicle data item to unsubscribe for.
  @return A boolean value indicating if an unsubscribe request will occur for the OEM custom vehicle data item.
  */
 - (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
