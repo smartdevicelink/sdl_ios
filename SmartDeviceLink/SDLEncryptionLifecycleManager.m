@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
-        && self.requiresEncryption) {
+        && (self.requiresEncryption || [self containsAtLeastOneRPCThatRequiresEncryption])) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
@@ -220,13 +220,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
     self.requiresEncryption = onPermissionChange.requireEncryption.boolValue;
     
-    if (!self.requiresEncryption) {
-        return;
-    }
+    NSArray<SDLPermissionItem *> *permissionItems = onPermissionChange.permissionItem;
     
-    NSArray<SDLPermissionItem *> *newPermissionItems = onPermissionChange.permissionItem;
-    
-    for (SDLPermissionItem *item in newPermissionItems) {
+    for (SDLPermissionItem *item in permissionItems) {
         self.permissions[item.rpcName] = item;
     }
     
@@ -241,6 +237,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
     if (self.permissions[rpc.name].requireEncryption != nil) {
         return self.permissions[rpc.name].requireEncryption.boolValue;
+    }
+    return NO;
+}
+
+- (BOOL)containsAtLeastOneRPCThatRequiresEncryption {
+    for (SDLPermissionItem *item in self.permissions.allValues) {
+        if (item.requireEncryption) {
+            return YES;
+        }
     }
     return NO;
 }
