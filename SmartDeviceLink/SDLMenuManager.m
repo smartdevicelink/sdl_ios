@@ -133,8 +133,8 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    SDLMenuConfiguration *oldConfig = self.menuConfiguration;
-    self.menuConfiguration = menuConfiguration;
+    SDLMenuConfiguration *oldConfig = _menuConfiguration;
+    _menuConfiguration = menuConfiguration;
 
     SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
     setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
@@ -599,7 +599,9 @@ UInt32 const MenuCellIdMin = 1;
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
-    if (!cell.submenuLayout || ![self.displayCapabilities.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
+    if (cell.submenuLayout && [self.displayCapabilities.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
+        submenuLayout = cell.submenuLayout;
+    } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
 

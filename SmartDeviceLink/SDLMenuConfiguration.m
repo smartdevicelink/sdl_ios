@@ -24,4 +24,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Menu configuration, main menu layout: %@, submenu default layout: %@", _mainMenuLayout, _defaultSubmenuLayout];
+}
+
 @end
