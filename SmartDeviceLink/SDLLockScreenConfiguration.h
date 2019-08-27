@@ -55,6 +55,11 @@ typedef NS_ENUM(NSUInteger, SDLLockScreenConfigurationDisplayMode) {
 @property (assign, nonatomic) BOOL enableDismissGesture;
 
 /**
+ If YES, then the lockscreen will show the vehicle's logo if the vehicle has made it available. If NO, then the lockscreen will not show the vehicle logo. Defaults to YES.
+*/
+@property (assign, nonatomic) BOOL showDeviceLogo;
+
+/**
  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.
 
  Since this has been deprecated, setting this to false will set `displayMode` to `Never`. Setting it back to true will set it to `RequiredOnly` if `showInOptionalState` is false, or `OptionalOrRequired` if it is true.

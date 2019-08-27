@@ -233,7 +233,31 @@ describe(@"a lock screen manager", ^{
             });
         });
     });
-    
+
+    context(@"with showDeviceLogo as NO",  ^{
+        beforeEach(^{
+            SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+            config.showDeviceLogo = NO;
+
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakePresenter];
+            [testManager start];
+        });
+
+        describe(@"when a vehicle icon is received", ^{
+            __block UIImage *testIcon = nil;
+
+            beforeEach(^{
+                testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
+            });
+
+            it(@"should not have a vehicle icon if showDeviceLogo is set to NO", ^{
+                expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(beNil());
+            });
+        });
+
+    });
+
     context(@"with a custom color configuration", ^{
         __block UIColor *testColor = nil;
         __block UIImage *testImage = nil;
