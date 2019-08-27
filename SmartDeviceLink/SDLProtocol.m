@@ -177,7 +177,6 @@ NS_ASSUME_NONNULL_BEGIN
     switch (serviceType) {
         case SDLServiceTypeRPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
-            header = [SDLProtocolHeader headerForVersion:3];
             if ([self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC]) {
                 header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
             } else {
