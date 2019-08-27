@@ -226,8 +226,11 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLLogV(@"Determining whether streaming is supported");
     _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
+#pragma clang diagnostic pop
 
     if (!self.isStreamingSupported) {
         SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");

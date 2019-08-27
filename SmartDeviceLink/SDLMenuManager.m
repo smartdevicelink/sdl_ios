@@ -593,17 +593,22 @@ UInt32 const MenuCellIdMin = 1;
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (response.displayCapabilities == nil) {
         SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
     }
 
     self.displayCapabilities = response.displayCapabilities;
+#pragma clang diagnostic pop
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
+#pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
         SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");

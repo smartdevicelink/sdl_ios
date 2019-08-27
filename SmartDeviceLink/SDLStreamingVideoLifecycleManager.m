@@ -552,6 +552,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
     SDLLogV(@"Determining whether streaming is supported");
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
 
     if (!self.isStreamingSupported) {
@@ -560,6 +562,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLImageResolution* resolution = registerResponse.displayCapabilities.screenParams.resolution;
+#pragma clang diagnostic pop
     if (resolution != nil) {
         _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
                                  resolution.resolutionHeight.floatValue);

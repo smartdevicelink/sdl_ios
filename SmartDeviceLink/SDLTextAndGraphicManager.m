@@ -691,6 +691,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC Responses
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
@@ -702,10 +704,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.displayCapabilities = response.displayCapabilities;
 }
+#pragma clang diagnostic pop
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
+#pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {

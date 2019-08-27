@@ -158,6 +158,8 @@ typedef NSString * SDLServiceID;
  *
  *  @param notification The `RegisterAppInterfaceResponse` response received from Core
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
     if (!response.success.boolValue) { return; }
@@ -174,7 +176,11 @@ typedef NSString * SDLServiceID;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 }
+#pragma clang diagnostic pop
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
 /**
  *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
  *
@@ -189,6 +195,7 @@ typedef NSString * SDLServiceID;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
 }
+#pragma clang diagnostic pop
 
 /**
  *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
