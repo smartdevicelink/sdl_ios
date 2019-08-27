@@ -41,12 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
     self = [self initWithId:windowId windowName:windowName windowType:windowType];
     if (!self) {
         return nil;
     }
-    self.associatedServiceType = associatedServiceType;
     self.duplicateUpdatesFromWindowID = @(duplicateUpdatesFromWindowID);
     return self;
 }
