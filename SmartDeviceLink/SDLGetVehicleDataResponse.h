@@ -200,7 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param vehicleDataName The name of the OEM custom vehicle data item.
  @return An OEM custom vehicle data object for the given vehicle data name.
  */
-- (id)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+- (NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 
