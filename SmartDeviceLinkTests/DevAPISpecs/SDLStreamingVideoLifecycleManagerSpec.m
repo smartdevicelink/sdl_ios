@@ -40,6 +40,7 @@
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
+@property (strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @end
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
@@ -411,6 +412,14 @@ describe(@"the streaming video manager", ^{
         });
 
         describe(@"sending a video capabilities request", ^{
+            __block SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:42 height:69];
+            __block int32_t maxBitrate = 12345;
+            __block NSArray<SDLVideoStreamingFormat *> *testFormats = @[[[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP], [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP]];
+            __block BOOL testHapticsSupported = YES;
+            __block float diagonalScreenSize = 22.0;
+            __block float pixelPerInch = 96.0;
+            __block float scale = 1.0;
+            
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:YES];
             });
@@ -443,27 +452,11 @@ describe(@"the streaming video manager", ^{
                     });
 
                     context(@"and receiving a response", ^{
-                        __block SDLImageResolution *resolution = nil;
-                        __block int32_t maxBitrate = 0;
-                        __block NSArray<SDLVideoStreamingFormat *> *testFormats = nil;
-                        __block BOOL testHapticsSupported = NO;
-                        __block float diagonalScreenSize = 0.0;
-                        __block float pixelPerInch = 0.0;
-                        __block float scale = 0.0;
-
                         beforeEach(^{
                             SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
                             response.success = @YES;
                             response.systemCapability = [[SDLSystemCapability alloc] init];
                             response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-
-                            resolution = [[SDLImageResolution alloc] initWithWidth:42 height:69];
-                            maxBitrate = 12345;
-                            testFormats = @[[[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP], [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP]];
-                            testHapticsSupported = YES;
-                            diagonalScreenSize = 22.0;
-                            pixelPerInch = 96.0;
-                            scale = 1.0;
                             
                             response.systemCapability.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
                             [testConnectionManager respondToLastRequestWithResponse:response];
@@ -520,6 +513,8 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.frameData = SDLFrameInfoStartServiceACK;
                     testVideoHeader.encrypted = YES;
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
+                    
+                    streamingLifecycleManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
                 });
 
                 context(@"with data", ^{

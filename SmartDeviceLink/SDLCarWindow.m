@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    CGRect bounds = self.getScaledScreenSizeFrame;
+    CGRect bounds = self.sdl_getScaledScreenSizeFrame;
 
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
@@ -121,22 +121,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        if (self.scale > 0) {
-            self.rootViewController.view.frame = self.getScaledScreenSizeFrame;
-            self.rootViewController.view.bounds = self.rootViewController.view.frame;
-            
-            SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
-        }
+        self.rootViewController.view.frame = self.sdl_getScaledScreenSizeFrame;
+        self.rootViewController.view.bounds = self.rootViewController.view.frame;
+        
+        SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
     });
 }
 
-- (CGRect)getScaledScreenSizeFrame {
+- (CGRect)sdl_getScaledScreenSizeFrame {
     float scale = self.streamManager.videoStreamingCapability.scale.floatValue;
     return CGRectMake(0, 0, self.streamManager.screenSize.width / scale, self.streamManager.screenSize.height / scale);
-}
-
-- (float)scale {
-    return self.streamManager.videoStreamingCapability.scale.floatValue;
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {

@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;
-@property (strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;

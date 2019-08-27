@@ -82,7 +82,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 /**
  Provides all video streaming capabilities defined in the HMI.
  */
-@property (strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
  *  @abstract

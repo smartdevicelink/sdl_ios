@@ -28,6 +28,9 @@ describe(@"Initialization tests", ^{
 
         NSNumber *maxBitrate = @100;
         NSNumber *hapticDataSupported = @NO;
+        NSNumber *diagonalScreenSize = @22;
+        NSNumber *pixelPerInch = @96;
+        NSNumber *scale = @1;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -42,7 +45,10 @@ describe(@"Initialization tests", ^{
         NSMutableDictionary* dict = [@{SDLRPCParameterNamePreferredResolution: resolution,
                                        SDLRPCParameterNameMaxBitrate: maxBitrate,
                                        SDLRPCParameterNameSupportedFormats: formatArray,
-                                       SDLRPCParameterNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
+                                       SDLRPCParameterNameHapticSpatialDataSupported: hapticDataSupported,
+                                       SDLRPCParameterNameDiagonalScreenSize: diagonalScreenSize,
+                                       SDLRPCParameterNamePixelPerInch: pixelPerInch,
+                                       SDLRPCParameterNameScale: scale} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
@@ -60,6 +66,9 @@ describe(@"Initialization tests", ^{
         expect(testStruct.preferredResolution).to(beNil());
         expect(testStruct.maxBitrate).to(beNil());
         expect(testStruct.supportedFormats).to(beNil());
+        expect(testStruct.diagonalScreenSize).to(beNil());
+        expect(testStruct.pixelPerInch).to(beNil());
+        expect(testStruct.scale).to(equal(1));
     });
 
     it(@"Should initialize correctly with initWithVideoStreaming:maxBitrate:suportedFormats", ^ {

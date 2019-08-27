@@ -186,7 +186,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
-    onTouchEvent = [self applyScaleToEventCoordinates:onTouchEvent.copy];
+    onTouchEvent = [self sdl_applyScaleToEventCoordinates:onTouchEvent.copy];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -214,9 +214,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }];
 }
 
-- (SDLOnTouchEvent *)applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
+/**
+ *  Modifies the existing coordinates of the SDLOnTouchEvent, based on the received 'scale' value.
+ 
+ *  This will match the coordinates to the scaled resolution of the video.
+ 
+ *  @param onTouchEvent     A SDLOnTouchEvent with coordinates.
+ */
+- (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
     float scale = self.videoStreamingCapability.scale.floatValue;
-    if (scale > 0) {
+    if (scale > 1) {
         for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
             for (SDLTouchCoord *coord in touchEvent.coord) {
                 coord.x = @(coord.x.floatValue / scale);

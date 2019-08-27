@@ -17,7 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize  pixelPerInch:(float)pixelPerInch scale:(float)scale {
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported {
+    return [self initWithPreferredResolution:preferredResolution maxBitrate:maxBitrate supportedFormats:supportedFormats hapticDataSupported:hapticDataSupported diagonalScreenSize:0 pixelPerInch:0 scale:SDLVideoStreamingCapability.sdl_DefaultScale.floatValue];
+}
+
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
     self = [self init];
     if (!self) {
         return self;
@@ -87,7 +91,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)scale {
-    return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+    NSNumber<SDLFloat> *scale = [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+    if (scale != nil) {
+        return scale;
+    }
+    return SDLVideoStreamingCapability.sdl_DefaultScale;
+}
+
++ (NSNumber<SDLFloat> *)sdl_DefaultScale {
+    return @1.0;
 }
 
 @end
