@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Optional
  */
-@property (nullable, strong, nonatomic) SDLDisplayCapability *displayCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLDisplayCapability *> *displayCapabilities;
 
 @end
 

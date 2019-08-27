@@ -132,11 +132,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (void)setDisplayCapabilities:(nullable SDLDisplayCapability *)displayCapabilities {
+- (void)setDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
     [self.store sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];
 }
 
-- (nullable SDLDisplayCapability *)displayCapabilities {
+- (nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
     return [self.store sdl_objectForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
 }
 
