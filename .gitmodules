@@ -1,3 +1,0 @@
-[submodule "bson_c_lib"]
-	path = bson_c_lib
-	url = https://github.com/smartdevicelink/bson_c_lib.git
