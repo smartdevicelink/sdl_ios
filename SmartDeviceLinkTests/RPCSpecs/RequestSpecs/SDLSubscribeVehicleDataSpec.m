@@ -297,8 +297,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(NO));
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
 
     });
 });

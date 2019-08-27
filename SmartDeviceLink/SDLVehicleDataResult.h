@@ -16,18 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for creating a SDLVehicleDataResult with a dataType
  *
- *  @param dataType - The Vehicle DataType data
- *  @param resultCode - The VehicleData ResultCode data
+ *  @param dataType The Vehicle DataType data
+ *  @param resultCode The VehicleData ResultCode data
  */
-- (instancetype)initWithDataType:(SDLVehicleDataType)dataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
+- (instancetype)initWithDataType:(SDLVehicleDataType)dataType resultCode:(SDLVehicleDataResultCode)resultCode;
 
 /**
  *  Convenience init for creating a SDLVehicleDataResult with a customDataType
  *
- *  @param customDataType - The custom dataType data
- *  @param resultCode - The VehicleData ResultCode data
+ *  @param customDataType The custom dataType data
+ *  @param resultCode The VehicleData ResultCode data
  */
-- (instancetype)initWithCustomOEMDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode;
+- (instancetype)initWithCustomOEMDataType:(NSString *)customDataType resultCode:(SDLVehicleDataResultCode)resultCode;
 
 /**
  Defined published data element type
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLVehicleDataType dataType;
 
 /**
- Defined published data element type
+ OEM custom defined published data element type
  */
 @property (nullable, strong, nonatomic) NSString *customOEMDataType;
 

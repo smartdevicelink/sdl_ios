@@ -30,7 +30,6 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* vin = nil;
     __block NSString* cloudAppVehicleID = nil;
-    
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];

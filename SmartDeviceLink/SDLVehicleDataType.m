@@ -35,5 +35,5 @@ SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel = @"VEHICLEDATA_STEERIN
 SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus = @"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
 SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID = @"VEHICLEDATA_CLOUDAPPVEHICLEID";
-SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType = @"VEHICLEDATA_OEM_VEHICLE_DATA_TYPE";
+SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType = @"VEHICLEDATA_OEM_CUSTOM_DATA";
 
