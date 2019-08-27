@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 MaxLength 100.
  @param windowType The type of the window to be created. Main window or widget.
  */
-- (instancetype)initWithId:(NSInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
 
 /**
  Convinience constructor with nullable optional parameters.
@@ -48,7 +48,7 @@ MaxLength 100.
  @param associatedServiceType Allows an app to create a widget related to a specific service type. As an example if a `MEDIA` app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single "media" widget which will act as a placeholder for the active media app. It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI. This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.
  @param duplicateUpdatesFromWindowID  Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
  */
-- (instancetype)initWithId:(NSInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
+- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
 
 
 /**
