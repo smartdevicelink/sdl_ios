@@ -272,7 +272,7 @@ NS_ASSUME_NONNULL_BEGIN
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
  
  @param vehicleDataName The name of the OEM custom vehicle data item.
- @param vehicleDataState - A boolean value.  If true, requests an unsubscribes of the OEM custom vehicle data item.
+ @param vehicleDataState A boolean value.  If true, requests an unsubscribes of the OEM custom vehicle data item.
  */
 - (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState;
 
