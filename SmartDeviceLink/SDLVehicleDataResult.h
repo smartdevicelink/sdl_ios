@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  OEM custom defined published data element type
+ 
+ Added SmartDeviceLink 6.0
  */
 @property (nullable, strong, nonatomic) NSString *customOEMDataType;
 

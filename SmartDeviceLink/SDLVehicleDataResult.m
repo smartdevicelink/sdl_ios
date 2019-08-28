@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVehicleDataResult
 
-- (instancetype)initWithDataType:(SDLVehicleDataType)dataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode {
+- (instancetype)initWithDataType:(SDLVehicleDataType)dataType resultCode:(SDLVehicleDataResultCode)resultCode {
     self = [self init];
     if (!self) {
         return nil;
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithCustomOEMDataType:(NSString *)customDataType SDLVehicleDataResultCode:(SDLVehicleDataResultCode)resultCode{
+- (instancetype)initWithCustomOEMDataType:(NSString *)customDataType resultCode:(SDLVehicleDataResultCode)resultCode{
     self = [self init];
     if (!self) {
         return nil;

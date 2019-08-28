@@ -16,7 +16,7 @@
 QuickSpecBegin(SDLVehicleDataResultSpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+    it(@"should correctly initialize with init", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] init];
         
         testStruct.dataType = SDLVehicleDataTypeAirbagStatus;
@@ -28,22 +28,22 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
 
-    it(@"Should set and get correctly", ^ {
-        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDataType:SDLVehicleDataTypeAirbagStatus SDLVehicleDataResultCode:SDLVehicleDataResultCodeDisallowed];
+    it(@"should correctly initialize with initWithDataType", ^ {
+        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDataType:SDLVehicleDataTypeAirbagStatus resultCode:SDLVehicleDataResultCodeDisallowed];
 
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
 
-    it(@"Should set and get correctly", ^ {
-        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"CustomOEMData" SDLVehicleDataResultCode:SDLVehicleDataResultCodeDisallowed];
+    it(@"should correctly initialize with initWithCustomOEMDataType", ^ {
+        SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"CustomOEMData" resultCode:SDLVehicleDataResultCodeDisallowed];
 
         expect(testStruct.customOEMDataType).to(equal(@"CustomOEMData"));
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameDataType:SDLVehicleDataTypeAirbagStatus,
+        NSDictionary* dict = [@{SDLRPCParameterNameDataType:SDLVehicleDataTypeAirbagStatus,
                                        SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDisallowed,
                                        SDLRPCParameterNameOEMCustomDataType:@"CustomOEMData"
                                        } mutableCopy];

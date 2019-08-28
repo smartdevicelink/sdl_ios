@@ -277,6 +277,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param vehicleDataName - The name of the OEM custom vehicle data item.
  @param vehicleDataState - A boolean value.  If true, requests the OEM custom vehicle data item.
+
+  Added in SmartDeviceLink 6.0
  */
 - (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState;
 
@@ -285,6 +287,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param vehicleDataName - The name of the OEM custom vehicle data item.
  @return The state of an OEM custom vehicle data item for the given vehicle data name.
+
+  Added in SmartDeviceLink 6.0
  */
 - (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 

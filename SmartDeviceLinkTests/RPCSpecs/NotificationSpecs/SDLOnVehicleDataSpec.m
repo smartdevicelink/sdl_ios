@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         cloudAppVehicleID = @"testCloudAppVehicleID";
     });
 
-    it(@"Should set and get correctly", ^ {
+    it(@"should correctly initialize with init", ^ {
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] init];
 
         testNotification.accPedalPosition = @99.99999999;

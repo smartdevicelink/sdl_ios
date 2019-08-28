@@ -18,7 +18,7 @@
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
-SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" SDLVehicleDataResultCode:SDLVehicleDataResultCodeSuccess];
+SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
 
 describe(@"Getter/Setter Tests", ^ {

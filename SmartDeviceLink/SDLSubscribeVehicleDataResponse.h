@@ -224,6 +224,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param vehicleDataName The name of the OEM custom vehicle data item.
  @param vehicleDataState SDLVehicleDataResult object containing custom data type and result code information.
+
+  Added SmartDeviceLink 6.0
  */
 - (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState;
 
@@ -232,6 +234,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param vehicleDataName The name of the OEM custom vehicle data item.
  @return SDLVehicleDataResult An object containing custom data type and result code information.
+
+  Added SmartDeviceLink 6.0
  */
 - (SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
