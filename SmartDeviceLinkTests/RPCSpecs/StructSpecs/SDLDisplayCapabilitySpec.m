@@ -41,7 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         testWindowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:testImageType maximumNumberOfWindows:testMaximunNumberOfWindows];
         
         testTextField = [[SDLTextField alloc] init];
-        testImageField.name = testTextName;
+        testTextField.name = testTextName;
         
         testImageField = [[SDLImageField alloc] init];
         testImageField.name = testImageName;

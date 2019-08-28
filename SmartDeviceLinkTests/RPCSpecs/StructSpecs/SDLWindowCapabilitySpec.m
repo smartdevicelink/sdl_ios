@@ -8,6 +8,7 @@
 #import "SDLWindowCapability.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLTextField.h"
+#import "SDLTextFieldName.h"
 #import "SDLImageField.h"
 #import "SDLImageType.h"
 #import "SDLButtonCapabilities.h"
@@ -17,7 +18,7 @@ QuickSpecBegin(SDLWindowCapabilitySpec)
 
 describe(@"Getter/Setter Tests", ^ {
     
-    __block SDLTextField *testTextField = nil;
+    __block SDLTextField* testTextField = nil;
     __block SDLImageField *testImageField = nil;
     __block SDLButtonCapabilities *testButtonCapabilities = nil;
     __block SDLSoftButtonCapabilities *testSoftButtonscapabilities = nil;
@@ -31,8 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
         testImageName = @"test Image field";
         
         testTextField = [[SDLTextField alloc] init];
-        testImageField.name = testTextName;
-        
+        testTextField.name = SDLTextFieldNameTertiaryText;
         testImageField = [[SDLImageField alloc] init];
         testImageField.name = testImageName;
         
@@ -57,7 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.softButtonCapabilities = @[testSoftButtonscapabilities];
         
         expect(testStruct.windowID).to(equal(@444));
-        expect(testStruct.textFields.firstObject.name).to(equal(testTextName));
+        expect(testStruct.textFields.firstObject.name).to(equal(SDLTextFieldNameTertiaryText));
         expect(testStruct.imageFields.firstObject.name).to(equal(testImageName));
         expect(testStruct.numCustomPresetsAvailable).to(equal(@10));
         expect(testStruct.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
