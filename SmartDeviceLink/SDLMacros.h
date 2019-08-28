@@ -10,14 +10,11 @@
 #define SDLMacros_h
 
 // Resolves issue of pre-xcode 8 versions due to NS_STRING_ENUM unavailability.
-#ifndef SDL_ENUMS_DEFINED
-    #define SDL_ENUMS_DEFINED
+#ifndef SDL_SWIFT_ENUM
     #if __has_attribute(swift_wrapper)
         #define SDL_SWIFT_ENUM NS_STRING_ENUM
-        #define SDL_TYPED_ENUM NS_TYPED_ENUM
     #else
         #define SDL_SWIFT_ENUM
-        #define SDL_TYPED_ENUM
     #endif
 #endif
 

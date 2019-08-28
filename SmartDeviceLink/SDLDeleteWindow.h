@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @param windowId A unique ID to identify the window. The value of '0' will always be the default main window on the main display and cannot be deleted.
  */
-- (instancetype)initWithId:(NSInteger)windowId;
+- (instancetype)initWithId:(NSUInteger)windowId;
 
 /**
  A unique ID to identify the window.
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @see PredefinedWindows enum.
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *windowID;
+@property (strong, nonatomic) NSNumber<SDLUInt> *windowID;
 
 @end
 

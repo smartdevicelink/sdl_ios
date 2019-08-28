@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since SDL 6.0
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
+@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *windowID;
 
 @end
 

@@ -16,7 +16,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSString *testAssociatedServiceType = nil;
     __block NSString *testWindowName = nil;
     __block SDLPredefinedWindows testWindowID;
-    __block int testDuplicateUpdatesFromWindowID = 8;
+    __block NSUInteger testDuplicateUpdatesFromWindowID = 8;
     
     
     beforeEach(^{

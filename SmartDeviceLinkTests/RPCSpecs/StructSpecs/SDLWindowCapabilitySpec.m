@@ -24,7 +24,6 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLImageType testImageType = nil;
     __block NSString *testTextName = nil;
     __block NSString *testImageName = nil;
-    __block int testMaximunNumberOfWindows = 4;
     
     beforeEach(^{
         testImageType = SDLImageTypeDynamic;

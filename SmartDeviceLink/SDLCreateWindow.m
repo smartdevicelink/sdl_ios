@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
+- (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
     self = [self init];
     if (!self) {
         return nil;
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID {
+- (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(NSUInteger)duplicateUpdatesFromWindowID {
     self = [self initWithId:windowId windowName:windowName windowType:windowType];
     if (!self) {
         return nil;
@@ -45,11 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters / Setters
 
-- (void)setWindowID:(NSNumber<SDLInt> *)windowID {
+- (void)setWindowID:(NSNumber<SDLUInt> *)windowID {
     [self.parameters sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
 }
 
-- (NSNumber<SDLInt> *)windowID {
+- (NSNumber<SDLUInt> *)windowID {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowId ofClass:NSNumber.class error:&error];
 }
@@ -82,11 +82,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameAssociatedServiceType ofClass:NSString.class error:&error];
 }
 
-- (void)setDuplicateUpdatesFromWindowID:(nullable NSNumber<SDLInt> *)duplicateUpdatesFromWindowID {
+- (void)setDuplicateUpdatesFromWindowID:(nullable NSNumber<SDLUInt> *)duplicateUpdatesFromWindowID {
     [self.parameters sdl_setObject:duplicateUpdatesFromWindowID forName:SDLRPCParameterNameDuplicateUpdatesFromWindowID];
 }
 
-- (nullable NSNumber<SDLInt> *)duplicateUpdatesFromWindowID {
+- (nullable NSNumber<SDLUInt> *)duplicateUpdatesFromWindowID {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameDuplicateUpdatesFromWindowID ofClass:NSNumber.class error:&error];
 }

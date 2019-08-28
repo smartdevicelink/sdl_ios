@@ -120,7 +120,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLEndAudioPassThruResponse.h',
 'SmartDeviceLink/SDLEqualizerSettings.h',
 'SmartDeviceLink/SDLEnum.h',
-'SmartDeviceLink/SDLEnumTypes.h',
 'SmartDeviceLink/SDLErrorConstants.h',
 'SmartDeviceLink/SDLFile.h',
 'SmartDeviceLink/SDLFileManager.h',

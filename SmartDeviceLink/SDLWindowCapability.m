@@ -13,11 +13,11 @@
 
 @implementation SDLWindowCapability
 
-- (void)setWindowID:(nullable NSNumber<SDLInt> *)windowID {
+- (void)setWindowID:(nullable NSNumber<SDLUInt> *)windowID {
     [self.store sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
 }
 
-- (nullable NSNumber<SDLInt> *)windowID {
+- (nullable NSNumber<SDLUInt> *)windowID {
     return [self.store sdl_objectForName:SDLRPCParameterNameWindowId ofClass:NSNumber.class error:nil];
 }
 

@@ -12,7 +12,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** RPCs *****/
 // Superclasses
 #import "SDLEnum.h"
-#import "SDLEnumTypes.h"
 #import "SDLRPCMessage.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCRequest.h"

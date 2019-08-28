@@ -257,7 +257,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since SDL 6.0
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLInt> *windowID;
+@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *windowID;
 
 /**
  Used to set an alternate template layout to a window.

@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Can be set to a predefined window, or omitted for the main window on the main display.
  * Size: min 1 max 100
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *windowID;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *windowID;
 
 /**
  * A set of all fields that support text data.

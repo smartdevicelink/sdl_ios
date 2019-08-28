@@ -11,7 +11,7 @@ QuickSpecBegin(SDLDeleteWindowSpec)
 
 
 describe(@"Getter/Setter Tests", ^ {
-    __block int testWindowID = 4;
+    __block NSUInteger testWindowID = 4;
     
     it(@"Should set and get correctly", ^ {
         SDLDeleteWindow *testRPC = [[SDLDeleteWindow alloc] init];

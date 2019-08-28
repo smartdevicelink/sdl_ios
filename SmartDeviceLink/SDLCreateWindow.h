@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  MaxLength 100.
  @param windowType The type of the window to be created. Main window or widget.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
+- (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
 
 /**
  Convinience constructor with all the parameters.
@@ -37,14 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param associatedServiceType Allows an app to create a widget related to a specific service type. @see associatedServiceType
  @param duplicateUpdatesFromWindowID  Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
  */
-- (instancetype)initWithId:(UInt32)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(UInt32)duplicateUpdatesFromWindowID;
+- (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(NSUInteger)duplicateUpdatesFromWindowID;
 
 
 /**
  A unique ID to identify the window.
  @discussion The value of '0' will always be the default main window on the main display and should not be used in this context as it will already be created for the app. See PredefinedWindows enum. Creating a window with an ID that is already in use will be rejected with `INVALID_ID`.
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *windowID;
+@property (strong, nonatomic) NSNumber<SDLUInt> *windowID;
 
 /**
  The window name to be used by the HMI.
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLInt> *duplicateUpdatesFromWindowID;
+@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *duplicateUpdatesFromWindowID;
 
 @end
 

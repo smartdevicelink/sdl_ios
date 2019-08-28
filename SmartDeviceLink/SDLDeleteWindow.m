@@ -19,7 +19,7 @@
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithId:(NSInteger)windowId {
+- (instancetype)initWithId:(NSUInteger)windowId {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,11 +28,11 @@
     return self;
 }
 
-- (void)setWindowID:(NSNumber<SDLInt> *)windowID {
+- (void)setWindowID:(NSNumber<SDLUInt> *)windowID {
     [self.parameters sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
 }
 
-- (NSNumber<SDLInt> *)windowID {
+- (NSNumber<SDLUInt> *)windowID {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowId ofClass:NSNumber.class error:&error];
 }
