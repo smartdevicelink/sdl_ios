@@ -408,6 +408,7 @@ SDLRPCParameterName const SDLRPCParameterNameNumber = @"number";
 SDLRPCParameterName const SDLRPCParameterNameNumberCustomPresetsAvailable = @"numCustomPresetsAvailable";
 SDLRPCParameterName const SDLRPCParameterNameNumberTicks = @"numTicks";
 SDLRPCParameterName const SDLRPCParameterNameOdometer = @"odometer";
+SDLRPCParameterName const SDLRPCParameterNameOEMCustomDataType = @"oemCustomDataType";
 SDLRPCParameterName const SDLRPCParameterNameOffset = @"offset";
 SDLRPCParameterName const SDLRPCParameterNameOnLockScreenStatus = @"OnLockScreenStatus";
 SDLRPCParameterName const SDLRPCParameterNameOnScreenPresetsAvailable = @"onScreenPresetsAvailable";
