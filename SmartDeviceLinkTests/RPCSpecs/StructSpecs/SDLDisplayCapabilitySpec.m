@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testTextName = @"test Text field";
         testImageName = @"test Image field";
         
-        testWindowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:testMaximunNumberOfWindows];
+        testWindowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:testImageType maximumNumberOfWindows:testMaximunNumberOfWindows];
         
         testTextField = [[SDLTextField alloc] init];
         testImageField.name = testTextName;
