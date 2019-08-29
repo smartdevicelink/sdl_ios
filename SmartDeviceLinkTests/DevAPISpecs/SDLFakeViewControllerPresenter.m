@@ -18,6 +18,15 @@
 
 @implementation SDLFakeViewControllerPresenter
 
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _presented = NO;
+
+    return self;
+}
+
 - (void)present {
     if (!self.lockViewController) { return; }
     
