@@ -238,7 +238,7 @@ typedef NSString * SDLServiceID;
     defaultWindowCapability.textFields = display.textFields.copy;
     defaultWindowCapability.imageFields = display.imageFields.copy;
     
-    if (display.graphicSupported) {
+    if (display.graphicSupported.boolValue) {
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
     } else {
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
@@ -273,11 +273,20 @@ typedef NSString * SDLServiceID;
 }
 #pragma clang diagnostic pop
 
+- (void)sdl_updateDeprecatedDisplayCapabilities {
+    SDLWindowCapability *defaultMainWindowCapabilities = [self defaultMainWindowCapability];
+    // cover the deprecated capabilities for backward compatibility
+    self.displayCapabilities = [self sdl_createDisplayCapabilitiesWithDisplayName:self.displays[0].displayName windowCapability:defaultMainWindowCapabilities];
+    self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
+    self.softButtonCapabilities = defaultMainWindowCapabilities.softButtonCapabilities;
+}
+
 - (void)sdl_saveDisplayCapabilityListUpdate:(NSArray<SDLDisplayCapability *> *)newCapabilities {
     NSArray<SDLDisplayCapability *> *oldCapabilities = self.displays;
     
     if (oldCapabilities == nil) {
         self.displays = newCapabilities;
+        [self sdl_updateDeprecatedDisplayCapabilities];
         return;
     }
     
@@ -306,14 +315,7 @@ typedef NSString * SDLServiceID;
     // replace the window capabilities array with the merged one.
     newDefaultDisplayCapabilities.windowCapabilities = copyWindowCapabilities.copy;
     self.displays = @[newDefaultDisplayCapabilities];
-    
-    SDLWindowCapability *defaultMainWindowCapabilities = [self defaultMainWindowCapability];
-    
-    // cover the deprecated capabilities for backward compatibility
-    self.displayCapabilities = [self sdl_createDisplayCapabilitiesWithDisplayName:newDefaultDisplayCapabilities.displayName windowCapability:defaultMainWindowCapabilities];
-    self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
-    self.softButtonCapabilities = defaultMainWindowCapabilities.softButtonCapabilities;
-    
+    [self sdl_updateDeprecatedDisplayCapabilities];
 }
 
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID {

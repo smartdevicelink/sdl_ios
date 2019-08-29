@@ -875,7 +875,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
                     [testFileManager uploadArtworks:testArtworks progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
                         artworksDone++;
                         expect(artworkName).to(equal(expectedArtworkNames[artworksDone - 1]));
-                        expect(uploadPercentage).to(beCloseTo((float)artworksDone / 200.0));
+                        expect(uploadPercentage).to(beCloseTo((float)artworksDone / 200.0).within(0.01));
                         expect(error).to(beNil());
                         return YES;
                     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {

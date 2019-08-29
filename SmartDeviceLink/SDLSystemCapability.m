@@ -82,6 +82,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeDisplays;
+    self.displayCapabilities = capabilities;
+    
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
@@ -137,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
-    return [self.store sdl_objectForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
 }
 
 @end
