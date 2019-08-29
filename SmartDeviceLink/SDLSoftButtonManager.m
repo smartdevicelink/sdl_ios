@@ -14,6 +14,7 @@
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -193,6 +194,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (response.displayCapabilities == nil) {
         SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
@@ -200,11 +203,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.softButtonCapabilities = response.softButtonCapabilities ? response.softButtonCapabilities.firstObject : nil;
     self.displayCapabilities = response.displayCapabilities;
+#pragma clang diagnostic pop
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
+#pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
         SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
@@ -224,6 +230,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentLevel;
     if (![oldHMILevel isEqualToEnum:hmiStatus.hmiLevel]) {
         if ([hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelNone]) {

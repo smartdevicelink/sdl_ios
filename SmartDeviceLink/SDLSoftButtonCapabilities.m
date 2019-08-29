@@ -47,6 +47,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameImageSupported ofClass:NSNumber.class error:&error];
 }
 
+- (void)setTextSupported:(nullable NSNumber<SDLBool> *)textSupported {
+    [self.store sdl_setObject:textSupported forName:SDLRPCParameterNameTextSupported];
+}
+
+- (nullable NSNumber<SDLBool> *)textSupported {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameTextSupported ofClass:NSNumber.class error:&error];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

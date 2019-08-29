@@ -20,6 +20,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -225,8 +226,11 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLLogV(@"Determining whether streaming is supported");
     _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
+#pragma clang diagnostic pop
 
     if (!self.isStreamingSupported) {
         SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
@@ -243,6 +247,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     self.hmiLevel = hmiStatus.hmiLevel;
 
     // if startWithProtocol has not been called yet, abort here

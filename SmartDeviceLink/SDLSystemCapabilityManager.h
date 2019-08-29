@@ -17,6 +17,7 @@
 @class SDLAppServicesCapabilities;
 @class SDLAudioPassThruCapabilities;
 @class SDLButtonCapabilities;
+@class SDLDisplayCapability;
 @class SDLDisplayCapabilities;
 @class SDLHMICapabilities;
 @class SDLNavigationCapability;
@@ -27,6 +28,7 @@
 @class SDLSystemCapability;
 @class SDLSystemCapabilityManager;
 @class SDLVideoStreamingCapability;
+@class SDLWindowCapability;
 
 @protocol SDLConnectionManagerType;
 
@@ -58,11 +60,18 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 @property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
 
 /**
+ * Provides window capabilities of all displays connected with SDL. By default, one display is connected and supported which includes window capability information of the default main window of the display. May be nil if the system has not provided display and window capability information yet.
+ * @see SDLDisplayCapability
+ * Optional, @since SDL 6.0
+ */
+@property (nullable, strong, nonatomic, readonly) NSArray<SDLDisplayCapability *> *displays;
+
+/**
  * @see SDLDisplayCapabilities
  *
  * Optional
  */
-@property (nullable, strong, nonatomic, readonly) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic, readonly) SDLDisplayCapabilities *displayCapabilities __deprecated_msg("Use displays, windowCapabilityWithID: or defaultMainWindowCapability instead to access capabilities of a display/window.");
 
 /**
  * @see SDLHMICapabilities
@@ -78,14 +87,14 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  *
  * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __deprecated_msg("Use displays, windowCapabilityWithID: or defaultMainWindowCapability instead to access soft button capabilities of a window.");
 
 /**
  * @see SDLButtonCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLButtonCapabilities
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLButtonCapabilities *> *buttonCapabilities  __deprecated_msg("Use displays, windowCapabilityWithID: or defaultMainWindowCapability instead to access button capabilities of a window.");
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -94,7 +103,7 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  *
  * Optional
  */
-@property (nullable, strong, nonatomic, readonly) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong, nonatomic, readonly) SDLPresetBankCapabilities *presetBankCapabilities  __deprecated_msg("Use displays, windowCapabilityWithID: or defaultMainWindowCapability instead to access preset bank capabilities of a window.");
 
 /**
  * @see SDLHMIZoneCapabilities
@@ -248,6 +257,21 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  * @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.
  */
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer;
+
+/**
+ * Returns the window capability object of the primary display with the specified window ID. This method is a convenient method to easily access capabilities of windows for instance widget windows.
+ *
+ * @param windowID The ID of the window to get capabilities
+ * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
+ */
+- (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
+
+/**
+ * Returns the window capability object of the default main window which is always pre-created by the connected system. This method is a convenient method to easily access capabilities of the default main window.
+ *
+ * @returns The window capability object representing the default main window capabilities or nil if no window capabilities exist.
+ */
+- (nullable SDLWindowCapability *)defaultMainWindowCapability;
 
 @end
 
