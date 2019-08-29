@@ -275,6 +275,12 @@ typedef NSString * SDLServiceID;
 
 - (void)sdl_updateDeprecatedDisplayCapabilities {
     SDLWindowCapability *defaultMainWindowCapabilities = [self defaultMainWindowCapability];
+    NSArray<SDLDisplayCapability *> *displayCapabilityList = self.displays;
+    
+    if (displayCapabilityList == nil || displayCapabilityList.count == 0) {
+        return;
+    }
+    
     // cover the deprecated capabilities for backward compatibility
     self.displayCapabilities = [self sdl_createDisplayCapabilitiesWithDisplayName:self.displays[0].displayName windowCapability:defaultMainWindowCapabilities];
     self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
