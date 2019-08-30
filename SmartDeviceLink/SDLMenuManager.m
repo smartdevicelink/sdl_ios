@@ -605,10 +605,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-#pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
         SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
