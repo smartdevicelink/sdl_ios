@@ -34,9 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convinience constructor with all the parameters.
  
  @param template Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
- 
  @param dayColorScheme The color scheme to use when the head unit is in a light / day situation. If nil, the existing color scheme will be used.
- 
  @param nightColorScheme The color scheme to use when the head unit is in a dark / night situation.
  */
 - (instancetype)initWithTemplate:(NSString *)template dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;

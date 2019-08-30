@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param windowId The type of the window to be created. Main window or widget.
  @param windowName The window name to be used by the HMI. @see windowName
- MaxLength 100.
  @param windowType The type of the window to be created. Main window or widget.
  */
 - (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
@@ -32,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param windowId The type of the window to be created. Main window or widget.
  @param windowName The window name to be used by the HMI. @see windowName
- MaxLength 100.
  @param windowType The type of the window to be created. Main window or widget.
  @param associatedServiceType Allows an app to create a widget related to a specific service type. @see associatedServiceType
  @param duplicateUpdatesFromWindowID  Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn't a window with the ID, the request will be rejected with `INVALID_DATA`.
