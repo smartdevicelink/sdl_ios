@@ -170,7 +170,7 @@ describe(@"menu manager", ^{
             testRegisterAppInterfaceResponse.success = @YES;
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
             expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
