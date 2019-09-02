@@ -344,6 +344,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             weakSelf.preferredFormats = capability.supportedFormats;
             weakSelf.preferredResolutions = @[capability.preferredResolution];
 
+            if (capability.maxBitrate != nil) {
+                NSNumber *bitrate = [[NSNumber alloc] initWithInt:[capability.maxBitrate intValue] * 1000]; // HMI returns bitrate in kbps.
+                NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
+                [settings addEntriesFromDictionary: self.videoEncoderSettings];
+                [settings setObject:bitrate forKey:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate];
+                weakSelf.videoEncoderSettings = settings;
+            }
+
             if (weakSelf.dataSource != nil) {
                 SDLLogV(@"Calling data source for modified preferred formats");
                 weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
