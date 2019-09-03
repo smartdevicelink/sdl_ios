@@ -14,6 +14,7 @@
 @class SDLNavigationCapability;
 @class SDLVideoStreamingCapability;
 @class SDLRemoteControlCapabilities;
+@class SDLDisplayCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,6 +104,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional
  */
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
+
+/**
+ Contain the display related information and all windows related to that display
+ 
+ Optional
+ 
+ @since SDL 6.0
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLDisplayCapability *> *displayCapabilities;
 
 @end
 

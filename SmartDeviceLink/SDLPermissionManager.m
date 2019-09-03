@@ -14,6 +14,7 @@
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLStateMachine.h"
 
@@ -225,6 +226,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnHMIStatus *hmiStatus = notification.notification;
 
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];

@@ -122,11 +122,14 @@ describe(@"System capability manager", ^{
             testPCMStreamCapability = audioPassThruCapability;
 
             testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
             testRegisterAppInterfaceResponse.hmiCapabilities = testHMICapabilities;
             testRegisterAppInterfaceResponse.softButtonCapabilities = testSoftButtonCapabilities;
             testRegisterAppInterfaceResponse.buttonCapabilities = testButtonCapabilities;
             testRegisterAppInterfaceResponse.presetBankCapabilities = testPresetBankCapabilities;
+#pragma clang diagnostic pop
             testRegisterAppInterfaceResponse.hmiZoneCapabilities = testHMIZoneCapabilities;
             testRegisterAppInterfaceResponse.speechCapabilities = testSpeechCapabilities;
             testRegisterAppInterfaceResponse.prerecordedSpeech = testPrerecordedSpeechCapabilities;
