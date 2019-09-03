@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
  "true" - if SDL grants the permission for the requested module
  "false" - SDL denies the permission for the requested module.
  
- Required
+ Optional
  */
-@property (strong, nonatomic) NSArray<NSNumber<SDLBool> *> *allowed;
+@property (strong, nonatomic, nullable) NSArray<NSNumber<SDLBool> *> *allowed;
 
 @end
 

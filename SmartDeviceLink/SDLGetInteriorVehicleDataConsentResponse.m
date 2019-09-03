@@ -22,11 +22,11 @@
 }
 #pragma clang diagnostic pop
 
-- (void)setAllowed:(NSArray<NSNumber<SDLBool> *> *)allowed {
+- (void)setAllowed:(nullable NSArray<NSNumber<SDLBool> *> *)allowed {
     [self.parameters sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }
 
-- (NSArray<NSNumber<SDLBool> *> *)allowed {
+- (nullable NSArray<NSNumber<SDLBool> *> *)allowed {
     NSError *error = nil;
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameAllowed ofClass:NSNumber.class error:&error];
 }
