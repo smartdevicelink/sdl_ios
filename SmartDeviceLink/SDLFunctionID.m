@@ -91,6 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @56: SDLRPCFunctionNameUnpublishAppService,
                          @58: SDLRPCFunctionNameCloseApplication,
                          @59: SDLRPCFunctionNameShowAppMenu,
+                         @60: SDLRPCFunctionNameCreateWindow,
+                         @61: SDLRPCFunctionNameDeleteWindow,
                          @62: SDLRPCFunctionNameGetInteriorVehicleDataConsent,
                          @63: SDLRPCFunctionNameReleaseInteriorVehicleDataModule,
                          @32768: SDLRPCFunctionNameOnHMIStatus,

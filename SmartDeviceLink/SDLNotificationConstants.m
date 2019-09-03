@@ -32,10 +32,12 @@ SDLNotificationName const SDLDidReceiveButtonPressResponse = @"com.sdl.response.
 SDLNotificationName const SDLDidReceiveChangeRegistrationResponse = @"com.sdl.response.changeRegistration";
 SDLNotificationName const SDLDidReceiveCloseApplicationResponse = @"com.sdl.response.closeApplication";
 SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetResponse = @"com.sdl.response.createInteractionChoiceSet";
+SDLNotificationName const SDLDidReceiveCreateWindowResponse = @"com.sdl.response.createWindow";
 SDLNotificationName const SDLDidReceiveDeleteCommandResponse = @"com.sdl.response.deleteCommand";
 SDLNotificationName const SDLDidReceiveDeleteFileResponse = @"com.sdl.response.deleteFile";
 SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetResponse = @"com.sdl.response.deleteInteractionChoiceSet";
 SDLNotificationName const SDLDidReceiveDeleteSubmenuResponse = @"com.sdl.response.deleteSubmenu";
+SDLNotificationName const SDLDidReceiveDeleteWindowResponse = @"com.sdl.response.deleteWindow";
 SDLNotificationName const SDLDidReceiveDiagnosticMessageResponse = @"com.sdl.response.diagnosticMessage";
 SDLNotificationName const SDLDidReceiveDialNumberResponse = @"com.sdl.response.dialNumber";
 SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse = @"com.sdl.response.encodedSyncPData";
@@ -93,11 +95,13 @@ SDLNotificationName const SDLDidReceiveAlertManeuverRequest = @"com.sdl.request.
 SDLNotificationName const SDLDidReceiveButtonPressRequest = @"com.sdl.request.buttonPress";
 SDLNotificationName const SDLDidReceiveChangeRegistrationRequest = @"com.sdl.request.changeRegistration";
 SDLNotificationName const SDLDidReceiveCloseApplicationRequest = @"com.sdl.request.closeApplication";
+SDLNotificationName const SDLDidReceiveCreateWindowRequest = @"com.sdl.request.createWindow";
 SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetRequest = @"com.sdl.request.createInteractionChoiceSet";
 SDLNotificationName const SDLDidReceiveDeleteCommandRequest = @"com.sdl.request.deleteCommand";
 SDLNotificationName const SDLDidReceiveDeleteFileRequest = @"com.sdl.request.deleteFile";
 SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetRequest = @"com.sdl.request.deleteInteractionChoiceSet";
 SDLNotificationName const SDLDidReceiveDeleteSubMenuRequest = @"com.sdl.request.deleteSubMenu";
+SDLNotificationName const SDLDidReceiveDeleteWindowRequest = @"com.sdl.request.deleteWindow";
 SDLNotificationName const SDLDidReceiveDiagnosticMessageRequest = @"com.sdl.request.diagnosticMessage";
 SDLNotificationName const SDLDidReceiveDialNumberRequest = @"com.sdl.request.dialNumber";
 SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest = @"com.sdl.request.encodedSyncPData";
@@ -183,10 +187,12 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveChangeRegistrationResponse,
              SDLDidReceiveCloseApplicationResponse,
              SDLDidReceiveCreateInteractionChoiceSetResponse,
+             SDLDidReceiveCreateWindowResponse,
              SDLDidReceiveDeleteCommandResponse,
              SDLDidReceiveDeleteFileResponse,
              SDLDidReceiveDeleteInteractionChoiceSetResponse,
              SDLDidReceiveDeleteSubmenuResponse,
+             SDLDidReceiveDeleteWindowResponse,
              SDLDidReceiveDiagnosticMessageResponse,
              SDLDidReceiveDialNumberResponse,
              SDLDidReceiveEncodedSyncPDataResponse,

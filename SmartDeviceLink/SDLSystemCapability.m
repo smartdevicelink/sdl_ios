@@ -17,6 +17,7 @@
 #import "SDLVideoStreamingCapability.h"
 #import "SDLRemoteControlCapabilities.h"
 #import "SDLSeatLocationCapability.h"
+#import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -149,6 +150,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLSeatLocationCapability *)seatLocationCapability {
     return [self.store sdl_objectForName:SDLRPCParameterNameSeatLocationCapability ofClass:SDLSeatLocationCapability.class error:nil];
+}
+
+- (void)setDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
+    [self.store sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];
+}
+
+- (nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
 }
 
 @end

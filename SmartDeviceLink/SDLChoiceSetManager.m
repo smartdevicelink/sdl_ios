@@ -28,6 +28,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPerformInteractionResponse.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
@@ -417,17 +418,19 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (response.displayCapabilities == nil) {
         SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
     }
 
     self.displayCapabilities = response.displayCapabilities;
+#pragma clang diagnostic pop
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
         SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
@@ -440,6 +443,11 @@ UInt16 const ChoiceCellIdMin = 1;
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     // We can only present a choice set if we're in FULL
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
 

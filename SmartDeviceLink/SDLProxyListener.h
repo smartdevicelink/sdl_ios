@@ -19,6 +19,8 @@
 @class SDLCloseApplicationResponse;
 @class SDLCreateInteractionChoiceSet;
 @class SDLCreateInteractionChoiceSetResponse;
+@class SDLCreateWindow;
+@class SDLCreateWindowResponse;
 @class SDLDeleteCommand;
 @class SDLDeleteCommandResponse;
 @class SDLDeleteFile;
@@ -27,6 +29,8 @@
 @class SDLDeleteInteractionChoiceSetResponse;
 @class SDLDeleteSubMenu;
 @class SDLDeleteSubMenuResponse;
+@class SDLDeleteWindow;
+@class SDLDeleteWindowResponse;
 @class SDLDiagnosticMessage;
 @class SDLDiagnosticMessageResponse;
 @class SDLDialNumber;
@@ -236,6 +240,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response;
 
 /**
+ *  Called when a Create Window Response is received from Core
+ *
+ *  @param response A SDLCreateWindowResponse object
+ */
+- (void)onCreateWindowResponse:(SDLCreateWindowResponse *)response;
+
+/**
  *  Called when a Delete Command Response is received from Core
  *
  *  @param response A SDLDeleteCommandResponse object
@@ -262,6 +273,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLDeleteSubMenuResponse object
  */
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response;
+
+/**
+ *  Called when a Delete Window Response is received from Core
+ *
+ *  @param response A SDLDeleteWindowResponse object
+ */
+- (void)onDeleteWindowResponse:(SDLDeleteWindowResponse *)response;
 
 /**
  *  Called when a Diagnostic Message Response is received from Core
@@ -665,6 +683,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request;
 
 /**
+ *  Called when a `SDLCreateWindow` request is received from Core
+ *
+ *  @param request A SDLCreateWindow object
+ */
+- (void)onCreateWindow:(SDLCreateWindow *)request;
+
+/**
  *  Called when a `DeleteCommand` request is received from Core
  *
  *  @param request A SDLDeleteCommand object
@@ -691,6 +716,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLDeleteSubMenu object
  */
 - (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request;
+
+/**
+ *  Called when a `SDLDeleteWindow` request is received from Core
+ *
+ *  @param request A SDLDeleteWindow object
+ */
+- (void)onDeleteWindow:(SDLDeleteWindow *)request;
 
 /**
  *  Called when a `DiagnosticMessage` request is received from Core

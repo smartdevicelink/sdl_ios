@@ -98,5 +98,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeButton;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeWayPoints;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUpdateTurnList;
+extern SDLRPCFunctionName const SDLRPCFunctionNameCreateWindow;
+extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteWindow;
 
 

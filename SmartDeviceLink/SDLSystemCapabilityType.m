@@ -14,3 +14,4 @@ SDLSystemCapabilityType const SDLSystemCapabilityTypePhoneCall = @"PHONE_CALL";
 SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming = @"VIDEO_STREAMING";
 SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl = @"REMOTE_CONTROL";
 SDLSystemCapabilityType const SDLSystemCapabilityTypeSeatLocation = @"SEAT_LOCATION";
+SDLSystemCapabilityType const SDLSystemCapabilityTypeDisplays = @"DISPLAYS";
