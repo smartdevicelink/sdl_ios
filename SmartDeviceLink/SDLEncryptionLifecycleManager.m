@@ -24,20 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
 
-@property (strong, nonatomic, readonly) NSOperationQueue *rpcOperationQueue;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
-@property (assign, nonatomic) BOOL requiresEncryption;
+@property (assign, nonatomic, nullable) NSNumber *requiresEncryption;
 
 @end
 
 @implementation SDLEncryptionLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration rpcOperationQueue:(NSOperationQueue *)rpcOperationQueue {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -45,9 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
     
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _connectionManager = connectionManager;
-    _rpcOperationQueue = rpcOperationQueue;
     _currentHMILevel = nil;
-    _requiresEncryption = NO;
+    _requiresEncryption = nil;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
 
@@ -72,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = nil;
     _protocol = nil;
     _currentHMILevel = nil;
-    _requiresEncryption = NO;
+    _requiresEncryption = nil;
 
     SDLLogD(@"Stopping encryption manager");
 }
@@ -216,7 +214,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue;
+    
+    if (onPermissionChange.requireEncryption == nil) {
+        self.requiresEncryption = nil;
+    } else {
+        self.requiresEncryption = [NSNumber numberWithBool:onPermissionChange.requireEncryption.boolValue];
+    }
     
     NSArray<SDLPermissionItem *> *permissionItems = onPermissionChange.permissionItem;
     
@@ -233,12 +236,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)appRequiresEncryption {
-    if (self.requiresEncryption) {
+    if ((self.requiresEncryption == nil || self.requiresEncryption.boolValue) && [self containsAtLeastOneRPCThatRequiresEncryption]) {
         return YES;
-    } else {
-        if ([self containsAtLeastOneRPCThatRequiresEncryption]) {
-            return YES;
-        }
     }
     return NO;
 }
