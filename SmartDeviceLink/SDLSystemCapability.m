@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     self.systemCapabilityType = SDLSystemCapabilityTypeDisplays;
-    self.displayCapabilities = capabilities;
+    self.displayCapabilities = [capabilities copy];
     
     return self;
 }

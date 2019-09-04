@@ -161,10 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
-#pragma clang diagnostic pop
     [self.sdlManager sendRequest:setDisplayLayout];
 
     [self sdlex_updateScreen];

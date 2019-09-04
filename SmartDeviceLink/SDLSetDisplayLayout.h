@@ -17,7 +17,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-__deprecated_msg("This RPC is deprecated. Use Show RPC to change layout when connected to a 6.0+ head unit. Since sdl_ios v6.4 / RPC spec 6.0")
 @interface SDLSetDisplayLayout : SDLRPCRequest
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;

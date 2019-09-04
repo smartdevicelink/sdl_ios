@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
  Since SmartDeviceLink 2.0
  */
-__deprecated_msg("This RPC is deprecated. Use Show RPC to change layout when connected to a 6.0+ head unit. Since sdl_ios v6.4 / RPC spec 6.0")
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
 /**

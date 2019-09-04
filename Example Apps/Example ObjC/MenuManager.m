@@ -89,8 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
 + (SDLMenuCell *)sdlex_menuCellChangeTemplateWithManager:(SDLManager *)manager {
     
     /// Lets give an example of 2 templates
@@ -121,7 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil subCells:[submenuItems copy]];
 }
-#pragma clang diagnostic pop
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
     NSMutableArray *submenuItems = [NSMutableArray array];
