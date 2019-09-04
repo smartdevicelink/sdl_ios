@@ -14,6 +14,29 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithModuleName:moduleName radioEnableAvailable:radioEnableAvailable radioBandAvailable:radioBandAvailable radioFrequencyAvailable:radioFrequencyAvailable hdChannelAvailable:hdChannelAvailable rdsDataAvailable:rdsDataAvailable availableHDsAvailable:availableHDsAvailable stateAvailable:stateAvailable signalStrengthAvailable:signalStrengthAvailable signalChangeThresholdAvailable:signalChangeThresholdAvailable hdRadioEnableAvailable:NO siriusXMRadioAvailable:NO sisDataAvailable:NO];
 }
 
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable {
+    self = [self init];
+    if(!self){
+        return nil;
+    }
+
+    self.moduleName = moduleName;
+    self.radioEnableAvailable = @(radioEnableAvailable);
+    self.radioBandAvailable = @(radioBandAvailable);
+    self.radioFrequencyAvailable = @(radioFrequencyAvailable);
+    self.hdChannelAvailable = @(hdChannelAvailable);
+    self.rdsDataAvailable = @(rdsDataAvailable);
+    self.availableHDsAvailable  = @(availableHDsAvailable);
+    self.stateAvailable = @(stateAvailable);
+    self.signalStrengthAvailable = @(signalStrengthAvailable);
+    self.signalChangeThresholdAvailable = @(signalChangeThresholdAvailable);
+    self.hdRadioEnableAvailable = @(hdRadioEnableAvailable);
+    self.siriusXMRadioAvailable = @(siriusXMRadioAvailable);
+    self.sisDataAvailable = @(sisDataAvailable);
+
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDChannelsAvailable:(BOOL)availableHDChannelsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable {
     self = [self init];
     if(!self){
@@ -37,26 +60,27 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable {
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDChannelsAvailable:(BOOL)availableHDChannelsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable {
     self = [self init];
     if(!self){
         return nil;
     }
-
+    
     self.moduleName = moduleName;
+    self.moduleInfo = moduleInfo;
     self.radioEnableAvailable = @(radioEnableAvailable);
     self.radioBandAvailable = @(radioBandAvailable);
     self.radioFrequencyAvailable = @(radioFrequencyAvailable);
     self.hdChannelAvailable = @(hdChannelAvailable);
     self.rdsDataAvailable = @(rdsDataAvailable);
-    self.availableHDsAvailable  = @(availableHDsAvailable);
+    self.availableHDChannelsAvailable = @(availableHDChannelsAvailable);
     self.stateAvailable = @(stateAvailable);
     self.signalStrengthAvailable = @(signalStrengthAvailable);
     self.signalChangeThresholdAvailable = @(signalChangeThresholdAvailable);
     self.hdRadioEnableAvailable = @(hdRadioEnableAvailable);
     self.siriusXMRadioAvailable = @(siriusXMRadioAvailable);
     self.sisDataAvailable = @(sisDataAvailable);
-
+    
     return self;
 }
 
@@ -171,6 +195,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)sisDataAvailable {
     return [self.store sdl_objectForName:SDLRPCParameterNameSISDataAvailable ofClass:NSNumber.class error:nil];
+}
+
+- (void)setModuleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    [self.store sdl_setObject:moduleInfo forName:SDLRPCParameterNameModuleInfo];
+}
+
+- (nullable SDLModuleInfo *)moduleInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleInfo ofClass:SDLModuleInfo.class error:nil];
 }
 
 @end

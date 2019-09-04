@@ -37,10 +37,13 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic pop
         testResponse.language = SDLLanguageEsMx;
         testResponse.hmiDisplayLanguage = SDLLanguageRuRu;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         testResponse.displayCapabilities = info;
         testResponse.buttonCapabilities = @[button];
         testResponse.softButtonCapabilities = @[softButton];
         testResponse.presetBankCapabilities = presetBank;
+#pragma clang diagnostic pop
         testResponse.hmiZoneCapabilities = @[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront];
         testResponse.speechCapabilities = @[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence];
         testResponse.vrCapabilities = @[SDLVRCapabilitiesText];
@@ -61,10 +64,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.sdlMsgVersion).to(equal(sdlVersion));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
         expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.displayCapabilities).to(equal(info));
         expect(testResponse.buttonCapabilities).to(equal(@[button]));
         expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
+#pragma clang diagnostic pop
         expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
         expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
         expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
@@ -124,10 +130,15 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
             expect(testResponse.language).to(equal(SDLLanguageEsMx));
             expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             expect(testResponse.displayCapabilities).to(equal(info));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             expect(testResponse.buttonCapabilities).to(equal(@[button]));
             expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
             expect(testResponse.presetBankCapabilities).to(equal(presetBank));
+#pragma clang diagnostic pop
             expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
             expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
             expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
@@ -154,10 +165,13 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic pop
             expect(testResponse.language).to(equal(SDLLanguageEsMx));
             expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             expect(testResponse.displayCapabilities).to(equal(info));
             expect(testResponse.buttonCapabilities).to(equal(@[button]));
             expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
             expect(testResponse.presetBankCapabilities).to(equal(presetBank));
+#pragma clang diagnostic pop
             expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
             expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
             expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
@@ -182,10 +196,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.sdlMsgVersion).to(beNil());
         expect(testResponse.language).to(beNil());
         expect(testResponse.hmiDisplayLanguage).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.displayCapabilities).to(beNil());
         expect(testResponse.buttonCapabilities).to(beNil());
         expect(testResponse.softButtonCapabilities).to(beNil());
         expect(testResponse.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
         expect(testResponse.hmiZoneCapabilities).to(beNil());
         expect(testResponse.speechCapabilities).to(beNil());
         expect(testResponse.vrCapabilities).to(beNil());
@@ -236,10 +253,13 @@ describe(@"Getter/Setter Tests", ^ {
         expectAction(^{ [testResponse sdlMsgVersion]; }).to(raiseException());
         expectAction(^{ [testResponse language]; }).to(raiseException());
         expectAction(^{ [testResponse hmiDisplayLanguage]; }).to(raiseException());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expectAction(^{ [testResponse displayCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse buttonCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse softButtonCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse presetBankCapabilities]; }).to(raiseException());
+#pragma clang diagnostic pop
         expectAction(^{ [testResponse hmiZoneCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse speechCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse vrCapabilities]; }).to(raiseException());

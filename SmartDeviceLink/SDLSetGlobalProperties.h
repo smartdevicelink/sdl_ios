@@ -7,6 +7,7 @@
 @class SDLKeyboardProperties;
 @class SDLTTSChunk;
 @class SDLVRHelpItem;
+@class SDLSeatLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,6 +104,13 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
+
+/**
+ Location of the user's seat. Default is driver's seat location if it is not set yet
+ 
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLSeatLocation *userLocation;
 
 @end
 

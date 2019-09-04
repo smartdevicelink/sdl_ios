@@ -149,7 +149,10 @@ describe(@"the streaming video manager", ^{
                     someDisplayCapabilities.screenParams = someScreenParams;
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
+#pragma clang diagnostic pop
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -169,7 +172,10 @@ describe(@"the streaming video manager", ^{
                     someDisplayCapabilities.screenParams = someScreenParams;
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
+#pragma clang diagnostic pop
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];

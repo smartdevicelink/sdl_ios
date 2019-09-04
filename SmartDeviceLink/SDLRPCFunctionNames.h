@@ -35,6 +35,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameGetDTCs;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetFile;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetCloudAppProperties;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameGetInteriorVehicleDataConsent;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetSystemCapability;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints;
@@ -68,6 +69,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNamePerformInteraction;
 extern SDLRPCFunctionName const SDLRPCFunctionNamePublishAppService;
 extern SDLRPCFunctionName const SDLRPCFunctionNamePutFile;
 extern SDLRPCFunctionName const SDLRPCFunctionNameReadDID;
+extern SDLRPCFunctionName const SDLRPCFunctionNameReleaseInteriorVehicleDataModule;
 extern SDLRPCFunctionName const SDLRPCFunctionNameRegisterAppInterface;
 extern SDLRPCFunctionName const SDLRPCFunctionNameReserved;
 extern SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties;
@@ -96,5 +98,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeButton;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUnsubscribeWayPoints;
 extern SDLRPCFunctionName const SDLRPCFunctionNameUpdateTurnList;
+extern SDLRPCFunctionName const SDLRPCFunctionNameCreateWindow;
+extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteWindow;
 
 

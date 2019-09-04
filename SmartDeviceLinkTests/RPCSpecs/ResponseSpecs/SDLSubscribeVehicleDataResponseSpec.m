@@ -12,11 +12,14 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLSubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
+#import "SDLVehicleDataResultCode.h"
 
 
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
+SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
+
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -184,6 +187,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.tirePressure).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
+    });
+
+    it(@"Should set and get Generic Network Signal Data", ^{
+        SDLSubscribeVehicleDataResponse *testRequest = [[SDLSubscribeVehicleDataResponse alloc] init];
+
+        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
+
+        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
     });
 });
 

@@ -40,6 +40,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
@@ -537,10 +538,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
         completion();
         return;
     }
+#pragma clang diagnostic pop
 
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
@@ -769,6 +773,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
+    
+    if (hmiStatusNotification.windowID != nil && hmiStatusNotification.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 

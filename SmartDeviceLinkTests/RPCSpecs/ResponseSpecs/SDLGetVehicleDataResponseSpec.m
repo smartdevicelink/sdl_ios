@@ -220,6 +220,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vin).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
     });
+
+    it(@"Should set and get Generic Network Signal Data", ^{
+        SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
+
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+        
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+    });
 });
 
 QuickSpecEnd

@@ -309,6 +309,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:nil];
 }
 
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState {
+    [self.parameters sdl_setObject:@(vehicleDataState) forName:vehicleDataName];
+}
+
+- (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
+    return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
