@@ -28,6 +28,7 @@
 #import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
+#import "SDLSeatLocationCapability.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
@@ -58,6 +59,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -122,6 +124,7 @@ typedef NSString * SDLServiceID;
     _phoneCapability = nil;
     _videoStreamingCapability = nil;
     _remoteControlCapability = nil;
+    _seatLocationCapability = nil;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _supportsSubscriptions = NO;
@@ -320,6 +323,9 @@ typedef NSString * SDLServiceID;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
         if ([self.remoteControlCapability isEqual:systemCapability.remoteControlCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.remoteControlCapability = systemCapability.remoteControlCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
+        if ([self.seatLocationCapability isEqual:systemCapability.seatLocationCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
+        self.seatLocationCapability = systemCapability.seatLocationCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;

@@ -50,6 +50,8 @@
 @class SDLGetFileResponse;
 @class SDLGetInteriorVehicleData;
 @class SDLGetInteriorVehicleDataResponse;
+@class SDLGetInteriorVehicleDataConsent;
+@class SDLGetInteriorVehicleDataConsentResponse;
 @class SDLGetSystemCapability;
 @class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleData;
@@ -95,6 +97,8 @@
 @class SDLReadDIDResponse;
 @class SDLRegisterAppInterface;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLReleaseInteriorVehicleDataModule;
+@class SDLReleaseInteriorVehicleDataModuleResponse;
 @class SDLResetGlobalProperties;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessage;
@@ -348,6 +352,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response;
 
 /**
+ *  Called when a Get Interior Vehicle Data Consent Response is received from Core
+ *
+ *  @param response A SDLGetInteriorVehicleDataConsentResponse object
+ */
+- (void)onGetInteriorVehicleDataConsentResponse:(SDLGetInteriorVehicleDataConsentResponse *)response;
+
+/**
  *  Called when a Get System Capability Response is received from Core
  *
  *  @param response A SDLGetSystemCapabilityResponse object
@@ -430,6 +441,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLRegisterAppInterfaceResponse object
  */
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
+
+/**
+ *  Called when a Release Interior Vehicle Data Module Response is received from Core
+ *
+ *  @param response A SDLReleaseInteriorVehicleDataModuleResponse object
+ */
+- (void)onReleaseInteriorVehicleDataModuleResponse:(SDLReleaseInteriorVehicleDataModuleResponse *)response;
 
 /**
  *  Called when a Reset Global Properties Response is received from Core
@@ -770,6 +788,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request;
 
 /**
+ *  Called when a `GetInteriorVehicleDataConsent` request is received from Core
+ *
+ *  @param request A SDLGetInteriorVehicleDataConsent object
+ */
+- (void)onGetInteriorVehicleConsentData:(SDLGetInteriorVehicleDataConsent *)request;
+
+/**
  *  Called when a `GetSystemCapability` request is received from Core
  *
  *  @param request A SDLGetSystemCapability object
@@ -845,6 +870,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLRegisterAppInterface object
  */
 - (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request;
+
+/**
+ *  Called when a `ReleaseInteriorVehicleDataModule` request is received from Core
+ *
+ *  @param request A SDLReleaseInteriorVehicleDataModule object
+ */
+- (void)onReleaseInteriorVehicleDataModule:(SDLReleaseInteriorVehicleDataModule *)request;
 
 /**
  *  Called when a `ResetGlobalProperties` request is received from Core

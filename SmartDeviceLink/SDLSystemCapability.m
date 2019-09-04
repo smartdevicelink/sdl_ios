@@ -16,6 +16,7 @@
 #import "SDLSystemCapabilityType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLSeatLocationCapability.h"
 #import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -82,6 +83,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeSeatLocation;
+    self.seatLocationCapability = capability;
+    
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
@@ -131,6 +144,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
 }
 
+- (void)setSeatLocationCapability:(nullable SDLSeatLocationCapability *)seatLocationCapability {
+    [self.store sdl_setObject:seatLocationCapability forName:SDLRPCParameterNameSeatLocationCapability];
+}
+
+- (nullable SDLSeatLocationCapability *)seatLocationCapability {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeatLocationCapability ofClass:SDLSeatLocationCapability.class error:nil];
+}
 
 - (void)setDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
     [self.store sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];

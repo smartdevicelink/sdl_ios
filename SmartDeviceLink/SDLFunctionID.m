@@ -93,6 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @59: SDLRPCFunctionNameShowAppMenu,
                          @60: SDLRPCFunctionNameCreateWindow,
                          @61: SDLRPCFunctionNameDeleteWindow,
+                         @62: SDLRPCFunctionNameGetInteriorVehicleDataConsent,
+                         @63: SDLRPCFunctionNameReleaseInteriorVehicleDataModule,
                          @32768: SDLRPCFunctionNameOnHMIStatus,
                          @32769: SDLRPCFunctionNameOnAppInterfaceUnregistered,
                          @32770: SDLRPCFunctionNameOnButtonEvent,

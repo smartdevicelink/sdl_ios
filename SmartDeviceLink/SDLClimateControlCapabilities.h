@@ -5,6 +5,7 @@
 #import "SDLRPCMessage.h"
 #import "SDLDefrostZone.h"
 #import "SDLVentilationMode.h"
+#import "SDLModuleInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable __deprecated_msg("Use initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable: dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable: heatedSteeringWheelAvailable:heatedWindshieldAvailable: heatedRearWindowAvailable:heatedMirrorsAvailable: climateEnableAvailable: instead");
 
-- (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable __deprecated_msg("Use initWithModuleName: moduleId:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable: dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable: heatedSteeringWheelAvailable:heatedWindshieldAvailable: heatedRearWindowAvailable:heatedMirrorsAvailable: climateEnableAvailable: instead");
+
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable;
 
 /**
  * The short friendly name of the climate control module.
@@ -155,6 +158,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *climateEnableAvailable;
+
+/**
+ *  Information about a RC module, including its id.
+ *
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) SDLModuleInfo *moduleInfo;
 
 @end
 

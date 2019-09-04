@@ -23,6 +23,7 @@
 @class SDLPhoneCapability;
 @class SDLPresetBankCapabilities;
 @class SDLRemoteControlCapabilities;
+@class SDLSeatLocationCapability;
 @class SDLSoftButtonCapabilities;
 @class SDLSystemCapability;
 @class SDLSystemCapabilityManager;
@@ -182,6 +183,15 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLRemoteControlCapabilities *remoteControlCapability;
+
+/**
+ If returned, the platform supports remote control capabilities for seats
+ 
+ @see SDLSeatLocationCapability
+ 
+ Optional
+ */
+@property (nullable, strong, nonatomic, readonly) SDLSeatLocationCapability *seatLocationCapability;
 
 /**
  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
