@@ -4,6 +4,7 @@
 
 #import "SDLRPCStruct.h"
 #import "SDLImageType.h"
+#import "SDLMenuLayout.h"
 
 @class SDLTextField;
 @class SDLImageField;
@@ -75,6 +76,13 @@ NS_ASSUME_NONNULL_BEGIN
  Size: min 1 max 100
  */
 @property (nullable, strong, nonatomic)  NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+
+/**
+ An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available.
+
+ Optional, array of 1 to 100, see SDLMenuLayout
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLMenuLayout> *menuLayoutsAvailable;
 
 @end
 

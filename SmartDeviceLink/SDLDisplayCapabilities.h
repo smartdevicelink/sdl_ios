@@ -5,7 +5,6 @@
 
 #import "SDLDisplayType.h"
 #import "SDLMediaClockFormat.h"
-#import "SDLMenuLayout.h"
 
 @class SDLImageField;
 @class SDLScreenParams;
@@ -97,13 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Integer 1 - 100
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *numCustomPresetsAvailable;
-
-/**
- An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available.
-
- Optional, array of 1 to 100, see SDLMenuLayout
- */
-@property (nullable, strong, nonatomic) NSArray<SDLMenuLayout> *menuLayoutsAvailable;
 
 @end
 
