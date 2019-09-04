@@ -168,7 +168,10 @@ describe(@"menu manager", ^{
 
             testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
             testRegisterAppInterfaceResponse.success = @YES;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
+#pragma clang diagnostic pop
 
             SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
