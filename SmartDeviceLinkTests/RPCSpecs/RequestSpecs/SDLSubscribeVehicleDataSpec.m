@@ -290,6 +290,17 @@ describe(@"initializers", ^{
         expect(testRequest.wiperStatus).to(equal(@YES));
         #pragma clang diagnostic pop
     });
+
+    context(@"Should set and get Generic Network Signal Data", ^{
+        SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
+
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
+        [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
+
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+
+    });
 });
 
 QuickSpecEnd

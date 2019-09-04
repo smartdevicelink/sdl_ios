@@ -268,6 +268,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
 
+/**
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState A boolean value.  If true, requests an unsubscribes of the OEM custom vehicle data item.
+
+  Added SmartDeviceLink 6.0
+ */
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState;
+
+/**
+ Gets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item to unsubscribe for.
+ @return A boolean value indicating if an unsubscribe request will occur for the OEM custom vehicle data item.
+
+  Added SmartDeviceLink 6.0
+ */
+- (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 

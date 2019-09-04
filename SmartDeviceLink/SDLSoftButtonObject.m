@@ -53,9 +53,19 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithName:name states:@[state] initialStateName:state.name handler:eventHandler];
 }
 
+- (instancetype)initWithName:(NSString *)name text:(nullable NSString *)text artwork:(nullable SDLArtwork *)artwork handler:(nullable SDLRPCButtonNotificationHandler)eventHandler {
+    SDLSoftButtonState *implicitState = [[SDLSoftButtonState alloc] initWithStateName:name text:text artwork:artwork];
+    return [self initWithName:name state:implicitState handler:eventHandler];
+}
+
 - (BOOL)transitionToStateNamed:(NSString *)stateName {
     if ([self stateWithName:stateName] == nil) {
         SDLLogE(@"Attempted to transition to state: %@ on soft button: %@ but no state with that name was found", stateName, self.name);
+        return NO;
+    }
+
+    if (self.states.count == 1) {
+        SDLLogW(@"There's only one state, so no transitioning is possible!");
         return NO;
     }
 
