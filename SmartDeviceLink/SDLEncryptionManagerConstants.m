@@ -11,4 +11,3 @@
 SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStopped = @"EncryptionStopped";
 SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStarting = @"EncryptionStarting";
 SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateReady = @"EncryptionReady";
-SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateShuttingDown = @"EncryptionShuttingDown";
