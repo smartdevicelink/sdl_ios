@@ -88,8 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
-        && (self.requiresEncryption || [self containsAtLeastOneRPCThatRequiresEncryption])) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && [self appRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
@@ -231,6 +230,17 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
         [self sdl_startEncryptionService];
     }
+}
+
+- (BOOL)appRequiresEncryption {
+    if (self.requiresEncryption) {
+        return YES;
+    } else {
+        if ([self containsAtLeastOneRPCThatRequiresEncryption]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
