@@ -14,12 +14,12 @@
 typedef SDLEnum SDLMenuLayout SDL_SWIFT_ENUM;
 
 /**
- * STREAMABLE, the current app is allowed to stream video
+ * The menu should be laid out in a scrollable list format with one menu cell below the previous, each is stretched across the view
  */
 extern SDLMenuLayout const SDLMenuLayoutList;
 
 /**
- * NOT_STREAMABLE, the current app is not allowed to stream video
+ * The menu should be laid out in a scrollable tiles format with each menu cell laid out in a square-ish format next to each other horizontally
  */
 extern SDLMenuLayout const SDLMenuLayoutTiles;
 

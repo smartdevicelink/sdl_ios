@@ -61,8 +61,8 @@ describe(@"menu manager", ^{
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" submenuLayout:SDLMenuLayoutTiles icon:testArtwork2 subCells:@[textOnlyCell]];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
@@ -134,34 +134,15 @@ describe(@"menu manager", ^{
 
         context(@"when in the menu", ^{
             beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
                 testManager.currentHMILevel = SDLHMILevelFull;
                 testManager.currentSystemContext = SDLSystemContextMenu;
             });
 
-            it(@"should not update the menu configuration", ^{
+            it(@"should update the menu configuration", ^{
                 testManager.menuConfiguration = testMenuConfiguration;
                 expect(mockConnectionManager.receivedRequests).to(beEmpty());
                 expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
-            });
-
-            it(@"should not update the menu cells", ^{
-                testManager.menuCells = @[textOnlyCell];
-                expect(mockConnectionManager.receivedRequests).to(beEmpty());
-            });
-
-            describe(@"when exiting the menu", ^{
-                beforeEach(^{
-                    SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
-                    onHMIStatus.hmiLevel = SDLHMILevelFull;
-                    onHMIStatus.systemContext = SDLSystemContextMain;
-
-                    SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
-                    [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
-                });
-
-                it(@"should update", ^{
-                    expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
-                });
             });
         });
     });
@@ -588,7 +569,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" submenuLayout:SDLMenuLayoutTiles icon:nil subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
@@ -629,12 +610,14 @@ describe(@"menu manager", ^{
         context(@"if the connection RPC version is greater than or equal to 6.0.0", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                testManager.displayCapabilities.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
             });
 
             it(@"should send a SetGlobalProperties RPC update", ^{
                 testManager.menuConfiguration = testMenuConfiguration;
 
-                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
                 expect(mockConnectionManager.receivedRequests).to(haveCount(1));
 
                 SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];

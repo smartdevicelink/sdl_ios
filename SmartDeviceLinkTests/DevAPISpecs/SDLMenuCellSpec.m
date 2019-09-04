@@ -62,7 +62,7 @@ describe(@"a menu cell", ^{
         });
 
         it(@"should initialize properly as a submenu item with icon and layout", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle submenuLayout:testLayout icon:someArtwork subCells:someSubcells];
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork submenuLayout:testLayout subCells:someSubcells];
 
             expect(testCell.title).to(equal(someTitle));
             expect(testCell.icon).to(equal(someArtwork));
@@ -73,15 +73,15 @@ describe(@"a menu cell", ^{
     });
     describe(@"check cell eqality", ^{
         it(@"should compare cells and return true if cells equal", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:@"Title" submenuLayout:testLayout icon:nil subCells:@[]];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"Title" submenuLayout:testLayout icon:nil subCells:@[]];
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil submenuLayout:testLayout subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"Title" icon:nil submenuLayout:testLayout subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(true));
         });
 
         it(@"should compare cells and return false if not equal ", ^{
-            testCell = [[SDLMenuCell alloc] initWithTitle:@"True" submenuLayout:testLayout icon:nil subCells:@[]];
-            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" submenuLayout:testLayout icon:nil subCells:@[]];
+            testCell = [[SDLMenuCell alloc] initWithTitle:@"True" icon:nil submenuLayout:testLayout subCells:@[]];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:nil submenuLayout:testLayout subCells:@[]];
 
             expect([testCell isEqual:testCell2]).to(equal(false));
         });

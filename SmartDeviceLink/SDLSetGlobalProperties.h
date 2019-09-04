@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
 
 /**
- The main menu layout. See available menu layouts on DisplayCapabilities.menuLayoutsAvailable. Defaults to LIST.
+ The main menu layout. If this is sent while a menu is already on-screen, the head unit will change the display to the new layout type. See available menu layouts on DisplayCapabilities.menuLayoutsAvailable. Defaults to the head unit default.
  */
 @property (strong, nonatomic, nullable) SDLMenuLayout menuLayout;
 

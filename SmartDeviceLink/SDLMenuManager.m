@@ -127,8 +127,7 @@ UInt32 const MenuCellIdMin = 1;
         SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", self.displayCapabilities.menuLayoutsAvailable, menuConfiguration);
         return;
     } else if (self.currentHMILevel == nil
-        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
-        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         SDLLogE(@"Could not set main menu configuration, HMI level: %@, required: 'Not-NONE', system context: %@, required: 'Not MENU'", self.currentHMILevel, self.currentSystemContext);
         return;
     }
