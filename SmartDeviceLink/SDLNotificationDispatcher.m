@@ -127,6 +127,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveCreateInteractionChoiceSetResponse response:response];
 }
 
+- (void)onCreateWindowResponse:(SDLCreateWindowResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveCreateWindowResponse response:response];
+}
+
 - (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveDeleteCommandResponse response:response];
 }
@@ -141,6 +145,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveDeleteSubmenuResponse response:response];
+}
+
+- (void)onDeleteWindowResponse:(SDLDeleteWindowResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDeleteWindowResponse response:response];
 }
 
 - (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response {
@@ -181,6 +189,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataResponse response:response];
+}
+
+- (void)onGetInteriorVehicleDataConsentResponse:(SDLGetInteriorVehicleDataConsentResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataConsentResponse response:response];
 }
 
 - (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response {
@@ -225,6 +237,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveRegisterAppInterfaceResponse response:response];
+}
+
+- (void)onReleaseInteriorVehicleDataModuleResponse:(SDLReleaseInteriorVehicleDataModuleResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveReleaseInteriorVehicleDataModuleResponse response:response];
 }
 
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response {
@@ -361,6 +377,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveCreateInteractionChoiceSetRequest request:request];
 }
 
+- (void)onCreateWindow:(SDLCreateWindow *)request {
+    [self postRPCRequestNotification:SDLDidReceiveCreateWindowRequest request:request];
+}
+
 - (void)onDeleteCommand:(SDLDeleteCommand *)request {
     [self postRPCRequestNotification:SDLDidReceiveDeleteCommandRequest request:request];
 }
@@ -375,6 +395,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request {
     [self postRPCRequestNotification:SDLDidReceiveDeleteSubMenuRequest request:request];
+}
+
+- (void)onDeleteWindow:(SDLDeleteWindow *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteWindowRequest request:request];
 }
 
 - (void)onDiagnosticMessage:(SDLDiagnosticMessage *)request {
@@ -411,6 +435,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request {
     [self postRPCRequestNotification:SDLDidReceiveGetInteriorVehicleDataRequest request:request];
+}
+
+- (void)onGetInteriorVehicleDataConsent:(SDLGetInteriorVehicleDataConsent *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetInteriorVehicleDataConsentRequest request:request];
 }
 
 - (void)onGetSystemCapability:(SDLGetSystemCapability *)request {
@@ -455,6 +483,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request {
     [self postRPCRequestNotification:SDLDidReceiveRegisterAppInterfaceRequest request:request];
+}
+
+- (void)onReleaseInteriorVehicleDataModule:(SDLReleaseInteriorVehicleDataModule *)request {
+    [self postRPCRequestNotification:SDLDidReceiveReleaseInteriorVehicleDataModuleRequest request:request];
 }
 
 - (void)onResetGlobalProperties:(SDLResetGlobalProperties *)request {

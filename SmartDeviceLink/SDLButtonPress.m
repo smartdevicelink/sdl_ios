@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithButtonName:(SDLButtonName) buttonName moduleType:(SDLModuleType) moduleType {
+- (instancetype)initWithButtonName:(SDLButtonName) buttonName moduleType:(SDLModuleType)moduleType {
     self = [self init];
     if (!self) {
         return nil;
@@ -29,6 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
     self.buttonName = buttonName;
     self.moduleType = moduleType;
 
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.buttonName = buttonName;
+    self.moduleType = moduleType;
+    self.moduleId = moduleId;
+    
     return self;
 }
 
@@ -57,6 +70,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLButtonPressMode)buttonPressMode {
     NSError *error = nil;
     return [self.parameters sdl_enumForName:SDLRPCParameterNameButtonPressMode error:&error];
+}
+
+- (void)setModuleId:(nullable NSString *)moduleId {
+    [self.parameters sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
+}
+
+- (nullable NSString *)moduleId {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameModuleId ofClass:NSString.class error:&error];
 }
 
 @end

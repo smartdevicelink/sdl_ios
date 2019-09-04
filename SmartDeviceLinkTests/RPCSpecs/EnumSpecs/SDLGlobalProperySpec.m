@@ -21,6 +21,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLGlobalPropertyMenuName).to(equal(@"MENUNAME"));
         expect(SDLGlobalPropertyMenuIcon).to(equal(@"MENUICON"));
         expect(SDLGlobalPropertyKeyboard).to(equal(@"KEYBOARDPROPERTIES"));
+        expect(SDLGlobalPropertyUserLocation).to(equal(@"USER_LOCATION"));
     });
 });
 

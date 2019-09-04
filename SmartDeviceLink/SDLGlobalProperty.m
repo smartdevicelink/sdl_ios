@@ -11,3 +11,4 @@ SDLGlobalProperty const SDLGlobalPropertyVoiceRecognitionHelpItems = @"VRHELPITE
 SDLGlobalProperty const SDLGlobalPropertyMenuName = @"MENUNAME";
 SDLGlobalProperty const SDLGlobalPropertyMenuIcon = @"MENUICON";
 SDLGlobalProperty const SDLGlobalPropertyKeyboard = @"KEYBOARDPROPERTIES";
+SDLGlobalProperty const SDLGlobalPropertyUserLocation = @"USER_LOCATION";
