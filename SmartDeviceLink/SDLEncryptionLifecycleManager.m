@@ -66,7 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
             [self.protocol.protocolDelegateTable addObject:self];
         }
     }
-    
 }
 
 - (void)stop {
@@ -112,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     return @{
              SDLEncryptionLifecycleManagerStateStopped : @[SDLEncryptionLifecycleManagerStateStarting],
              SDLEncryptionLifecycleManagerStateStarting : @[SDLEncryptionLifecycleManagerStateStopped, SDLEncryptionLifecycleManagerStateReady],
-             SDLEncryptionLifecycleManagerStateReady : @[SDLEncryptionLifecycleManagerStateShuttingDown, SDLEncryptionLifecycleManagerStateStopped]
+             SDLEncryptionLifecycleManagerStateReady : @[SDLEncryptionLifecycleManagerStateStopped]
             };
 }
 

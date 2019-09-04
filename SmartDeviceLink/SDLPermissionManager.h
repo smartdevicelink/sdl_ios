@@ -12,7 +12,6 @@
 #import "SDLPermissionConstants.h"
 
 @class SDLPermissionItem;
-@class SDLRPCMessage;
 
 NS_ASSUME_NONNULL_BEGIN
 

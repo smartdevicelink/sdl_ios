@@ -14,6 +14,5 @@ typedef NSString SDLEncryptionLifecycleManagerState;
 extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStopped;
 extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateStarting;
 extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateReady;
-extern SDLEncryptionLifecycleManagerState *const SDLEncryptionLifecycleManagerStateShuttingDown;
 
 NS_ASSUME_NONNULL_END
