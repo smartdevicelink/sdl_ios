@@ -84,6 +84,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateReady];
 }
 
+- (void)startEncryptionService {
+    [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
+}
+
 - (void)sdl_startEncryptionService {
     SDLLogV(@"Attempting to start Encryption Service");
     if (!self.protocol || !self.currentHMILevel) {
@@ -92,9 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        
-//    } && [self appRequiresEncryption]) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && [self appRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");

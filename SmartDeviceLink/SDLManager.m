@@ -65,6 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lifecycleManager stop];
 }
 
+- (void)startRPCEncryption {
+    [self.lifecycleManager startRPCEncryption];
+}
 
 #pragma mark - Passthrough getters / setters
 

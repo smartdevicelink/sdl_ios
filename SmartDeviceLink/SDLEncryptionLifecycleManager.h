@@ -45,9 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 /**
- *  Check whether or not an RPC needs encryption
+ *  Check whether or not an RPC needs encryption.
  */
 - (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc;
+
+/**
+ *  Attempt to manually start a secure service.
+ */
+- (void)startEncryptionService;
 
 @end
 

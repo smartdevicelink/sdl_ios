@@ -199,6 +199,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     });
 }
 
+- (void)startRPCEncryption {
+    [self.encryptionLifecycleManager startEncryptionService];
+}
 
 #pragma mark Getters
 

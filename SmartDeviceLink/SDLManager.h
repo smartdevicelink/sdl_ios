@@ -135,6 +135,12 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 - (void)stop;
 
+/**
+ *  Start the encryption lifecycle manager, which will attempt to open a secure service.
+ *
+ *  Please call this method in the successful callback of startWithReadyHandler. If you do call this method, you must wait for SDLServiceEncryptionDelegate's serviceEncryptionUpdatedOnService delegate method before you send any encrypted RPCs.
+ */
+- (void)startRPCEncryption;
 
 #pragma mark Manually Send RPC Requests
 
