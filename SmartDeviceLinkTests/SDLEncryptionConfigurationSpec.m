@@ -25,7 +25,7 @@ describe(@"a streaming media configuration", ^{
         beforeEach(^{
             testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
             
-            testConfig = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class]];
+            testConfig = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
         });
         
         it(@"should have properly set properties", ^{

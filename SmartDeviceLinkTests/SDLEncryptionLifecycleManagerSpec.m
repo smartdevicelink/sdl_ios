@@ -42,10 +42,10 @@ describe(@"the encryption lifecycle manager", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
-        testConfiguration = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class]];
+        testConfiguration = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
         testRPCOperationQueue = OCMClassMock([NSOperationQueue class]);
         
-        encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration rpcOperationQueue:testRPCOperationQueue];
+        encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
     });
     
     it(@"should initialize properties", ^{
