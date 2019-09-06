@@ -19,6 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithModuleName:(NSString *)name moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = name;
+    self.moduleInfo = moduleInfo;
+
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
     self = [self init];
     if (!self) {
@@ -33,6 +44,25 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+
+- (instancetype)initWithModuleName:(NSString *)name moduleInfo:(nullable SDLModuleInfo *)moduleInfo sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.moduleName = name;
+    self.moduleInfo = moduleInfo;
+    self.sourceAvailable = sourceAvailable;
+    self.keepContextAvailable = keepContextAvailable;
+    self.volumeAvailable = volumeAvailable;
+    self.equalizerAvailable = equalizerAvailable;
+    self.equalizerMaxChannelId = equalizerMaxChannelID;
+
+    return self;
+
+}
+
 
 - (void)setModuleName:(NSString *)moduleName {
     [self.store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
@@ -81,6 +111,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
     return [self.store sdl_objectForName:SDLRPCParameterNameEqualizerMaxChannelId ofClass:NSNumber.class error:nil];
+}
+
+- (void)setModuleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    [self.store sdl_setObject:moduleInfo forName:SDLRPCParameterNameModuleInfo];
+}
+
+- (nullable SDLModuleInfo *)moduleInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleInfo ofClass:SDLModuleInfo.class error:nil];
 }
 
 @end

@@ -15,13 +15,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLButtonPress : SDLRPCRequest
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType) moduleType;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType __deprecated_msg(("Use initWithButtonName:moduleType:moduleId: instead"));;
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId;
 
 /**
  * The module where the button should be pressed.
  *
  */
 @property (strong, nonatomic) SDLModuleType moduleType;
+
+/**
+ *  Id of a module, published by System Capability.
+ *
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) NSString *moduleId;
 
 /**
  * The name of supported RC climate or radio button.
