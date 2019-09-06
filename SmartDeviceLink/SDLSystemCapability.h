@@ -66,6 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability;
 
 /**
+ Convenience init for DisplayCapability list
+ 
+ @param capabilities    Contain the display related information and all windows related to that display
+ @return                A SDLSystemCapability object
+ */
+- (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities;
+
+/**
  *  Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.
  */
 @property (strong, nonatomic) SDLSystemCapabilityType systemCapabilityType;
