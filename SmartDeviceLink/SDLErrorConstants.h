@@ -16,6 +16,14 @@ typedef NS_ENUM(NSInteger, SDLEncryptionLifecycleManagerError) {
      *  Some action was attempted that requires a connection to the remote head unit.
      */
     SDLEncryptionLifecycleManagerErrorNotConnected = -1,
+    /**
+     *  Received ACK with encryption bit set to false from the remote head unit
+     */
+    SDLEncryptionLifecycleManagerErrorEncryptionOff = -2,
+    /**
+     *  Received nACK from the remote head unit.
+     */
+    SDLEncryptionLifecycleManagerErrorNACK = -3
 };
 
 /**

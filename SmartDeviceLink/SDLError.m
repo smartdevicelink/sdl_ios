@@ -39,6 +39,31 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                            userInfo:userInfo];
 }
 
++ (NSError *)sdl_encryption_lifecycle_encryption_off {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle received a ACK with encryption bit = 0", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library received ACK with encryption = OFF.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure you are on a supported remote head unit with proper policies and your app id is approved.", nil)
+                                                       };
+    
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorEncryptionOff
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_encryption_lifecycle_nack {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle received a negative acknowledgement", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote head unit sent a nACK.  Encryption service failed to start due to nACK.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure your certificates are valid.", nil)
+                                                       };
+    
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorNACK
+                           userInfo:userInfo];
+
+}
+
 #pragma mark - SDLManager
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {

@@ -8,6 +8,8 @@
 
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLEncryptionManagerConstants.h"
+#import "SDLEncryptionConfiguration.h"
+#import "SDLServiceEncryptionDelegate.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLLogMacros.h"
 #import "SDLStateMachine.h"
@@ -31,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (assign, nonatomic, nullable) NSNumber *requiresEncryption;
+@property (weak, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
 
 @end
 
@@ -48,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     _requiresEncryption = nil;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
+    _delegate = configuration.delegate;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
@@ -71,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     _protocol = nil;
     _currentHMILevel = nil;
     _requiresEncryption = nil;
+    _delegate = nil;
 
     SDLLogD(@"Stopping encryption manager");
 }
@@ -83,13 +88,17 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Attempting to start Encryption Service");
     if (!self.protocol || !self.currentHMILevel) {
         SDLLogV(@"Encryption manager is not yet started");
+        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         return;
     }
     
-    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && [self appRequiresEncryption]) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        
+//    } && [self appRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
+        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
     }
 }
 
@@ -99,6 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error) {
             SDLLogE(@"TLS setup error: %@", error);
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:error];
         }
     }];
 }
@@ -142,9 +152,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (encryptionStartServiceAck.header.encrypted) {
         SDLLogD(@"Encryption service started");
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateReady];
+        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:YES error:nil];
     } else {
         SDLLogD(@"Encryption service ACK received encryption = OFF");
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_encryption_off]];
     }
 }
 
@@ -153,11 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
-            if (startServiceNAK.header.encrypted) {
-                [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
-            } else {
-                SDLLogW(@"Encryption service failed to start due to encryption bit set to 0 in ACK");
-            }
+            [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
         } break;
         default: break;
     }
@@ -166,6 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
     SDLLogW(@"Encryption service failed to start due to NAK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+    [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_nack]];
 }
 
 #pragma mark Encryption End Service

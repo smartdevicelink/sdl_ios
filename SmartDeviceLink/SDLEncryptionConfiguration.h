@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLServiceEncryptionDelegate.h"
+
 @protocol SDLSecurityType;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
 
 /**
+ *  A delegate callback that will tell you when an acknowledgement has occurred for starting as secure service.
+ */
+@property (copy, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
+
+/**
  *  Creates a default encryption configuration.
  *
  *  @return A default configuration that may be customized.
@@ -30,9 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
  Creates a secure configuration for each of the security managers provided.
  
  @param securityManagers The security managers to be used.
+ @param delegate The delegate callback.
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers;
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers delegate:(nullable id<SDLServiceEncryptionDelegate>)delegate;
 
 @end
 
