@@ -345,7 +345,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             weakSelf.preferredResolutions = @[capability.preferredResolution];
 
             if (capability.maxBitrate != nil) {
-                NSNumber *bitrate = [[NSNumber alloc] initWithInt:[capability.maxBitrate intValue] * 1000]; // HMI returns bitrate in kbps.
+                NSNumber *bitrate = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
                 NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
                 [settings addEntriesFromDictionary: self.videoEncoderSettings];
                 [settings setObject:bitrate forKey:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate];
