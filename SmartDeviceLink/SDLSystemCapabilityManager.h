@@ -202,6 +202,14 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  */
 @property (nullable, strong, nonatomic, readonly) SDLSeatLocationCapability *seatLocationCapability;
 
+
+/**
+ * Returns the window capability object of the default main window which is always pre-created by the connected system. This is a convenience method for easily accessing the capabilities of the default main window.
+ *
+ * @returns The window capability object representing the default main window capabilities or nil if no window capabilities exist.
+ */
+@property (nullable, strong, nonatomic, readonly) SDLWindowCapability *defaultMainWindowCapability;
+
 /**
  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
 
@@ -275,13 +283,6 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
  */
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
-
-/**
- * Returns the window capability object of the default main window which is always pre-created by the connected system. This is a convenience method for easily accessing the capabilities of the default main window.
- *
- * @returns The window capability object representing the default main window capabilities or nil if no window capabilities exist.
- */
-- (nullable SDLWindowCapability *)defaultMainWindowCapability;
 
 @end
 
