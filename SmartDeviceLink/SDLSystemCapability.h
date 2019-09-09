@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for DisplayCapability list
  
- @param capabilities    Contain the display related information and all windows related to that display
+ @param capabilities    Contains capabilities related to a physical screen and any associated windows
  @return                A SDLSystemCapability object
  */
 - (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities;

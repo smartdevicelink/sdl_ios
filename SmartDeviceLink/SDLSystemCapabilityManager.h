@@ -269,7 +269,7 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer;
 
 /**
- * Returns the window capability object of the primary display with the specified window ID. This method is a convenient method to easily access capabilities of windows for instance widget windows.
+ * Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.
  *
  * @param windowID The ID of the window to get capabilities
  * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
@@ -277,7 +277,7 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 
 /**
- * Returns the window capability object of the default main window which is always pre-created by the connected system. This method is a convenient method to easily access capabilities of the default main window.
+ * Returns the window capability object of the default main window which is always pre-created by the connected system. This is a convenience method for easily accessing the capabilities of the default main window.
  *
  * @returns The window capability object representing the default main window capabilities or nil if no window capabilities exist.
  */
