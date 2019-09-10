@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && [self appRequiresEncryption]) {
+    if (![self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && [self sdl_appRequiresEncryption]) {
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
     } else {
         SDLLogE(@"Encryption Manager is not ready to encrypt.");
@@ -246,8 +246,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (BOOL)appRequiresEncryption {
-    if ((self.requiresEncryption == nil || self.requiresEncryption.boolValue) && [self containsAtLeastOneRPCThatRequiresEncryption]) {
+- (BOOL)sdl_appRequiresEncryption {
+    if ((self.requiresEncryption == nil || self.requiresEncryption.boolValue) && [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
         return YES;
     }
     return NO;
@@ -260,7 +260,7 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-- (BOOL)containsAtLeastOneRPCThatRequiresEncryption {
+- (BOOL)sdl_containsAtLeastOneRPCThatRequiresEncryption {
     for (SDLPermissionItem *item in self.permissions.allValues) {
         if (item.requireEncryption) {
             return YES;
