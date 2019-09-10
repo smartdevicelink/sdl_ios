@@ -12,6 +12,7 @@
 #import "SDLPermissionConstants.h"
 
 @class SDLPermissionItem;
+@class SDLRPCMessage;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -87,6 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param identifier The identifier specifying which observer to remove
  */
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier)identifier;
+
+
+/**
+ *  Check whether or not an RPC needs encryption.
+ */
+- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc;
 
 @end
 
