@@ -186,6 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service ACK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         } break;
         default: break;
     }
@@ -196,6 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service NAK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
+            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         } break;
         default: break;
     }
