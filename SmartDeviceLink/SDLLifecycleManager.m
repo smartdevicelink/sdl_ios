@@ -310,13 +310,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
 
     // If we have security managers, add them to the proxy
+    NSString *appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers from streamingMedia configuration");
-        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:appId];
     }
     if (self.configuration.encryptionConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers from encryption configuration");
-        [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+        [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:appId];
     }
 
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
