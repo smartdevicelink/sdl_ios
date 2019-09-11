@@ -3608,7 +3608,7 @@
 				8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */,
 				9FA0D00822DF0B47009CF344 /* SDLCreateWindowSpec.m */,
 				9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */,
-				88EF8EB922D8F48300CB06C2 /* SDLCancelInteractionSpec.m */
+				88EF8EB922D8F48300CB06C2 /* SDLCancelInteractionSpec.m */,
 				8B05F88822DD011300666CD8 /* SDLUnpublishAppServiceSpec.m */,
 				000DD56F22EF038C005AB7A7 /* SDLGetInteriorVehicleDataConsentSpec.m */,
 				000DD57322EF0957005AB7A7 /* SDLReleaseInteriorVehicleDataModuleSpec.m */,
