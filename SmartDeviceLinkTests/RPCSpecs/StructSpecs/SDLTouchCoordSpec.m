@@ -8,8 +8,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLTouchCoord.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLTouchCoord.h"
+
 
 QuickSpecBegin(SDLTouchCoordSpec)
 

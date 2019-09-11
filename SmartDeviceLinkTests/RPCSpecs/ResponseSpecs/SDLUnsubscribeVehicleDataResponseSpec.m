@@ -12,11 +12,12 @@
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLVehicleDataResult.h"
-
+#import "SDLVehicleDataResultCode.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
+SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -185,6 +186,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.cloudAppVehicleID).to(beNil());
+    });
+
+    it(@"Should set and get Generic Network Signal Data", ^{
+        SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+
+        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
+
+        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
     });
 });
 

@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         cloudAppVehicleID = @"testCloudAppVehicleID";
     });
 
-    it(@"Should set and get correctly", ^ {
+    it(@"should correctly initialize with init", ^ {
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] init];
 
         testNotification.accPedalPosition = @99.99999999;
@@ -216,6 +216,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.turnSignal).to(beNil());
         expect(testNotification.vin).to(beNil());
         expect(testNotification.wiperStatus).to(beNil());
+    });
+
+    it(@"Should set and get generic Network Signal Data", ^{
+        SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
+
+        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+
     });
 });
 

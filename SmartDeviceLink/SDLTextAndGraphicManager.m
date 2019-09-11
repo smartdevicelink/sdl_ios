@@ -19,12 +19,14 @@
 #import "SDLMetadataTags.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLTextField.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -693,17 +695,22 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (response.displayCapabilities == nil) {
+#pragma clang diagnostic pop
         SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
     }
-
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     self.displayCapabilities = response.displayCapabilities;
+#pragma clang diagnostic pop
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
     if (!response.success.boolValue) { return; }
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
@@ -721,6 +728,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
 
     SDLHMILevel oldLevel = self.currentLevel;
     self.currentLevel = hmiStatus.hmiLevel;

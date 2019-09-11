@@ -79,6 +79,8 @@ NSString * const ACDialPhoneNumberMenuName = @"Dial Phone Number";
 NSString * const ACSubmenuMenuName = @"Submenu";
 NSString * const ACSubmenuItemMenuName = @"Item";
 NSString * const ACSubmenuTemplateMenuName = @"Change Template";
+NSString * const ACSliderMenuName = @"Show Slider";
+NSString * const ACScrollableMessageMenuName = @"Show Scrollable Message";
 
 NSString * const ACAccelerationPedalPositionMenuName = @"Acceleration Pedal Position";
 NSString * const ACAirbagStatusMenuName = @"Airbag Status";

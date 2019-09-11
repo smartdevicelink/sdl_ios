@@ -19,6 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    self.moduleInfo = moduleInfo;
+    
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)moduleName distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable {
     self = [self init];
     if(!self) {
@@ -29,6 +40,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.temperatureUnitAvailable = @(temperatureUnitAvailable);
     self.displayModeUnitAvailable = @(displayModeUnitAvailable);
 
+    return self;
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    self.moduleInfo = moduleInfo;
+    self.distanceUnitAvailable = @(distanceUnitAvailable);
+    self.temperatureUnitAvailable = @(temperatureUnitAvailable);
+    self.displayModeUnitAvailable = @(displayModeUnitAvailable);
+    
     return self;
 }
 
@@ -64,6 +89,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)displayModeUnitAvailable {
     return [self.store sdl_objectForName:SDLRPCParameterNameDisplayModeUnitAvailable ofClass:NSNumber.class error:nil];
+}
+
+- (void)setModuleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    [self.store sdl_setObject:moduleInfo forName:SDLRPCParameterNameModuleInfo];
+}
+
+- (nullable SDLModuleInfo *)moduleInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameModuleInfo ofClass:SDLModuleInfo.class error:nil];
 }
 
 @end

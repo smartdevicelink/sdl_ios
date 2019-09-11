@@ -21,6 +21,8 @@
 @class SDLCloseApplicationResponse;
 @class SDLCreateInteractionChoiceSet;
 @class SDLCreateInteractionChoiceSetResponse;
+@class SDLCreateWindow;
+@class SDLCreateWindowResponse;
 @class SDLDeleteCommand;
 @class SDLDeleteCommandResponse;
 @class SDLDeleteFile;
@@ -29,6 +31,8 @@
 @class SDLDeleteInteractionChoiceSetResponse;
 @class SDLDeleteSubMenu;
 @class SDLDeleteSubMenuResponse;
+@class SDLDeleteWindow;
+@class SDLDeleteWindowResponse;
 @class SDLDiagnosticMessage;
 @class SDLDiagnosticMessageResponse;
 @class SDLDialNumber;
@@ -48,6 +52,8 @@
 @class SDLGetFileResponse;
 @class SDLGetInteriorVehicleData;
 @class SDLGetInteriorVehicleDataResponse;
+@class SDLGetInteriorVehicleDataConsent;
+@class SDLGetInteriorVehicleDataConsentResponse;
 @class SDLGetSystemCapability;
 @class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleData;
@@ -93,6 +99,8 @@
 @class SDLReadDIDResponse;
 @class SDLRegisterAppInterface;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLReleaseInteriorVehicleDataModule;
+@class SDLReleaseInteriorVehicleDataModuleResponse;
 @class SDLResetGlobalProperties;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessage;
@@ -241,6 +249,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response;
 
 /**
+ *  Called when a Create Window Response is received from Core
+ *
+ *  @param response A SDLCreateWindowResponse object
+ */
+- (void)onCreateWindowResponse:(SDLCreateWindowResponse *)response;
+
+/**
  *  Called when a Delete Command Response is received from Core
  *
  *  @param response A SDLDeleteCommandResponse object
@@ -267,6 +282,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLDeleteSubMenuResponse object
  */
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response;
+
+/**
+ *  Called when a Delete Window Response is received from Core
+ *
+ *  @param response A SDLDeleteWindowResponse object
+ */
+- (void)onDeleteWindowResponse:(SDLDeleteWindowResponse *)response;
 
 /**
  *  Called when a Diagnostic Message Response is received from Core
@@ -337,6 +359,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLGetInteriorVehicleDataResponse object
  */
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response;
+
+/**
+ *  Called when a Get Interior Vehicle Data Consent Response is received from Core
+ *
+ *  @param response A SDLGetInteriorVehicleDataConsentResponse object
+ */
+- (void)onGetInteriorVehicleDataConsentResponse:(SDLGetInteriorVehicleDataConsentResponse *)response;
 
 /**
  *  Called when a Get System Capability Response is received from Core
@@ -421,6 +450,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLRegisterAppInterfaceResponse object
  */
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
+
+/**
+ *  Called when a Release Interior Vehicle Data Module Response is received from Core
+ *
+ *  @param response A SDLReleaseInteriorVehicleDataModuleResponse object
+ */
+- (void)onReleaseInteriorVehicleDataModuleResponse:(SDLReleaseInteriorVehicleDataModuleResponse *)response;
 
 /**
  *  Called when a Reset Global Properties Response is received from Core
@@ -663,6 +699,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request;
 
 /**
+ *  Called when a `SDLCreateWindow` request is received from Core
+ *
+ *  @param request A SDLCreateWindow object
+ */
+- (void)onCreateWindow:(SDLCreateWindow *)request;
+
+/**
  *  Called when a `DeleteCommand` request is received from Core
  *
  *  @param request A SDLDeleteCommand object
@@ -689,6 +732,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLDeleteSubMenu object
  */
 - (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request;
+
+/**
+ *  Called when a `SDLDeleteWindow` request is received from Core
+ *
+ *  @param request A SDLDeleteWindow object
+ */
+- (void)onDeleteWindow:(SDLDeleteWindow *)request;
 
 /**
  *  Called when a `DiagnosticMessage` request is received from Core
@@ -752,6 +802,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLGetInteriorVehicleData object
  */
 - (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request;
+
+/**
+ *  Called when a `GetInteriorVehicleDataConsent` request is received from Core
+ *
+ *  @param request A SDLGetInteriorVehicleDataConsent object
+ */
+- (void)onGetInteriorVehicleConsentData:(SDLGetInteriorVehicleDataConsent *)request;
 
 /**
  *  Called when a `GetSystemCapability` request is received from Core
@@ -829,6 +886,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLRegisterAppInterface object
  */
 - (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request;
+
+/**
+ *  Called when a `ReleaseInteriorVehicleDataModule` request is received from Core
+ *
+ *  @param request A SDLReleaseInteriorVehicleDataModule object
+ */
+- (void)onReleaseInteriorVehicleDataModule:(SDLReleaseInteriorVehicleDataModule *)request;
 
 /**
  *  Called when a `ResetGlobalProperties` request is received from Core

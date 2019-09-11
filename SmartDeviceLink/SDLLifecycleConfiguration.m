@@ -69,6 +69,7 @@ static NSUInteger const AppIdCharacterCount = 10;
     _voiceRecognitionCommandNames = nil;
     _minimumProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
     _minimumRPCVersion = [SDLVersion versionWithString:@"1.0.0"];
+    _allowedSecondaryTransports = SDLSecondaryTransportsTCP;
 
     _fullAppId = fullAppId;
     _appId = fullAppId != nil ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
@@ -156,6 +157,7 @@ static NSUInteger const AppIdCharacterCount = 10;
     newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
     newConfig->_dayColorScheme = _dayColorScheme;
     newConfig->_nightColorScheme = _nightColorScheme;
+    newConfig->_allowedSecondaryTransports = _allowedSecondaryTransports;
 
     return newConfig;
 }
