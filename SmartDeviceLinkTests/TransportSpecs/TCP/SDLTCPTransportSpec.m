@@ -165,7 +165,7 @@ describe(@"SDLTCPTransport", ^ {
             __unsafe_unretained NSData *data;
             [invocation getArgument:&data atIndex:2];   // first argument is index 2
             [receivedData appendData:data];
-            NSLog(@"mock server received %lu bytes", data.length);
+            NSLog(@"mock server received %lu bytes", (unsigned long)data.length);
         });
 
         OCMExpect([transportDelegateMock onTransportConnected]);
@@ -201,7 +201,7 @@ describe(@"SDLTCPTransport", ^ {
             __unsafe_unretained NSData *data;
             [invocation getArgument:&data atIndex:2];   // first argument is index 2
             [receivedData appendData:data];
-            NSLog(@"mock server received %lu bytes", data.length);
+            NSLog(@"mock server received %lu bytes", (unsigned long)data.length);
         });
 
         OCMExpect([transportDelegateMock onTransportConnected]);
@@ -244,7 +244,7 @@ describe(@"SDLTCPTransport", ^ {
             __unsafe_unretained NSData *data;
             [invocation getArgument:&data atIndex:2];   // first argument is index 2
             [receivedData appendData:data];
-            NSLog(@"client received %lu bytes", data.length);
+            NSLog(@"client received %lu bytes", (unsigned long)data.length);
         });
 
         OCMExpect([serverDelegateMock onClientConnected]);
