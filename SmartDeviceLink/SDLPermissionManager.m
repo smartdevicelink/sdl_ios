@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (assign, nonatomic) BOOL requiresEncryption;
+@property (assign, nonatomic, nullable) NSNumber *requiresEncryption;
 
 @end
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     _currentHMILevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
-    _requiresEncryption = NO;
+    _requiresEncryption = nil;
 
     // Set up SDL status notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
     _currentHMILevel = nil;
-    _requiresEncryption = NO;
+    _requiresEncryption = nil;
 }
 
 
@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    self.requiresEncryption = onPermissionChange.requireEncryption.boolValue;
+    self.requiresEncryption = onPermissionChange.requireEncryption;
     
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];

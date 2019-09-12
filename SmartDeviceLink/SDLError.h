@@ -31,7 +31,7 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark SDLEncryptionLifecycleManager
 + (NSError *)sdl_encryption_lifecycle_notReadyError;
 + (NSError *)sdl_encryption_lifecycle_encryption_off;
-+ (NSError *)sdl_encryption_lifecycle_nack;
++ (NSError *)sdl_encryption_lifecycle_nak;
 
 #pragma mark SDLManager
 

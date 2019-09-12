@@ -51,15 +51,15 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_encryption_lifecycle_nack {
++ (NSError *)sdl_encryption_lifecycle_nak {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle received a negative acknowledgement", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote head unit sent a nACK.  Encryption service failed to start due to nACK.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote head unit sent a NAK.  Encryption service failed to start due to NAK.", nil),
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure your certificates are valid.", nil)
                                                        };
     
     return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
-                               code:SDLEncryptionLifecycleManagerErrorNACK
+                               code:SDLEncryptionLifecycleManagerErrorNAK
                            userInfo:userInfo];
 
 }

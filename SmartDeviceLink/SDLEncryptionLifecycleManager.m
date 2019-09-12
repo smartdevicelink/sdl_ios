@@ -176,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
     SDLLogW(@"Encryption service failed to start due to NAK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-    [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_nack]];
+    [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_nak]];
 }
 
 #pragma mark Encryption End Service
