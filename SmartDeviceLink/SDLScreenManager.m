@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    return [self.choiceSetManager presentKeyboardWithInitialText:initialText keyboardDelegate:delegate];
+    return [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
 }
 
 - (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID{

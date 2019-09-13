@@ -335,7 +335,7 @@ describe(@"choice set manager tests", ^{
             });
 
             it(@"should return a cancelID and should properly start the keyboard presentation with presentKeyboardWithInitialText:keyboardDelegate:", ^{
-                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText keyboardDelegate:testKeyboardDelegate];
+                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
 
                 expect(cancelID).toNot(beNil());
                 OCMVerify([pendingPresentOp cancel]);
@@ -345,7 +345,7 @@ describe(@"choice set manager tests", ^{
 
             it(@"should return nil and should not start the keyboard presentation if the the keyboard can not be sent to Core", ^{
                 [testManager.stateMachine setToState:SDLChoiceManagerStateCheckingVoiceOptional fromOldState:SDLChoiceManagerStateShutdown callEnterTransition:NO];
-                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText keyboardDelegate:testKeyboardDelegate];
+                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
 
                 expect(cancelID).to(beNil());
                 OCMReject([pendingPresentOp cancel]);

@@ -328,7 +328,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self.transactionQueue addOperation:presentOp];
 }
 
-- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return nil; }
 
     if (self.pendingPresentationSet != nil) {
