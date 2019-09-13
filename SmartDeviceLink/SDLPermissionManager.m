@@ -359,9 +359,9 @@ NS_ASSUME_NONNULL_BEGIN
     return [modifiedPermissions copy];
 }
 
-- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc {
-    if (self.permissions[rpc.name].requireEncryption != nil) {
-        return self.permissions[rpc.name].requireEncryption.boolValue;
+- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {
+    if (self.permissions[rpcName].requireEncryption != nil) {
+        return self.permissions[rpcName].requireEncryption.boolValue;
     }
     return NO;
 }

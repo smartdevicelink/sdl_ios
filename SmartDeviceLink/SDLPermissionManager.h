@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Check whether or not an RPC needs encryption.
  */
-- (BOOL)rpcRequiresEncryption:(__kindof SDLRPCMessage *)rpc;
+- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName;
 
 @end
 
