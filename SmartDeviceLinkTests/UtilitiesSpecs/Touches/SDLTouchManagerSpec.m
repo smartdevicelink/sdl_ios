@@ -87,10 +87,14 @@
 QuickSpecBegin(SDLTouchManagerSpec)
 
 describe(@"SDLTouchManager Tests", ^{
-    __block SDLTouchManager *touchManager;
+    __block SDLTouchManager *touchManager = nil;
 
     context(@"initializing", ^{
         it(@"should correctly have default properties", ^{
+            if (touchManager) {
+                //FIXIT: SDLTouchManager must unsubscribe fron notifications on its own
+                [[NSNotificationCenter defaultCenter] removeObserver:touchManager];
+            }
             SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
@@ -148,6 +152,10 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
+            if (touchManager) {
+                //FIXIT: SDLTouchManager must unsubscribe fron notifications on its own
+                [[NSNotificationCenter defaultCenter] removeObserver:touchManager];
+            }
             touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
