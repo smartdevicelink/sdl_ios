@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration.streamingMediaConfig];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager streamingConfiguration: configuration.streamingMediaConfig encryptionConfiguration:configuration.encryptionConfig];
     _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;

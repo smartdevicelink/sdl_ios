@@ -38,6 +38,7 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
@@ -131,10 +132,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
-    _secureMakes = [tempMakeArray copy];
+#pragma clang diagnostic pop
+    for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
+        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
+    }
+    NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
+    _secureMakes = [tempMakeSet.array copy];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {

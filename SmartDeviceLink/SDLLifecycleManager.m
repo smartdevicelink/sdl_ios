@@ -311,10 +311,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // If we have security managers, add them to the proxy
     NSString *appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers from streamingMedia configuration");
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:appId];
     }
+#pragma clang diagnostic pop
     if (self.configuration.encryptionConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers from encryption configuration");
         [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:appId];

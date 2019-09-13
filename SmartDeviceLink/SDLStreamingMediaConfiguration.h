@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 /**
  *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
  */
-@property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
+@property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers __deprecated_msg("This is now unused, the security managers are taken in from SDLEncryptionConfiguration");
 
 /**
  *  What encryption level video/audio streaming should be. The default is SDLStreamingEncryptionFlagAuthenticateAndEncrypt.
@@ -93,6 +93,13 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 - (instancetype)init;
 
 /**
+ Create a secure video streaming configuration. Security managers will be provided from SDLEncryptionConfiguration and the encryption flag will be set to SDLStreamingEncryptionFlagAuthenticateAndEncrypt. If you'd like custom video encoder settings, you can set the property manually.
+
+ @return The configuration
+ */
+- (instancetype)initWithSecureEncryptionFlag;
+
+/**
  Manually set all the properties to the streaming media configuration
 
  @param securityManagers The security managers to use or nil for none.
@@ -101,7 +108,17 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController __deprecated_msg("Use initWithEncryptionFlag:videoSettings:dataSource:rootViewController: instead");
+
+/**
+ Manually set all the properties to the streaming media configuration
+
+ @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
+ @param videoSettings Custom video encoder settings to be used in video streaming.
+ @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
+ @return The configuration
+ */
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -109,7 +126,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
+- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers __deprecated_msg("Use initWithSecureEncryptionFlag instead");
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -141,7 +158,15 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param initialViewController The initial view controller that will be streamed, this can be a basic `UIViewController` if you need to set your actual streaming view controller at a later time on `SDLManager.streamingManager.rootViewController`.
  @return The configuration
  */
-+ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;
++ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController __deprecated_msg("Use autostreamingSecureConfigurationWithInitialViewController: instead");
+
+/**
+ Create a CarWindow secure configuration with a view controller and security managers
+
+ @param initialViewController The initial view controller that will be streamed, this can be a basic `UIViewController` if you need to set your actual streaming view controller at a later time on `SDLManager.streamingManager.rootViewController`.
+ @return The configuration
+ */
++ (instancetype)autostreamingSecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;
 
 @end
 
