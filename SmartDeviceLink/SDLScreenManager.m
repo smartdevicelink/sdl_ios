@@ -263,8 +263,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager presentChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
 }
 
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
+    return [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
+}
+
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID{
+    [self.choiceSetManager dismissKeyboardWithCancelID:cancelID];
 }
 
 #pragma mark - Menu
@@ -276,7 +280,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)openSubmenu:(SDLMenuCell *)cell {
   return [self.menuManager openSubmenu:cell];
 }
-
 
 @end
 

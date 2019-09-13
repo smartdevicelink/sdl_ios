@@ -23,6 +23,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithInitialDisplayText:(NSString *)initialText initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(nullable NSNumber *)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(nullable NSNumber *)cancelID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.initialText = initialText;
+    self.initialPrompt = initialPrompt;
+    self.interactionMode = interactionMode;
+    self.interactionChoiceSetIDList = interactionChoiceSetIDList;
+    self.helpPrompt = helpPrompt;
+    self.timeoutPrompt = timeoutPrompt;
+    self.timeout = timeout;
+    self.vrHelp = vrHelp;
+    self.interactionLayout = interactionLayout;
+    self.cancelID = cancelID;
+
+    return self;
+}
+
+- (instancetype)initWithInitialText:(NSString *)initialText interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList cancelID:(UInt32)cancelID {
+    return [self initWithInitialDisplayText:initialText initialPrompt:nil interactionMode:interactionMode interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:nil timeoutPrompt:nil timeout:nil vrHelp:nil interactionLayout:nil cancelID:@(cancelID)];
+}
+
+- (instancetype)initWithInitialText:(NSString *)initialText initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(UInt16)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(UInt32)cancelID {
+    return [self initWithInitialDisplayText:initialText initialPrompt:initialPrompt interactionMode:interactionMode interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt timeout:@(timeout) vrHelp:vrHelp interactionLayout:interactionLayout cancelID:@(cancelID)];
+}
+
+
 - (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId {
     return [self initWithInteractionChoiceSetIdList:@[@(interactionChoiceSetId)]];
 }
@@ -45,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    self.vrHelp = [vrHelp mutableCopy];
+    self.vrHelp = vrHelp;
     
     return self;
 }
@@ -66,21 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)layout {
-    self = [self initWithInteractionChoiceSetIdList:interactionChoiceSetIDList];
-    if (!self) {
-        return nil;
-    }
-
-    self.initialPrompt = [initialChunks mutableCopy];
-    self.initialText = initialText;
-    self.helpPrompt = [helpChunks mutableCopy];
-    self.timeoutPrompt = [timeoutChunks mutableCopy];
-    self.interactionMode = interactionMode;
-    self.timeout = @(timeout);
-    self.vrHelp = [vrHelp mutableCopy];
-    self.interactionLayout = layout;
-
-    return self;
+    return [self initWithInitialDisplayText:initialText initialPrompt:initialChunks interactionMode:interactionMode interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpChunks timeoutPrompt:timeoutChunks timeout:@(timeout) vrHelp:vrHelp interactionLayout:layout cancelID:nil];
 }
 
 - (instancetype)initWithInteractionChoiceSetIdList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIdList {
@@ -89,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    self.interactionChoiceSetIDList = [interactionChoiceSetIdList mutableCopy];
+    self.interactionChoiceSetIDList = interactionChoiceSetIdList;
 
     return self;
 }
@@ -167,6 +182,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLLayoutMode)interactionLayout {
     return [self.parameters sdl_enumForName:SDLRPCParameterNameInteractionLayout error:nil];
+}
+
+- (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    [self.parameters sdl_setObject:cancelID forName:SDLRPCParameterNameCancelID];
+}
+
+- (nullable NSNumber<SDLInt> *)cancelID {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCancelID ofClass:NSNumber.class error:nil];
 }
 
 @end

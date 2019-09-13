@@ -111,7 +111,7 @@ extension VehicleDataManager {
         guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
         SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
-        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, turnSignal: true, vin: true, wiperStatus: true)
+        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, cloudAppVehicleID: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, turnSignal: true, vin: true, wiperStatus: true)
 
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }

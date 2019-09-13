@@ -29,6 +29,7 @@ SDLNotificationName const SDLDidReceiveAddSubMenuResponse = @"com.sdl.response.a
 SDLNotificationName const SDLDidReceiveAlertResponse = @"com.sdl.response.alert";
 SDLNotificationName const SDLDidReceiveAlertManeuverResponse = @"com.sdl.response.alertManeuver";
 SDLNotificationName const SDLDidReceiveButtonPressResponse = @"com.sdl.response.buttonPress";
+SDLNotificationName const SDLDidReceiveCancelInteractionResponse = @"com.sdl.response.cancelInteraction";
 SDLNotificationName const SDLDidReceiveChangeRegistrationResponse = @"com.sdl.response.changeRegistration";
 SDLNotificationName const SDLDidReceiveCloseApplicationResponse = @"com.sdl.response.closeApplication";
 SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetResponse = @"com.sdl.response.createInteractionChoiceSet";
@@ -93,6 +94,7 @@ SDLNotificationName const SDLDidReceiveAddSubMenuRequest = @"com.sdl.request.add
 SDLNotificationName const SDLDidReceiveAlertRequest = @"com.sdl.request.alert";
 SDLNotificationName const SDLDidReceiveAlertManeuverRequest = @"com.sdl.request.alertManeuver";
 SDLNotificationName const SDLDidReceiveButtonPressRequest = @"com.sdl.request.buttonPress";
+SDLNotificationName const SDLDidReceiveCancelInteractionRequest = @"com.sdl.request.cancelInteraction";
 SDLNotificationName const SDLDidReceiveChangeRegistrationRequest = @"com.sdl.request.changeRegistration";
 SDLNotificationName const SDLDidReceiveCloseApplicationRequest = @"com.sdl.request.closeApplication";
 SDLNotificationName const SDLDidReceiveCreateWindowRequest = @"com.sdl.request.createWindow";
@@ -184,6 +186,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveAlertResponse,
              SDLDidReceiveAlertManeuverResponse,
              SDLDidReceiveButtonPressResponse,
+             SDLDidReceiveCancelInteractionResponse,
              SDLDidReceiveChangeRegistrationResponse,
              SDLDidReceiveCloseApplicationResponse,
              SDLDidReceiveCreateInteractionChoiceSetResponse,

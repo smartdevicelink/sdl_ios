@@ -17,9 +17,12 @@
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
+#import "SDLGlobals.h"
 #import "SDLStateMachine.h"
 #import "SDLSystemContext.h"
 #import "TestConnectionManager.h"
+#import "SDLVersion.h"
+
 
 @interface SDLPresentChoiceSetOperation()
 
@@ -78,7 +81,7 @@ describe(@"choice set manager tests", ^{
     it(@"should be in the correct startup state", ^{
         expect(testManager.currentState).to(equal(SDLChoiceManagerStateShutdown));
 
-        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
@@ -329,15 +332,63 @@ describe(@"choice set manager tests", ^{
                 pendingPresentOp = OCMClassMock([SDLPresentChoiceSetOperation class]);
                 testManager.pendingPresentOperation = pendingPresentOp;
                 testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
-
-                [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
             });
 
-            it(@"should properly start the keyboard presentation", ^{
+            it(@"should return a cancelID and should properly start the keyboard presentation with presentKeyboardWithInitialText:keyboardDelegate:", ^{
+                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
+
+                expect(cancelID).toNot(beNil());
                 OCMVerify([pendingPresentOp cancel]);
                 expect(testManager.transactionQueue.operations).to(haveCount(1));
                 expect(testManager.pendingPresentOperation).to(beAnInstanceOf([SDLPresentKeyboardOperation class]));
             });
+
+            it(@"should return nil and should not start the keyboard presentation if the the keyboard can not be sent to Core", ^{
+                [testManager.stateMachine setToState:SDLChoiceManagerStateCheckingVoiceOptional fromOldState:SDLChoiceManagerStateShutdown callEnterTransition:NO];
+                NSNumber *cancelID = [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
+
+                expect(cancelID).to(beNil());
+                OCMReject([pendingPresentOp cancel]);
+                expect(testManager.transactionQueue.operations).to(haveCount(0));
+                expect(testManager.pendingPresentOperation).toNot(beAnInstanceOf([SDLPresentKeyboardOperation class]));
+            });
+        });
+
+       describe(@"dismissing the keyboard", ^{
+           __block SDLPresentKeyboardOperation *mockKeyboardOp1 = nil;
+           __block SDLPresentKeyboardOperation *mockKeyboardOp2 = nil;
+           __block NSOperationQueue *mockQueue = nil;
+           __block UInt16 testCancelId = 387;
+
+            beforeEach(^{
+                mockKeyboardOp1 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                OCMStub([mockKeyboardOp1 cancelId]).andReturn(88);
+
+                mockKeyboardOp2 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                OCMStub([mockKeyboardOp2 cancelId]).andReturn(testCancelId);
+
+                mockQueue = OCMPartialMock([[NSOperationQueue alloc] init]);
+                NSArray<SDLAsynchronousOperation *> *keyboardOps = @[mockKeyboardOp1, mockKeyboardOp2];
+                OCMStub([mockQueue operations]).andReturn(keyboardOps);
+
+                testManager.transactionQueue = mockQueue;
+            });
+
+           it(@"should dismiss the keyboard operation with the matching cancelID if it is executing", ^{
+               OCMStub([mockKeyboardOp2 isExecuting]).andReturn(true);
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMReject([mockKeyboardOp1 dismissKeyboard]);
+               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+           });
+
+           it(@"should dismiss the keyboard operation with the matching cancelID if it is not executing", ^{
+               OCMStub([mockKeyboardOp2 isExecuting]).andReturn(false);
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMReject([mockKeyboardOp1 dismissKeyboard]);
+               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+           });
         });
     });
 });
