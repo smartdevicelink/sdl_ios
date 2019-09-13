@@ -40,7 +40,7 @@
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @end
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
