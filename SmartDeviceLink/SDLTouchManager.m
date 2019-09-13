@@ -222,13 +222,14 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param onTouchEvent     A SDLOnTouchEvent with coordinates.
  */
 - (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
-    float scale = self.videoStreamingCapability.scale.floatValue;
-    if (scale > 1) {
-        for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
-            for (SDLTouchCoord *coord in touchEvent.coord) {
-                coord.x = @(coord.x.floatValue / scale);
-                coord.y = @(coord.y.floatValue / scale);
-            }
+    const float scale = self.videoStreamingCapability.scale.floatValue;
+    if (scale < 1) {
+        return onTouchEvent;
+    }
+    for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
+        for (SDLTouchCoord *coord in touchEvent.coord) {
+            coord.x = @(coord.x.floatValue / scale);
+            coord.y = @(coord.y.floatValue / scale);
         }
     }
     return onTouchEvent;
