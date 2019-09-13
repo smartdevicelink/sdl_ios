@@ -9,7 +9,6 @@
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLDeleteChoicesOperation.h"
-#import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLKeyboardDelegate.h"
@@ -19,6 +18,7 @@
 #import "SDLPresentKeyboardOperation.h"
 #import "SDLStateMachine.h"
 #import "SDLSystemContext.h"
+#import "SDLSystemCapabilityManager.h"
 #import "TestConnectionManager.h"
 
 @interface SDLPresentChoiceSetOperation()
@@ -40,7 +40,6 @@
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
@@ -59,6 +58,7 @@ describe(@"choice set manager tests", ^{
 
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
+    __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
 
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
@@ -67,8 +67,9 @@ describe(@"choice set manager tests", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
+        testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
 
-        testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
+        testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
 
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];

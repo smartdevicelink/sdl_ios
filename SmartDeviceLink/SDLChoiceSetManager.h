@@ -14,6 +14,7 @@
 @class SDLChoiceSet;
 @class SDLFileManager;
 @class SDLKeyboardProperties;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;
@@ -50,9 +51,10 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
 
  @param connectionManager The connection manager object for sending RPCs
  @param fileManager The file manager object for uploading files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The choice set manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  Start the manager and prepare to manage choice sets

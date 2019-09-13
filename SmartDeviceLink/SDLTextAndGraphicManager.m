@@ -10,8 +10,6 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
@@ -25,7 +23,11 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
+#import "SDLSystemCapability.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -35,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Dependencies
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
  A show describing the current text and images on the screen (not soft buttons, etc.)
@@ -51,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic, nullable) SDLWindowCapability *defaultMainWindowCapability;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
@@ -63,12 +66,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager systemCapabilityManager:(nonnull SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
 
     _alignment = SDLTextAlignmentCenter;
 
@@ -78,8 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityUpdate:)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
@@ -105,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
     _queuedImageUpdate = nil;
     _hasQueuedUpdate = NO;
     _queuedUpdateHandler = nil;
-    _displayCapabilities = nil;
+    _defaultMainWindowCapability = nil;
     _currentLevel = SDLHMILevelNone;
     _blankArtwork = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
@@ -294,7 +297,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = self.displayCapabilities ? self.displayCapabilities.maxNumberOfMainFieldLines : 4;
+    NSUInteger numberOfLines = self.defaultMainWindowCapability ? self.defaultMainWindowCapability.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -505,7 +508,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL templateSupportsPrimaryArtwork = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = self.defaultMainWindowCapability ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
 
     return (templateSupportsPrimaryArtwork
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
@@ -513,7 +516,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL templateSupportsSecondaryArtwork = self.displayCapabilities ? ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
+    BOOL templateSupportsSecondaryArtwork = self.defaultMainWindowCapability ? ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
     return (templateSupportsSecondaryArtwork
@@ -689,37 +692,12 @@ NS_ASSUME_NONNULL_BEGIN
     return _blankArtwork;
 }
 
-#pragma mark - RPC Responses
+#pragma mark - Subscribed notifications
 
-- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
-    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
-
-    if (!response.success.boolValue) { return; }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    if (response.displayCapabilities == nil) {
-#pragma clang diagnostic pop
-        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
+- (void)sdl_displayCapabilityUpdate:(SDLSystemCapability *)systemCapability {
+    // we won't use the object in the parameter but the convenience method of the system capability manager
+    self.defaultMainWindowCapability = _systemCapabilityManager.defaultMainWindowCapability;
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    self.displayCapabilities = response.displayCapabilities;
-#pragma clang diagnostic pop
-}
-
-- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
-    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-    if (!response.success.boolValue) { return; }
-    if (!response.success.boolValue) { return; }
-    if (response.displayCapabilities == nil) {
-        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
-
-    self.displayCapabilities = response.displayCapabilities;
-
     // Auto-send an updated show
     if ([self sdl_hasData]) {
         [self sdl_updateWithCompletionHandler:nil];

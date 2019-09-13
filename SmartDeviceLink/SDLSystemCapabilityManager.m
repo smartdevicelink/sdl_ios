@@ -172,9 +172,6 @@ typedef NSString * SDLServiceID;
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
     if (!response.success.boolValue) { return; }
-    
-    self.shouldConvertDeprecatedDisplayCapabilities = YES;
-    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -191,6 +188,13 @@ typedef NSString * SDLServiceID;
     self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
+    
+    self.shouldConvertDeprecatedDisplayCapabilities = YES;
+    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
+    
+    // call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:nil];
 }
 
 /**
@@ -204,13 +208,17 @@ typedef NSString * SDLServiceID;
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 #pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
-
-    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
     
     self.displayCapabilities = response.displayCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
+    
+    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
+    
+    // call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:nil];
 }
 
 
@@ -264,7 +272,8 @@ typedef NSString * SDLServiceID;
 
     SDLDisplayCapability *mainDisplay = capabilities.firstObject;
     for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-        if (windowCapability.windowID.unsignedIntegerValue == windowID) {
+        NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+        if (currentWindowID == windowID) {
             return windowCapability;
         }
     }
@@ -303,6 +312,12 @@ typedef NSString * SDLServiceID;
     defaultWindowCapability.textFields = [display.textFields copy];
     defaultWindowCapability.imageFields = [display.imageFields copy];
     
+    
+    /*
+     The description from the mobile API to "graphicSupported:
+     > The display's persistent screen supports referencing a static or dynamic image.
+     For backward compatibility (AppLink 2.0) static image type is always presented
+     */
     if (display.graphicSupported.boolValue) {
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
     } else {
@@ -374,7 +389,9 @@ typedef NSString * SDLServiceID;
         BOOL oldFound = NO;
         for (NSUInteger i = 0; i < copyWindowCapabilities.count; i++) {
             SDLWindowCapability *oldWindow = copyWindowCapabilities[i];
-            if ([newWindow.windowID isEqualToNumber:oldWindow.windowID]) {
+            NSUInteger newWindowID = newWindow.windowID ? newWindow.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            NSUInteger oldWindowID = oldWindow.windowID ? oldWindow.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (newWindowID == oldWindowID) {
                 copyWindowCapabilities[i] = newWindow; // replace the old window caps with new ones
                 oldFound = true;
                 break;
@@ -411,7 +428,7 @@ typedef NSString * SDLServiceID;
  *  @return An array of all possible system capability types
  */
 + (NSArray<SDLSystemCapabilityType> *)sdl_systemCapabilityTypes {
-    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl];
+    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeDisplays];
 }
 
 /**

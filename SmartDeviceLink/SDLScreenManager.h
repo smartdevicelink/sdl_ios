@@ -20,6 +20,7 @@
 @class SDLKeyboardProperties;
 @class SDLMenuCell;
 @class SDLSoftButtonObject;
+@class SDLSystemCapabilityManager;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -165,10 +166,10 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param connectionManager The connection manager used to send RPCs
  @param fileManager The file manager used to upload files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The screen manager
  */
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  Starts the manager and all sub-managers
