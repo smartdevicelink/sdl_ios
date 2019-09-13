@@ -91,11 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)scale {
-    NSNumber<SDLFloat> *scale = [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
-    if (scale != nil) {
-        return scale;
-    }
-    return SDLVideoStreamingCapability.sdl_DefaultScale;
+    return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
 }
 
 + (NSNumber<SDLFloat> *)sdl_DefaultScale {
