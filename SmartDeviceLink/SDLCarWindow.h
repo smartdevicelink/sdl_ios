@@ -24,7 +24,20 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration The streaming media configuration
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(SDLStreamingMediaConfiguration *)configuration;
+
+/**
+ Initialize the CarWindow automatic streamer.
+ 
+ @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
+ @param configuration The streaming media configuration
+ @param scale The scale factor value to scale coordinates from one coordinate space to another
+ @return An instance of this class
+ */
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
+                                scale:(float)scale;
 
 /**
  *  View Controller that will be streamed.

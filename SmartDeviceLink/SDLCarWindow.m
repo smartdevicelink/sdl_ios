@@ -10,6 +10,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <simd/simd.h>
 
 #import "SDLCarWindow.h"
 #import "SDLGlobals.h"
@@ -38,14 +39,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
 
+@property (assign, nonatomic) float sdl_scale;
+
 @end
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
+    return [self initWithStreamManager:streamManager configuration:configuration scale:1.f];
+}
+
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
+                                scale:(float)scale {
     self = [super init];
     if (!self) { return nil; }
 
+    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -129,8 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (CGRect)sdl_getScaledScreenSizeFrame {
-    float scale = self.streamManager.videoStreamingCapability.scale.floatValue;
-    return CGRectMake(0, 0, self.streamManager.screenSize.width / scale, self.streamManager.screenSize.height / scale);
+    return CGRectMake(0, 0, self.streamManager.screenSize.width / self.sdl_scale, self.streamManager.screenSize.height / self.sdl_scale);
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
