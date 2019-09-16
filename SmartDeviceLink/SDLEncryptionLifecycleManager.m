@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Creating EncryptionLifecycleManager");
     _connectionManager = connectionManager;
     _currentHMILevel = nil;
-    _requiresEncryption = nil;
+    _requiresEncryption = NO;
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _delegate = configuration.delegate;
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = nil;
     _protocol = nil;
     _currentHMILevel = nil;
-    _requiresEncryption = nil;
+    _requiresEncryption = NO;
     _delegate = nil;
 
     SDLLogD(@"Stopping encryption manager");
