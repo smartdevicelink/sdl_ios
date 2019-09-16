@@ -230,6 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
     NSArray<SDLPermissionItem *> *permissionItems = onPermissionChange.permissionItem;
+    [self.permissions removeAllObjects];
 
     for (SDLPermissionItem *item in permissionItems) {
         self.permissions[item.rpcName] = item;
