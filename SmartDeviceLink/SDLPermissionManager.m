@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (assign, nonatomic, nullable) NSNumber *requiresEncryption;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -44,7 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
     _currentHMILevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
-    _requiresEncryption = nil;
 
     // Set up SDL status notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
@@ -61,7 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
     _currentHMILevel = nil;
-    _requiresEncryption = nil;
 }
 
 
@@ -185,8 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    self.requiresEncryption = onPermissionChange.requireEncryption;
-    
+
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 
@@ -222,6 +219,8 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLPermissionFilter *filter in filtersToCall) {
         [self sdl_callFilterObserver:filter];
     }
+
+    self.requiresEncryption = (onPermissionChange.requireEncryption != nil) ? onPermissionChange.requireEncryption.boolValue : [self sdl_containsAtLeastOneRPCThatRequiresEncryption];
 }
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
@@ -357,6 +356,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [modifiedPermissions copy];
+}
+
+- (BOOL)sdl_containsAtLeastOneRPCThatRequiresEncryption {
+    for (SDLPermissionItem *item in self.permissions.allValues) {
+        if (item.requireEncryption) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {

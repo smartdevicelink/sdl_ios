@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Flag indicating if the app requires an encryption service to be active.
  */
-@property (assign, nonatomic, nullable, readonly) NSNumber *requiresEncryption;
+@property (assign, nonatomic, readonly) BOOL requiresEncryption;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on `SDLManager`.

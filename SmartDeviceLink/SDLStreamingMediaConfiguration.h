@@ -97,7 +97,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 
  @return The configuration
  */
-- (instancetype)initWithSecureEncryptionFlag;
++ (instancetype)secureConfiguration;
 
 /**
  Manually set all the properties to the streaming media configuration
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers __deprecated_msg("Use initWithSecureEncryptionFlag instead");
+- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers __deprecated_msg("Use secureConfiguration instead");
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -134,7 +134,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
  @return The configuration
  */
-+ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers NS_SWIFT_UNAVAILABLE("Use an initializer instead");
++ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers NS_SWIFT_UNAVAILABLE("Use an initializer instead") __deprecated_msg("Use secureConfiguration instead");
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually. This is equivalent to `init`.
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 + (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController __deprecated_msg("Use autostreamingSecureConfigurationWithInitialViewController: instead");
 
 /**
- Create a CarWindow secure configuration with a view controller and security managers
+ Create a CarWindow secure configuration with a view controller.
 
  @param initialViewController The initial view controller that will be streamed, this can be a basic `UIViewController` if you need to set your actual streaming view controller at a later time on `SDLManager.streamingManager.rootViewController`.
  @return The configuration

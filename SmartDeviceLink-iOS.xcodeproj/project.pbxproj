@@ -3420,8 +3420,8 @@
 		00E22CE822C2F19700BC6B08 /* Encryption */ = {
 			isa = PBXGroup;
 			children = (
-				001A08B22321ACE90078A31E /* Delegates */,
 				00E22CE922C2F1A400BC6B08 /* Configuration */,
+				001A08B22321ACE90078A31E /* Delegates */,
 				005DF3BE22C590FB006E01A9 /* Lifecycle */,
 				005DF3C722C62DDA006E01A9 /* Utilities */,
 			);

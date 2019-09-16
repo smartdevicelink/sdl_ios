@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
-@property (assign, nonatomic, nullable) NSNumber *requiresEncryption;
+@property (assign, nonatomic) BOOL requiresEncryption;
 @property (weak, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
 
 @end
@@ -227,20 +227,15 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
         return;
     }
-    
+
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
-    
-    if (onPermissionChange.requireEncryption == nil) {
-        self.requiresEncryption = nil;
-    } else {
-        self.requiresEncryption = [NSNumber numberWithBool:onPermissionChange.requireEncryption.boolValue];
-    }
-    
     NSArray<SDLPermissionItem *> *permissionItems = onPermissionChange.permissionItem;
-    
+
     for (SDLPermissionItem *item in permissionItems) {
         self.permissions[item.rpcName] = item;
     }
+
+    self.requiresEncryption = (onPermissionChange.requireEncryption != nil) ? onPermissionChange.requireEncryption.boolValue : [self sdl_containsAtLeastOneRPCThatRequiresEncryption];
     
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }
@@ -251,7 +246,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_appRequiresEncryption {
-    if ((self.requiresEncryption == nil || self.requiresEncryption.boolValue) && [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
+    if (self.requiresEncryption && [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
         return YES;
     }
     return NO;

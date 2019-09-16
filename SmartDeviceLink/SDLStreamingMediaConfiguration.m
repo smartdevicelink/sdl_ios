@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 }
 
-- (instancetype)initWithSecureEncryptionFlag {
-    return [self initWithEncryptionFlag:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoSettings:nil dataSource:nil rootViewController:nil];
++ (instancetype)secureConfiguration {
+    return [[self alloc]  initWithEncryptionFlag:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoSettings:nil dataSource:nil rootViewController:nil];
 }
 
 + (instancetype)insecureConfiguration {
