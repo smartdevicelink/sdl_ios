@@ -506,6 +506,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameRect;
 extern SDLRPCParameterName const SDLRPCParameterNameRed;
 extern SDLRPCParameterName const SDLRPCParameterNameRegion;
 extern SDLRPCParameterName const SDLRPCParameterNameRegions;
+extern SDLRPCParameterName const SDLRPCParameterNameRemoteControl;
 extern SDLRPCParameterName const SDLRPCParameterNameRemoteControlCapability;
 extern SDLRPCParameterName const SDLRPCParameterNameRequest;
 extern SDLRPCParameterName const SDLRPCParameterNameRequestServiceActive;

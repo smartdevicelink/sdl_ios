@@ -29,6 +29,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *videoStreaming;
 
+/**
+ Availability of built in remote control. True: Available, False: Not Available
+
+ Boolean value. Optional.
+**/
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *remoteControl;
+
 @end
 
 NS_ASSUME_NONNULL_END
