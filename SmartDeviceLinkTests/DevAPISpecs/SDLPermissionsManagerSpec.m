@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (assign, nonatomic) NSNumber *requiresEncryption;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -128,7 +128,7 @@ describe(@"SDLPermissionsManager", ^{
         expect(testPermissionsManager.filters).to(beEmpty());
         expect(testPermissionsManager.permissions).to(beEmpty());
         expect(testPermissionsManager.currentHMILevel).to(beNil());
-        expect(testPermissionsManager.requiresEncryption).to(beNil());
+        expect(testPermissionsManager.requiresEncryption).to(beFalse());
     });
     
     describe(@"checking if a permission is allowed", ^{
