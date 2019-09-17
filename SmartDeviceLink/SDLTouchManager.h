@@ -14,6 +14,7 @@
 @protocol SDLTouchManagerDelegate;
 
 @class SDLTouch;
+@class SDLVideoStreamingCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -79,6 +80,11 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
 /**
+ Provides all video streaming capabilities defined in the HMI.
+ */
+@property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
+
+/**
  *  @abstract
  *      Cancels pending touch event timers that may be in progress.
  *  @remark
@@ -95,6 +101,15 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  @return The initialized touch manager
  */
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester;
+
+/**
+ Initialize a touch manager with a hit tester if available and a scale factor
+
+ @param hitTester The hit tester to be used to correlate a point with a view
+ @param scale The scale factor value to scale coordinates from one coordinate space to another
+ @return The initialized touch manager
+ */
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester scale:(float)scale;
 
 /**
  Called by SDLStreamingMediaManager in sync with the streaming framerate. This helps to moderate panning gestures by allowing the UI to be modified in time with the framerate.

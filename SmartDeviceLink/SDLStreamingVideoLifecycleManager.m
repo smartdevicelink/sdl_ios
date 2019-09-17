@@ -59,6 +59,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
+@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 
@@ -112,11 +114,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
 
         SDLLogD(@"Initializing CarWindow");
-        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig];
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig scale:self.sdl_scale];
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager scale:self.sdl_scale];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
     _dataSource = configuration.streamingMediaConfig.dataSource;
@@ -249,6 +251,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (SDLVideoStreamManagerState *)currentVideoStreamState {
     return self.videoStreamStateMachine.currentState;
+}
+
+- (float)sdl_scale {
+    const float scale = self.videoStreamingCapability.scale.floatValue;
+    return (scale > 1.0) ? scale : 1.0;
 }
 
 #pragma mark - State Machines
@@ -394,7 +401,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.screenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        const float scale = self.sdl_scale;
+        CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / scale, self.screenSize.height / scale);
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -719,6 +728,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
+        self.videoStreamingCapability = videoCapability;
+        self.touchManager.videoStreamingCapability = videoCapability;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];

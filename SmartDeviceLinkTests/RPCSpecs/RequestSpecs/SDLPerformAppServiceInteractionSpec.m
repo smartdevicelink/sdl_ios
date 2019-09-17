@@ -19,13 +19,13 @@ describe(@"Getter/Setter Tests", ^{
     __block NSString *testServiceUri = nil;
     __block NSString *testServiceID = nil;
     __block NSString *testOriginApp = nil;
-    __block BOOL testRequestServiceActive = nil;
+    __block BOOL testRequestServiceActive = NO;
 
     beforeEach(^{
         testServiceUri = @"testServiceUri";
         testServiceID = @"testServiceID";
         testOriginApp = @"testOriginApp";
-        testRequestServiceActive = true;
+        testRequestServiceActive = YES;
     });
 
     it(@"Should set and get correctly", ^{

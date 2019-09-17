@@ -10,6 +10,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <simd/simd.h>
 
 #import "SDLCarWindow.h"
 #import "SDLGlobals.h"
@@ -21,6 +22,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,14 +39,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
 
+@property (assign, nonatomic) float sdl_scale;
+
 @end
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
+    return [self initWithStreamManager:streamManager configuration:configuration scale:1.f];
+}
+
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
+                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
+                                scale:(float)scale {
     self = [super init];
     if (!self) { return nil; }
 
+    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -71,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    CGRect bounds = self.rootViewController.view.bounds;
+    CGRect bounds = self.sdl_getScaledScreenSizeFrame;
 
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
@@ -120,11 +132,15 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        self.rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
+        self.rootViewController.view.frame = self.sdl_getScaledScreenSizeFrame;
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
-
+        
         SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
     });
+}
+
+- (CGRect)sdl_getScaledScreenSizeFrame {
+    return CGRectMake(0, 0, self.streamManager.screenSize.width / self.sdl_scale, self.streamManager.screenSize.height / self.sdl_scale);
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {

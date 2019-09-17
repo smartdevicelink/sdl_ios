@@ -6,8 +6,9 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import "SDLTouchManager.h"
+#import <simd/simd.h>
 
+#import "SDLTouchManager.h"
 #import "CGPoint_Util.h"
 
 #import "SDLGlobals.h"
@@ -22,6 +23,7 @@
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManagerDelegate.h"
+#import "SDLVideoStreamingCapability.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -98,17 +100,23 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
+/**
+ The scale factor value to scale coordinates from one coordinate space to another
+ */
+@property (nonatomic, assign) float sdl_scale;
+
 @end
 
 @implementation SDLTouchManager
 
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
-    self = [super init];
-    if (!self) {
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester
+                            scale:(float)scale {
+    if (!(self = [super init])) {
         return nil;
     }
-
+    
     _hitTester = hitTester;
+    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
@@ -116,9 +124,14 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _touchEnabled = YES;
     _enableSyncedPanning = YES;
 
+    //TODO: unsubscribe from notifications somewhere
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
 
     return self;
+}
+
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
+    return [self initWithHitTester:hitTester scale:1.f];
 }
 
 #pragma mark - Public
@@ -184,7 +197,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+    SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
+    onTouchEvent = [self sdl_applyScaleToEventCoordinates:onTouchEvent.copy];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -210,6 +224,27 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             [self sdl_handleTouchCanceled:touch];
         }
     }];
+}
+
+/**
+ *  Modifies the existing coordinates of the SDLOnTouchEvent, based on the received 'scale' value.
+ 
+ *  This will match the coordinates to the scaled resolution of the video.
+ 
+ *  @param onTouchEvent     A SDLOnTouchEvent with coordinates.
+ */
+- (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
+    const float scale = self.sdl_scale;
+    if (scale <= 1.f) {
+        return onTouchEvent;
+    }
+    for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
+        for (SDLTouchCoord *coord in touchEvent.coord) {
+            coord.x = @(coord.x.floatValue / scale);
+            coord.y = @(coord.y.floatValue / scale);
+        }
+    }
+    return onTouchEvent;
 }
 
 #pragma mark - Private
