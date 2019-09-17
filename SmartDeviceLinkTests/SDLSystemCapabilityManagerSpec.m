@@ -67,6 +67,8 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
+
     });
 
     context(@"When notified of a register app interface response", ^{
@@ -549,7 +551,7 @@ describe(@"System capability manager", ^{
         });
 
         it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(5));
+            expect(testConnectionManager.receivedRequests).to(haveCount(6));
             expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
         });
     });
@@ -576,6 +578,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
             expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
         });
     });
 });
