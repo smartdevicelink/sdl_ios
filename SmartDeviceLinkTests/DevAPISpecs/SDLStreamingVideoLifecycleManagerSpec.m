@@ -551,14 +551,8 @@ describe(@"the streaming video manager", ^{
 
 
                     beforeEach(^{
-                        preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
-                        preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
-                        streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
-
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-
-                        expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                     });
 
                     context(@"If the data source is nil", ^{
@@ -575,6 +569,10 @@ describe(@"the streaming video manager", ^{
 
                     context(@"If the preferred resolution was set in the data source", ^{
                         beforeEach(^{
+                            preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
+                            preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
+                            streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
+
                             streamingLifecycleManager.dataSource = testDataSource;
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
