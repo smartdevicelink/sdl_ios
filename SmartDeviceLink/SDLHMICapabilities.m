@@ -35,6 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameVideoStreaming ofClass:NSNumber.class error:nil];
 }
 
+- (void)setRemoteControl:(nullable NSNumber<SDLBool> *)remoteControl {
+    [self.store sdl_setObject:remoteControl forName:SDLRPCParameterNameRemoteControl];
+}
+
+- (nullable NSNumber<SDLBool> *)remoteControl {
+    return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControl ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

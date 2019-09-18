@@ -500,6 +500,7 @@ SDLRPCParameterName const SDLRPCParameterNameRed = @"red";
 SDLRPCParameterName const SDLRPCParameterNameRect = @"rect";
 SDLRPCParameterName const SDLRPCParameterNameRegion = @"REG";
 SDLRPCParameterName const SDLRPCParameterNameRegions = @"regions";
+SDLRPCParameterName const SDLRPCParameterNameRemoteControl = @"remoteControl";
 SDLRPCParameterName const SDLRPCParameterNameRemoteControlCapability = @"remoteControlCapability";
 SDLRPCParameterName const SDLRPCParameterNameRequest = @"request";
 SDLRPCParameterName const SDLRPCParameterNameRequestServiceActive = @"requestServiceActive";

@@ -17,6 +17,7 @@ describe(@"SDLHMICapabilities struct", ^{
     __block NSNumber *somePhoneCallState = @NO;
     __block NSNumber *someNavigationState = @YES;
     __block NSNumber *someVideoStreamState = @NO;
+    __block NSNumber *someRemoteControlState = @YES;
     
     context(@"When initialized with properties", ^{
         beforeEach(^{
@@ -24,6 +25,7 @@ describe(@"SDLHMICapabilities struct", ^{
             testStruct.phoneCall = somePhoneCallState;
             testStruct.navigation = someNavigationState;
             testStruct.videoStreaming = someVideoStreamState;
+            testStruct.remoteControl = someRemoteControlState;
         });
         
         it(@"should properly set phone call", ^{
@@ -37,6 +39,10 @@ describe(@"SDLHMICapabilities struct", ^{
         it(@"should properly set video streaming", ^{
             expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
         });
+
+        it(@"should properly set remote control", ^{
+            expect(testStruct.remoteControl).to(equal(someRemoteControlState));
+        });
     });
     
     context(@"When initialized with a dictionary", ^{
@@ -44,7 +50,8 @@ describe(@"SDLHMICapabilities struct", ^{
             NSDictionary<NSString *, NSNumber *> *structInitDict = @{
                                              SDLRPCParameterNameNavigation: someNavigationState,
                                              SDLRPCParameterNamePhoneCall: somePhoneCallState,
-                                             SDLRPCParameterNameVideoStreaming: someVideoStreamState
+                                             SDLRPCParameterNameVideoStreaming: someVideoStreamState,
+                                             SDLRPCParameterNameRemoteControl: someRemoteControlState
                                              };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -63,6 +70,10 @@ describe(@"SDLHMICapabilities struct", ^{
         it(@"should properly set video streaming", ^{
             expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
         });
+
+        it(@"should properly set remote control", ^{
+            expect(testStruct.remoteControl).to(equal(someRemoteControlState));
+        });
     });
     
     context(@"When not initialized", ^{
@@ -80,6 +91,10 @@ describe(@"SDLHMICapabilities struct", ^{
 
         it(@"video streaming should be nil", ^{
             expect(testStruct.videoStreaming).to(beNil());
+        });
+
+        it(@"remote control should be nil", ^{
+            expect(testStruct.remoteControl).to(beNil());
         });
     });
 });
