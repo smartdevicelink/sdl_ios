@@ -18,9 +18,9 @@ before_script:
 - carthage bootstrap --platform ios
 
 script:
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone 8" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone 8" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone 8" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone Xs" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone Xs" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -sdk "iphonesimulator12.4" -destination "OS=12.4,name=iPhone Xs" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
 
 after_script:
 - bash <(curl -s https://codecov.io/bash)
