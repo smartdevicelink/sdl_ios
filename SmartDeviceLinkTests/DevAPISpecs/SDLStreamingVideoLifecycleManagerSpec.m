@@ -558,7 +558,7 @@ describe(@"the streaming video manager", ^{
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
 
-                        expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero)).to(beTrue());
+                        expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                     });
 
                     context(@"If the data source is nil", ^{
@@ -568,7 +568,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not replace the existing screen resolution", ^{
-                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero)).to(beTrue());
+                            expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                             expect(streamingLifecycleManager.dataSource).to(beNil());
                         });
                     });
