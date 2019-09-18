@@ -160,7 +160,7 @@ describe(@"menu manager", ^{
             SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutRequest object:self rpcResponse:testSetDisplayLayoutResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
+            expect(testManager.displayCapabilities).toEventually(equal(testDisplayCapabilities));
         });
 
         it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{
