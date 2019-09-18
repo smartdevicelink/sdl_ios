@@ -23,7 +23,6 @@
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManagerDelegate.h"
-#import "SDLVideoStreamingCapability.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -100,11 +99,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
-/**
- The scale factor value to scale coordinates from one coordinate space to another
- */
-@property (nonatomic, assign) float sdl_scale;
-
 @end
 
 @implementation SDLTouchManager
@@ -116,7 +110,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
     
     _hitTester = hitTester;
-    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
+    _scale = simd_clamp(scale, 1.f, 10.f);
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
@@ -234,7 +228,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param onTouchEvent     A SDLOnTouchEvent with coordinates.
  */
 - (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
-    const float scale = self.sdl_scale;
+    const float scale = self.scale;
     if (scale <= 1.f) {
         return onTouchEvent;
     }

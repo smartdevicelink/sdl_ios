@@ -14,7 +14,6 @@
 @protocol SDLTouchManagerDelegate;
 
 @class SDLTouch;
-@class SDLVideoStreamingCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -80,9 +79,10 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
 /**
- Provides all video streaming capabilities defined in the HMI.
+ *  @abstract
+ The scale factor value to scale coordinates from one coordinate space to another
  */
-@property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nonatomic, assign) float scale;
 
 /**
  *  @abstract
