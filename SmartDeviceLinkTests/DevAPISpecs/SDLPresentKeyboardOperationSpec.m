@@ -437,7 +437,7 @@ describe(@"present keyboard operation", ^{
 
                 it(@"should not attempt to send a cancel interaction", ^{
                     SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                    expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                    expect(lastRequest).to(beNil());
                 });
 
                 it(@"should finish", ^{
