@@ -92,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
@@ -99,11 +100,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_start {
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
-
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
     if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
