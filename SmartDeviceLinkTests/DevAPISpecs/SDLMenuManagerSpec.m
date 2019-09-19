@@ -149,7 +149,7 @@ describe(@"menu manager", ^{
         });
     });
 
-    describe(@"Notificaiton Responses", ^{
+    describe(@"Notification Responses", ^{
         it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
             testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
 
@@ -157,10 +157,10 @@ describe(@"menu manager", ^{
             testSetDisplayLayoutResponse.success = @YES;
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutRequest object:self rpcResponse:testSetDisplayLayoutResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
+            expect(testManager.displayCapabilities).withTimeout(3).toEventually(equal(testDisplayCapabilities));
         });
 
         it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{

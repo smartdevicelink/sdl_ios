@@ -35,6 +35,7 @@ describe(@"present keyboard operation", ^{
     __block NSError *resultError = nil;
 
     beforeEach(^{
+        testOp = nil;
         resultError = nil;
         hasCalledOperationCompletionHandler = NO;
 
@@ -403,12 +404,10 @@ describe(@"present keyboard operation", ^{
                 [testOp dismissKeyboard];
             });
 
-            it(@"should not attempt to send a cancel interaction", ^{
+            it(@"should not finish or send a cancel interaction", ^{
                 SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                 expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-            });
 
-            it(@"should not finish", ^{
                 expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
                 expect(testOp.isExecuting).toEventually(beTrue());
                 expect(testOp.isFinished).toEventually(beFalse());

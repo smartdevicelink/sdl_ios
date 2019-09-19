@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _displayMode = mode;
     _enableAutomaticLockScreen = (mode == SDLLockScreenConfigurationDisplayModeNever) ? NO : YES;
-    _showInOptionalState = (mode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired) ? NO : YES;
+    _showInOptionalState = (mode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired) ? YES : NO;
 
     _enableDismissGesture = enableDismissGesture;
     _backgroundColor = backgroundColor;
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)disabledConfiguration {
-    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeNever enableDismissGesture:NO showDeviceLogo:YES backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
+    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeNever enableDismissGesture:NO showDeviceLogo:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfiguration {
