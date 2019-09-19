@@ -22,7 +22,7 @@
 
 QuickSpecBegin(SDLPresentKeyboardOperationSpec)
 
-fdescribe(@"present keyboard operation", ^{
+describe(@"present keyboard operation", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLPresentKeyboardOperation *testOp = nil;
 
