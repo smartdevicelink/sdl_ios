@@ -104,9 +104,7 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
-            //FIXIT: SDLTouchManager must unsubscribe from notifications
-            [[NSNotificationCenter defaultCenter] removeObserver:touchManager];
-            touchManager = nil;
+            unloadTouchManager();
         });
     });
 
@@ -449,6 +447,9 @@ describe(@"SDLTouchManager Tests", ^{
 
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 3;
+
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                     expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
