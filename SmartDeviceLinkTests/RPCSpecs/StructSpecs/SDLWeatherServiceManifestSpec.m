@@ -15,15 +15,15 @@
 QuickSpecBegin(SDLWeatherServiceManifestSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block BOOL testCurrentForecastSupported = nil;
+    __block BOOL testCurrentForecastSupported = NO;
     __block int testMaxMultidayForecastAmount = 3;
     __block int testMaxHourlyForecastAmount = 78;
     __block int testMaxMinutelyForecastAmount = 13;
-    __block BOOL testWeatherForLocationSupported = nil;
+    __block BOOL testWeatherForLocationSupported = NO;
 
     beforeEach(^{
-        testCurrentForecastSupported = false;
-        testCurrentForecastSupported = true;
+        testCurrentForecastSupported = NO;
+        testCurrentForecastSupported = YES;
     });
 
     it(@"Should set and get correctly", ^{
@@ -82,4 +82,3 @@ describe(@"Getter/Setter Tests", ^{
 });
 
 QuickSpecEnd
-

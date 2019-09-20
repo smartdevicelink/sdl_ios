@@ -15,10 +15,10 @@
 QuickSpecBegin(SDLNavigationServiceManifestSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block BOOL testAcceptsWayPoints = nil;
+    __block BOOL testAcceptsWayPoints = NO;
 
     beforeEach(^{
-        testAcceptsWayPoints = false;
+        testAcceptsWayPoints = NO;
     });
 
     it(@"Should set and get correctly", ^{

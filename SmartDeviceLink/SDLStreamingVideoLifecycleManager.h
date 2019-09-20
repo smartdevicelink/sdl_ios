@@ -22,6 +22,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
+@class SDLVideoStreamingCapability;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLFocusableItemLocatorType;
@@ -35,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;
+@property (nullable, strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;

@@ -18,7 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLVideoStreamingCapability : SDLRPCStruct
 
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported;
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported __deprecated_msg("Use initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale: instead");;
+
+/**
+ Contains information about this system's video streaming capabilities
+ */
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale;
 
 /**
  The preferred resolution of a video stream for decoding and rendering on HMI
@@ -47,6 +52,27 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *hapticSpatialDataSupported;
+
+/**
+ The diagonal screen size in inches.
+ 
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *diagonalScreenSize;
+
+/**
+ PPI is the diagonal resolution in pixels divided by the diagonal screen size in inches.
+ 
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *pixelPerInch;
+
+/**
+ The scaling factor the app should use to change the size of the projecting view.
+ 
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
 @end
 
