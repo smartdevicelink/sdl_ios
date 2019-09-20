@@ -135,14 +135,22 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLMenuCell *)sdlex_sliderMenuCellWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACSliderMenuName icon:nil voiceCommands:@[ACSliderMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSlider *sliderRPC = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"Select a letter" sliderFooters:@[@"A", @"B", @"C"] timeout:10000];
-        [manager sendRequest:sliderRPC];
+        [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider could not be displayed" textField2:nil iconName:nil]];
+            }
+        }];
     }];
 }
 
 + (SDLMenuCell *)sdlex_scrollableMessageMenuCellWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName icon:nil voiceCommands:@[ACScrollableMessageMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines" timeout:10000 softButtons:nil];
-        [manager sendRequest:messageRPC];
+        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines" timeout:10000 softButtons:nil cancelID:5];
+        [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+           if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest: [AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
+            }
+        }];
     }];
 }
 
