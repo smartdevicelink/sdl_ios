@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param viewController UIViewController to be checked for focusable views
  @param connectionManager Object of a class that implements ConnectionManagerType. This is used for RPC communication.
  */
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager;
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale;
 
 /**
  updateInterfaceLayout crawls through the view hierarchy, updates and keep tracks of views to be reported through Haptic RPC. This function is automatically called when SDLDidUpdateProjectionView notification is sent by the application.

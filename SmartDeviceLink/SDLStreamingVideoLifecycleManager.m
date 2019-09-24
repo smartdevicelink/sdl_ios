@@ -110,7 +110,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc]
+                                     initWithViewController:configuration.streamingMediaConfig.rootViewController
+                                     connectionManager:_connectionManager
+                                     scale:self.sdl_scale];
         }
 
         SDLLogD(@"Initializing CarWindow");
@@ -411,7 +414,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLLogD(@"Attempting to create video encoder");
         const float scale = self.sdl_scale;
-        CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / scale, self.screenSize.height / scale);
+        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / scale, self.screenSize.height / scale);
         self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {

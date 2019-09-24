@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <simd/simd.h>
 
 #import "SDLFocusableItemLocator.h"
 #import "SDLLogMacros.h"
@@ -28,17 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
  reference to SDLConnectionManager
  */
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
+
+@property (nonatomic, assign) float scale;
+
 @end
 
 
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager {
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale {
     self = [super init];
     if(!self) {
         return nil;
     }
 
+    _scale = simd_clamp(scale, 1.f, 10.f);
     _viewController = viewController;
     _connectionManager = connectionManager;
     _enableHapticDataRequests = NO;
@@ -127,14 +132,15 @@ NS_ASSUME_NONNULL_BEGIN
     for (UIView *view in self.focusableViews) {
         //Convert the absolute location to local location and check if that falls within view boundary
         CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
+        localPoint.x /= self.scale;
+        localPoint.y /= self.scale;
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
-                selectedView = nil;
-                break;
+                return nil;
                 //the point has been indentified in two views. We cannot identify which with confidence.
-            } else {
-                selectedView = view;
             }
+
+            selectedView = view;
         }
     }
 
