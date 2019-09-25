@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  *
  *  Other properties you may want to try adjusting include kVTCompressionPropertyKey_AverageBitRate and kVTCompressionPropertyKey_DataRateLimits.
 
- @note Setting values can be overridden by StreamingMediaManager when `allowOverrideEncoderSettings` property is YES.
+ @note Setting values can be override by StreamingMediaManager when `allowOverrideEncoderSettings` property is YES.
 
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
