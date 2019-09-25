@@ -28,7 +28,8 @@ describe(@"Test encoding data", ^{
         });
 
         it(@"should create the correct data", ^{
-            expect(testPayload.data.description).to(equal(@"<3b000000 10686173 68496400 193e1600 126d7475 0089515b 00000000 00027072 6f746f63 6f6c5665 7273696f 6e000800 0000312e 33322e33 320000>"));
+            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
+            expect(base64Encoded).to(equal(@"OwAAABBoYXNoSWQAGT4WABJtdHUAiVFbAAAAAAACcHJvdG9jb2xWZXJzaW9uAAgAAAAxLjMyLjMyAAA="));
         });
     });
 
@@ -45,7 +46,8 @@ describe(@"Test encoding data", ^{
         });
 
         it(@"should create the correct data", ^{
-            expect(testPayload.data.description).to(equal(@"<c3000000 04766964 656f5365 72766963 65547261 6e73706f 72747300 13000000 10300002 00000010 31000100 00000010 68617368 49640006 120f0012 6d747500 00100000 00000000 04736563 6f6e6461 72795472 616e7370 6f727473 00240000 00023000 09000000 5443505f 57494649 00023100 08000000 4941505f 55534200 00046175 64696f53 65727669 63655472 616e7370 6f727473 000c0000 00103000 02000000 00027072 6f746f63 6f6c5665 7273696f 6e000800 0000352e 31302e30 310000>"));
+            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
+            expect(base64Encoded).to(equal(@"wwAAAAR2aWRlb1NlcnZpY2VUcmFuc3BvcnRzABMAAAAQMAACAAAAEDEAAQAAAAAQaGFzaElkAAYSDwASbXR1AAAQAAAAAAAABHNlY29uZGFyeVRyYW5zcG9ydHMAJAAAAAIwAAkAAABUQ1BfV0lGSQACMQAIAAAASUFQX1VTQgAABGF1ZGlvU2VydmljZVRyYW5zcG9ydHMADAAAABAwAAIAAAAAAnByb3RvY29sVmVyc2lvbgAIAAAANS4xMC4wMQAA"));
         });
     });
 
