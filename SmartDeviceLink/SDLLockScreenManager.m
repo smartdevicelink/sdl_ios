@@ -145,7 +145,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Private Helpers
+/**
+ DD = Driver Distraction
 
+ | LockScreenStatus | HMILevel       | DD  |
+ |------------------|----------------|-----|
+ | OFF              | HMI_NONE       | -   |
+ | OFF              | HMI_BACKGROUND | OFF |
+ | REQUIRED         | HMI_BACKGROUND | ON  |
+ | OPTIONAL         | HMI_FULL       | OFF |
+ | REQUIRED         | HMI_FULL       | ON  |
+ | OPTIONAL         | HMI_LIMITED    | OFF |
+ | REQUIRED         | HMI_LIMITED    | ON  |
+ */
 - (void)sdl_checkLockScreen {
     if (self.lockScreenViewController == nil || self.lastLockNotification == nil) {
         return;
