@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
     _carWindowRenderingType = SDLCarWindowRenderingTypeLayer;
     _enableForcedFramerateSync = YES;
     _allowMultipleViewControllerOrientations = NO;
-    _allowOverrideEncoderSettings = YES;
 
     return self;
 }

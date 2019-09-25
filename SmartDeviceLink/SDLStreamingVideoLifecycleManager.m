@@ -124,7 +124,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _showVideoBackgroundDisplay = YES;
-    _allowOverrideEncoderSettings = configuration.streamingMediaConfig.allowOverrideEncoderSettings;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
@@ -346,7 +345,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             weakSelf.preferredFormats = capability.supportedFormats;
             weakSelf.preferredResolutions = @[capability.preferredResolution];
 
-            if (weakSelf.allowOverrideEncoderSettings && capability.maxBitrate != nil) {
+            if (capability.maxBitrate != nil) {
                 NSNumber *bitrate = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
                 NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
                 [settings addEntriesFromDictionary: self.videoEncoderSettings];
