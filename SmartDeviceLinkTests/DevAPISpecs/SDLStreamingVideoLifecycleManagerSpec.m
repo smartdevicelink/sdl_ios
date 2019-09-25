@@ -36,6 +36,7 @@
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingState.h"
 #import "TestConnectionManager.h"
+#import "SDLVersion.h"
 
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
@@ -149,6 +150,10 @@ describe(@"the streaming video manager", ^{
 
                     someDisplayCapabilities.screenParams = someScreenParams;
 
+                    SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -172,6 +177,10 @@ describe(@"the streaming video manager", ^{
 
                     someDisplayCapabilities.screenParams = someScreenParams;
 
+                    SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -186,6 +195,31 @@ describe(@"the streaming video manager", ^{
                 it(@"should support streaming", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(600, 100)))).to(equal(@YES));
+                });
+            });
+
+            context(@"version is less then 4.5.0", ^{
+                beforeEach(^{
+                    someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                    someDisplayCapabilities.screenParams = someScreenParams;
+
+                    SDLVersion *oldVersion = [SDLVersion versionWithMajor:4 minor:0 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                    someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                    someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
+#pragma clang diagnostic pop
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should support streaming", ^{
+                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                 });
             });
         });
