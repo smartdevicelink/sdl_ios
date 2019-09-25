@@ -65,7 +65,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic, readwrite, nullable) SDLVideoStreamingFormat *videoFormat;
 
 @property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
-@property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
+@property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
+@property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
 
@@ -102,7 +103,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _appName = configuration.lifecycleConfig.appName;
     _connectionManager = connectionManager;
-    _videoEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
+    _videoEncoderSettings = [NSMutableDictionary dictionary];
+    [_videoEncoderSettings addEntriesFromDictionary: SDLH264VideoEncoder.defaultVideoEncoderSettings];
+    _customEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings;
 
     if (configuration.streamingMediaConfig.rootViewController != nil) {
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
@@ -344,6 +347,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             // If we got a response, get the head unit's preferred formats and resolutions
             weakSelf.preferredFormats = capability.supportedFormats;
             weakSelf.preferredResolutions = @[capability.preferredResolution];
+            if (capability.maxBitrate != nil) {
+                weakSelf.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
+            }
 
             if (weakSelf.dataSource != nil) {
                 SDLLogV(@"Calling data source for modified preferred formats");
@@ -367,6 +373,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             }
 
             SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+        }
+
+        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
+        for (id key in self.customEncoderSettings.keyEnumerator) {
+            self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
         }
 
         if (weakSelf.dataSource != nil) {
