@@ -18,6 +18,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAlert;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAlertManeuver;
 extern SDLRPCFunctionName const SDLRPCFunctionNameButtonPress;
+extern SDLRPCFunctionName const SDLRPCFunctionNameCancelInteraction;
 extern SDLRPCFunctionName const SDLRPCFunctionNameChangeRegistration;
 extern SDLRPCFunctionName const SDLRPCFunctionNameCloseApplication;
 extern SDLRPCFunctionName const SDLRPCFunctionNameCreateInteractionChoiceSet;

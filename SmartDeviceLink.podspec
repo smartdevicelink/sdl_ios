@@ -59,6 +59,8 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLButtonName.h',
 'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLButtonPressMode.h',
+'SmartDeviceLink/SDLCancelInteraction.h',
+'SmartDeviceLink/SDLCancelInteractionResponse.h',
 'SmartDeviceLink/SDLCarModeStatus.h',
 'SmartDeviceLink/SDLCarWindowViewController.h',
 'SmartDeviceLink/SDLChangeRegistration.h',

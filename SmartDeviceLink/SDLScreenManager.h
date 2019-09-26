@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSNumber+NumberType.h"
 #import "SDLInteractionMode.h"
 #import "SDLMetadataType.h"
 #import "SDLTextAlignment.h"
@@ -280,10 +281,21 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
+ @return A unique cancelID that can be used to cancel this keyboard
  */
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+
+/**
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
+
+ This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+
+ @param cancelID The unique ID assigned to the keyboard, passed as the return value from `presentKeyboardWithInitialText:keyboardDelegate:`
+ */
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 
 #pragma mark Menu
+
 /**
  Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
  */

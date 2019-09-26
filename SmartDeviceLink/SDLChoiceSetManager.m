@@ -73,11 +73,13 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
+@property (assign, nonatomic) UInt16 nextCancelId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
+UInt16 const ChoiceCellCancelIdMin = 1;
 
 @implementation SDLChoiceSetManager
 
@@ -97,6 +99,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _pendingMutablePreloadChoices = [NSMutableSet set];
 
     _nextChoiceId = ChoiceCellIdMin;
+    _nextCancelId = ChoiceCellCancelIdMin;
     _vrOptional = YES;
     _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
 
@@ -150,6 +153,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     _vrOptional = YES;
     _nextChoiceId = ChoiceCellIdMin;
+    _nextCancelId = ChoiceCellCancelIdMin;
 }
 
 - (void)didEnterStateCheckingVoiceOptional {
@@ -276,6 +280,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+
     if (choiceSet == nil) {
         SDLLogW(@"Attempted to present a nil choice set, ignoring.");
         return;
@@ -298,10 +303,10 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId++];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId++];
     }
     self.pendingPresentOperation = presentOp;
 
@@ -322,8 +327,8 @@ UInt16 const ChoiceCellIdMin = 1;
     [self.transactionQueue addOperation:presentOp];
 }
 
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return nil; }
 
     if (self.pendingPresentationSet != nil) {
         [self.pendingPresentOperation cancel];
@@ -331,8 +336,22 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     // Present a keyboard with the choice set that we used to test VR's optional state
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate];
+    UInt16 keyboardCancelId = self.nextCancelId++;
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
+    return @(keyboardCancelId);
+}
+
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID {
+    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
+        if (![op isKindOfClass:SDLPresentKeyboardOperation.class]) { continue; }
+
+        SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
+        if (keyboardOperation.cancelId != cancelID.unsignedShortValue) { continue; }
+
+        [keyboardOperation dismissKeyboard];
+        break;
+    }
 }
 
 #pragma mark - Choice Management Helpers
@@ -385,7 +404,7 @@ UInt16 const ChoiceCellIdMin = 1;
     if (keyboardConfiguration == nil) {
         _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
-        _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText];
+        _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText autoCompleteList:keyboardConfiguration.autoCompleteList];
 
         if (keyboardConfiguration.keypressMode != SDLKeypressModeResendCurrentEntry) {
             SDLLogW(@"Attempted to set a keyboard configuration with an invalid keypress mode; only .resentCurrentEntry is valid. This value will be ignored, the rest of the properties will be set.");
@@ -394,7 +413,7 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (SDLKeyboardProperties *)sdl_defaultKeyboardConfiguration {
-    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
 }
 
 #pragma mark - Getters

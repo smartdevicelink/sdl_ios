@@ -91,6 +91,7 @@ describe(@"the streaming video manager", ^{
         expect(@(streamingLifecycleManager.pixelBufferPool == NULL)).to(equal(@YES));
         expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
         expect(@(streamingLifecycleManager.showVideoBackgroundDisplay)).to(equal(@YES));
+        expect(@(streamingLifecycleManager.allowOverrideEncoderSettings)).to(equal(@YES));
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
         expect(streamingLifecycleManager.videoFormat).to(beNil());
@@ -524,7 +525,7 @@ describe(@"the streaming video manager", ^{
 
                     it(@"should have set all the right properties", ^{
                         expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
-                        expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
+                        expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight)))).to(beTrue());
                         expect(streamingLifecycleManager.videoEncrypted).to(equal(YES));
                         expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:testVideoCodec protocol:testVideoProtocol]));
                         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
@@ -539,7 +540,7 @@ describe(@"the streaming video manager", ^{
                     });
 
                     it(@"should fall back correctly", ^{
-                        expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
+                        expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight)))).to(beTrue());
                         expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW]));
                         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
                     });
@@ -551,14 +552,8 @@ describe(@"the streaming video manager", ^{
 
 
                     beforeEach(^{
-                        preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
-                        preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
-                        streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
-
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-
-                        expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
                     });
 
                     context(@"If the data source is nil", ^{
@@ -568,20 +563,24 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not replace the existing screen resolution", ^{
-                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
+                            expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                             expect(streamingLifecycleManager.dataSource).to(beNil());
                         });
                     });
 
                     context(@"If the preferred resolution was set in the data source", ^{
                         beforeEach(^{
+                            preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
+                            preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
+                            streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
+
                             streamingLifecycleManager.dataSource = testDataSource;
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
 
                         it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
-                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat));
+                            expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat))).to(beTrue());
                             expect(streamingLifecycleManager.dataSource).toNot(beNil());
                         });
                     });

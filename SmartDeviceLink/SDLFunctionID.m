@@ -89,6 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @54: SDLRPCFunctionNameGetFile,
                          @55: SDLRPCFunctionNamePerformAppServiceInteraction,
                          @56: SDLRPCFunctionNameUnpublishAppService,
+                         @57: SDLRPCFunctionNameCancelInteraction,
                          @58: SDLRPCFunctionNameCloseApplication,
                          @59: SDLRPCFunctionNameShowAppMenu,
                          @60: SDLRPCFunctionNameCreateWindow,

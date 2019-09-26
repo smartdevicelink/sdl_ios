@@ -115,6 +115,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveButtonPressResponse response:response];
 }
 
+- (void)onCancelInteractionResponse:(SDLCancelInteractionResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveCancelInteractionResponse response:response];
+}
+
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveChangeRegistrationResponse response:response];
 }
@@ -363,6 +367,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onButtonPress:(SDLButtonPress *)request {
     [self postRPCRequestNotification:SDLDidReceiveButtonPressRequest request:request];
+}
+
+- (void)onCancelInteraction:(SDLCancelInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceiveCancelInteractionRequest request:request];
 }
 
 - (void)onChangeRegistration:(SDLChangeRegistration *)request {

@@ -428,7 +428,7 @@ typedef NSString * SDLServiceID;
  *  @return An array of all possible system capability types
  */
 + (NSArray<SDLSystemCapabilityType> *)sdl_systemCapabilityTypes {
-    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeDisplays];
+    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeDisplays, SDLSystemCapabilityTypeSeatLocation];
 }
 
 /**

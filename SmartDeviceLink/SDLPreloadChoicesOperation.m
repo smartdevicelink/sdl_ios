@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
         self.internalError = error;
