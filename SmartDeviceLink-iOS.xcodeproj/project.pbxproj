@@ -128,7 +128,6 @@
 		162E832C1A9BDE8B00906325 /* SDLDiagnosticMessageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82481A9BDE8A00906325 /* SDLDiagnosticMessageSpec.m */; };
 		162E832D1A9BDE8B00906325 /* SDLEncodedSyncPDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82491A9BDE8A00906325 /* SDLEncodedSyncPDataSpec.m */; };
 		162E832E1A9BDE8B00906325 /* SDLEndAudioPassThruSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824A1A9BDE8A00906325 /* SDLEndAudioPassThruSpec.m */; };
-		162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824B1A9BDE8A00906325 /* SDLGetDTCsSpec.m */; };
 		162E83301A9BDE8B00906325 /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		162E83311A9BDE8B00906325 /* SDLListFilesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824D1A9BDE8A00906325 /* SDLListFilesSpec.m */; };
 		162E83321A9BDE8B00906325 /* SDLPerformAudioPassThruSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824E1A9BDE8A00906325 /* SDLPerformAudioPassThruSpec.m */; };
@@ -1263,6 +1262,7 @@
 		755F176222A00B7C0041B9CB /* SDLMenuManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 755F176122A00B7C0041B9CB /* SDLMenuManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		756C62762289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C62742289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.h */; };
 		756C62772289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 756C62752289F11F008B57A2 /* SDLDynamicMenuUpdateRunScore.m */; };
+		75CE2041233D335100B9DEF9 /* SDLGetDTCsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824B1A9BDE8A00906325 /* SDLGetDTCsSpec.m */; };
 		75FF2E3822DF9D5900D0C13B /* SDLShowAppMenuResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 75FF2E3722DF9D5900D0C13B /* SDLShowAppMenuResponseSpec.m */; };
 		75FF2E3B22E0DD5400D0C13B /* SDLMsgVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 75FF2E3922E0DD5400D0C13B /* SDLMsgVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75FF2E3C22E0DD5400D0C13B /* SDLMsgVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 75FF2E3A22E0DD5400D0C13B /* SDLMsgVersion.m */; };
@@ -7728,6 +7728,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75CE2041233D335100B9DEF9 /* SDLGetDTCsSpec.m in Sources */,
 				5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */,
 				162E83951A9BDE8B00906325 /* SDLTurnSpec.m in Sources */,
 				162E83481A9BDE8B00906325 /* SDLUpdateTurnListSpec.m in Sources */,
@@ -8204,10 +8205,8 @@
 				1EB59CD0202DC9F200343A61 /* SDLSupportedSeatSpec.m in Sources */,
 				162E82EB1A9BDE8B00906325 /* SDLLayoutModeSpec.m in Sources */,
 				1680B1181A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m in Sources */,
-				162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */,
 				162E82EC1A9BDE8B00906325 /* SDLLockScreenStatusSpec.m in Sources */,
 				DA96C0661D4D4F730022F520 /* SDLAppInfoSpec.m in Sources */,
-				162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */,
 				75FF2E3822DF9D5900D0C13B /* SDLShowAppMenuResponseSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
