@@ -565,7 +565,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
-        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
+        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
     } else {
         _streamingSupported = YES;
     }

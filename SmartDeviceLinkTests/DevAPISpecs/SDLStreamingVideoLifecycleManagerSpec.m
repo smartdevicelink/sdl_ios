@@ -218,7 +218,7 @@ describe(@"the streaming video manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
 
-                it(@"should support streaming", ^{
+                it(@"should support streaming even though hmiCapabilities.videoStreaming is nil", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                 });
             });
