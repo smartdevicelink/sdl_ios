@@ -145,7 +145,7 @@ describe(@"the streaming video manager", ^{
                 someScreenParams.resolution = someImageResolution;
             });
 
-            context(@"that does not support videoStreaming", ^{
+            context(@"that does not support video streaming", ^{
                 beforeEach(^{
                     SDLVersion *version = [SDLVersion versionWithMajor:6 minor:0 patch:0];
                     id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
@@ -168,7 +168,7 @@ describe(@"the streaming video manager", ^{
                 });
             });
 
-            context(@"that supports videos streaming", ^{
+            context(@"that supports video streaming", ^{
                 beforeEach(^{
                     SDLVersion *version = [SDLVersion versionWithMajor:6 minor:0 patch:0];
                     id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
