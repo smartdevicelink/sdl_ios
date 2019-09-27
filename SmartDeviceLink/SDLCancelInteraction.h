@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return A SDLCancelInteraction object
  */
-+ (instancetype)performInteraction;
++ (instancetype)performInteraction NS_SWIFT_NAME(performInteraction());
 
 /**
  The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
