@@ -22,7 +22,6 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
-#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
+    [self setScale:scale];
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -175,6 +174,10 @@ NS_ASSUME_NONNULL_BEGIN
 
         self->_rootViewController = rootViewController;
     });
+}
+
+- (void)setScale:(float)scale {
+    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
 }
 
 #pragma mark - Private Helpers

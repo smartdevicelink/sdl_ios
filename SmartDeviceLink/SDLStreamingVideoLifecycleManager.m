@@ -92,6 +92,16 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @end
 
+/**
+ Disclose car window private interface
+ */
+@interface SDLCarWindow (scale)
+
+- (void)setScale:(float)scale;
+
+@end
+
+
 @implementation SDLStreamingVideoLifecycleManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
@@ -741,7 +751,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         self.videoStreamingCapability = videoCapability;
-        self.touchManager.scale = self.sdl_scale;
+        const float scale = self.sdl_scale;
+        self.touchManager.scale = scale;
+        [self.carWindow setScale:scale];
+        [self.focusableItemManager setScale:scale];
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];
