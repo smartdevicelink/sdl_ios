@@ -40,10 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateInterfaceLayout;
 
 /**
- update scale value
- @param scale is the scale factor value
+ the scale factor value
  */
-- (void)setScale:(float)scale;
+@property (assign, nonatomic) float scale;
 
 @end
 

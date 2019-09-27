@@ -46,6 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)syncFrame;
 
+/**
+ the scale factor value
+ */
+@property (assign, nonatomic) float scale;
+
 @end
 
 NS_ASSUME_NONNULL_END

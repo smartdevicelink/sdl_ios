@@ -38,8 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
 
-@property (assign, nonatomic) float sdl_scale;
-
 @end
 
 @implementation SDLCarWindow
@@ -139,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (CGRect)sdl_getScaledScreenSizeFrame {
-    return CGRectMake(0, 0, self.streamManager.screenSize.width / self.sdl_scale, self.streamManager.screenSize.height / self.sdl_scale);
+    return CGRectMake(0, 0, self.streamManager.screenSize.width / self.scale, self.streamManager.screenSize.height / self.scale);
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
@@ -177,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setScale:(float)scale {
-    _sdl_scale = simd_clamp(scale, 1.f, 10.f);
+    _scale = simd_clamp(scale, 1.f, 10.f);
 }
 
 #pragma mark - Private Helpers

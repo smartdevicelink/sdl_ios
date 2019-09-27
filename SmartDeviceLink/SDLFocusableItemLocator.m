@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
 
-@property (nonatomic, assign) float scale;
-
 @end
 
 
 @implementation SDLFocusableItemLocator
+
+@synthesize scale = _scale;
 
 - (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale {
     self = [super init];
