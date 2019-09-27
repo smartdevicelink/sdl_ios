@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines" timeout:10000 softButtons:nil cancelID:5];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest: [AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
             }
         }];
     }];

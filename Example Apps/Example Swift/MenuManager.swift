@@ -181,7 +181,7 @@ private extension MenuManager {
         return SDLMenuCell(title: ACSliderMenuName, icon: nil, voiceCommands: [ACSliderMenuName], handler: { _ in
             let slider = SDLSlider(numTicks: 3, position: 1, sliderHeader: "Select a letter", sliderFooters: ["A", "B", "C"], timeout: 3000)
             manager.send(request: slider, responseHandler: { (request, response, error) in
-                guard response?.resultCode == .success else {
+                guard let response = response, response.resultCode == .success else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
                     return
                 }
@@ -193,7 +193,7 @@ private extension MenuManager {
         return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
             let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines", timeout: 10000, softButtons: nil)
             manager.send(request: scrollableMessage, responseHandler: { (request, response, error) in
-                guard response?.resultCode == .success else {
+                guard let response = response, response.resultCode == .success else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable could not be displayed"))
                     return
                 }
