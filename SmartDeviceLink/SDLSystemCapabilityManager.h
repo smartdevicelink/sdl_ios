@@ -62,7 +62,9 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 
 /**
  * Provides window capabilities of all displays connected with SDL. By default, one display is connected and supported which includes window capability information of the default main window of the display. May be nil if the system has not provided display and window capability information yet.
+ *
  * @see SDLDisplayCapability
+ *
  * Optional, @since SDL 6.0
  */
 @property (nullable, strong, nonatomic, readonly) NSArray<SDLDisplayCapability *> *displays;

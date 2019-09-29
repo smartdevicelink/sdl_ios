@@ -86,6 +86,7 @@ describe(@"menu manager", ^{
         expect(testManager.menuCells).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
+        expect(testManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
         expect(testManager.currentHMILevel).to(beNil());
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
