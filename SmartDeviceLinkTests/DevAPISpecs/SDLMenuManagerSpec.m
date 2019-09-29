@@ -67,6 +67,19 @@ describe(@"menu manager", ^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+
+        SDLImageField *commandIconField = [[SDLImageField alloc] init];
+        commandIconField.name = SDLImageFieldNameCommandIcon;
+        SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
+        windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+        windowCapability.imageFields = @[commandIconField];
+        windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
+
+        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
+        displayCapability.windowCapabilities = @[windowCapability];
+
+        OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
+        OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
     });
 
     it(@"should instantiate correctly", ^{
@@ -152,19 +165,6 @@ describe(@"menu manager", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
-
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-            windowCapability.imageFields = @[commandIconField];
-            windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
-            
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
-            displayCapability.windowCapabilities = @[windowCapability];
-            
-            OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
-            OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
         });
 
         context(@"duplicate titles", ^{
@@ -511,19 +511,6 @@ describe(@"menu manager", ^{
 
             cellCalled = NO;
             testTriggerSource = nil;
-            
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-            windowCapability.imageFields = @[commandIconField];
-            windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
-            
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
-            displayCapability.windowCapabilities = @[windowCapability];
-
-            OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
-            OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
         });
 
         context(@"on a main menu cell", ^{
@@ -599,19 +586,6 @@ describe(@"menu manager", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
-            
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-            windowCapability.imageFields = @[commandIconField];
-            windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
-            
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
-            displayCapability.windowCapabilities = @[windowCapability];
-            
-            OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
-            OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
         });
 
         context(@"when open menu RPC can be sent", ^{
