@@ -156,7 +156,7 @@ typedef NSString * SDLServiceID;
 /**
  *  Registers for notifications and responses from Core
  */
--(void)sdl_registerForNotifications {
+- (void)sdl_registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
@@ -215,7 +215,7 @@ typedef NSString * SDLServiceID;
     self.presetBankCapabilities = response.presetBankCapabilities;
     
     self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
-    
+
     // call the observers in case the new display capability list is created from deprecated types
     SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
     [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:nil];
