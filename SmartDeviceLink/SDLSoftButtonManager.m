@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (strong, nonatomic, nullable) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic, nullable, readonly) SDLWindowCapability *windowCapability;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonObjects = @[];
     _currentMainField1 = nil;
     _currentLevel = nil;
-    _defaultMainWindowCapability = nil;
+    _windowCapability = nil;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _softButtonObjects = softButtonObjects;
 
-    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.defaultMainWindowCapability.softButtonCapabilities.firstObject softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         [self.batchQueue removeAllObjects];
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
-    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.defaultMainWindowCapability.softButtonCapabilities.firstObject softButtons:self.softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtons:self.softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         for (SDLAsynchronousOperation *sbOperation in self.batchQueue) {
@@ -191,11 +191,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayCapabilityUpdate:(SDLSystemCapability *)systemCapability {
     // we won't use the object in the parameter but the convenience method of the system capability manager
-    self.defaultMainWindowCapability = _systemCapabilityManager.defaultMainWindowCapability;
+    _windowCapability = _systemCapabilityManager.defaultMainWindowCapability;
     
     // Auto-send an updated Show to account for changes to the capabilities
     if (self.softButtonObjects.count > 0) {
-        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.defaultMainWindowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
+        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
         [self.transactionQueue addOperation:op];
     }
 }

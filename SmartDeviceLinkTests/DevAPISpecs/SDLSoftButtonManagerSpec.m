@@ -34,7 +34,7 @@
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (strong, nonatomic, nullable) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic, nullable, readonly) SDLWindowCapability *windowCapability;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
@@ -84,7 +84,7 @@ describe(@"a soft button manager", ^{
 
         expect(testManager.softButtonObjects).to(beEmpty());
         expect(testManager.currentMainField1).to(beNil());
-        expect(testManager.defaultMainWindowCapability).to(beNil());
+        expect(testManager.windowCapability).to(beNil());
         expect(testManager.transactionQueue).toNot(beNil());
     });
 
@@ -245,7 +245,7 @@ describe(@"a soft button manager", ^{
             expect(testManager.currentMainField1).to(beNil());
             expect(testManager.transactionQueue.operationCount).to(equal(0));
             expect(testManager.currentLevel).to(beNil());
-            expect(testManager.defaultMainWindowCapability).to(beNil());
+            expect(testManager.windowCapability).to(beNil());
         });
     });
 });
