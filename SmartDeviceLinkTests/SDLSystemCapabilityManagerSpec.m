@@ -634,7 +634,7 @@ describe(@"System capability manager", ^{
         });
 
         it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(6));
+            expect(testConnectionManager.receivedRequests).to(haveCount(7));
             expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
         });
     });
