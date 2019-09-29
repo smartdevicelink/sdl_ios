@@ -27,6 +27,8 @@
 #import "SDLSoftButtonTransitionOperation.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
+#import "SDLSystemCapability.h"
+#import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -190,9 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - RPC Responses
 
 - (void)sdl_displayCapabilityUpdate:(SDLSystemCapability *)systemCapability {
-    // we won't use the object in the parameter but the convenience method of the system capability manager
-    _windowCapability = _systemCapabilityManager.defaultMainWindowCapability;
-    
+    _windowCapability = systemCapability.displayCapabilities[0].windowCapabilities[0];
     // Auto-send an updated Show to account for changes to the capabilities
     if (self.softButtonObjects.count > 0) {
         SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
