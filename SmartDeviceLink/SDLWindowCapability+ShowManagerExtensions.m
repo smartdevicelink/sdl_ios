@@ -18,7 +18,7 @@
             return YES;
         }
     }
-    
+
     return NO;
 }
 
@@ -32,11 +32,11 @@
             || [textField.name isEqualToString:SDLTextFieldNameMainField4]) {
             NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
             highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
-            
+
             if (highestFound == 4) { break; }
         }
     }
-    
+
     return (NSUInteger)highestFound;
 }
 
@@ -46,7 +46,7 @@
             return YES;
         }
     }
-    
+
     return NO;
 }
 
