@@ -31,3 +31,13 @@ CGRect CGRectScale(CGRect rect, float scale);
     a new point scaled by the @scale factor
  */
 CGPoint CGPointScale(CGPoint point, float scale);
+
+/**
+ @abstract
+    creates a new point which is the center point of the rect
+ @param
+    rect the source rect
+ @return
+    a new point at the center of the rect
+ */
+CGPoint CGRectGetCenterPoint(CGRect rect);
