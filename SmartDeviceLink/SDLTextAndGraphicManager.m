@@ -29,7 +29,6 @@
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ShowManagerExtensions.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTextAndGraphicManager()
@@ -66,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager systemCapabilityManager:(nonnull SDLSystemCapabilityManager *)systemCapabilityManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) { return nil; }
 
