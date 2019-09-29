@@ -15,6 +15,7 @@
 #import "SDLHapticRect.h"
 #import "SDLSendHapticData.h"
 #import "SDLTouch.h"
+#import "CGGeometry+SDL.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -112,10 +113,11 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
 
     for (UIView *view in self.focusableViews) {
-        CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
-        CGRect convertedRect = {originOnScreen, view.bounds.size};
-        SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:(convertedRect)];
+        const CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
+        const CGRect convertedRect = {originOnScreen, view.bounds.size};
+        SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:CGRectScale(convertedRect, self.scale)];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
+        //TODO: the index aka rectId is already known no need to look it up once again
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
         [hapticRects addObject:hapticRect];
@@ -132,8 +134,6 @@ NS_ASSUME_NONNULL_BEGIN
     for (UIView *view in self.focusableViews) {
         //Convert the absolute location to local location and check if that falls within view boundary
         CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
-        localPoint.x /= self.scale;
-        localPoint.y /= self.scale;
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
                 return nil;
@@ -160,6 +160,13 @@ NS_ASSUME_NONNULL_BEGIN
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateInterfaceLayout];
         });
+    }
+}
+
+- (void)setScale:(float)scale {
+    if (_scale != scale) {
+        _scale = scale;
+        [self updateInterfaceLayout];
     }
 }
 
