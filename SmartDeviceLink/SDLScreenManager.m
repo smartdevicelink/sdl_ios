@@ -13,6 +13,7 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLScreenManager()
@@ -31,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLScreenManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager systemCapabilityManager:(nonnull SDLSystemCapabilityManager *)systemCapabilityManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) { return nil; }
 

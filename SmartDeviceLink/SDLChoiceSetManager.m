@@ -213,6 +213,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
 
     // Upload pending preloads
+    // For backward compatibility with Gen38Inch display type head units
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
     SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName defaultMainWindowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
 
