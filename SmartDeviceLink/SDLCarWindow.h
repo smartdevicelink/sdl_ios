@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param scale The scale factor value to scale coordinates from one coordinate space to another
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration scale:(float)scale;
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration scale:(float)scale;
 
 /**
  View controller that will be streamed.
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) float scale;
 
 /**
- Captures a screenshot of the view controller and sends it to Core.
+  Called by SDLStreamingMediaManager in sync with the streaming framerate. Captures a screenshot of the view controller and sends the data to Core.
  */
 - (void)syncFrame;
 

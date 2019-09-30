@@ -41,9 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
-                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
-                                scale:(float)scale {
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration scale:(float)scale {
     self = [super init];
     if (!self) { return nil; }
 
@@ -122,15 +120,19 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        self.rootViewController.view.frame = self.sdl_getScaledScreenSizeFrame;
+        self.rootViewController.view.frame = [self sdl_scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
         
-        SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
+        SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.frame));
     });
 }
 
-- (CGRect)sdl_getScaledScreenSizeFrame {
-    return CGRectMake(0, 0, self.streamManager.screenSize.width / self.scale, self.streamManager.screenSize.height / self.scale);
+/// Calculates the frame of the view controller using the screen resolution and a scale value.
+/// @param screenSize The resolution of the head unit's screen
+/// @param scale The amount to scale the screen size
+/// return The size of the view controller's frame for capturing video
+- (CGRect)sdl_scaleFrameForScreenSize:(CGSize)screenSize scale:(float)scale {
+    return CGRectMake(0, 0, screenSize.width / scale, screenSize.height / scale);
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
