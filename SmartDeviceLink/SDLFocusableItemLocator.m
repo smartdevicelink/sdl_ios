@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
-        SDLRectangle* rect = [self sdl_scaleHapticRectangle:convertedRect scale:self.scale];
+        SDLRectangle *rect = [self sdl_scaleHapticRectangle:convertedRect scale:self.scale];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
