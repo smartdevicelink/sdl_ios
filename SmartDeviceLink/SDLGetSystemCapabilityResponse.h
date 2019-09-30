@@ -22,8 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The requested system capability, of the type that was sent in the request
+
+ Optional
  */
-@property (strong, nonatomic) SDLSystemCapability *systemCapability;
+@property (nullable, strong, nonatomic) SDLSystemCapability *systemCapability;
 
 @end
 

@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The requested data
+
+ Optional
  */
-@property (strong, nonatomic) SDLModuleData *moduleData;
+@property (nullable, strong, nonatomic) SDLModuleData *moduleData;
 
 /**
  It is a conditional-mandatory parameter: must be returned in case "subscribe" parameter was present in the related request.
