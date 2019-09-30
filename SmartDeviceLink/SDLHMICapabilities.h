@@ -49,6 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
 **/
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *remoteControl;
 
+/**
+ Availability of app services. True: Available, False: Not Available
+
+ App services is supported since SDL 5.1. If your connection is 5.1+, you can assume that app services is available even though between v5.1 and v6.0 this parameter is `nil`.
+
+ Boolean value. Optional.
+
+ Since SDL 6.0
+**/
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *appServices;
+
 @end
 
 NS_ASSUME_NONNULL_END
