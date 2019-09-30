@@ -74,21 +74,24 @@ Convenience init for creating a video streaming capability.
 /**
  The diagonal screen size in inches.
  
- Optional
+ Float, Optional, minvalue="0"
+ @since SDL 6.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *diagonalScreenSize;
 
 /**
  The diagonal resolution in pixels divided by the diagonal screen size in inches.
  
- Optional
+ Float, Optional, minvalue="0"
+ @since SDL 6.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *pixelPerInch;
 
 /**
  The scaling factor the app should use to change the size of the projecting view.
  
- Optional
+ Float, Optional, minvalue="1" maxvalue="10"
+ @since SDL 6.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
