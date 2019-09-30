@@ -122,9 +122,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
-/// Scales the haptic retangle for the head unit screen.
-/// @param rectangle The bounds of rectangle on the view controller
-/// @param scale The scale returned by the head unit.
+/**
+Scales the position of the haptic rectangle from the view controller coordinate system to the screen coordinate system.
+
+@param rectangle The position of the haptic rectangle in the view controller coordinate system
+@param scale The scale value
+@return The position of the haptic rectangle in the screen coordinate system
+ */
 - (SDLRectangle *)sdl_scaleHapticRectangle:(CGRect)rectangle scale:(float)scale {
     return [[SDLRectangle alloc]
             initWithX:(float)rectangle.origin.x * scale
