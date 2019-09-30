@@ -123,11 +123,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
-Scales the position of the haptic rectangle from the view controller coordinate system to the screen coordinate system.
+ Scales the position of the haptic rectangle from the view controller coordinate system to the screen coordinate system.
 
-@param rectangle The position of the haptic rectangle in the view controller coordinate system
-@param scale The scale value
-@return The position of the haptic rectangle in the screen coordinate system
+ @param rectangle The position of the haptic rectangle in the view controller coordinate system
+ @param scale The scale value
+ @return The position of the haptic rectangle in the screen coordinate system
  */
 - (SDLRectangle *)sdl_scaleHapticRectangle:(CGRect)rectangle scale:(float)scale {
     return [[SDLRectangle alloc]
@@ -175,11 +175,12 @@ Scales the position of the haptic rectangle from the view controller coordinate 
 }
 
 - (void)setScale:(float)scale {
-    if (_scale == scale) {
+    float newScale = (scale > 1.0) ? scale : 1.0;
+    if (_scale == newScale) {
         return;
     }
 
-    _scale = scale;
+    _scale = newScale;
     [self updateInterfaceLayout];
 }
 
