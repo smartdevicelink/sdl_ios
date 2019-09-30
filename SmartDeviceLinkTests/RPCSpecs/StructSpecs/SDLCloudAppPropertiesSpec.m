@@ -19,7 +19,7 @@ QuickSpecBegin(SDLCloudAppPropertiesSpec)
 describe(@"Getter/Setter Tests", ^{
     __block NSArray<NSString *> *testNicknames = nil;
     __block NSString *testAppID = nil;
-    __block BOOL testEnabled = NO;
+    __block BOOL testEnabled = nil;
     __block NSString *testAuthToken = nil;
     __block NSString *testCloudTransportType = nil;
     __block SDLHybridAppPreference testHybridAppPreference = nil;
@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^{
     beforeEach(^{
         testNicknames = @[@"testNickname1", @"testNickname2", @"testNickname3"];
         testAppID = @"testAppID";
-        testEnabled = NO;
+        testEnabled = false;
         testAuthToken = @"testAuthToken";
         testCloudTransportType = @"testCloudTransportType";
         testHybridAppPreference = SDLHybridAppPreferenceCloud;
