@@ -41,7 +41,6 @@
 #import "SDLVersion.h"
 #import "SDLHMICapabilities.h"
 
-
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
@@ -462,10 +461,7 @@ describe(@"the streaming video manager", ^{
             __block int32_t maxBitrate = 12345;
             __block NSArray<SDLVideoStreamingFormat *> *testFormats = @[[[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP], [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP]];
             __block BOOL testHapticsSupported = YES;
-            __block float diagonalScreenSize = 22.0;
-            __block float pixelPerInch = 96.0;
-            __block float scale = 1.5;
-            
+
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:YES];
             });
@@ -506,7 +502,7 @@ describe(@"the streaming video manager", ^{
                             response.systemCapability = [[SDLSystemCapability alloc] init];
                             response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
 
-                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
+                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:8.5 pixelPerInch:117 scale:1.25];
                             response.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
                             [testConnectionManager respondToLastRequestWithResponse:response];
                         });
@@ -539,9 +535,7 @@ describe(@"the streaming video manager", ^{
                             expect(streamingLifecycleManager.videoStreamingCapability).to(equal(testVideoStreamingCapability));
                         });
 
-                        it(@"should set the correct scale value", ^{
-                            expect(streamingLifecycleManager.videoStreamingCapability).to(equal(testVideoStreamingCapability));
-
+                        it(@"should pass the correct scale value", ^{
                             expect(streamingLifecycleManager.touchManager.scale).to(equal(testVideoStreamingCapability.scale));
                             expect(streamingLifecycleManager.carWindow.scale).to(equal(testVideoStreamingCapability.scale));
                             expect(streamingLifecycleManager.focusableItemManager.scale).to(equal(testVideoStreamingCapability.scale));
@@ -569,7 +563,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.encrypted = YES;
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                     
-                    streamingLifecycleManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
+                    streamingLifecycleManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:10.25 pixelPerInch:120 scale:1.5];
                 });
 
                 context(@"with data", ^{
