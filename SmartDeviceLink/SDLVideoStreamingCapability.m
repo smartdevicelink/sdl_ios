@@ -18,22 +18,26 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLVideoStreamingCapability
 
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported {
-    return [self initWithPreferredResolution:preferredResolution maxBitrate:maxBitrate supportedFormats:supportedFormats hapticDataSupported:hapticDataSupported diagonalScreenSize:0 pixelPerInch:0 scale:SDLVideoStreamingCapability.sdl_DefaultScale.floatValue];
+    return [self initWithPreferredResolution:preferredResolution maxBitrate:@(maxBitrate) supportedFormats:supportedFormats hapticDataSupported:@(hapticDataSupported) diagonalScreenSize:nil ppi:nil scale:nil];
 }
 
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
+    return [self initWithPreferredResolution:preferredResolution maxBitrate:@(maxBitrate) supportedFormats:supportedFormats hapticDataSupported:@(hapticDataSupported) diagonalScreenSize:@(diagonalScreenSize) ppi:@(pixelPerInch) scale:@(scale)];
+}
+
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(nullable NSNumber *)hapticDataSupported diagonalScreenSize:(nullable NSNumber *)diagonalScreenSize ppi:(nullable NSNumber *)pixelPerInch scale:(nullable NSNumber *)scale {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.maxBitrate = @(maxBitrate);
+    self.maxBitrate = maxBitrate;
     self.preferredResolution = preferredResolution;
     self.supportedFormats = supportedFormats;
-    self.hapticSpatialDataSupported = @(hapticDataSupported);
-    self.diagonalScreenSize = @(diagonalScreenSize);
-    self.pixelPerInch = @(pixelPerInch);
-    self.scale = @(scale);
+    self.hapticSpatialDataSupported = hapticDataSupported;
+    self.diagonalScreenSize = diagonalScreenSize;
+    self.pixelPerInch = pixelPerInch;
+    self.scale = scale;
 
     return self;
 }
@@ -92,10 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLFloat> *)scale {
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
-}
-
-+ (NSNumber<SDLFloat> *)sdl_DefaultScale {
-    return @1.0;
 }
 
 @end

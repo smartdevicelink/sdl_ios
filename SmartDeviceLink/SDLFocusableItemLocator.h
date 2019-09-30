@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIViewController *viewController;
 
+/**
+ The scale factor value to scale coordinates from one coordinate space to another.
+ */
+@property (assign, nonatomic) float scale;
+
 @end
 
 NS_ASSUME_NONNULL_END

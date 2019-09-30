@@ -19,37 +19,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Initialize the CarWindow automatic streamer.
-
- @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
- @param configuration The streaming media configuration
- @return An instance of this class
- */
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
-                        configuration:(SDLStreamingMediaConfiguration *)configuration;
-
-/**
- Initialize the CarWindow automatic streamer.
  
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
  @param configuration The streaming media configuration
  @param scale The scale factor value to scale coordinates from one coordinate space to another
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
-                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
-                                scale:(float)scale;
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration scale:(float)scale;
 
 /**
- *  View Controller that will be streamed.
+ View controller that will be streamed.
  */
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
 
-- (void)syncFrame;
-
 /**
- the scale factor value
+ The scale factor value to scale coordinates from one coordinate space to another.
  */
 @property (assign, nonatomic) float scale;
+
+/**
+ Captures a screenshot of the view controller and sends it to Core.
+ */
+- (void)syncFrame;
 
 @end
 

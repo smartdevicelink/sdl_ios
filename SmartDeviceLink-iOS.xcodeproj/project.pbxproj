@@ -1512,8 +1512,6 @@
 		9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471322D77AD500F8D2FC /* SDLWindowType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3BC36FC2340C63500485E64 /* CGGeometry+SDL.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BC36FA2340C63500485E64 /* CGGeometry+SDL.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3BC36FD2340C63500485E64 /* CGGeometry+SDL.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BC36FB2340C63500485E64 /* CGGeometry+SDL.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3239,8 +3237,6 @@
 		9FE2471322D77AD500F8D2FC /* SDLWindowType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWindowType.h; sourceTree = "<group>"; };
 		9FE2471422D77AD500F8D2FC /* SDLWindowType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowType.m; sourceTree = "<group>"; };
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
-		B3BC36FA2340C63500485E64 /* CGGeometry+SDL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+SDL.h"; sourceTree = "<group>"; };
-		B3BC36FB2340C63500485E64 /* CGGeometry+SDL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+SDL.m"; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -6386,8 +6382,6 @@
 				E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */,
 				DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */,
 				DA318C1E1DD0F06C00C035AC /* NSMutableDictionary+Store.m */,
-				B3BC36FA2340C63500485E64 /* CGGeometry+SDL.h */,
-				B3BC36FB2340C63500485E64 /* CGGeometry+SDL.m */,
 			);
 			name = "@categories";
 			sourceTree = "<group>";
@@ -6419,7 +6413,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3BC36FC2340C63500485E64 /* CGGeometry+SDL.h in Headers */,
 				9F425AD222DD980200BE3245 /* SDLWindowCapability.h in Headers */,
 				9F425ADA22DD983500BE3245 /* SDLDisplayCapability.h in Headers */,
 				9F425ACE22DD97DE00BE3245 /* SDLTemplateConfiguration.h in Headers */,
@@ -7397,7 +7390,6 @@
 				5D61FC791A84238C00846EE7 /* SDLDeleteFileResponse.m in Sources */,
 				5D3E48801D6F88A30000BFEF /* SDLRPCNotificationNotification.m in Sources */,
 				DAC572581D1067270004288B /* SDLTouchManager.m in Sources */,
-				B3BC36FD2340C63500485E64 /* CGGeometry+SDL.m in Sources */,
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,
 				5DB9965D1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m in Sources */,
 				5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */,

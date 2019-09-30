@@ -258,8 +258,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self.videoStreamStateMachine.currentState;
 }
 
+/// Gets the scale value sent by Core in the video streaming capability. If no video streaming capability exists or no scale value (both are optional values) then return a default scale value of 1.0.
 - (float)sdl_scale {
-    const float scale = self.videoStreamingCapability.scale.floatValue;
+    float scale = self.videoStreamingCapability.scale.floatValue;
     return (scale > 1.0) ? scale : 1.0;
 }
 
@@ -414,8 +415,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        const float scale = self.sdl_scale;
-        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / scale, self.screenSize.height / scale);
+        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / self.sdl_scale, self.screenSize.height / self.sdl_scale);
         self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
@@ -742,10 +742,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         self.videoStreamingCapability = videoCapability;
-        const float scale = self.sdl_scale;
-        self.touchManager.scale = scale;
-        self.carWindow.scale = scale;
-        self.focusableItemManager.scale = scale;
+        self.touchManager.scale = self.sdl_scale;
+        self.carWindow.scale = self.sdl_scale;
+        self.focusableItemManager.scale = self.sdl_scale;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];

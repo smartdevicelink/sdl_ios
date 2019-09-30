@@ -10,7 +10,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <simd/simd.h>
 
 #import "SDLCarWindow.h"
 #import "SDLGlobals.h"
@@ -43,17 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLCarWindow
 
 - (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
-                        configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
-    return [self initWithStreamManager:streamManager configuration:configuration scale:1.f];
-}
-
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager
                         configuration:(nonnull SDLStreamingMediaConfiguration *)configuration
                                 scale:(float)scale {
     self = [super init];
     if (!self) { return nil; }
 
-    [self setScale:scale];
+    _scale = scale;
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -80,8 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    CGRect bounds = self.sdl_getScaledScreenSizeFrame;
-
+    CGRect bounds = self.rootViewController.view.bounds;
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
         case SDLCarWindowRenderingTypeLayer: {
@@ -172,10 +165,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         self->_rootViewController = rootViewController;
     });
-}
-
-- (void)setScale:(float)scale {
-    _scale = simd_clamp(scale, 1.f, 10.f);
 }
 
 #pragma mark - Private Helpers

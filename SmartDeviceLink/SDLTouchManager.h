@@ -79,8 +79,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
 /**
- *  @abstract
- The scale factor value to scale coordinates from one coordinate space to another
+ The scale factor value to scale coordinates from one coordinate space to another.
  */
 @property (nonatomic, assign) float scale;
 

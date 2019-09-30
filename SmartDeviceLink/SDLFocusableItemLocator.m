@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <simd/simd.h>
 
 #import "SDLFocusableItemLocator.h"
 #import "SDLLogMacros.h"
@@ -15,7 +14,6 @@
 #import "SDLHapticRect.h"
 #import "SDLSendHapticData.h"
 #import "SDLTouch.h"
-#import "CGGeometry+SDL.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,15 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFocusableItemLocator
 
-@synthesize scale = _scale;
-
 - (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale {
     self = [super init];
     if(!self) {
         return nil;
     }
 
-    _scale = simd_clamp(scale, 1.f, 10.f);
+    _scale = scale;
     _viewController = viewController;
     _connectionManager = connectionManager;
     _enableHapticDataRequests = NO;
@@ -113,11 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
 
     for (UIView *view in self.focusableViews) {
-        const CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
-        const CGRect convertedRect = {originOnScreen, view.bounds.size};
-        SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:CGRectScale(convertedRect, self.scale)];
+        CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
+        CGRect convertedRect = {originOnScreen, view.bounds.size};
+        SDLRectangle* rect = [self sdl_scaleHapticRectangle:convertedRect scale:self.scale];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
-        //TODO: the index aka rectId is already known no need to look it up once again
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
         [hapticRects addObject:hapticRect];
@@ -125,6 +120,17 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
+}
+
+/// Scales the haptic retangle for the head unit screen.
+/// @param rectangle The bounds of rectangle on the view controller
+/// @param scale The scale returned by the head unit.
+- (SDLRectangle *)sdl_scaleHapticRectangle:(CGRect)rectangle scale:(float)scale {
+    return [[SDLRectangle alloc]
+            initWithX:(float)rectangle.origin.x * scale
+            y:(float)rectangle.origin.y * scale
+            width:(float)rectangle.size.width * scale
+            height:(float)rectangle.size.height * scale];
 }
 
 #pragma mark SDLFocusableItemHitTester functions
@@ -136,11 +142,12 @@ NS_ASSUME_NONNULL_BEGIN
         CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
-                return nil;
+                selectedView = nil;
+                break;
                 //the point has been indentified in two views. We cannot identify which with confidence.
+            } else {
+                selectedView = view;
             }
-
-            selectedView = view;
         }
     }
 
@@ -164,10 +171,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setScale:(float)scale {
-    if (_scale != scale) {
-        _scale = scale;
-        [self updateInterfaceLayout];
+    if (_scale == scale) {
+        return;
     }
+
+    _scale = scale;
+    [self updateInterfaceLayout];
 }
 
 @end
