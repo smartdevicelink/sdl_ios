@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLCarWindow.h"
 #import "SDLCarWindowViewController.h"
 #import "SDLConfiguration.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -31,11 +32,13 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLSystemCapability.h"
+#import "SDLTouchManager.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingState.h"
 #import "TestConnectionManager.h"
+
 
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
@@ -52,7 +55,7 @@ describe(@"the streaming video manager", ^{
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     __block TestConnectionManager *testConnectionManager = nil;
     __block NSString *testAppName = @"Test App";
-    __block SDLLifecycleConfiguration * testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+    __block SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
 
     __block SDLConfiguration *testConfig = nil;
 
@@ -425,7 +428,7 @@ describe(@"the streaming video manager", ^{
             __block BOOL testHapticsSupported = YES;
             __block float diagonalScreenSize = 22.0;
             __block float pixelPerInch = 96.0;
-            __block float scale = 1.0;
+            __block float scale = 1.5;
             
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:YES];
@@ -459,13 +462,16 @@ describe(@"the streaming video manager", ^{
                     });
 
                     context(@"and receiving a response", ^{
+                        __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
+
                         beforeEach(^{
                             SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
                             response.success = @YES;
                             response.systemCapability = [[SDLSystemCapability alloc] init];
                             response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-                            
-                            response.systemCapability.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
+
+                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale];
+                            response.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
                             [testConnectionManager respondToLastRequestWithResponse:response];
                         });
 
@@ -493,10 +499,16 @@ describe(@"the streaming video manager", ^{
                             expect(preferredResolution.resolutionWidth).to(equal(@42));
                         });
                         
-                        it(@"should have correct video streaming capability values", ^{
-                            expect(streamingLifecycleManager.videoStreamingCapability.diagonalScreenSize).to(equal(22.0));
-                            expect(streamingLifecycleManager.videoStreamingCapability.pixelPerInch).to(equal(96.0));
-                            expect(streamingLifecycleManager.videoStreamingCapability.scale).to(equal(1.0));
+                        it(@"should set the correct video streaming capability values", ^{
+                            expect(streamingLifecycleManager.videoStreamingCapability).to(equal(testVideoStreamingCapability));
+                        });
+
+                        it(@"should set the correct scale value", ^{
+                            expect(streamingLifecycleManager.videoStreamingCapability).to(equal(testVideoStreamingCapability));
+
+                            expect(streamingLifecycleManager.touchManager.scale).to(equal(testVideoStreamingCapability.scale));
+                            expect(streamingLifecycleManager.carWindow.scale).to(equal(testVideoStreamingCapability.scale));
+                            expect(streamingLifecycleManager.focusableItemManager.scale).to(equal(testVideoStreamingCapability.scale));
                         });
                     });
                 });
