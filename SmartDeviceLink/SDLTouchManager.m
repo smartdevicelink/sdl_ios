@@ -6,7 +6,6 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-
 #import "SDLTouchManager.h"
 #import "CGPoint_Util.h"
 
@@ -189,7 +188,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
-    onTouchEvent = [self sdl_applyScaleToEventCoordinates:onTouchEvent.copy];
+    onTouchEvent = [self sdl_applyScaleToEventCoordinates:onTouchEvent.copy scale:self.scale];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -218,12 +217,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 /**
- Modifies the coordinates of the OnTouchEvent, based on the head unit's 'scale' value. This will convert the head unit screen coordinates to the view controller's coordinates.
+ Scales the coordinates of the OnTouchEvent from the screen's coordinate sysytem to the view controller's coordinate system.
 
  @param onTouchEvent A SDLOnTouchEvent with coordinates.
  */
-- (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
-    float scale = self.scale;
+- (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent scale:(float)scale {
     if (scale <= 1.0) {
         return onTouchEvent;
     }
