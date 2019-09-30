@@ -44,6 +44,7 @@
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLVersion.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
@@ -576,9 +577,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogV(@"Determining whether streaming is supported");
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
+    if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
+        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
+    } else {
+        _streamingSupported = YES;
+    }
 #pragma clang diagnostic pop
-
     if (!self.isStreamingSupported) {
         SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
         return;

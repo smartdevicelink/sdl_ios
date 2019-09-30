@@ -103,29 +103,29 @@ describe(@"Getter/Setter Tests", ^{
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
-        it(@"Should initialize correctly with initWithAlert:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithAlert];
+        it(@"Should initialize correctly with alert:", ^{
+            testRequest = [SDLCancelInteraction alert];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert]));
             expect(testRequest.cancelID).to(beNil());
         });
 
-        it(@"Should initialize correctly with initWithSlider:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithSlider];
+        it(@"Should initialize correctly with slider:", ^{
+            testRequest = [SDLCancelInteraction slider];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider]));
             expect(testRequest.cancelID).to(beNil());
         });
 
-        it(@"Should initialize correctly with initWithScrollableMessage:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithScrollableMessage];
+        it(@"Should initialize correctly with scrollableMessage:", ^{
+            testRequest = [SDLCancelInteraction scrollableMessage];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage]));
             expect(testRequest.cancelID).to(beNil());
         });
 
-        it(@"Should initialize correctly with initWithPerformInteraction:", ^{
-            testRequest = [[SDLCancelInteraction alloc] initWithPerformInteraction];
+        it(@"Should initialize correctly with performInteraction:", ^{
+            testRequest = [SDLCancelInteraction performInteraction];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
             expect(testRequest.cancelID).to(beNil());

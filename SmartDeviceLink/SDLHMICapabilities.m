@@ -43,6 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControl ofClass:NSNumber.class error:nil];
 }
 
+- (void)setAppServices:(nullable NSNumber<SDLBool> *)appServices {
+    [self.store sdl_setObject:appServices forName:SDLRPCParameterNameAppServices];
+}
+
+- (nullable NSNumber<SDLBool> *)appServices {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppServices ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
