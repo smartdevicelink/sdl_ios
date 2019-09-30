@@ -159,7 +159,7 @@ describe(@"menu manager", ^{
 
             SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutRequest object:self rpcResponse:testSetDisplayLayoutResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
-            
+
             expect(testManager.displayCapabilities).withTimeout(3).toEventually(equal(testDisplayCapabilities));
         });
 
