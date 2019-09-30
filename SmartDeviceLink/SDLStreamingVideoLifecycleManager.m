@@ -90,6 +90,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
+@property (assign, nonatomic) float scale;
 
 @end
 
@@ -111,18 +112,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc]
-                                     initWithViewController:configuration.streamingMediaConfig.rootViewController
-                                     connectionManager:_connectionManager
-                                     scale:self.sdl_scale];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager scale:self.scale];
         }
 
         SDLLogD(@"Initializing CarWindow");
-        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig scale:self.sdl_scale];
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig scale:self.scale];
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager scale:self.sdl_scale];
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager scale:self.scale];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
     _dataSource = configuration.streamingMediaConfig.dataSource;
@@ -263,7 +261,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
  @returns The scale value in the VideoStreamingCapability or a default of 1
  */
-- (float)sdl_scale {
+- (float)scale {
     float scale = self.videoStreamingCapability.scale.floatValue;
     return (scale > 1.0) ? scale : 1.0;
 }
@@ -419,7 +417,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / self.sdl_scale, self.screenSize.height / self.sdl_scale);
+        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / self.scale, self.screenSize.height / self.scale);
         self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
@@ -749,9 +747,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         self.videoStreamingCapability = videoCapability;
-        self.touchManager.scale = self.sdl_scale;
-        self.carWindow.scale = self.sdl_scale;
-        self.focusableItemManager.scale = self.sdl_scale;
+        self.touchManager.scale = self.scale;
+        self.carWindow.scale = self.scale;
+        self.focusableItemManager.scale = self.scale;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
         responseHandler(videoCapability);
     }];
