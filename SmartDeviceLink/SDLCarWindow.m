@@ -127,10 +127,13 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-/// Calculates the frame of the view controller using the screen resolution and a scale value.
-/// @param screenSize The resolution of the head unit's screen
-/// @param scale The amount to scale the screen size
-/// return The size of the view controller's frame for capturing video
+/**
+ Calculates the frame of the view controller using the screen resolution and a scale value.
+
+ @param screenSize The resolution of the screen
+ @param scale The amount to scale the screenSize
+ @return The size of the view controller's frame for capturing video
+ */
 - (CGRect)sdl_scaleFrameForScreenSize:(CGSize)screenSize scale:(float)scale {
     return CGRectMake(0, 0, screenSize.width / scale, screenSize.height / scale);
 }
