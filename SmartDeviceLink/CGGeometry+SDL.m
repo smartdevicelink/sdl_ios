@@ -9,7 +9,7 @@
 #import "CGGeometry+SDL.h"
 
 CGRect CGRectScale(CGRect rect, float scale) {
-    if (1.f > scale) {
+    if (1.f >= scale) {
         return rect;
     }
     const CGFloat s = scale;
@@ -20,7 +20,7 @@ CGRect CGRectScale(CGRect rect, float scale) {
 }
 
 CGPoint CGPointScale(CGPoint point, float scale) {
-    if (1.f > scale) {
+    if (1.f >= scale) {
         return point;
     }
     const CGFloat s = scale;
