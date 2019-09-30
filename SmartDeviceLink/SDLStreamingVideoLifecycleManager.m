@@ -60,7 +60,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
-@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
@@ -92,7 +92,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 
 @end
-
 
 @implementation SDLStreamingVideoLifecycleManager
 
@@ -259,7 +258,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self.videoStreamStateMachine.currentState;
 }
 
-/// Gets the scale value sent by Core in the video streaming capability. If no video streaming capability exists or no scale value (both are optional values) then return a default scale value of 1.0.
+/**
+ Gets the scale value sent by Core in the video streaming capability. If no video streaming capability exists or no scale value (both are optional values) then return a default scale value of 1.0.
+
+ @returns The scale value in the VideoStreamingCapability or a default of 1
+ */
 - (float)sdl_scale {
     float scale = self.videoStreamingCapability.scale.floatValue;
     return (scale > 1.0) ? scale : 1.0;

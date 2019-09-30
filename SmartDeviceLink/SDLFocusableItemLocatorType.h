@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateInterfaceLayout;
 
 /**
- the scale factor value
+ The scale factor value to scale coordinates from one coordinate space to another.
  */
 @property (assign, nonatomic) float scale;
 
