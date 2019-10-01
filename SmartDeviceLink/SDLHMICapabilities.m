@@ -51,6 +51,22 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameAppServices ofClass:NSNumber.class error:nil];
 }
 
+- (void)setDisplays:(nullable NSNumber<SDLBool> *)displays {
+    [self.store sdl_setObject:displays forName:SDLRPCParameterNameDisplays];
+}
+
+- (nullable NSNumber<SDLBool> *)displays {
+    return [self.store sdl_objectForName:SDLRPCParameterNameDisplays ofClass:NSNumber.class error:nil];
+}
+
+- (void)setSeatLocation:(nullable NSNumber<SDLBool> *)seatLocation {
+    [self.store sdl_setObject:seatLocation forName:SDLRPCParameterNameSeatLocation];
+}
+
+- (nullable NSNumber<SDLBool> *)seatLocation {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeatLocation ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
