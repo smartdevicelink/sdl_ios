@@ -119,6 +119,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
+    _scale = DefaultScaleValue;
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager scale:self.scale];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
@@ -163,8 +164,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _ssrc = arc4random_uniform(UINT32_MAX);
     _lastPresentationTimestamp = kCMTimeInvalid;
-
-    _scale = DefaultScaleValue;
 
     return self;
 }
