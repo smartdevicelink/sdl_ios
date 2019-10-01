@@ -227,8 +227,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
     for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
         for (SDLTouchCoord *coord in touchEvent.coord) {
-            coord.x = @(coord.x.floatValue / scale);
-            coord.y = @(coord.y.floatValue / scale);
+            coord.x = @(coord.x.floatValue * scale);
+            coord.y = @(coord.y.floatValue * scale);
         }
     }
     return onTouchEvent;
