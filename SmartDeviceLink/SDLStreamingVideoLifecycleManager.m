@@ -417,7 +417,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        const CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / self.scale, self.screenSize.height / self.scale);
+        CGSize scaledScreenSize = CGSizeMake(self.screenSize.width / self.scale, self.screenSize.height / self.scale);
         self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
