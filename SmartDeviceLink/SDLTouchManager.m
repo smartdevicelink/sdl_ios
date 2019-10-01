@@ -101,13 +101,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 @implementation SDLTouchManager
 
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester scale:(float)scale {
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
     if (!(self = [super init])) {
         return nil;
     }
     
     _hitTester = hitTester;
-    _scale = scale;
+    _scale = DefaultScaleValue;
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
@@ -118,10 +118,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
 
     return self;
-}
-
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
-    return [self initWithHitTester:hitTester scale:DefaultScaleValue];
 }
 
 #pragma mark - Public

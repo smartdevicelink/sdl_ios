@@ -88,7 +88,6 @@ describe(@"the streaming video manager", ^{
     it(@"should initialize properties", ^{
         expect(streamingLifecycleManager.scale).to(equal(1.0));
         expect(streamingLifecycleManager.touchManager).toNot(beNil());
-        expect(streamingLifecycleManager.touchManager.scale).to(equal(1.0));
         expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
         expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));

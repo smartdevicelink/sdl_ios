@@ -104,6 +104,7 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.scale).to(equal(1.0));
             unloadTouchManager();
         });
     });
