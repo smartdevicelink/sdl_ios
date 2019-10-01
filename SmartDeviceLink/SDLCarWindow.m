@@ -128,14 +128,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- Calculates the frame of the view controller using the screen resolution and a scale value.
+ Calculates the frame of the view controller using the screen resolution and a scale value. The new width and height must be integer values otherwise UIGraphicsGetImageFromCurrentImageContext fails.
 
  @param screenSize The resolution of the screen
  @param scale The amount to scale the screenSize
  @return The size of the view controller's frame for capturing video
  */
 - (CGRect)sdl_scaleFrameForScreenSize:(CGSize)screenSize scale:(float)scale {
-    return CGRectMake(0, 0, screenSize.width / scale, screenSize.height / scale);
+    return CGRectMake(0, 0, roundf(screenSize.width / scale), roundf(screenSize.height / scale));
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
@@ -164,7 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
         if (self.streamManager.screenSize.width != 0) {
-            rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
+            rootViewController.view.frame = [self sdl_scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
             rootViewController.view.bounds = rootViewController.view.frame;
         }
 
