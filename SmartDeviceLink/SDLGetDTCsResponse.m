@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
+- (void)setEcuHeader:(nullable NSNumber<SDLInt> *)ecuHeader {
     [self.parameters sdl_setObject:ecuHeader forName:SDLRPCParameterNameECUHeader];
 }
 
-- (NSNumber<SDLInt> *)ecuHeader {
+- (nullable NSNumber<SDLInt> *)ecuHeader {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameECUHeader ofClass:NSNumber.class error:&error];
 }
