@@ -17,7 +17,6 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
-#import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
@@ -57,6 +56,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
+#import "SDLWindowCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -139,8 +139,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
-    _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
+    _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager systemCapabilityManager:_systemCapabilityManager];
+    
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
@@ -522,7 +523,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // If no app icon was set, just move on to ready
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
+    if (appIcon == nil || ![self.systemCapabilityManager.defaultMainWindowCapability.imageTypeSupported containsObject:SDLImageTypeDynamic]) {
         completion();
         return;
     }

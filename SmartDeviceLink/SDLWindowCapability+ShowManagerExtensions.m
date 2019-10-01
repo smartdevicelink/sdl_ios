@@ -1,16 +1,16 @@
 //
-//  SDLDisplayCapabilities+ShowManagerExtensions.m
+//  SDLWindowCapability+ShowManagerExtensions.m
 //  SmartDeviceLink
 //
-//  Created by Joel Fischer on 2/28/18.
-//  Copyright © 2018 smartdevicelink. All rights reserved.
+//  Created by Kujtim Shala (Ford) on 13.09.19.
+//  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
 #import "SDLImageField.h"
 #import "SDLTextField.h"
 
-@implementation SDLDisplayCapabilities (ShowManagerExtensions)
+@implementation SDLWindowCapability (ShowManagerExtension)
 
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name {
     for (SDLTextField *textField in self.textFields) {
@@ -41,10 +41,6 @@
 }
 
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name {
-    if (!self.graphicSupported.boolValue) {
-        return NO;
-    }
-
     for (SDLImageField *imageField in self.imageFields) {
         if ([imageField.name isEqualToString:name]) {
             return YES;

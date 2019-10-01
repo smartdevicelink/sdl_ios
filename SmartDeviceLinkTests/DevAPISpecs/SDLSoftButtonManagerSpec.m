@@ -15,6 +15,7 @@
 #import "SDLSoftButtonReplaceOperation.h"
 #import "SDLSoftButtonState.h"
 #import "SDLSoftButtonTransitionOperation.h"
+#import "SDLSystemCapabilityManager.h"
 #import "TestConnectionManager.h"
 
 @interface SDLSoftButtonObject()
@@ -33,9 +34,8 @@
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
+@property (strong, nonatomic, nullable, readonly) SDLWindowCapability *windowCapability;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
-@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
 
@@ -47,6 +47,7 @@ describe(@"a soft button manager", ^{
     __block SDLSoftButtonManager *testManager = nil;
 
     __block SDLFileManager *testFileManager = nil;
+    __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
 
     __block SDLSoftButtonObject *testObject1 = nil;
@@ -68,9 +69,10 @@ describe(@"a soft button manager", ^{
 
     beforeEach(^{
         testFileManager = OCMClassMock([SDLFileManager class]);
+        testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         testConnectionManager = [[TestConnectionManager alloc] init];
 
-        testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
+        testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
 
         expect(testManager.currentLevel).to(beNil());
         testManager.currentLevel = SDLHMILevelFull;
@@ -82,8 +84,7 @@ describe(@"a soft button manager", ^{
 
         expect(testManager.softButtonObjects).to(beEmpty());
         expect(testManager.currentMainField1).to(beNil());
-        expect(testManager.displayCapabilities).to(beNil());
-        expect(testManager.softButtonCapabilities).to(beNil());
+        expect(testManager.windowCapability).to(beNil());
         expect(testManager.transactionQueue).toNot(beNil());
     });
 
@@ -244,8 +245,7 @@ describe(@"a soft button manager", ^{
             expect(testManager.currentMainField1).to(beNil());
             expect(testManager.transactionQueue.operationCount).to(equal(0));
             expect(testManager.currentLevel).to(beNil());
-            expect(testManager.displayCapabilities).to(beNil());
-            expect(testManager.softButtonCapabilities).to(beNil());
+            expect(testManager.windowCapability).to(beNil());
         });
     });
 });

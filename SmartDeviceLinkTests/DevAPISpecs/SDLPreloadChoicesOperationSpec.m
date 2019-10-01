@@ -7,12 +7,13 @@
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
 #import "SDLCreateInteractionChoiceSet.h"
-#import "SDLDisplayCapabilities.h"
+#import "SDLDisplayType.h"
 #import "SDLFileManager.h"
 #import "SDLImageField.h"
 #import "SDLImageFieldName.h"
 #import "SDLTextField.h"
 #import "SDLTextFieldName.h"
+#import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLPreloadChoicesOperationSpec)
@@ -42,13 +43,13 @@ describe(@"a preload choices operation", ^{
     });
 
     describe(@"running the operation", ^{
-        __block SDLDisplayCapabilities *displayCapabilities = nil;
+        __block SDLWindowCapability *windowCapability = nil;
         beforeEach(^{
-            displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            displayCapabilities.graphicSupported = @YES;
+            windowCapability = [[SDLWindowCapability alloc] init];
+            windowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
             SDLTextField *primaryTextField = [[SDLTextField alloc] init];
             primaryTextField.name = SDLTextFieldNameMenuName;
-            displayCapabilities.textFields = @[primaryTextField];
+            windowCapability.textFields = @[primaryTextField];
 
             OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
         });
@@ -77,9 +78,9 @@ describe(@"a preload choices operation", ^{
                 it(@"should not send any requests", ^{
                     SDLTextField *primaryTextField = [[SDLTextField alloc] init];
                     primaryTextField.name = SDLTextFieldNameMenuName;
-                    displayCapabilities.textFields = @[];
+                    windowCapability.textFields = @[];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                     [testOp start];
                 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -90,7 +91,7 @@ describe(@"a preload choices operation", ^{
 
             context(@"disallowed display capabilities", ^{
                 it(@"should skip to preloading cells", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                     [testOp start];
 
                     expect(@(testOp.currentState)).to(equal(SDLPreloadChoicesOperationStatePreloadingChoices));
@@ -101,12 +102,11 @@ describe(@"a preload choices operation", ^{
                 beforeEach(^{
                     SDLImageField *choiceField = [[SDLImageField alloc] init];
                     choiceField.name = SDLImageFieldNameChoiceImage;
-
-                    displayCapabilities.imageFields = @[choiceField];
+                    windowCapability.imageFields = @[choiceField];
 
                     OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                     [testOp start];
                 });
 
@@ -126,14 +126,14 @@ describe(@"a preload choices operation", ^{
                     SDLImageField *choiceSecondaryField = [[SDLImageField alloc] init];
                     choiceSecondaryField.name = SDLImageFieldNameChoiceSecondaryImage;
 
-                    displayCapabilities.imageFields = @[choiceField, choiceSecondaryField];
+                    windowCapability.imageFields = @[choiceField, choiceSecondaryField];
                 });
 
                 context(@"when artworks are already on the system", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                         [testOp start];
                     });
 
@@ -148,7 +148,7 @@ describe(@"a preload choices operation", ^{
 
                 context(@"when artworks are static icons", ^{
                     beforeEach(^{
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithStaticIcon];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithStaticIcon];
                         [testOp start];
                     });
 
@@ -161,7 +161,7 @@ describe(@"a preload choices operation", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                         [testOp start];
                     });
 
@@ -191,7 +191,7 @@ describe(@"a preload choices operation", ^{
 
             describe(@"assembling choices", ^{
                 it(@"should be correct with no text and VR required", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
@@ -205,9 +205,9 @@ describe(@"a preload choices operation", ^{
                 it(@"should be correct with only primary text", ^{
                     SDLTextField *primaryTextField = [[SDLTextField alloc] init];
                     primaryTextField.name = SDLTextFieldNameMenuName;
-                    displayCapabilities.textFields = @[primaryTextField];
+                    windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -224,9 +224,9 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     SDLTextField *secondaryTextField = [[SDLTextField alloc] init];
                     secondaryTextField.name = SDLTextFieldNameSecondaryText;
-                    displayCapabilities.textFields = @[primaryTextField, secondaryTextField];
+                    windowCapability.textFields = @[primaryTextField, secondaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -245,9 +245,9 @@ describe(@"a preload choices operation", ^{
                     secondaryTextField.name = SDLTextFieldNameSecondaryText;
                     SDLTextField *tertiaryTextField = [[SDLTextField alloc] init];
                     tertiaryTextField.name = SDLTextFieldNameTertiaryText;
-                    displayCapabilities.textFields = @[primaryTextField, secondaryTextField, tertiaryTextField];
+                    windowCapability.textFields = @[primaryTextField, secondaryTextField, tertiaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -261,7 +261,7 @@ describe(@"a preload choices operation", ^{
 
                 it(@"should be correct with VR optional", ^{
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:YES cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:SDLDisplayTypeGeneric defaultMainWindowCapability:windowCapability isVROptional:YES cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;

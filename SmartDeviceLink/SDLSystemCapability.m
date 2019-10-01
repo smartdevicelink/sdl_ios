@@ -83,6 +83,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeDisplays;
+    self.displayCapabilities = [capabilities copy];
+    
+    return self;
+}
+    
 - (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability {
     self = [self init];
     if (!self) {

@@ -12,6 +12,8 @@
 #import "SDLAppServiceRecord.h"
 #import "SDLAppServicesCapabilities.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapability.h"
 #import "SDLError.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -34,7 +36,8 @@
 #import "SDLSystemCapabilityObserver.h"
 #import "SDLVersion.h"
 #import "SDLVideoStreamingCapability.h"
-
+#import "SDLWindowCapability.h"
+#import "SDLWindowTypeCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,6 +47,7 @@ typedef NSString * SDLServiceID;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
+@property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
@@ -70,6 +74,8 @@ typedef NSString * SDLServiceID;
 
 @property (assign, nonatomic) BOOL isFirstHMILevelFull;
 
+@property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
+
 @end
 
 @implementation SDLSystemCapabilityManager
@@ -84,6 +90,7 @@ typedef NSString * SDLServiceID;
 
     _connectionManager = manager;
     _isFirstHMILevelFull = NO;
+    _shouldConvertDeprecatedDisplayCapabilities = YES;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _capabilityObservers = [NSMutableDictionary dictionary];
@@ -133,6 +140,7 @@ typedef NSString * SDLServiceID;
     }
 
     _isFirstHMILevelFull = NO;
+    _shouldConvertDeprecatedDisplayCapabilities = YES;
 }
 
 #pragma mark - Getters
@@ -148,7 +156,7 @@ typedef NSString * SDLServiceID;
 /**
  *  Registers for notifications and responses from Core
  */
--(void)sdl_registerForNotifications {
+- (void)sdl_registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
@@ -161,31 +169,33 @@ typedef NSString * SDLServiceID;
  *
  *  @param notification The `RegisterAppInterfaceResponse` response received from Core
  */
-
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
     if (!response.success.boolValue) { return; }
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     self.displayCapabilities = response.displayCapabilities;
-#pragma clang diagnostic pop
-    self.hmiCapabilities = response.hmiCapabilities;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
 #pragma clang diagnostic pop
+
+    self.hmiCapabilities = response.hmiCapabilities;
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
     self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
+    
+    self.shouldConvertDeprecatedDisplayCapabilities = YES;
+    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
+    
+    // call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:nil];
 }
-
-
-
 
 /**
  *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
@@ -193,13 +203,22 @@ typedef NSString * SDLServiceID;
  *  @param notification The `SetDisplayLayoutResponse` response received from Core
  */
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+#pragma clang diagnostic pop
     if (!response.success.boolValue) { return; }
-
+    
     self.displayCapabilities = response.displayCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
+    
+    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
+
+    // call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:YES handler:nil];
 }
 
 
@@ -243,6 +262,153 @@ typedef NSString * SDLServiceID;
     [self sdl_subscribeToSystemCapabilityUpdates];
 }
 
+#pragma mark - Window And Display Capabilities
+
+- (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID {
+    NSArray<SDLDisplayCapability *> *capabilities = self.displays;
+    if (capabilities == nil || capabilities.count == 0) {
+        return nil;
+    }
+
+    SDLDisplayCapability *mainDisplay = capabilities.firstObject;
+    for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+        NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+        if (currentWindowID == windowID) {
+            return windowCapability;
+        }
+    }
+    return nil;
+}
+
+- (nullable SDLWindowCapability *)defaultMainWindowCapability {
+    return [self windowCapabilityWithWindowID:SDLPredefinedWindowsDefaultWindow];
+}
+
+- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButtons {
+    // Based on deprecated Display capabilities we don't know if widgets are supported. The default MAIN window is the only window we know is supported, so it's the only one we will expose.
+    SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    NSString *displayName = display.displayName ?: display.displayType;
+#pragma clang diagnostic pop
+    SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:displayName];
+    displayCapability.windowTypeSupported = @[windowTypeCapabilities];
+    
+    // Create a window capability object for the default MAIN window
+    SDLWindowCapability *defaultWindowCapability = [[SDLWindowCapability alloc] init];
+    defaultWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+    defaultWindowCapability.buttonCapabilities = [buttons copy];
+    defaultWindowCapability.softButtonCapabilities = [softButtons copy];
+    
+    // return if display capabilities don't exist.
+    if (display == nil) {
+        displayCapability.windowCapabilities = @[defaultWindowCapability];
+        return @[displayCapability];
+    }
+    
+    // Copy all available display capability properties
+    defaultWindowCapability.templatesAvailable = [display.templatesAvailable copy];
+    defaultWindowCapability.numCustomPresetsAvailable = [display.numCustomPresetsAvailable copy];
+    defaultWindowCapability.textFields = [display.textFields copy];
+    defaultWindowCapability.imageFields = [display.imageFields copy];
+    
+    
+    /*
+     The description from the mobile API to "graphicSupported:
+     > The display's persistent screen supports referencing a static or dynamic image.
+     For backward compatibility (AppLink 2.0) static image type is always presented
+     */
+    if (display.graphicSupported.boolValue) {
+        defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
+    } else {
+        defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
+    }
+    
+    displayCapability.windowCapabilities = @[defaultWindowCapability];
+    return @[displayCapability];
+}
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromRegisterResponse:(SDLRegisterAppInterfaceResponse *)rpc {
+    return [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButtons:rpc.softButtonCapabilities];
+}
+
+- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)rpc {
+    return [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButtons:rpc.softButtonCapabilities];
+}
+#pragma clang diagnostic pop
+
+- (SDLDisplayCapabilities *)sdl_createDeprecatedDisplayCapabilitiesWithDisplayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability {
+    SDLDisplayCapabilities *convertedCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    convertedCapabilities.displayType = SDLDisplayTypeGeneric; //deprecated but it is mandatory...
+#pragma clang diagnostic pop
+    convertedCapabilities.displayName = displayName;
+    convertedCapabilities.textFields = [windowCapability.textFields copy];
+    convertedCapabilities.imageFields = [windowCapability.imageFields copy];
+    convertedCapabilities.templatesAvailable = [windowCapability.templatesAvailable copy];
+    convertedCapabilities.numCustomPresetsAvailable = [windowCapability.numCustomPresetsAvailable copy];
+    convertedCapabilities.mediaClockFormats = @[]; // mandatory field but allows empty array
+    convertedCapabilities.graphicSupported = @([windowCapability.imageTypeSupported containsObject:SDLImageTypeDynamic]);
+    
+    return convertedCapabilities;
+}
+
+- (void)sdl_updateDeprecatedDisplayCapabilities {
+    SDLWindowCapability *defaultMainWindowCapabilities = self.defaultMainWindowCapability;
+    NSArray<SDLDisplayCapability *> *displayCapabilityList = self.displays;
+    
+    if (displayCapabilityList == nil || displayCapabilityList.count == 0) {
+        return;
+    }
+    
+    // Create the deprecated capabilities for backward compatibility if developers try to access them
+    self.displayCapabilities = [self sdl_createDeprecatedDisplayCapabilitiesWithDisplayName:self.displays.firstObject.displayName windowCapability:defaultMainWindowCapabilities];
+    self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
+    self.softButtonCapabilities = defaultMainWindowCapabilities.softButtonCapabilities;
+}
+
+- (void)sdl_saveDisplayCapabilityListUpdate:(NSArray<SDLDisplayCapability *> *)newCapabilities {
+    NSArray<SDLDisplayCapability *> *oldCapabilities = self.displays;
+    
+    if (oldCapabilities == nil) {
+        self.displays = newCapabilities;
+        [self sdl_updateDeprecatedDisplayCapabilities];
+        return;
+    }
+    
+    SDLDisplayCapability *oldDefaultDisplayCapabilities = oldCapabilities.firstObject;
+    NSMutableArray<SDLWindowCapability *> *copyWindowCapabilities = [oldDefaultDisplayCapabilities.windowCapabilities mutableCopy];
+    
+    SDLDisplayCapability *newDefaultDisplayCapabilities = newCapabilities.firstObject;
+    NSArray<SDLWindowCapability *> *newWindowCapabilities = newDefaultDisplayCapabilities.windowCapabilities;
+    
+    for (SDLWindowCapability *newWindow in newWindowCapabilities) {
+        BOOL oldFound = NO;
+        for (NSUInteger i = 0; i < copyWindowCapabilities.count; i++) {
+            SDLWindowCapability *oldWindow = copyWindowCapabilities[i];
+            NSUInteger newWindowID = newWindow.windowID ? newWindow.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            NSUInteger oldWindowID = oldWindow.windowID ? oldWindow.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (newWindowID == oldWindowID) {
+                copyWindowCapabilities[i] = newWindow; // replace the old window caps with new ones
+                oldFound = true;
+                break;
+            }
+        }
+        
+        if (!oldFound) {
+            [copyWindowCapabilities addObject:newWindow]; // this is a new unknown window
+        }
+    }
+    
+    // replace the window capabilities array with the merged one.
+    newDefaultDisplayCapabilities.windowCapabilities = [copyWindowCapabilities copy];
+    self.displays = @[newDefaultDisplayCapabilities];
+    [self sdl_updateDeprecatedDisplayCapabilities];
+}
+
 #pragma mark - System Capabilities
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
@@ -262,7 +428,7 @@ typedef NSString * SDLServiceID;
  *  @return An array of all possible system capability types
  */
 + (NSArray<SDLSystemCapabilityType> *)sdl_systemCapabilityTypes {
-    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeSeatLocation];
+    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeDisplays, SDLSystemCapabilityTypeSeatLocation];
 }
 
 /**
@@ -332,6 +498,9 @@ typedef NSString * SDLServiceID;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
         [self sdl_saveAppServicesCapabilitiesUpdate:systemCapability.appServicesCapabilities];
         systemCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:self.appServicesCapabilities];
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        self.shouldConvertDeprecatedDisplayCapabilities = NO;
+        [self sdl_saveDisplayCapabilityListUpdate:systemCapability.displayCapabilities];
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
         return NO;
