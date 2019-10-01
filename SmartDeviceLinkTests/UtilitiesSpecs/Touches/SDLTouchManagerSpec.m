@@ -88,14 +88,7 @@ QuickSpecBegin(SDLTouchManagerSpec)
 
 describe(@"SDLTouchManager Tests", ^{
     __block SDLTouchManager *touchManager = nil;
-    __block void (^unloadTouchManager)(void) = ^() {
-        if (touchManager) {
-            //FIXIT: SDLTouchManager must unsubscribe from notifications
-            [[NSNotificationCenter defaultCenter] removeObserver:touchManager];
-            touchManager = nil;
-        }
-    };
-    
+
     context(@"initializing", ^{
         it(@"should correctly have default properties", ^{
             expect(touchManager).to(beNil());
@@ -105,7 +98,6 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
             expect(touchManager.scale).to(equal(1.0));
-            unloadTouchManager();
         });
     });
 
@@ -1234,10 +1226,6 @@ describe(@"SDLTouchManager Tests", ^{
                 });
             });
         });
-    });
-    
-    afterEach(^{
-        unloadTouchManager();
     });
 });
 
