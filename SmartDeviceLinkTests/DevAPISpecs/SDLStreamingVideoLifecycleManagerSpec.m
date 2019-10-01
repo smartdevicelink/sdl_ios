@@ -44,7 +44,6 @@
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @end
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
@@ -530,10 +529,6 @@ describe(@"the streaming video manager", ^{
                             expect(preferredResolution.resolutionHeight).to(equal(@69));
                             expect(preferredResolution.resolutionWidth).to(equal(@42));
                         });
-                        
-                        it(@"should set the correct video streaming capability values", ^{
-                            expect(streamingLifecycleManager.videoStreamingCapability).to(equal(testVideoStreamingCapability));
-                        });
 
                         it(@"should pass the correct scale value", ^{
                             expect(streamingLifecycleManager.touchManager.scale).to(equal(testVideoStreamingCapability.scale));
@@ -562,8 +557,6 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.frameData = SDLFrameInfoStartServiceACK;
                     testVideoHeader.encrypted = YES;
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
-                    
-                    streamingLifecycleManager.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:10.25 pixelPerInch:120 scale:1.5];
                 });
 
                 context(@"with data", ^{

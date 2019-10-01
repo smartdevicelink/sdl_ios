@@ -48,7 +48,6 @@ extern const float DefaultScaleValue;
 */
 + (SDLRectangle *)scaleHapticRectangle:(CGRect)rectangle scale:(float)scaleAmount;
 
-
 @end
 
 NS_ASSUME_NONNULL_END

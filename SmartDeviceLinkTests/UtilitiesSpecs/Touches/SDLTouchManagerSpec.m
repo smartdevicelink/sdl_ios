@@ -353,7 +353,7 @@ describe(@"SDLTouchManager Tests", ^{
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
                     
-                    expectedScaledPoint = CGPointMake(66.666664123535156, 133.33332824707031);
+                    expectedScaledPoint = CGPointMake(150, 300);
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
                     
