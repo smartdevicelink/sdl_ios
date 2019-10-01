@@ -17,8 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 extern const float DefaultScaleValue;
 
 /**
- This class consolidates the logic of scaling from the view controller's coordinate system to the head unit screen's coordinate system and vice-versa */
+ This class consolidates the logic of scaling from the view controller's coordinate system to the head unit screen's coordinate system and vice-versa.
 
+ The main goal of using scaling is to align different screens and use a common range of "points per inch". This will allow showing assets with a similar size on different screen resolutions.
+ */
 @interface SDLStreamingVideoScaleManager : NSObject
 
 /**
