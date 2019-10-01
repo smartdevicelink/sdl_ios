@@ -31,9 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param viewController UIViewController to be checked for focusable views
  @param connectionManager Object of a class that implements ConnectionManagerType. This is used for RPC communication.
- @param scale The scale factor value to scale coordinates from one coordinate space to another
  */
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale;
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
 /**
  updateInterfaceLayout crawls through the view hierarchy, updates and keep tracks of views to be reported through Haptic RPC. This function is automatically called when SDLDidUpdateProjectionView notification is sent by the application.

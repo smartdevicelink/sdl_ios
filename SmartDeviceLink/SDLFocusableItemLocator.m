@@ -13,6 +13,7 @@
 #import "SDLRectangle.h"
 #import "SDLHapticRect.h"
 #import "SDLSendHapticData.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -34,13 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager scale:(float)scale {
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
     if(!self) {
         return nil;
     }
 
-    _scale = scale;
+    _scale = DefaultScaleValue;
     _viewController = viewController;
     _connectionManager = connectionManager;
     _enableHapticDataRequests = NO;
@@ -111,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
-        SDLRectangle *rect = [self sdl_scaleHapticRectangle:convertedRect scale:self.scale];
+        SDLRectangle *rect = [SDLStreamingVideoScaleManager scaleHapticRectangle:convertedRect scale:self.scale];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
@@ -120,21 +121,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
-}
-
-/**
- Scales the position of the haptic rectangle from the view controller coordinate system to the screen coordinate system.
-
- @param rectangle The position of the haptic rectangle in the view controller coordinate system
- @param scale The scale value
- @return The position of the haptic rectangle in the screen coordinate system
- */
-- (SDLRectangle *)sdl_scaleHapticRectangle:(CGRect)rectangle scale:(float)scale {
-    return [[SDLRectangle alloc]
-            initWithX:(float)rectangle.origin.x * scale
-            y:(float)rectangle.origin.y * scale
-            width:(float)rectangle.size.width * scale
-            height:(float)rectangle.size.height * scale];
 }
 
 #pragma mark SDLFocusableItemHitTester functions
@@ -175,12 +161,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setScale:(float)scale {
-    float newScale = (scale > 1.0) ? scale : 1.0;
-    if (_scale == newScale) {
+    if (_scale == scale) {
         return;
     }
 
-    _scale = newScale;
+    _scale = scale;
     [self updateInterfaceLayout];
 }
 

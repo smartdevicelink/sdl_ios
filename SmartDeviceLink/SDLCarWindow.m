@@ -20,6 +20,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,11 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration scale:(float)scale {
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) { return nil; }
 
-    _scale = scale;
+    _scale = DefaultScaleValue;
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -120,22 +121,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        self.rootViewController.view.frame = [self sdl_scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
+        self.rootViewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
         
         SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.frame));
     });
-}
-
-/**
- Calculates the frame of the view controller using the screen resolution and a scale value. The new width and height must be integer values otherwise UIGraphicsGetImageFromCurrentImageContext fails.
-
- @param screenSize The resolution of the screen
- @param scale The amount to scale the screenSize
- @return The size of the view controller's frame for capturing video
- */
-- (CGRect)sdl_scaleFrameForScreenSize:(CGSize)screenSize scale:(float)scale {
-    return CGRectMake(0, 0, roundf(screenSize.width / scale), roundf(screenSize.height / scale));
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
@@ -164,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
         if (self.streamManager.screenSize.width != 0) {
-            rootViewController.view.frame = [self sdl_scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
+            rootViewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
             rootViewController.view.bounds = rootViewController.view.frame;
         }
 

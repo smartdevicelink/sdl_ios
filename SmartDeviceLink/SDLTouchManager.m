@@ -17,11 +17,11 @@
 #import "SDLPinchGesture.h"
 #import "SDLProxyListener.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManagerDelegate.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -121,7 +121,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
-    return [self initWithHitTester:hitTester scale:1.0];
+    return [self initWithHitTester:hitTester scale:DefaultScaleValue];
 }
 
 #pragma mark - Public
@@ -188,7 +188,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
-    onTouchEvent = [self sdl_applyScaleToEventCoordinates:onTouchEvent.copy scale:self.scale];
+    onTouchEvent = [SDLStreamingVideoScaleManager scaleTouchEventCoordinates:onTouchEvent.copy scale:self.scale];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -214,24 +214,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             [self sdl_handleTouchCanceled:touch];
         }
     }];
-}
-
-/**
- Scales the coordinates of the OnTouchEvent from the screen's coordinate sysytem to the view controller's coordinate system.
-
- @param onTouchEvent A SDLOnTouchEvent with coordinates.
- */
-- (SDLOnTouchEvent *)sdl_applyScaleToEventCoordinates:(SDLOnTouchEvent *)onTouchEvent scale:(float)scale {
-    if (scale <= 1.0) {
-        return onTouchEvent;
-    }
-    for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
-        for (SDLTouchCoord *coord in touchEvent.coord) {
-            coord.x = @(coord.x.floatValue * scale);
-            coord.y = @(coord.y.floatValue * scale);
-        }
-    }
-    return onTouchEvent;
 }
 
 #pragma mark - Private

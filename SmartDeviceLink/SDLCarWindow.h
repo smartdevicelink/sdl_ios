@@ -22,10 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
  @param configuration The streaming media configuration
- @param scale The scale factor value to scale coordinates from one coordinate space to another
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration scale:(float)scale;
+- (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
 
 /**
  View controller that will be streamed.
