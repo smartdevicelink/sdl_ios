@@ -42,7 +42,7 @@ extern const float DefaultScaleValue;
 + (SDLOnTouchEvent *)scaleTouchEventCoordinates:(SDLOnTouchEvent *)onTouchEvent scale:(float)scaleAmount;
 
 /**
- Scales the position of the haptic rectangle from the view controller coordinate system to the screen coordinate system. If the scale value is less than 1.0, the haptic rectangle will not be scaled.
+ Scales the haptic rectangle from the view controller coordinate system to the screen coordinate system. If the scale value is less than 1.0, the haptic rectangle will not be scaled.
 
  @param rectangle The position of the haptic rectangle in the view controller coordinate system
  @param scaleAmount The amount to scale the haptic rectangle

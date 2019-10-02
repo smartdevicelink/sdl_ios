@@ -172,6 +172,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma mark setters
+
+/**
+ Updates the interface layout when the scale value changes.
+
+ @param scale The new scale value
+*/
 - (void)setScale:(float)scale {
     if (_scale == scale) {
         return;
