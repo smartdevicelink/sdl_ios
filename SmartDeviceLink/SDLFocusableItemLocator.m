@@ -15,7 +15,6 @@
 #import "SDLSendHapticData.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
-#import "SDLStreamingVideoLifecycleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
