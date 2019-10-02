@@ -150,7 +150,6 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
-            expect(touchManager).to(beNil());
             touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
@@ -346,7 +345,7 @@ describe(@"SDLTouchManager Tests", ^{
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
                     
-                    expectedScaledPoint = CGPointMake(150, 300);
+                    expectedScaledPoint = CGPointMake(66.666664123535156, 133.33332824707031);
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
                     
