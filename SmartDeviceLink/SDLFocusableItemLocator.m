@@ -15,6 +15,7 @@
 #import "SDLSendHapticData.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
 
 /**
- reference to SDLConnectionManager
+ Reference to SDLConnectionManager
  */
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
 
@@ -43,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _scale = DefaultScaleValue;
     _viewController = viewController;
+    _screenSize = viewController.view.frame.size;
     _connectionManager = connectionManager;
     _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
@@ -51,6 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateInterfaceLayout {
+    // Adjust the root view controller frame
+    self.viewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.screenSize scale:self.scale];
+    self.viewController.view.bounds = self.viewController.view.frame;
+
     if (@available(iOS 9.0, *)) {
         self.focusableViews = [[NSMutableArray alloc] init];
         [self sdl_parseViewHierarchy:self.viewController.view];
@@ -75,6 +81,9 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"Error: Cannot parse nil view");
         return;
     }
+
+    // Force the view to update autolayout constraints. Otherwise the view frame will not be correct if the root view controller's frame was adjusted
+    [currentView layoutSubviews];
 
     if (@available(iOS 9.0, *)) {
         NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
@@ -108,7 +117,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
-
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
@@ -151,6 +159,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param notification object with notification data
  */
 - (void)sdl_projectionViewUpdated:(NSNotification *)notification {
+    [self sdl_updateInterfaceLayout];
+}
+
+- (void)sdl_updateInterfaceLayout {
     if ([NSThread isMainThread]) {
         [self updateInterfaceLayout];
     } else {
@@ -166,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _scale = scale;
-    [self updateInterfaceLayout];
+    [self sdl_updateInterfaceLayout];
 }
 
 @end

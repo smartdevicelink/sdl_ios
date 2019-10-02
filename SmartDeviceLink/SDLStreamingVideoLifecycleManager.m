@@ -508,6 +508,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
     } // else we are using the screen size we got from the RAIR earlier
 
+    self.focusableItemManager.screenSize = self.screenSize;
+
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
     self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;

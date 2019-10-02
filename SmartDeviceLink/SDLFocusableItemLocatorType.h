@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) float scale;
 
+/**
+ *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ */
+@property (assign, nonatomic) CGSize screenSize;
+
 @end
 
 NS_ASSUME_NONNULL_END
