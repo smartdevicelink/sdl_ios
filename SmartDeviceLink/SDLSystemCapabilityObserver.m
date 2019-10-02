@@ -32,6 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (NSString *)description {
+    if (self.selector) {
+        return [NSString stringWithFormat:@"Observer: %@[%@] - %@", [_observer class], _observer, NSStringFromSelector(_selector)];
+    } else {
+        return [NSString stringWithFormat:@"Block Observer: %@", _observer];
+    }
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
