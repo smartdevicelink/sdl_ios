@@ -2,7 +2,9 @@
 //  SDLWindowCapability+ShowManagerExtensions.h
 //  SmartDeviceLink
 //
-//  Created by Kujtim Shala (Ford) on 13.09.19.
+//  Created by Joel Fischer on 2/28/18.
+//  Updated by Kujtim Shala (Ford) on 13.09.19.
+//    - Renamed and adapted for WindowCapability
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 

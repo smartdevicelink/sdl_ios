@@ -30,7 +30,7 @@
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
-@property (strong, nonatomic, nullable) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
@@ -56,6 +56,7 @@ describe(@"text and graphic manager", ^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         testManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+        [testManager start];
     });
 
     it(@"should instantiate correctly", ^{
@@ -80,7 +81,7 @@ describe(@"text and graphic manager", ^{
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.queuedImageUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
-        expect(testManager.defaultMainWindowCapability).to(beNil());
+        expect(testManager.windowCapability).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
         expect(testManager.blankArtwork).toNot(beNil());
         expect(testManager.isDirty).to(beFalse());
@@ -371,10 +372,10 @@ describe(@"text and graphic manager", ^{
 
         context(@"with one line available", ^{
             beforeEach(^{
-                testManager.defaultMainWindowCapability = [[SDLWindowCapability alloc] init];
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
                 SDLTextField *lineOneField = [[SDLTextField alloc] init];
                 lineOneField.name = SDLTextFieldNameMainField1;
-                testManager.defaultMainWindowCapability.textFields = @[lineOneField];
+                testManager.windowCapability.textFields = @[lineOneField];
             });
 
             it(@"should set mediatrack properly", ^{
@@ -472,10 +473,10 @@ describe(@"text and graphic manager", ^{
 
         context(@"with two lines available", ^{
             beforeEach(^{
-                testManager.defaultMainWindowCapability = [[SDLWindowCapability alloc] init];
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
                 SDLTextField *lineTwoField = [[SDLTextField alloc] init];
                 lineTwoField.name = SDLTextFieldNameMainField2;
-                testManager.defaultMainWindowCapability.textFields = @[lineTwoField];
+                testManager.windowCapability.textFields = @[lineTwoField];
             });
 
             it(@"should set mediatrack properly", ^{
@@ -582,10 +583,10 @@ describe(@"text and graphic manager", ^{
 
         context(@"with three lines available", ^{
             beforeEach(^{
-                testManager.defaultMainWindowCapability = [[SDLWindowCapability alloc] init];
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
                 SDLTextField *lineThreeField = [[SDLTextField alloc] init];
                 lineThreeField.name = SDLTextFieldNameMainField3;
-                testManager.defaultMainWindowCapability.textFields = @[lineThreeField];
+                testManager.windowCapability.textFields = @[lineThreeField];
             });
 
             it(@"should set mediatrack properly", ^{
@@ -696,10 +697,10 @@ describe(@"text and graphic manager", ^{
 
         context(@"with four lines available", ^{
             beforeEach(^{
-                testManager.defaultMainWindowCapability = [[SDLWindowCapability alloc] init];
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
                 SDLTextField *lineFourField = [[SDLTextField alloc] init];
                 lineFourField.name = SDLTextFieldNameMainField4;
-                testManager.defaultMainWindowCapability.textFields = @[lineFourField];
+                testManager.windowCapability.textFields = @[lineFourField];
             });
 
             it(@"should set mediatrack properly", ^{
@@ -968,7 +969,7 @@ describe(@"text and graphic manager", ^{
             expect(testManager.inProgressUpdate).to(beNil());
             expect(testManager.queuedImageUpdate).to(beNil());
             expect(testManager.hasQueuedUpdate).to(beFalse());
-            expect(testManager.defaultMainWindowCapability).to(beNil());
+            expect(testManager.windowCapability).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());
             expect(testManager.isDirty).to(beFalse());

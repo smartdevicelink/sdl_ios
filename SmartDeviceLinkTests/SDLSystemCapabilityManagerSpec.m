@@ -646,6 +646,7 @@ describe(@"System capability manager", ^{
 
         it(@"It should reset the system capability manager properties correctly", ^{
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.displays).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
             expect(testSystemCapabilityManager.displayCapabilities).to(beNil());

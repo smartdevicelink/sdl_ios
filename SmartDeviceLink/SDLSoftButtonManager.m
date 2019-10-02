@@ -68,10 +68,13 @@ NS_ASSUME_NONNULL_BEGIN
     _transactionQueue = [self sdl_newTransactionQueue];
     _batchQueue = [NSMutableArray array];
 
-    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityUpdate:)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)start {
+    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
@@ -191,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC Responses
 
-- (void)sdl_displayCapabilityUpdate:(SDLSystemCapability *)systemCapability {
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     _windowCapability = systemCapability.displayCapabilities[0].windowCapabilities[0];
     // Auto-send an updated Show to account for changes to the capabilities
     if (self.softButtonObjects.count > 0) {

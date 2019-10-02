@@ -186,7 +186,7 @@ private extension MenuManager {
 
     private class func scrollableMessageMenuCell(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
-            let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines", timeout: 10000, softButtons: nil)
+            let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines")
             manager.send(scrollableMessage)
         })
     }

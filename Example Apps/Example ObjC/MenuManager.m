@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLMenuCell *)sdlex_scrollableMessageMenuCellWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName icon:nil voiceCommands:@[ACScrollableMessageMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines" timeout:10000 softButtons:nil];
+        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines"];
         [manager sendRequest:messageRPC];
     }];
 }

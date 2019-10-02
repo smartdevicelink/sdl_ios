@@ -83,7 +83,7 @@ describe(@"sending responses and notifications", ^{
             [testOperationQueue addOperation:testOperation];
             [testOperationQueue cancelAllOperations];
 
-            [NSThread sleepForTimeInterval:1.0];
+            [NSThread sleepForTimeInterval:0.5];
 
             expect(testConnectionManager.receivedRequests).toEventually(beEmpty());
         });

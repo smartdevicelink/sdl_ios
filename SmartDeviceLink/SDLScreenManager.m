@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithCompletionHandler:(void (^)(NSError * _Nullable))handler {
+    [self.textAndGraphicManager start];
+    [self.softButtonManager start];
     [self.choiceSetManager start];
 
     handler(nil);

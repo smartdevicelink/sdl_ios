@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
-@property (strong, nonatomic, nullable) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
@@ -81,10 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
     _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
 
-    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityUpdate:)];
+    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)start {
+    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
@@ -107,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     _queuedImageUpdate = nil;
     _hasQueuedUpdate = NO;
     _queuedUpdateHandler = nil;
-    _defaultMainWindowCapability = nil;
+    _windowCapability = nil;
     _currentLevel = SDLHMILevelNone;
     _blankArtwork = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
@@ -296,7 +300,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = self.defaultMainWindowCapability ? self.defaultMainWindowCapability.maxNumberOfMainFieldLines : 4;
+    NSUInteger numberOfLines = self.windowCapability ? self.windowCapability.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -507,7 +511,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL templateSupportsPrimaryArtwork = self.defaultMainWindowCapability ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = self.windowCapability ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
 
     return (templateSupportsPrimaryArtwork
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
@@ -515,7 +519,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL templateSupportsSecondaryArtwork = self.defaultMainWindowCapability ? ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
+    BOOL templateSupportsSecondaryArtwork = self.windowCapability ? ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
     return (templateSupportsSecondaryArtwork
@@ -693,9 +697,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Subscribed notifications
 
-- (void)sdl_displayCapabilityUpdate:(SDLSystemCapability *)systemCapability {
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     // we won't use the object in the parameter but the convenience method of the system capability manager
-    self.defaultMainWindowCapability = _systemCapabilityManager.defaultMainWindowCapability;
+    self.windowCapability = _systemCapabilityManager.defaultMainWindowCapability;
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {

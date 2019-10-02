@@ -73,6 +73,7 @@ describe(@"a soft button manager", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
 
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
+        [testManager start];
 
         expect(testManager.currentLevel).to(beNil());
         testManager.currentLevel = SDLHMILevelFull;
