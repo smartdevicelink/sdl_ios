@@ -1343,6 +1343,7 @@
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
 		88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */; };
+		88761221234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -3071,6 +3072,7 @@
 		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
 		88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherAlert.h; sourceTree = "<group>"; };
 		88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlert.m; sourceTree = "<group>"; };
+		88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManagerSpec.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -6203,6 +6205,14 @@
 			name = "Data Session";
 			sourceTree = "<group>";
 		};
+		8876121F2345376B00614B15 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		88A0AA5F207CFEA60075132C /* Connection */ = {
 			isa = PBXGroup;
 			children = (
@@ -6328,6 +6338,7 @@
 		DA8966ED1E5693D100413EAB /* Streaming */ = {
 			isa = PBXGroup;
 			children = (
+				8876121F2345376B00614B15 /* Utilities */,
 				5DEF69621FD6FEB6004B8C2F /* Video */,
 				5DEF69591FD5FE74004B8C2F /* Audio Manager */,
 				DA1166D71D14601C00438CEA /* Touches */,
@@ -8070,6 +8081,7 @@
 				1EE8C4381F347C7300FDC2CF /* SDLRadioBandSpec.m in Sources */,
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
+				88761221234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
 				88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */,
