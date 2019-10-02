@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (strong, nonatomic, nullable, readonly) SDLWindowCapability *windowCapability;
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
@@ -62,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
     _softButtonObjects = @[];
 
     _currentLevel = nil;
@@ -74,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
@@ -85,6 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
+
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
 - (NSOperationQueue *)sdl_newTransactionQueue {
@@ -195,7 +198,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - RPC Responses
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    _windowCapability = systemCapability.displayCapabilities[0].windowCapabilities[0];
+    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+
     // Auto-send an updated Show to account for changes to the capabilities
     if (self.softButtonObjects.count > 0) {
         SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];

@@ -81,14 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
     _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
 
-    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
 }
 
 - (void)start {
-    [_systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
@@ -116,6 +115,8 @@ NS_ASSUME_NONNULL_BEGIN
     _blankArtwork = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
+
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
 #pragma mark - Upload / Send
@@ -699,7 +700,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     // we won't use the object in the parameter but the convenience method of the system capability manager
-    self.windowCapability = _systemCapabilityManager.defaultMainWindowCapability;
+    NSLog(@"PING");
+    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
