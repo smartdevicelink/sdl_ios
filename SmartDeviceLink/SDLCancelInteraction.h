@@ -71,28 +71,28 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithAlert;
++ (instancetype)alert;
 
 /**
  Convenience init for dismissing the currently presented slider.
 
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithSlider;
++ (instancetype)slider;
 
 /**
  Convenience init for dismissing the currently presented scrollable message.
 
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithScrollableMessage;
++ (instancetype)scrollableMessage;
 
 /**
  Convenience init for dismissing the currently presented perform interaction.
 
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithPerformInteraction;
++ (instancetype)performInteraction NS_SWIFT_NAME(performInteraction());
 
 /**
  The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
