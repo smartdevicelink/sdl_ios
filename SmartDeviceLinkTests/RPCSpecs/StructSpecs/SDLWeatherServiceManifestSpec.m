@@ -82,3 +82,4 @@ describe(@"Getter/Setter Tests", ^{
 });
 
 QuickSpecEnd
+
