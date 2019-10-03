@@ -157,7 +157,7 @@ describe(@"menu manager", ^{
             testSetDisplayLayoutResponse.success = @YES;
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutRequest object:self rpcResponse:testSetDisplayLayoutResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testSetDisplayLayoutResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
             expect(testManager.displayCapabilities).withTimeout(3).toEventually(equal(testDisplayCapabilities));
@@ -173,7 +173,7 @@ describe(@"menu manager", ^{
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
 #pragma clang diagnostic pop
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testRegisterAppInterfaceResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
             expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
