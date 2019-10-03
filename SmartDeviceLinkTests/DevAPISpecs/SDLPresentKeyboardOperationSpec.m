@@ -419,7 +419,7 @@ describe(@"present keyboard operation", ^{
             it(@"should not attempt to send a cancel interaction", ^{
                 expect(testOp.isExecuting).to(beFalse());
                 expect(testOp.isFinished).to(beFalse());
-                expect(testOp.isCancelled).to(beFalse());
+                expect(testOp.isCancelled).to(beTrue());
 
                 SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                 expect(lastRequest).to(beNil());
