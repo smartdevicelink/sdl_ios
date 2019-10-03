@@ -80,8 +80,10 @@ describe(@"sending responses and notifications", ^{
         it(@"should not send the rpc", ^{
             testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
 
+            [testOperationQueue setSuspended:YES];
             [testOperationQueue addOperation:testOperation];
             [testOperationQueue cancelAllOperations];
+            [testOperationQueue setSuspended:NO];
 
             [NSThread sleepForTimeInterval:0.5];
 
