@@ -60,6 +60,24 @@ NS_ASSUME_NONNULL_BEGIN
 **/
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *appServices;
 
+/**
+ Availability of displays. True: Available, False: Not Available
+
+ Boolean value. Optional.
+
+ Since SDL 6.0
+**/
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *displays;
+
+/**
+ Availability of seatLocation. True: Available, False: Not Available
+
+ Boolean value. Optional.
+
+ Since SDL 6.0
+ **/
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *seatLocation;
+
 @end
 
 NS_ASSUME_NONNULL_END
