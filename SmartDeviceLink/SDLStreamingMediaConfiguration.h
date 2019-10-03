@@ -45,16 +45,8 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  *  Properties to use for applications that utilize the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
  *
  *  Other properties you may want to try adjusting include kVTCompressionPropertyKey_AverageBitRate and kVTCompressionPropertyKey_DataRateLimits.
-
- @note Setting values can be overridden by StreamingMediaManager when `allowOverrideEncoderSettings` property is YES.
-
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
-
-/**
- When YES, the StreamingMediaManager will override encoder settings by the capability values returned from HMI. If you wish not to allow overriding encoder settings, set it to NO. Defaults to YES.
- */
-@property (assign, nonatomic) BOOL allowOverrideEncoderSettings;
 
 /**
  Usable to change run time video stream setup behavior. Only use this and modify the results if you *really* know what you're doing. The head unit defaults are generally good.
