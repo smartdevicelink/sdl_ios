@@ -15,6 +15,7 @@
 #import "SDLManager.h"
 #import "SDLRectangle.h"
 #import "SDLSendHapticData.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouch.h"
@@ -45,6 +46,7 @@ describe(@"the haptic manager", ^{
     __block SDLSendHapticData* sentHapticRequest;
 
     __block id sdlLifecycleManager = OCMClassMock([SDLLifecycleManager class]);
+    __block id sdlStreamingVideoScaleManager = OCMClassMock([SDLStreamingVideoScaleManager class]);
     __block CGRect viewRect1;
     __block CGRect viewRect2;
 
@@ -56,6 +58,12 @@ describe(@"the haptic manager", ^{
         uiViewController = [[UIViewController alloc] init];
 
         uiWindow.rootViewController = uiViewController;
+
+        OCMStub([sdlStreamingVideoScaleManager scaleHapticRect:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+            SDLHapticRect *hapticRect;
+            [invocation getArgument:&hapticRect atIndex:2];
+            [invocation setReturnValue:&hapticRect];
+        });
 
         OCMExpect([[sdlLifecycleManager stub] sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
             BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
@@ -72,7 +80,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField1 = [[UITextField alloc] initWithFrame:viewRect1];
             [uiViewController.view addSubview:textField1];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = NO;
             [hapticManager updateInterfaceLayout];
         });
@@ -86,7 +94,7 @@ describe(@"the haptic manager", ^{
 
     context(@"when initialized with no focusable view", ^{
         beforeEach(^{
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             [hapticManager updateInterfaceLayout];
         });
 
@@ -102,7 +110,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
             [uiViewController.view addSubview:textField1];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -129,7 +137,7 @@ describe(@"the haptic manager", ^{
             UIButton *button = [[UIButton alloc] initWithFrame:viewRect1];
             [uiViewController.view addSubview:button];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -150,15 +158,19 @@ describe(@"the haptic manager", ^{
         });
 
         describe(@"When the scale value is updated", ^{
+            __block float testUpdatedScale = 0.0;
+            __block CGSize testScreenSize = uiViewController.view.frame.size;
+
             beforeEach(^{
                 sentHapticRequest = nil;
             });
 
             context(@"When updated with a scale value greater than 1.0", ^{
-                __block float testUpdatedScale = 1.25;
-
                 beforeEach(^{
-                    hapticManager.scale = testUpdatedScale;
+                    OCMStub([(SDLStreamingVideoScaleManager *)sdlStreamingVideoScaleManager scale]).andReturn(2);
+                    testUpdatedScale = 1.25;
+                    hapticManager.videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:@(testUpdatedScale) screenSize:testScreenSize];
+                    hapticManager.videoScaleManager.scale = testUpdatedScale;
                 });
 
                 it(@"should have one view that has been scaled", ^{
@@ -178,10 +190,10 @@ describe(@"the haptic manager", ^{
             });
 
             context(@"When updated with a scale value less than 1.0", ^{
-                __block float testUpdatedScale = 0.4;
-
                 beforeEach(^{
-                    hapticManager.scale = testUpdatedScale;
+                    OCMStub([(SDLStreamingVideoScaleManager *)sdlStreamingVideoScaleManager scale]).andReturn(2);
+                    testUpdatedScale = 0.4;
+                    hapticManager.videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:@(testUpdatedScale) screenSize:testScreenSize];
                 });
 
                 it(@"should have one view that has not been scaled", ^{
@@ -201,10 +213,9 @@ describe(@"the haptic manager", ^{
             });
 
             context(@"When updated with a duplicate scale value", ^{
-                __block float testUpdatedScale = 1.0;
-
                 beforeEach(^{
-                    hapticManager.scale = testUpdatedScale;
+                    OCMStub([(SDLStreamingVideoScaleManager *)sdlStreamingVideoScaleManager scale]).andReturn(2);
+                    hapticManager.videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:@(2.0) screenSize:testScreenSize];
                 });
 
                 it(@"should not update the views", ^{
@@ -219,7 +230,7 @@ describe(@"the haptic manager", ^{
 
     context(@"when initialized with no views and then updated with two additional views", ^{
         beforeEach(^{
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
 
@@ -267,7 +278,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
             [textField addSubview:textField2];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -305,7 +316,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
             [button addSubview:textField2];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -340,7 +351,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
             [uiViewController.view addSubview:textField2];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
 
@@ -371,7 +382,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
             [uiViewController.view addSubview:textField1];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
 
@@ -410,7 +421,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField2 = [[UITextField alloc]  initWithFrame:CGRectMake(201, 201, 50, 50)];
             [uiViewController.view addSubview:textField2];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -432,7 +443,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField2 = [[UITextField alloc]  initWithFrame:CGRectMake(126, 126, 50, 50)];
             [uiViewController.view addSubview:textField2];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });
@@ -448,7 +459,7 @@ describe(@"the haptic manager", ^{
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
             [uiWindow insertSubview:textField1 aboveSubview:uiWindow];
 
-            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager];
+            hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:uiViewController  connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
             hapticManager.enableHapticDataRequests = YES;
             [hapticManager updateInterfaceLayout];
         });

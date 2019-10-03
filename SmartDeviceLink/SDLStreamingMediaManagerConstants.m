@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SDLStreamingMediaManagerConstants.h"
 
-CGSize const SDLDefaultScreenSize = {0, 0};
-
 NSString *const SDLVideoStreamDidStartNotification = @"com.sdl.videoStreamDidStart";
 NSString *const SDLVideoStreamDidStopNotification = @"com.sdl.videoStreamDidStop";
 NSString *const SDLVideoStreamSuspendedNotification = @"com.sdl.videoStreamSuspended";

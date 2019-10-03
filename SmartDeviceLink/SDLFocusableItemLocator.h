@@ -10,6 +10,8 @@
 #import "SDLFocusableItemLocatorType.h"
 #import "SDLFocusableItemHitTester.h"
 
+@class SDLStreamingVideoScaleManager;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFocusableItemLocator : NSObject <SDLFocusableItemLocatorType, SDLFocusableItemHitTester>
@@ -21,15 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIViewController *viewController;
 
-/**
- The scale factor value to scale coordinates from one coordinate space to another.
- */
-@property (assign, nonatomic) float scale;
-
-/**
- *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
- */
-@property (assign, nonatomic) CGSize screenSize;
+@property (nonatomic, strong) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
 

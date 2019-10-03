@@ -8,49 +8,80 @@
 
 #import "SDLStreamingVideoScaleManager.h"
 
+#import "SDLOnTouchEvent.h"
+#import "SDLRectangle.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
+#import "SDLHapticRect.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLStreamingVideoScaleManager ()
+
+@property (assign, nonatomic, readwrite) CGRect screenFrame;
+
+@end
 
 @implementation SDLStreamingVideoScaleManager
 
 const float DefaultScaleValue = 1.0;
+CGSize const SDLDefaultScreenSize = {0, 0};
 
-+ (CGRect)scaleFrameForScreenSize:(CGSize)screenSize scale:(float)scaleAmount {
-    float scale = [self validateScale:scaleAmount];
-    // Screen capture in the CarWindow API only works if the width and height are integer values
-    return CGRectMake(0,
-                      0,
-                      roundf((float)screenSize.width / scale),
-                      roundf((float)screenSize.height / scale));
++ (instancetype)defaultConfiguration {
+    return [[self.class alloc] initWithScale:@(DefaultScaleValue) screenSize:SDLDefaultScreenSize];
 }
 
-+ (SDLOnTouchEvent *)scaleTouchEventCoordinates:(SDLOnTouchEvent *)onTouchEvent scale:(float)scaleAmount {
-    float scale = [self validateScale:scaleAmount];
-    if (scale <= DefaultScaleValue) {
+- (instancetype)initWithScale:(nullable NSNumber *)scale screenSize:(CGSize)screenSize {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _scale = [self.class validateScale:scale.floatValue];
+    _screenSize = screenSize;
+
+    return self;
+}
+
+- (SDLOnTouchEvent *)scaleTouchEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
+    if (self.scale <= DefaultScaleValue) {
         return onTouchEvent;
     }
     for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
         for (SDLTouchCoord *coord in touchEvent.coord) {
-            coord.x = @(coord.x.floatValue / scale);
-            coord.y = @(coord.y.floatValue / scale);
+            coord.x = @(coord.x.floatValue / self.scale);
+            coord.y = @(coord.y.floatValue / self.scale);
         }
     }
     return onTouchEvent;
 }
 
-+ (SDLRectangle *)scaleHapticRectangle:(CGRect)rectangle scale:(float)scaleAmount {
-    float scale = [self validateScale:scaleAmount];
-    return [[SDLRectangle alloc]
-            initWithX:(float)rectangle.origin.x * scale
-            y:(float)rectangle.origin.y * scale
-            width:(float)rectangle.size.width * scale
-            height:(float)rectangle.size.height * scale];
+- (SDLHapticRect *)scaleHapticRect:(SDLHapticRect *)hapticRect {
+    hapticRect.rect.x = @(hapticRect.rect.x.floatValue * self.scale);
+    hapticRect.rect.y = @(hapticRect.rect.y.floatValue * self.scale);
+    hapticRect.rect.width = @(hapticRect.rect.width.floatValue * self.scale);
+    hapticRect.rect.height = @(hapticRect.rect.height.floatValue * self.scale);
+    return hapticRect;
 }
 
+#pragma mark - Getters and Setters
+
+- (CGRect)screenFrame {
+    // Screen capture in the CarWindow API only works if the width and height are integer values
+    return CGRectMake(0,
+                      0,
+                      roundf((float)self.screenSize.width / self.scale),
+                      roundf((float)self.screenSize.height / self.scale));
+}
+
+- (void)setScale:(float)scale {
+    _scale = [self.class validateScale:scale];
+}
+
+#pragma mark - Helpers
+
 /**
- Validates the scale value. Returns the default scale value if the scale value is less than 1.0
+ Validates the scale value. Returns the default scale value for 1.0 if the scale value is less than 1.0
 
  @param scale The scale value to be validated.
  @return The validated scale value

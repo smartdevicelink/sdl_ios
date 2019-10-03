@@ -21,6 +21,7 @@
 @class SDLProtocol;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
+@class SDLStreamingVideoScaleManager;
 @class SDLTouchManager;
 
 @protocol SDLConnectionManagerType;
@@ -81,9 +82,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
- *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
+
+/**
+ Handles the logic of scaling between the view controller's coordinate system and the display's coordinate system
+ */
+@property (strong, nonatomic, readonly) SDLStreamingVideoScaleManager *videoScaleManager;
 
 /**
  This is the agreed upon format of video encoder that is in use, or nil if not currently connected.

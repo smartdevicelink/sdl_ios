@@ -13,6 +13,7 @@
 #import "SDLRectangle.h"
 #import "SDLHapticRect.h"
 #import "SDLSendHapticData.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
 
@@ -35,16 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager {
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
     self = [super init];
     if(!self) {
         return nil;
     }
 
-    _scale = DefaultScaleValue;
     _viewController = viewController;
-    _screenSize = viewController.view.frame.size;
     _connectionManager = connectionManager;
+    _videoScaleManager = videoScaleManager;
     _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
 
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateInterfaceLayout {
     // Adjust the root view controller frame
-    self.viewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.screenSize scale:self.scale];
+    self.viewController.view.frame = self.videoScaleManager.screenFrame;
     self.viewController.view.bounds = self.viewController.view.frame;
 
     if (@available(iOS 9.0, *)) {
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Force the view to update autolayout constraints. Otherwise the view frame will not be correct if the root view controller's frame was adjusted
+    // Force the view to update autolayout constraints. Otherwise the view's frame will not be correct if the root view controller's frame was resized.
     [currentView layoutSubviews];
 
     if (@available(iOS 9.0, *)) {
@@ -119,10 +119,12 @@ NS_ASSUME_NONNULL_BEGIN
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
-        SDLRectangle *rect = [SDLStreamingVideoScaleManager scaleHapticRectangle:convertedRect scale:self.scale];
+        SDLRectangle *rect = [[SDLRectangle alloc] initWithCGRect:convertedRect];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
+        hapticRect = [self.videoScaleManager scaleHapticRect:hapticRect.copy];
+
         [hapticRects addObject:hapticRect];
     }
 
@@ -171,19 +173,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark setters
+#pragma mark - Setters
 
 /**
- Updates the interface layout when the scale value changes.
-
- @param scale The new scale value
+ Updates the interface layout when the scale or screen size changes.
 */
-- (void)setScale:(float)scale {
-    if (_scale == scale) {
-        return;
-    }
+- (void)setVideoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
+    SDLStreamingVideoScaleManager *oldScaleManager = self.videoScaleManager;
+    _videoScaleManager = videoScaleManager;
 
-    _scale = scale;
+    if (oldScaleManager.scale == videoScaleManager.scale && CGSizeEqualToSize(oldScaleManager.screenSize, videoScaleManager.screenSize)) { return; }
     [self sdl_updateInterfaceLayout];
 }
 

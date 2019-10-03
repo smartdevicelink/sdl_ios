@@ -31,6 +31,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
 #import "SDLV2ProtocolHeader.h"
@@ -44,7 +45,6 @@
 @interface SDLStreamingVideoLifecycleManager ()
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (assign, nonatomic) float scale;
 @end
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
@@ -86,7 +86,7 @@ describe(@"the streaming video manager", ^{
     });
 
     it(@"should initialize properties", ^{
-        expect(streamingLifecycleManager.scale).to(equal(1.0));
+        expect(streamingLifecycleManager.videoScaleManager.scale).to(equal([SDLStreamingVideoScaleManager defaultConfiguration].scale));
         expect(streamingLifecycleManager.touchManager).toNot(beNil());
         expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
         expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
@@ -533,13 +533,12 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should set the correct scale value", ^{
-                            expect(streamingLifecycleManager.scale).to(equal(testVideoStreamingCapability.scale));
+                            expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
                         });
 
                         it(@"should pass the correct scale value to the submanagers", ^{
                             expect(streamingLifecycleManager.touchManager.scale).to(equal(testVideoStreamingCapability.scale));
-                            expect(streamingLifecycleManager.carWindow.scale).to(equal(testVideoStreamingCapability.scale));
-                            expect(streamingLifecycleManager.focusableItemManager.scale).to(equal(testVideoStreamingCapability.scale));
+                            expect(streamingLifecycleManager.focusableItemManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
                         });
                     });
                 });

@@ -46,7 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _scale = DefaultScaleValue;
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
@@ -121,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        self.rootViewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
+        self.rootViewController.view.frame = self.streamManager.videoScaleManager.screenFrame;
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
         
         SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.frame));
@@ -154,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
         if (self.streamManager.screenSize.width != 0) {
-            rootViewController.view.frame = [SDLStreamingVideoScaleManager scaleFrameForScreenSize:self.streamManager.screenSize scale:self.scale];
+            rootViewController.view.frame = self.streamManager.videoScaleManager.screenFrame;
             rootViewController.view.bounds = rootViewController.view.frame;
         }
 
