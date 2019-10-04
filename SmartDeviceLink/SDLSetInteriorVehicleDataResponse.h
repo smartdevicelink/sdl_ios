@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The new module data for the requested module
+
+ Optional
  */
-@property (strong, nonatomic) SDLModuleData *moduleData;
+@property (nullable, strong, nonatomic) SDLModuleData *moduleData;
 
 @end
 

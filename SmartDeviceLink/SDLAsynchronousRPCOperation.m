@@ -21,17 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation SDLAsynchronousRPCOperation {
-    BOOL executing;
-    BOOL finished;
-}
+@implementation SDLAsynchronousRPCOperation
 
 - (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
-
-    executing = NO;
-    finished = NO;
 
     _operationId = [NSUUID UUID];
 
@@ -49,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
+
     [self sdl_sendRPC:self.rpc];
 }
 

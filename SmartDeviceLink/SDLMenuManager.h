@@ -12,6 +12,7 @@
 @class SDLFileManager;
 @class SDLMenuCell;
 @class SDLMenuConfiguration;
+@class SDLSystemCapabilityManager;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -27,7 +28,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @interface SDLMenuManager : NSObject
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  *  Stops the manager. This method is used internally.

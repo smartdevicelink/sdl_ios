@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLInteractionMode.h"
+#import "NSNumber+NumberType.h"
 
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLFileManager;
 @class SDLKeyboardProperties;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;
@@ -50,9 +52,10 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
 
  @param connectionManager The connection manager object for sending RPCs
  @param fileManager The file manager object for uploading files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The choice set manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  Start the manager and prepare to manage choice sets
@@ -99,8 +102,18 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
+ @return A unique id that can be used to cancel this keyboard. If `null`, no keyboard was created.
  */
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+
+/**
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
+ 
+ This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+
+ @param cancelID The unique ID assigned to the keyboard, passed as the return value from `presentKeyboardWithInitialText:keyboardDelegate:`
+ */
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 
 @end
 

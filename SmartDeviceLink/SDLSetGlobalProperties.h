@@ -9,6 +9,7 @@
 @class SDLKeyboardProperties;
 @class SDLTTSChunk;
 @class SDLVRHelpItem;
+@class SDLSeatLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -120,6 +121,13 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
+
+/**
+ Location of the user's seat. Default is driver's seat location if it is not set yet
+ 
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLSeatLocation *userLocation;
 
 /**
  The main menu layout. If this is sent while a menu is already on-screen, the head unit will change the display to the new layout type. See available menu layouts on DisplayCapabilities.menuLayoutsAvailable. Defaults to the head unit default.

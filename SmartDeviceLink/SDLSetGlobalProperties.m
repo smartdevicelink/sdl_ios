@@ -11,6 +11,7 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLSeatLocation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -109,6 +110,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLKeyboardProperties *)keyboardProperties {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameKeyboardProperties ofClass:SDLKeyboardProperties.class error:nil];
+}
+
+- (void)setUserLocation:(nullable SDLSeatLocation *)userLocation {
+    [self.parameters sdl_setObject:userLocation forName:SDLRPCParameterNameUserLocation];
+}
+
+- (nullable SDLSeatLocation *)userLocation {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameUserLocation ofClass:SDLSeatLocation.class error:nil];
 }
 
 - (void)setMenuLayout:(nullable SDLMenuLayout)menuLayout {

@@ -45,6 +45,14 @@
     return [self.store sdl_enumsForName:SDLRPCParameterNameImageTypeSupported error:nil];
 }
 
+- (void)setTemplatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable {
+    [self.store sdl_setObject:templatesAvailable forName:SDLRPCParameterNameTemplatesAvailable];
+}
+
+- (nullable NSArray<NSString *> *)templatesAvailable {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameTemplatesAvailable ofClass:NSString.class error:nil];
+}
+
 - (void)setNumCustomPresetsAvailable:(nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
     [self.store sdl_setObject:numCustomPresetsAvailable forName:SDLRPCParameterNameNumberCustomPresetsAvailable];
 }

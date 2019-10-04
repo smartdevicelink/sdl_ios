@@ -31,7 +31,8 @@ describe(@"Test encoding data", ^{
         });
 
         it(@"should create the correct data", ^{
-            expect(testPayload.data.description).to(equal(@"<55000000 126d7475 00f40a13 00000000 00027669 64656f50 726f746f 636f6c00 04000000 52415700 10776964 74680024 00000002 76696465 6f436f64 65630005 00000048 32363400 10686569 67687400 56170000 00>"));
+            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
+            expect(base64Encoded).to(equal(@"VQAAABJtdHUA9AoTAAAAAAACdmlkZW9Qcm90b2NvbAAEAAAAUkFXABB3aWR0aAAkAAAAAnZpZGVvQ29kZWMABQAAAEgyNjQAEGhlaWdodABWFwAAAA=="));
         });
     });
 

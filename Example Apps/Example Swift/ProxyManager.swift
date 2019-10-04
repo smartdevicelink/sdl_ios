@@ -271,16 +271,14 @@ private extension ProxyManager {
         screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
-        if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            // Primary graphic
-            if imageFieldSupported(imageFieldName: .graphic) {
-                screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
-            }
-
-            // Secondary graphic
-            if imageFieldSupported(imageFieldName: .secondaryGraphic) {
-                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
-            }
+        // Primary graphic
+        if imageFieldSupported(imageFieldName: .graphic) {
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+        }
+        
+        // Secondary graphic
+        if imageFieldSupported(imageFieldName: .secondaryGraphic) {
+            screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
@@ -305,6 +303,6 @@ private extension ProxyManager {
     /// - Parameter imageFieldName: The name for the image field
     /// - Returns:                  True if the image field is supported, false if not
     func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
-        return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
+        return sdlManager.systemCapabilityManager.defaultMainWindowCapability?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }
 }

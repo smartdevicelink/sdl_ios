@@ -13,12 +13,13 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLCreateInteractionChoiceSetResponse.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLDisplayType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
-@property (strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -43,13 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName defaultMainWindowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
-    _displayCapabilities = displayCapabilities;
+    _displayName = displayName;
+    _defaultMainWindowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
     _cellsToUpload = [cells mutableCopy];
     _operationId = [NSUUID UUID];
@@ -61,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
         self.internalError = error;
@@ -83,11 +87,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]
+        if ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]
             && [self sdl_artworkNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
+        if ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
             && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
@@ -163,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *menuName = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if ([self.displayCapabilities.displayType isEqualToEnum:SDLDisplayTypeGen38Inch] || [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+    if ([self.displayName isEqualToString:SDLDisplayTypeGen38Inch] || [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName]) {
         menuName = cell.text;
     }
 #pragma clang diagnostic pop
@@ -173,11 +177,11 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
-    NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
+    NSString *secondaryText = [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
+    NSString *tertiaryText = [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
 
-    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? cell.artwork.imageRPC : nil;
-    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? cell.secondaryArtwork.imageRPC : nil;
+    SDLImage *image = ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? cell.artwork.imageRPC : nil;
+    SDLImage *secondaryImage = ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 

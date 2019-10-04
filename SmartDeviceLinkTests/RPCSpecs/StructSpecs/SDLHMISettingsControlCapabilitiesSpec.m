@@ -15,33 +15,83 @@
 QuickSpecBegin(SDLHMISettingsControlCapabilitiesSpec)
 
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLModuleInfo *testModuleInfo = nil;
+    __block SDLGrid *testGird = nil;
+    
+    beforeEach(^{
+        testGird.col = @0;
+        testGird.row = @0;
+        testGird.level = @0;
+        testGird.rowspan = @2;
+        testGird.colspan = @3;
+        testGird.levelspan = @1;
+        testModuleInfo = [[SDLModuleInfo alloc] init];
+        testModuleInfo.moduleId = @"123";
+        testModuleInfo.allowMultipleAccess = @YES;
+        testModuleInfo.serviceArea = testGird;
+        testModuleInfo.location = testGird;
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] init];
 
         testStruct.moduleName = @"displayMode";
+        testStruct.moduleInfo = testModuleInfo;
         testStruct.distanceUnitAvailable = @(NO);
         testStruct.temperatureUnitAvailable = @(NO);
         testStruct.displayModeUnitAvailable = @(YES);
 
         expect(testStruct.moduleName).to(equal(@"displayMode"));
+        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(equal(@(NO)));
         expect(testStruct.temperatureUnitAvailable).to(equal(@(NO)));
         expect(testStruct.displayModeUnitAvailable).to(equal(@(YES)));
     });
 
     it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode"];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"displayMode"));
+        expect(testStruct.moduleInfo).to(beNil());
+        expect(testStruct.distanceUnitAvailable).to(beNil());
+        expect(testStruct.temperatureUnitAvailable).to(beNil());
+        expect(testStruct.displayModeUnitAvailable).to(beNil());
+    });
+    
+    it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" moduleInfo:testModuleInfo];
+#pragma clang diagnostic pop
+        
+        expect(testStruct.moduleName).to(equal(@"displayMode"));
+        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(beNil());
         expect(testStruct.temperatureUnitAvailable).to(beNil());
         expect(testStruct.displayModeUnitAvailable).to(beNil());
     });
 
     it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" distanceUnitAvailable:NO temperatureUnitAvailable:YES displayModeUnitAvailable:NO];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"displayMode"));
+        expect(testStruct.moduleInfo).to(beNil());
+        expect(testStruct.distanceUnitAvailable).to(equal(@(NO)));
+        expect(testStruct.temperatureUnitAvailable).to(equal(@(YES)));
+        expect(testStruct.displayModeUnitAvailable).to(equal(@(NO)));
+    });
+    
+    it(@"Should set and get correctly", ^ {
+        SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" moduleInfo:testModuleInfo distanceUnitAvailable:NO temperatureUnitAvailable:YES displayModeUnitAvailable:NO];
+        
+        expect(testStruct.moduleName).to(equal(@"displayMode"));
+        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(equal(@(NO)));
         expect(testStruct.temperatureUnitAvailable).to(equal(@(YES)));
         expect(testStruct.displayModeUnitAvailable).to(equal(@(NO)));
@@ -49,6 +99,7 @@ describe(@"Getter/Setter Tests", ^ {
 
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"temperatureUnit",
+                                       SDLRPCParameterNameModuleInfo:testModuleInfo,
                                        SDLRPCParameterNameTemperatureUnitAvailable:@(YES),
                                        SDLRPCParameterNameDistanceUnitAvailable:@(YES),
                                        SDLRPCParameterNameDisplayModeUnitAvailable:@(NO)
@@ -59,6 +110,7 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"temperatureUnit"));
+        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(equal(@(YES)));
         expect(testStruct.temperatureUnitAvailable).to(equal(@(YES)));
         expect(testStruct.displayModeUnitAvailable).to(equal(@(NO)));
@@ -69,6 +121,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] init];
 
         expect(testStruct.moduleName).to(beNil());
+        expect(testStruct.moduleInfo).to(beNil());
         expect(testStruct.distanceUnitAvailable).to(beNil());
         expect(testStruct.temperatureUnitAvailable).to(beNil());
         expect(testStruct.displayModeUnitAvailable).to(beNil());

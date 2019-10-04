@@ -17,6 +17,9 @@ describe(@"SDLHMICapabilities struct", ^{
     __block NSNumber *somePhoneCallState = @NO;
     __block NSNumber *someNavigationState = @YES;
     __block NSNumber *someVideoStreamState = @NO;
+    __block NSNumber *someRemoteControlState = @YES;
+    __block NSNumber *someAppServicesState = @YES;
+         
     
     context(@"When initialized with properties", ^{
         beforeEach(^{
@@ -24,18 +27,16 @@ describe(@"SDLHMICapabilities struct", ^{
             testStruct.phoneCall = somePhoneCallState;
             testStruct.navigation = someNavigationState;
             testStruct.videoStreaming = someVideoStreamState;
+            testStruct.remoteControl = someRemoteControlState;
+            testStruct.appServices = someAppServicesState;
         });
         
-        it(@"should properly set phone call", ^{
+        it(@"should properly set properties", ^{
             expect(testStruct.phoneCall).to(equal(somePhoneCallState));
-        });
-        
-        it(@"should properly set navigation", ^{
             expect(testStruct.navigation).to(equal(someNavigationState));
-        });
-
-        it(@"should properly set video streaming", ^{
             expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
+            expect(testStruct.remoteControl).to(equal(someRemoteControlState));
+            expect(testStruct.appServices).to(equal(someAppServicesState));
         });
     });
     
@@ -44,7 +45,9 @@ describe(@"SDLHMICapabilities struct", ^{
             NSDictionary<NSString *, NSNumber *> *structInitDict = @{
                                              SDLRPCParameterNameNavigation: someNavigationState,
                                              SDLRPCParameterNamePhoneCall: somePhoneCallState,
-                                             SDLRPCParameterNameVideoStreaming: someVideoStreamState
+                                             SDLRPCParameterNameVideoStreaming: someVideoStreamState,
+                                             SDLRPCParameterNameRemoteControl: someRemoteControlState,
+                                             SDLRPCParameterNameAppServices: someAppServicesState
                                              };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -52,16 +55,12 @@ describe(@"SDLHMICapabilities struct", ^{
 #pragma clang diagnostic pop
         });
         
-        it(@"should properly set phone call", ^{
+        it(@"should properly set properties", ^{
             expect(testStruct.phoneCall).to(equal(somePhoneCallState));
-        });
-        
-        it(@"should properly set navigation", ^{
             expect(testStruct.navigation).to(equal(someNavigationState));
-        });
-
-        it(@"should properly set video streaming", ^{
             expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
+            expect(testStruct.remoteControl).to(equal(someRemoteControlState));
+            expect(testStruct.appServices).to(equal(someAppServicesState));
         });
     });
     
@@ -70,16 +69,12 @@ describe(@"SDLHMICapabilities struct", ^{
             testStruct = nil;
         });
         
-        it(@"phoneCall should be nil", ^{
+        it(@"properties should be nil", ^{
             expect(testStruct.phoneCall).to(beNil());
-        });
-        
-        it(@"navigation should be nil", ^{
             expect(testStruct.navigation).to(beNil());
-        });
-
-        it(@"video streaming should be nil", ^{
             expect(testStruct.videoStreaming).to(beNil());
+            expect(testStruct.remoteControl).to(beNil());
+            expect(testStruct.appServices).to(beNil());
         });
     });
 });

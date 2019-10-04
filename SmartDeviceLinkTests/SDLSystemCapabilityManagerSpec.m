@@ -8,15 +8,19 @@
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapability.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLHMICapabilities.h"
+#import "SDLImageField.h"
+#import "SDLImageResolution.h"
 #import "SDLMediaServiceManifest.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRemoteControlCapabilities.h"
@@ -27,7 +31,10 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTextField.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowTypeCapabilities.h"
 #import "TestConnectionManager.h"
 #import "TestSystemCapabilityObserver.h"
 
@@ -45,17 +52,81 @@ describe(@"System capability manager", ^{
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
 
+    __block NSArray<SDLDisplayCapability *> *testDisplayCapabilityList = nil;
+    __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+    __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
+    __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
+    __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
+    
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
+        
+        testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+        testDisplayCapabilities.graphicSupported = @NO;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        testDisplayCapabilities.displayType = SDLDisplayTypeGeneric;
+        testDisplayCapabilities.displayName = SDLDisplayTypeGeneric;
+#pragma clang diagnostic pop
+        SDLTextField *textField = [[SDLTextField alloc] init];
+        textField.name = SDLTextFieldNameMainField1;
+        textField.characterSet = SDLCharacterSetCID1;
+        textField.width = @(123);
+        textField.rows = @(1);
+        testDisplayCapabilities.textFields = @[textField];
+        SDLImageField *imageField = [[SDLImageField alloc] init];
+        imageField.name = SDLImageFieldNameAppIcon;
+        imageField.imageTypeSupported = @[SDLFileTypePNG];
+        imageField.imageResolution = [[SDLImageResolution alloc] initWithWidth:42 height:4711];
+        testDisplayCapabilities.imageFields = @[imageField];
+        testDisplayCapabilities.mediaClockFormats = @[];
+        testDisplayCapabilities.templatesAvailable = @[@"DEFAULT", @"MEDIA"];
+        testDisplayCapabilities.numCustomPresetsAvailable = @(8);
+
+        SDLSoftButtonCapabilities *softButtonCapability = [[SDLSoftButtonCapabilities alloc] init];
+        softButtonCapability.shortPressAvailable = @YES;
+        softButtonCapability.longPressAvailable = @NO;
+        softButtonCapability.upDownAvailable = @NO;
+        softButtonCapability.imageSupported = @YES;
+        testSoftButtonCapabilities = @[softButtonCapability];
+        
+        SDLButtonCapabilities *buttonCapabilities = [[SDLButtonCapabilities alloc] init];
+        buttonCapabilities.name = SDLButtonNameOk;
+        buttonCapabilities.shortPressAvailable = @YES;
+        buttonCapabilities.longPressAvailable = @YES;
+        buttonCapabilities.upDownAvailable = @YES;
+        testButtonCapabilities = @[buttonCapabilities];
+        
+        testPresetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
+        testPresetBankCapabilities.onScreenPresetsAvailable = @NO;
+
+        SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
+        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayCapabilities.displayName];
+        displayCapability.windowTypeSupported = @[windowTypeCapabilities];
+        SDLWindowCapability *defaultWindowCapability = [[SDLWindowCapability alloc] init];
+        defaultWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+        defaultWindowCapability.buttonCapabilities = testButtonCapabilities.copy;
+        defaultWindowCapability.softButtonCapabilities = testSoftButtonCapabilities.copy;
+        defaultWindowCapability.templatesAvailable = testDisplayCapabilities.templatesAvailable.copy;
+        defaultWindowCapability.numCustomPresetsAvailable = testDisplayCapabilities.numCustomPresetsAvailable.copy;
+        defaultWindowCapability.textFields = testDisplayCapabilities.textFields.copy;
+        defaultWindowCapability.imageFields = testDisplayCapabilities.imageFields.copy;
+        defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
+        displayCapability.windowCapabilities = @[defaultWindowCapability];
+        testDisplayCapabilityList = @[displayCapability];
     });
 
     it(@"should initialize the system capability manager properties correctly", ^{
-        expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.displays).to(beNil());
         expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
         expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
         expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
         expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
         expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
         expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
         expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
@@ -67,15 +138,13 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
+
     });
 
     context(@"When notified of a register app interface response", ^{
         __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
-        __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
         __block SDLHMICapabilities *testHMICapabilities = nil;
-        __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
-        __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
-        __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
         __block NSArray<SDLHMIZoneCapabilities> *testHMIZoneCapabilities = nil;
         __block NSArray<SDLSpeechCapabilities> *testSpeechCapabilities = nil;
         __block NSArray<SDLPrerecordedSpeech> *testPrerecordedSpeechCapabilities = nil;
@@ -84,30 +153,10 @@ describe(@"System capability manager", ^{
         __block SDLAudioPassThruCapabilities *testPCMStreamCapability = nil;
 
         beforeEach(^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            testDisplayCapabilities.graphicSupported = @NO;
-
             testHMICapabilities = [[SDLHMICapabilities alloc] init];
             testHMICapabilities.navigation = @NO;
             testHMICapabilities.phoneCall = @YES;
             testHMICapabilities.videoStreaming = @YES;
-
-            SDLSoftButtonCapabilities *softButtonCapability = [[SDLSoftButtonCapabilities alloc] init];
-            softButtonCapability.shortPressAvailable = @YES;
-            softButtonCapability.longPressAvailable = @NO;
-            softButtonCapability.upDownAvailable = @NO;
-            softButtonCapability.imageSupported = @YES;
-            testSoftButtonCapabilities = @[softButtonCapability];
-
-            SDLButtonCapabilities *buttonCapabilities = [[SDLButtonCapabilities alloc] init];
-            buttonCapabilities.name = SDLButtonNameOk;
-            buttonCapabilities.shortPressAvailable = @YES;
-            buttonCapabilities.longPressAvailable = @YES;
-            buttonCapabilities.upDownAvailable = @YES;
-            testButtonCapabilities = @[buttonCapabilities];
-
-            testPresetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
-            testPresetBankCapabilities.onScreenPresetsAvailable = @NO;
 
             testHMIZoneCapabilities = @[SDLHMIZoneCapabilitiesFront, SDLHMIZoneCapabilitiesBack];
             testSpeechCapabilities = @[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesSilence];
@@ -146,11 +195,15 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should not save any of the RAIR capabilities", ^{
-                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.displays).to(beNil());
                 expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
                 expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
@@ -168,11 +221,15 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should should save the RAIR capabilities", ^{
-                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
                 expect(testSystemCapabilityManager.hmiCapabilities).to(equal(testHMICapabilities));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
                 expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+#pragma clang diagnostic pop
                 expect(testSystemCapabilityManager.hmiZoneCapabilities).to(equal(testHMIZoneCapabilities));
                 expect(testSystemCapabilityManager.speechCapabilities).to(equal(testSpeechCapabilities));
                 expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(equal(testPrerecordedSpeechCapabilities));
@@ -194,32 +251,8 @@ describe(@"System capability manager", ^{
 
     context(@"When notified of a SetDisplayLayout Response", ^ {
         __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
-        __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
-        __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
-        __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
-        __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
 
         beforeEach(^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            testDisplayCapabilities.graphicSupported = @NO;
-
-            SDLSoftButtonCapabilities *softButtonCapability = [[SDLSoftButtonCapabilities alloc] init];
-            softButtonCapability.shortPressAvailable = @NO;
-            softButtonCapability.longPressAvailable = @NO;
-            softButtonCapability.upDownAvailable = @NO;
-            softButtonCapability.imageSupported = @NO;
-            testSoftButtonCapabilities = @[softButtonCapability];
-
-            SDLButtonCapabilities *buttonCapabilities = [[SDLButtonCapabilities alloc] init];
-            buttonCapabilities.name = SDLButtonNameOk;
-            buttonCapabilities.shortPressAvailable = @NO;
-            buttonCapabilities.longPressAvailable = @NO;
-            buttonCapabilities.upDownAvailable = @NO;
-            testButtonCapabilities = @[buttonCapabilities];
-
-            testPresetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
-            testPresetBankCapabilities.onScreenPresetsAvailable = @NO;
-
             testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
             testSetDisplayLayoutResponse.buttonCapabilities = testButtonCapabilities;
@@ -235,10 +268,14 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should not save any capabilities", ^{
+                expect(testSystemCapabilityManager.displays).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                 expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
             });
         });
 
@@ -250,10 +287,14 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should should save the capabilities", ^{
+                expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                 expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
                 expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+#pragma clang diagnostic pop
             });
         });
 
@@ -271,6 +312,46 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
             expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+        });
+    });
+    
+    context(@"when updating display capabilities with OnSystemCapabilityUpdated", ^{
+        it(@"should properly update display capability including conversion two times", ^{
+            // two times because capabilities are just saved in first run but merged/updated in subsequent runs
+            for (int i = 0; i < 2; i++) {
+                testDisplayCapabilities.displayName = [NSString stringWithFormat:@"Display %i", i];
+                testDisplayCapabilities.graphicSupported = i == 0 ? @(NO) : @(YES);
+                testDisplayCapabilities.templatesAvailable = @[[NSString stringWithFormat:@"Template %i", i]];
+                
+                SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayCapabilities.displayName];
+                displayCapability.windowTypeSupported = @[windowTypeCapabilities];
+                SDLWindowCapability *defaultWindowCapability = [[SDLWindowCapability alloc] init];
+                defaultWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+                defaultWindowCapability.buttonCapabilities = testButtonCapabilities.copy;
+                defaultWindowCapability.softButtonCapabilities = testSoftButtonCapabilities.copy;
+                defaultWindowCapability.templatesAvailable = testDisplayCapabilities.templatesAvailable.copy;
+                defaultWindowCapability.numCustomPresetsAvailable = testDisplayCapabilities.numCustomPresetsAvailable.copy;
+                defaultWindowCapability.textFields = testDisplayCapabilities.textFields.copy;
+                defaultWindowCapability.imageFields = testDisplayCapabilities.imageFields.copy;
+                defaultWindowCapability.imageTypeSupported = testDisplayCapabilities.graphicSupported.boolValue ? @[SDLImageTypeStatic, SDLImageTypeDynamic] : @[SDLImageTypeStatic];
+                displayCapability.windowCapabilities = @[defaultWindowCapability];
+                NSArray<SDLDisplayCapability *> *newDisplayCapabilityList = testDisplayCapabilityList = @[displayCapability];
+                
+                SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:newDisplayCapabilityList];
+                SDLOnSystemCapabilityUpdated *testUpdateNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:testUpdateNotification];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                
+                expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
+            }
         });
     });
 
@@ -332,11 +413,15 @@ describe(@"System capability manager", ^{
 
         afterEach(^{
             // Make sure the RAIR properties and other system capabilities were not inadverdently set
-            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.displays).to(beNil());
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
             expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
             expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
             expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
             expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
             expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
             expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
@@ -549,7 +634,7 @@ describe(@"System capability manager", ^{
         });
 
         it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(5));
+            expect(testConnectionManager.receivedRequests).to(haveCount(7));
             expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
         });
     });
@@ -560,11 +645,15 @@ describe(@"System capability manager", ^{
         });
 
         it(@"It should reset the system capability manager properties correctly", ^{
-            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.displays).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
             expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
             expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
             expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+#pragma clang diagnostic pop
             expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
             expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
             expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
@@ -576,6 +665,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
             expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
         });
     });
 });

@@ -20,7 +20,8 @@ describe(@"Test encoding data", ^{
         });
 
         it(@"should create the correct data", ^{
-            expect(testPayload.data.description).to(equal(@"<11000000 10686173 68496400 fd41b008 00>"));
+            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
+            expect(base64Encoded).to(equal(@"EQAAABBoYXNoSWQA/UGwCAA="));
         });
     });
 

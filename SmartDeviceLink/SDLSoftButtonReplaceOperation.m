@@ -10,7 +10,6 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
 #import "SDLShow.h"
@@ -49,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     // Check the state of our images
     if (![self sdl_supportsSoftButtonImages]) {

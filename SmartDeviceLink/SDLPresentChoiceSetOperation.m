@@ -8,10 +8,12 @@
 
 #import "SDLPresentChoiceSetOperation.h"
 
+#import "SDLCancelInteraction.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -21,12 +23,20 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+
+@end
+
+@interface SDLChoiceSet()
+
+@property (copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
+
 
 @end
 
@@ -43,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 @property (strong, nonatomic, readonly) SDLLayoutMode layoutMode;
 @property (strong, nonatomic, readonly) NSArray<NSNumber<SDLInt> *> *choiceIds;
+@property (assign, nonatomic) UInt16 cancelId;
 @property (assign, nonatomic) BOOL updatedKeyboardProperties;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -54,18 +65,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
     self = [super init];
     if (!self) { return self; }
 
     _connectionManager = connectionManager;
     _choiceSet = choiceSet;
+
+    __weak typeof(self) weakSelf = self;
+    self.choiceSet.canceledHandler = ^{
+        [weakSelf sdl_cancelInteraction];
+    };
+
     _presentationMode = mode;
     _operationId = [NSUUID UUID];
 
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
+    _cancelId = cancelID;
 
     _selectedCellRow = NSNotFound;
 
@@ -74,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
@@ -157,6 +176,41 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.
+ */
+- (void)sdl_cancelInteraction {
+    if (self.isFinished) {
+        SDLLogW(@"This operation has already finished so it can not be canceled.");
+        return;
+    } else if (self.isCancelled) {
+        SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
+        return;
+    } else if (self.isExecuting) {
+        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogE(@"Canceling a choice set is not supported on this head unit");
+            return;
+        }
+
+        SDLLogD(@"Canceling the presented choice set interaction");
+
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
+
+        __weak typeof(self) weakSelf = self;
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                weakSelf.internalError = error;
+                SDLLogE(@"Error canceling the presented choice set: %@, with error: %@", request, error);
+                return;
+            }
+            SDLLogD(@"The presented choice set was canceled successfully");
+        }];
+    } else {
+        SDLLogD(@"Canceling a choice set that has not yet been sent to Core");
+        [self cancel];
+    }
+}
+
 #pragma mark - Getters
 
 - (SDLPerformInteraction *)performInteraction {
@@ -170,6 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.timeout = @((NSUInteger)(self.choiceSet.timeout * 1000));
     performInteraction.interactionLayout = self.layoutMode;
     performInteraction.interactionChoiceSetIDList = self.choiceIds;
+    performInteraction.cancelID = @(self.cancelId);
 
     return performInteraction;
 }
