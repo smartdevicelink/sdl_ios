@@ -602,19 +602,16 @@ describe(@"the streaming video manager", ^{
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                         expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(equal(@YES));
                     });
-                    
                     context(@"If no preferred resolutions were set in the data source", ^{
                         beforeEach(^{
                             streamingLifecycleManager.dataSource = nil;
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
-                        
                         it(@"should not replace the existing screen resolution", ^{
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                             expect(streamingLifecycleManager.dataSource).to(beNil());
                         });
                     });
-                    
                     context(@"If the preferred resolution was set in the data source", ^{
                         __block SDLImageResolution *preferredResolutionLow = nil;
                         __block SDLImageResolution *preferredResolutionHigh = nil;
@@ -627,7 +624,6 @@ describe(@"the streaming video manager", ^{
                             
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
-                        
                         it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat))).to(beTrue());

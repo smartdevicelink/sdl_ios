@@ -97,7 +97,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
-
 @property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
@@ -108,7 +107,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     if (!(self = [super init])) {
         return nil;
     }
-    
     _hitTester = hitTester;
     _videoScaleManager = [SDLStreamingVideoScaleManager defaultConfiguration];
     _scale = _videoScaleManager.scale;

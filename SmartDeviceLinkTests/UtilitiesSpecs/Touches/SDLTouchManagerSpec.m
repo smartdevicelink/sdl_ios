@@ -317,17 +317,13 @@ describe(@"SDLTouchManager Tests", ^{
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
                         [invocation getArgument:&point atIndex:4];
-                        
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
                     };
-                    
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
-                    
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
-                    
                     expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
                     
                     expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));

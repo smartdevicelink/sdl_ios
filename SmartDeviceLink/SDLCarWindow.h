@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Initialize the CarWindow automatic streamer.
- 
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
  @param configuration The streaming media configuration
  @return An instance of this class
