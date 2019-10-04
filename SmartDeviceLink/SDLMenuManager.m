@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuManager()
 
+// Dependencies
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
@@ -118,15 +119,17 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Setters
 
 - (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
+    NSArray<SDLMenuLayout> *layoutsAvailable = self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable;
+
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
         return;
-    } else if (self.displayCapabilities.menuLayoutsAvailable == nil) {
+    } else if (layoutsAvailable == nil) {
         SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
         return;
-    } else if (![self.displayCapabilities.menuLayoutsAvailable containsObject:menuConfiguration.mainMenuLayout]
-              || ![self.displayCapabilities.menuLayoutsAvailable containsObject:menuConfiguration.defaultSubmenuLayout]) {
-        SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", self.displayCapabilities.menuLayoutsAvailable, menuConfiguration);
+    } else if (![layoutsAvailable containsObject:menuConfiguration.mainMenuLayout]
+              || ![layoutsAvailable containsObject:menuConfiguration.defaultSubmenuLayout]) {
+        SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", layoutsAvailable, menuConfiguration);
         return;
     } else if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
@@ -600,7 +603,7 @@ UInt32 const MenuCellIdMin = 1;
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
-    if (cell.submenuLayout && [self.displayCapabilities.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
+    if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
         submenuLayout = cell.submenuLayout;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
