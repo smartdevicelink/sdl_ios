@@ -602,7 +602,6 @@ describe(@"the streaming video manager", ^{
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                         expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(equal(@YES));
                     });
-                    
                     context(@"If no preferred resolutions were set in the data source", ^{
                         beforeEach(^{
                             streamingLifecycleManager.dataSource = nil;
