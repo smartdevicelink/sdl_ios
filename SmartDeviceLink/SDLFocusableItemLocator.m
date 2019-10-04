@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
-        hapticRect = [self.videoScaleManager scaleHapticRect:hapticRect.copy];
+        hapticRect = [self.videoScaleManager scaleHapticRect:hapticRect];
 
         [hapticRects addObject:hapticRect];
     }
