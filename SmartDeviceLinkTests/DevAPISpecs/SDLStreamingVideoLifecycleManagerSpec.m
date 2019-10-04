@@ -608,7 +608,6 @@ describe(@"the streaming video manager", ^{
                             streamingLifecycleManager.dataSource = nil;
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
-                        
                         it(@"should not replace the existing screen resolution", ^{
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(beTrue());
                             expect(streamingLifecycleManager.dataSource).to(beNil());
