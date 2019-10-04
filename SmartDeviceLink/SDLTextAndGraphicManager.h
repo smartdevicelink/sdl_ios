@@ -14,6 +14,7 @@
 @class SDLArtwork;
 @class SDLFileManager;
 @class SDLTextAndGraphicConfiguration;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLConnectionManagerType;
 
@@ -62,7 +63,10 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 
  @return A new SDLTextAndImageManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
+
+/// Starts the manager. This method is used internally.
+- (void)start;
 
 /**
  *  Stops the manager. This method is used internally.

@@ -67,6 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability;
 
 /**
+ Convenience init for DisplayCapability list
+ 
+ @param capabilities    Contains capabilities related to a physical screen and any associated windows
+ @return                A SDLSystemCapability object
+ */
+- (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities;
+
+/**
  *  Convenience init for a Remote Control Capability
  *
  *  @param capability   Describes information about the locations of each seat
