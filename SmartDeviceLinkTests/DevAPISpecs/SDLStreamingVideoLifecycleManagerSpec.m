@@ -614,7 +614,6 @@ describe(@"the streaming video manager", ^{
                             expect(streamingLifecycleManager.dataSource).to(beNil());
                         });
                     });
-                    
                     context(@"If the preferred resolution was set in the data source", ^{
                         __block SDLImageResolution *preferredResolutionLow = nil;
                         __block SDLImageResolution *preferredResolutionHigh = nil;
