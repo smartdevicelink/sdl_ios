@@ -317,7 +317,6 @@ describe(@"SDLTouchManager Tests", ^{
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
                         [invocation getArgument:&point atIndex:4];
-                        
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
                     };
