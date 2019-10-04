@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convenience init for creating the manager with a scale and connected display viewport resolution.
 
- @param scale The scale factor value to scale coordinates from one coordinate space to another
- @param screenSize The current screen size of the connected display
+ @param scale The scaling factor the app should use to change the size of the projecting view
+ @param displayViewportResolution The current screen resolution of the connected display
  @return A SDLStreamingVideoScaleManager object
 */
 - (instancetype)initWithScale:(float)scale displayViewportResolution:(CGSize)displayViewportResolution;

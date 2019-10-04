@@ -5,6 +5,8 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 #import "SDLFocusableItemLocatorType.h"
 #import "SDLFocusableItemHitTester.h"
 

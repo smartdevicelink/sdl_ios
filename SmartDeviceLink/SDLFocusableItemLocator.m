@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
         [hapticRects addObject:hapticRect];
     }
 
-    SDLLogE(@"Sending haptic data: %@", hapticRects);
+    SDLLogV(@"Sending haptic rectangles: %@", hapticRects);
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }

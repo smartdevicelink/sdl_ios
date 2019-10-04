@@ -465,7 +465,7 @@ describe(@"the haptic manager", ^{
          context(@"When updated with a scale value greater than 1.0", ^{
              beforeEach(^{
                  testUpdatedScale = 1.25;
-                 SDLStreamingVideoScaleManager *testVideoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testUpdatedScale screenSize:testScreenSize];
+                 SDLStreamingVideoScaleManager *testVideoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testUpdatedScale displayViewportResolution:testScreenSize];
                  OCMStub([sdlStreamingVideoLifecycleManager videoScaleManager]).andReturn(testVideoScaleManager);
                  [hapticManager updateInterfaceLayout];
              });
@@ -489,7 +489,7 @@ describe(@"the haptic manager", ^{
          context(@"When updated with a scale value less than 1.0", ^{
              beforeEach(^{
                  testUpdatedScale = 0.4;
-                 SDLStreamingVideoScaleManager *testVideoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testUpdatedScale screenSize:testScreenSize];
+                 SDLStreamingVideoScaleManager *testVideoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testUpdatedScale displayViewportResolution:testScreenSize];
                  OCMStub([sdlStreamingVideoLifecycleManager videoScaleManager]).andReturn(testVideoScaleManager);
                  [hapticManager updateInterfaceLayout];
              });
