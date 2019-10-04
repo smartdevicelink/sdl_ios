@@ -24,38 +24,38 @@ describe(@"the streaming video scale manager", ^{
     __block CGSize testScreenSize = CGSizeMake(200, 400);
 
     it(@"should properly init a default configuration", ^{
-        videoScaleManager = [SDLStreamingVideoScaleManager defaultConfiguration];
+        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
 
         expect(@(videoScaleManager.scale)).to(equal(1.0));
-        expect(CGSizeEqualToSize(videoScaleManager.screenSize, CGSizeZero)).to(beTrue());
+        expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, CGSizeZero)).to(beTrue());
     });
 
     it(@"should properly init a default configuration", ^{
-        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:@(testScale) screenSize:testScreenSize];
+        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale screenSize:testScreenSize];
 
         expect(@(videoScaleManager.scale)).to(equal(testScale));
-        expect(CGSizeEqualToSize(videoScaleManager.screenSize, testScreenSize)).to(beTrue());
+        expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, testScreenSize)).to(beTrue());
     });
 
     context(@"test scaling a frame", ^{
          it(@"should scale the frame correctly with a scale > 1", ^{
              videoScaleManager.scale = 1.25;
              CGRect expectedRect = CGRectMake(0, 0, 160, 320);
-             CGRect testRect = videoScaleManager.screenFrame;
+             CGRect testRect = videoScaleManager.appViewportFrame;
              expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
          });
 
         it(@"should not scale the frame with a scale < 1", ^{
             videoScaleManager.scale = 0.3;
             CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
-            CGRect testRect = videoScaleManager.screenFrame;
+            CGRect testRect = videoScaleManager.appViewportFrame;
             expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
         });
 
         it(@"should not scale the frame with a scale = 1", ^{
             videoScaleManager.scale = 0.3;
             CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
-            CGRect testRect = videoScaleManager.screenFrame;
+            CGRect testRect = videoScaleManager.appViewportFrame;
             expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
         });
     });

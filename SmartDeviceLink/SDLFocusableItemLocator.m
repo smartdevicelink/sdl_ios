@@ -16,6 +16,7 @@
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
+#import "SDLCarWindow.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,23 +26,23 @@ NS_ASSUME_NONNULL_BEGIN
  Array of focusable view objects extracted from the projection window
  */
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
-
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLStreamingVideoLifecycleManager *streamManager;
 
 @end
 
-
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager streamManager:(SDLStreamingVideoLifecycleManager *)streamManager {
     self = [super init];
     if(!self) {
         return nil;
     }
 
-    _viewController = viewController;
+    _viewController = streamManager.carWindow.rootViewController;
     _connectionManager = connectionManager;
-    _videoScaleManager = videoScaleManager;
+    _streamManager = streamManager;
+
     _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
 
@@ -49,9 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateInterfaceLayout {
-    // Adjust the root view controller frame
-    self.viewController.view.frame = self.videoScaleManager.screenFrame;
-    self.viewController.view.bounds = self.viewController.view.frame;
+    self.viewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
 
     if (@available(iOS 9.0, *)) {
         self.focusableViews = [[NSMutableArray alloc] init];
@@ -120,11 +119,12 @@ NS_ASSUME_NONNULL_BEGIN
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
-        hapticRect = [self.videoScaleManager scaleHapticRect:hapticRect];
+        hapticRect = [self.streamManager.videoScaleManager scaleHapticRect:hapticRect];
 
         [hapticRects addObject:hapticRect];
     }
 
+    SDLLogE(@"Sending haptic data: %@", hapticRects);
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
@@ -157,10 +157,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param notification object with notification data
  */
 - (void)sdl_projectionViewUpdated:(NSNotification *)notification {
-    [self sdl_updateInterfaceLayout];
-}
-
-- (void)sdl_updateInterfaceLayout {
     if ([NSThread isMainThread]) {
         [self updateInterfaceLayout];
     } else {
@@ -168,19 +164,6 @@ NS_ASSUME_NONNULL_BEGIN
             [self updateInterfaceLayout];
         });
     }
-}
-
-#pragma mark - Setters
-
-/**
- Updates the interface layout when the scale or screen size changes.
-*/
-- (void)setVideoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
-    SDLStreamingVideoScaleManager *oldScaleManager = self.videoScaleManager;
-    _videoScaleManager = videoScaleManager;
-
-    if (oldScaleManager.scale == videoScaleManager.scale && CGSizeEqualToSize(oldScaleManager.screenSize, videoScaleManager.screenSize)) { return; }
-    [self sdl_updateInterfaceLayout];
 }
 
 @end

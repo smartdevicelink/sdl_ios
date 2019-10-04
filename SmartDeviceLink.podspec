@@ -366,6 +366,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
 'SmartDeviceLink/SDLStreamingMediaManagerDataSource.h',
+'SmartDeviceLink/SDLStreamingVideoScaleManager.h',
 'SmartDeviceLink/SDLSubscribeButton.h',
 'SmartDeviceLink/SDLSubscribeButtonResponse.h',
 'SmartDeviceLink/SDLSubscribeVehicleData.h',

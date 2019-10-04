@@ -13,32 +13,37 @@
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLHapticRect.h"
+#import "SDLNotificationConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingVideoScaleManager ()
 
-@property (assign, nonatomic, readwrite) CGRect screenFrame;
+@property (assign, nonatomic, readwrite) CGRect appViewportFrame;
 
 @end
 
 @implementation SDLStreamingVideoScaleManager
 
 const float DefaultScaleValue = 1.0;
-CGSize const SDLDefaultScreenSize = {0, 0};
+CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
-+ (instancetype)defaultConfiguration {
-    return [[self.class alloc] initWithScale:@(DefaultScaleValue) screenSize:SDLDefaultScreenSize];
+- (instancetype)init {
+    return [[self.class alloc] initWithScale:DefaultScaleValue screenSize:SDLDefaultDisplayViewportResolution];
 }
 
-- (instancetype)initWithScale:(nullable NSNumber *)scale screenSize:(CGSize)screenSize {
+- (void)stop {
+    self.displayViewportResolution = SDLDefaultDisplayViewportResolution;
+}
+
+- (instancetype)initWithScale:(float)scale screenSize:(CGSize)screenSize {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    _scale = [self.class validateScale:scale.floatValue];
-    _screenSize = screenSize;
+    _scale = [self.class validateScale:scale];
+    _displayViewportResolution = screenSize;
 
     return self;
 }
@@ -66,16 +71,19 @@ CGSize const SDLDefaultScreenSize = {0, 0};
 
 #pragma mark - Getters and Setters
 
-- (CGRect)screenFrame {
+- (CGRect)appViewportFrame {
     // Screen capture in the CarWindow API only works if the width and height are integer values
-    return CGRectMake(0,
-                      0,
-                      roundf((float)self.screenSize.width / self.scale),
-                      roundf((float)self.screenSize.height / self.scale));
+    return CGRectMake(0, 0, roundf((float)self.displayViewportResolution.width / self.scale), roundf((float)self.displayViewportResolution.height / self.scale));
 }
 
 - (void)setScale:(float)scale {
+    float oldScale = _scale;
     _scale = [self.class validateScale:scale];
+
+    if (oldScale == _scale) { return; }
+
+    // Force the projection view to send new, scaled, haptic data
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
 }
 
 #pragma mark - Helpers

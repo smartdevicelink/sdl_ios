@@ -21,37 +21,33 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLStreamingVideoScaleManager : NSObject
 
 /**
- The scale factor value to scale coordinates from one coordinate space to another.
+ The scaling factor the app should use to change the size of the projecting view.
  */
 @property (assign, nonatomic) float scale;
 
 /**
- The current screen size of the connected display
+ The current screen resolution of the connected display.
  */
-@property (assign, nonatomic) CGSize screenSize;
+@property (assign, nonatomic) CGSize displayViewportResolution;
 
 /**
- The scaled frame for the view being streamed to the connected display.
+ The frame of the app's projecting view. This is calculated by dividing the display's viewport resolution by the scale. The video encoder uses the app's viewport frame size to encode the raw image data.
 */
-@property (assign, nonatomic, readonly) CGRect screenFrame;
-
-- (instancetype)init NS_UNAVAILABLE;
+@property (assign, nonatomic, readonly) CGRect appViewportFrame;
 
 /**
  Creates a default streaming video scale manager.
-
- @return A default configuration that may be customized.
- */
-+ (instancetype)defaultConfiguration;
+*/
+- (instancetype)init;
 
 /**
- Convenience init for creating a scale manager with the scale and connected display screen size.
+ Convenience init for creating the manager with a scale and connected display viewport resolution.
 
  @param scale The scale factor value to scale coordinates from one coordinate space to another
  @param screenSize The current screen size of the connected display
  @return A SDLStreamingVideoScaleManager object
 */
-- (instancetype)initWithScale:(nullable NSNumber *)scale screenSize:(CGSize)screenSize;
+- (instancetype)initWithScale:(float)scale screenSize:(CGSize)screenSize;
 
 /**
  Scales the coordinates of the OnTouchEvent from the display's coordinate system to the view controller's coordinate system. If the scale value is less than 1.0, the touch events will be returned without being scaled.
@@ -68,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
  @return The position of the haptic rectangle in the display's coordinate system
 */
 - (SDLHapticRect *)scaleHapticRect:(SDLHapticRect *)hapticRect;
+
+/**
+ Stops the manager. This method is used internally.
+ */
+- (void)stop;
 
 @end
 

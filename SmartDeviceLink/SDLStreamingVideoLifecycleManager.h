@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Touch Manager responsible for providing touch event notifications.
  */
-@property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+@property (nonatomic, strong, readonly, nullable) SDLTouchManager *touchManager;
 @property (nonatomic, strong, nullable) UIViewController *rootViewController;
 @property (strong, nonatomic, readonly, nullable) SDLCarWindow *carWindow;
 
@@ -80,11 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Whether or not the video stream is paused due to either the application being backgrounded, the HMI state being either NONE or BACKGROUND, or the video stream not being ready.
  */
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
-
-/**
- This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
- */
-@property (assign, nonatomic, readonly) CGSize screenSize;
 
 /**
  Handles the logic of scaling between the view controller's coordinate system and the display's coordinate system

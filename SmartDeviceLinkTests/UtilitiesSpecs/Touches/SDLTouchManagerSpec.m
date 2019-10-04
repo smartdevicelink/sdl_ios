@@ -17,6 +17,7 @@
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManager.h"
@@ -33,6 +34,7 @@
 @property (nonatomic, assign) CGFloat previousPinchDistance;
 @property (nonatomic, strong, nullable) SDLPinchGesture *currentPinchGesture;
 @property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
+@property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
 
@@ -97,7 +99,8 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
-            expect(touchManager.scale).to(equal(1.0));
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero)).to(beTrue());
         });
     });
 
@@ -335,9 +338,9 @@ describe(@"SDLTouchManager Tests", ^{
                         [invocation getArgument:&point atIndex:4];
                         expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
                     };
-                    
-                    touchManager.scale = 1.5;
-                    
+
+                    touchManager.videoScaleManager.scale = 1.5;
+
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
                     
@@ -357,7 +360,7 @@ describe(@"SDLTouchManager Tests", ^{
                         expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
                     };
                     
-                    touchManager.scale = 0.75;
+                    touchManager.videoScaleManager.scale = 0.75;
                     
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);

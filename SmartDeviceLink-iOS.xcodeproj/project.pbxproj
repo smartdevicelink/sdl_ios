@@ -1422,7 +1422,7 @@
 		88C282CA220CD17200D02F90 /* SDLGetFileResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C282C9220CD17200D02F90 /* SDLGetFileResponseSpec.m */; };
 		88C37F632204EBF000901DC6 /* SDLAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88C37F612204EBF000901DC6 /* SDLAppServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88C37F642204EBF000901DC6 /* SDLAppServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C37F622204EBF000901DC6 /* SDLAppServiceData.m */; };
-		88CD43A3234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 88CD43A1234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h */; };
+		88CD43A3234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 88CD43A1234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88CD43A4234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CD43A2234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D3EBC92267949D00493C38 /* SDLIAPDataSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */; };
@@ -8399,6 +8399,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -8446,7 +8447,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};

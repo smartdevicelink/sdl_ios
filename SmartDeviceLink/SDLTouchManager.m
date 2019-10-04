@@ -97,6 +97,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
+/**
+ The scale manager that scales the touches received from the display screen coordinate system to the app's viewport coordinate system
+*/
 @property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
@@ -104,12 +107,15 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @implementation SDLTouchManager
 
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
+    return [self initWithHitTester:hitTester videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
+}
+
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
     if (!(self = [super init])) {
         return nil;
     }
     _hitTester = hitTester;
-    _videoScaleManager = [SDLStreamingVideoScaleManager defaultConfiguration];
-    _scale = _videoScaleManager.scale;
+    _videoScaleManager = videoScaleManager;
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
@@ -186,7 +192,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
-    onTouchEvent = [self.videoScaleManager scaleTouchEventCoordinates:onTouchEvent.copy];
+    onTouchEvent = [self.videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {
@@ -493,11 +499,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     [self.singleTapTimer invalidate];
     self.singleTapTimer = nil;
-}
-
-- (void)setScale:(float)scale {
-    _scale = scale;
-    _videoScaleManager.scale = scale;
 }
 
 @end
