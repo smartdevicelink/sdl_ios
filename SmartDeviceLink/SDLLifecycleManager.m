@@ -222,8 +222,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.backgroundTaskManager startBackgroundTask];
 
     // Start up the internal proxy object
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.secondaryTransportManager = nil;
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
@@ -237,7 +237,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager];
     }
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
 }
 
 - (void)didEnterStateStopped {
@@ -316,25 +316,25 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
-        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-            if (error != nil || ![response.success boolValue]) {
-                SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                if (weakSelf.readyHandler) {
-                    weakSelf.readyHandler(NO, error);
-                }
-
-                if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
-                    [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
-                }
-
-                return;
+      withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
+        if (error != nil || ![response.success boolValue]) {
+            SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
+            if (weakSelf.readyHandler) {
+                weakSelf.readyHandler(NO, error);
             }
 
-            weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
-            [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
-        }];
+            if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
+                [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
+            }
+
+            return;
+        }
+
+        weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
+        [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
+    }];
 }
 
 - (void)didEnterStateRegistered {
@@ -359,33 +359,41 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)didEnterStateUpdatingConfiguration {
-    // we can expect that the delegate has implemented the update method and the actual language is a supported language
+    // We can expect that the delegate has implemented the update method and the actual language is a supported language
     SDLLanguage actualLanguage = self.registerResponse.language;
+    SDLLogD(@"Updating configuration due to language mismatch. New langugage: %@", actualLanguage);
 
-        SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
+    SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
 
-        if (configUpdate) {
-            self.configuration.lifecycleConfig.language = actualLanguage;
-            if (configUpdate.appName) {
-                self.configuration.lifecycleConfig.appName = configUpdate.appName;
-            }
-            if (configUpdate.shortAppName) {
-                self.configuration.lifecycleConfig.shortAppName = configUpdate.shortAppName;
-            }
-            if (configUpdate.ttsName) {
-                self.configuration.lifecycleConfig.ttsName = configUpdate.ttsName;
-            }
-            if (configUpdate.voiceRecognitionCommandNames) {
-                self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
+    if (configUpdate) {
+        self.configuration.lifecycleConfig.language = actualLanguage;
+        if (configUpdate.appName) {
+            self.configuration.lifecycleConfig.appName = configUpdate.appName;
+        }
+        if (configUpdate.shortAppName) {
+            self.configuration.lifecycleConfig.shortAppName = configUpdate.shortAppName;
+        }
+        if (configUpdate.ttsName) {
+            self.configuration.lifecycleConfig.ttsName = configUpdate.ttsName;
+        }
+        if (configUpdate.voiceRecognitionCommandNames) {
+            self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
+        }
+
+        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualLanguage];
+        changeRegistration.appName = configUpdate.appName;
+        changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
+        changeRegistration.ttsName = configUpdate.ttsName;
+        changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
+
+        [self sendConnectionManagerRequest:changeRegistration withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                SDLLogW(@"Failed to update language with change registration. Request: %@, Response: %@, error: %@", request, response, error);
+                return;
             }
 
-            SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualLanguage];
-            changeRegistration.appName = configUpdate.appName;
-            changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
-            changeRegistration.ttsName = configUpdate.ttsName;
-            changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
-
-            [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
+            SDLLogD(@"Successfully updated language with change registration. Request sent: %@", request);
+        }];
     }
     
     [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
@@ -424,7 +432,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 
-	dispatch_group_enter(managerGroup);
+    dispatch_group_enter(managerGroup);
     [self.screenManager startWithCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Screen Manager was unable to start; error: %@", error);
@@ -460,7 +468,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 [weakself sdl_transitionToState:SDLLifecycleStateSettingUpHMI];
             }
         });
-   }];
+    }];
 }
 
 - (void)didEnterStateSettingUpHMI {
@@ -497,7 +505,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
     }
 
-	// Stop the background task now that setup has completed
+    // Stop the background task now that setup has completed
     [self.backgroundTaskManager endBackgroundTask];
 }
 
@@ -506,13 +514,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
-        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            if (error != nil || ![response.success boolValue]) {
-                SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
-            }
+      withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        if (error != nil || ![response.success boolValue]) {
+            SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
+        }
 
-            [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
-        }];
+        [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
+    }];
 }
 
 
@@ -546,13 +554,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         [self sdl_sendRequest:setAppIcon
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-              if (error != nil) {
-                  SDLLogW(@"Error setting up app icon: %@", error);
-              }
+            if (error != nil) {
+                SDLLogW(@"Error setting up app icon: %@", error);
+            }
 
-              // We've succeeded or failed
-              completion();
-          }];
+            // We've succeeded or failed
+            completion();
+        }];
     }];
 }
 
