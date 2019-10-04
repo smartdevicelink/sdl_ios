@@ -627,7 +627,6 @@ describe(@"the streaming video manager", ^{
                             
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
-                        
                         it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat))).to(beTrue());
