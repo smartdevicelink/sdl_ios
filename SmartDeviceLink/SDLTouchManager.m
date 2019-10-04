@@ -97,7 +97,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
-
 @property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
