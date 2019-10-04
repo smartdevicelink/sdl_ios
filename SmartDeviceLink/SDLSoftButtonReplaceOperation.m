@@ -10,7 +10,6 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
 #import "SDLShow.h"

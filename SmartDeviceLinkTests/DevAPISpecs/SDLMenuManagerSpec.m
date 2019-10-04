@@ -20,10 +20,11 @@
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
@@ -41,9 +42,7 @@ describe(@"menu manager", ^{
     __block SDLMenuManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
-    __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
-    __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
-    __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
+    __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testArtwork2 = nil;
 
@@ -66,15 +65,29 @@ describe(@"menu manager", ^{
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
-        testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
+        mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+
+        SDLImageField *commandIconField = [[SDLImageField alloc] init];
+        commandIconField.name = SDLImageFieldNameCommandIcon;
+        SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
+        windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+        windowCapability.imageFields = @[commandIconField];
+        windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
+
+        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
+        displayCapability.windowCapabilities = @[windowCapability];
+
+        OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
+        OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
     });
 
     it(@"should instantiate correctly", ^{
         expect(testManager.menuCells).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
+        expect(testManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
         expect(testManager.currentHMILevel).to(beNil());
-        expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
         expect(testManager.waitingOnHMIUpdate).to(beFalse());
@@ -149,47 +162,10 @@ describe(@"menu manager", ^{
         });
     });
 
-    describe(@"Notification Responses", ^{
-        it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-
-            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
-            testSetDisplayLayoutResponse.success = @YES;
-            testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
-
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testSetDisplayLayoutResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            expect(testManager.displayCapabilities).withTimeout(3).toEventually(equal(testDisplayCapabilities));
-        });
-
-        it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-
-            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-            testRegisterAppInterfaceResponse.success = @YES;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
-#pragma clang diagnostic pop
-
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testRegisterAppInterfaceResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
-        });
-    });
-
     describe(@"updating menu cells", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
-
-            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            testManager.displayCapabilities.imageFields = @[commandIconField];
-            testManager.displayCapabilities.graphicSupported = @YES;
         });
 
         context(@"duplicate titles", ^{
@@ -534,12 +510,6 @@ describe(@"menu manager", ^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
 
-            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            testManager.displayCapabilities.imageFields = @[commandIconField];
-            testManager.displayCapabilities.graphicSupported = @YES;
-
             cellCalled = NO;
             testTriggerSource = nil;
         });
@@ -604,7 +574,6 @@ describe(@"menu manager", ^{
 
             expect(testManager.menuCells).to(beEmpty());
             expect(testManager.currentHMILevel).to(beNil());
-            expect(testManager.displayCapabilities).to(beNil());
             expect(testManager.inProgressUpdate).to(beNil());
             expect(testManager.hasQueuedUpdate).to(beFalse());
             expect(testManager.waitingOnHMIUpdate).to(beFalse());
@@ -618,7 +587,6 @@ describe(@"menu manager", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
-            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
         });
 
         context(@"when open menu RPC can be sent", ^{

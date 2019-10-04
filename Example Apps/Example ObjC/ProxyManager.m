@@ -193,14 +193,12 @@ NS_ASSUME_NONNULL_BEGIN
     screenManager.textField2 = isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
-    if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        if ([self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
-            screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
-        }
+    if ([self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
+        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    }
 
-        if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
-            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
-        }
+    if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
+        screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
@@ -215,7 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return                 True if the image field is supported, false if not
  */
 - (BOOL)sdlex_imageFieldSupported:(SDLImageFieldName)imageFieldName {
-    for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.displayCapabilities.imageFields) {
+    for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.defaultMainWindowCapability.imageFields) {
         if ([imageField.name isEqualToString:imageFieldName]) {
             return YES;
         }
