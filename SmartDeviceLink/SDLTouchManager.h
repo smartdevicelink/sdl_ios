@@ -101,6 +101,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  Initialize a touch manager with a hit tester if available
 
  @param hitTester The hit tester to be used to correlate a point with a view
+ @param videoScaleManager The scale manager that scales the touches received from the display screen coordinate system to the app's viewport coordinate system
  @return The initialized touch manager
  */
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager;

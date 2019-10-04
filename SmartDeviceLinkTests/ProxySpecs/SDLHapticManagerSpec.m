@@ -513,4 +513,3 @@ describe(@"the haptic manager", ^{
 });
 
 QuickSpecEnd
-

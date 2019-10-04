@@ -112,14 +112,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (configuration.streamingMediaConfig.rootViewController != nil) {
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
 
+        if (@available(iOS 9.0, *)) {
+            SDLLogD(@"Initializing focusable item locator");
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:self.carWindow.rootViewController connectionManager:_connectionManager streamManager:self];
+        }
+
         SDLLogD(@"Initializing CarWindow");
         _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig];
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
-    }
-
-    if (@available(iOS 9.0, *)) {
-        SDLLogD(@"Initializing focusable item locator");
-        _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:self.carWindow.rootViewController connectionManager:_connectionManager streamManager:self];
     }
 
     _videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];

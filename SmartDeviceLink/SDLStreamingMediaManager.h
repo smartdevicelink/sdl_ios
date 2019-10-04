@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
- *  This is the current screen size of the connected display.
+ *  The current screen resolution of the connected display.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
 

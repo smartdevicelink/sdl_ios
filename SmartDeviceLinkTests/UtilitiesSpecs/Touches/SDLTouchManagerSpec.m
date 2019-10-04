@@ -25,7 +25,6 @@
 #import "SDLTouchType.h"
 #import "SDLTouch.h"
 #import "SDLVideoStreamingCapability.h"
-#import "SDLImageResolution.h"
 
 @interface SDLTouchManager ()
 

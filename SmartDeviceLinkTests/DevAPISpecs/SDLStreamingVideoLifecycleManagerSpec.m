@@ -33,7 +33,6 @@
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
-#import "SDLTouchManager.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLVideoStreamingCapability.h"
