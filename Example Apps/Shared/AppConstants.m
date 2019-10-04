@@ -44,11 +44,14 @@ NSString * const ImagesVisibleSoftButtonImageOffState = @"ImagesVisibleSoftButto
 NSString * const ImagesVisibleSoftButtonImageOnText = @"➖Icons";
 NSString * const ImagesVisibleSoftButtonImageOffText = @"➕Icons";
 
-#pragma mart - SDL Text-To-Speech
+#pragma mark - Alert
+NSString * const AlertOKButtonText = @"OK";
+
+#pragma mark - SDL Text-To-Speech
 NSString * const TTSGoodJob = @"Good Job";
 NSString * const TTSYouMissed = @"You Missed";
 
-#pragma martk - SDL Voice Commands
+#pragma mark - SDL Voice Commands
 NSString * const VCStart = @"Start";
 NSString * const VCStop = @"Stop";
 
@@ -76,6 +79,8 @@ NSString * const ACDialPhoneNumberMenuName = @"Dial Phone Number";
 NSString * const ACSubmenuMenuName = @"Submenu";
 NSString * const ACSubmenuItemMenuName = @"Item";
 NSString * const ACSubmenuTemplateMenuName = @"Change Template";
+NSString * const ACSliderMenuName = @"Show Slider";
+NSString * const ACScrollableMessageMenuName = @"Show Scrollable Message";
 
 NSString * const ACAccelerationPedalPositionMenuName = @"Acceleration Pedal Position";
 NSString * const ACAirbagStatusMenuName = @"Airbag Status";

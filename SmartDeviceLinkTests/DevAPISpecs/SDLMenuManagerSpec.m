@@ -149,7 +149,7 @@ describe(@"menu manager", ^{
         });
     });
 
-    describe(@"Notificaiton Responses", ^{
+    describe(@"Notification Responses", ^{
         it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
             testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
 
@@ -157,10 +157,10 @@ describe(@"menu manager", ^{
             testSetDisplayLayoutResponse.success = @YES;
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testSetDisplayLayoutResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
+            expect(testManager.displayCapabilities).withTimeout(3).toEventually(equal(testDisplayCapabilities));
         });
 
         it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{
@@ -168,9 +168,12 @@ describe(@"menu manager", ^{
 
             testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
             testRegisterAppInterfaceResponse.success = @YES;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
+#pragma clang diagnostic pop
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:nil rpcResponse:testRegisterAppInterfaceResponse];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
             expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));

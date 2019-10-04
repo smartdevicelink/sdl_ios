@@ -8,7 +8,9 @@
 
 #import "SDLPresentKeyboardOperation.h"
 
+#import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
@@ -18,6 +20,7 @@
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *initialText;
 @property (strong, nonatomic) SDLKeyboardProperties *originalKeyboardProperties;
 @property (strong, nonatomic) SDLKeyboardProperties *keyboardProperties;
+@property (assign, nonatomic, readwrite) UInt16 cancelId;
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
@@ -38,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentKeyboardOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
     self = [super init];
     if (!self) { return self; }
 
@@ -47,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     _keyboardDelegate = keyboardDelegate;
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
+    _cancelId = cancelID;
     _operationId = [NSUUID UUID];
 
     return self;
@@ -54,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
@@ -110,6 +116,38 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (void)dismissKeyboard {
+    if (self.isFinished) {
+        SDLLogW(@"This operation has already finished so it can not be canceled.");
+        return;
+    } else if (self.isCancelled) {
+        SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
+        return;
+    } else if (self.isExecuting) {
+        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogE(@"Canceling a keyboard is not supported on this head unit");
+            return;
+        }
+
+        SDLLogD(@"Canceling the presented keyboard");
+
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
+
+        __weak typeof(self) weakSelf = self;
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                weakSelf.internalError = error;
+                SDLLogE(@"Error canceling the keyboard: %@, with error: %@", request, error);
+                return;
+            }
+            SDLLogD(@"The presented keyboard was canceled successfully");
+        }];
+    } else {
+        SDLLogD(@"Canceling a keyboard that has not yet been sent to Core");
+        [self cancel];
+    }
+}
+
 #pragma mark - Private Getters / Setters
 
 - (SDLPerformInteraction *)performInteraction {
@@ -118,6 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.interactionMode = SDLInteractionModeManualOnly;
     performInteraction.interactionChoiceSetIDList = @[];
     performInteraction.interactionLayout = SDLLayoutModeKeyboard;
+    performInteraction.cancelID = @(self.cancelId);
 
     return performInteraction;
 }

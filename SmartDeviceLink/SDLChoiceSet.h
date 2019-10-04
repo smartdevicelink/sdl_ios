@@ -15,6 +15,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Notifies the subscriber that the choice set should be cancelled.
+ */
+typedef void (^SDLChoiceSetCanceledHandler)(void);
+
 typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
     SDLChoiceSetLayoutList,
     SDLChoiceSetLayoutTiles,
@@ -122,6 +127,12 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @return The choice set
  */
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices;
+
+
+/**
+ Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.
+ */
+- (void)cancel;
 
 @end
 

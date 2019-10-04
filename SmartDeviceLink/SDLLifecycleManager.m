@@ -14,7 +14,6 @@
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
-#import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
@@ -38,6 +37,7 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
@@ -224,19 +224,18 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Start up the internal proxy object
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.secondaryTransportManager = nil;
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        // secondary transport manager is not used
-        self.secondaryTransportManager = nil;
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
                                        tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
                           secondaryTransportManager:self.secondaryTransportManager];
+    } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil];
     } else {
-        // we reuse our queue to run secondary transport manager's state machine
-        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
-                                                                                                     serialQueue:self.lifecycleQueue];
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
-                          secondaryTransportManager:self.secondaryTransportManager];
+        // We reuse our queue to run secondary transport manager's state machine
+        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager];
     }
     #pragma clang diagnostic pop
 }
@@ -521,10 +520,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
         completion();
         return;
     }
+#pragma clang diagnostic pop
 
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
@@ -739,6 +741,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
+    
+    if (hmiStatusNotification.windowID != nil && hmiStatusNotification.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 

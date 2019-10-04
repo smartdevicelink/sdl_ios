@@ -30,11 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (void)setSystemCapability:(SDLSystemCapability *)systemCapability {
+- (void)setSystemCapability:(nullable SDLSystemCapability *)systemCapability {
     [self.parameters sdl_setObject:systemCapability forName:SDLRPCParameterNameSystemCapability];
 }
 
-- (SDLSystemCapability *)systemCapability {
+- (nullable SDLSystemCapability *)systemCapability {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class error:&error];
 }

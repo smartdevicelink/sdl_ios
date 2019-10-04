@@ -16,9 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Array of bytes comprising CAN message result.
 
- Required
+ Optional
  */
-@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageDataResult;
+@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageDataResult;
 
 @end
 

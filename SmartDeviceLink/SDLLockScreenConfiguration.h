@@ -11,7 +11,30 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Describes when the lock screen should be shown.
+
+ - SDLLockScreenConfigurationModeNever: The lock screen should never be shown. This should almost always mean that you will build your own lock screen.
+ - SDLLockScreenConfigurationModeRequiredOnly: The lock screen should only be shown when it is required by the head unit.
+ - SDLLockScreenConfigurationModeOptionalOrRequired: The lock screen should be shown when required by the head unit or when the head unit says that its optional, but *not* in other cases, such as before the user has interacted with your app on the head unit.
+ - SDLLockScreenConfigurationModeAlways: The lock screen should always be shown after connection.
+ */
+typedef NS_ENUM(NSUInteger, SDLLockScreenConfigurationDisplayMode) {
+    SDLLockScreenConfigurationDisplayModeNever,
+    SDLLockScreenConfigurationDisplayModeRequiredOnly,
+    SDLLockScreenConfigurationDisplayModeOptionalOrRequired,
+    SDLLockScreenConfigurationDisplayModeAlways
+};
+
+/**
+ A configuration describing how the lock screen should be used by the internal SDL system for your application. This configuration is provided before SDL starts and will govern the entire SDL lifecycle of your application.
+ */
 @interface SDLLockScreenConfiguration : NSObject <NSCopying>
+
+/**
+ Describes when the lock screen will be displayed. Defaults to `SDLLockScreenConfigurationDisplayModeRequiredOnly`.
+ */
+@property (assign, nonatomic) SDLLockScreenConfigurationDisplayMode displayMode;
 
 /**
  *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to NO.
@@ -21,8 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  2. The driver is not distracted (i.e. the last `OnDriverDistraction` notification received was for a driver distraction state off).
  *  3. The `hmiLevel` can not be `NONE`.
  *  4. If the `hmiLevel` is currently `BACKGROUND` then the previous `hmiLevel` should have been `FULL` or `LIMITED` (i.e. the user should have interacted with app before it was backgrounded).
+
+ *  Since this has been deprecated, setting this to true will set `displayMode` to `OptionalOrRequired` if `enableAutomaticLockScreen` is true, or will have no effect if it is false.
  */
-@property (assign, nonatomic) BOOL showInOptionalState;
+@property (assign, nonatomic) BOOL showInOptionalState __deprecated_msg("Use displayMode SDLLockScreenConfigurationDisplayModeOptionalOrRequired to replicate this being YES");
 
 /**
  If YES, then the lock screen can be dismissed with a downward swipe on compatible head units. Requires a connection of SDL 6.0+ and the head unit to enable the feature. Defaults to YES.
@@ -30,9 +55,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL enableDismissGesture;
 
 /**
- *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.
+ If YES, then the lockscreen will show the vehicle's logo if the vehicle has made it available. If NO, then the lockscreen will not show the vehicle logo. Defaults to YES.
+*/
+@property (assign, nonatomic) BOOL showDeviceLogo;
+
+/**
+ If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.
+
+ Since this has been deprecated, setting this to false will set `displayMode` to `Never`. Setting it back to true will set it to `RequiredOnly` if `showInOptionalState` is false, or `OptionalOrRequired` if it is true.
  */
-@property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen;
+@property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen __deprecated_msg("Use displayMode SDLLockScreenConfigurationDisplayModeNever to replicate this being NO");
 
 /**
  *  The background color of the lock screen. This could be a branding color, or leave at the default for a dark blue-gray.

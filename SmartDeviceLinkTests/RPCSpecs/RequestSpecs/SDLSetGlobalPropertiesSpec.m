@@ -15,6 +15,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLSeatLocation.h"
 
 
 QuickSpecBegin(SDLSetGlobalPropertiesSpec)
@@ -24,6 +25,7 @@ SDLTTSChunk* chunk2 = [[SDLTTSChunk alloc] init];
 SDLVRHelpItem* help = [[SDLVRHelpItem alloc] init];
 SDLImage* image = [[SDLImage alloc] init];
 SDLKeyboardProperties* keyboard = [[SDLKeyboardProperties alloc] init];
+SDLSeatLocation *seatLocation = [[SDLSeatLocation alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -36,6 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.menuTitle = @"TheNewMenu";
         testRequest.menuIcon = image;
         testRequest.keyboardProperties = keyboard;
+        testRequest.userLocation = seatLocation;
         
         expect(testRequest.helpPrompt).to(equal([@[chunk1] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk2] mutableCopy]));
@@ -44,6 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuTitle).to(equal(@"TheNewMenu"));
         expect(testRequest.menuIcon).to(equal(image));
         expect(testRequest.keyboardProperties).to(equal(keyboard));
+        expect(testRequest.userLocation).to(equal(seatLocation));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -54,6 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameVRHelpTitle:@"vr",
                                                                    SDLRPCParameterNameVRHelp:[@[help] mutableCopy],
                                                                    SDLRPCParameterNameMenuTitle:@"TheNewMenu",
+                                                                   SDLRPCParameterNameUserLocation: seatLocation,
                                                                    SDLRPCParameterNameMenuIcon:image,
                                                                    SDLRPCParameterNameKeyboardProperties:keyboard},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetGlobalProperties}} mutableCopy];
@@ -69,6 +74,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuTitle).to(equal(@"TheNewMenu"));
         expect(testRequest.menuIcon).to(equal(image));
         expect(testRequest.keyboardProperties).to(equal(keyboard));
+        expect(testRequest.userLocation).to(equal(seatLocation));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -81,6 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuTitle).to(beNil());
         expect(testRequest.menuIcon).to(beNil());
         expect(testRequest.keyboardProperties).to(beNil());
+        expect(testRequest.userLocation).to(beNil());
     });
 });
 

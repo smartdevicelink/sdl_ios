@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities  __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support.");
 
 /**
  * Contains information about the head unit button capabilities.
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities  __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support.");
 
 /**
  * Contains information about the head unit soft button capabilities.
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 2.0
  */
-@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support.");
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 2.0
  */
-@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities __deprecated_msg("This parameter is deprecated and replaced by GetSystemCapability using DISPLAY. Deprecated in sdl_ios v6.4 / RPC spec 6.0. You can use the SystemCapabilityManager to have automatic full compatibility support.");
 
 /**
  * Contains information about the HMI zone capabilities.

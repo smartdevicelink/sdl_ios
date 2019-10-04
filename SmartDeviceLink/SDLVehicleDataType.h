@@ -163,3 +163,10 @@ extern SDLVehicleDataType const SDLVehicleDataTypeTurnSignal;
  The cloud application vehicle id. Used by cloud apps to identify a head unit
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID;
+
+/**
+ Custom OEM Vehicle data
+ 
+ Added in SDL 6.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;

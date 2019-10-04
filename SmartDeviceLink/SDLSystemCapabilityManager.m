@@ -24,9 +24,11 @@
 #import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
+#import "SDLSeatLocationCapability.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
@@ -57,6 +59,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -121,6 +124,7 @@ typedef NSString * SDLServiceID;
     _phoneCapability = nil;
     _videoStreamingCapability = nil;
     _remoteControlCapability = nil;
+    _seatLocationCapability = nil;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _supportsSubscriptions = NO;
@@ -157,15 +161,21 @@ typedef NSString * SDLServiceID;
  *
  *  @param notification The `RegisterAppInterfaceResponse` response received from Core
  */
+
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
     if (!response.success.boolValue) { return; }
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     self.displayCapabilities = response.displayCapabilities;
+#pragma clang diagnostic pop
     self.hmiCapabilities = response.hmiCapabilities;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
+#pragma clang diagnostic pop
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
@@ -173,6 +183,9 @@ typedef NSString * SDLServiceID;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 }
+
+
+
 
 /**
  *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
@@ -188,6 +201,7 @@ typedef NSString * SDLServiceID;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
 }
+
 
 /**
  *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
@@ -216,6 +230,11 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     if (self.isFirstHMILevelFull || ![hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
@@ -243,7 +262,7 @@ typedef NSString * SDLServiceID;
  *  @return An array of all possible system capability types
  */
 + (NSArray<SDLSystemCapabilityType> *)sdl_systemCapabilityTypes {
-    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl];
+    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeSeatLocation];
 }
 
 /**
@@ -304,6 +323,9 @@ typedef NSString * SDLServiceID;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
         if ([self.remoteControlCapability isEqual:systemCapability.remoteControlCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.remoteControlCapability = systemCapability.remoteControlCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
+        if ([self.seatLocationCapability isEqual:systemCapability.seatLocationCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
+        self.seatLocationCapability = systemCapability.seatLocationCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) { return [self sdl_callSaveHandlerForCapability:systemCapability andReturnWithValue:NO handler:handler]; }
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;

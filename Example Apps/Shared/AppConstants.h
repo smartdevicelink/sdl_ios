@@ -47,11 +47,14 @@ extern NSString * const ImagesVisibleSoftButtonImageOffState;
 extern NSString * const ImagesVisibleSoftButtonImageOnText;
 extern NSString * const ImagesVisibleSoftButtonImageOffText;
 
-#pragma martk - SDL Text-To-Speech
+#pragma mark - Alert
+extern NSString * const AlertOKButtonText;
+
+#pragma mark - SDL Text-To-Speech
 extern NSString * const TTSGoodJob;
 extern NSString * const TTSYouMissed;
 
-#pragma martk - SDL Voice Commands
+#pragma mark - SDL Voice Commands
 extern NSString * const VCStart;
 extern NSString * const VCStop;
 
@@ -79,6 +82,8 @@ extern NSString * const ACDialPhoneNumberMenuName;
 extern NSString * const ACSubmenuMenuName;
 extern NSString * const ACSubmenuItemMenuName;
 extern NSString * const ACSubmenuTemplateMenuName;
+extern NSString * const ACSliderMenuName;
+extern NSString * const ACScrollableMessageMenuName;
 
 extern NSString * const ACAccelerationPedalPositionMenuName;
 extern NSString * const ACAirbagStatusMenuName;
@@ -109,7 +114,6 @@ extern NSString * const ACTirePressureMenuName;
 extern NSString * const ACTurnSignalMenuName;
 extern NSString * const ACVINMenuName;
 extern NSString * const ACWiperStatusMenuName;
-
 
 #pragma mark - SDL Image Names
 extern NSString * const AlertBWIconName;

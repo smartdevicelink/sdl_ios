@@ -49,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     // Check the state of our images
     if (![self sdl_supportsSoftButtonImages]) {

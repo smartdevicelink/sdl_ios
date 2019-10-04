@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSeatControlData
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat {
+#pragma clang diagnostic pop
     self = [self init];
     if (!self) {
         return nil;
@@ -23,7 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnabled heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction {
+#pragma clang diagnostic pop
 
     self = [super init];
     if (!self) {
@@ -53,11 +59,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)setId:(SDLSupportedSeat)id {
+#pragma clang diagnostic pop
     [self.store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (SDLSupportedSeat)id {
+#pragma clang diagnostic pop
     NSError *error = nil;
     return [self.store sdl_enumForName:SDLRPCParameterNameId error:&error];
 }
