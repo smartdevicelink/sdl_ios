@@ -26,9 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
 
-/**
- Reference to SDLConnectionManager
- */
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
 
 @end
