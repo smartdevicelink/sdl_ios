@@ -322,7 +322,6 @@ describe(@"SDLTouchManager Tests", ^{
                     };
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
-                    
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
                     
