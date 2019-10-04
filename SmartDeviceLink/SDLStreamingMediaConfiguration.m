@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
     _carWindowRenderingType = SDLCarWindowRenderingTypeLayer;
     _enableForcedFramerateSync = YES;
     _allowMultipleViewControllerOrientations = NO;
-    _allowOverrideEncoderSettings = YES;
 
     return self;
 }
@@ -69,7 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig.carWindowRenderingType = self.carWindowRenderingType;
     newConfig.enableForcedFramerateSync = self.enableForcedFramerateSync;
     newConfig.allowMultipleViewControllerOrientations = self.allowMultipleViewControllerOrientations;
-    newConfig.allowOverrideEncoderSettings = self.allowOverrideEncoderSettings;
     
     return newConfig;
 }
