@@ -31,7 +31,7 @@ describe(@"the streaming video scale manager", ^{
     });
 
     it(@"should properly init a default configuration", ^{
-        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale screenSize:testScreenSize];
+        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
 
         expect(@(videoScaleManager.scale)).to(equal(testScale));
         expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, testScreenSize)).to(beTrue());

@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _viewController = streamManager.carWindow.rootViewController;
+    _viewController = viewController;
     _connectionManager = connectionManager;
     _streamManager = streamManager;
 

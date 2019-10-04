@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param screenSize The current screen size of the connected display
  @return A SDLStreamingVideoScaleManager object
 */
-- (instancetype)initWithScale:(float)scale screenSize:(CGSize)screenSize;
+- (instancetype)initWithScale:(float)scale displayViewportResolution:(CGSize)displayViewportResolution;
 
 /**
  Scales the coordinates of the OnTouchEvent from the display's coordinate system to the view controller's coordinate system. If the scale value is less than 1.0, the touch events will be returned without being scaled.

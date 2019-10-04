@@ -283,9 +283,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (_showVideoBackgroundDisplay) {
         [self sdl_sendBackgroundFrames];
     }
-    if (self.touchManager != nil) {
-        [self.touchManager cancelPendingTouches];
-    }
+    [self.touchManager cancelPendingTouches];
 
     if (self.isVideoConnected) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
@@ -448,9 +446,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         });
     } else {
-        if (self.touchManager != nil) {
-            self.touchManager.enableSyncedPanning = NO;
-        }
+        self.touchManager.enableSyncedPanning = NO;
     }
 }
 
@@ -700,9 +696,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: (not available)", displayLink.duration, displayLink.timestamp);
     }
 
-    if (self.touchManager != nil) {
-        [self.touchManager syncFrame];
-    }
+    [self.touchManager syncFrame];
     [self.carWindow syncFrame];
 }
 

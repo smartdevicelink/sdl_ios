@@ -29,21 +29,21 @@ const float DefaultScaleValue = 1.0;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
-    return [[self.class alloc] initWithScale:DefaultScaleValue screenSize:SDLDefaultDisplayViewportResolution];
+    return [[self.class alloc] initWithScale:DefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
 }
 
 - (void)stop {
     self.displayViewportResolution = SDLDefaultDisplayViewportResolution;
 }
 
-- (instancetype)initWithScale:(float)scale screenSize:(CGSize)screenSize {
+- (instancetype)initWithScale:(float)scale displayViewportResolution:(CGSize)displayViewportResolution {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _scale = [self.class validateScale:scale];
-    _displayViewportResolution = screenSize;
+    _displayViewportResolution = displayViewportResolution;
 
     return self;
 }

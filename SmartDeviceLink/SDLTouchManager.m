@@ -7,8 +7,8 @@
 //
 
 #import "SDLTouchManager.h"
-#import "CGPoint_Util.h"
 
+#import "CGPoint_Util.h"
 #import "SDLGlobals.h"
 #import "SDLFocusableItemHitTester.h"
 #import "SDLLogMacros.h"
@@ -111,9 +111,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
-    if (!(self = [super init])) {
+    self = [super init];
+    if (!self) {
         return nil;
     }
+
     _hitTester = hitTester;
     _videoScaleManager = videoScaleManager;
     _movementTimeThreshold = 0.05f;
