@@ -1343,7 +1343,6 @@
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
 		88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */; };
-		88761221234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -1422,8 +1421,6 @@
 		88C282CA220CD17200D02F90 /* SDLGetFileResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C282C9220CD17200D02F90 /* SDLGetFileResponseSpec.m */; };
 		88C37F632204EBF000901DC6 /* SDLAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88C37F612204EBF000901DC6 /* SDLAppServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88C37F642204EBF000901DC6 /* SDLAppServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C37F622204EBF000901DC6 /* SDLAppServiceData.m */; };
-		88CD43A3234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 88CD43A1234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		88CD43A4234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CD43A2234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D3EBC92267949D00493C38 /* SDLIAPDataSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */; };
 		88D3EBCA2267949D00493C38 /* SDLIAPDataSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */; };
@@ -3072,7 +3069,6 @@
 		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
 		88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherAlert.h; sourceTree = "<group>"; };
 		88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlert.m; sourceTree = "<group>"; };
-		88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManagerSpec.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -3148,8 +3144,6 @@
 		88C282C9220CD17200D02F90 /* SDLGetFileResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetFileResponseSpec.m; sourceTree = "<group>"; };
 		88C37F612204EBF000901DC6 /* SDLAppServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceData.h; sourceTree = "<group>"; };
 		88C37F622204EBF000901DC6 /* SDLAppServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceData.m; sourceTree = "<group>"; };
-		88CD43A1234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingVideoScaleManager.h; sourceTree = "<group>"; };
-		88CD43A2234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManager.m; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
 		88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIAPDataSession.h; sourceTree = "<group>"; };
 		88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPDataSession.m; sourceTree = "<group>"; };
@@ -6205,14 +6199,6 @@
 			name = "Data Session";
 			sourceTree = "<group>";
 		};
-		8876121F2345376B00614B15 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				88761220234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m */,
-			);
-			name = Utilities;
-			sourceTree = "<group>";
-		};
 		88A0AA5F207CFEA60075132C /* Connection */ = {
 			isa = PBXGroup;
 			children = (
@@ -6338,7 +6324,6 @@
 		DA8966ED1E5693D100413EAB /* Streaming */ = {
 			isa = PBXGroup;
 			children = (
-				8876121F2345376B00614B15 /* Utilities */,
 				5DEF69621FD6FEB6004B8C2F /* Video */,
 				5DEF69591FD5FE74004B8C2F /* Audio Manager */,
 				DA1166D71D14601C00438CEA /* Touches */,
@@ -6353,8 +6338,6 @@
 				DA6223BC1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m */,
 				DA8966F11E56973700413EAB /* SDLStreamingMediaManagerConstants.h */,
 				DA8966F31E56977C00413EAB /* SDLStreamingMediaManagerConstants.m */,
-				88CD43A1234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h */,
-				88CD43A2234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -6823,7 +6806,6 @@
 				8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */,
 				88EF8EB722D8E02E00CB06C2 /* SDLCancelInteraction.h in Headers */,
 				DA9F7E6F1DCBFFDB00ACAE48 /* SDLGetWayPoints.h in Headers */,
-				88CD43A3234394FE001AD5D5 /* SDLStreamingVideoScaleManager.h in Headers */,
 				5D61FD231A84238C00846EE7 /* SDLParameterPermissions.h in Headers */,
 				5D61FCB91A84238C00846EE7 /* SDLGlobalProperty.h in Headers */,
 				5D61FE051A84238C00846EE7 /* SDLVehicleDataResultCode.h in Headers */,
@@ -7411,7 +7393,6 @@
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,
 				5DB9965D1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m in Sources */,
 				5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */,
-				88CD43A4234394FE001AD5D5 /* SDLStreamingVideoScaleManager.m in Sources */,
 				5D61FD7C1A84238C00846EE7 /* SDLScrollableMessage.m in Sources */,
 				5D4D67B11D2FE2F900468B4A /* SDLResponseDispatcher.m in Sources */,
 				5D61FD801A84238C00846EE7 /* SDLSetAppIcon.m in Sources */,
@@ -8081,7 +8062,6 @@
 				1EE8C4381F347C7300FDC2CF /* SDLRadioBandSpec.m in Sources */,
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
-				88761221234537C400614B15 /* SDLStreamingVideoScaleManagerSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
 				88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */,
@@ -8399,7 +8379,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -8447,8 +8426,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
