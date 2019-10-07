@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SDLFocusableItemLocatorType <NSObject>
 
 /**
- Whether or not to send haptic RPCs of the views found in the `viewController`.
+ Whether or not this will attempt to send haptic RPCs.
 
  @note Defaults to NO.
  */
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param viewController UIViewController to be checked for focusable views
  @param connectionManager Object of a class that implements ConnectionManagerType. This is used for RPC communication.
- @param videoScaleManager The scale manager that scales the touches received from the display screen coordinate system to the app's viewport coordinate system
+ @param videoScaleManager The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
  */
 - (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager;
 

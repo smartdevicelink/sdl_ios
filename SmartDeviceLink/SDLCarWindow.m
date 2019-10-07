@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
     if (self.streamManager.videoScaleManager.appViewportFrame.size.width == 0) {
-        // The connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or the video start service ACK so we do not know the dimensions of the display screen.
+        // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
         return;
     }

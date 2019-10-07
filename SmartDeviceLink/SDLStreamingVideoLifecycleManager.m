@@ -115,7 +115,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:connectionManager videoScaleManager:_videoScaleManager];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager videoScaleManager:_videoScaleManager];
         }
 
         SDLLogD(@"Initializing CarWindow");
@@ -408,8 +408,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        CGSize scaledScreenSize = self.videoScaleManager.appViewportFrame.size;
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:scaledScreenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.appViewportFrame.size ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
