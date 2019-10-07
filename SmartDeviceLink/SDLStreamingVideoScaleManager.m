@@ -77,13 +77,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 }
 
 - (void)setScale:(float)scale {
-    float oldScale = _scale;
     _scale = [self.class validateScale:scale];
-
-    if (oldScale == _scale) { return; }
-
-    // Force the projection view to send new, scaled, haptic data
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
 }
 
 #pragma mark - Helpers
@@ -93,7 +87,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
  @param scale The scale value to be validated.
  @return The validated scale value
-*/
+ */
 + (float)validateScale:(float)scale {
     return (scale > DefaultScaleValue) ? scale : DefaultScaleValue;
 }

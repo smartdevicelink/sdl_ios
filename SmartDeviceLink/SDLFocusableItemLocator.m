@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     _viewController = viewController;
     _connectionManager = connectionManager;
     _streamManager = streamManager;
+    _focusableViews = [NSMutableArray array];
 
     _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
@@ -50,13 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateInterfaceLayout {
-    self.viewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-
     if (@available(iOS 9.0, *)) {
-        self.focusableViews = [[NSMutableArray alloc] init];
+        [self.focusableViews removeAllObjects];
         [self sdl_parseViewHierarchy:self.viewController.view];
 
-        // If there is a preferred view bring that into top of the array
+        // If there is a preferred view, move it to the front of the array
         NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.viewController.view.subviews.lastObject.preferredFocusedView];
         if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
             [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
@@ -76,9 +75,6 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"Error: Cannot parse nil view");
         return;
     }
-
-    // Force the view to update autolayout constraints. Otherwise the view's frame will not be correct if the root view controller's frame was resized.
-    [currentView layoutSubviews];
 
     if (@available(iOS 9.0, *)) {
         NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
@@ -108,6 +104,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_sendHapticRPC {
     if (!self.enableHapticDataRequests) {
+        SDLLogV(@"Attempting to send haptic data to a head unit that does not support haptic data. Haptic data will not be sent.");
+        return;
+    }
+
+    if (self.focusableViews.count == 0) {
+        SDLLogV(@"No haptic data to send for this view.");
         return;
     }
 
@@ -124,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
         [hapticRects addObject:hapticRect];
     }
 
-    SDLLogV(@"Sending haptic rectangles: %@", hapticRects);
+    SDLLogV(@"Sending haptic data: %@", hapticRects);
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }

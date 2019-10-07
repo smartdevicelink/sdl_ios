@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SDLFocusableItemLocatorType <NSObject>
 
 /**
- Whether or not this will attempt to send haptic RPCs.
+ Whether or not to send haptic RPCs of the views found in the `viewController`.
 
  @note Defaults to NO.
  */

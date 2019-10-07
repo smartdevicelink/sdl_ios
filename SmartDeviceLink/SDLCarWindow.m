@@ -118,12 +118,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_didReceiveVideoStreamStarted:(NSNotification *)notification {
     self.videoStreamStarted = true;
 
+    SDLLogD(@"Video stream started");
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
-        self.rootViewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-        self.rootViewController.view.bounds = self.rootViewController.view.frame;
-        
-        SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.frame));
+        [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
     });
 }
 
@@ -152,11 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
                 @throw [NSException sdl_carWindowOrientationException];
             }
 
-        if (self.streamManager.videoScaleManager.displayViewportResolution.width != 0) {
-            rootViewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-            rootViewController.view.bounds = rootViewController.view.frame;
-        }
-
+        [self sdl_applyDisplayDimensionsToRootViewController:rootViewController];
         self->_rootViewController = rootViewController;
     });
 }
@@ -184,6 +178,23 @@ NS_ASSUME_NONNULL_BEGIN
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 
     return pixelBuffer;
+}
+/**
+ Sets the rootViewController's frame to the display's viewport dimensions.
+
+ @param rootViewController The view controller to resize
+ */
+- (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
+    if (self.streamManager.videoScaleManager.appViewportFrame.size.width == 0) {
+        // The connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or the video start service ACK so we do not know the dimensions of the display screen.
+        SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
+        return;
+    }
+
+    rootViewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
+    rootViewController.view.bounds = rootViewController.view.frame;
+
+    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(rootViewController.view.frame));
 }
 
 #pragma mark Backgrounded Screen / Text

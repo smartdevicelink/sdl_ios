@@ -14,6 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFocusableItemLocator : NSObject <SDLFocusableItemLocatorType, SDLFocusableItemHitTester>
 
+/**
+ Whether or not to send haptic RPCs of the views found in the `viewController`.
+
+ @note Defaults to NO.
+ */
 @property (nonatomic, assign) BOOL enableHapticDataRequests;
 
 /**
