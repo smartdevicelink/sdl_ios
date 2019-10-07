@@ -108,13 +108,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncoderSettings = [NSMutableDictionary dictionary];
     [_videoEncoderSettings addEntriesFromDictionary: SDLH264VideoEncoder.defaultVideoEncoderSettings];
     _customEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings;
+    _videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
 
     if (configuration.streamingMediaConfig.rootViewController != nil) {
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
 
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager streamManager:self];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:connectionManager videoScaleManager:_videoScaleManager];
         }
 
         SDLLogD(@"Initializing CarWindow");
@@ -122,7 +123,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
-    _videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager videoScaleManager:_videoScaleManager];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;

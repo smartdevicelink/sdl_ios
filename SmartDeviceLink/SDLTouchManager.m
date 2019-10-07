@@ -98,7 +98,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
 /**
- The scale manager that scales the touches received from the display screen coordinate system to the app's viewport coordinate system
+ The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
 */
 @property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 

@@ -27,13 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
 @property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic, nullable) SDLStreamingVideoLifecycleManager *streamManager;
+
+/**
+ The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
+*/
+@property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
 
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager streamManager:(SDLStreamingVideoLifecycleManager *)streamManager {
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
     self = [super init];
     if(!self) {
         return nil;
@@ -41,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _viewController = viewController;
     _connectionManager = connectionManager;
-    _streamManager = streamManager;
+    _videoScaleManager = videoScaleManager;
     _focusableViews = [NSMutableArray array];
 
     _enableHapticDataRequests = NO;
@@ -121,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSUInteger rectId = [self.focusableViews indexOfObject:view];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
-        hapticRect = [self.streamManager.videoScaleManager scaleHapticRect:hapticRect];
+        hapticRect = [self.videoScaleManager scaleHapticRect:hapticRect];
 
         [hapticRects addObject:hapticRect];
     }
