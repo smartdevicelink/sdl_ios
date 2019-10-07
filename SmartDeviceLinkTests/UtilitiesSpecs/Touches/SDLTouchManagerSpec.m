@@ -92,7 +92,6 @@ describe(@"SDLTouchManager Tests", ^{
 
     context(@"initializing", ^{
         it(@"should correctly have default properties", ^{
-            expect(touchManager).to(beNil());
             SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
