@@ -9,7 +9,6 @@
 #import "SDLTouchManager.h"
 
 #import "CGPoint_Util.h"
-
 #import "SDLGlobals.h"
 #import "SDLFocusableItemHitTester.h"
 #import "SDLLogMacros.h"
@@ -18,11 +17,11 @@
 #import "SDLPinchGesture.h"
 #import "SDLProxyListener.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManagerDelegate.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -98,17 +97,27 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  */
 @property (nonatomic) CGPoint lastNotifiedTouchLocation;
 
+/**
+ The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
+*/
+@property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
+
 @end
 
 @implementation SDLTouchManager
 
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
+    return [self initWithHitTester:hitTester videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
+}
+
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _hitTester = hitTester;
+    _videoScaleManager = videoScaleManager;
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
@@ -184,7 +193,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+    SDLOnTouchEvent *onTouchEvent = (SDLOnTouchEvent *)notification.notification;
+    onTouchEvent = [self.videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
 
     SDLTouchType touchType = onTouchEvent.type;
     [onTouchEvent.event enumerateObjectsUsingBlock:^(SDLTouchEvent *touchEvent, NSUInteger idx, BOOL *stop) {

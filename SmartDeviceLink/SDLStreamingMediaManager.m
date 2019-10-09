@@ -13,6 +13,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -143,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (CGSize)screenSize {
-    return self.videoLifecycleManager.screenSize;
+    return self.videoLifecycleManager.videoScaleManager.displayViewportResolution;
 }
 
 - (nullable SDLVideoStreamingFormat *)videoFormat {

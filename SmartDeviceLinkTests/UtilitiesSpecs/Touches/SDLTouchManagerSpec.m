@@ -17,12 +17,14 @@
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 #import "SDLTouchType.h"
 #import "SDLTouch.h"
+#import "SDLVideoStreamingCapability.h"
 
 @interface SDLTouchManager ()
 
@@ -31,6 +33,7 @@
 @property (nonatomic, assign) CGFloat previousPinchDistance;
 @property (nonatomic, strong, nullable) SDLPinchGesture *currentPinchGesture;
 @property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
+@property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
 
 @end
 
@@ -85,15 +88,30 @@
 QuickSpecBegin(SDLTouchManagerSpec)
 
 describe(@"SDLTouchManager Tests", ^{
-    __block SDLTouchManager *touchManager;
+    __block SDLTouchManager *touchManager = nil;
 
     context(@"initializing", ^{
-        it(@"should correctly have default properties", ^{
-            SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+        it(@"Should initialize correctly with initWithHitTester", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            #pragma clang diagnostic pop
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero)).to(beTrue());
+        });
+
+        it(@"Should initialize correctly with initWithHitTester:videoScaleManager:", ^{
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
+            expect(touchManager.touchEventDelegate).to(beNil());
+            expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
+            expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
+            expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero)).to(beTrue());
         });
     });
 
@@ -146,7 +164,7 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
-            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
             touchManager.touchEventHandler = ^(SDLTouch *touch, SDLTouchType type) {
@@ -259,10 +277,22 @@ describe(@"SDLTouchManager Tests", ^{
 
             numTimesHandlerCalled = 0;
             expectedNumTimesHandlerCalled = 0;
+            
+            singleTapTests = nil;
+            doubleTapTests = nil;
+            panStartTests = nil;
+            panMoveTests = nil;
+            panEndTests = nil;
+            panCanceledTests = nil;
+            pinchStartTests = nil;
+            pinchMoveTests = nil;
+            pinchEndTests = nil;
+            pinchCanceledTests = nil;
         });
 
         describe(@"When receiving a tap gesture", ^{
             __block SDLTouchCoord* firstTouchCoord;
+            __block SDLTouchCoord* firstTouchCoordEnd;
             __block NSUInteger firstTouchTimeStamp;
             __block SDLOnTouchEvent* firstOnTouchEventStart;
             __block SDLOnTouchEvent* firstOnTouchEventEnd;
@@ -272,41 +302,105 @@ describe(@"SDLTouchManager Tests", ^{
                 firstTouchCoord.x = @(controlPoint.x);
                 firstTouchCoord.y = @(controlPoint.y);
                 firstTouchTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+                
+                firstTouchCoordEnd = firstTouchCoord.copy;
 
-                SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
-                touchEvent.touchEventId = @0;
-                touchEvent.coord = [NSArray arrayWithObject:firstTouchCoord];
-                touchEvent.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                SDLTouchEvent *touchEventStart = [[SDLTouchEvent alloc] init];
+                touchEventStart.touchEventId = @0;
+                touchEventStart.coord = [NSArray arrayWithObject:firstTouchCoord];
+                touchEventStart.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                
+                SDLTouchEvent *touchEventEnd = touchEventStart.copy;
+                touchEventEnd.coord = [NSArray arrayWithObject:firstTouchCoordEnd];
 
                 firstOnTouchEventStart = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventStart.type = SDLTouchTypeBegin;
-                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEventStart];
 
                 firstOnTouchEventEnd = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventEnd.type = SDLTouchTypeEnd;
-                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEventEnd];
             });
 
             describe(@"when receiving a single tap", ^{
+                __block CGPoint expectedScaledPoint = CGPointZero;
+                
                 it(@"should correctly handle a single tap", ^{
                     singleTapTests = ^(NSInvocation* invocation) {
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
                         [invocation getArgument:&point atIndex:4];
-
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
                     };
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use scale = 1.5 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+
+                    touchManager.videoScaleManager.scale = 1.5;
 
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
-
+                    
+                    expectedScaledPoint = CGPointMake(66.666664123535156, 133.33332824707031);
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
-
+                    
                     expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
-
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use a scale of 1 if passed a scale value less than 1 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+                    
+                    touchManager.videoScaleManager.scale = 0.75;
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
+                    expectedScaledPoint = CGPointMake(100, 200);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use a scale of 1 if the scale value is not set", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
+                    expectedScaledPoint = CGPointMake(100, 200);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
                     expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
@@ -357,7 +451,6 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedNumTimesHandlerCalled = 3;
 
                     expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
-
                     expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
@@ -415,7 +508,6 @@ describe(@"SDLTouchManager Tests", ^{
                         expectedNumTimesHandlerCalled = 4;
 
                         expect(didCallDoubleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
-
                         expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
                 });

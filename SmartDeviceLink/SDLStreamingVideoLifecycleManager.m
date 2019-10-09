@@ -39,6 +39,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
@@ -107,12 +108,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncoderSettings = [NSMutableDictionary dictionary];
     [_videoEncoderSettings addEntriesFromDictionary: SDLH264VideoEncoder.defaultVideoEncoderSettings];
     _customEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings;
+    _videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
 
     if (configuration.streamingMediaConfig.rootViewController != nil) {
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
+
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager videoScaleManager:_videoScaleManager];
         }
 
         SDLLogD(@"Initializing CarWindow");
@@ -120,12 +123,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager videoScaleManager:_videoScaleManager];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
     _dataSource = configuration.streamingMediaConfig.dataSource;
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
-    _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _showVideoBackgroundDisplay = YES;
     _preferredFormatIndex = 0;
@@ -185,7 +187,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_stopVideoSession];
 
     _protocol = nil;
-    _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
@@ -194,6 +195,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _lastPresentationTimestamp = kCMTimeInvalid;
 
+    [self.videoScaleManager stop];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
@@ -365,7 +367,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         } else {
             // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
-            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.screenSize.width height:(uint16_t)weakSelf.screenSize.height];
+            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.width height:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.height];
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
 
@@ -398,7 +400,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.videoEncoder stop];
         self.videoEncoder = nil;
     }
-        
+
     [self disposeDisplayLink];
 
     if (self.videoEncoder == nil) {
@@ -406,7 +408,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.screenSize ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.appViewportFrame.size ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -485,14 +487,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // This is the definitive screen size that will be used
     if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
-        _screenSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
+        self.videoScaleManager.displayViewportResolution = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
     } else if (self.preferredResolutions.count > 0) {
         // If a preferred resolution was set, use the first option to set the screen size
         SDLImageResolution *preferredResolution = self.preferredResolutions.firstObject;
         CGSize newScreenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
-        if (!CGSizeEqualToSize(self.screenSize, newScreenSize)) {
+        if (!CGSizeEqualToSize(self.videoScaleManager.displayViewportResolution, newScreenSize)) {
             SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
-            _screenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+            self.videoScaleManager.displayViewportResolution = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
         }
     } // else we are using the screen size we got from the RAIR earlier
 
@@ -581,15 +583,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLImageResolution* resolution = registerResponse.displayCapabilities.screenParams.resolution;
 #pragma clang diagnostic pop
     if (resolution != nil) {
-        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+        self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
                                  resolution.resolutionHeight.floatValue);
-    } else {
-        _screenSize = SDLDefaultScreenSize;
     }
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 
-    SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(_screenSize));
+    SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(self.videoScaleManager.displayViewportResolution));
 }
 
 - (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
@@ -735,6 +735,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
+
+        self.videoScaleManager.scale = (videoCapability != nil && videoCapability.scale != nil) ? videoCapability.scale.floatValue : (float)0.0;
+
         responseHandler(videoCapability);
     }];
 }

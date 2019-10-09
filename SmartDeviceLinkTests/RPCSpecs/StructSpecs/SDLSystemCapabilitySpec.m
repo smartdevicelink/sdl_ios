@@ -35,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
         testRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:nil radioControlCapabilities:nil buttonCapabilities:nil seatControlCapabilities:nil audioControlCapabilities:nil hmiSettingsControlCapabilities:nil lightControlCapabilities:nil];
-        testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false];
+        testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:[[SDLImageResolution alloc] initWithWidth:50 height:50] maxBitrate:5 supportedFormats:@[] hapticDataSupported:false diagonalScreenSize:23 pixelPerInch:119 scale:1.4];
         testSeatLocationCapability = [[SDLSeatLocationCapability alloc] init];
     });
 
@@ -150,7 +150,7 @@ describe(@"Getter/Setter Tests", ^ {
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
+        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported diagonalScreenSize:45 pixelPerInch:112 scale:2.1];
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:testVidStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));

@@ -9,6 +9,7 @@
 #import "SDLConnectionManagerType.h"
 
 @class SDLManager;
+@class SDLStreamingVideoScaleManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,8 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param viewController UIViewController to be checked for focusable views
  @param connectionManager Object of a class that implements ConnectionManagerType. This is used for RPC communication.
+ @param videoScaleManager The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
  */
-- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager;
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager;
 
 /**
  updateInterfaceLayout crawls through the view hierarchy, updates and keep tracks of views to be reported through Haptic RPC. This function is automatically called when SDLDidUpdateProjectionView notification is sent by the application.

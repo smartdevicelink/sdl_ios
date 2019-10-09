@@ -409,6 +409,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchManagerDelegate.h"
 #import "SDLSecurityType.h"
 #import "SDLStreamingMediaManagerDataSource.h"
+#import "SDLStreamingVideoScaleManager.h"
 
 // Files
 #import "SDLArtwork.h"
