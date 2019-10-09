@@ -63,7 +63,6 @@ describe(@"Getter/Setter Tests", ^ {
         testWindowCapability.imageTypeSupported = @[testImageType];
         testWindowCapability.buttonCapabilities = @[testButtonCapabilities];
         testWindowCapability.softButtonCapabilities = @[testSoftButtonscapabilities];
-    
     });
     
     

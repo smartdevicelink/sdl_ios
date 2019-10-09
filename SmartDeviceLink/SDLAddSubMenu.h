@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLImage *menuIcon;
 
 /**
- The sub-menu layout. See available menu layouts on DisplayCapabilities.menuLayoutsAvailable. Defaults to LIST.
+ The sub-menu layout. See available menu layouts on SDLWindowCapability.menuLayoutsAvailable. Defaults to LIST.
  */
 @property (strong, nonatomic, nullable) SDLMenuLayout menuLayout;
 

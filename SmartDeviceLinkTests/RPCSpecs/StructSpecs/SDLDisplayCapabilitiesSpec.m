@@ -27,8 +27,6 @@ SDLImageField* imageField = [[SDLImageField alloc] init];
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 describe(@"Getter/Setter Tests", ^ {
-    __block NSArray<SDLMenuLayout> *testLayout = @[SDLMenuLayoutTiles];
-
     it(@"Should set and get correctly", ^ {
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] init];
         
@@ -41,8 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.templatesAvailable = [@[@"String", @"String", @"String"] mutableCopy];
         testStruct.screenParams = screenParams;
         testStruct.numCustomPresetsAvailable = @43;
-        testStruct.menuLayoutsAvailable = testLayout;
-        
+
         expect(testStruct.displayType).to(equal(SDLDisplayTypeGen26DMA));
         expect(testStruct.displayName).to(equal(@"test"));
         expect(testStruct.textFields).to(equal([@[textField] mutableCopy]));
@@ -52,7 +49,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));
         expect(testStruct.numCustomPresetsAvailable).to(equal(@43));
-        expect(testStruct.menuLayoutsAvailable).to(equal(testLayout));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -65,7 +61,6 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
                                        SDLRPCParameterNameScreenParams:screenParams,
                                        SDLRPCParameterNameNumberCustomPresetsAvailable:@43,
-                                      SDLRPCParameterNameMenuLayoutsAvailable: testLayout
                                       };
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] initWithDictionary:dict];
         
@@ -78,7 +73,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));
         expect(testStruct.numCustomPresetsAvailable).to(equal(@43));
-        expect(testStruct.menuLayoutsAvailable).to(equal(testLayout));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -93,7 +87,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.templatesAvailable).to(beNil());
         expect(testStruct.screenParams).to(beNil());
         expect(testStruct.numCustomPresetsAvailable).to(beNil());
-        expect(testStruct.menuLayoutsAvailable).to(beNil());
     });
 });
 

@@ -78,6 +78,7 @@ describe(@"menu manager", ^{
         windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
         windowCapability.imageFields = @[commandIconField];
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
+        windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
 
         SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
         displayCapability.windowCapabilities = @[windowCapability];
@@ -152,10 +153,10 @@ describe(@"menu manager", ^{
                 testManager.currentSystemContext = SDLSystemContextMenu;
             });
 
-            it(@"should update the menu configuration", ^{
+            fit(@"should update the menu configuration", ^{
                 testManager.menuConfiguration = testMenuConfiguration;
-                expect(mockConnectionManager.receivedRequests).to(beEmpty());
-                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
             });
         });
     });
@@ -583,8 +584,6 @@ describe(@"menu manager", ^{
         context(@"if the connection RPC version is greater than or equal to 6.0.0", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
-                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                testManager.displayCapabilities.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
             });
 
             it(@"should send a SetGlobalProperties RPC update", ^{
