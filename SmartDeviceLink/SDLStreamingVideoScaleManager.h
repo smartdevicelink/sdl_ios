@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Creates a default streaming video scale manager.
+ The scale value will be set to 1.0 and the displayViewportResolution will be set to {0, 0}.
+
+ @return A SDLStreamingVideoScaleManager object
  */
 - (instancetype)init;
 

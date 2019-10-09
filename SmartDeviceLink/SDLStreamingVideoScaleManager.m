@@ -25,15 +25,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingVideoScaleManager
 
-const float DefaultScaleValue = 1.0;
+const float SDLDefaultScaleValue = 1.0;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
-    return [[self.class alloc] initWithScale:DefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
+    return [[self.class alloc] initWithScale:SDLDefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
 }
 
 - (void)stop {
     self.displayViewportResolution = SDLDefaultDisplayViewportResolution;
+    self.scale = SDLDefaultScaleValue;
 }
 
 - (instancetype)initWithScale:(float)scale displayViewportResolution:(CGSize)displayViewportResolution {
@@ -49,7 +50,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 }
 
 - (SDLOnTouchEvent *)scaleTouchEventCoordinates:(SDLOnTouchEvent *)onTouchEvent {
-    if (self.scale <= DefaultScaleValue) {
+    if (self.scale <= SDLDefaultScaleValue) {
         return onTouchEvent;
     }
     for (SDLTouchEvent *touchEvent in onTouchEvent.event) {
@@ -89,7 +90,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
  @return The validated scale value
  */
 + (float)validateScale:(float)scale {
-    return (scale > DefaultScaleValue) ? scale : DefaultScaleValue;
+    return (scale > SDLDefaultScaleValue) ? scale : SDLDefaultScaleValue;
 }
 
 @end
