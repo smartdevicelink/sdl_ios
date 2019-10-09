@@ -138,6 +138,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.softButtonManager.softButtonObjects = softButtonObjects;
 }
 
+- (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
+    self.menuManager.menuConfiguration = menuConfiguration;
+}
+
 - (void)setMenu:(NSArray<SDLMenuCell *> *)menu {
     self.menuManager.menuCells = menu;
 }
@@ -214,6 +218,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
+}
+
+- (SDLMenuConfiguration *)menuConfiguration {
+    return _menuManager.menuConfiguration;
 }
 
 - (NSArray<SDLMenuCell *> *)menu {

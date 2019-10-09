@@ -11,6 +11,7 @@
 
 @class SDLFileManager;
 @class SDLMenuCell;
+@class SDLMenuConfiguration;
 @class SDLSystemCapabilityManager;
 @class SDLVoiceCommand;
 
@@ -33,6 +34,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
  *  Stops the manager. This method is used internally.
  */
 - (void)stop;
+
+@property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
 
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 

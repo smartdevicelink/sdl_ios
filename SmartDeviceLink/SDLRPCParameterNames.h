@@ -379,6 +379,8 @@ extern SDLRPCParameterName const SDLRPCParameterNameMediaType;
 extern SDLRPCParameterName const SDLRPCParameterNameMemory;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuIcon;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuId;
+extern SDLRPCParameterName const SDLRPCParameterNameMenuLayout;
+extern SDLRPCParameterName const SDLRPCParameterNameMenuLayoutsAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuName;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuParams;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuTitle;

@@ -335,6 +335,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMassageZone.h"
 #import "SDLMediaClockFormat.h"
 #import "SDLMediaType.h"
+#import "SDLMenuLayout.h"
 #import "SDLMenuManagerConstants.h"
 #import "SDLMetadataType.h"
 #import "SDLModuleType.h"
@@ -437,6 +438,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSoftButtonState.h"
 
 #import "SDLMenuCell.h"
+#import "SDLMenuConfiguration.h"
 #import "SDLVoiceCommand.h"
 
 #import "SDLChoiceCell.h"

@@ -78,4 +78,12 @@
     return [self.store sdl_objectsForName:SDLRPCParameterNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class error:nil];
 }
 
+- (void)setMenuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable {
+    [self.store sdl_setObject:menuLayoutsAvailable forName:SDLRPCParameterNameMenuLayoutsAvailable];
+}
+
+- (nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable {
+    return [self.store sdl_enumsForName:SDLRPCParameterNameMenuLayoutsAvailable error:nil];
+}
+
 @end
