@@ -438,7 +438,7 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedNumTimesHandlerCalled = 3;
 
                     expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
-                     expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
