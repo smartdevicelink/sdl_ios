@@ -91,8 +91,21 @@ describe(@"SDLTouchManager Tests", ^{
     __block SDLTouchManager *touchManager = nil;
 
     context(@"initializing", ^{
-        it(@"should correctly have default properties", ^{
-            SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+        it(@"Should initialize correctly with initWithHitTester", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            #pragma clang diagnostic pop
+            expect(touchManager.touchEventDelegate).to(beNil());
+            expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
+            expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
+            expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero)).to(beTrue());
+        });
+
+        it(@"Should initialize correctly with initWithHitTester:videoScaleManager:", ^{
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
@@ -151,7 +164,7 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
-            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
             touchManager.touchEventHandler = ^(SDLTouch *touch, SDLTouchType type) {
