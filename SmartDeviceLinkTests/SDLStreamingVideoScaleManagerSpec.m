@@ -23,14 +23,14 @@ describe(@"the streaming video scale manager", ^{
     __block float testScale = 2.3;
     __block CGSize testScreenSize = CGSizeMake(200, 400);
 
-    it(@"should properly init a default configuration", ^{
+    it(@"should initialize correctly with init", ^{
         videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
 
         expect(@(videoScaleManager.scale)).to(equal(1.0));
         expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, CGSizeZero)).to(beTrue());
     });
 
-    it(@"should properly init a default configuration", ^{
+    it(@"should initialize correctly with initWithScale:displayViewportResolution:", ^{
         videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
 
         expect(@(videoScaleManager.scale)).to(equal(testScale));
