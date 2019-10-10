@@ -102,7 +102,7 @@ describe(@"a lifecycle manager", ^{
     };
 
     beforeEach(^{
-        OCMStub([proxyMock iapProxyWithListener:[OCMArg any] secondaryTransportManager:[OCMArg any]]).andReturn(proxyMock);
+        OCMStub([proxyMock iapProxyWithListener:[OCMArg any] secondaryTransportManager:[OCMArg any] encryptionLifecycleManager:[OCMArg any]]).andReturn(proxyMock);
         OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
         
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];

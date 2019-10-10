@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
+    if (_header.encrypted) {
+        return @"Encrypted header, description overflows";
+    }
+    
     // Print the header data.
     NSMutableString *description = [[NSMutableString alloc] init];
     [description appendString:self.header.description];

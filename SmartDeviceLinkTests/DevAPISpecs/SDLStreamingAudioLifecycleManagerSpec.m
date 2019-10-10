@@ -15,6 +15,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "TestConnectionManager.h"
@@ -24,6 +25,7 @@ QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
 describe(@"the streaming audio manager", ^{
     __block SDLStreamingAudioLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
+    __block SDLEncryptionConfiguration *encryptionConfiguration = [SDLEncryptionConfiguration defaultConfiguration];
     __block TestConnectionManager *testConnectionManager = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
@@ -37,7 +39,7 @@ describe(@"the streaming audio manager", ^{
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration];
     });
 
     it(@"should initialize properties", ^{

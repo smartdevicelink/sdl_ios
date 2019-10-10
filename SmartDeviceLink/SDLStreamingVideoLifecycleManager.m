@@ -38,6 +38,7 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
@@ -137,10 +138,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
-    _secureMakes = [tempMakeArray copy];
+#pragma clang diagnostic pop
+    for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
+        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
+    }
+    NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
+    _secureMakes = [tempMakeSet.array copy];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
@@ -772,7 +780,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Decide if we need to start a secure service or not
     if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
-        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data tlsInitializationHandler:^(BOOL success, NSError *error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

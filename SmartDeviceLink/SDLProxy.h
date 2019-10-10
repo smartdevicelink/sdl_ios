@@ -1,6 +1,7 @@
 //  SDLProxy.h
 //
 
+@class SDLEncryptionLifecycleManager;
 @class SDLProtocol;
 @class SDLPutFile;
 @class SDLRPCMessage;
@@ -61,9 +62,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param delegate                    The subscriber
  *  @param secondaryTransportManager   The secondary transport manager
+ *  @param encryptionLifecycleManager  The encryption life cycle manager
  *  @return                            A SDLProxy object
  */
-+ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
++ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager;
 
 /**
  *  Creates a SDLProxy object with a TCP (WiFi) transport network connection.
@@ -72,9 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param ipaddress                   The IP address of Core
  *  @param port                        The port address of Core
  *  @param secondaryTransportManager   The secondary transport manager
+ *  @param encryptionLifecycleManager  The encryption life cycle manager
  *  @return                            A SDLProxy object
  */
-+ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
++ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager;
 
 /**
  *  Adds a delegate.

@@ -16,8 +16,10 @@
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLError.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
@@ -91,6 +93,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+@property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 @end
 
@@ -150,6 +153,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
+    
+    if (configuration.encryptionConfig != nil) {
+        _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig];
+    }
 
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
@@ -191,6 +198,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     });
 }
 
+- (void)startRPCEncryption {
+    [self.encryptionLifecycleManager startEncryptionService];
+}
 
 #pragma mark Getters
 
@@ -229,13 +239,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
                                        tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
-                          secondaryTransportManager:self.secondaryTransportManager];
+                          secondaryTransportManager:self.secondaryTransportManager
+                         encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
         // We reuse our queue to run secondary transport manager's state machine
         self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
     }
 #pragma clang diagnostic pop
 }
@@ -257,6 +268,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.screenManager stop];
+    [self.encryptionLifecycleManager stop];
     if (self.secondaryTransportManager != nil) {
         [self.secondaryTransportManager stop];
     } else {
@@ -297,9 +309,17 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
 
     // If we have security managers, add them to the proxy
+    NSString *appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
-        SDLLogD(@"Adding security managers");
-        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+        SDLLogD(@"Adding security managers from streamingMedia configuration");
+        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:appId];
+    }
+#pragma clang diagnostic pop
+    if (self.configuration.encryptionConfig.securityManagers != nil) {
+        SDLLogD(@"Adding security managers from encryption configuration");
+        [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:appId];
     }
 
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
@@ -425,7 +445,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         dispatch_group_leave(managerGroup);
     }];
-
+    
+    if (self.encryptionLifecycleManager != nil) {
+        [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
+    }
+    
     // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
         [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
@@ -625,10 +649,23 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         if (handler) {
             handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
-
+        
         return;
     }
-
+    
+    if (!request.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:request]) {
+        request.payloadProtected = YES;
+    }
+    
+    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
+        }
+        
+        return;
+    }
+    
     [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
@@ -664,7 +701,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }
 }
-
 
 #pragma mark Helper Methods
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
@@ -718,11 +754,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 #pragma mark SDL notification observers
 
 - (void)transportDidConnect {
-    SDLLogD(@"Transport connected");
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        SDLLogD(@"Transport connected");
 
-    dispatch_async(self.lifecycleQueue, ^{
-        [self sdl_transitionToState:SDLLifecycleStateConnected];
-    });
+        dispatch_async(self.lifecycleQueue, ^{
+            [self sdl_transitionToState:SDLLifecycleStateConnected];
+        });
+    }
 }
 
 - (void)transportDidDisconnect {

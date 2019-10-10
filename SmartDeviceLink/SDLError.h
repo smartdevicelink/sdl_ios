@@ -28,6 +28,11 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
 @interface NSError (SDLErrors)
 
+#pragma mark SDLEncryptionLifecycleManager
++ (NSError *)sdl_encryption_lifecycle_notReadyError;
++ (NSError *)sdl_encryption_lifecycle_encryption_off;
++ (NSError *)sdl_encryption_lifecycle_nak;
+
 #pragma mark SDLManager
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;

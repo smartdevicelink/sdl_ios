@@ -15,34 +15,42 @@
 
 QuickSpecBegin(SDLOnPermissionsChangeSpec)
 
-SDLPermissionItem* item = [[SDLPermissionItem alloc] init];
-
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLPermissionItem *testPermissionItem = nil;
+    
+    beforeEach(^{
+        testPermissionItem = [[SDLPermissionItem alloc] init];
+    });
+
     it(@"Should set and get correctly", ^ {
-        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] init];
+        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
-        testNotification.permissionItem = [@[item] mutableCopy];
-        
-        expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
+        testNotification.permissionItem = [@[testPermissionItem] mutableCopy];
+        testNotification.requireEncryption = @YES;
+
+        expect(testNotification.permissionItem).to(equal([@[testPermissionItem] mutableCopy]));
+        expect(testNotification.requireEncryption.boolValue).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy]},
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
+                                                                 @{SDLRPCParameterNamePermissionItem:@[testPermissionItem],
+                                                                   SDLRPCParameterNameRequireEncryption:@YES}, SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
         
-        expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));
+        expect(testNotification.permissionItem).to(equal([@[testPermissionItem] mutableCopy]));
+        expect(testNotification.requireEncryption.boolValue).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] init];
+        SDLOnPermissionsChange *testNotification = [[SDLOnPermissionsChange alloc] init];
         
         expect(testNotification.permissionItem).to(beNil());
+        expect(testNotification.requireEncryption.boolValue).to(beFalse());
     });
 });
 

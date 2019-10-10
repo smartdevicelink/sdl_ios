@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _store = [dict mutableCopy];
+    _payloadProtected = NO;
 
     return self;
 }
@@ -29,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _store = [NSMutableDictionary dictionary];
+    _payloadProtected = NO;
 
     return self;
 }
@@ -84,6 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] initWithDictionary:_store];
+    newStruct.payloadProtected = self.payloadProtected;
 
     return newStruct;
 }

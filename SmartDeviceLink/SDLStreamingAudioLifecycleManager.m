@@ -26,6 +26,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
 
 
@@ -46,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingAudioLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration {
     self = [super init];
     if (!self) {
         return nil;
@@ -58,13 +59,20 @@ NS_ASSUME_NONNULL_BEGIN
 
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
 
-    _requestedEncryptionType = configuration.maximumDesiredEncryption;
+    _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-    for (Class securityManagerClass in configuration.securityManagers) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    for (Class securityManagerClass in streamingConfiguration.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
-    _secureMakes = [tempMakeArray copy];
+#pragma clang diagnostic pop
+    for (Class securityManagerClass in encryptionConfiguration.securityManagers) {
+        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
+    }
+    NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
+    _secureMakes = [tempMakeSet.array copy];
 
     _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamManagerStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
 
@@ -140,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
     if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil tlsInitializationHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];

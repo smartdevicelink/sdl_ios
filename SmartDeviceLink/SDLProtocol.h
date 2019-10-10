@@ -9,6 +9,7 @@
 #import "SDLSecurityType.h"
 #import "SDLTransportDelegate.h"
 
+@class SDLEncryptionLifecycleManager;
 @class SDLProtocolHeader;
 @class SDLProtocolRecievedMessageRouter;
 @class SDLRPCMessage;
@@ -61,6 +62,16 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 @property (strong, nonatomic, readonly, nullable) NSString *authToken;
 
+#pragma mark - Init
+/**
+ *  Initialize the protocol with an encryption lifecycle manager.
+ *
+ *  @param encryptionLifecycleManager An encryption lifecycle manager.
+ *
+ *  @return An instance of SDLProtocol
+ */
+- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager;
+
 #pragma mark - Sending
 
 /**
@@ -87,9 +98,9 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *
  *  @param serviceType A SDLServiceType object
  *  @param payload The data to send in the message
- *  @param completionHandler The handler is called when the secure service is started. If a secure service can not be started, an error message is also returned
+ *  @param tlsInitializationHandler Handler called when the app is authenticated via TLS handshake and a secure service has started. If a secure service can not be started an error message is returned.
  */
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler;
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler;
 
 /**
  *  Sends an end service message to Core
@@ -109,16 +120,6 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  @param message A SDLRPCMessage message
  */
 - (void)sendRPC:(SDLRPCMessage *)message;
-
-/**
- *  Sends an RPC to Core
- *
- *  @param message     A SDLRPCMessage message
- *  @param encryption  Whether or not the message should be encrypted
- *  @param error       A pointer to a NSError object
- *  @return            YES if the message was created successfully, NO if not
- */
-- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError **)error;
 
 /**
  *  Sends an unencrypted message to Core

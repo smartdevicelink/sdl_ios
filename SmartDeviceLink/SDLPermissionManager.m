@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -182,6 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnPermissionsChange *onPermissionChange = notification.notification;
+
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 
@@ -217,6 +219,8 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLPermissionFilter *filter in filtersToCall) {
         [self sdl_callFilterObserver:filter];
     }
+
+    self.requiresEncryption = (onPermissionChange.requireEncryption != nil) ? onPermissionChange.requireEncryption.boolValue : [self sdl_containsAtLeastOneRPCThatRequiresEncryption];
 }
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
@@ -352,6 +356,22 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [modifiedPermissions copy];
+}
+
+- (BOOL)sdl_containsAtLeastOneRPCThatRequiresEncryption {
+    for (SDLPermissionItem *item in self.permissions.allValues) {
+        if (item.requireEncryption) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {
+    if (self.permissions[rpcName].requireEncryption != nil) {
+        return self.permissions[rpcName].requireEncryption.boolValue;
+    }
+    return NO;
 }
 
 @end

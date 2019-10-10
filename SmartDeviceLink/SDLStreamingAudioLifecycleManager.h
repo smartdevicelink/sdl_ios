@@ -17,6 +17,7 @@
 @class SDLProtocol;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
+@class SDLEncryptionConfiguration;
 
 @protocol SDLConnectionManagerType;
 
@@ -64,10 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
- @param configuration The configuration of this streaming media session
+ @param streamingConfiguration The configuration of this streaming media session
+ @param encryptionConfiguration The encryption configuration with security managers
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

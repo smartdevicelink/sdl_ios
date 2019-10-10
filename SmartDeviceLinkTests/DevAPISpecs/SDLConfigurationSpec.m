@@ -7,6 +7,7 @@
 #import "SDLLogConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
 
 QuickSpecBegin(SDLConfigurationSpec)
 
@@ -19,7 +20,8 @@ describe(@"a configuration", ^{
         __block SDLLogConfiguration *someLogConfig = nil;
         __block SDLStreamingMediaConfiguration *someStreamingConfig = nil;
         __block SDLFileManagerConfiguration *someFileManagerConfig = nil;
-        
+        __block SDLEncryptionConfiguration *someEncryptionConfig = nil;
+
         __block NSString *someAppName = nil;
         __block NSString *someAppId = nil;
         __block UIColor *someBackgroundColor = nil;
@@ -36,6 +38,7 @@ describe(@"a configuration", ^{
             someLogConfig = [SDLLogConfiguration defaultConfiguration];
             someStreamingConfig  = [SDLStreamingMediaConfiguration insecureConfiguration];
             someFileManagerConfig = [SDLFileManagerConfiguration defaultConfiguration];
+            someEncryptionConfig = [SDLEncryptionConfiguration defaultConfiguration];
         });
 
         it(@"initWithLifecycle:lockScreen:logging:", ^{
@@ -52,13 +55,14 @@ describe(@"a configuration", ^{
         });
 
         it(@"initWithLifecycle:lockScreen:logging:fileManager:", ^{
-            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig fileManager:someFileManagerConfig];
+            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig fileManager:someFileManagerConfig encryption: someEncryptionConfig];
 
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
             expect(testConfig.loggingConfig).to(equal(someLogConfig));
             expect(testConfig.streamingMediaConfig).to(beNil());
             expect(testConfig.fileManagerConfig).to(equal(someFileManagerConfig));
+            expect(testConfig.encryptionConfig).to(equal(someEncryptionConfig));
         });
 
         it(@"configurationWithLifecycle:lockScreen:logging:", ^{
@@ -104,7 +108,7 @@ describe(@"a configuration", ^{
             });
 
             it(@"initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:", ^{
-                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig];
+                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 
                 expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
                 expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));

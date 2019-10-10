@@ -511,6 +511,7 @@ SDLRPCParameterName const SDLRPCParameterNameRequest = @"request";
 SDLRPCParameterName const SDLRPCParameterNameRequestServiceActive = @"requestServiceActive";
 SDLRPCParameterName const SDLRPCParameterNameRequestSubType = @"requestSubType";
 SDLRPCParameterName const SDLRPCParameterNameRequestType = @"requestType";
+SDLRPCParameterName const SDLRPCParameterNameRequireEncryption = @"requireEncryption";
 SDLRPCParameterName const SDLRPCParameterNameReserved = @"reserved";
 SDLRPCParameterName const SDLRPCParameterNameSecondaryColor = @"secondaryColor";
 SDLRPCParameterName const SDLRPCParameterNameResolution = @"resolution";
