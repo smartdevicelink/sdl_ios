@@ -418,7 +418,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
     beforeEach(^{
         testProtocol = [[SDLProtocol alloc] init];
         delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
         [[SDLGlobals sharedGlobals] init]; // Make sure to reset between tests
+#pragma clang diagnostic pop
     });
 
     context(@"For protocol versions 5.0.0 and greater", ^{

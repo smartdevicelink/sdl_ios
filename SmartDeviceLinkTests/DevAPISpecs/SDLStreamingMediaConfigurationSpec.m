@@ -28,11 +28,27 @@ describe(@"a streaming media configuration", ^{
             testViewController = [[UIViewController alloc] init];
             testEncryptionFlag = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
 
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testConfig = [[SDLStreamingMediaConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] encryptionFlag:testEncryptionFlag videoSettings:testVideoEncoderSettings dataSource:testDataSource rootViewController:testViewController];
+            #pragma clang diagnostic pop
         });
 
-        it(@"should have properly set properties", ^{
+        it(@"should have properly set properties using deprecated init", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testConfig.securityManagers).to(contain(testFakeSecurityManager.class));
+#pragma clang diagnostic pop
+            expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
+            expect(testConfig.customVideoEncoderSettings).to(equal(testVideoEncoderSettings));
+            expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
+            expect(testConfig.dataSource).to(equal(testDataSource));
+            expect(testConfig.rootViewController).to(equal(testViewController));
+        });
+
+        it(@"should have properly set properties using deprecated init", ^{
+            testConfig = [[SDLStreamingMediaConfiguration alloc] initWithEncryptionFlag:testEncryptionFlag videoSettings:testVideoEncoderSettings dataSource:testDataSource rootViewController:testViewController ];
+
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.customVideoEncoderSettings).to(equal(testVideoEncoderSettings));
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
@@ -47,7 +63,10 @@ describe(@"a streaming media configuration", ^{
         });
 
         it(@"should have properly set properties", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testConfig.securityManagers).to(beNil());
+#pragma clang diagnostic pop
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagNone)));
             expect(testConfig.customVideoEncoderSettings).to(beNil());
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
@@ -62,11 +81,10 @@ describe(@"a streaming media configuration", ^{
         beforeEach(^{
             testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
 
-            testConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[testFakeSecurityManager.class]];
+            testConfig = [SDLStreamingMediaConfiguration secureConfiguration];
         });
 
         it(@"should have properly set properties", ^{
-            expect(testConfig.securityManagers).to(contain(testFakeSecurityManager.class));
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.customVideoEncoderSettings).to(beNil());
             expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));

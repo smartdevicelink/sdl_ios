@@ -151,9 +151,10 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
-        SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDChannelsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO hdRadioEnableAvailable:YES siriusXMRadioAvailable:YES sisDataAvailable:YES];
+    SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" moduleInfo:testModuleInfo radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDChannelsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO hdRadioEnableAvailable:YES siriusXMRadioAvailable:YES sisDataAvailable:YES];
 
         expect(testStruct.moduleName).to(equal(@"someName"));
+        expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.radioEnableAvailable).to(equal(@YES));
         expect(testStruct.radioBandAvailable).to(equal(@NO));
         expect(testStruct.radioFrequencyAvailable).to(equal(@YES));

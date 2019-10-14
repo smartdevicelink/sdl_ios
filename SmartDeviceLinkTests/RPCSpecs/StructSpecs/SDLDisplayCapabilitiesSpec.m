@@ -52,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = @{SDLRPCParameterNameDisplayType:SDLDisplayTypeGen26DMA,
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDisplayType:SDLDisplayTypeGen26DMA,
                                        SDLRPCParameterNameDisplayName: @"test",
                                        SDLRPCParameterNameTextFields:[@[textField] mutableCopy],
                                        SDLRPCParameterNameImageFields:[@[imageField] mutableCopy],
@@ -61,7 +61,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
                                        SDLRPCParameterNameScreenParams:screenParams,
                                        SDLRPCParameterNameNumberCustomPresetsAvailable:@43,
-                                      };
+                                      } mutableCopy];
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.displayType).to(equal(SDLDisplayTypeGen26DMA));
