@@ -42,9 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableData *dataAtFront = nil;
 
     @synchronized(self) {
-        if (self.elements.count) {
+        if (self.elements.count > 0) {
             // The front of the queue is always at index 0
-            dataAtFront = self.elements[0];
+            dataAtFront = self.elements.firstObject;
             self.frontDequeued = YES;
         }
     }
@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)popBuffer {
     @synchronized(self) {
+        if (self.elements.count <= 0) { return; }
         [self.elements removeObjectAtIndex:0];
     }
 }
