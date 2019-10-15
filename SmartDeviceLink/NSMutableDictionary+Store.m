@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
         // The object in the store is not correct, we'll assert in debug and return an error and nil
         NSError *wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:obj expectedType:classType];
 
-        SDLLogAssert(@"Retrieving object from store error: %@", wrongObjectError.localizedFailureReason);
+        SDLLogAssert(@"Retrieving object from store error: %@, for object key: %@, in dictionary: %@\n Expected type: %@, actual type: %@", wrongObjectError.localizedFailureReason, name, self, NSStringFromClass(classType), NSStringFromClass([obj class]));
 
         if (error) {
             *error = wrongObjectError;
