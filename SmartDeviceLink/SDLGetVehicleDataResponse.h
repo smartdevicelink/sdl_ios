@@ -204,7 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
 
   Added in SmartDeviceLink 6.0
  */
-- (NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+- (nullable NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 
