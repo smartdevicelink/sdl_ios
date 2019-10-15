@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
 
   Added SmartDeviceLink 6.0
  */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState;
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 /**
  Gets the OEM custom vehicle data state for any given OEM custom vehicle data name.
