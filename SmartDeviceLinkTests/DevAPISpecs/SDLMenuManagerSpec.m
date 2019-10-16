@@ -153,7 +153,7 @@ describe(@"menu manager", ^{
                 testManager.currentSystemContext = SDLSystemContextMenu;
             });
 
-            fit(@"should update the menu configuration", ^{
+            it(@"should update the menu configuration", ^{
                 testManager.menuConfiguration = testMenuConfiguration;
                 expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
                 expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
