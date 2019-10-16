@@ -117,6 +117,7 @@ typedef NSString * SDLServiceID;
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
     _displayCapabilities = nil;
+    _displays = nil;
     _hmiCapabilities = nil;
     _softButtonCapabilities = nil;
     _buttonCapabilities = nil;
