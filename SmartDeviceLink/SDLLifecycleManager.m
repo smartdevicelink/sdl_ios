@@ -154,7 +154,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
     
-    if (configuration.encryptionConfig != nil) {
+    if (configuration.encryptionConfig.securityManagers != nil) {
         _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig];
     }
 
