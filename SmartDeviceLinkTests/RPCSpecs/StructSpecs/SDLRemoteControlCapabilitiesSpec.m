@@ -50,7 +50,7 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameSeatControlCapabilities:@[someSeatControlCapabilities],
                                        SDLRPCParameterNameAudioControlCapabilities:@[someAudioControlCapabilities],
                                        SDLRPCParameterNameLightControlCapabilities:someLightControlCapabilities,
-                                       SDLRPCParameterNameHmiSettingsControlCapabilities: someHMISettingsControlCapabilities
+                                       SDLRPCParameterNameHmiSettingsControlCapabilities:someHMISettingsControlCapabilities
                                        };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
