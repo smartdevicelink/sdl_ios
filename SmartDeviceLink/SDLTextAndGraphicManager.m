@@ -700,7 +700,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     // we won't use the object in the parameter but the convenience method of the system capability manager
-    NSLog(@"PING");
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     
     // Auto-send an updated show

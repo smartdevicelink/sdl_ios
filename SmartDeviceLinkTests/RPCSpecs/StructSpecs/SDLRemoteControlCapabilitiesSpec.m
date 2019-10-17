@@ -24,12 +24,8 @@ __block SDLClimateControlCapabilities* someClimateControlCapabilities = [[SDLCli
 __block SDLRadioControlCapabilities* someRadioControlCapabilities = [[SDLRadioControlCapabilities alloc] init];
 __block SDLButtonCapabilities* someButtonControlCapabilities = [[SDLButtonCapabilities alloc] init];
 __block SDLSeatControlCapabilities* someSeatControlCapabilities = [[SDLSeatControlCapabilities alloc] init];
-
-
 __block SDLAudioControlCapabilities* someAudioControlCapabilities = [[SDLAudioControlCapabilities alloc] init];
-
 __block SDLLightControlCapabilities* someLightControlCapabilities = [[SDLLightControlCapabilities alloc] init];
-
 __block SDLHMISettingsControlCapabilities* someHMISettingsControlCapabilities = [[SDLHMISettingsControlCapabilities alloc] init];
 
 
@@ -48,15 +44,14 @@ describe(@"Initialization tests", ^{
     });
     
     it(@"should properly initialize initWithDictionary", ^{
-        
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameClimateControlCapabilities : [@[someClimateControlCapabilities] copy],
-                                       SDLRPCParameterNameRadioControlCapabilities :[@[someRadioControlCapabilities] copy],
-                                       SDLRPCParameterNameButtonCapabilities :[@[someButtonControlCapabilities] copy],
-                                       SDLRPCParameterNameSeatControlCapabilities:[@[someSeatControlCapabilities]copy],
-                                       SDLRPCParameterNameAudioControlCapabilities :[@[someAudioControlCapabilities] copy],
-                                       SDLRPCParameterNameLightControlCapabilities :[@[someLightControlCapabilities] copy],
-                                       SDLRPCParameterNameHmiSettingsControlCapabilities : [@[someHMISettingsControlCapabilities] copy]
-                                       } mutableCopy];
+        NSDictionary *dict = @{SDLRPCParameterNameClimateControlCapabilities:@[someClimateControlCapabilities],
+                                       SDLRPCParameterNameRadioControlCapabilities:@[someRadioControlCapabilities],
+                                       SDLRPCParameterNameButtonCapabilities:@[someButtonControlCapabilities],
+                                       SDLRPCParameterNameSeatControlCapabilities:@[someSeatControlCapabilities],
+                                       SDLRPCParameterNameAudioControlCapabilities:@[someAudioControlCapabilities],
+                                       SDLRPCParameterNameLightControlCapabilities:someLightControlCapabilities,
+                                       SDLRPCParameterNameHmiSettingsControlCapabilities:someHMISettingsControlCapabilities
+                                       };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRemoteControlCapabilities* testStruct = [[SDLRemoteControlCapabilities alloc] initWithDictionary:dict];
