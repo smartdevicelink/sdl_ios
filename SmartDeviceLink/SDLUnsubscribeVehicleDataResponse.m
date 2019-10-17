@@ -258,7 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.parameters sdl_setObject:vehicleDataState forName:vehicleDataName];
 }
 
-- (SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
+- (nullable SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:SDLVehicleDataResult.class error:nil];
 }
 

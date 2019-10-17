@@ -280,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
 
   Added in SmartDeviceLink 6.0
  */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState;
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 /**
  Gets the OEM custom vehicle data value for any given OEM custom vehicle data name.
@@ -290,7 +290,7 @@ NS_ASSUME_NONNULL_BEGIN
 
   Added in SmartDeviceLink 6.0
  */
-- (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+- (nullable NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 @end
 
