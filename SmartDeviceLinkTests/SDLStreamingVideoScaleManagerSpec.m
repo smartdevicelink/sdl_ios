@@ -27,14 +27,14 @@ describe(@"the streaming video scale manager", ^{
         videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
 
         expect(@(videoScaleManager.scale)).to(equal(1.0));
-        expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, CGSizeZero)).to(beTrue());
+        expect(@(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, CGSizeZero))).to(beTrue());
     });
 
     it(@"should initialize correctly with initWithScale:displayViewportResolution:", ^{
         videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
 
         expect(@(videoScaleManager.scale)).to(equal(testScale));
-        expect(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, testScreenSize)).to(beTrue());
+        expect(@(CGSizeEqualToSize(videoScaleManager.displayViewportResolution, testScreenSize))).to(beTrue());
     });
 
     context(@"test scaling a frame", ^{
@@ -80,7 +80,7 @@ describe(@"the streaming video scale manager", ^{
             CGPoint expectedCoordinates = CGPointMake(80, 160);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
             CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
-            expect(CGPointEqualToPoint(testCoordinates, expectedCoordinates)).to(beTrue());
+            expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
         });
 
         it(@"should scale the coordinates correctly with a scale < 1", ^{
@@ -88,7 +88,7 @@ describe(@"the streaming video scale manager", ^{
             CGPoint expectedCoordinates = CGPointMake(100, 200);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
             CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
-            expect(CGPointEqualToPoint(testCoordinates, expectedCoordinates)).to(beTrue());
+            expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
         });
 
         it(@"should scale the coordinates correctly with a scale = 1", ^{
@@ -96,7 +96,7 @@ describe(@"the streaming video scale manager", ^{
             CGPoint expectedCoordinates = CGPointMake(100, 200);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
             CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
-            expect(CGPointEqualToPoint(testCoordinates, expectedCoordinates)).to(beTrue());
+            expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
         });
     });
 
