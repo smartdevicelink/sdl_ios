@@ -42,21 +42,21 @@ describe(@"the streaming video scale manager", ^{
              videoScaleManager.scale = 1.25;
              CGRect expectedRect = CGRectMake(0, 0, 160, 320);
              CGRect testRect = videoScaleManager.appViewportFrame;
-             expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
+             expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
          });
 
         it(@"should not scale the frame with a scale < 1", ^{
             videoScaleManager.scale = 0.3;
             CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
             CGRect testRect = videoScaleManager.appViewportFrame;
-            expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
+            expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
         });
 
         it(@"should not scale the frame with a scale = 1", ^{
             videoScaleManager.scale = 0.3;
             CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
             CGRect testRect = videoScaleManager.appViewportFrame;
-            expect(CGRectEqualToRect(expectedRect, testRect)).to(beTrue());
+            expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
         });
     });
 

@@ -101,7 +101,7 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
             expect(touchManager.videoScaleManager.scale).to(equal(1.0));
-            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectMake(0, 0, 0, 0))).to(beTrue());
+            expect(@(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero))).to(beTrue());
         });
 
         it(@"Should initialize correctly with initWithHitTester:videoScaleManager:", ^{
@@ -111,7 +111,7 @@ describe(@"SDLTouchManager Tests", ^{
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
             expect(touchManager.videoScaleManager.scale).to(equal(1.0));
-            expect(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectMake(0, 0, 0, 0))).to(beTrue());
+            expect(@(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero))).to(beTrue());
         });
     });
 
