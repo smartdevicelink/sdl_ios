@@ -179,8 +179,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             BLOCK_RETURN;
         }
 
-        // If there was an error, we'll pass the error to the startup handler and cancel out
+        // If there was an error, we'll pass the error to the startup handler and cancel out other then in case of DISALLOWED
         if (error != nil) {
+            // In the case we are DISALLOWED we still want to transition to a ready state
+            if([error.localizedDescription isEqualToString:@"DISALLOWED"]) {
+                [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+                BLOCK_RETURN;
+            }
             [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
             BLOCK_RETURN;
         }
@@ -204,6 +209,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __weak typeof(self) weakSelf = self;
     SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
         if (error != nil || !success) {
+            if([error.localizedDescription isEqualToString:@"DISALLOWED"]) {
+                [weakSelf.mutableRemoteFileNames addObjectsFromArray:fileNames];
+                weakSelf.bytesAvailable = bytesAvailable;
+            }
             handler(success, bytesAvailable, fileNames, error);
             BLOCK_RETURN;
         }
