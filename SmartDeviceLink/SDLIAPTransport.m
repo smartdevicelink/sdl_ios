@@ -140,10 +140,18 @@ int const CreateSessionRetries = 3;
         SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
         [self sdl_closeSessions];
     } else if (self.dataSession.isSessionInProgress) {
+        if (self.dataSession.connectionID != accessory.connectionID) {
+            SDLLogD(@"Accessory's connectionID, %lu, does not match the connectionID of the current data session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.dataSession.connectionID);
+            return;
+        }
         // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
         [self sdl_destroyTransport];
     } else if (self.controlSession.isSessionInProgress) {
+        if (self.controlSession.connectionID != accessory.connectionID) {
+            SDLLogD(@"Accessory's connectionID, %lu, does not match the connectionID of the current control session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.controlSession.connectionID);
+            return;
+        }
         // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
         [self sdl_closeSessions];
