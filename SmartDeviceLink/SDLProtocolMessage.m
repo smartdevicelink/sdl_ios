@@ -50,13 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    if (_header.encrypted) {
-        return @"Encrypted header, description overflows";
-    }
-    
     // Print the header data.
     NSMutableString *description = [[NSMutableString alloc] init];
     [description appendString:self.header.description];
+
+    if (self.header.encrypted) {
+        [description appendString:@", Payload is encrypted - no description can be provided"];
+        return description;
+    }
 
     // If it's an RPC, provide greater detail
     if (((self.header.serviceType == SDLServiceTypeRPC) || (self.header.serviceType == SDLServiceTypeBulkData)) && (self.header.frameType == SDLFrameTypeSingle)) {

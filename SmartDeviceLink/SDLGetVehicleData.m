@@ -313,7 +313,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.parameters sdl_setObject:@(vehicleDataState) forName:vehicleDataName];
 }
 
-- (NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
+- (nullable NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
 }
 

@@ -80,19 +80,41 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHmiSettingsControlCapabilities:(nullable NSArray<SDLHMISettingsControlCapabilities *> *)hmiSettingsControlCapabilities {
-    [self.store sdl_setObject:hmiSettingsControlCapabilities forName:SDLRPCParameterNameHmiSettingsControlCapabilities];
+    // TODO: This parameter should not be an array according to the spec, in a future major version change, this parameter's type should be altered
+    if (hmiSettingsControlCapabilities.count == 0) {
+        [self.store sdl_setObject:nil forName:SDLRPCParameterNameHmiSettingsControlCapabilities];
+        return;
+    }
+
+    SDLHMISettingsControlCapabilities *capability = hmiSettingsControlCapabilities.firstObject;
+
+    [self.store sdl_setObject:capability forName:SDLRPCParameterNameHmiSettingsControlCapabilities];
 }
 
 - (nullable NSArray<SDLHMISettingsControlCapabilities *> *)hmiSettingsControlCapabilities {
-    return [self.store sdl_objectsForName:SDLRPCParameterNameHmiSettingsControlCapabilities ofClass:SDLHMISettingsControlCapabilities.class error:nil];
+    SDLHMISettingsControlCapabilities *capability = [self.store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlCapabilities ofClass:SDLHMISettingsControlCapabilities.class error:nil];
+    if (capability == nil) { return nil; }
+
+    return @[capability];
 }
 
 - (void)setLightControlCapabilities:(nullable NSArray<SDLLightControlCapabilities *> *)lightControlCapabilities {
-    [self.store sdl_setObject:lightControlCapabilities forName:SDLRPCParameterNameLightControlCapabilities];
+    // TODO: This parameter should not be an array according to the spec, in a future major version change, this parameter's type should be altered
+    if (lightControlCapabilities.count == 0) {
+        [self.store sdl_setObject:nil forName:SDLRPCParameterNameLightControlCapabilities];
+        return;
+    }
+
+    SDLLightControlCapabilities *capability = lightControlCapabilities.firstObject;
+
+    [self.store sdl_setObject:capability forName:SDLRPCParameterNameLightControlCapabilities];
 }
 
 - (nullable NSArray<SDLLightControlCapabilities *> *)lightControlCapabilities {
-    return [self.store sdl_objectsForName:SDLRPCParameterNameLightControlCapabilities ofClass:SDLLightControlCapabilities.class error:nil];
+    SDLLightControlCapabilities *capability = [self.store sdl_objectForName:SDLRPCParameterNameLightControlCapabilities ofClass:SDLLightControlCapabilities.class error:nil];
+    if (capability == nil) { return nil; }
+
+    return @[capability];
 }
 
 @end

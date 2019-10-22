@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param encrypted return true if the the encryption service was setup successfully, will return false if the service is presently not encrypted.
  *  @param error will return any error that happens or nil if there is no error.
  */
-- (void)serviceEncryptionUpdatedOnService:(SDLServiceType)type encrypted:(BOOL)encrypted error:(NSError *__nullable)error;
+- (void)serviceEncryptionUpdatedOnService:(SDLServiceType)type encrypted:(BOOL)encrypted error:(NSError *__nullable)error NS_SWIFT_NAME(serviceEncryptionUpdated(serviceType:isEncrypted:error:));
 
 @end
 
