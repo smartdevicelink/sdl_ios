@@ -132,7 +132,7 @@ private extension MenuManager {
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
             let display = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
             manager.send(request: display) { (request, response, error) in
-                guard !response?.success == .some(true) else {
+                guard response?.success.boolValue == .some(true) else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
                     return
                 }
@@ -144,7 +144,7 @@ private extension MenuManager {
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
             let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
             manager.send(request: display) { (request, response, error) in
-                guard !response?.success == .some(true) else {
+                guard response?.success.boolValue == .some(true) else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
                     return
                 }
