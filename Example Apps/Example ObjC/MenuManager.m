@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            if (!response.success) {
                 [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            if (!response.success) {
                 [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
