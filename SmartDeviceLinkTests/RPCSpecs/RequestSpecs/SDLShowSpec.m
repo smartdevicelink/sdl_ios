@@ -359,7 +359,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.statusBar).to(equal(@"status"));
             expect(testRequest.mediaClock).to(equal(@"TheTime"));
             expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
-            expect(testRequest.templateTitle).to(equal(@"Hello World"));
+            expect(testRequest.templateTitle).to(equal(testTemplateTitleString));
             expect(testRequest.graphic).to(equal(image1));
             expect(testRequest.secondaryGraphic).to(equal(image2));
             expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

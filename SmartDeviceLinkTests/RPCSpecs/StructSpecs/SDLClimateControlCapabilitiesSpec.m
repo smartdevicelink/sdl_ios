@@ -171,7 +171,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES heatedSteeringWheelAvailable:YES heatedWindshieldAvailable:NO heatedRearWindowAvailable:YES heatedMirrorsAvailable:NO climateEnableAvailable:NO];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"Name"));
         expect(testStruct.fanSpeedAvailable).to(equal(@YES));

@@ -53,12 +53,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
     });
 
-    it(@"Should get correctly when initialized with button name and module type properties", ^ {
-        SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate];
+    it(@"Should get correctly using initializer", ^ {
+        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate moduleId:@"123"];
 
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
-        expect(testRequest.moduleId).to(beNil());
+        expect(testRequest.moduleId).to(equal(@"123"));
     });
 
     it(@"Should return nil if not set", ^ {
