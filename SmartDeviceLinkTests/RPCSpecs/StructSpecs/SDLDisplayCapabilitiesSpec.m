@@ -52,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameDisplayType:SDLDisplayTypeGen26DMA,
+        NSDictionary* dict = [@{SDLRPCParameterNameDisplayType:SDLDisplayTypeGen26DMA,
                                        SDLRPCParameterNameDisplayName: @"test",
                                        SDLRPCParameterNameTextFields:[@[textField] mutableCopy],
                                        SDLRPCParameterNameImageFields:[@[imageField] mutableCopy],
