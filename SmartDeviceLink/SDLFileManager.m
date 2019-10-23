@@ -208,7 +208,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)sdl_listRemoteFilesWithCompletionHandler:(SDLFileManagerListFilesCompletionHandler)handler {
     __weak typeof(self) weakSelf = self;
-
     SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
         if (error != nil || !success) {
             handler(success, bytesAvailable, fileNames, error);
