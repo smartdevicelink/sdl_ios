@@ -210,10 +210,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
         if (error != nil || !success) {
-            if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
-                [weakSelf.mutableRemoteFileNames addObjectsFromArray:fileNames];
-                weakSelf.bytesAvailable = bytesAvailable;
-            }
             handler(success, bytesAvailable, fileNames, error);
             BLOCK_RETURN;
         }
