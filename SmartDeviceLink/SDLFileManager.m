@@ -183,6 +183,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (error != nil) {
             // In the case we are DISALLOWED we still want to transition to a ready state
             if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+                SDLLogW(@"ListFiles is disallowed. Certain file RPC may not work properly.");
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             }

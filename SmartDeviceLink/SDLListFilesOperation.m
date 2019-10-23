@@ -64,8 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
                 results[@"resultCode"] = SDLResultDisallowed;
                 NSError *resultError = [NSError errorWithDomain:error.domain code:error.code userInfo:results];
                 weakSelf.completionHandler(success, bytesAvailable, fileNames, resultError);
-            }
-            else {
+            } else {
                 weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
             }
         }
