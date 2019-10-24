@@ -59,9 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
         NSUInteger bytesAvailable = listFilesResponse.spaceAvailable != nil ? listFilesResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
 
         if (weakSelf.completionHandler != nil) {
-            if([response.resultCode isEqualToEnum:SDLResultDisallowed]) {
+            if(error != nil) {
                 NSMutableDictionary *results = [error.userInfo mutableCopy];
-                results[@"resultCode"] = SDLResultDisallowed;
+                results[@"resultCode"] = response.resultCode;
                 NSError *resultError = [NSError errorWithDomain:error.domain code:error.code userInfo:results];
                 weakSelf.completionHandler(success, bytesAvailable, fileNames, resultError);
             } else {

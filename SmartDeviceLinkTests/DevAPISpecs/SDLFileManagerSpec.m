@@ -157,7 +157,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
         });
 
-        describe(@"after receiving a ListFiles error with a resulCode", ^{
+        describe(@"after receiving a ListFiles error with a resultCode DISALLOWED", ^{
             beforeEach(^{
                 SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
                 NSMutableDictionary *userInfo = [[NSError sdl_fileManager_unableToStartError].userInfo mutableCopy];
