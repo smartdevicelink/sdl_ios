@@ -94,7 +94,7 @@ describe(@"List Files Operation", ^{
                 badResponse.filenames = responseFileNames;
             });
 
-            it(@"should have called completion handler with error including a resultCode ", ^{
+            it(@"should have called completion handler with error including a resultCode", ^{
                 badResponse.resultCode = SDLResultDisallowed;
 
                 [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
