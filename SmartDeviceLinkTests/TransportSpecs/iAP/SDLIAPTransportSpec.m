@@ -144,6 +144,7 @@ describe(@"SDLIAPTransport", ^{
             beforeEach(^{
                 mockDataSession = OCMClassMock([SDLIAPDataSession class]);
                 OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
+                OCMStub([mockDataSession connectionID]).andReturn(mockAccessory.connectionID);
                 transport.dataSession = mockDataSession;
                 transport.controlSession = nil;
 
@@ -171,6 +172,7 @@ describe(@"SDLIAPTransport", ^{
             beforeEach(^{
                 mockControlSession = OCMClassMock([SDLIAPControlSession class]);
                 OCMStub([mockControlSession isSessionInProgress]).andReturn(YES);
+                OCMStub([mockControlSession connectionID]).andReturn(mockAccessory.connectionID);
                 transport.controlSession = mockControlSession;
                 transport.dataSession = nil;
 
