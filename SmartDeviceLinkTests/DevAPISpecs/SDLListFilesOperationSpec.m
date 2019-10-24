@@ -92,13 +92,12 @@ describe(@"List Files Operation", ^{
                 badResponse.success = @NO;
                 badResponse.spaceAvailable = responseSpaceAvailable;
                 badResponse.filenames = responseFileNames;
-            });
-
-            it(@"should have called completion handler with error including a resultCode", ^{
                 badResponse.resultCode = SDLResultDisallowed;
 
                 [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+            });
 
+            it(@"should have called completion handler with error including a resultCode", ^{
                 expect(errorResult.localizedDescription).to(match(responseErrorDescription));
                 expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
                 expect(errorResult.userInfo[@"resultCode"]).to(equal(@"DISALLOWED"));
