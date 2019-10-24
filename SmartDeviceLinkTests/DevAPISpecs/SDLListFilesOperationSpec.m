@@ -18,7 +18,7 @@ describe(@"List Files Operation", ^{
     __block NSUInteger bytesAvailableResult = NO;
     __block NSError *errorResult = nil;
     __block NSArray<NSString *> *fileNamesResult = nil;
-    
+
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:testConnectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> * _Nonnull fileNames, NSError * _Nullable error) {
@@ -92,13 +92,24 @@ describe(@"List Files Operation", ^{
                 badResponse.success = @NO;
                 badResponse.spaceAvailable = responseSpaceAvailable;
                 badResponse.filenames = responseFileNames;
-                
-                [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
             });
             
             it(@"should have called completion handler with error", ^{
+                [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+
                 expect(errorResult.localizedDescription).to(match(responseErrorDescription));
                 expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                expect(@(successResult)).to(equal(@NO));
+            });
+
+            it(@"should have called completion handler with error including a resultCode ", ^{
+                badResponse.resultCode = SDLResultDisallowed;
+
+                [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+
+                expect(errorResult.localizedDescription).to(match(responseErrorDescription));
+                expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                expect(errorResult.userInfo[@"resultCode"]).to(equal(@"DISALLOWED"));
                 expect(@(successResult)).to(equal(@NO));
             });
         });
