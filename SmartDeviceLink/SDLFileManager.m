@@ -181,6 +181,12 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
+            // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
+            if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+                SDLLogW(@"ListFiles is disallowed. Certain file manager APIs may not work properly.");
+                [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+                BLOCK_RETURN;
+            }
             [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
             BLOCK_RETURN;
         }

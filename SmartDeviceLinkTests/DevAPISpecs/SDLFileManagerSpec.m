@@ -157,6 +157,22 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
         });
 
+        describe(@"after receiving a ListFiles error with a resultCode DISALLOWED", ^{
+            beforeEach(^{
+                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
+                NSMutableDictionary *userInfo = [[NSError sdl_fileManager_unableToStartError].userInfo mutableCopy];
+                userInfo[@"resultCode"] = SDLResultDisallowed;
+                NSError *errorWithResultCode = [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:userInfo];
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, errorWithResultCode);
+            });
+
+            it(@"should handle the error properly", ^{
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+        });
+
         describe(@"after receiving a ListFiles response", ^{
             beforeEach(^{
                 SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
