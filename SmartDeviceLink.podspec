@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "6.3.1"
+s.version      = "6.4.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -10,7 +10,7 @@ s.platform     = :ios, "8.0"
 s.dependency     'BiSON', '~> 1.2.0'
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
 s.requires_arc = true
-s.swift_version = '4.2'
+s.swift_version = '5.1'
 
 s.default_subspec = 'Default'
 

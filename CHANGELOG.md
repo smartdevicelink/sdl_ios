@@ -1,4 +1,64 @@
 # Changelog
+## 6.4.0
+### Versions
+* Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Enhancements
+* The autocomplete options for users in searchable choice sets and popup keyboards can now support more than one item (https://www.github.com/smartdevicelink/sdl_ios/issues/790).
+* The application can now be closed (put into HMI level NONE) at runtime programmatically (https://www.github.com/smartdevicelink/sdl_ios/issues/801).
+* Added the ability to open the main menu or directly to any sub-menu (https://www.github.com/smartdevicelink/sdl_ios/issues/806).
+* Added the ability for the module to turn on or off a gesture to dismiss the lock screen – this can also be disabled on the developer side (https://www.github.com/smartdevicelink/sdl_ios/issues/932).
+* Added the ability to display an icon on an alert (https://www.github.com/smartdevicelink/sdl_ios/issues/995).
+* Automatic video streaming now supports module capability parameters for scale (e.g. 1x, 2x), and pixel density (https://www.github.com/smartdevicelink/sdl_ios/issues/1007).
+* Added the ability to set a title for the displayed template layout (to name the current app screen) (https://www.github.com/smartdevicelink/sdl_ios/issues/1031).
+* Support for canceling popup menus, keyboards, alerts, scrollable messages, and sliders (https://www.github.com/smartdevicelink/sdl_ios/issues/1055).
+* `SDLGPSData` now has a `shifted` parameter to support proprietary shifts in certain locales (https://www.github.com/smartdevicelink/sdl_ios/issues/1083).
+* Additional remote control RADIO and CLIMATE module parameters have been added (https://www.github.com/smartdevicelink/sdl_ios/issues/1143).
+* The RPC session can now be encrypted when the head unit has the capability and desires it. This allows all RPCs, or a subset, to be encrypted over the wire similar to the current capability with video data (https://www.github.com/smartdevicelink/sdl_ios/issues/1163).
+  * A new encryption configuration has been added to configure security libraries.
+    * A new delegate callback has been added to know when encryption succeeds or fails.
+  * The ability to start encryption and mark RPC requests as requiring encryption has been added.
+  * The library will automatically encrypt RPCs that the head unit requires to be encrypted.
+* Add support for OEM-only custom (non-SDL-defined) vehicle data (https://www.github.com/smartdevicelink/sdl_ios/issues/1184).
+* The MEDIA app service now supports a media image (https://www.github.com/smartdevicelink/sdl_ios/issues/1247).
+* App services can now be unpublished and their manifests can now be updated (https://www.github.com/smartdevicelink/sdl_ios/issues/1260).
+* Additional subscription buttons designed for navigation applications are now available (https://www.github.com/smartdevicelink/sdl_ios/issues/1269).
+* Support multiple windows per display via widgets (https://www.github.com/smartdevicelink/sdl_ios/issues/1270).
+* Support multiple modules per remote control module type (https://www.github.com/smartdevicelink/sdl_ios/issues/1272).
+* A tile layout is now supported for the main menu and sub-menus (https://www.github.com/smartdevicelink/sdl_ios/issues/1276).
+* The background string that displays while video streaming when the app is put into the background can now be disabled (https://www.github.com/smartdevicelink/sdl_ios/issues/1304).
+* The lock screen can now be enabled at all times (https://www.github.com/smartdevicelink/sdl_ios/issues/1367).
+* The module logo on the lock screen can now be disabled (https://www.github.com/smartdevicelink/sdl_ios/issues/1370).
+* `SDLSoftButtonObject` can now be initialized without first initializing an `SDLSoftButtonState` (https://www.github.com/smartdevicelink/sdl_ios/issues/1375).
+* The secondary transport feature for video streaming can now be disabled (https://www.github.com/smartdevicelink/sdl_ios/issues/1380).
+* The `SDLSystemCapabilityManager` now has support for the new multi-window display capabilities with automatic backward-compatibility support (https://www.github.com/smartdevicelink/sdl_ios/issues/1386).
+* `SDLHMICapabilities` now supports checking app services (https://www.github.com/smartdevicelink/sdl_ios/issues/1389).
+
+### Bug Fixes
+* Fixed the permission manager processing permission updates incorrectly (https://www.github.com/smartdevicelink/sdl_ios/issues/965).
+* Multithreading throughout the iOS library has been re-implemented for simplicity and speed (https://www.github.com/smartdevicelink/sdl_ios/issues/1028).
+* `SDLSyncMsgVersion` is now `SDLMsgVersion` across the project (https://www.github.com/smartdevicelink/sdl_ios/issues/1352).
+* Fix the choice set manager not properly handling successes that also error (like warnings) (https://www.github.com/smartdevicelink/sdl_ios/issues/1363).
+* Internal operations now properly immediately when they're canceled before starting (https://www.github.com/smartdevicelink/sdl_ios/issues/1379).
+* The video streaming capability `bitrate` is now properly used by default (https://www.github.com/smartdevicelink/sdl_ios/issues/1392).
+* Fixed `SDLHMICapabilities` missing parameters (https://www.github.com/smartdevicelink/sdl_ios/issues/1395, https://www.github.com/smartdevicelink/sdl_ios/issues/1423).
+* Fixed unit tests on Xcode 11 (https://www.github.com/smartdevicelink/sdl_ios/issues/1406, https://www.github.com/smartdevicelink/sdl_ios/issues/1407).
+* Fix video streaming should not begin if `HMICapabilities.videoStreaming` is `NO` (https://www.github.com/smartdevicelink/sdl_ios/issues/1411).
+* Fix several RPC response parameters should be optional / nullable (https://www.github.com/smartdevicelink/sdl_ios/issues/1417).
+* Fixed iOS 13 making the lock screen dismissible (https://www.github.com/smartdevicelink/sdl_ios/issues/1422).
+* Fixed second phone connecting to head unit over iAP disconnecting the first phone (https://www.github.com/smartdevicelink/sdl_ios/issues/1431).
+* Add a check before popping a buffer to prevent crashes (https://www.github.com/smartdevicelink/sdl_ios/issues/1433).
+* More information is logged when asserts occur due to type mismatches (https://www.github.com/smartdevicelink/sdl_ios/issues/1439).
+* Fixed `SDLLightControlCapabilities` and `SDLHMISettingsControlCapabilities` not returning correctly due to mismatched types (https://www.github.com/smartdevicelink/sdl_ios/issues/1441).
+* Fixed wording in RPC and Protocol version blocking warning logs (https://www.github.com/smartdevicelink/sdl_ios/issues/1450).
+* Encrypted protocol messages are logged more clearly and with additional information (https://www.github.com/smartdevicelink/sdl_ios/issues/1451).
+* File Manager will still function if the `ListFiles` returns with a `DISALLOWED` `resultCode` to work around some production module bugs (https://www.github.com/smartdevicelink/sdl_ios/issues/1454).
+
+### Example Apps
+* Fixed the VR-only Perform Interaction always failing (https://www.github.com/smartdevicelink/sdl_ios/issues/1353).
+* Add a slider and a scrollable message example to the example apps (https://www.github.com/smartdevicelink/sdl_ios/issues/1383).
+* Obj-C and Swift example apps are now styled correctly on iOS 13 devices in dark mode (https://www.github.com/smartdevicelink/sdl_ios/issues/1428).
+
 ## 6.3.1
 ### Bug Fixes
 * Fix unregistering for EATransport notifications can interfere with other apps' EATransport notifications (https://www.github.com/smartdevicelink/sdl_ios/issues/1329).
@@ -626,7 +686,7 @@ No changes since RC3
 * Deprecate SDLProxy in favor of SDLManager. A future major release will remove and alter many public APIs, but they will not be deprecated in this release because they will not be replaced in this release.
 
 ### Enhancements
-* Release a whole new way of reasoning about interacting with SDL. This new high-level API, and it is largely modular with "managers" for various aspects of SDL. This will be extended as time goes on with various new managers based on aspects of SDL and app development (#223, #241, #298). @joeljfischer, @adein, @justinjdickow, @asm09fsu
+* Release a whole new way of reasoning about interacting with SDL. This new high-level API, and it is largely modular with "managers" for various aspects of SDL. This will be extended as time goes on with various new managers based on aspects of SDL and app development (https://www.github.com/smartdevicelink/sdl_ios/issues/223, https://www.github.com/smartdevicelink/sdl_ios/issues/241, https://www.github.com/smartdevicelink/sdl_ios/issues/298). @joeljfischer, @adein, @justinjdickow, @asm09fsu
   * Add a new set of configurations that will be set before startup and allows the manager to take care of quite a bit of setup boilerplate on its own.
   * Release a Permission Manager that allows a developer to check which SDL RPCs are avaiable to use and monitor the ability to use them.
   * Release a File Manager that abstracts the process of tracking files on the remote head unit, uploading, and deleting files.
@@ -646,15 +706,15 @@ No changes since RC3
 
 ## 4.2.3 Release Notes
 ### Bug Fixes
-* Fixed HTTPS URL schemes not properly uploading data (#432, #438).
+* Fixed HTTPS URL schemes not properly uploading data (https://www.github.com/smartdevicelink/sdl_ios/issues/432, https://www.github.com/smartdevicelink/sdl_ios/issues/438).
 
 ## 4.2.2 Release Notes
 ### Bug Fixes
-* Fixed HTTP URL schemes not being properly altered to HTTPS to account for App Transport Security (#432, #436).
+* Fixed HTTP URL schemes not being properly altered to HTTPS to account for App Transport Security (https://www.github.com/smartdevicelink/sdl_ios/issues/432, https://www.github.com/smartdevicelink/sdl_ios/issues/436).
 
 ## 4.2.1 Release Notes
 ### Bug Fixes
-* Fixed SDLStreamingMediaManager encryption status not being set properly (#433, #434).
+* Fixed SDLStreamingMediaManager encryption status not being set properly (https://www.github.com/smartdevicelink/sdl_ios/issues/433, https://www.github.com/smartdevicelink/sdl_ios/issues/434).
 
 ## 4.2.0 Release Notes (since Beta 1)
 ### Enhancements
@@ -669,14 +729,14 @@ No changes since RC3
 
 ## 4.2.0 Beta 1 Release Notes
 ### Enhancements
-* Add an AppInfo struct to RegisterAppInterface automatically with some application details, so that the head unit may automatically launch some apps via IAP if supported (#398, #431).
-* Add a touch manager to the streaming media manager. The touch manager will watch for touch events and generate gesture recognizer-like callbacks (#402, #423).
-* The streaming media manager now supports custom encoder settings and better default settings, as well as automatically creates a video based on the display capabilites sent by the head unit in register app interface response (#400, #406).
-* Add support for linking an external encryption library to the SDL iOS library so that SDL data on the transport may be TLS encrypted (#348).
+* Add an AppInfo struct to RegisterAppInterface automatically with some application details, so that the head unit may automatically launch some apps via IAP if supported (https://www.github.com/smartdevicelink/sdl_ios/issues/398, https://www.github.com/smartdevicelink/sdl_ios/issues/431).
+* Add a touch manager to the streaming media manager. The touch manager will watch for touch events and generate gesture recognizer-like callbacks (https://www.github.com/smartdevicelink/sdl_ios/issues/402, https://www.github.com/smartdevicelink/sdl_ios/issues/423).
+* The streaming media manager now supports custom encoder settings and better default settings, as well as automatically creates a video based on the display capabilites sent by the head unit in register app interface response (https://www.github.com/smartdevicelink/sdl_ios/issues/400, https://www.github.com/smartdevicelink/sdl_ios/issues/406).
+* Add support for linking an external encryption library to the SDL iOS library so that SDL data on the transport may be TLS encrypted (https://www.github.com/smartdevicelink/sdl_ios/issues/348).
 
 ### Bug Fixes
-* Store sessionIds and service metadata together in the protocol code (#350).
-* Fixed a streaming media manager enum casing issue by deprecating the incorrect cased enum and adding a correctly cased one (#383, #411).
+* Store sessionIds and service metadata together in the protocol code (https://www.github.com/smartdevicelink/sdl_ios/issues/350).
+* Fixed a streaming media manager enum casing issue by deprecating the incorrect cased enum and adding a correctly cased one (https://www.github.com/smartdevicelink/sdl_ios/issues/383, https://www.github.com/smartdevicelink/sdl_ios/issues/411).
 
 ## 4.1.5 Release Notes
 ### Bug Fixes
@@ -691,16 +751,16 @@ No changes since RC3
 
 ## 4.1.3 Release Notes
 ### Enhancements
-* Fix unit tests attempting to be built against Xcode 7.1 instead of Xcode 7.3. (#413)
-* Auto-upload Carthage archives on tag Travis builds. (#413)
-* Move codecov.io settings to the repository in codecov.yml (#415)
-* Add a Jazzy documentation generation script, add theme, and generate documentation for the SDL Developer Portal. (#417)
+* Fix unit tests attempting to be built against Xcode 7.1 instead of Xcode 7.3. (https://www.github.com/smartdevicelink/sdl_ios/issues/413)
+* Auto-upload Carthage archives on tag Travis builds. (https://www.github.com/smartdevicelink/sdl_ios/issues/413)
+* Move codecov.io settings to the repository in codecov.yml (https://www.github.com/smartdevicelink/sdl_ios/issues/415)
+* Add a Jazzy documentation generation script, add theme, and generate documentation for the SDL Developer Portal. (https://www.github.com/smartdevicelink/sdl_ios/issues/417)
 
 ### Bugfixes
-* Improve video streaming by altering video encoding settings. (#410)
+* Improve video streaming by altering video encoding settings. (https://www.github.com/smartdevicelink/sdl_ios/issues/410)
 
 ### Other
-* Shift project and code files into the root directory, removing the SmartDeviceLink-iOS directory. (#404)
+* Shift project and code files into the root directory, removing the SmartDeviceLink-iOS directory. (https://www.github.com/smartdevicelink/sdl_ios/issues/404)
 
 ## 4.1.2 Release Notes
 ### Bugfixes
@@ -861,10 +921,10 @@ No changes since RC3
 * Fix all SDLRPCMessages being initialized being set with 'request' type
 * Fix all instances of 'receive' being spelled incorrectly
 * Fix attempting to copy an SDLEnum in `+[SDLRPCRequestFactory buildPutFileWithFileName:fileType:persistentFile:correlationId:]`
-* Fix SDLProtocolHeader `data` method using incorrect order of operations (#84)
-* Fix SDLOnLockScreenStatus `hmiLevel` checking wrong class type (#83)
-* Fix SDLProtocolMessageAssembler calling it's completion handler twice (#92)
-* Fix SDLRPCRequestFactory `performAudioPassThru` not settting correlation id (#79)
+* Fix SDLProtocolHeader `data` method using incorrect order of operations (https://www.github.com/smartdevicelink/sdl_ios/issues/84)
+* Fix SDLOnLockScreenStatus `hmiLevel` checking wrong class type (https://www.github.com/smartdevicelink/sdl_ios/issues/83)
+* Fix SDLProtocolMessageAssembler calling it's completion handler twice (https://www.github.com/smartdevicelink/sdl_ios/issues/92)
+* Fix SDLRPCRequestFactory `performAudioPassThru` not settting correlation id (https://www.github.com/smartdevicelink/sdl_ios/issues/79)
 * Fix OnSyncPData function ID being incorrect
 * Fix uninitialized variable being captured by a block in SDLProxy
 * Fix misspelling of 'dictionary'
