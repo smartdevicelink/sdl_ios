@@ -110,9 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
         if (success == NO) {
             SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
-
-            // FIX: Try to close the session if the canceledSemaphore is never triggered by the `sdl_accessoryEventLoop`
-            [self sdl_closeSession];
         }
         self.ioStreamThread = nil;
         [super cleanupClosedSession];
