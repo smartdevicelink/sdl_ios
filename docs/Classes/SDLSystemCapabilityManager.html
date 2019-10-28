@@ -4,6 +4,7 @@
 
 <ul>
   <li><a href="#section-supportsSubscriptions">supportsSubscriptions</a></li>
+  <li><a href="#section-displays">displays</a></li>
   <li><a href="#section-displayCapabilities">displayCapabilities</a></li>
   <li><a href="#section-hmiCapabilities">hmiCapabilities</a></li>
   <li><a href="#section-softButtonCapabilities">softButtonCapabilities</a></li>
@@ -20,6 +21,8 @@
   <li><a href="#section-phoneCapability">phoneCapability</a></li>
   <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
   <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
+  <li><a href="#section-seatLocationCapability">seatLocationCapability</a></li>
+  <li><a href="#section-defaultMainWindowCapability">defaultMainWindowCapability</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:">-initWithConnectionManager:</a></li>
   <li><a href="#section--start">-start</a></li>
@@ -28,6 +31,7 @@
   <li><a href="#section--subscribeToCapabilityType:withBlock:">-subscribeToCapabilityType:withBlock:</a></li>
   <li><a href="#section--subscribeToCapabilityType:withObserver:selector:">-subscribeToCapabilityType:withObserver:selector:</a></li>
   <li><a href="#section--unsubscribeFromCapabilityType:withObserver:">-unsubscribeFromCapabilityType:withObserver:</a></li>
+  <li><a href="#section--windowCapabilityWithWindowID:">-windowCapabilityWithWindowID:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -50,6 +54,32 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportsSubscriptions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-displays">
+      displays
+  </h3>
+  
+  <p>Provides window capabilities of all displays connected with SDL. By default, one display is connected and supported which includes window capability information of the default main window of the display. May be nil if the system has not provided display and window capability information yet.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDisplayCapability
+
+</div>
+
+<p>Optional, @since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">displays</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displays</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -460,6 +490,53 @@
   
   
   
+  <h3 id="section-seatLocationCapability">
+      seatLocationCapability
+  </h3>
+  
+  <p>If returned, the platform supports remote control capabilities for seats</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSeatLocationCapability
+
+</div>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span> <span class="o">*</span><span class="n">seatLocationCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatLocationCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-defaultMainWindowCapability">
+      defaultMainWindowCapability
+  </h3>
+  
+  <p>Returns the window capability object of the default main window which is always pre-created by the connected system. This is a convenience method for easily accessing the capabilities of the default main window.</p>
+
+<p>@returns The window capability object representing the default main window capabilities or nil if no window capabilities exist.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="n">defaultMainWindowCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">defaultMainWindowCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section--init">
       -init
   </h3>
@@ -661,6 +738,31 @@
       <dd><p>The type of the system capability to unsubscribe from</p></dd>
       <dt>observer</dt>
       <dd><p>The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.</p></dd>
+  </dl>
+  
+  <h3 id="section--windowCapabilityWithWindowID:">
+      -windowCapabilityWithWindowID:
+  </h3>
+  
+  <p>Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">windowCapabilityWithWindowID</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">windowID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">windowCapability</span><span class="p">(</span><span class="n">withWindowID</span> <span class="nv">windowID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>windowID</dt>
+      <dd><p>The ID of the window to get capabilities
+@returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.</p></dd>
   </dl>
   
 </section>

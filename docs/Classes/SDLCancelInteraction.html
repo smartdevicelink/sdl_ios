@@ -1,0 +1,321 @@
+<h1>SDLCancelInteraction Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithFunctionID:">-initWithFunctionID:</a></li>
+  <li><a href="#section--initWithFunctionID:cancelID:">-initWithFunctionID:cancelID:</a></li>
+  <li><a href="#section--initWithAlertCancelID:">-initWithAlertCancelID:</a></li>
+  <li><a href="#section--initWithSliderCancelID:">-initWithSliderCancelID:</a></li>
+  <li><a href="#section--initWithScrollableMessageCancelID:">-initWithScrollableMessageCancelID:</a></li>
+  <li><a href="#section--initWithPerformInteractionCancelID:">-initWithPerformInteractionCancelID:</a></li>
+  <li><a href="#section-+alert">+alert</a></li>
+  <li><a href="#section-+slider">+slider</a></li>
+  <li><a href="#section-+scrollableMessage">+scrollableMessage</a></li>
+  <li><a href="#section-+performInteraction">+performInteraction</a></li>
+  <li><a href="#section-cancelID">cancelID</a></li>
+  <li><a href="#section-functionID">functionID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithFunctionID:">
+      -initWithFunctionID:
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented modal view (either an alert, slider, scrollable message, or perform interation).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFunctionID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">functionID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">functionID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>functionID</dt>
+      <dd><p>The ID of the type of modal view to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithFunctionID:cancelID:">
+      -initWithFunctionID:cancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing a specific view.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFunctionID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">functionID</span>
+                                  <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">functionID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>functionID</dt>
+      <dd><p>The ID of the type of interaction to dismiss</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific interaction to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertCancelID:">
+      -initWithAlertCancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing an alert.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertCancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">alertCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific interaction to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithSliderCancelID:">
+      -initWithSliderCancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing a slider.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSliderCancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">sliderCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific interaction to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithScrollableMessageCancelID:">
+      -initWithScrollableMessageCancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing a scrollable message.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithScrollableMessageCancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">scrollableMessageCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific interaction to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithPerformInteractionCancelID:">
+      -initWithPerformInteractionCancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing a perform interaction.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPerformInteractionCancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">performInteractionCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific interaction to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section-+alert">
+      +alert
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented alert.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">alert</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">alert</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section-+slider">
+      +slider
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented slider.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">slider</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">slider</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section-+scrollableMessage">
+      +scrollableMessage
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented scrollable message.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">scrollableMessage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">scrollableMessage</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section-+performInteraction">
+      +performInteraction
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented perform interaction.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">performInteraction</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">performInteraction</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
+  <h3 id="section-cancelID">
+      cancelID
+  </h3>
+  
+  <p>The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-functionID">
+      functionID
+  </h3>
+  
+  <p>The ID of the type of interaction to dismiss.</p>
+
+<p>Only values 10 (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), and 26 (SliderID) are permitted.</p>
+
+<p>Integer, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">functionID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">functionID</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -3,6 +3,8 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID:">-initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID:</a></li>
+  <li><a href="#section--initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID:">-initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID:</a></li>
   <li><a href="#section--initWithInteractionChoiceSetId:">-initWithInteractionChoiceSetId:</a></li>
   <li><a href="#section--initWithInteractionChoiceSetIdList:">-initWithInteractionChoiceSetIdList:</a></li>
   <li><a href="#section--initWithInitialPrompt:initialText:interactionChoiceSetID:">-initWithInitialPrompt:initialText:interactionChoiceSetID:</a></li>
@@ -20,36 +22,137 @@
   <li><a href="#section-timeout">timeout</a></li>
   <li><a href="#section-vrHelp">vrHelp</a></li>
   <li><a href="#section-interactionLayout">interactionLayout</a></li>
+  <li><a href="#section-cancelID">cancelID</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Performs an application-initiated interaction in which the user can select a
- {@linkplain Choice} from among the specified Choice Sets. For instance, an
- application may use a PerformInteraction to ask a user to say the name of a
- song to play. The user&rsquo;s response is only valid if it appears in the
- specified Choice Sets and is recognized by SDL
- <p>
- Function Group: Base
- <p>
- <b>HMILevel needs to be FULL</b>
- </p></p>
+<p>Performs an application-initiated interaction in which the user can select a choice from the passed choice set.</p>
 
-<p>Since SmartDeviceLink 1.0<br/>
- See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet</p>
+<p>There are several ways to present a choice set: as visual pop-up menu (with an optional keyboard that allows for searches), as voice-recognition (VR) only menu, or as both a VR and visual menu. It is also possible to present only the keyboard for doing searches.</p>
+
+<p>A choice set can have up to 100 items, however if you are presenting a visual only menu please be aware that the OEM may choose to limit the number of presented choices when the driver is distracted (i.e. the car is moving).</p>
+
+<p>A VR-only menu could be used to ask a user to say the name of a song to play. The user&rsquo;s response would only be valid if it appears in the specified choice set.
+A visual popup-menu could be used to present a list of albums to the user. The user would select the album they want to play from the list of presented choices.
+A keyboard can be used for searches. For example, the user could be asked to enter the name of a restaurant. The name can be used to search for local restaurants with the same name. When the search is completed another menu can be presented with a list of potential addresses for the destination.</p>
+
+<p>If connecting to SDL Core v.6.0+, the perform interaction can be canceled programmatically using the <code>cancelID</code>. On older versions of SDL Core, the perform interaction will persist until the user has interacted with the perform interaction or the specified timeout has elapsed.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLCreateInteractionChoiceSet, SDLDeleteInteractionChoiceSet
+
+</div>
+
+<p>@since SDL 1.0</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithInteractionChoiceSetId:">
-      -initWithInteractionChoiceSetId:
+  <h3 id="section--initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID:">
+      -initWithInitialText:interactionMode:interactionChoiceSetIDList:cancelID:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a basic display or voice-recognition menu.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInteractionChoiceSetId</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetId</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+           <span class="nf">initWithInitialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                      <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">initialText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">interactionMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">,</span> <span class="nv">interactionChoiceSetIDList</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">],</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>Indicates the method in which the user is notified and uses the interaction</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>An ID for this specific perform interaction to allow cancellation through the <code>CancelInteraction</code> RPC</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID:">
+      -initWithInitialText:initialPrompt:interactionMode:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:timeout:vrHelp:interactionLayout:cancelID:
+  </h3>
+  
+  <p>Convenience init for setting all parameters of a display or voice-recognition menu.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+           <span class="nf">initWithInitialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+                 <span class="nf">initialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                    <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+                 <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+                       <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span>
+                        <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span>
+             <span class="nf">interactionLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span><span class="p">)</span><span class="nv">interactionLayout</span>
+                      <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">initialText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">initialPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">interactionMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">,</span> <span class="nv">interactionChoiceSetIDList</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">],</span> <span class="nv">helpPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">timeoutPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span><span class="p">]?,</span> <span class="nv">interactionLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span><span class="p">?,</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>initialPrompt</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>The method in which the user is notified and uses the interaction (voice, visual or both)</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>The spoken text when a user speaks <q>help</q> when the interaction is occurring</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>The text spoken when a VR interaction times out</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in milliseconds</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>Suggested voice recognition help items to display on-screen during a perform interaction</p></dd>
+      <dt>interactionLayout</dt>
+      <dd><p>For touchscreen interactions, the mode of how the choices are presented</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>An ID for this specific perform interaction to allow cancellation through the <code>CancelInteraction</code> RPC.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
+  
+  <h3 id="section--initWithInteractionChoiceSetId:">
+      -initWithInteractionChoiceSetId:
+  </h3>
+  
+  <p>Convenience init for setting the a single visual or voice-recognition menu choice.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInteractionChoiceSetId</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetId</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -57,17 +160,27 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>interactionChoiceSetId</dt>
+      <dd><p>Single interaction choice set ID to use with an interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInteractionChoiceSetIdList:">
       -initWithInteractionChoiceSetIdList:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for setting the a visual or voice-recognition menu choices.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInteractionChoiceSetIdList</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIdList</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInteractionChoiceSetIdList</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIdList</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -75,17 +188,28 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>interactionChoiceSetIdList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialPrompt:initialText:interactionChoiceSetID:">
       -initWithInitialPrompt:initialText:interactionChoiceSetID:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a visual or voice-recognition menu with one choice.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetID</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetID</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+                                  <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+                       <span class="nf">interactionChoiceSetID</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -93,17 +217,34 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialPrompt</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>interactionChoiceSetID</dt>
+      <dd><p>Single interaction choice set ID to use with an interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialPrompt:initialText:interactionChoiceSetID:vrHelp:">
       -initWithInitialPrompt:initialText:interactionChoiceSetID:vrHelp:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a visual or voice-recognition menu with one choice and VR help items.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetID</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetID</span> <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+     <span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+               <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+    <span class="nf">interactionChoiceSetID</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">interactionChoiceSetID</span>
+                    <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -111,17 +252,40 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialPrompt</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>interactionChoiceSetID</dt>
+      <dd><p>Single interaction choice set ID to use with an interaction</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>Suggested voice recognition help items to display on-screen during a perform interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialPrompt:initialText:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:interactionMode:timeout:">
       -initWithInitialPrompt:initialText:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:interactionMode:timeout:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a visual or voice-recognition menu using the default display layout and VR help items. Prompts are created from the passed strings.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetIDList</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span> <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span> <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span> <span class="nf">interactionMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+                   <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                    <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+                 <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+                       <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -129,17 +293,47 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>initialPrompt</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>The method in which the user is notified and uses the interaction (voice, visual or both)</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>The spoken text when a user speaks <q>help</q> when the interaction is occurring</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>The text spoken when a VR interaction times out</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in milliseconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialPrompt:initialText:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:interactionMode:timeout:vrHelp:">
       -initWithInitialPrompt:initialText:interactionChoiceSetIDList:helpPrompt:timeoutPrompt:interactionMode:timeout:vrHelp:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a visual or voice-recognition menu using the default display layout. Prompts are created from the passed strings.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetIDList</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span> <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span> <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span> <span class="nf">interactionMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithInitialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span>
+                   <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                    <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+                 <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+                       <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span>
+                        <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -147,17 +341,49 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>initialPrompt</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>The method in which the user is notified and uses the interaction (voice, visual or both)</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>The spoken text when a user speaks <q>help</q> when the interaction is occurring</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>The text spoken when a VR interaction times out</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in milliseconds</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>Suggested voice recognition help items to display on-screen during a perform interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialChunks:initialText:interactionChoiceSetIDList:helpChunks:timeoutChunks:interactionMode:timeout:vrHelp:">
       -initWithInitialChunks:initialText:interactionChoiceSetIDList:helpChunks:timeoutChunks:interactionMode:timeout:vrHelp:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a visual or voice-recognition menu using the default display layout.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialChunks</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetIDList</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span> <span class="nf">helpChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpChunks</span> <span class="nf">timeoutChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutChunks</span> <span class="nf">interactionMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithInitialChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialChunks</span>
+                   <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                    <span class="nf">helpChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpChunks</span>
+                 <span class="nf">timeoutChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutChunks</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+                       <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span>
+                        <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -165,17 +391,50 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>initialChunks</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>The method in which the user is notified and uses the interaction (voice, visual or both)</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>helpChunks</dt>
+      <dd><p>The spoken text when a user speaks <q>help</q> when the interaction is occurring</p></dd>
+      <dt>timeoutChunks</dt>
+      <dd><p>The text spoken when a VR interaction times out</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in milliseconds</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>Suggested voice recognition help items to display on-screen during a perform interaction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section--initWithInitialChunks:initialText:interactionChoiceSetIDList:helpChunks:timeoutChunks:interactionMode:timeout:vrHelp:interactionLayout:">
       -initWithInitialChunks:initialText:interactionChoiceSetIDList:helpChunks:timeoutChunks:interactionMode:timeout:vrHelp:interactionLayout:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for setting all parameters of a visual or voice-recognition menu.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithInitialChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialChunks</span> <span class="nf">initialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">interactionChoiceSetIDList</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span> <span class="nf">helpChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpChunks</span> <span class="nf">timeoutChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutChunks</span> <span class="nf">interactionMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span> <span class="nf">interactionLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span><span class="p">)</span><span class="nv">layout</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithInitialChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialChunks</span>
+                   <span class="nf">initialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+    <span class="nf">interactionChoiceSetIDList</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">interactionChoiceSetIDList</span>
+                    <span class="nf">helpChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpChunks</span>
+                 <span class="nf">timeoutChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutChunks</span>
+               <span class="nf">interactionMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">interactionMode</span>
+                       <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">timeout</span>
+                        <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span>
+             <span class="nf">interactionLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span><span class="p">)</span><span class="nv">layout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -183,15 +442,41 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>initialText</dt>
+      <dd><p>Text to be displayed first</p></dd>
+      <dt>initialChunks</dt>
+      <dd><p>The initial prompt spoken to the user at the start of an interaction</p></dd>
+      <dt>interactionMode</dt>
+      <dd><p>The method in which the user is notified and uses the interaction (voice, visual or both)</p></dd>
+      <dt>interactionChoiceSetIDList</dt>
+      <dd><p>List of interaction choice set IDs to use with an interaction</p></dd>
+      <dt>helpChunks</dt>
+      <dd><p>The spoken text when a user speaks <q>help</q> when the interaction is occurring</p></dd>
+      <dt>timeoutChunks</dt>
+      <dd><p>The text spoken when a VR interaction times out</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in milliseconds</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>Suggested voice recognition help items to display on-screen during a perform interaction</p></dd>
+      <dt>layout</dt>
+      <dd><p>For touchscreen interactions, the mode of how the choices are presented</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLPerformInteraction object</p>
+  </div>
   
   <h3 id="section-initialText">
       initialText
   </h3>
   
-  <p>The Text that Displayed when the interaction begins. This text may
-be overlaid by the <q>Listening</q> prompt during the interaction. Text is
-displayed on first line of multiline display, and is centered. If text
-does not fit on line, it will be truncated</p>
+  <p>Text to be displayed first.</p>
+
+<p>String, Required</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -209,8 +494,11 @@ does not fit on line, it will be truncated</p>
       initialPrompt
   </h3>
   
-  <p>An array of one or more TTSChunks that, taken together, specify
-what is to be spoken to the user at the start of an interaction</p>
+  <p>This is the TTS prompt spoken to the user at the start of an interaction.</p>
+
+<p>Array of SDLTTSChunk, Optional, Array size: 1-100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -229,9 +517,11 @@ what is to be spoken to the user at the start of an interaction</p>
       interactionMode
   </h3>
   
-  <p>The Indicates mode that indicate how user selects interaction
-choice. User can choose either by voice (VR_ONLY), by visual selection
-from the menu (MANUAL_ONLY), or by either mode (BOTH)</p>
+  <p>For application-requested interactions, this mode indicates the method in which the user is notified and uses the interaction. Users can choose either only by voice (VR_ONLY), by tactile selection from the menu (MANUAL_ONLY), or by either mode (BOTH).</p>
+
+<p>SDLInteractionMode, Required</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -250,8 +540,11 @@ from the menu (MANUAL_ONLY), or by either mode (BOTH)</p>
       interactionChoiceSetIDList
   </h3>
   
-  <p>A Vector<Integer> value representing an Array of one or more Choice
-Set IDs</p>
+  <p>List of interaction choice set IDs to use with an interaction.</p>
+
+<p>Array of Integers, Required, Array size: 0-100, Min value: 0, Max value: 2000000000</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -270,8 +563,11 @@ Set IDs</p>
       helpPrompt
   </h3>
   
-  <p>A Vector<TTSChunk> which taken together, specify the help phrase to
-be spoken when the user says <q>help</q> during the VR session</p>
+  <p>Help text. This is the spoken text when a user speaks <q>help</q> while the interaction is occurring.</p>
+
+<p>SDLTTSChunk, Optional</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -290,8 +586,11 @@ be spoken when the user says <q>help</q> during the VR session</p>
       timeoutPrompt
   </h3>
   
-  <p>An array of TTSChunks which, taken together, specify the phrase to
-be spoken when the listen times out during the VR session</p>
+  <p>Timeout text. This text is spoken when a VR interaction times out.</p>
+
+<p>Array of SDLTTSChunk, Optional, Array size: 1-100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -310,8 +609,11 @@ be spoken when the listen times out during the VR session</p>
       timeout
   </h3>
   
-  <p>An Integer value representing the amount of time, in milliseconds,
-SDL will wait for the user to make a choice (VR or Menu)</p>
+  <p>Timeout in milliseconds. Applies only to the menu portion of the interaction. The VR timeout will be handled by the platform. If omitted a standard value of 10 seconds is used.</p>
+
+<p>Integer, Optional, Min value: 5000, Max value: 100,000</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -329,9 +631,11 @@ SDL will wait for the user to make a choice (VR or Menu)</p>
       vrHelp
   </h3>
   
-  <p>A Voice recognition Help, which is a suggested VR Help Items to
-display on-screen during Perform Interaction
-@since SmartDeviceLink 2.0</p>
+  <p>Suggested voice recognition help items to display on-screen during a perform interaction. If omitted on supported displays, the default generated list of suggested choices shall be displayed.</p>
+
+<p>SDLVRHelpItem, Optional</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -350,16 +654,47 @@ display on-screen during Perform Interaction
       interactionLayout
   </h3>
   
-  <p>Undocumented</p>
+  <p>For tactile interaction modes (MANUAL_ONLY, or BOTH), the layout mode of how the choices are presented.</p>
+
+<p>SDLLayoutMode, Optional</p>
+
+<p>@since SDL 3.0</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span> <span class="n">interactionLayout</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span> <span class="n">interactionLayout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">interactionLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLayoutMode.h@T@SDLLayoutMode">SDLLayoutMode</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cancelID">
+      cancelID
+  </h3>
+  
+  <p>An ID for this specific perform interaction to allow cancellation through the <code>CancelInteraction</code> RPC.</p>
+
+<p>Integer, Optional</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLCancelInteraction
+@since SDL 6.0
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

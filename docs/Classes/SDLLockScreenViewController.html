@@ -6,6 +6,9 @@
   <li><a href="#section-appIcon">appIcon</a></li>
   <li><a href="#section-vehicleIcon">vehicleIcon</a></li>
   <li><a href="#section-backgroundColor">backgroundColor</a></li>
+  <li><a href="#section-lockedLabelText">lockedLabelText</a></li>
+  <li><a href="#section--addDismissGestureWithCallback:">-addDismissGestureWithCallback:</a></li>
+  <li><a href="#section--removeDismissGesture">-removeDismissGesture</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -64,6 +67,61 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">backgroundColor</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lockedLabelText">
+      lockedLabelText
+  </h3>
+  
+  <p>The locked label string. This will be set by the lock screen manager to inform the user about the dismissable state.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">lockedLabelText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lockedLabelText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--addDismissGestureWithCallback:">
+      -addDismissGestureWithCallback:
+  </h3>
+  
+  <p>Adds a swipe gesture to the lock screen view controller.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDismissGestureWithCallback</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)</span><span class="nv">swipeGestureCallback</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addDismissGesture</span><span class="p">(</span><span class="n">callback</span> <span class="nv">swipeGestureCallback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--removeDismissGesture">
+      -removeDismissGesture
+  </h3>
+  
+  <p>Remove swipe gesture to the lock screen view controller.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">removeDismissGesture</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeDismissGesture</span><span class="p">()</span></code></pre>
 
   
   

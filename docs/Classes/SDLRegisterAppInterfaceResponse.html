@@ -4,6 +4,7 @@
 
 <ul>
   <li><a href="#section-syncMsgVersion">syncMsgVersion</a></li>
+  <li><a href="#section-sdlMsgVersion">sdlMsgVersion</a></li>
   <li><a href="#section-language">language</a></li>
   <li><a href="#section-hmiDisplayLanguage">hmiDisplayLanguage</a></li>
   <li><a href="#section-displayCapabilities">displayCapabilities</a></li>
@@ -28,7 +29,7 @@
 
 <p>Response to SDLRegisterAppInterface</p>
 
-<p>Since SmartDeviceLink 1.0</p>
+<p>@since SDL 1.0</p>
 
 
 <section class="section task-group-section">
@@ -36,9 +37,11 @@
       syncMsgVersion
   </h3>
   
-  <p>The RPC spec version supported by the connected IVI system.</p>
+  <p>Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.</p>
 
-<p>Optional</p>
+<p>SDLSyncMsgVersion, Optional</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -53,13 +56,37 @@
   
   
   
+  <h3 id="section-sdlMsgVersion">
+      sdlMsgVersion
+  </h3>
+  
+  <p>Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.</p>
+
+<p>SDLMsgVersion, Optional</p>
+
+<p>@since SDL 1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMsgVersion.html">SDLMsgVersion</a></span> <span class="o">*</span><span class="n">sdlMsgVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sdlMsgVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMsgVersion.html">SDLMsgVersion</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-language">
       language
   </h3>
   
   <p>The currently active VR+TTS language on the module. See <q>Language</q> for options.</p>
 
-<p>Optional</p>
+<p>SDLLanguage, Optional</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -79,9 +106,9 @@
   
   <p>The currently active display language on the module. See <q>Language</q> for options.</p>
 
-<p>Since SmartDeviceLink 2.0</p>
+<p>SDLLanguage, Optional</p>
 
-<p>Optional</p>
+<p>@since SDL 2.0</p>
 
   
   
@@ -100,9 +127,11 @@
       displayCapabilities
   </h3>
   
-  <p>Contains information about the display for the SDL system to which the application is currently connected.</p>
+  <p>Contains information about the display&rsquo;s capabilities.</p>
 
-<p>Optional</p>
+<p>SDLDisplayCapabilities, Optional</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -121,9 +150,11 @@
       buttonCapabilities
   </h3>
   
-  <p>Provides information about the capabilities of a SDL HMI button.</p>
+  <p>Contains information about the head unit button capabilities.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLButtonCapabilities</p>
+<p>Array of SDLButtonCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -142,9 +173,11 @@
       softButtonCapabilities
   </h3>
   
-  <p>Contains information about a SoftButton&rsquo;s capabilities.</p>
+  <p>Contains information about the head unit soft button capabilities.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities</p>
+<p>Array of SDLSoftButtonCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -165,7 +198,9 @@
   
   <p>If returned, the platform supports custom on-screen Presets</p>
 
-<p>Optional</p>
+<p>SDLPresetBankCapabilities, Optional</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -184,9 +219,11 @@
       hmiZoneCapabilities
   </h3>
   
-  <p>Specifies HMI Zones in the vehicle.</p>
+  <p>Contains information about the HMI zone capabilities.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities</p>
+<p>Array of SDLHMIZoneCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -205,9 +242,11 @@
       speechCapabilities
   </h3>
   
-  <p>Contains information about TTS capabilities on the SDL platform.</p>
+  <p>Contains information about the text-to-speech capabilities.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLSpeechCapabilities</p>
+<p>Array of SDLSpeechCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -226,12 +265,11 @@
       prerecordedSpeech
   </h3>
   
-  <p>Contains information about the speech capabilities on the SDL platform
-*</p>
+  <p>Contains a list of prerecorded speech items present on the platform.</p>
 
-<ul>
-<li>Optional, Array of length 1 - 100, of SDLPrerecordedSpeech</li>
-</ul>
+<p>Array of SDLPrerecordedSpeech, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -250,9 +288,11 @@
       vrCapabilities
   </h3>
   
-  <p>The VR capabilities of the connected SDL platform.</p>
+  <p>Contains information about the VR capabilities.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLVRCapabilities</p>
+<p>Array of SDLVRCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -271,9 +311,11 @@
       audioPassThruCapabilities
   </h3>
   
-  <p>Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}</p>
+  <p>Describes different audio type configurations for PerformAudioPassThru, e.g. {8kHz,8-bit,PCM}. The audio is recorded in monaural.</p>
 
-<p>Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities</p>
+<p>Array of SDLAudioPassThruCapabilities, Optional, Array of length 1 - 100</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -294,6 +336,10 @@
   
   <p>Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}</p>
 
+<p>SDLAudioPassThruCapabilities, Optional</p>
+
+<p>@since SDL 4.1</p>
+
   
   
   <h4>Objective-C</h4>
@@ -311,7 +357,11 @@
       vehicleType
   </h3>
   
-  <p>Specifies the connected vehicle&rsquo;s type</p>
+  <p>Specifies the connected vehicle&rsquo;s type.</p>
+
+<p>SDLVehicleType, Optional</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -331,7 +381,9 @@
   
   <p>Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.</p>
 
-<p>Optional, Array of length 1 - 100, Integer 0 - 255</p>
+<p>Array of Integers, Optional, Array of length 1 - 100, Value range: 0 - 255</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -350,9 +402,11 @@
       hmiCapabilities
   </h3>
   
-  <p>Specifies the availability of various SDL features.</p>
+  <p>Specifies the HMI capabilities.</p>
 
-<p>Optional</p>
+<p>SDLHMICapabilities, Optional</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -371,9 +425,11 @@
       sdlVersion
   </h3>
   
-  <p>The SmartDeviceLink Core version</p>
+  <p>The version of SDL Core running on the connected head unit</p>
 
-<p>Optional, String max length 100</p>
+<p>String, Optional, Max length: 100</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -391,9 +447,11 @@
       systemSoftwareVersion
   </h3>
   
-  <p>The software version of the system that implements SmartDeviceLink Core</p>
+  <p>The software version of the system that implements the SmartDeviceLink core.</p>
 
-<p>Optional, String max length 100</p>
+<p>String, Optional, Max length: 100</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -412,7 +470,11 @@
       iconResumed
   </h3>
   
-  <p>Whether or not the app&rsquo;s icon already existed on the system and was resumed. That means that the icon does not need to be sent by the app.</p>
+  <p>Existence of apps icon at system. If true, apps icon was resumed at system. If false, apps icon is not resumed at system.</p>
+
+<p>Bool, Optional</p>
+
+<p>@since SDL 5.0</p>
 
   
   

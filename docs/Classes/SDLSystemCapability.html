@@ -8,12 +8,16 @@
   <li><a href="#section--initWithPhoneCapability:">-initWithPhoneCapability:</a></li>
   <li><a href="#section--initWithVideoStreamingCapability:">-initWithVideoStreamingCapability:</a></li>
   <li><a href="#section--initWithRemoteControlCapability:">-initWithRemoteControlCapability:</a></li>
+  <li><a href="#section--initWithDisplayCapabilities:">-initWithDisplayCapabilities:</a></li>
+  <li><a href="#section--initWithSeatLocationCapability:">-initWithSeatLocationCapability:</a></li>
   <li><a href="#section-systemCapabilityType">systemCapabilityType</a></li>
   <li><a href="#section-appServicesCapabilities">appServicesCapabilities</a></li>
   <li><a href="#section-navigationCapability">navigationCapability</a></li>
   <li><a href="#section-phoneCapability">phoneCapability</a></li>
   <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
   <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
+  <li><a href="#section-seatLocationCapability">seatLocationCapability</a></li>
+  <li><a href="#section-displayCapabilities">displayCapabilities</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -164,6 +168,62 @@
     <p>A SDLSystemCapability object</p>
   </div>
   
+  <h3 id="section--initWithDisplayCapabilities:">
+      -initWithDisplayCapabilities:
+  </h3>
+  
+  <p>Convenience init for DisplayCapability list</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDisplayCapabilities</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">capabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)displayCapabilities">displayCapabilities</a></span> <span class="nv">capabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>capabilities</dt>
+      <dd><p>Contains capabilities related to a physical screen and any associated windows</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSystemCapability object</p>
+  </div>
+  
+  <h3 id="section--initWithSeatLocationCapability:">
+      -initWithSeatLocationCapability:
+  </h3>
+  
+  <p>Convenience init for a Remote Control Capability</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSeatLocationCapability</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)seatLocationCapability">seatLocationCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>capability</dt>
+      <dd><p>Describes information about the locations of each seat</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSystemCapability object</p>
+  </div>
+  
   <h3 id="section-systemCapabilityType">
       systemCapabilityType
   </h3>
@@ -284,6 +344,50 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">remoteControlCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seatLocationCapability">
+      seatLocationCapability
+  </h3>
+  
+  <p>Describes information about the locations of each seat</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span> <span class="o">*</span><span class="n">seatLocationCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatLocationCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-displayCapabilities">
+      displayCapabilities
+  </h3>
+  
+  <p>Contain the display related information and all windows related to that display</p>
+
+<p>Optional</p>
+
+<p>@since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">displayCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

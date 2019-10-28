@@ -13,6 +13,7 @@
   <li><a href="#section-SDLLogTarget">SDLLogTarget</a></li>
   <li><a href="#section-SDLManagerDelegate">SDLManagerDelegate</a></li>
   <li><a href="#section-SDLSecurityType">SDLSecurityType</a></li>
+  <li><a href="#section-SDLServiceEncryptionDelegate">SDLServiceEncryptionDelegate</a></li>
   <li><a href="#section-SDLStreamingAudioManagerType">SDLStreamingAudioManagerType</a></li>
   <li><a href="#section-SDLStreamingMediaManagerDataSource">SDLStreamingMediaManagerDataSource</a></li>
   <li><a href="#section-SDLTouchManagerDelegate">SDLTouchManagerDelegate</a></li>
@@ -226,7 +227,17 @@
  @param currentInputText The user's full current input text
  @param completionHandler A completion handler to update the autoCompleteText
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use updateAutocompleteWithInput:autoCompleteResultsHandler:"</span><span class="p">);</span>
+
+<span class="cm">/**
+ Implement this if you wish to updated the KeyboardProperties.autoCompleteList as the user updates their input. This is called upon a KEYPRESS event.
+
+ This allows you to present a list of options that the user can use to fill in the search / text box with suggestions you provide.
+
+ @param currentInputText The user's full current input text
+ @param resultsHandler A completion handler to update the autoCompleteList
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">autoCompleteResultsHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></span><span class="p">)</span><span class="nv">resultsHandler</span><span class="p">;</span>
 
 <span class="cm">/**
  Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.
@@ -354,6 +365,36 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLSecurityType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceEncryptionDelegate">
+      SDLServiceEncryptionDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLServiceEncryptionDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLServiceEncryptionDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="cm">/**
+ *  Called when the encryption service has been.
+ *
+ *  @param type will return whichever type had an encryption update (for now probably only SDLServiceTypeRPC), but it could also apply to video / audio in the future.
+ *  @param encrypted return true if the the encryption service was setup successfully, will return false if the service is presently not encrypted.
+ *  @param error will return any error that happens or nil if there is no error.
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">serviceEncryptionUpdatedOnService</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="n">type</span> <span class="n">encrypted</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">encrypted</span> <span class="n">error</span><span class="o">:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">__nullable</span><span class="p">)</span><span class="n">error</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">serviceEncryptionUpdated</span><span class="p">(</span><span class="n">serviceType</span><span class="o">:</span><span class="n">isEncrypted</span><span class="o">:</span><span class="n">error</span><span class="o">:</span><span class="p">));</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLServiceEncryptionDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   

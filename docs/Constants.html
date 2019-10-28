@@ -87,6 +87,21 @@
   <li><a href="#section-SDLButtonNameSource">SDLButtonNameSource</a></li>
   <li><a href="#section-SDLButtonNameShuffle">SDLButtonNameShuffle</a></li>
   <li><a href="#section-SDLButtonNameRepeat">SDLButtonNameRepeat</a></li>
+  <li><a href="#section-SDLButtonNameNavCenterLocation">SDLButtonNameNavCenterLocation</a></li>
+  <li><a href="#section-SDLButtonNameNavZoomIn">SDLButtonNameNavZoomIn</a></li>
+  <li><a href="#section-SDLButtonNameNavZoomOut">SDLButtonNameNavZoomOut</a></li>
+  <li><a href="#section-SDLButtonNameNavPanUp">SDLButtonNameNavPanUp</a></li>
+  <li><a href="#section-SDLButtonNameNavPanUpRight">SDLButtonNameNavPanUpRight</a></li>
+  <li><a href="#section-SDLButtonNameNavPanRight">SDLButtonNameNavPanRight</a></li>
+  <li><a href="#section-SDLButtonNameNavPanDownRight">SDLButtonNameNavPanDownRight</a></li>
+  <li><a href="#section-SDLButtonNameNavPanDown">SDLButtonNameNavPanDown</a></li>
+  <li><a href="#section-SDLButtonNameNavPanDownLeft">SDLButtonNameNavPanDownLeft</a></li>
+  <li><a href="#section-SDLButtonNameNavPanLeft">SDLButtonNameNavPanLeft</a></li>
+  <li><a href="#section-SDLButtonNameNavPanUpLeft">SDLButtonNameNavPanUpLeft</a></li>
+  <li><a href="#section-SDLButtonNameNavTiltToggle">SDLButtonNameNavTiltToggle</a></li>
+  <li><a href="#section-SDLButtonNameNavRotateClockwise">SDLButtonNameNavRotateClockwise</a></li>
+  <li><a href="#section-SDLButtonNameNavRotateCounterClockwise">SDLButtonNameNavRotateCounterClockwise</a></li>
+  <li><a href="#section-SDLButtonNameNavHeadingToggle">SDLButtonNameNavHeadingToggle</a></li>
   <li><a href="#section-SDLButtonPressModeLong">SDLButtonPressModeLong</a></li>
   <li><a href="#section-SDLButtonPressModeShort">SDLButtonPressModeShort</a></li>
   <li><a href="#section-SDLCarModeStatusNormal">SDLCarModeStatusNormal</a></li>
@@ -190,6 +205,7 @@
   <li><a href="#section-SDLGlobalPropertyMenuName">SDLGlobalPropertyMenuName</a></li>
   <li><a href="#section-SDLGlobalPropertyMenuIcon">SDLGlobalPropertyMenuIcon</a></li>
   <li><a href="#section-SDLGlobalPropertyKeyboard">SDLGlobalPropertyKeyboard</a></li>
+  <li><a href="#section-SDLGlobalPropertyUserLocation">SDLGlobalPropertyUserLocation</a></li>
   <li><a href="#section-SDLHMILevelFull">SDLHMILevelFull</a></li>
   <li><a href="#section-SDLHMILevelLimited">SDLHMILevelLimited</a></li>
   <li><a href="#section-SDLHMILevelBackground">SDLHMILevelBackground</a></li>
@@ -208,6 +224,7 @@
   <li><a href="#section-SDLIgnitionStatusRun">SDLIgnitionStatusRun</a></li>
   <li><a href="#section-SDLIgnitionStatusStart">SDLIgnitionStatusStart</a></li>
   <li><a href="#section-SDLIgnitionStatusInvalid">SDLIgnitionStatusInvalid</a></li>
+  <li><a href="#section-SDLImageFieldNameAlertIcon">SDLImageFieldNameAlertIcon</a></li>
   <li><a href="#section-SDLImageFieldNameSoftButtonImage">SDLImageFieldNameSoftButtonImage</a></li>
   <li><a href="#section-SDLImageFieldNameChoiceImage">SDLImageFieldNameChoiceImage</a></li>
   <li><a href="#section-SDLImageFieldNameChoiceSecondaryImage">SDLImageFieldNameChoiceSecondaryImage</a></li>
@@ -363,6 +380,8 @@
   <li><a href="#section-SDLMediaTypePodcast">SDLMediaTypePodcast</a></li>
   <li><a href="#section-SDLMediaTypeAudiobook">SDLMediaTypeAudiobook</a></li>
   <li><a href="#section-SDLMediaTypeOther">SDLMediaTypeOther</a></li>
+  <li><a href="#section-SDLMenuLayoutList">SDLMenuLayoutList</a></li>
+  <li><a href="#section-SDLMenuLayoutTiles">SDLMenuLayoutTiles</a></li>
   <li><a href="#section-SDLMetadataTypeMediaTitle">SDLMetadataTypeMediaTitle</a></li>
   <li><a href="#section-SDLMetadataTypeMediaArtist">SDLMetadataTypeMediaArtist</a></li>
   <li><a href="#section-SDLMetadataTypeMediaAlbum">SDLMetadataTypeMediaAlbum</a></li>
@@ -409,12 +428,16 @@
   <li><a href="#section-SDLDidReceiveAlertResponse">SDLDidReceiveAlertResponse</a></li>
   <li><a href="#section-SDLDidReceiveAlertManeuverResponse">SDLDidReceiveAlertManeuverResponse</a></li>
   <li><a href="#section-SDLDidReceiveButtonPressResponse">SDLDidReceiveButtonPressResponse</a></li>
+  <li><a href="#section-SDLDidReceiveCancelInteractionResponse">SDLDidReceiveCancelInteractionResponse</a></li>
   <li><a href="#section-SDLDidReceiveChangeRegistrationResponse">SDLDidReceiveChangeRegistrationResponse</a></li>
+  <li><a href="#section-SDLDidReceiveCloseApplicationResponse">SDLDidReceiveCloseApplicationResponse</a></li>
   <li><a href="#section-SDLDidReceiveCreateInteractionChoiceSetResponse">SDLDidReceiveCreateInteractionChoiceSetResponse</a></li>
+  <li><a href="#section-SDLDidReceiveCreateWindowResponse">SDLDidReceiveCreateWindowResponse</a></li>
   <li><a href="#section-SDLDidReceiveDeleteCommandResponse">SDLDidReceiveDeleteCommandResponse</a></li>
   <li><a href="#section-SDLDidReceiveDeleteFileResponse">SDLDidReceiveDeleteFileResponse</a></li>
   <li><a href="#section-SDLDidReceiveDeleteInteractionChoiceSetResponse">SDLDidReceiveDeleteInteractionChoiceSetResponse</a></li>
   <li><a href="#section-SDLDidReceiveDeleteSubmenuResponse">SDLDidReceiveDeleteSubmenuResponse</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteWindowResponse">SDLDidReceiveDeleteWindowResponse</a></li>
   <li><a href="#section-SDLDidReceiveDiagnosticMessageResponse">SDLDidReceiveDiagnosticMessageResponse</a></li>
   <li><a href="#section-SDLDidReceiveDialNumberResponse">SDLDidReceiveDialNumberResponse</a></li>
   <li><a href="#section-SDLDidReceiveEncodedSyncPDataResponse">SDLDidReceiveEncodedSyncPDataResponse</a></li>
@@ -425,6 +448,7 @@
   <li><a href="#section-SDLDidReceiveGetDTCsResponse">SDLDidReceiveGetDTCsResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetFileResponse">SDLDidReceiveGetFileResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataResponse">SDLDidReceiveGetInteriorVehicleDataResponse</a></li>
+  <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataConsentResponse">SDLDidReceiveGetInteriorVehicleDataConsentResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetSystemCapabilitiesResponse">SDLDidReceiveGetSystemCapabilitiesResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetVehicleDataResponse">SDLDidReceiveGetVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetWaypointsResponse">SDLDidReceiveGetWaypointsResponse</a></li>
@@ -436,6 +460,7 @@
   <li><a href="#section-SDLDidReceivePutFileResponse">SDLDidReceivePutFileResponse</a></li>
   <li><a href="#section-SDLDidReceiveReadDIDResponse">SDLDidReceiveReadDIDResponse</a></li>
   <li><a href="#section-SDLDidReceiveRegisterAppInterfaceResponse">SDLDidReceiveRegisterAppInterfaceResponse</a></li>
+  <li><a href="#section-SDLDidReceiveReleaseInteriorVehicleDataModuleResponse">SDLDidReceiveReleaseInteriorVehicleDataModuleResponse</a></li>
   <li><a href="#section-SDLDidReceiveResetGlobalPropertiesResponse">SDLDidReceiveResetGlobalPropertiesResponse</a></li>
   <li><a href="#section-SDLDidReceiveScrollableMessageResponse">SDLDidReceiveScrollableMessageResponse</a></li>
   <li><a href="#section-SDLDidReceiveSendHapticDataResponse">SDLDidReceiveSendHapticDataResponse</a></li>
@@ -448,6 +473,7 @@
   <li><a href="#section-SDLDidReceiveSetMediaClockTimerResponse">SDLDidReceiveSetMediaClockTimerResponse</a></li>
   <li><a href="#section-SDLDidReceiveShowConstantTBTResponse">SDLDidReceiveShowConstantTBTResponse</a></li>
   <li><a href="#section-SDLDidReceiveShowResponse">SDLDidReceiveShowResponse</a></li>
+  <li><a href="#section-SDLDidReceiveShowAppMenuResponse">SDLDidReceiveShowAppMenuResponse</a></li>
   <li><a href="#section-SDLDidReceiveSliderResponse">SDLDidReceiveSliderResponse</a></li>
   <li><a href="#section-SDLDidReceiveSpeakResponse">SDLDidReceiveSpeakResponse</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeButtonResponse">SDLDidReceiveSubscribeButtonResponse</a></li>
@@ -455,6 +481,7 @@
   <li><a href="#section-SDLDidReceiveSubscribeWaypointsResponse">SDLDidReceiveSubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataResponse">SDLDidReceiveSyncPDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveUpdateTurnListResponse">SDLDidReceiveUpdateTurnListResponse</a></li>
+  <li><a href="#section-SDLDidReceiveUnpublishAppServiceResponse">SDLDidReceiveUnpublishAppServiceResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnregisterAppInterfaceResponse">SDLDidReceiveUnregisterAppInterfaceResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeButtonResponse">SDLDidReceiveUnsubscribeButtonResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeVehicleDataResponse">SDLDidReceiveUnsubscribeVehicleDataResponse</a></li>
@@ -464,12 +491,16 @@
   <li><a href="#section-SDLDidReceiveAlertRequest">SDLDidReceiveAlertRequest</a></li>
   <li><a href="#section-SDLDidReceiveAlertManeuverRequest">SDLDidReceiveAlertManeuverRequest</a></li>
   <li><a href="#section-SDLDidReceiveButtonPressRequest">SDLDidReceiveButtonPressRequest</a></li>
+  <li><a href="#section-SDLDidReceiveCancelInteractionRequest">SDLDidReceiveCancelInteractionRequest</a></li>
   <li><a href="#section-SDLDidReceiveChangeRegistrationRequest">SDLDidReceiveChangeRegistrationRequest</a></li>
+  <li><a href="#section-SDLDidReceiveCloseApplicationRequest">SDLDidReceiveCloseApplicationRequest</a></li>
   <li><a href="#section-SDLDidReceiveCreateInteractionChoiceSetRequest">SDLDidReceiveCreateInteractionChoiceSetRequest</a></li>
+  <li><a href="#section-SDLDidReceiveCreateWindowRequest">SDLDidReceiveCreateWindowRequest</a></li>
   <li><a href="#section-SDLDidReceiveDeleteCommandRequest">SDLDidReceiveDeleteCommandRequest</a></li>
   <li><a href="#section-SDLDidReceiveDeleteFileRequest">SDLDidReceiveDeleteFileRequest</a></li>
   <li><a href="#section-SDLDidReceiveDeleteInteractionChoiceSetRequest">SDLDidReceiveDeleteInteractionChoiceSetRequest</a></li>
   <li><a href="#section-SDLDidReceiveDeleteSubMenuRequest">SDLDidReceiveDeleteSubMenuRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteWindowRequest">SDLDidReceiveDeleteWindowRequest</a></li>
   <li><a href="#section-SDLDidReceiveDiagnosticMessageRequest">SDLDidReceiveDiagnosticMessageRequest</a></li>
   <li><a href="#section-SDLDidReceiveDialNumberRequest">SDLDidReceiveDialNumberRequest</a></li>
   <li><a href="#section-SDLDidReceiveEncodedSyncPDataRequest">SDLDidReceiveEncodedSyncPDataRequest</a></li>
@@ -479,6 +510,7 @@
   <li><a href="#section-SDLDidReceiveGetDTCsRequest">SDLDidReceiveGetDTCsRequest</a></li>
   <li><a href="#section-SDLDidReceiveGetFileRequest">SDLDidReceiveGetFileRequest</a></li>
   <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataRequest">SDLDidReceiveGetInteriorVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataConsentRequest">SDLDidReceiveGetInteriorVehicleDataConsentRequest</a></li>
   <li><a href="#section-SDLDidReceiveGetSystemCapabilityRequest">SDLDidReceiveGetSystemCapabilityRequest</a></li>
   <li><a href="#section-SDLDidReceiveGetVehicleDataRequest">SDLDidReceiveGetVehicleDataRequest</a></li>
   <li><a href="#section-SDLDidReceiveGetWayPointsRequest">SDLDidReceiveGetWayPointsRequest</a></li>
@@ -490,6 +522,7 @@
   <li><a href="#section-SDLDidReceivePutFileRequest">SDLDidReceivePutFileRequest</a></li>
   <li><a href="#section-SDLDidReceiveReadDIDRequest">SDLDidReceiveReadDIDRequest</a></li>
   <li><a href="#section-SDLDidReceiveRegisterAppInterfaceRequest">SDLDidReceiveRegisterAppInterfaceRequest</a></li>
+  <li><a href="#section-SDLDidReceiveReleaseInteriorVehicleDataModuleRequest">SDLDidReceiveReleaseInteriorVehicleDataModuleRequest</a></li>
   <li><a href="#section-SDLDidReceiveResetGlobalPropertiesRequest">SDLDidReceiveResetGlobalPropertiesRequest</a></li>
   <li><a href="#section-SDLDidReceiveScrollableMessageRequest">SDLDidReceiveScrollableMessageRequest</a></li>
   <li><a href="#section-SDLDidReceiveSendHapticDataRequest">SDLDidReceiveSendHapticDataRequest</a></li>
@@ -501,6 +534,7 @@
   <li><a href="#section-SDLDidReceiveSetInteriorVehicleDataRequest">SDLDidReceiveSetInteriorVehicleDataRequest</a></li>
   <li><a href="#section-SDLDidReceiveSetMediaClockTimerRequest">SDLDidReceiveSetMediaClockTimerRequest</a></li>
   <li><a href="#section-SDLDidReceiveShowRequest">SDLDidReceiveShowRequest</a></li>
+  <li><a href="#section-SDLDidReceiveShowAppMenuRequest">SDLDidReceiveShowAppMenuRequest</a></li>
   <li><a href="#section-SDLDidReceiveShowConstantTBTRequest">SDLDidReceiveShowConstantTBTRequest</a></li>
   <li><a href="#section-SDLDidReceiveSliderRequest">SDLDidReceiveSliderRequest</a></li>
   <li><a href="#section-SDLDidReceiveSpeakRequest">SDLDidReceiveSpeakRequest</a></li>
@@ -509,6 +543,7 @@
   <li><a href="#section-SDLDidReceiveSubscribeWayPointsRequest">SDLDidReceiveSubscribeWayPointsRequest</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataRequest">SDLDidReceiveSyncPDataRequest</a></li>
   <li><a href="#section-SDLDidReceiveSystemRequestRequest">SDLDidReceiveSystemRequestRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUnpublishAppServiceRequest">SDLDidReceiveUnpublishAppServiceRequest</a></li>
   <li><a href="#section-SDLDidReceiveUnregisterAppInterfaceRequest">SDLDidReceiveUnregisterAppInterfaceRequest</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeButtonRequest">SDLDidReceiveUnsubscribeButtonRequest</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeVehicleDataRequest">SDLDidReceiveUnsubscribeVehicleDataRequest</a></li>
@@ -612,7 +647,9 @@
   <li><a href="#section-SDLRPCFunctionNameAlert">SDLRPCFunctionNameAlert</a></li>
   <li><a href="#section-SDLRPCFunctionNameAlertManeuver">SDLRPCFunctionNameAlertManeuver</a></li>
   <li><a href="#section-SDLRPCFunctionNameButtonPress">SDLRPCFunctionNameButtonPress</a></li>
+  <li><a href="#section-SDLRPCFunctionNameCancelInteraction">SDLRPCFunctionNameCancelInteraction</a></li>
   <li><a href="#section-SDLRPCFunctionNameChangeRegistration">SDLRPCFunctionNameChangeRegistration</a></li>
+  <li><a href="#section-SDLRPCFunctionNameCloseApplication">SDLRPCFunctionNameCloseApplication</a></li>
   <li><a href="#section-SDLRPCFunctionNameCreateInteractionChoiceSet">SDLRPCFunctionNameCreateInteractionChoiceSet</a></li>
   <li><a href="#section-SDLRPCFunctionNameDeleteCommand">SDLRPCFunctionNameDeleteCommand</a></li>
   <li><a href="#section-SDLRPCFunctionNameDeleteFile">SDLRPCFunctionNameDeleteFile</a></li>
@@ -628,6 +665,7 @@
   <li><a href="#section-SDLRPCFunctionNameGetFile">SDLRPCFunctionNameGetFile</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetCloudAppProperties">SDLRPCFunctionNameGetCloudAppProperties</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetInteriorVehicleData">SDLRPCFunctionNameGetInteriorVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetInteriorVehicleDataConsent">SDLRPCFunctionNameGetInteriorVehicleDataConsent</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetSystemCapability">SDLRPCFunctionNameGetSystemCapability</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetVehicleData">SDLRPCFunctionNameGetVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetWayPoints">SDLRPCFunctionNameGetWayPoints</a></li>
@@ -661,6 +699,7 @@
   <li><a href="#section-SDLRPCFunctionNamePublishAppService">SDLRPCFunctionNamePublishAppService</a></li>
   <li><a href="#section-SDLRPCFunctionNamePutFile">SDLRPCFunctionNamePutFile</a></li>
   <li><a href="#section-SDLRPCFunctionNameReadDID">SDLRPCFunctionNameReadDID</a></li>
+  <li><a href="#section-SDLRPCFunctionNameReleaseInteriorVehicleDataModule">SDLRPCFunctionNameReleaseInteriorVehicleDataModule</a></li>
   <li><a href="#section-SDLRPCFunctionNameRegisterAppInterface">SDLRPCFunctionNameRegisterAppInterface</a></li>
   <li><a href="#section-SDLRPCFunctionNameReserved">SDLRPCFunctionNameReserved</a></li>
   <li><a href="#section-SDLRPCFunctionNameResetGlobalProperties">SDLRPCFunctionNameResetGlobalProperties</a></li>
@@ -674,6 +713,7 @@
   <li><a href="#section-SDLRPCFunctionNameSetInteriorVehicleData">SDLRPCFunctionNameSetInteriorVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameSetMediaClockTimer">SDLRPCFunctionNameSetMediaClockTimer</a></li>
   <li><a href="#section-SDLRPCFunctionNameShow">SDLRPCFunctionNameShow</a></li>
+  <li><a href="#section-SDLRPCFunctionNameShowAppMenu">SDLRPCFunctionNameShowAppMenu</a></li>
   <li><a href="#section-SDLRPCFunctionNameShowConstantTBT">SDLRPCFunctionNameShowConstantTBT</a></li>
   <li><a href="#section-SDLRPCFunctionNameSlider">SDLRPCFunctionNameSlider</a></li>
   <li><a href="#section-SDLRPCFunctionNameSpeak">SDLRPCFunctionNameSpeak</a></li>
@@ -682,11 +722,14 @@
   <li><a href="#section-SDLRPCFunctionNameSubscribeWayPoints">SDLRPCFunctionNameSubscribeWayPoints</a></li>
   <li><a href="#section-SDLRPCFunctionNameSyncPData">SDLRPCFunctionNameSyncPData</a></li>
   <li><a href="#section-SDLRPCFunctionNameSystemRequest">SDLRPCFunctionNameSystemRequest</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUnpublishAppService">SDLRPCFunctionNameUnpublishAppService</a></li>
   <li><a href="#section-SDLRPCFunctionNameUnregisterAppInterface">SDLRPCFunctionNameUnregisterAppInterface</a></li>
   <li><a href="#section-SDLRPCFunctionNameUnsubscribeButton">SDLRPCFunctionNameUnsubscribeButton</a></li>
   <li><a href="#section-SDLRPCFunctionNameUnsubscribeVehicleData">SDLRPCFunctionNameUnsubscribeVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameUnsubscribeWayPoints">SDLRPCFunctionNameUnsubscribeWayPoints</a></li>
   <li><a href="#section-SDLRPCFunctionNameUpdateTurnList">SDLRPCFunctionNameUpdateTurnList</a></li>
+  <li><a href="#section-SDLRPCFunctionNameCreateWindow">SDLRPCFunctionNameCreateWindow</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDeleteWindow">SDLRPCFunctionNameDeleteWindow</a></li>
   <li><a href="#section-SDLRadioBandAM">SDLRadioBandAM</a></li>
   <li><a href="#section-SDLRadioBandFM">SDLRadioBandFM</a></li>
   <li><a href="#section-SDLRadioBandXM">SDLRadioBandXM</a></li>
@@ -752,6 +795,7 @@
   <li><a href="#section-SDLResultResumeFailed">SDLResultResumeFailed</a></li>
   <li><a href="#section-SDLResultDataNotAvailable">SDLResultDataNotAvailable</a></li>
   <li><a href="#section-SDLResultReadOnly">SDLResultReadOnly</a></li>
+  <li><a href="#section-SDLResultEncryptionNeeded">SDLResultEncryptionNeeded</a></li>
   <li><a href="#section-SDLSamplingRate8KHZ">SDLSamplingRate8KHZ</a></li>
   <li><a href="#section-SDLSamplingRate16KHZ">SDLSamplingRate16KHZ</a></li>
   <li><a href="#section-SDLSamplingRate22KHZ">SDLSamplingRate22KHZ</a></li>
@@ -950,7 +994,6 @@
   <li><a href="#section-SDLStaticIconNameWifiFull">SDLStaticIconNameWifiFull</a></li>
   <li><a href="#section-SDLStaticIconNameZoomIn">SDLStaticIconNameZoomIn</a></li>
   <li><a href="#section-SDLStaticIconNameZoomOut">SDLStaticIconNameZoomOut</a></li>
-  <li><a href="#section-SDLDefaultScreenSize">SDLDefaultScreenSize</a></li>
   <li><a href="#section-SDLVideoStreamDidStartNotification">SDLVideoStreamDidStartNotification</a></li>
   <li><a href="#section-SDLVideoStreamDidStopNotification">SDLVideoStreamDidStopNotification</a></li>
   <li><a href="#section-SDLVideoStreamSuspendedNotification">SDLVideoStreamSuspendedNotification</a></li>
@@ -981,6 +1024,8 @@
   <li><a href="#section-SDLSystemCapabilityTypePhoneCall">SDLSystemCapabilityTypePhoneCall</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeVideoStreaming">SDLSystemCapabilityTypeVideoStreaming</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeRemoteControl">SDLSystemCapabilityTypeRemoteControl</a></li>
+  <li><a href="#section-SDLSystemCapabilityTypeSeatLocation">SDLSystemCapabilityTypeSeatLocation</a></li>
+  <li><a href="#section-SDLSystemCapabilityTypeDisplays">SDLSystemCapabilityTypeDisplays</a></li>
   <li><a href="#section-SDLSystemContextMain">SDLSystemContextMain</a></li>
   <li><a href="#section-SDLSystemContextVoiceRecognitionSession">SDLSystemContextVoiceRecognitionSession</a></li>
   <li><a href="#section-SDLSystemContextMenu">SDLSystemContextMenu</a></li>
@@ -1013,6 +1058,7 @@
   <li><a href="#section-SDLTextFieldNameMainField2">SDLTextFieldNameMainField2</a></li>
   <li><a href="#section-SDLTextFieldNameMainField3">SDLTextFieldNameMainField3</a></li>
   <li><a href="#section-SDLTextFieldNameMainField4">SDLTextFieldNameMainField4</a></li>
+  <li><a href="#section-SDLTextFieldNameTemplateTitle">SDLTextFieldNameTemplateTitle</a></li>
   <li><a href="#section-SDLTextFieldNameStatusBar">SDLTextFieldNameStatusBar</a></li>
   <li><a href="#section-SDLTextFieldNameMediaClock">SDLTextFieldNameMediaClock</a></li>
   <li><a href="#section-SDLTextFieldNameMediaTrack">SDLTextFieldNameMediaTrack</a></li>
@@ -1113,6 +1159,7 @@
   <li><a href="#section-SDLVehicleDataTypeElectronicParkBrakeStatus">SDLVehicleDataTypeElectronicParkBrakeStatus</a></li>
   <li><a href="#section-SDLVehicleDataTypeTurnSignal">SDLVehicleDataTypeTurnSignal</a></li>
   <li><a href="#section-SDLVehicleDataTypeCloudAppVehicleID">SDLVehicleDataTypeCloudAppVehicleID</a></li>
+  <li><a href="#section-SDLVehicleDataTypeOEMVehicleDataType">SDLVehicleDataTypeOEMVehicleDataType</a></li>
   <li><a href="#section-SDLVentilationModeUpper">SDLVentilationModeUpper</a></li>
   <li><a href="#section-SDLVentilationModeLower">SDLVentilationModeLower</a></li>
   <li><a href="#section-SDLVentilationModeBoth">SDLVentilationModeBoth</a></li>
@@ -1136,6 +1183,8 @@
   <li><a href="#section-SDLWarningLightStatusNotUsed">SDLWarningLightStatusNotUsed</a></li>
   <li><a href="#section-SDLWayPointTypeAll">SDLWayPointTypeAll</a></li>
   <li><a href="#section-SDLWayPointTypeDestination">SDLWayPointTypeDestination</a></li>
+  <li><a href="#section-SDLWindowTypeMain">SDLWindowTypeMain</a></li>
+  <li><a href="#section-SDLWindowTypeWidget">SDLWindowTypeWidget</a></li>
   <li><a href="#section-SDLWiperStatusOff">SDLWiperStatusOff</a></li>
   <li><a href="#section-SDLWiperStatusAutomaticOff">SDLWiperStatusAutomaticOff</a></li>
   <li><a href="#section-SDLWiperStatusOffMoving">SDLWiperStatusOffMoving</a></li>
@@ -2692,6 +2741,276 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">let</span> <span class="p">`</span><span class="nv">repeat</span><span class="p">`:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavCenterLocation">
+      SDLButtonNameNavCenterLocation
+  </h3>
+  
+  <p>Represents a Navigate to center button.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavCenterLocation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navCenterLocation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavZoomIn">
+      SDLButtonNameNavZoomIn
+  </h3>
+  
+  <p>Represents a Zoom in button.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavZoomIn</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navZoomIn</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavZoomOut">
+      SDLButtonNameNavZoomOut
+  </h3>
+  
+  <p>Represents a Zoom out button.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavZoomOut</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navZoomOut</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanUp">
+      SDLButtonNameNavPanUp
+  </h3>
+  
+  <p>Represents a Pan up button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanUp</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanUp</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanUpRight">
+      SDLButtonNameNavPanUpRight
+  </h3>
+  
+  <p>Represents a Pan up/right button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanUpRight</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanUpRight</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanRight">
+      SDLButtonNameNavPanRight
+  </h3>
+  
+  <p>Represents a Pan right button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanRight</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanRight</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanDownRight">
+      SDLButtonNameNavPanDownRight
+  </h3>
+  
+  <p>Represents a Pan down/right button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanDownRight</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanDownRight</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanDown">
+      SDLButtonNameNavPanDown
+  </h3>
+  
+  <p>Represents a Pan down button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanDown</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanDown</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanDownLeft">
+      SDLButtonNameNavPanDownLeft
+  </h3>
+  
+  <p>Represents a Pan down left button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">SDLButtonNameNavPanDownLeft</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanDownLeft</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanLeft">
+      SDLButtonNameNavPanLeft
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavPanLeft</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanLeft</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavPanUpLeft">
+      SDLButtonNameNavPanUpLeft
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavPanUpLeft</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navPanUpLeft</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavTiltToggle">
+      SDLButtonNameNavTiltToggle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavTiltToggle</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navTiltToggle</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavRotateClockwise">
+      SDLButtonNameNavRotateClockwise
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavRotateClockwise</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navRotateClockwise</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavRotateCounterClockwise">
+      SDLButtonNameNavRotateCounterClockwise
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavRotateCounterClockwise</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navRotateCounterClockwise</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLButtonNameNavHeadingToggle">
+      SDLButtonNameNavHeadingToggle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="k">const</span> <span class="n">SDLButtonNameNavHeadingToggle</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navHeadingToggle</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span></code></pre>
 
   
   
@@ -4560,6 +4879,24 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLGlobalPropertyUserLocation">
+      SDLGlobalPropertyUserLocation
+  </h3>
+  
+  <p>Location of the user&rsquo;s seat of setGlobalProperties</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLGlobalProperty.h@T@SDLGlobalProperty">SDLGlobalProperty</a></span> <span class="n">SDLGlobalPropertyUserLocation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">userLocation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLGlobalProperty.h@T@SDLGlobalProperty">SDLGlobalProperty</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLHMILevelFull">
       SDLHMILevelFull
   </h3>
@@ -4885,6 +5222,24 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">invalid</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLIgnitionStatus.h@T@SDLIgnitionStatus">SDLIgnitionStatus</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLImageFieldNameAlertIcon">
+      SDLImageFieldNameAlertIcon
+  </h3>
+  
+  <p>The image field for Alert</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span> <span class="n">SDLImageFieldNameAlertIcon</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">alertIcon</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
 
   
   
@@ -7241,7 +7596,7 @@ For example, right puddle lights and spot lights.</p>
       SDLLockScreenStatusRequired
   </h3>
   
-  <p>LockScreen is Not Required</p>
+  <p>LockScreen is Required</p>
 
   
   
@@ -7762,6 +8117,42 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">other</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMenuLayoutList">
+      SDLMenuLayoutList
+  </h3>
+  
+  <p>The menu should be laid out in a scrollable list format with one menu cell below the previous, each is stretched across the view</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">SDLMenuLayoutList</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">list</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMenuLayoutTiles">
+      SDLMenuLayoutTiles
+  </h3>
+  
+  <p>The menu should be laid out in a scrollable tiles format with each menu cell laid out in a square-ish format next to each other horizontally</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">SDLMenuLayoutTiles</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">tiles</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span></code></pre>
 
   
   
@@ -8594,6 +8985,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveCancelInteractionResponse">
+      SDLDidReceiveCancelInteractionResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCancelInteractionResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCancelInteractionResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveChangeRegistrationResponse">
       SDLDidReceiveChangeRegistrationResponse
   </h3>
@@ -8612,6 +9021,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveCloseApplicationResponse">
+      SDLDidReceiveCloseApplicationResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCloseApplicationResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCloseApplicationResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveCreateInteractionChoiceSetResponse">
       SDLDidReceiveCreateInteractionChoiceSetResponse
   </h3>
@@ -8626,6 +9053,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCreateInteractionChoiceSetResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveCreateWindowResponse">
+      SDLDidReceiveCreateWindowResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCreateWindowResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCreateWindowResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8698,6 +9143,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteSubmenuResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteWindowResponse">
+      SDLDidReceiveDeleteWindowResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteWindowResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteWindowResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8878,6 +9341,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetInteriorVehicleDataResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetInteriorVehicleDataConsentResponse">
+      SDLDidReceiveGetInteriorVehicleDataConsentResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetInteriorVehicleDataConsentResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetInteriorVehicleDataConsentResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9076,6 +9557,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveRegisterAppInterfaceResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveReleaseInteriorVehicleDataModuleResponse">
+      SDLDidReceiveReleaseInteriorVehicleDataModuleResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveReleaseInteriorVehicleDataModuleResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveReleaseInteriorVehicleDataModuleResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9296,6 +9795,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveShowAppMenuResponse">
+      SDLDidReceiveShowAppMenuResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveShowAppMenuResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveShowAppMenuResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveSliderResponse">
       SDLDidReceiveSliderResponse
   </h3>
@@ -9418,6 +9935,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUpdateTurnListResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnpublishAppServiceResponse">
+      SDLDidReceiveUnpublishAppServiceResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnpublishAppServiceResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnpublishAppServiceResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9584,6 +10119,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveCancelInteractionRequest">
+      SDLDidReceiveCancelInteractionRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCancelInteractionRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCancelInteractionRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveChangeRegistrationRequest">
       SDLDidReceiveChangeRegistrationRequest
   </h3>
@@ -9602,6 +10155,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveCloseApplicationRequest">
+      SDLDidReceiveCloseApplicationRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCloseApplicationRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCloseApplicationRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveCreateInteractionChoiceSetRequest">
       SDLDidReceiveCreateInteractionChoiceSetRequest
   </h3>
@@ -9616,6 +10187,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCreateInteractionChoiceSetRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveCreateWindowRequest">
+      SDLDidReceiveCreateWindowRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCreateWindowRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCreateWindowRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9688,6 +10277,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteSubMenuRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteWindowRequest">
+      SDLDidReceiveDeleteWindowRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteWindowRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteWindowRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9850,6 +10457,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetInteriorVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetInteriorVehicleDataConsentRequest">
+      SDLDidReceiveGetInteriorVehicleDataConsentRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetInteriorVehicleDataConsentRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetInteriorVehicleDataConsentRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -10052,6 +10677,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveReleaseInteriorVehicleDataModuleRequest">
+      SDLDidReceiveReleaseInteriorVehicleDataModuleRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveReleaseInteriorVehicleDataModuleRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveReleaseInteriorVehicleDataModuleRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveResetGlobalPropertiesRequest">
       SDLDidReceiveResetGlobalPropertiesRequest
   </h3>
@@ -10250,6 +10893,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveShowAppMenuRequest">
+      SDLDidReceiveShowAppMenuRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveShowAppMenuRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveShowAppMenuRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveShowConstantTBTRequest">
       SDLDidReceiveShowConstantTBTRequest
   </h3>
@@ -10390,6 +11051,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSystemRequestRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnpublishAppServiceRequest">
+      SDLDidReceiveUnpublishAppServiceRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnpublishAppServiceRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnpublishAppServiceRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -12253,6 +12932,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameCancelInteraction">
+      SDLRPCFunctionNameCancelInteraction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameCancelInteraction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">cancelInteraction</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameChangeRegistration">
       SDLRPCFunctionNameChangeRegistration
   </h3>
@@ -12267,6 +12964,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">changeRegistration</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameCloseApplication">
+      SDLRPCFunctionNameCloseApplication
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameCloseApplication</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">closeApplication</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
 
   
   
@@ -12537,6 +13252,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getInteriorVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetInteriorVehicleDataConsent">
+      SDLRPCFunctionNameGetInteriorVehicleDataConsent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetInteriorVehicleDataConsent</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getInteriorVehicleDataConsent</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
 
   
   
@@ -13135,6 +13868,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameReleaseInteriorVehicleDataModule">
+      SDLRPCFunctionNameReleaseInteriorVehicleDataModule
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameReleaseInteriorVehicleDataModule</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">releaseInteriorVehicleDataModule</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameRegisterAppInterface">
       SDLRPCFunctionNameRegisterAppInterface
   </h3>
@@ -13369,6 +14120,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameShowAppMenu">
+      SDLRPCFunctionNameShowAppMenu
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameShowAppMenu</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">showAppMenu</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameShowConstantTBT">
       SDLRPCFunctionNameShowConstantTBT
   </h3>
@@ -13513,6 +14282,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameUnpublishAppService">
+      SDLRPCFunctionNameUnpublishAppService
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUnpublishAppService</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unpublishAppService</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameUnregisterAppInterface">
       SDLRPCFunctionNameUnregisterAppInterface
   </h3>
@@ -13599,6 +14386,42 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">updateTurnList</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameCreateWindow">
+      SDLRPCFunctionNameCreateWindow
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameCreateWindow</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">createWindow</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDeleteWindow">
+      SDLRPCFunctionNameDeleteWindow
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDeleteWindow</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteWindow</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
 
   
   
@@ -14787,6 +15610,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">readOnly</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLResult.h@T@SDLResult">SDLResult</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLResultEncryptionNeeded">
+      SDLResultEncryptionNeeded
+  </h3>
+  
+  <p>The RPC request needs to be encrypted.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLResult.h@T@SDLResult">SDLResult</a></span> <span class="n">SDLResultEncryptionNeeded</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">encryptionNeeded</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLResult.h@T@SDLResult">SDLResult</a></span></code></pre>
 
   
   
@@ -18355,24 +19196,6 @@ For example, right puddle lights and spot lights.</p>
   
   
   
-  <h3 id="section-SDLDefaultScreenSize">
-      SDLDefaultScreenSize
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n">CGSize</span> <span class="k">const</span> <span class="n">SDLDefaultScreenSize</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDefaultScreenSize</span><span class="p">:</span> <span class="kt">CGSize</span></code></pre>
-
-  
-  
-  
   <h3 id="section-SDLVideoStreamDidStartNotification">
       SDLVideoStreamDidStartNotification
   </h3>
@@ -18737,12 +19560,12 @@ For example, right puddle lights and spot lights.</p>
       SDLSupportedSeatDriver
   </h3>
   
-  <p>@abstract Save current seat postions and settings to seat memory.</p>
+  <p>Undocumented</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="n">SDLSupportedSeatDriver</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="k">const</span> <span class="n">SDLSupportedSeatDriver</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -18755,12 +19578,12 @@ For example, right puddle lights and spot lights.</p>
       SDLSupportedSeatFrontPassenger
   </h3>
   
-  <p>@abstract Restore / apply the seat memory settings to the current seat.</p>
+  <p>Undocumented</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="n">SDLSupportedSeatFrontPassenger</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="k">const</span> <span class="n">SDLSupportedSeatFrontPassenger</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -18909,6 +19732,44 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">remoteControl</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemCapabilityTypeSeatLocation">
+      SDLSystemCapabilityTypeSeatLocation
+  </h3>
+  
+  <p>Contains information about the locations of each seat</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">SDLSystemCapabilityTypeSeatLocation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">seatLocation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemCapabilityTypeDisplays">
+      SDLSystemCapabilityTypeDisplays
+  </h3>
+  
+  <p>The Display type capability</p>
+
+<p>@since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">SDLSystemCapabilityTypeDisplays</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">displays</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span></code></pre>
 
   
   
@@ -19498,6 +20359,26 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">mainField4</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameTemplateTitle">
+      SDLTextFieldNameTemplateTitle
+  </h3>
+  
+  <p>The title line of the persistent display. Applies to SDLShow.</p>
+
+<p>@since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameTemplateTitle</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">templateTitle</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
 
   
   
@@ -21348,6 +22229,26 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLVehicleDataTypeOEMVehicleDataType">
+      SDLVehicleDataTypeOEMVehicleDataType
+  </h3>
+  
+  <p>Custom OEM Vehicle data</p>
+
+<p>Added in SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeOEMVehicleDataType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">oemVehicleDataType</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLVentilationModeUpper">
       SDLVentilationModeUpper
   </h3>
@@ -21758,6 +22659,42 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLWayPointType.h@T@SDLWayPointType">SDLWayPointType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWindowTypeMain">
+      SDLWindowTypeMain
+  </h3>
+  
+  <p>This window type describes the main window on a display.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span> <span class="n">SDLWindowTypeMain</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">main</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWindowTypeWidget">
+      SDLWindowTypeWidget
+  </h3>
+  
+  <p>A widget is a small window that the app can create to provide information and soft buttons for quick app control.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span> <span class="n">SDLWindowTypeWidget</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">widget</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span></code></pre>
 
   
   

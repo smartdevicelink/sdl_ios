@@ -1,0 +1,85 @@
+<h1>SDLMenuConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-mainMenuLayout">mainMenuLayout</a></li>
+  <li><a href="#section-defaultSubmenuLayout">defaultSubmenuLayout</a></li>
+  <li><a href="#section--initWithMainMenuLayout:defaultSubmenuLayout:">-initWithMainMenuLayout:defaultSubmenuLayout:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-mainMenuLayout">
+      mainMenuLayout
+  </h3>
+  
+  <p>Changes the default main menu layout. Defaults to <code><a href="../Constants.html#/c:@SDLMenuLayoutList">SDLMenuLayoutList</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">_Nonnull</span> <span class="n">mainMenuLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mainMenuLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-defaultSubmenuLayout">
+      defaultSubmenuLayout
+  </h3>
+  
+  <p>Changes the default submenu layout. To change this for an individual submenu, set the <code>menuLayout</code> property on the <code><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></code> initializer for creating a cell with sub-cells. Defaults to <code><a href="../Constants.html#/c:@SDLMenuLayoutList">SDLMenuLayoutList</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">_Nonnull</span> <span class="n">defaultSubmenuLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">defaultSubmenuLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithMainMenuLayout:defaultSubmenuLayout:">
+      -initWithMainMenuLayout:defaultSubmenuLayout:
+  </h3>
+  
+  <p>Initialize a new menu configuration with a main menu layout and a default submenu layout which can be overriden per-submenu if desired.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithMainMenuLayout</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">mainMenuLayout</span>
+      <span class="nf">defaultSubmenuLayout</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">defaultSubmenuLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">mainMenuLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">,</span> <span class="n"><a href="../Classes/SDLMenuConfiguration.html#/c:objc(cs)SDLMenuConfiguration(py)defaultSubmenuLayout">defaultSubmenuLayout</a></span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainMenuLayout</dt>
+      <dd><p>The new main menu layout</p></dd>
+      <dt>defaultSubmenuLayout</dt>
+      <dd><p>The new default submenu layout</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The menu configuration</p>
+  </div>
+  
+</section>

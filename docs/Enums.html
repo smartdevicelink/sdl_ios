@@ -6,6 +6,7 @@
   <li><a href="#section-SDLArtworkImageFormat">SDLArtworkImageFormat</a></li>
   <li><a href="#section-SDLAudioStreamManagerError">SDLAudioStreamManagerError</a></li>
   <li><a href="#section-SDLChoiceSetLayout">SDLChoiceSetLayout</a></li>
+  <li><a href="#section-SDLEncryptionLifecycleManagerError">SDLEncryptionLifecycleManagerError</a></li>
   <li><a href="#section-SDLManagerError">SDLManagerError</a></li>
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
   <li><a href="#section-SDLTextAndGraphicManagerError">SDLTextAndGraphicManagerError</a></li>
@@ -14,6 +15,8 @@
   <li><a href="#section-SDLChoiceSetManagerError">SDLChoiceSetManagerError</a></li>
   <li><a href="#section-SDLTransportError">SDLTransportError</a></li>
   <li><a href="#section-SDLRPCStoreError">SDLRPCStoreError</a></li>
+  <li><a href="#section-SDLSecondaryTransports">SDLSecondaryTransports</a></li>
+  <li><a href="#section-SDLLockScreenConfigurationDisplayMode">SDLLockScreenConfigurationDisplayMode</a></li>
   <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
   <li><a href="#section-SDLLogFlag">SDLLogFlag</a></li>
   <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
@@ -22,6 +25,10 @@
   <li><a href="#section-MenuCellState">MenuCellState</a></li>
   <li><a href="#section-SDLPermissionGroupType">SDLPermissionGroupType</a></li>
   <li><a href="#section-SDLPermissionGroupStatus">SDLPermissionGroupStatus</a></li>
+  <li><a href="#section-SDLPredefinedWindows">SDLPredefinedWindows</a></li>
+  <li><a href="#section-SDLFrameType">SDLFrameType</a></li>
+  <li><a href="#section-SDLServiceType">SDLServiceType</a></li>
+  <li><a href="#section-SDLFrameInfo">SDLFrameInfo</a></li>
   <li><a href="#section-SDLRPCMessageType">SDLRPCMessageType</a></li>
   <li><a href="#section-SDLCarWindowRenderingType">SDLCarWindowRenderingType</a></li>
   <li><a href="#section-SDLStreamingEncryptionFlag">SDLStreamingEncryptionFlag</a></li>
@@ -95,6 +102,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLChoiceSetLayout</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLEncryptionLifecycleManagerError">
+      SDLEncryptionLifecycleManagerError
+  </h3>
+  
+  <p>Errors associated with the SDLManager class.</p>
+
+  <a href="Enums/SDLEncryptionLifecycleManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLEncryptionLifecycleManagerError</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLEncryptionLifecycleManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -265,6 +291,54 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLRPCStoreError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSecondaryTransports">
+      SDLSecondaryTransports
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/SDLSecondaryTransports.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_OPTIONS</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLSecondaryTransports</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLSecondaryTransportsNone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">SDLSecondaryTransportsTCP</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSecondaryTransports</span> <span class="p">:</span> <span class="kt">OptionSet</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLockScreenConfigurationDisplayMode">
+      SDLLockScreenConfigurationDisplayMode
+  </h3>
+  
+  <p>Describes when the lock screen should be shown.</p>
+
+<ul>
+<li>SDLLockScreenConfigurationModeNever: The lock screen should never be shown. This should almost always mean that you will build your own lock screen.</li>
+<li>SDLLockScreenConfigurationModeRequiredOnly: The lock screen should only be shown when it is required by the head unit.</li>
+<li>SDLLockScreenConfigurationModeOptionalOrRequired: The lock screen should be shown when required by the head unit or when the head unit says that its optional, but <em>not</em> in other cases, such as before the user has interacted with your app on the head unit.</li>
+<li>SDLLockScreenConfigurationModeAlways: The lock screen should always be shown after connection.</li>
+</ul>
+
+  <a href="Enums/SDLLockScreenConfigurationDisplayMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLLockScreenConfigurationDisplayMode</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLLockScreenConfigurationDisplayMode</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
 
   
   
@@ -452,6 +526,118 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLPermissionGroupStatus</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPredefinedWindows">
+      SDLPredefinedWindows
+  </h3>
+  
+  <p>Specifies which windows and IDs are predefined and pre-created on behalf of the app. The default window is always available and represents the app window on the main display. It&rsquo;s an equivalent to today&rsquo;s app window. For backward compatibility, this will ensure the app always has at least the default window on the main display. The app can choose to use this predefined enum element to specifically address app&rsquo;s main window or to duplicate window content. It is not possible to duplicate another window to the default window. The primary widget is a special widget, that can be associated with a service type, which is used by the HMI whenever a single widget needs to represent the whole app. The primary widget should be named as the app and can be pre-created by the HMI.</p>
+
+<p>@since SDL 6.0</p>
+
+  <a href="Enums/SDLPredefinedWindows.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLPredefinedWindows</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLPredefinedWindows</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameType">
+      SDLFrameType
+  </h3>
+  
+  
+<ul>
+<li><p>The data packet&rsquo;s header and payload combination.</p></li>
+<li><p>SDLFrameTypeControl: Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.</p></li>
+<li><p>SDLFrameTypeSingle: Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.</p></li>
+<li><p>SDLFrameTypeFirst: The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.</p></li>
+<li><p>SDLFrameTypeConsecutive: The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames&rsquo; payloads should be buffered until the entire sequence is complete.</p></li>
+</ul>
+
+  <a href="Enums/SDLFrameType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLFrameType</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLFrameType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceType">
+      SDLServiceType
+  </h3>
+  
+  
+<ul>
+<li><p>The data packet&rsquo;s format and priority.</p></li>
+<li><p>SDLServiceTypeControl: The lowest level service available.</p></li>
+<li><p>SDLServiceTypeRPC: Used to send requests, responses, and notifications between an application and a head unit.</p></li>
+<li><p>SDLServiceTypeAudio: The application can start the audio service to send PCM audio data to the head unit. After the StartService packet is sent and the ACK received, the payload for the Audio Service is only PCM audio data.</p></li>
+<li><p>SDLServiceTypeVideo: The application can start the video service to send H.264 video data to the head unit. After the StartService packet is sent and the ACK received, the payload for the Video Service is only H.264 video data.</p></li>
+<li><p>SDLServiceTypeBulkData: Similar to the RPC Service but adds a bulk data field. The payload of a message sent via the Hybrid service consists of a Binary Header, JSON Data, and Bulk Data.</p></li>
+</ul>
+
+  <a href="Enums/SDLServiceType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLServiceType</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLServiceType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfo">
+      SDLFrameInfo
+  </h3>
+  
+  
+<ul>
+<li><p>The data packet&rsquo;s available data.</p></li>
+<li><p>SDLFrameInfoHeartbeat: A ping packet that is sent to ensure the connection is still active and the service is still valid.</p></li>
+<li><p>SDLFrameInfoStartService: Requests that a specific type of service is started.</p></li>
+<li><p>SDLFrameInfoStartServiceACK: Acknowledges that the specific service has been started successfully.</p></li>
+<li><p>SDLFrameInfoStartServiceNACK: Negatively acknowledges that the specific service was not started.</p></li>
+<li><p>SDLFrameInfoEndService: Requests that a specific type of service is ended.</p></li>
+<li><p>SDLFrameInfoEndServiceACK: Acknowledges that the specific service has been ended successfully.</p></li>
+<li><p>SDLFrameInfoEndServiceNACK: Negatively acknowledges that the specific service was not ended or has not yet been started.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransport: Notifies that a Secondary Transport has been established.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransportACK: Acknowledges that the Secondary Transport has been recognized.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransportNACK: Negatively acknowledges that the Secondary Transport has not been recognized.</p></li>
+<li><p>SDLFrameInfoTransportEventUpdate: Indicates the status or configuration of transport(s) is/are updated.</p></li>
+<li><p>SDLFrameInfoServiceDataAck: Deprecated.</p></li>
+<li><p>SDLFrameInfoHeartbeatACK: Acknowledges that a Heartbeat control packet has been received.</p></li>
+<li><p>SDLFrameInfoSingleFrame: Payload contains a single packet.</p></li>
+<li><p>SDLFrameInfoFirstFrame: First frame in a multiple frame payload.</p></li>
+<li><p>SDLFrameInfoConsecutiveLastFrame: Frame in a multiple frame payload.</p></li>
+</ul>
+
+  <a href="Enums/SDLFrameInfo.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLFrameInfo</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLFrameInfo</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
 
   
   

@@ -17,6 +17,7 @@
   <li><a href="#section--initWithTitle:delegate:choices:">-initWithTitle:delegate:choices:</a></li>
   <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:</a></li>
   <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:</a></li>
+  <li><a href="#section--cancel">-cancel</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -360,5 +361,23 @@
     <h4>Return Value</h4>
     <p>The choice set</p>
   </div>
+  
+  <h3 id="section--cancel">
+      -cancel
+  </h3>
+  
+  <p>Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
+
+  
+  
   
 </section>

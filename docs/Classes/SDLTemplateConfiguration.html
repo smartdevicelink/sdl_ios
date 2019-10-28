@@ -1,0 +1,155 @@
+<h1>SDLTemplateConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithPredefinedLayout:">-initWithPredefinedLayout:</a></li>
+  <li><a href="#section--initWithTemplate:">-initWithTemplate:</a></li>
+  <li><a href="#section--initWithTemplate:dayColorScheme:nightColorScheme:">-initWithTemplate:dayColorScheme:nightColorScheme:</a></li>
+  <li><a href="#section-template">template</a></li>
+  <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
+  <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Used to set an alternate template layout to a window.</p>
+
+<p>@since SDL 6.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithPredefinedLayout:">
+      -initWithPredefinedLayout:
+  </h3>
+  
+  <p>Constructor with the required values.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPredefinedLayout</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span><span class="p">)</span><span class="nv">predefinedLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">predefinedLayout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>predefinedLayout</dt>
+      <dd><p>A template layout an app uses to display information. The broad details of the layout are defined, but the details depend on the IVI system. Used in SetDisplayLayout.</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithTemplate:">
+      -initWithTemplate:
+  </h3>
+  
+  <p>Init with the required values.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTemplate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">template</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">template</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>template</dt>
+      <dd><p>Predefined or dynamically created window template. Currently only predefined window template layouts are defined.</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithTemplate:dayColorScheme:nightColorScheme:">
+      -initWithTemplate:dayColorScheme:nightColorScheme:
+  </h3>
+  
+  <p>Convinience constructor with all the parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithTemplate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">template</span>
+      <span class="nf">dayColorScheme</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">dayColorScheme</span>
+    <span class="nf">nightColorScheme</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">template</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?,</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>template</dt>
+      <dd><p>Predefined or dynamically created window template. Currently only predefined window template layouts are defined.</p></dd>
+      <dt>dayColorScheme</dt>
+      <dd><p>The color scheme to use when the head unit is in a light / day situation. If nil, the existing color scheme will be used.</p></dd>
+      <dt>nightColorScheme</dt>
+      <dd><p>The color scheme to use when the head unit is in a dark / night situation.</p></dd>
+  </dl>
+  
+  <h3 id="section-template">
+      template
+  </h3>
+  
+  <p>Predefined or dynamically created window template. Currently only predefined window template layouts are defined.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">template</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">template</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dayColorScheme">
+      dayColorScheme
+  </h3>
+  
+  <p>The color scheme to use when the head unit is in a light / day situation.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nightColorScheme">
+      nightColorScheme
+  </h3>
+  
+  <p>The color scheme to use when the head unit is in a dark / night situation.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

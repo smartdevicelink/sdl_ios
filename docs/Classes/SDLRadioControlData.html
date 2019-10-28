@@ -10,6 +10,7 @@
   <li><a href="#section-band">band</a></li>
   <li><a href="#section-rdsData">rdsData</a></li>
   <li><a href="#section-availableHDs">availableHDs</a></li>
+  <li><a href="#section-availableHDChannels">availableHDChannels</a></li>
   <li><a href="#section-hdChannel">hdChannel</a></li>
   <li><a href="#section-signalStrength">signalStrength</a></li>
   <li><a href="#section-signalChangeThreshold">signalChangeThreshold</a></li>
@@ -221,13 +222,39 @@
   
   
   
+  <h3 id="section-availableHDChannels">
+      availableHDChannels
+  </h3>
+  
+  <p>the list of available hd sub-channel indexes, empty list means no Hd channel is available, read-only</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This property is readonly and cannot be set on the module.
+
+</div>
+
+<p>Integer value Min Value - 0 Max Value -7</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDChannels</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">availableHDChannels</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-hdChannel">
       hdChannel
   </h3>
   
   <p>Current HD sub-channel if available</p>
 
-<p>Integer value Min Value - 1 Max Value -7</p>
+<p>Integer value Min Value - 0 Max Value -7</p>
 
   
   

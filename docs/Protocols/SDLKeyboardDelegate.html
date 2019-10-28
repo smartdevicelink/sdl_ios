@@ -7,6 +7,7 @@
   <li><a href="#section--keyboardDidAbortWithReason:">-keyboardDidAbortWithReason:</a></li>
   <li><a href="#section--customKeyboardConfiguration">-customKeyboardConfiguration</a></li>
   <li><a href="#section--updateAutocompleteWithInput:completionHandler:">-updateAutocompleteWithInput:completionHandler:</a></li>
+  <li><a href="#section--updateAutocompleteWithInput:autoCompleteResultsHandler:">-updateAutocompleteWithInput:autoCompleteResultsHandler:</a></li>
   <li><a href="#section--updateCharacterSetWithInput:completionHandler:">-updateCharacterSetWithInput:completionHandler:</a></li>
   <li><a href="#section--keyboardDidSendEvent:text:">-keyboardDidSendEvent:text:</a></li>
 </ul>
@@ -118,6 +119,35 @@
       <dd><p>The user&rsquo;s full current input text</p></dd>
       <dt>completionHandler</dt>
       <dd><p>A completion handler to update the autoCompleteText</p></dd>
+  </dl>
+  
+  <h3 id="section--updateAutocompleteWithInput:autoCompleteResultsHandler:">
+      -updateAutocompleteWithInput:autoCompleteResultsHandler:
+  </h3>
+  
+  <p>Implement this if you wish to updated the KeyboardProperties.autoCompleteList as the user updates their input. This is called upon a KEYPRESS event.</p>
+
+<p>This allows you to present a list of options that the user can use to fill in the search / text box with suggestions you provide.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span>
+         <span class="nf">autoCompleteResultsHandler</span><span class="p">:</span>
+             <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></span><span class="p">)</span><span class="nv">resultsHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">updateAutocomplete</span><span class="p">(</span><span class="n">withInput</span> <span class="nv">currentInputText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">autoCompleteResultsHandler</span> <span class="nv">resultsHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>currentInputText</dt>
+      <dd><p>The user&rsquo;s full current input text</p></dd>
+      <dt>resultsHandler</dt>
+      <dd><p>A completion handler to update the autoCompleteList</p></dd>
   </dl>
   
   <h3 id="section--updateCharacterSetWithInput:completionHandler:">

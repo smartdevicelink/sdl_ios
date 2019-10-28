@@ -4,6 +4,8 @@
 
 <ul>
   <li><a href="#section-state">state</a></li>
+  <li><a href="#section-lockScreenDismissalEnabled">lockScreenDismissalEnabled</a></li>
+  <li><a href="#section-lockScreenDismissalWarning">lockScreenDismissalWarning</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -37,6 +39,48 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLDriverDistractionState.h@T@SDLDriverDistractionState">SDLDriverDistractionState</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lockScreenDismissalEnabled">
+      lockScreenDismissalEnabled
+  </h3>
+  
+  <p>If enabled, the lock screen will be able to be dismissed while connected to SDL, allowing users the ability to interact with the app.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lockScreenDismissalEnabled</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lockScreenDismissalEnabled</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lockScreenDismissalWarning">
+      lockScreenDismissalWarning
+  </h3>
+  
+  <p>Warning message to be displayed on the lock screen when dismissal is enabled.  This warning should be used to ensure that the user is not the driver of the vehicle, ex. <code>Swipe up to dismiss, acknowledging that you are not the driver.</code>.  This parameter must be present if <q>lockScreenDismissalEnabled</q> is set to true.</p>
+
+<p>Optional,  String</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lockScreenDismissalWarning</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lockScreenDismissalWarning</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

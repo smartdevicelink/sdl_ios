@@ -1,0 +1,183 @@
+<h1>SDLCreateWindow Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithId:windowName:windowType:">-initWithId:windowName:windowType:</a></li>
+  <li><a href="#section--initWithId:windowName:windowType:associatedServiceType:duplicateUpdatesFromWindowID:">-initWithId:windowName:windowType:associatedServiceType:duplicateUpdatesFromWindowID:</a></li>
+  <li><a href="#section-windowID">windowID</a></li>
+  <li><a href="#section-windowName">windowName</a></li>
+  <li><a href="#section-type">type</a></li>
+  <li><a href="#section-associatedServiceType">associatedServiceType</a></li>
+  <li><a href="#section-duplicateUpdatesFromWindowID">duplicateUpdatesFromWindowID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Create a new window on the display with the specified window type.
+@discussion Windows of different types like MAIN or WIDGET windows can be created. Every application will have a pre-created MAIN window available. A widget is a small window that the app can create to provide information and soft buttons for quick app control. Widgets can be created depending on the capabilities of the system. Widgets can be associated with a specific App Service type such as <code>MEDIA</code> or <code>NAVIGATION</code>. As an example if a <code>MEDIA</code> app becomes active, this app becomes audible and is allowed to play audio. If the media app has created a widget with <code>MEDIA</code> type associated, this widget will automatically be activated together with the app.</p>
+
+<p>@since SDL 6.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithId:windowName:windowType:">
+      -initWithId:windowName:windowType:
+  </h3>
+  
+  <p>Constructor with the required parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">windowId</span>
+                        <span class="nf">windowName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowName</span>
+                        <span class="nf">windowType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span><span class="p">)</span><span class="nv">windowType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">id</span> <span class="nv">windowId</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">windowName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">windowType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>windowId</dt>
+      <dd><p>The type of the window to be created. Main window or widget.</p></dd>
+      <dt>windowName</dt>
+      <dd><p>The window name to be used by the HMI. - see: windowName</p></dd>
+      <dt>windowType</dt>
+      <dd><p>The type of the window to be created. Main window or widget.</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithId:windowName:windowType:associatedServiceType:duplicateUpdatesFromWindowID:">
+      -initWithId:windowName:windowType:associatedServiceType:duplicateUpdatesFromWindowID:
+  </h3>
+  
+  <p>Convinience constructor with all the parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">windowId</span>
+                        <span class="nf">windowName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowName</span>
+                        <span class="nf">windowType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span><span class="p">)</span><span class="nv">windowType</span>
+             <span class="nf">associatedServiceType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">associatedServiceType</span>
+      <span class="nf">duplicateUpdatesFromWindowID</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">duplicateUpdatesFromWindowID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">id</span> <span class="nv">windowId</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">windowName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">windowType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span><span class="p">,</span> <span class="nv">associatedServiceType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duplicateUpdatesFromWindowID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>windowId</dt>
+      <dd><p>The type of the window to be created. Main window or widget.</p></dd>
+      <dt>windowName</dt>
+      <dd><p>The window name to be used by the HMI. - see: windowName</p></dd>
+      <dt>windowType</dt>
+      <dd><p>The type of the window to be created. Main window or widget.</p></dd>
+      <dt>associatedServiceType</dt>
+      <dd><p>Allows an app to create a widget related to a specific service type. - see: associatedServiceType</p></dd>
+      <dt>duplicateUpdatesFromWindowID</dt>
+      <dd><p>Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn&rsquo;t a window with the ID, the request will be rejected with <code>INVALID_DATA</code>.</p></dd>
+  </dl>
+  
+  <h3 id="section-windowID">
+      windowID
+  </h3>
+  
+  <p>A unique ID to identify the window.
+@discussion The value of &lsquo;0&rsquo; will always be the default main window on the main display and should not be used in this context as it will already be created for the app. See PredefinedWindows enum. Creating a window with an ID that is already in use will be rejected with <code>INVALID_ID</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">windowID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windowID</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-windowName">
+      windowName
+  </h3>
+  
+  <p>The window name to be used by the HMI.
+@discussion The name of the pre-created default window will match the app name. Multiple apps can share the same window name except for the default main window. Creating a window with a name which is already in use by the app will result in <code>DUPLICATE_NAME</code>. MaxLength 100.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">windowName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windowName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-type">
+      type
+  </h3>
+  
+  <p>The type of the window to be created. Main window or widget.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span> <span class="n">_Nonnull</span> <span class="n">type</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLWindowType.h@T@SDLWindowType">SDLWindowType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-associatedServiceType">
+      associatedServiceType
+  </h3>
+  
+  <p>Allows an app to create a widget related to a specific service type.
+@discussion As an example if a <code>MEDIA</code> app becomes active, this app becomes audible and is allowed to play audio. Actions such as skip or play/pause will be directed to this active media app. In case of widgets, the system can provide a single <q>media</q> widget which will act as a placeholder for the active media app. It is only allowed to have one window per service type. This means that a media app can only have a single MEDIA widget. Still the app can create widgets omitting this parameter. Those widgets would be available as app specific widgets that are permanently included in the HMI. This parameter is related to widgets only. The default main window, which is pre-created during app registration, will be created based on the HMI types specified in the app registration request.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">associatedServiceType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">associatedServiceType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-duplicateUpdatesFromWindowID">
+      duplicateUpdatesFromWindowID
+  </h3>
+  
+  <p>Optional parameter. Specify whether the content sent to an existing window should be duplicated to the created window. If there isn&rsquo;t a window with the ID, the request will be rejected with <code>INVALID_DATA</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">duplicateUpdatesFromWindowID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">duplicateUpdatesFromWindowID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

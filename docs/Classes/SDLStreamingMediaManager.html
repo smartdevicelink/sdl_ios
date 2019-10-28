@@ -18,6 +18,7 @@
   <li><a href="#section-supportedFormats">supportedFormats</a></li>
   <li><a href="#section-pixelBufferPool">pixelBufferPool</a></li>
   <li><a href="#section-requestedEncryptionType">requestedEncryptionType</a></li>
+  <li><a href="#section-showVideoBackgroundDisplay">showVideoBackgroundDisplay</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:configuration:">-initWithConnectionManager:configuration:</a></li>
   <li><a href="#section--startWithProtocol:">-startWithProtocol:</a></li>
@@ -232,7 +233,7 @@
       screenSize
   </h3>
   
-  <p>This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.</p>
+  <p>The current screen resolution of the connected display in pixels.</p>
 
   
   
@@ -326,6 +327,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestedEncryptionType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-showVideoBackgroundDisplay">
+      showVideoBackgroundDisplay
+  </h3>
+  
+  <p>When YES, the StreamingMediaManager will send a black screen with <q>Video Backgrounded String</q>. Defaults to YES.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showVideoBackgroundDisplay</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">showVideoBackgroundDisplay</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
