@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Defines how the menu is configured
 @interface SDLMenuConfiguration : NSObject
 
 /**

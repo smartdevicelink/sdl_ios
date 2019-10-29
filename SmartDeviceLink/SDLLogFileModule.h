@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Log file module information
 @interface SDLLogFileModule : NSObject
 
 /**

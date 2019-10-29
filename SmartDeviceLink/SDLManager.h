@@ -28,9 +28,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
+/// The block called when the manager is ready to be used or an error occurs while attempting to become ready.
+///
+/// @param success a bool value if the set up succeeded
+/// @param error the error is any exists
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
-
 
 @interface SDLManager : NSObject
 

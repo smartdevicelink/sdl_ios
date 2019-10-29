@@ -7,6 +7,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Data about the current light controls
+///
+/// @since 5.0
 @interface SDLLightControlData : SDLRPCStruct
 
 /**

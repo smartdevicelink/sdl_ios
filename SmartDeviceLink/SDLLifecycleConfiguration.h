@@ -19,8 +19,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// List of secondary transports
 typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
+    /// No secondary transport
     SDLSecondaryTransportsNone = 0,
+
+    /// TCP as secondary transport
     SDLSecondaryTransportsTCP = 1 << 0
 };
 

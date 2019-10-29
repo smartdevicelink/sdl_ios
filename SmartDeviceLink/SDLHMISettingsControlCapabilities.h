@@ -6,6 +6,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// HMI data struct for HMI control settings
+///
+/// @since 5.0
 @interface SDLHMISettingsControlCapabilities : SDLRPCStruct
 
 /**

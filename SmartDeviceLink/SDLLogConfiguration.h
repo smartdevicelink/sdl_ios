@@ -17,6 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Information about the current logging configuration
 @interface SDLLogConfiguration : NSObject <NSCopying>
 
 /**

@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**SDLGetWayPoints.
  *  Request for expanded information about a supported system/HMI capability
  */
 @interface SDLGetSystemCapability : SDLRPCRequest

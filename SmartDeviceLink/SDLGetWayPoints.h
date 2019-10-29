@@ -7,8 +7,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// This RPC allows you to get waypoint data
+///
+/// @since 4.1
 @interface SDLGetWayPoints : SDLRPCRequest
 
+/// Convenience init to get waypoints.
+///
+/// @param type To request for either the destination only or for all waypoints including destination
+/// @return An SDLGetWayPoints object
 - (instancetype)initWithType:(SDLWayPointType)type;
 
 /**

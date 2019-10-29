@@ -18,8 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetDTCs : SDLRPCRequest
 
+/// Convenience init.
+///
+/// @param name Name of the module to receive the DTC form
+/// @return An SDLGetDTCs object
 - (instancetype)initWithECUName:(UInt16)name;
 
+/// Convenience init with all properties.
+///
+/// @param name Name of the module to receive the DTC form
+/// @param mask DTC Mask Byte to be sent in diagnostic request to module
+/// @return An SDLGetDTCs object
 - (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask;
 
 /**

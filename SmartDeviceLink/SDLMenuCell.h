@@ -15,8 +15,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+The handler to run when a menu item is selected.
+
+@param triggerSource The trigger source of the selection
+*/
 typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 
+/// A menu cell item for the drop down menu.
 @interface SDLMenuCell : NSObject
 
 /**

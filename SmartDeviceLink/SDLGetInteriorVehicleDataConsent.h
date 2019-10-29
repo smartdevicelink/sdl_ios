@@ -11,8 +11,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+/// This RPC allows you to get consent to control a certian module
+///
+/// @since RPC 6.0
 @interface SDLGetInteriorVehicleDataConsent : SDLRPCRequest
 
+/// Convenience init to get consent to control a module
+///
+/// @param moduleType The module type that the app requests to control
+/// @param moduleIds Ids of a module of same type, published by System Capability
+/// @return An SDLGetInteriorVehicleDataConsent object
 - (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleIds:(NSArray<NSString *> *)moduleIds;
 
 /**
