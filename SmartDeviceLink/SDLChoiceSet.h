@@ -25,6 +25,9 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
     SDLChoiceSetLayoutTiles,
 };
 
+/**
+ The choice set to be displayed to the user.
+ */
 @interface SDLChoiceSet: NSObject
 
 /**

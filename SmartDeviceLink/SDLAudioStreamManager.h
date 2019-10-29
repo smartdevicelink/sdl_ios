@@ -23,6 +23,9 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
     SDLAudioStreamManagerErrorNoQueuedAudio = -2
 };
 
+/**
+ The manager to control the audio stream
+ */
 @interface SDLAudioStreamManager : NSObject
 
 /**

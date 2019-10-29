@@ -13,8 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  This is the record of an app service publisher that the module has. It should contain the most up to date information including the service's active state.
+ *
+ *  @since RPC 5.1
  */
 @interface SDLAppServiceRecord : SDLRPCStruct
 

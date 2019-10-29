@@ -6,6 +6,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Response to SDLCreateWindow
+///
+/// @since RPC 6.0
 @interface SDLCreateWindowResponse : SDLRPCResponse
 
 @end

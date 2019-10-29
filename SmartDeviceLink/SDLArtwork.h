@@ -20,6 +20,9 @@ typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A type of SDLFile image
+ */
 @interface SDLArtwork : SDLFile
 
 /**

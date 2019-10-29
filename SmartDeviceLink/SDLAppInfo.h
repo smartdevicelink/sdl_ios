@@ -10,6 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppInfo : SDLRPCStruct
 
+/// Create a new app info
+/// @return An instance of the app info class
 + (instancetype)currentAppInfo;
 
 /**

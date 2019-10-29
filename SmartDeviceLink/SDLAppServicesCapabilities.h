@@ -12,8 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  Capabilities of app services including what service types are supported and the current state of services.
+ *
+ *  @since RPC 5.1
  */
 @interface SDLAppServicesCapabilities : SDLRPCStruct
 

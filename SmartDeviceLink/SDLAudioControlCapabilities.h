@@ -6,6 +6,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Current audio control capabilitie. If included, the platform supports audio controls
+
+ @since RPC 5.0
+ */
 @interface SDLAudioControlCapabilities : SDLRPCStruct
 
 /**

@@ -25,12 +25,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAddSubMenu : SDLRPCRequest
 
+
+/// Convenience init to create a new add sub menu.
+///
+/// @param menuId A menu id
+/// @param menuName The menu name
+/// @return An instance of the add submenu class
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName;
 
+/// Convenience init to create a new add sub menu.
+///
+/// @param menuId A menu id
+/// @param menuName The menu name
+/// @param position The position within the menu to add
+/// @return An SDLAddSubMenu object
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position __deprecated_msg("Use initWithId:menuName:menuLayout:menuIcon:position: instead");
 
+/// Convenience init to create a new add sub menu.
+///
+/// @param menuId A menu id
+/// @param menuName The menu name
+/// @param icon The icon to show on the menu item
+/// @param position The position within the menu to add
+/// @return An SDLAddSubMenu object
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position __deprecated_msg("Use initWithId:menuName:menuLayout:menuIcon:position: instead");
 
+/// Convenience init to create a new add sub menu with all properties.
+/// @param menuId A menu id
+/// @param menuName The menu name
+/// @param menuLayout The sub-menu layout
+/// @param icon The icon to show on the menu item
+/// @param position The position within the menu to add
+/// @return An SDLAddSubMenu object
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuLayout:(nullable SDLMenuLayout)menuLayout menuIcon:(nullable SDLImage *)icon position:(UInt8)position;
 
 /**
