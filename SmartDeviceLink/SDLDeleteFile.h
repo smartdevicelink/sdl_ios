@@ -17,6 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteFile : SDLRPCRequest
 
+/// Convenience init to delete a file
+///
+/// @param fileName A file reference name
+/// @return An SDLDeleteFile object
 - (instancetype)initWithFileName:(NSString *)fileName;
 
 /**

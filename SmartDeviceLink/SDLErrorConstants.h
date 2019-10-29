@@ -137,11 +137,21 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     SDLMenuManagerErrorRPCsFailed = -1
 };
 
+/// Errors associated with Choice Set class
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
+    /// The choice set has been deleted before it was presented
     SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
+
+    /// The choice set failed to delete
     SDLChoiceSetManagerErrorDeletionFailed = -2,
+
+    /// The upload failed
     SDLChoiceSetManagerErrorUploadFailed = -3,
+
+    /// The menu items failed to be created
     SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4,
+
+    /// Invalid state
     SDLChoiceSetManagerErrorInvalidState = -5
 };
 

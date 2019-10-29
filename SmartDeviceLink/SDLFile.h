@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Crates an SDLFile from a file
 @interface SDLFile : NSObject <NSCopying>
 
 /**

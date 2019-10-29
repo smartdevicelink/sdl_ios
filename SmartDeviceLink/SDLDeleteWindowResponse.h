@@ -10,8 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Response to DeleteWindow
+///
+/// @since RPC 6.0
 @interface SDLDeleteWindowResponse : SDLRPCResponse
 
 @end
 
 NS_ASSUME_NONNULL_END
+

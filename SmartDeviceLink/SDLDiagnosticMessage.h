@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDiagnosticMessage : SDLRPCRequest
 
+/// Convenience init.
+/// 
+/// @param targetId Name of target ECU
+/// @param length Length of message (in bytes)
+/// @param data Array of bytes comprising CAN message
+/// @return An SDLDiagnosticMessage object
 - (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSNumber<SDLUInt> *> *)data;
 
 /**

@@ -7,6 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Compares two enums for equivalents
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
 @interface NSString (SDLEnum)
