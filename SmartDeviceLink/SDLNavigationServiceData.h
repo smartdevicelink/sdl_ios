@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  This data is related to what a navigation service would provide.
  */
 @interface SDLNavigationServiceData : SDLRPCStruct

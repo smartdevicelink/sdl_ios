@@ -27,12 +27,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPerformAudioPassThru : SDLRPCRequest
 
+/// Convenience init to perform an audio pass thru
+/// @param samplingRate A samplingRate
+/// @param bitsPerSample The quality the audio is recorded - 8 bit or 16 bit
+/// @param audioType An audioType
+/// @param maxDuration The maximum duration of audio recording in milliseconds
 - (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration;
 
+/// Convenience init to perform an audio pass thru
+/// @param initialPrompt Initial prompt which will be spoken before opening the audio pass thru session by SDL
+/// @param audioPassThruDisplayText1 A line of text displayed during audio capture
+/// @param audioPassThruDisplayText2 A line of text displayed during audio capture
+/// @param samplingRate A samplingRate
+/// @param bitsPerSample The quality the audio is recorded - 8 bit or 16 bit
+/// @param audioType An audioType
+/// @param maxDuration The maximum duration of audio recording in milliseconds
+/// @param muteAudio A Boolean value representing if the current audio source should be muted during the APT session
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio;
 
+/// Convenience init to perform an audio pass thru
+/// @param samplingRate A samplingRate
+/// @param bitsPerSample The quality the audio is recorded - 8 bit or 16 bit
+/// @param audioType An audioType
+/// @param maxDuration The maximum duration of audio recording in milliseconds
+/// @param audioDataHandler A handler that will be called whenever an onAudioPassThru notification is received.
 - (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration audioDataHandler:(nullable SDLAudioPassThruHandler)audioDataHandler;
 
+/// <#Description#>
+// @param initialPrompt Initial prompt which will be spoken before opening the audio pass thru session by SDL
+/// @param audioPassThruDisplayText1 A line of text displayed during audio capture
+/// @param audioPassThruDisplayText2 A line of text displayed during audio capture
+/// @param samplingRate A samplingRate
+/// @param bitsPerSample The quality the audio is recorded - 8 bit or 16 bit
+/// @param audioType An audioType
+/// @param maxDuration The maximum duration of audio recording in milliseconds
+/// @param muteAudio A Boolean value representing if the current audio source should be muted during the APT session
+/// @param audioDataHandler A handler that will be called whenever an onAudioPassThru notification is received.
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio audioDataHandler:(nullable SDLAudioPassThruHandler)audioDataHandler;
     
 /**

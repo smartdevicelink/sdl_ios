@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  Response to the request to request an app service.
  */
 @interface SDLPerformAppServiceInteractionResponse : SDLRPCResponse

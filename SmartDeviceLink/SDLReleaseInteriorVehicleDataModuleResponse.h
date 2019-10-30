@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Response to ReleaseInteriorVehicleDataModule
+///
+/// @since RPC 6.0
 @interface SDLReleaseInteriorVehicleDataModuleResponse : SDLRPCResponse
 
 @end

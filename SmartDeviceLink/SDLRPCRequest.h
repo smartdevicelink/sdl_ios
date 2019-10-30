@@ -6,6 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// All RPCs inherit this class
 @interface SDLRPCRequest : SDLRPCMessage
 
 /**

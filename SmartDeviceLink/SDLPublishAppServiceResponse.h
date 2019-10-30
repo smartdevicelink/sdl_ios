@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  Response to the request to register a service offered by this app on the module.
  */
 @interface SDLPublishAppServiceResponse : SDLRPCResponse

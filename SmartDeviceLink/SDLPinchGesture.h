@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Pinch Gesture information
 @interface SDLPinchGesture : NSObject
 
 /**

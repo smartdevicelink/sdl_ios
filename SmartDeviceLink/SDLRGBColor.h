@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Represents an RGB color
+///
+/// @since 5.0
 @interface SDLRGBColor : SDLRPCStruct
 
 /**
