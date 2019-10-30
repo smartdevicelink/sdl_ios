@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStationIDNumber : SDLRPCStruct
 
+/// Convenience init
+
+/// @param countryCode Binary Representation of ITU Country Code. USA Code is 001
+/// @param id Binary representation  of unique facility ID assigned by the FCC
+/// @return An SDLStationIDNumber object
 - (instancetype)initWithCountryCode:(nullable NSNumber<SDLInt> *)countryCode fccFacilityId:(nullable NSNumber<SDLInt> *)id;
 
 /**

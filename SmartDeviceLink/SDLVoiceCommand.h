@@ -24,6 +24,11 @@ typedef void(^SDLVoiceCommandSelectionHandler)(void);
  */
 @property (copy, nonatomic, readonly, nullable) SDLVoiceCommandSelectionHandler handler;
 
+/// Convenience init
+///
+/// @param voiceCommands The strings the user can say to activate this voice command
+/// @param handler The handler that will be called when the command is activated
+/// @return An SDLVoiceCommand object
 - (instancetype)initWithVoiceCommands:(NSArray<NSString *> *)voiceCommands handler:(SDLVoiceCommandSelectionHandler)handler;
 
 @end

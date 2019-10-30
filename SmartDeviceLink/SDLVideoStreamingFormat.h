@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLVideoStreamingCodec codec;
 
+/// Convenience init
+///
+/// @param codec Codec type, see VideoStreamingCodec
+/// @param protocol Protocol type, see VideoStreamingProtocol
+/// @return An SDLVideoStreamingFormat object
 - (instancetype)initWithCodec:(SDLVideoStreamingCodec)codec protocol:(SDLVideoStreamingProtocol)protocol;
 
 @end

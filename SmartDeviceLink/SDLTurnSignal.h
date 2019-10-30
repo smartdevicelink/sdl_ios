@@ -8,27 +8,27 @@
 
 #import "SDLEnum.h"
 
-/*
+/**
  *  Enumeration that describes the status of the turn light indicator.
  */
 typedef SDLEnum SDLTurnSignal SDL_SWIFT_ENUM;
 
-/*
+/**
  *  Turn signal is OFF
  */
 extern SDLTurnSignal const SDLTurnSignalOff;
 
-/*
+/**
  *  Left turn signal is on
  */
 extern SDLTurnSignal const SDLTurnSignalLeft;
 
-/*
+/**
  *  Right turn signal is on
  */
 extern SDLTurnSignal const SDLTurnSignalRight;
 
-/*
+/**
  *  Both signals (left and right) are on
  */
 extern SDLTurnSignal const SDLTurnSignalBoth;

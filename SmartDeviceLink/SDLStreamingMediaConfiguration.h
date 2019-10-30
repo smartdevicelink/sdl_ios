@@ -18,14 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The type of rendering that CarWindow will perform. Depending on your app, you may need to try different ones for best performance
-
- - SDLCarWindowRenderingTypeLayer: Instead of rendering your UIViewController's view, this will render the layer using `renderInContext`
- - SDLCarWindowRenderingTypeViewAfterScreenUpdates: Renders your UIViewController's view using `drawViewHierarchyInRect:bounds afterScreenUpdates:YES`
- - SDLCarWindowRenderingTypeViewBeforeScreenUpdates: Renders your UIViewController's view using `drawViewHierarchyInRect:bounds afterScreenUpdates:NO`
  */
 typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
+    /// Instead of rendering your UIViewController's view, this will render the layer using renderInContext
     SDLCarWindowRenderingTypeLayer,
+
+    /// Renders your UIViewController's view using drawViewHierarchyInRect:bounds afterScreenUpdates:YES
     SDLCarWindowRenderingTypeViewAfterScreenUpdates,
+
+    /// Renders your UIViewController's view using drawViewHierarchyInRect:bounds afterScreenUpdates:NO
     SDLCarWindowRenderingTypeViewBeforeScreenUpdates
 };
 
