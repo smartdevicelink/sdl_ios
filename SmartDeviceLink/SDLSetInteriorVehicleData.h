@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetInteriorVehicleData : SDLRPCRequest
 
+/// Convenience init to change settings of a module
+///
+/// @param moduleData A remote control module data object
+/// @return An SDLSetInteriorVehicleData object
 - (instancetype)initWithModuleData:(SDLModuleData *)moduleData;
 
 /**

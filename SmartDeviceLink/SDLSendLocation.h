@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Used to create a location object for navigation
+///
+/// @since RPC 3.0
 @interface SDLSendLocation : SDLRPCRequest
 
 /**

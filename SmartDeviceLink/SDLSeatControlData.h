@@ -17,51 +17,52 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSeatControlData : SDLRPCStruct
 
-/**
- Constructs a newly allocated SDLSeatControlData object with cushion and firmness
-
- @param supportedSeat id of remote controllable seat.
- @return An instance of the SDLSeatControlData class
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+Constructs a newly allocated SDLSeatControlData object with cushion and firmness
+
+@param supportedSeat id of remote controllable seat.
+@return An instance of the SDLSeatControlData class
+*/
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat;
 #pragma clang diagnostic pop
 
-/**
-  Constructs a newly allocated SDLSeatControlData object with cushion and firmness
 
- @param supportedSeat id of remote controllable seat.
- @param heatingEnable Whether or not heating is enabled.
- @param coolingEnable Whether or not cooling is enabled.
- @param heatingLevel heating level
- @param coolingLevel cooling Level
- @param horizontal horizontal Position
- @param vertical vertical Position
- @param frontVertical frontVertical Position
- @param backVertical backVertical Position
- @param backAngle backAngle Position
- @param headSupportedHorizontal headSupportedHorizontal Position
- @param headSupportedVertical headSupportedVertical Position
- @param massageEnable Whether or not massage is enabled.
- @param massageMode Array of massage mode data.
- @param firmness Array of firmness data.
- @param memoryAction type of action to be performed.
- @return An instance of the SDLSeatControlData class
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+ Constructs a newly allocated SDLSeatControlData object with cushion and firmness
+
+@param supportedSeat id of remote controllable seat.
+@param heatingEnable Whether or not heating is enabled.
+@param coolingEnable Whether or not cooling is enabled.
+@param heatingLevel heating level
+@param coolingLevel cooling Level
+@param horizontal horizontal Position
+@param vertical vertical Position
+@param frontVertical frontVertical Position
+@param backVertical backVertical Position
+@param backAngle backAngle Position
+@param headSupportedHorizontal headSupportedHorizontal Position
+@param headSupportedVertical headSupportedVertical Position
+@param massageEnable Whether or not massage is enabled.
+@param massageMode Array of massage mode data.
+@param firmness Array of firmness data.
+@param memoryAction type of action to be performed.
+@return An instance of the SDLSeatControlData class
+*/
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnable heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction;
 #pragma clang diagnostic pop
 
-/**
- * @abstract id of seat that is a remote controllable seat.
- * @warning This should not be used to identify a seat, this is a deprecated parameter.
- *
- * Required
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* @abstract id of seat that is a remote controllable seat.
+* @warning This should not be used to identify a seat, this is a deprecated parameter.
+*
+* Required
+*/
 @property (strong, nonatomic) SDLSupportedSeat id;
 #pragma clang diagnostic pop
 

@@ -15,6 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSISData : SDLRPCStruct
 
+/// Convenience init to
+///
+/// @param stationShortName Identifies the 4-alpha-character station call sign
+/// @param id A SDLStationIDNumber
+/// @param stationLongName Identifies the station call sign or other identifying
+/// @param stationLocation Provides the 3-dimensional geographic station location
+/// @param stationMessage May be used to convey textual information of general interest
+/// @return An SDLSISData object
 - (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSData *)stationLocation stationMessage:(nullable NSString *)stationMessage;
 
 /**

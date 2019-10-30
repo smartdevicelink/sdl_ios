@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, readonly) SDLSoftButtonState *currentState;
 
+/// Describes an on-screen button which may be presented in various contexts, e.g. templates or alerts
 @property (strong, nonatomic, readonly) SDLSoftButton *currentStateSoftButton;
 
 /**
@@ -57,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Create a single-state soft button. For example, a button that brings up a Perform Interaction menu.
-
+ 
  @param name The name of the button
  @param state The single state of the button
  @param eventHandler The handler to be called when the button is pressed

@@ -38,10 +38,10 @@ extern SDLNavigationAction const SDLNavigationActionMerge;
  */
 extern SDLNavigationAction const SDLNavigationActionFerry;
 
-/**SDLNavigationCapability.h
+/**
  *  A navigation action of car shuttle train.
  */
-extern SDLNavigationAction const SDLNavigatiSDLNavigationCapability.honActionCarShuttleTrain;
+extern SDLNavigationAction const SDLNavigationActionCarShuttleTrain;
 
 /**
  *  A navigation action of waypoint.

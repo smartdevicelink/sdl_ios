@@ -39,16 +39,74 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLShow : SDLRPCRequest
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField2 The text displayed on the second display line
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment;
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField1Type Text field metadata types
+/// @param mainField2 The text displayed on the second display line
+/// @param mainField2Type Text field metadata types
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment;
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField2 The text displayed on the second display line
+/// @param mainField3 The text displayed on the third display line
+/// @param mainField4 The text displayed on the fourth display line
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment;
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField1Type Text field metadata types
+/// @param mainField2 The text displayed on the second display line
+/// @param mainField2Type Text field metadata types
+/// @param mainField3 The text displayed on the third display line
+/// @param mainField3Type Text field metadata types
+/// @param mainField4 The text displayed on the fourth display line
+/// @param mainField4Type Text field metadata types
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment;
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField2 The text displayed on the second display line
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @param statusBar Text in the status Bar
+/// @param mediaClock The value for the mediaClock field
+/// @param mediaTrack The text in the track field
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack;
 
+/// Convenience init to set template elements with the following parameters
+///
+/// @param mainField1 The text displayed on the first display line
+/// @param mainField2 The text displayed on the second display line
+/// @param mainField3 The text displayed on the third display line
+/// @param mainField4 The text displayed on the fourth display line
+/// @param alignment The alignment that specifies how the text should be aligned on display
+/// @param statusBar Text in the status bar
+/// @param mediaClock The value for the mediaClock field
+/// @param mediaTrack The text in the track field
+/// @param graphic An image to be shown on supported displays
+/// @param softButtons The the Soft buttons defined by the app
+/// @param customPresets The custom presets defined by the App
+/// @param metadata Text field metadata
+/// @return An SDLShow object
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
 
 /**
