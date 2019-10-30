@@ -47,9 +47,9 @@
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
-    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows.firstObject];
 
-    if (viewController == self) {
+    if (viewController == nil || viewController == self) {
         return YES;
     } else if (viewController != nil) {
         return viewController.shouldAutorotate;
