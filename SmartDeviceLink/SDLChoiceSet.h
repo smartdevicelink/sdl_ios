@@ -20,13 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef void (^SDLChoiceSetCanceledHandler)(void);
 
+/// The layout to use when a choice set is displayed
 typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
+    /// Menu items will be displayed in a list
     SDLChoiceSetLayoutList,
+
+    /// Menu items will be displayed as a tiled list
     SDLChoiceSetLayoutTiles,
 };
 
 /**
- The choice set to be displayed to the user.
+ The choice set to be displayed to the user. Contains a list of selectable options.
  */
 @interface SDLChoiceSet: NSObject
 

@@ -101,12 +101,12 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
-/**
- * Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
- * The only reason to use this is to access the `putFileStream:withRequest:` method. All other functionality exists on managers in 4.3. This will be removed in 5.0 and the functionality replicated on `SDLFileManager`.
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
+* The only reason to use this is to access the `putFileStream:withRequest:` method. All other functionality exists on managers in 4.3. This will be removed in 5.0 and the functionality replicated on `SDLFileManager`.
+*/
 @property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 

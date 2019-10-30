@@ -13,8 +13,13 @@
 
 @class SDLImage;
 
+/// Format of the Artwork
 typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
+
+    /// Image foramt: PNG
     SDLArtworkImageFormatPNG,
+
+    /// Image foramt: JPG
     SDLArtworkImageFormatJPG
 };
 

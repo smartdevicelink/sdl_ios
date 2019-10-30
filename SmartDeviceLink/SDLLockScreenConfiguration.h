@@ -13,16 +13,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Describes when the lock screen should be shown.
-
- - SDLLockScreenConfigurationModeNever: The lock screen should never be shown. This should almost always mean that you will build your own lock screen.
- - SDLLockScreenConfigurationModeRequiredOnly: The lock screen should only be shown when it is required by the head unit.
- - SDLLockScreenConfigurationModeOptionalOrRequired: The lock screen should be shown when required by the head unit or when the head unit says that its optional, but *not* in other cases, such as before the user has interacted with your app on the head unit.
- - SDLLockScreenConfigurationModeAlways: The lock screen should always be shown after connection.
  */
 typedef NS_ENUM(NSUInteger, SDLLockScreenConfigurationDisplayMode) {
+    /// The lock screen should never be shown. This should almost always mean that you will build your own lock screen.
     SDLLockScreenConfigurationDisplayModeNever,
+
+    /// The lock screen should only be shown when it is required by the head unit.
     SDLLockScreenConfigurationDisplayModeRequiredOnly,
+
+    /// The lock screen should be shown when required by the head unit or when the head unit says that its optional, but *not* in other cases, such as before the user has interacted with your app on the head unit.
     SDLLockScreenConfigurationDisplayModeOptionalOrRequired,
+
+    /// The lock screen should always be shown after connection.
     SDLLockScreenConfigurationDisplayModeAlways
 };
 

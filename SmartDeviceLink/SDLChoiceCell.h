@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A selectable item within an SDLChoiceSet
 @interface SDLChoiceCell: NSObject
 
 /**

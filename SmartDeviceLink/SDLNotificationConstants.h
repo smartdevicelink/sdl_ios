@@ -116,68 +116,193 @@ extern SDLNotificationName const SDLDidUpdateProjectionView;
  *  NSNotification names associated with specific RPC responses.
  */
 #pragma mark - RPC responses
+/// Name for an AddCommand response RPC
 extern SDLNotificationName const SDLDidReceiveAddCommandResponse;
+
+/// Name for an AddSubMenu response RPC
 extern SDLNotificationName const SDLDidReceiveAddSubMenuResponse;
+
+/// Name for an Alert response RPC
 extern SDLNotificationName const SDLDidReceiveAlertResponse;
+
+/// Name for an AlertManeuver response RPC
 extern SDLNotificationName const SDLDidReceiveAlertManeuverResponse;
+
+/// Name for an ButtonPress response RPC
 extern SDLNotificationName const SDLDidReceiveButtonPressResponse;
+
+/// Name for an CancelInteraction response RPC
 extern SDLNotificationName const SDLDidReceiveCancelInteractionResponse;
+
+/// Name for an ChangeRegistration response RPC
 extern SDLNotificationName const SDLDidReceiveChangeRegistrationResponse;
+
+/// Name for an CloseApplication response RPC
 extern SDLNotificationName const SDLDidReceiveCloseApplicationResponse;
+
+/// Name for an CreateInteractionChoiceSet response RPC
 extern SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetResponse;
+
+/// Name for an CreateWindow response RPC
 extern SDLNotificationName const SDLDidReceiveCreateWindowResponse;
+
+/// Name for an DeleteCommand response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteCommandResponse;
+
+/// Name for an DeleteFile response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteFileResponse;
+
+/// Name for an DeleteInteractionChoiceSet response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetResponse;
+
+/// Name for an DeleteSubmenu response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteSubmenuResponse;
+
+/// Name for an DeleteWindow response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteWindowResponse;
+
+/// Name for an DiagnosticMessage response RPC
 extern SDLNotificationName const SDLDidReceiveDiagnosticMessageResponse;
+
+/// Name for an DialNumber response RPC
 extern SDLNotificationName const SDLDidReceiveDialNumberResponse;
+
+/// Name for an EncodedSyncPData response RPC
 extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
+
+/// Name for an EndAudioPassThru response RPC
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
+
+/// Name for an Generic response RPC
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
+
+/// Name for an GetCloudAppProperties response RPC
 extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesResponse;
+
+/// Name for an GetAppServiceData response RPC
 extern SDLNotificationName const SDLDidReceiveGetAppServiceDataResponse;
+
+/// Name for an GetDTCs response RPC
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+
+/// Name for an GetFile response RPC
 extern SDLNotificationName const SDLDidReceiveGetFileResponse;
+
+/// Name for an GetInteriorVehicleData response RPC
 extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse;
+
+/// Name for an GetInteriorVehicleDataConsent response RPC
 extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataConsentResponse;
+
+/// Name for an GetSystemCapabilities response RPC
 extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
+
+/// Name for an GetVehicleData response RPC
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
+
+/// Name for an GetWaypoints response RPC
 extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
+
+/// Name for an ListFiles response RPC
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;
+
+/// Name for an PerformAppServiceInteraction response RPC
 extern SDLNotificationName const SDLDidReceivePerformAppServiceInteractionResponse;
+
+/// Name for an PerformAudioPassThru response RPC
 extern SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse;
+
+/// Name for an PerformInteraction response RPC
 extern SDLNotificationName const SDLDidReceivePerformInteractionResponse;
+
+/// Name for an PublishAppService response RPC
 extern SDLNotificationName const SDLDidReceivePublishAppServiceResponse;
+
+/// Name for an ReceivePutFile response RPC
 extern SDLNotificationName const SDLDidReceivePutFileResponse;
+
+/// Name for an ReceiveReadDID response RPC
 extern SDLNotificationName const SDLDidReceiveReadDIDResponse;
+
+/// Name for an RegisterAppInterface response RPC
 extern SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse;
+
+/// Name for an ReleaseInteriorVehicleDataModule response RPC
 extern SDLNotificationName const SDLDidReceiveReleaseInteriorVehicleDataModuleResponse;
+
+/// Name for an ResetGlobalProperties response RPC
 extern SDLNotificationName const SDLDidReceiveResetGlobalPropertiesResponse;
+
+/// Name for an ScrollableMessage response RPC
 extern SDLNotificationName const SDLDidReceiveScrollableMessageResponse;
+
+/// Name for an SendHapticData response RPC
 extern SDLNotificationName const SDLDidReceiveSendHapticDataResponse;
+
+/// Name for an SendLocation response RPC
 extern SDLNotificationName const SDLDidReceiveSendLocationResponse;
+
+/// Name for an SetAppIcon response RPC
 extern SDLNotificationName const SDLDidReceiveSetAppIconResponse;
+
+/// Name for an SetCloudAppProperties response RPC
 extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesResponse;
+
+/// Name for an SetDisplayLayout response RPC
 extern SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse;
+
+/// Name for an SetGlobalProperties response RPC
 extern SDLNotificationName const SDLDidReceiveSetGlobalPropertiesResponse;
+
+/// Name for an SetInteriorVehicleData response RPC
 extern SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse;
+
+/// Name for an SetMediaClockTimer response RPC
 extern SDLNotificationName const SDLDidReceiveSetMediaClockTimerResponse;
+
+/// Name for an ShowConstantTBT response RPC
 extern SDLNotificationName const SDLDidReceiveShowConstantTBTResponse;
+
+/// Name for an Show response RPC
 extern SDLNotificationName const SDLDidReceiveShowResponse;
+
+/// Name for an ShowAppMenu response RPC
 extern SDLNotificationName const SDLDidReceiveShowAppMenuResponse;
+
+/// Name for an Slider response RPC
 extern SDLNotificationName const SDLDidReceiveSliderResponse;
+
+/// Name for an Speak response RPC
 extern SDLNotificationName const SDLDidReceiveSpeakResponse;
+
+/// Name for an Subscribe response RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeButtonResponse;
+
+/// Name for an SubscribeVehicleData response RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse;
+
+/// Name for an SubscribeWaypoints response RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
+
+/// Name for an SyncPData response RPC
 extern SDLNotificationName const SDLDidReceiveSyncPDataResponse;
+
+/// Name for an UpdateTurnList response RPC
 extern SDLNotificationName const SDLDidReceiveUpdateTurnListResponse;
+
+/// Name for an UnpublishAppService response RPC
 extern SDLNotificationName const SDLDidReceiveUnpublishAppServiceResponse;
+
+/// Name for an UnregisterAppInterface response RPC
 extern SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceResponse;
+
+/// Name for an UnsubscribeButton response RPC
 extern SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse;
+
+/// Name for an UnsubscribeVehicleData response RPC
 extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
+
+/// Name for an UnsubscribeWaypoints response RPC
 extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
 /**

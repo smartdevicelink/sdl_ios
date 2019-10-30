@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Optional
 @property (strong, nonatomic, readonly) SDLLogFilterBlock filter;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

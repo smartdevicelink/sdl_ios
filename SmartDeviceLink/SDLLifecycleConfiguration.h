@@ -33,6 +33,7 @@ typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
  */
 @interface SDLLifecycleConfiguration : NSObject <NSCopying>
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

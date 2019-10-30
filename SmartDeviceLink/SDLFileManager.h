@@ -18,6 +18,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// The handler that is called when the manager is set up or failed to set up with an error
+///
+/// @param success True if every request succeeded, false if any failed.
+/// @param error The error that occurred during the request if any occurred.
 typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__nullable error);
 
 

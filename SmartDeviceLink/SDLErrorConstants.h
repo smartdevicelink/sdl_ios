@@ -88,23 +88,23 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file manager could not find the local file.
      */
     SDLFileManagerErrorFileDoesNotExist = -5,
-    /*
+    /**
      *  The file upload was canceled.
      */
     SDLFileManagerUploadCanceled = -6,
-    /*
+    /**
      *  One or more of multiple files being uploaded or deleted failed.
      */
     SDLFileManagerMultipleFileUploadTasksFailed = -7,
-    /*
+    /**
      *  One or more of multiple files being uploaded or deleted failed.
      */
     SDLFileManagerMultipleFileDeleteTasksFailed = -8,
-    /*
+    /**
      *  The file data is nil or empty.
      */
     SDLFileManagerErrorFileDataMissing = -9,
-    /*
+    /**
      *  The file is a static icon, which cannot be uploaded
      */
     SDLFileManagerErrorStaticIcon = -10,
@@ -112,28 +112,25 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
 
 /**
  Errors associated with the ScreenManager class
-
- - SDLTextAndGraphicManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent
  */
 typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
+    /// A pending update was superseded by a newer requested update. The old update will not be sent
     SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
 };
 
 /**
  Errors associated with the ScreenManager class
-
- - SDLSoftButtonManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent
  */
 typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
+    /// A pending update was superseded by a newer requested update. The old update will not be sent
     SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
 };
 
 /**
  Errors associated with the ScreenManager class
-
- - SDLMenuManagerErrorRPCsFailed: Sending menu-related RPCs returned an error from the remote system
  */
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
+    /// Sending menu-related RPCs returned an error from the remote system
     SDLMenuManagerErrorRPCsFailed = -1
 };
 
