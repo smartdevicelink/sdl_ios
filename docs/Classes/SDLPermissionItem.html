@@ -6,6 +6,7 @@
   <li><a href="#section-rpcName">rpcName</a></li>
   <li><a href="#section-hmiPermissions">hmiPermissions</a></li>
   <li><a href="#section-parameterPermissions">parameterPermissions</a></li>
+  <li><a href="#section-requireEncryption">requireEncryption</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -72,6 +73,27 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">parameterPermissions</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLParameterPermissions.html">SDLParameterPermissions</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-requireEncryption">
+      requireEncryption
+  </h3>
+  
+  <p>Describes whether or not the RPC needs encryption</p>
+
+<p>Optional, Boolean, since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">requireEncryption</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requireEncryption</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

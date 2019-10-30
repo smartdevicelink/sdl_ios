@@ -20,6 +20,7 @@
   <li><a href="#section--initWithConfiguration:delegate:">-initWithConfiguration:delegate:</a></li>
   <li><a href="#section--startWithReadyHandler:">-startWithReadyHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--startRPCEncryption">-startRPCEncryption</a></li>
   <li><a href="#section--sendRPC:">-sendRPC:</a></li>
   <li><a href="#section--sendRequest:">-sendRequest:</a></li>
   <li><a href="#section--sendRequest:withResponseHandler:">-sendRequest:withResponseHandler:</a></li>
@@ -358,6 +359,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--startRPCEncryption">
+      -startRPCEncryption
+  </h3>
+  
+  <p>Start the encryption lifecycle manager, which will attempt to open a secure service.</p>
+
+<p>Please call this method in the successful callback of startWithReadyHandler. If you do call this method, you must wait for SDLServiceEncryptionDelegate&rsquo;s serviceEncryptionUpdatedOnService delegate method before you send any encrypted RPCs.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">startRPCEncryption</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startRPCEncryption</span><span class="p">()</span></code></pre>
 
   
   

@@ -20,6 +20,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block UInt8 position = 27;
     __block NSString *menuName = @"Welcome to the menu";
     __block SDLImage *image = nil;
+    __block SDLMenuLayout testLayout = SDLMenuLayoutList;
 
     beforeEach(^{
         image = [[SDLImage alloc] initWithName:@"Test" isTemplate:false];
@@ -47,12 +48,25 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"should correctly initialize with initWithId:menuName:menuIcon:position:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithId:menuId menuName:menuName menuIcon:image position:position];
 
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));
         expect(testRequest.menuName).to(equal(menuName));
         expect(testRequest.menuIcon).to(equal(image));
+#pragma clang diagnostic pop
+    });
+
+    it(@"should correctly initialize with initWithId:menuName:menuLayout:menuIcon:position:", ^{
+        SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithId:menuId menuName:menuName menuLayout:testLayout menuIcon:image position:position];
+
+        expect(testRequest.menuID).to(equal(@(menuId)));
+        expect(testRequest.position).to(equal(@(position)));
+        expect(testRequest.menuName).to(equal(menuName));
+        expect(testRequest.menuIcon).to(equal(image));
+        expect(testRequest.menuLayout).to(equal(testLayout));
     });
 
     it(@"Should set and get correctly", ^ {
@@ -62,11 +76,13 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.position = @27;
         testRequest.menuName = @"Welcome to the menu";
         testRequest.menuIcon = image;
+        testRequest.menuLayout = testLayout;
         
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));
         expect(testRequest.menuName).to(equal(menuName));
         expect(testRequest.menuIcon).to(equal(image));
+        expect(testRequest.menuLayout).to(equal(testLayout));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -77,7 +93,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMenuName:@"Welcome to the menu",
                                                                    SDLRPCParameterNameMenuIcon: @{
                                                                            SDLRPCParameterNameValue: @"Test"
-                                                                           }
+                                                                           },
+                                                                   SDLRPCParameterNameMenuLayout: testLayout
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddSubMenu}} mutableCopy];
 #pragma clang diagnostic push
@@ -89,6 +106,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.position).to(equal(@(position)));
         expect(testRequest.menuName).to(equal(menuName));
         expect(testRequest.menuIcon.value).to(equal(@"Test"));
+        expect(testRequest.menuLayout).to(equal(testLayout));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -98,6 +116,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.position).to(beNil());
         expect(testRequest.menuName).to(beNil());
         expect(testRequest.menuIcon).to(beNil());
+        expect(testRequest.menuLayout).to(beNil());
     });
 });
 

@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
- *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ *  The current screen resolution of the connected display in pixels.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
@@ -108,6 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  DEFAULT: SDLStreamingEncryptionFlagAuthenticateAndEncrypt
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
+
+/**
+ When YES, the StreamingMediaManager will send a black screen with "Video Backgrounded String". Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
 - (instancetype)init NS_UNAVAILABLE;
 

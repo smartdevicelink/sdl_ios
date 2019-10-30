@@ -11,6 +11,7 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLSeatLocation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,14 +27,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText {
-    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:nil vrHelp:nil];
+    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:nil vrHelp:nil menuTitle:nil menuIcon:nil keyboardProperties:nil menuLayout:nil];
 }
 
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:nil menuIcon:nil keyboardProperties:nil];
+    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:nil menuIcon:nil keyboardProperties:nil menuLayout:nil];
 }
 
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties {
+    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:menuTitle menuIcon:menuIcon keyboardProperties:keyboardProperties menuLayout:nil];
+}
+
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout {
     self = [self init];
     if (!self) {
         return nil;
@@ -46,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.menuTitle = menuTitle;
     self.menuIcon = menuIcon;
     self.keyboardProperties = keyboardProperties;
+    self.menuLayout = menuLayout;
 
     return self;
 }
@@ -104,6 +110,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLKeyboardProperties *)keyboardProperties {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameKeyboardProperties ofClass:SDLKeyboardProperties.class error:nil];
+}
+
+- (void)setUserLocation:(nullable SDLSeatLocation *)userLocation {
+    [self.parameters sdl_setObject:userLocation forName:SDLRPCParameterNameUserLocation];
+}
+
+- (nullable SDLSeatLocation *)userLocation {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameUserLocation ofClass:SDLSeatLocation.class error:nil];
+}
+
+- (void)setMenuLayout:(nullable SDLMenuLayout)menuLayout {
+    [self.parameters sdl_setObject:menuLayout forName:SDLRPCParameterNameMenuLayout];
+}
+
+- (nullable SDLMenuLayout)menuLayout {
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameMenuLayout error:nil];
 }
 
 @end

@@ -38,6 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.statusBar = @"status";
         testRequest.mediaClock = @"TheTime";
         testRequest.mediaTrack = @"In The Clear";
+        testRequest.templateTitle = @"Hello World";
         testRequest.graphic = image1;
         testRequest.secondaryGraphic = image2;
         testRequest.softButtons = [@[button] mutableCopy];
@@ -52,6 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.statusBar).to(equal(@"status"));
         expect(testRequest.mediaClock).to(equal(@"TheTime"));
         expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
+        expect(testRequest.templateTitle).to(equal(@"Hello World"));
         expect(testRequest.graphic).to(equal(image1));
         expect(testRequest.secondaryGraphic).to(equal(image2));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
@@ -71,6 +73,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.statusBar).to(beNil());
         expect(testRequest.mediaClock).to(beNil());
         expect(testRequest.mediaTrack).to(beNil());
+        expect(testRequest.templateTitle).to(beNil());
         expect(testRequest.graphic).to(beNil());
         expect(testRequest.secondaryGraphic).to(beNil());
         expect(testRequest.softButtons).to(beNil());
@@ -86,6 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
         __block NSString *testStatusBarString = @"Test Status";
         __block NSString *testMediaClockString = @"Test Clock";
         __block NSString *testMediaTrackString = @"Test Track";
+        __block NSString *testTemplateTitleString = @"Hello World";
         __block SDLImage *testGraphic = nil;
         __block NSArray<NSString *> *testCustomPresets = nil;
         __block SDLSoftButton *testButton = nil;
@@ -115,6 +119,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -130,6 +135,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -147,6 +153,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -165,6 +172,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -182,6 +190,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -200,6 +209,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -217,6 +227,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -235,6 +246,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -252,6 +264,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(equal(testStatusBarString));
             expect(testShow.mediaClock).to(equal(testMediaClockString));
             expect(testShow.mediaTrack).to(equal(testMediaTrackString));
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -270,6 +283,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -287,6 +301,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(equal(testStatusBarString));
             expect(testShow.mediaClock).to(equal(testMediaClockString));
             expect(testShow.mediaTrack).to(equal(testMediaTrackString));
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(equal(testGraphic));
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(contain(testButton));
@@ -305,6 +320,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.statusBar).to(beNil());
             expect(testShow.mediaClock).to(beNil());
             expect(testShow.mediaTrack).to(beNil());
+            expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
@@ -323,6 +339,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameStatusBar:@"status",
                                                        SDLRPCParameterNameMediaClock:@"TheTime",
                                                        SDLRPCParameterNameMediaTrack:@"In The Clear",
+                                                       SDLRPCParameterNameTemplateTitle: @"Hello World",
                                                        SDLRPCParameterNameGraphic:image1,
                                                        SDLRPCParameterNameSecondaryGraphic:image2,
                                                        SDLRPCParameterNameSoftButtons:[@[button] mutableCopy],
@@ -342,6 +359,7 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.statusBar).to(equal(@"status"));
             expect(testRequest.mediaClock).to(equal(@"TheTime"));
             expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
+            expect(testRequest.templateTitle).to(equal(testTemplateTitleString));
             expect(testRequest.graphic).to(equal(image1));
             expect(testRequest.secondaryGraphic).to(equal(image2));
             expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 1.0
  */
+__deprecated_msg("Use SDLMsgVersion instead")
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;

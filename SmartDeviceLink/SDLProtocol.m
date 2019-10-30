@@ -11,6 +11,7 @@
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -39,8 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocol () {
     UInt32 _messageID;
-    dispatch_queue_t _receiveQueue;
-    dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
 }
 
@@ -48,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @property (assign, nonatomic) int32_t hashId;
+@property (nonatomic, strong) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 // Readonly public properties
 @property (strong, nonatomic, readwrite, nullable) NSString *authToken;
@@ -65,8 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super init]) {
         _messageID = 0;
         _hashId = SDLControlFrameInt32NotFound;
-        _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
-        _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
         _serviceHeaders = [[NSMutableDictionary alloc] init];
@@ -77,6 +75,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
+    if (self = [super init]) {
+        _messageID = 0;
+        _hashId = SDLControlFrameInt32NotFound;
+        _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
+        _serviceHeaders = [[NSMutableDictionary alloc] init];
+        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
+        _messageRouter.delegate = self;
+        _encryptionLifecycleManager = encryptionLifecycleManager;
+    }
+    
+    return self;
+}
 
 #pragma mark - Service metadata
 - (BOOL)storeHeader:(SDLProtocolHeader *)header forServiceType:(SDLServiceType)serviceType {
@@ -144,11 +156,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
-            completionHandler(success, error);
+            tlsInitializationHandler(success, error);
             BLOCK_RETURN;
         }
 
@@ -165,7 +177,6 @@ NS_ASSUME_NONNULL_BEGIN
     switch (serviceType) {
         case SDLServiceTypeRPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
-            header = [SDLProtocolHeader headerForVersion:1];
             if ([self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC]) {
                 header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
             } else {
@@ -261,7 +272,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Send Data
 
 - (void)sendRPC:(SDLRPCMessage *)message {
-    [self sendRPC:message encrypted:NO error:nil];
+    if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
+        message.payloadProtected = YES;
+    }
+    
+    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", message);
+        return;
+    }
+
+    [self sendRPC:message encrypted:message.isPayloadProtected error:nil];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
@@ -313,10 +333,22 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
             // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
-            messagePayload = encryption ? [self.securityManager encryptData:rpcPayload.data withError:error] : rpcPayload.data;
+            if (encryption) {
+                NSError *encryptError = nil;
+                
+                messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
+                
+                if (encryptError) {
+                    SDLLogE(@"Error encrypting request! %@", encryptError);
+                }
+            } else {
+                messagePayload = rpcPayload.data;
+            }
+
             if (!messagePayload) {
                 return NO;
             }
+            
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);
@@ -357,13 +389,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendDataToTransport:(NSData *)data onService:(NSInteger)priority {
     [_prioritizedCollection addObject:data withPriority:priority];
 
-    // TODO: (Joel F.)[2016-02-11] Autoreleasepool?
-    dispatch_async(_sendQueue, ^{
-        NSData *dataToTransmit = nil;
-        while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
-            [self.transport sendData:dataToTransmit];
-        };
-    });
+    NSData *dataToTransmit = nil;
+    while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
+        [self.transport sendData:dataToTransmit];
+    }
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -465,9 +494,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
 
     // Pass on the message to the message router.
-    dispatch_async(_receiveQueue, ^{
-        [self.messageRouter handleReceivedMessage:message];
-    });
+    [self.messageRouter handleReceivedMessage:message];
 
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
@@ -475,7 +502,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-// TODO: This is a v4 packet (create new delegate methods)
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // V5 Packet
     if (startServiceACK.header.version >= 5) {

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteChoicesOperation()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToDelete;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -37,12 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _cellsToDelete = cells;
+    _operationId = [NSUUID UUID];
 
     return self;
 }
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_sendDeletions];
 }
@@ -71,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
-    return @"com.sdl.choicesetmanager.deleteChoices";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {

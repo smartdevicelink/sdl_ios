@@ -1,0 +1,44 @@
+<h1>SDLServiceEncryptionDelegate Protocol Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--serviceEncryptionUpdatedOnService:encrypted:error:">-serviceEncryptionUpdatedOnService:encrypted:error:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--serviceEncryptionUpdatedOnService:encrypted:error:">
+      -serviceEncryptionUpdatedOnService:encrypted:error:
+  </h3>
+  
+  <p>Called when the encryption service has been.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">serviceEncryptionUpdatedOnService</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">type</span>
+                                <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">encrypted</span>
+                                    <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">serviceEncryptionUpdated</span><span class="p">(</span><span class="n">serviceType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">,</span> <span class="n">isEncrypted</span> <span class="nv">encrypted</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>will return whichever type had an encryption update (for now probably only SDLServiceTypeRPC), but it could also apply to video / audio in the future.</p></dd>
+      <dt>encrypted</dt>
+      <dd><p>return true if the the encryption service was setup successfully, will return false if the service is presently not encrypted.</p></dd>
+      <dt>error</dt>
+      <dd><p>will return any error that happens or nil if there is no error.</p></dd>
+  </dl>
+  
+</section>

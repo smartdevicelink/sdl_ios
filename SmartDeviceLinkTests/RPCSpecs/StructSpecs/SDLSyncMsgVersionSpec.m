@@ -15,7 +15,10 @@ QuickSpecBegin(SDLSyncMsgVersionSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] init];
+#pragma clang diagnostic pop
 
         testStruct.majorVersion = @4;
         testStruct.minorVersion = @532;
@@ -41,7 +44,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should return nil if not set", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] init];
+#pragma clang diagnostic pop
+
 
         expect(testStruct.majorVersion).to(beNil());
         expect(testStruct.minorVersion).to(beNil());

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Error Domains
 
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
+SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager = @"com.sdl.encryptionlifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
@@ -24,6 +25,44 @@ SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 @implementation NSError (SDLErrors)
+
+#pragma mark - SDLEncryptionLifecycleManager
++ (NSError *)sdl_encryption_lifecycle_notReadyError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle manager not ready", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the encryption lifecycleState is SDLEncryptionLifecycleStateReady", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure HMI is not NONE and at least one RPC requires encryption in permissions?", nil)
+                                                       };
+    
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorNotConnected
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_encryption_lifecycle_encryption_off {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle received a ACK with encryption bit = 0", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library received ACK with encryption = OFF.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure you are on a supported remote head unit with proper policies and your app id is approved.", nil)
+                                                       };
+    
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorEncryptionOff
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_encryption_lifecycle_nak {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Encryption Lifecycle received a negative acknowledgement", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote head unit sent a NAK.  Encryption service failed to start due to NAK.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure your certificates are valid.", nil)
+                                                       };
+    
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorNAK
+                           userInfo:userInfo];
+
+}
 
 #pragma mark - SDLManager
 

@@ -9,11 +9,11 @@
 #import "SDLSoftButtonManager.h"
 
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -25,6 +25,10 @@
 #import "SDLSoftButtonReplaceOperation.h"
 #import "SDLSoftButtonState.h"
 #import "SDLSoftButtonTransitionOperation.h"
+#import "SDLSystemCapabilityManager.h"
+#import "SDLWindowCapability.h"
+#import "SDLSystemCapability.h"
+#import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,12 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
-@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
 
@@ -52,34 +56,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButtonManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager{
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
     _softButtonObjects = @[];
 
     _currentLevel = nil;
     _transactionQueue = [self sdl_newTransactionQueue];
     _batchQueue = [NSMutableArray array];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)start {
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
     _softButtonObjects = @[];
     _currentMainField1 = nil;
     _currentLevel = nil;
-    _displayCapabilities = nil;
-    _softButtonCapabilities = nil;
+    _windowCapability = nil;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
+
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
 - (NSOperationQueue *)sdl_newTransactionQueue {
@@ -120,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _softButtonObjects = softButtonObjects;
 
-    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         [self.batchQueue removeAllObjects];
@@ -132,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
-    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.softButtonCapabilities softButtons:self.softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtons:self.softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         for (SDLAsynchronousOperation *sbOperation in self.batchQueue) {
@@ -189,34 +197,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC Responses
 
-- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
-    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
-
-    if (!response.success.boolValue) { return; }
-    if (response.displayCapabilities == nil) {
-        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
-
-    self.softButtonCapabilities = response.softButtonCapabilities ? response.softButtonCapabilities.firstObject : nil;
-    self.displayCapabilities = response.displayCapabilities;
-}
-
-- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
-    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
-    if (!response.success.boolValue) { return; }
-    if (response.displayCapabilities == nil) {
-        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
-
-    self.softButtonCapabilities = response.softButtonCapabilities ? response.softButtonCapabilities.firstObject : nil;
-    self.displayCapabilities = response.displayCapabilities;
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 
     // Auto-send an updated Show to account for changes to the capabilities
     if (self.softButtonObjects.count > 0) {
-        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
+        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
         [self.transactionQueue addOperation:op];
     }
 }
@@ -224,6 +210,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentLevel;
     if (![oldHMILevel isEqualToEnum:hmiStatus.hmiLevel]) {
         if ([hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelNone]) {

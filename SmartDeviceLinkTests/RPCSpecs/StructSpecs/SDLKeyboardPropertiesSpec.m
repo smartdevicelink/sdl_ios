@@ -18,38 +18,50 @@
 QuickSpecBegin(SDLKeyboardPropertiesSpec)
 
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLLanguage testLanguage = SDLLanguageDaDk;
+    __block SDLKeyboardLayout testLayout = SDLKeyboardLayoutAZERTY;
+    __block SDLKeypressMode testMode = SDLKeypressModeSingleKeypress;
+    __block NSArray<NSString *> *testLimitedCharacterList = @[@"s", @"r", @"f"];
+    __block NSString *testAutoCompleteText = @"Auto Carrot";
+    __block NSArray<NSString *> *testAutoCompleteList = @[@"Hello World", @"How are you"];
+
     it(@"Should set and get correctly", ^ {
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] init];
         
-        testStruct.language = SDLLanguageDaDk;
-        testStruct.keyboardLayout = SDLKeyboardLayoutQWERTZ;
-        testStruct.keypressMode = SDLKeypressModeResendCurrentEntry;
-        testStruct.limitedCharacterList = [@[@"s", @"r", @"f", @"q"] mutableCopy];
-        testStruct.autoCompleteText = @"Auto Carrot";
+        testStruct.language = testLanguage;
+        testStruct.keyboardLayout = testLayout;
+        testStruct.keypressMode = testMode;
+        testStruct.limitedCharacterList = testLimitedCharacterList;
+        testStruct.autoCompleteText = testAutoCompleteText;
+        testStruct.autoCompleteList = testAutoCompleteList;
         
-        expect(testStruct.language).to(equal(SDLLanguageDaDk));
-        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQWERTZ));
-        expect(testStruct.keypressMode).to(equal(SDLKeypressModeResendCurrentEntry));
-        expect(testStruct.limitedCharacterList).to(equal([@[@"s", @"r", @"f", @"q"] mutableCopy]));
-        expect(testStruct.autoCompleteText).to(equal(@"Auto Carrot"));
+        expect(testStruct.language).to(equal(testLanguage));
+        expect(testStruct.keyboardLayout).to(equal(testLayout));
+        expect(testStruct.keypressMode).to(equal(testMode));
+        expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
+        expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameLanguage:SDLLanguageDaDk,
-                                       SDLRPCParameterNameKeyboardLayout:SDLKeyboardLayoutQWERTZ,
-                                       SDLRPCParameterNameKeypressMode:SDLKeypressModeResendCurrentEntry,
-                                       SDLRPCParameterNameLimitedCharacterList:[@[@"s", @"r", @"f", @"q"] mutableCopy],
-                                       SDLRPCParameterNameAutoCompleteText:@"Auto Carrot"} mutableCopy];
+        NSDictionary* dict = @{SDLRPCParameterNameLanguage: testLanguage,
+                                       SDLRPCParameterNameKeyboardLayout: testLayout,
+                                       SDLRPCParameterNameKeypressMode: testMode,
+                                       SDLRPCParameterNameLimitedCharacterList: testLimitedCharacterList,
+                                       SDLRPCParameterNameAutoCompleteText: testAutoCompleteText,
+                                       SDLRPCParameterNameAutoCompleteList: testAutoCompleteList
+                                       };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
         
-        expect(testStruct.language).to(equal(SDLLanguageDaDk));
-        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQWERTZ));
-        expect(testStruct.keypressMode).to(equal(SDLKeypressModeResendCurrentEntry));
-        expect(testStruct.limitedCharacterList).to(equal([@[@"s", @"r", @"f", @"q"] mutableCopy]));
-        expect(testStruct.autoCompleteText).to(equal(@"Auto Carrot"));
+        expect(testStruct.language).to(equal(testLanguage));
+        expect(testStruct.keyboardLayout).to(equal(testLayout));
+        expect(testStruct.keypressMode).to(equal(testMode));
+        expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
+        expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -60,6 +72,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.keypressMode).to(beNil());
         expect(testStruct.limitedCharacterList).to(beNil());
         expect(testStruct.autoCompleteText).to(beNil());
+        expect(testStruct.autoCompleteList).to(beNil());
     });
 });
 

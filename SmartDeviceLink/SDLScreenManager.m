@@ -26,28 +26,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @end
 
 @implementation SDLScreenManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
 
-    _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
-    _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
-    _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
-    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
 
     return self;
 }
 
 - (void)startWithCompletionHandler:(void (^)(NSError * _Nullable))handler {
+    [self.textAndGraphicManager start];
+    [self.softButtonManager start];
     [self.choiceSetManager start];
 
     handler(nil);
@@ -126,8 +130,16 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.textField4Type = textField4Type;
 }
 
+- (void)setTitle:(nullable NSString *)title {
+    self.textAndGraphicManager.title = title;
+}
+
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     self.softButtonManager.softButtonObjects = softButtonObjects;
+}
+
+- (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
+    self.menuManager.menuConfiguration = menuConfiguration;
 }
 
 - (void)setMenu:(NSArray<SDLMenuCell *> *)menu {
@@ -208,6 +220,10 @@ NS_ASSUME_NONNULL_BEGIN
     return _softButtonManager.softButtonObjects;
 }
 
+- (SDLMenuConfiguration *)menuConfiguration {
+    return _menuManager.menuConfiguration;
+}
+
 - (NSArray<SDLMenuCell *> *)menu {
     return _menuManager.menuCells;
 }
@@ -260,8 +276,22 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager presentChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
 }
 
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
+    return [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
+}
+
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID{
+    [self.choiceSetManager dismissKeyboardWithCancelID:cancelID];
+}
+
+#pragma mark - Menu
+
+- (BOOL)openMenu {
+   return [self.menuManager openMenu];
+}
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+  return [self.menuManager openSubmenu:cell];
 }
 
 @end

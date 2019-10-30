@@ -1,0 +1,97 @@
+<h1>SDLFrameType Enumeration Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLFrameTypeControl">SDLFrameTypeControl</a></li>
+  <li><a href="#section-SDLFrameTypeSingle">SDLFrameTypeSingle</a></li>
+  <li><a href="#section-SDLFrameTypeFirst">SDLFrameTypeFirst</a></li>
+  <li><a href="#section-SDLFrameTypeConsecutive">SDLFrameTypeConsecutive</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+
+<ul>
+<li><p>The data packet&rsquo;s header and payload combination.</p></li>
+<li><p>SDLFrameTypeControl: Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.</p></li>
+<li><p>SDLFrameTypeSingle: Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.</p></li>
+<li><p>SDLFrameTypeFirst: The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.</p></li>
+<li><p>SDLFrameTypeConsecutive: The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames&rsquo; payloads should be buffered until the entire sequence is complete.</p></li>
+</ul>
+
+
+<section class="section task-group-section">
+  <h3 id="section-SDLFrameTypeControl">
+      SDLFrameTypeControl
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameTypeControl</span> <span class="o">=</span> <span class="mh">0x00</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">control</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameTypeSingle">
+      SDLFrameTypeSingle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameTypeSingle</span> <span class="o">=</span> <span class="mh">0x01</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">single</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameTypeFirst">
+      SDLFrameTypeFirst
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameTypeFirst</span> <span class="o">=</span> <span class="mh">0x02</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">first</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameTypeConsecutive">
+      SDLFrameTypeConsecutive
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameTypeConsecutive</span> <span class="o">=</span> <span class="mh">0x03</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">consecutive</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+  
+  
+  
+</section>

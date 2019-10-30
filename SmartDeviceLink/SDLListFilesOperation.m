@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLListFilesOperation ()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) SDLFileManagerListFilesCompletionHandler completionHandler;
 
@@ -31,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
+    _operationId = [NSUUID UUID];
     _connectionManager = connectionManager;
     _completionHandler = completionHandler;
 
@@ -39,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_listFiles];
 }
@@ -56,7 +59,14 @@ NS_ASSUME_NONNULL_BEGIN
         NSUInteger bytesAvailable = listFilesResponse.spaceAvailable != nil ? listFilesResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
 
         if (weakSelf.completionHandler != nil) {
-            weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+            if(error != nil) {
+                NSMutableDictionary *results = [error.userInfo mutableCopy];
+                results[@"resultCode"] = response.resultCode;
+                NSError *resultError = [NSError errorWithDomain:error.domain code:error.code userInfo:results];
+                weakSelf.completionHandler(success, bytesAvailable, fileNames, resultError);
+            } else {
+                weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+            }
         }
 
         [weakSelf finishOperation];
@@ -67,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Property Overrides
 
 - (nullable NSString *)name {
-    return @"List Files";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {

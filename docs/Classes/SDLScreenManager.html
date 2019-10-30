@@ -15,13 +15,15 @@
   <li><a href="#section-textField2Type">textField2Type</a></li>
   <li><a href="#section-textField3Type">textField3Type</a></li>
   <li><a href="#section-textField4Type">textField4Type</a></li>
+  <li><a href="#section-title">title</a></li>
   <li><a href="#section-softButtonObjects">softButtonObjects</a></li>
+  <li><a href="#section-menuConfiguration">menuConfiguration</a></li>
   <li><a href="#section-menu">menu</a></li>
   <li><a href="#section-dynamicMenuUpdatesMode">dynamicMenuUpdatesMode</a></li>
   <li><a href="#section-voiceCommands">voiceCommands</a></li>
   <li><a href="#section-keyboardConfiguration">keyboardConfiguration</a></li>
   <li><a href="#section-preloadedChoices">preloadedChoices</a></li>
-  <li><a href="#section--initWithConnectionManager:fileManager:">-initWithConnectionManager:fileManager:</a></li>
+  <li><a href="#section--initWithConnectionManager:fileManager:systemCapabilityManager:">-initWithConnectionManager:fileManager:systemCapabilityManager:</a></li>
   <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--beginUpdates">-beginUpdates</a></li>
@@ -33,6 +35,9 @@
   <li><a href="#section--presentChoiceSet:mode:">-presentChoiceSet:mode:</a></li>
   <li><a href="#section--presentSearchableChoiceSet:mode:withKeyboardDelegate:">-presentSearchableChoiceSet:mode:withKeyboardDelegate:</a></li>
   <li><a href="#section--presentKeyboardWithInitialText:delegate:">-presentKeyboardWithInitialText:delegate:</a></li>
+  <li><a href="#section--dismissKeyboardWithCancelID:">-dismissKeyboardWithCancelID:</a></li>
+  <li><a href="#section--openMenu">-openMenu</a></li>
+  <li><a href="#section--openSubmenu:">-openSubmenu:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -257,6 +262,24 @@
   
   
   
+  <h3 id="section-title">
+      title
+  </h3>
+  
+  <p>The title of the current template layout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-softButtonObjects">
       softButtonObjects
   </h3>
@@ -272,6 +295,31 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtonObjects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-menuConfiguration">
+      menuConfiguration
+  </h3>
+  
+  <p>Configures the layout of the menu and sub-menus. If set after a menu already exists, the existing main menu layout will be updated.</p>
+
+<p>If set menu layouts don&rsquo;t match available menu layouts in WindowCapability, an error log will be emitted and the layout will not be set.</p>
+
+<p>Setting this parameter will send a message to the remote system. This value will be set immediately, but if that message is rejected, the original value will be re-set and an error log will be emitted.</p>
+
+<p>This only works on head units supporting RPC spec version 6.0 and newer. If the connected head unit does not support this feature, a warning log will be emitted and nothing will be set.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLMenuConfiguration.html">SDLMenuConfiguration</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">menuConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menuConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMenuConfiguration.html">SDLMenuConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -376,8 +424,8 @@
   
   
   
-  <h3 id="section--initWithConnectionManager:fileManager:">
-      -initWithConnectionManager:fileManager:
+  <h3 id="section--initWithConnectionManager:fileManager:systemCapabilityManager:">
+      -initWithConnectionManager:fileManager:systemCapabilityManager:
   </h3>
   
   <p>Initialize a screen manager</p>
@@ -393,7 +441,9 @@
   <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
     <span class="nf">initWithConnectionManager</span><span class="p">:</span>
         <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span>
-                  <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span><span class="p">;</span></code></pre>
+                  <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span>
+      <span class="nf">systemCapabilityManager</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLSystemCapabilityManager.html">SDLSystemCapabilityManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">systemCapabilityManager</span><span class="p">;</span></code></pre>
 
   
   
@@ -404,6 +454,8 @@
       <dd><p>The connection manager used to send RPCs</p></dd>
       <dt>fileManager</dt>
       <dd><p>The file manager used to upload files</p></dd>
+      <dt>systemCapabilityManager</dt>
+      <dd><p>The system capability manager object for reading window capabilities</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -679,9 +731,9 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentKeyboardWithInitialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
-                              <span class="nf">delegate</span><span class="p">:</span>
-                                  <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">presentKeyboardWithInitialText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span>
+                          <span class="nf">delegate</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span></code></pre>
 
   
   
@@ -692,6 +744,76 @@
       <dd><p>The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text</p></dd>
       <dt>delegate</dt>
       <dd><p>The keyboard delegate called when the user interacts with the keyboard</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A unique cancelID that can be used to cancel this keyboard</p>
+  </div>
+  
+  <h3 id="section--dismissKeyboardWithCancelID:">
+      -dismissKeyboardWithCancelID:
+  </h3>
+  
+  <p>Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.</p>
+
+<p>This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dismissKeyboardWithCancelID</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">dismissKeyboard</span><span class="p">(</span><span class="n">withCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The unique ID assigned to the keyboard, passed as the return value from <code>presentKeyboardWithInitialText:keyboardDelegate:</code></p></dd>
+  </dl>
+  
+  <h3 id="section--openMenu">
+      -openMenu
+  </h3>
+  
+  <p>Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">openMenu</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">openMenu</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--openSubmenu:">
+      -openSubmenu:
+  </h3>
+  
+  <p>Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden. You must update the menu with the proper cells before calling this method. This RPC will fail if the cell does not contain a sub menu, or is not in the menu array.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">openSubmenu</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">openSubmenu</span><span class="p">(</span><span class="n">_</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cell</dt>
+      <dd><p>The submenu cell that should be opened as a sub menu, with its sub cells as the options.</p></dd>
   </dl>
   
 </section>

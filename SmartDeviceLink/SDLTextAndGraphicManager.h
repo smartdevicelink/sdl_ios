@@ -14,6 +14,7 @@
 @class SDLArtwork;
 @class SDLFileManager;
 @class SDLTextAndGraphicConfiguration;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLConnectionManagerType;
 
@@ -36,6 +37,7 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 @property (copy, nonatomic, nullable) NSString *textField3;
 @property (copy, nonatomic, nullable) NSString *textField4;
 @property (copy, nonatomic, nullable) NSString *mediaTrackTextField;
+@property (copy, nonatomic, nullable) NSString *title;
 @property (strong, nonatomic, nullable) SDLArtwork *primaryGraphic;
 @property (strong, nonatomic, nullable) SDLArtwork *secondaryGraphic;
 
@@ -61,7 +63,10 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 
  @return A new SDLTextAndImageManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
+
+/// Starts the manager. This method is used internally.
+- (void)start;
 
 /**
  *  Stops the manager. This method is used internally.

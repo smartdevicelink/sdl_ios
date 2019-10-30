@@ -39,6 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameParameterPermissions ofClass:SDLParameterPermissions.class error:&error];
 }
 
+- (void)setRequireEncryption:(nullable NSNumber<SDLBool> *)requireEncryption {
+    [self.store sdl_setObject:requireEncryption forName:SDLRPCParameterNameRequireEncryption];
+}
+
+- (nullable NSNumber<SDLBool> *)requireEncryption {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameRequireEncryption ofClass:NSNumber.class error:&error];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

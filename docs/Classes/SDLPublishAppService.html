@@ -9,7 +9,8 @@
 
 <h3>Overview</h3>
 
-<p>Registers a service offered by this app on the module.</p>
+<p>Registers a service offered by this app on the module.
+Subsequent calls with the same service type will update the manifest for that service.</p>
 
 
 <section class="section task-group-section">
@@ -45,7 +46,8 @@
       appServiceManifest
   </h3>
   
-  <p>The manifest of the service that wishes to be published.</p>
+  <p>The manifest of the service that wishes to be published.
+  If already published, the updated manifest for this service.</p>
 
 <p>SDLAppServiceManifest, Required</p>
 

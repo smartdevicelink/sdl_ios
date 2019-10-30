@@ -19,7 +19,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameAlert).to(equal(@"Alert"));
         expect(SDLRPCFunctionNameAlertManeuver).to(equal(@"AlertManeuver"));
         expect(SDLRPCFunctionNameButtonPress).to(equal(@"ButtonPress"));
+        expect(SDLRPCFunctionNameCancelInteraction).to(equal(@"CancelInteraction"));
         expect(SDLRPCFunctionNameChangeRegistration).to(equal(@"ChangeRegistration"));
+        expect(SDLRPCFunctionNameCloseApplication).to(equal(@"CloseApplication"));
         expect(SDLRPCFunctionNameCreateInteractionChoiceSet).to(equal(@"CreateInteractionChoiceSet"));
         expect(SDLRPCFunctionNameDeleteCommand).to(equal(@"DeleteCommand"));
         expect(SDLRPCFunctionNameDeleteFile).to(equal(@"DeleteFile"));
@@ -86,6 +88,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameSubscribeWayPoints).to(equal(@"SubscribeWayPoints"));
         expect(SDLRPCFunctionNameSyncPData).to(equal(@"SyncPData"));
         expect(SDLRPCFunctionNameSystemRequest).to(equal(@"SystemRequest"));
+        expect(SDLRPCFunctionNameUnpublishAppService).to(equal(@"UnpublishAppService"));
         expect(SDLRPCFunctionNameUnregisterAppInterface).to(equal(@"UnregisterAppInterface"));
         expect(SDLRPCFunctionNameUnsubscribeButton).to(equal(@"UnsubscribeButton"));
         expect(SDLRPCFunctionNameUnsubscribeVehicleData).to(equal(@"UnsubscribeVehicleData"));

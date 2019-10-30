@@ -6,11 +6,17 @@
   <li><a href="#section-navigation">navigation</a></li>
   <li><a href="#section-phoneCall">phoneCall</a></li>
   <li><a href="#section-videoStreaming">videoStreaming</a></li>
+  <li><a href="#section-remoteControl">remoteControl</a></li>
+  <li><a href="#section-appServices">appServices</a></li>
+  <li><a href="#section-displays">displays</a></li>
+  <li><a href="#section-seatLocation">seatLocation</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Contains information about the HMI capabilities.</p>
+
+<p>Since SDL 3.0</p>
 
 
 <section class="section task-group-section">
@@ -21,6 +27,8 @@
   <p>Availability of built in Nav. True: Available, False: Not Available</p>
 
 <p>Boolean value. Optional.</p>
+
+<p>Since SDL 3.0</p>
 
   
   
@@ -42,6 +50,8 @@
 
 <p>Boolean value. Optional.</p>
 
+<p>Since SDL 3.0</p>
+
   
   
   <h4>Objective-C</h4>
@@ -62,6 +72,8 @@
 
 <p>Boolean value. Optional.</p>
 
+<p>Since SDL 4.5</p>
+
   
   
   <h4>Objective-C</h4>
@@ -71,6 +83,98 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">videoStreaming</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-remoteControl">
+      remoteControl
+  </h3>
+  
+  <p>Availability of built in remote control. True: Available, False: Not Available</p>
+
+<p>Boolean value. Optional.</p>
+
+<p>Since SDL 4.5</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">remoteControl</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">remoteControl</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appServices">
+      appServices
+  </h3>
+  
+  <p>Availability of app services. True: Available, False: Not Available</p>
+
+<p>App services is supported since SDL 5.1. If your connection is 5.1+, you can assume that app services is available even though between v5.1 and v6.0 this parameter is <code>nil</code>.</p>
+
+<p>Boolean value. Optional.</p>
+
+<p>Since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">appServices</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">appServices</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-displays">
+      displays
+  </h3>
+  
+  <p>Availability of displays. True: Available, False: Not Available</p>
+
+<p>Boolean value. Optional.</p>
+
+<p>Since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">displays</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">displays</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seatLocation">
+      seatLocation
+  </h3>
+  
+  <p>Availability of seatLocation. True: Available, False: Not Available</p>
+
+<p>Boolean value. Optional.</p>
+
+<p>Since SDL 6.0
+*</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">seatLocation</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">seatLocation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

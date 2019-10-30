@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
              [self sdlex_menuCellGetAllVehicleDataWithManager:manager],
              [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
+             [self sdlex_sliderMenuCellWithManager:manager],
+             [self sdlex_scrollableMessageMenuCellWithManager:manager],
              [self sdlex_menuCellRecordInCarMicrophoneAudioWithManager:manager],
              [self sdlex_menuCellDialNumberWithManager:manager],
              [self sdlex_menuCellChangeTemplateWithManager:manager],
@@ -56,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:submenuItems];
+    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutTiles subCells:submenuItems];
 }
 
 + (NSArray<NSString *> *)sdlex_allVehicleDataTypes {
@@ -79,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLMenuCell *)sdlex_menuCellDialNumberWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:PhoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:manager]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil iconName:nil]];
             return;
         }
 
@@ -97,8 +99,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
+            if (!response.success) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
     }];
@@ -108,39 +110,61 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
+            if (!response.success) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
             }
         }];
     }];
     [submenuItems addObject:cell2];
     
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
 }
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
     NSMutableArray *submenuItems = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil iconName:nil]];
         }];
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
+}
+
++ (SDLMenuCell *)sdlex_sliderMenuCellWithManager:(SDLManager *)manager {
+    return [[SDLMenuCell alloc] initWithTitle:ACSliderMenuName icon:nil voiceCommands:@[ACSliderMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLSlider *sliderRPC = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"Select a letter" sliderFooters:@[@"A", @"B", @"C"] timeout:10000];
+        [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider could not be displayed" textField2:nil iconName:nil]];
+            }
+        }];
+    }];
+}
+
++ (SDLMenuCell *)sdlex_scrollableMessageMenuCellWithManager:(SDLManager *)manager {
+    return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName icon:nil voiceCommands:@[ACScrollableMessageMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines"];
+        [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+           if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
+            }
+        }];
+    }];
 }
 
 #pragma mark - Voice Commands
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStartWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStop] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil]];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil iconName:nil]];
     }];
 }
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStopWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStart] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil]];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil iconName:nil]];
     }];
 }
 

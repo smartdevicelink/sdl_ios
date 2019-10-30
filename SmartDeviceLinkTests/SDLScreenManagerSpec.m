@@ -11,12 +11,16 @@
 #import "SDLSoftButtonState.h"
 #import "SDLTextAndGraphicManager.h"
 #import "TestConnectionManager.h"
+#import "SDLVersion.h"
+#import "SDLGlobals.h"
+#import "SDLMenuCell.h"
+#import "SDLMenuManager.h"
+#import "SDLSystemCapabilityManager.h"
 
 @interface SDLSoftButtonManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
@@ -36,6 +40,7 @@
 
 @property (strong, nonatomic) SDLTextAndGraphicManager *textAndGraphicManager;
 @property (strong, nonatomic) SDLSoftButtonManager *softButtonManager;
+@property (strong, nonatomic) SDLMenuManager *menuManager;
 
 @end
 
@@ -44,6 +49,7 @@ QuickSpecBegin(SDLScreenManagerSpec)
 describe(@"screen manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
+    __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
     __block SDLScreenManager *testScreenManager = nil;
 
     __block NSString *testString1 = @"test1";
@@ -67,8 +73,9 @@ describe(@"screen manager", ^{
     beforeEach(^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
+        mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
 
-        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
+        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
     });
 
     it(@"should set up the sub-managers correctly", ^{

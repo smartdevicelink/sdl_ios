@@ -11,6 +11,24 @@
 /**
  *  Errors associated with the SDLManager class.
  */
+typedef NS_ENUM(NSInteger, SDLEncryptionLifecycleManagerError) {
+    /**
+     *  Some action was attempted that requires a connection to the remote head unit.
+     */
+    SDLEncryptionLifecycleManagerErrorNotConnected = -1,
+    /**
+     *  Received ACK with encryption bit set to false from the remote head unit
+     */
+    SDLEncryptionLifecycleManagerErrorEncryptionOff = -2,
+    /**
+     *  Received NAK from the remote head unit.
+     */
+    SDLEncryptionLifecycleManagerErrorNAK = -3
+};
+
+/**
+ *  Errors associated with the SDLManager class.
+ */
 typedef NS_ENUM(NSInteger, SDLManagerError) {
     /**
      *  An RPC request failed to send.

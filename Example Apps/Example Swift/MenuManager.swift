@@ -19,6 +19,8 @@ class MenuManager: NSObject {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
+                sliderMenuCell(with: manager),
+                scrollableMessageMenuCell(with: manager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellChangeTemplate(with: manager),
@@ -65,7 +67,7 @@ private extension MenuManager {
             })
         }
 
-        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), submenuLayout: .tiles, subCells: submenuItems)
     }
 
     /// A list of all possible vehicle data types
@@ -130,7 +132,7 @@ private extension MenuManager {
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
             let display = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
             manager.send(request: display) { (request, response, error) in
-                guard response?.resultCode == .success else {
+                guard response?.success.boolValue == .some(true) else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
                     return
                 }
@@ -142,14 +144,14 @@ private extension MenuManager {
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
             let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
             manager.send(request: display) { (request, response, error) in
-                guard response?.resultCode == .success else {
+                guard response?.success.boolValue == .some(true) else {
                     manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
                     return
                 }
             }
         }))
         
-        return SDLMenuCell(title: ACSubmenuTemplateMenuName, icon: nil, subCells: submenuItems)
+        return SDLMenuCell(title: ACSubmenuTemplateMenuName, icon: nil, submenuLayout: .list, subCells: submenuItems)
     }
 
     /// Menu item that opens a submenu when selected
@@ -172,7 +174,31 @@ private extension MenuManager {
             }))
         }
         
-        return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
+        return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), submenuLayout: .list, subCells: submenuItems)
+    }
+
+    private class func sliderMenuCell(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACSliderMenuName, icon: nil, voiceCommands: [ACSliderMenuName], handler: { _ in
+            let slider = SDLSlider(numTicks: 3, position: 1, sliderHeader: "Select a letter", sliderFooters: ["A", "B", "C"], timeout: 3000)
+            manager.send(request: slider, responseHandler: { (request, response, error) in
+                guard let response = response, response.resultCode == .success else {
+                    manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
+                    return
+                }
+            })
+        })
+    }
+
+    private class func scrollableMessageMenuCell(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
+            let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines")
+            manager.send(request: scrollableMessage, responseHandler: { (request, response, error) in
+                guard let response = response, response.resultCode == .success else {
+                    manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable could not be displayed"))
+                    return
+                }
+            })
+        })
     }
 }
 

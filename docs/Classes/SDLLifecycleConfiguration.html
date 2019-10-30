@@ -28,6 +28,7 @@
   <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
   <li><a href="#section-minimumProtocolVersion">minimumProtocolVersion</a></li>
   <li><a href="#section-minimumRPCVersion">minimumRPCVersion</a></li>
+  <li><a href="#section-allowedSecondaryTransports">allowedSecondaryTransports</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -561,6 +562,29 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minimumRPCVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVersion.html">SDLVersion</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-allowedSecondaryTransports">
+      allowedSecondaryTransports
+  </h3>
+  
+  <p>Which transports are permitted to be used as secondary transports. A secondary transport is a transport that is connected as an alternate, higher bandwidth transport for situations when a low-bandwidth primary transport (such as Bluetooth) will restrict certain features (such as video streaming navigation).</p>
+
+<p>The only currently available secondary transport is TCP over WiFi. This is set to permit TCP by default, but it can be disabled by using SDLSecondaryTransportsNone instead.</p>
+
+<p>This will only affect apps that have high-bandwidth requirements; currently that is only video streaming navigation apps.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SDLSecondaryTransports.html">SDLSecondaryTransports</a></span> <span class="n">allowedSecondaryTransports</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">allowedSecondaryTransports</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLSecondaryTransports.html">SDLSecondaryTransports</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

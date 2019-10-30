@@ -38,6 +38,13 @@ extern SDLTextFieldName const SDLTextFieldNameMainField3;
 extern SDLTextFieldName const SDLTextFieldNameMainField4;
 
 /**
+ The title line of the persistent display. Applies to SDLShow.
+
+ @since SDL 6.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTemplateTitle;
+
+/**
  * The status bar on the NGN display. Applies to SDLShow.
  */
 extern SDLTextFieldName const SDLTextFieldNameStatusBar;

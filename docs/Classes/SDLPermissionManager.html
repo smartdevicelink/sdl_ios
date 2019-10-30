@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-requiresEncryption">requiresEncryption</a></li>
   <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--isRPCAllowed:">-isRPCAllowed:</a></li>
@@ -11,6 +12,7 @@
   <li><a href="#section--addObserverForRPCs:groupType:withHandler:">-addObserverForRPCs:groupType:withHandler:</a></li>
   <li><a href="#section--removeAllObservers">-removeAllObservers</a></li>
   <li><a href="#section--removeObserverForIdentifier:">-removeObserverForIdentifier:</a></li>
+  <li><a href="#section--rpcRequiresEncryption:">-rpcRequiresEncryption:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -19,6 +21,24 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section-requiresEncryption">
+      requiresEncryption
+  </h3>
+  
+  <p>Flag indicating if the app requires an encryption service to be active.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">requiresEncryption</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requiresEncryption</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section--startWithCompletionHandler:">
       -startWithCompletionHandler:
   </h3>
@@ -229,5 +249,23 @@
       <dt>identifier</dt>
       <dd><p>The identifier specifying which observer to remove</p></dd>
   </dl>
+  
+  <h3 id="section--rpcRequiresEncryption:">
+      -rpcRequiresEncryption:
+  </h3>
+  
+  <p>Check whether or not an RPC needs encryption.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">rpcRequiresEncryption</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">rpcRequiresEncryption</span><span class="p">(</span><span class="n">_</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
   
 </section>

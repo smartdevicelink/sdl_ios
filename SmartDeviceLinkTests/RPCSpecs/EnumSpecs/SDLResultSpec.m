@@ -50,7 +50,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLResultResumeFailed).to(equal(@"RESUME_FAILED"));
         expect(SDLResultDataNotAvailable).to(equal(@"DATA_NOT_AVAILABLE"));
         expect(SDLResultReadOnly).to(equal(@"READ_ONLY"));
-        
+        expect(SDLResultEncryptionNeeded).to(equal(@"ENCRYPTION_NEEDED"));
     });
 });
 

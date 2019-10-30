@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Initialize the CarWindow automatic streamer.
-
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
  @param configuration The streaming media configuration
  @return An instance of this class
@@ -27,10 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithStreamManager:(SDLStreamingVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
 
 /**
- *  View Controller that will be streamed.
+ View controller that will be streamed.
  */
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
 
+/**
+  Called by SDLStreamingMediaManager in sync with the streaming framerate. Captures a screenshot of the view controller and sends the data to Core.
+ */
 - (void)syncFrame;
 
 @end

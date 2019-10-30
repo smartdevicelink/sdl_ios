@@ -137,16 +137,20 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil]];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil iconName:nil]];
         return;
     }
 
     SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
+#pragma clang diagnostic pop
 
     [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle data" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle data" textField2:nil iconName:nil]];
             return;
         }
 
@@ -176,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
         alertMessage = [TextValidator validateText:alertMessage length:200];
 
         if ([triggerSource isEqualToEnum:SDLTriggerSourceMenu]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertTitle textField2:alertMessage]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertTitle textField2:alertMessage iconName:nil]];
         } else {
             NSString *spokenAlert = alertMessage ?: alertTitle;
             [manager sendRequest:[[SDLSpeak alloc] initWithTTS:spokenAlert]];
@@ -258,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Checking phone call capability");
     [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
         if (!systemCapabilityManager.phoneCapability) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The head unit does not support the phone call  capability" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The head unit does not support the phone call  capability" textField2:nil iconName:nil]];
             return;
         }
 
@@ -266,7 +270,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"Dialing phone number %@", phoneNumber);
             [self sdlex_dialPhoneNumber:phoneNumber manager:manager];
         } else {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The dial number feature is unavailable for this head unit" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The dial number feature is unavailable for this head unit" textField2:nil iconName:nil]];
         }
     }];
 }

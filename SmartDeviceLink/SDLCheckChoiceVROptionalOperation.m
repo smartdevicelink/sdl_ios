@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCheckChoiceVROptionalOperation()
 
+@property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -30,12 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
+    _operationId = [NSUUID UUID];
 
     return self;
 }
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_sendTestChoices];
 }
@@ -94,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
-    return @"com.sdl.choicesetmanager.checkVROptional";
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];
 }
 
 - (NSOperationQueuePriority)queuePriority {

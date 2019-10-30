@@ -12,11 +12,16 @@
 #import "SDLPermissionConstants.h"
 
 @class SDLPermissionItem;
-
+@class SDLRPCMessage;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager : NSObject
+
+/**
+ *  Flag indicating if the app requires an encryption service to be active.
+ */
+@property (assign, nonatomic, readonly) BOOL requiresEncryption;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on `SDLManager`.
@@ -83,6 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param identifier The identifier specifying which observer to remove
  */
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier)identifier;
+
+
+/**
+ *  Check whether or not an RPC needs encryption.
+ */
+- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName;
 
 @end
 

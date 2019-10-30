@@ -3,10 +3,13 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLMenuLayout.h"
+
 @class SDLImage;
 @class SDLKeyboardProperties;
 @class SDLTTSChunk;
 @class SDLVRHelpItem;
+@class SDLSeatLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param timeoutText A string that will be turned into TTS chunks for the timeout prompt
  @return The SetGlobalProperties RPC
  */
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText;
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText __deprecated_msg("Use initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout: instead");
 
 /**
  Initialize SetGlobalProperties with help text, timeout text, help title, and help items
@@ -37,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param vrHelp The items of the help interface prompt
  @return The SetGlobalProperties RPC
  */
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp;
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp __deprecated_msg("Use initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout: instead");
 
 /**
  Initialize SetGlobalProperties with all possible items
@@ -51,7 +54,22 @@ NS_ASSUME_NONNULL_BEGIN
  @param keyboardProperties The properties of a keyboard prompt
  @return The SetGlobalProperties RPC
  */
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties;
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties __deprecated_msg("Use initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout: instead");
+
+/**
+ Initialize SetGlobalProperties with all possible items
+
+ @param helpText A string that will be turned into TTS chunks for the help prompt
+ @param timeoutText A string that will be turned into TTS chunks for the timeout prompt
+ @param vrHelpTitle The title of the help interface prompt
+ @param vrHelp The items of the help interface prompt
+ @param menuTitle The title of the menu button
+ @param menuIcon The icon on the menu button
+ @param keyboardProperties The properties of a keyboard prompt
+ @param menuLayout The layout of the top-level main menu
+ @return The SetGlobalProperties RPC
+ */
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout;
 
 /**
  Help prompt for when the user asks for help with an interface prompt
@@ -103,6 +121,18 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
+
+/**
+ Location of the user's seat. Default is driver's seat location if it is not set yet
+ 
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLSeatLocation *userLocation;
+
+/**
+ The main menu layout. If this is sent while a menu is already on-screen, the head unit will change the display to the new layout type. See available menu layouts on DisplayCapabilities.menuLayoutsAvailable. Defaults to the head unit default.
+ */
+@property (strong, nonatomic, nullable) SDLMenuLayout menuLayout;
 
 @end
 

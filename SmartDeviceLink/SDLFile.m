@@ -166,6 +166,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - NSObject overrides
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLFile: %@", self.name];
+}
+
 - (NSUInteger)hash {
     return self.name.hash ^ self.data.hash;
 }

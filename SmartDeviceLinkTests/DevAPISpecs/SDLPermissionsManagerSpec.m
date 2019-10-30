@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (assign, nonatomic) BOOL requiresEncryption;
 
 @end
 
@@ -127,6 +128,7 @@ describe(@"SDLPermissionsManager", ^{
         expect(testPermissionsManager.filters).to(beEmpty());
         expect(testPermissionsManager.permissions).to(beEmpty());
         expect(testPermissionsManager.currentHMILevel).to(beNil());
+        expect(testPermissionsManager.requiresEncryption).to(beFalse());
     });
     
     describe(@"checking if a permission is allowed", ^{
@@ -448,6 +450,37 @@ describe(@"SDLPermissionsManager", ^{
                     
                     NSNumber<SDLBool> *allDisallowed = changeDicts[1][testRPCNameAllDisallowed];
                     expect(allDisallowed).to(equal(@NO));
+                });
+
+                describe(@"when the permission has not changed", ^{
+                    __block SDLOnPermissionsChange *testPermissionChangeUpdateNoChange = nil;
+                    __block SDLPermissionItem *testPermissionUpdatedNoChange = nil;
+
+                    beforeEach(^{
+                        numberOfTimesObserverCalled = 0;
+
+                        // Create a permission update disallowing our current HMI level for the observed permission
+                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
+                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
+                        testHMIPermissionsUpdated.allowed = @[SDLHMILevelBackground, SDLHMILevelFull];
+                        testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelLimited, SDLHMILevelNone];
+
+                        testPermissionUpdatedNoChange = [[SDLPermissionItem alloc] init];
+                        testPermissionUpdatedNoChange.rpcName = testRPCNameAllAllowed;
+                        testPermissionUpdatedNoChange.hmiPermissions = testHMIPermissionsUpdated;
+                        testPermissionUpdatedNoChange.parameterPermissions = testParameterPermissions;
+
+                        testPermissionChangeUpdateNoChange = [[SDLOnPermissionsChange alloc] init];
+                        testPermissionChangeUpdateNoChange.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
+
+                        // Send the permission update
+                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
+                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
+                    });
+
+                    it(@"should not call the filter observer again", ^{
+                        expect(numberOfTimesObserverCalled).to(equal(0));
+                    });
                 });
             });
             

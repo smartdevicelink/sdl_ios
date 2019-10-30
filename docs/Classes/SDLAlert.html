@@ -3,6 +3,9 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithAlertText:softButtons:playTone:ttsChunks:alertIcon:cancelID:">-initWithAlertText:softButtons:playTone:ttsChunks:alertIcon:cancelID:</a></li>
+  <li><a href="#section--initWithTTSChunks:playTone:">-initWithTTSChunks:playTone:</a></li>
+  <li><a href="#section--initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID:">-initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID:</a></li>
   <li><a href="#section--initWithAlertText1:alertText2:duration:">-initWithAlertText1:alertText2:duration:</a></li>
   <li><a href="#section--initWithAlertText1:alertText2:alertText3:">-initWithAlertText1:alertText2:alertText3:</a></li>
   <li><a href="#section--initWithAlertText1:alertText2:alertText3:duration:">-initWithAlertText1:alertText2:alertText3:duration:</a></li>
@@ -10,7 +13,6 @@
   <li><a href="#section--initWithTTS:playTone:">-initWithTTS:playTone:</a></li>
   <li><a href="#section--initWithTTS:alertText1:alertText2:playTone:duration:">-initWithTTS:alertText1:alertText2:playTone:duration:</a></li>
   <li><a href="#section--initWithTTS:alertText1:alertText2:alertText3:playTone:duration:">-initWithTTS:alertText1:alertText2:alertText3:playTone:duration:</a></li>
-  <li><a href="#section--initWithTTSChunks:playTone:">-initWithTTSChunks:playTone:</a></li>
   <li><a href="#section--initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:">-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:</a></li>
   <li><a href="#section--initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:">-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:</a></li>
   <li><a href="#section-alertText1">alertText1</a></li>
@@ -21,174 +23,75 @@
   <li><a href="#section-playTone">playTone</a></li>
   <li><a href="#section-progressIndicator">progressIndicator</a></li>
   <li><a href="#section-softButtons">softButtons</a></li>
+  <li><a href="#section-cancelID">cancelID</a></li>
+  <li><a href="#section-alertIcon">alertIcon</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</p>
+<p>Shows an alert which typically consists of text-to-speech message and text on the display. Either <code>alertText1</code>, <code>alertText2</code> or <code>TTSChunks</code> needs to be set or the request will be rejected.</p>
 
-<p><ul>
- <li>The displayed portion of the SDLAlert, if any, will persist until the
- specified timeout has elapsed, or the SDLAlert is preempted</li>
- <li>An SDLAlert will preempt (abort) any SmartDeviceLink Operation that is in-progress,
- except an already-in-progress SDLAlert</li>
- <li>An SDLAlert cannot be preempted by any SmartDeviceLink Operation</li>
- <li>An SDLAlert can be preempted by a user action (button push)</li>
- <li>An SDLAlert will fail if it is issued while another SDLAlert is in progress</li>
- <li>Although each Alert parameter is optional, in fact each SDLAlert request
- must supply at least one of the following parameters:<br/>
- <ul>
- <li>alertText1</li>
- <li>alertText2</li>
- <li>ttsChunks</li>
- </ul>
- </li>
- </ul>
- <br/>
- <b>HMILevel needs to be FULL or LIMITED.</b><br/>
- <b>If the app has been granted function group Notification the SDLHMILevel can
- also be BACKGROUND</b><br/></p>
+<p>If connecting to SDL Core v.6.0+, the alert can be canceled programmatically using the <code>cancelID</code>. Canceling will not dismiss the alert&rsquo;s speech - only the modal view will be dismissed. On older versions of SDL Core, the alert will persist until the user has interacted with the alert or the specified timeout has elapsed.</p>
 
 <p>@since SDL 1.0</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithAlertText1:alertText2:duration:">
-      -initWithAlertText1:alertText2:duration:
+  <h3 id="section--initWithAlertText:softButtons:playTone:ttsChunks:alertIcon:cancelID:">
+      -initWithAlertText:softButtons:playTone:ttsChunks:alertIcon:cancelID:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a modal view with text, buttons, and optional sound cues.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAlertText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText</span>
+          <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+             <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+            <span class="nf">ttsChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span>
+            <span class="nf">alertIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span>
+             <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">ttsChunks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="n"><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertIcon">alertIcon</a></span> <span class="nv">icon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
 
   
   
-  
-  <h3 id="section--initWithAlertText1:alertText2:alertText3:">
-      -initWithAlertText1:alertText2:alertText3:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithAlertText1:alertText2:alertText3:duration:">
-      -initWithAlertText1:alertText2:alertText3:duration:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithAlertText1:alertText2:alertText3:duration:softButtons:">
-      -initWithAlertText1:alertText2:alertText3:duration:softButtons:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithTTS:playTone:">
-      -initWithTTS:playTone:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithTTS:alertText1:alertText2:playTone:duration:">
-      -initWithTTS:alertText1:alertText2:playTone:duration:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span> <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithTTS:alertText1:alertText2:alertText3:playTone:duration:">
-      -initWithTTS:alertText1:alertText2:alertText3:playTone:duration:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span> <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
-
-  
-  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText</dt>
+      <dd><p>The string to be displayed in the first field of the display</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Soft buttons to be displayed</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS (if any) is spoken</p></dd>
+      <dt>ttsChunks</dt>
+      <dd><p>Speech or a sound file to be played when the alert shows</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>An ID for this specific alert to allow cancellation through the <code>CancelInteraction</code> RPC</p></dd>
+      <dt>icon</dt>
+      <dd><p>Image to be displayed in the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
   
   <h3 id="section--initWithTTSChunks:playTone:">
       -initWithTTSChunks:playTone:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a sound-only alert.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTSChunks</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span>
+                                 <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -196,17 +99,342 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsChunks</dt>
+      <dd><p>Speech or a sound file to be played when the alert shows</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID:">
+      -initWithAlertText1:alertText2:alertText3:softButtons:playTone:ttsChunks:duration:progressIndicator:alertIcon:cancelID:
+  </h3>
+  
+  <p>Convenience init for setting all alert parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+            <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+            <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+           <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+              <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+             <span class="nf">ttsChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span>
+              <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span>
+     <span class="nf">progressIndicator</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">progressIndicator</span>
+             <span class="nf">alertIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span>
+              <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">ttsChunks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">progressIndicator</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertIcon">alertIcon</a></span> <span class="nv">icon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the alert</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS (if any) is spoken</p></dd>
+      <dt>ttsChunks</dt>
+      <dd><p>An array of text chunks to be spoken or a prerecorded sound file</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+      <dt>progressIndicator</dt>
+      <dd><p>Whether an animation indicating that loading of a feature is progressing should be shown</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>An ID for this specific alert to allow cancellation through the <code>CancelInteraction</code> RPC</p></dd>
+      <dt>icon</dt>
+      <dd><p>Image to be displayed in the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertText1:alertText2:duration:">
+      -initWithAlertText1:alertText2:duration:
+  </h3>
+  
+  <p>Convenience init for creating an alert with two lines of text and a timeout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                                <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                                  <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertText1:alertText2:alertText3:">
+      -initWithAlertText1:alertText2:alertText3:
+  </h3>
+  
+  <p>Convenience init for creating an alert with three lines of text.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                                <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                                <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertText1:alertText2:alertText3:duration:">
+      -initWithAlertText1:alertText2:alertText3:duration:
+  </h3>
+  
+  <p>Convenience init for creating an alert with three lines of text and a timeout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                                <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                                <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+                                  <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithAlertText1:alertText2:alertText3:duration:softButtons:">
+      -initWithAlertText1:alertText2:alertText3:duration:softButtons:
+  </h3>
+  
+  <p>Convenience init for creating an alert with three lines of text and a timeout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAlertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                                <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                                <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+                                  <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span>
+                               <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                                               <span class="n"><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)softButtons">softButtons</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithTTS:playTone:">
+      -initWithTTS:playTone:
+  </h3>
+  
+  <p>Convenience init for creating a speech-only alert.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span>
+                           <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsText</dt>
+      <dd><p>Speech to be played</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithTTS:alertText1:alertText2:playTone:duration:">
+      -initWithTTS:alertText1:alertText2:playTone:duration:
+  </h3>
+  
+  <p>Convenience init for creating an alert with two lines of text, optional sound cues, and a timout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span>
+                         <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                         <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                           <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+                           <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsText</dt>
+      <dd><p>Speech to be played</p></dd>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
+  
+  <h3 id="section--initWithTTS:alertText1:alertText2:alertText3:playTone:duration:">
+      -initWithTTS:alertText1:alertText2:alertText3:playTone:duration:
+  </h3>
+  
+  <p>Convenience init for creating an alert with three lines of text, optional sound cues, and a timout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span>
+                         <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+                         <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+                         <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+                           <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+                           <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alertText3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">playTone</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsText</dt>
+      <dd><p>Speech to be played</p></dd>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
   
   <h3 id="section--initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:">
       -initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating an alert with three lines of text, soft buttons, and optional sound cues.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span> <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span>
+           <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+           <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+           <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+             <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+          <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -214,17 +442,43 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsChunks</dt>
+      <dd><p>Speech or a sound file to be played when the alert shows</p></dd>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
   
   <h3 id="section--initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:">
       -initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating an alert with three lines of text, soft buttons, optional sound cues, and a timout.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span> <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span> <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span> <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span> <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span> <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span>
+           <span class="nf">alertText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText1</span>
+           <span class="nf">alertText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText2</span>
+           <span class="nf">alertText3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertText3</span>
+             <span class="nf">playTone</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">playTone</span>
+             <span class="nf">duration</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">duration</span>
+          <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -232,20 +486,39 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>ttsChunks</dt>
+      <dd><p>Speech or a sound file to be played when the alert shows</p></dd>
+      <dt>alertText1</dt>
+      <dd><p>The first line of the alert</p></dd>
+      <dt>alertText2</dt>
+      <dd><p>The second line of the alert</p></dd>
+      <dt>alertText3</dt>
+      <dd><p>The third line of the alert</p></dd>
+      <dt>playTone</dt>
+      <dd><p>Whether the alert tone should be played before the TTS is spoken</p></dd>
+      <dt>duration</dt>
+      <dd><p>The duration of the displayed portion of the alert, in milliseconds</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the alert</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLAlert object</p>
+  </div>
   
   <h3 id="section-alertText1">
       alertText1
   </h3>
   
-  <p>The String to be displayed in the first field of the display during the Alert</p>
+  <p>The first line of the alert text field.</p>
 
-<p>@discussion Length is limited to what is indicated in <em>SDLRegisterAppInterface</em> response</p>
+<p>@discussion     At least either <code>alertText1</code>, <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertText2">alertText2</a></code> or <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)ttsChunks">ttsChunks</a></code> need to be provided.
+@discussion     If supported, the <code>displayCapabilities</code> will have a <code>TextField</code> with a <code>name</code> of <code>alertText1</code>.</p>
 
-<p>If omitted, top display line will be cleared</p>
-
-<p>Text is always centered</p>
-
-<p>Optional, Max length 500 chars</p>
+<p>String, Optional, Max length 500 chars
+@since SDL 1.0</p>
 
   
   
@@ -263,17 +536,13 @@
       alertText2
   </h3>
   
-  <p>The String to be displayed in the second field of the display during the Alert</p>
+  <p>The second line of the alert text field.</p>
 
-<p>@discussion Only permitted if HMI supports a second display line</p>
+<p>@discussion     At least either <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertText1">alertText1</a></code>, <code>alertText2</code> or <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)ttsChunks">ttsChunks</a></code> need to be provided.
+@discussion     If supported, the <code>displayCapabilities</code> will have a <code>TextField</code> with a <code>name</code> of <code>alertText2</code></p>
 
-<p>Length is limited to what is indicated in <em>SDLRegisterAppInterface</em> response</p>
-
-<p>If omitted, second display line will be cleared</p>
-
-<p>Text is always centered</p>
-
-<p>Optional, Max length 500 chars</p>
+<p>String, Optional, Max length 500 chars
+@since SDL 1.0</p>
 
   
   
@@ -291,16 +560,12 @@
       alertText3
   </h3>
   
-  <p>the String to be displayed in the third field of the display during the Alert
- @discussion Only permitted if HMI supports a third display line</p>
+  <p>The optional third line of the alert text field.</p>
 
-<p>Length is limited to what is indicated in <em>SDLRegisterAppInterface</em> response</p>
+<p>@discussion If supported, the <code>displayCapabilities</code> will have a <code>TextField</code> with a <code>name</code> of <code>alertText3</code></p>
 
-<p>If omitted, third display line will be cleared</p>
-
-<p>Text is always centered</p>
-
-<p>Optional, Max length 500 chars</p>
+<p>String, Optional, Max length 500 chars
+@since SDL 2.0</p>
 
   
   
@@ -318,14 +583,13 @@
       ttsChunks
   </h3>
   
-  <p>An array which, taken together, specify what is to be spoken to the user</p>
+  <p>An array of text chunks to be spoken or a prerecorded sound file.</p>
 
-<p>Optional, Array of SDLTTSChunk, Array length 1 - 100</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLTTSChunk
+<p>@discussion At least either <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertText1">alertText1</a></code>, <code><a href="../Classes/SDLAlert.html#/c:objc(cs)SDLAlert(py)alertText2">alertText2</a></code> or <code>ttsChunks</code> need to be provided.</p>
 
-</div>
+<p>Array of SDLTTSChunk, Optional, Array length 1 - 100</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -344,15 +608,11 @@
       duration
   </h3>
   
-  <p>The duration of the displayed portion of the alert, in milliseconds.</p>
+  <p>The duration of the displayed portion of the alert, in milliseconds. Typical timeouts are 3 - 5 seconds. If omitted, the timeout is set to a default of 5 seconds.</p>
 
-<p>@discussion After this amount of time has passed, the display fields alertText1 and alertText2 will revert to what was displayed in those fields before the alert began.</p>
+<p>Integer, Optional, Min value: 3000, Max value: 10000</p>
 
-<p>Typical timeouts are 3 - 5 seconds</p>
-
-<p>If omitted, the timeout is set to 5 seconds</p>
-
-<p>Optional, Integer, 3000 - 10000</p>
+<p>@since SDL 1.0</p>
 
   
   
@@ -370,11 +630,11 @@
       playTone
   </h3>
   
-  <p>Whether the alert tone should be played before the TTS (if any) is spoken.</p>
+  <p>Whether the alert tone should be played before the TTS (if any) is spoken. If omitted or set to false, no tone is played.</p>
 
-<p>@discussion If ommitted, no tone is played</p>
+<p>Boolean, Optional</p>
 
-<p>Optional, Boolean</p>
+<p>@since SDL 1.0</p>
 
   
   
@@ -392,11 +652,11 @@
       progressIndicator
   </h3>
   
-  <p>If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.</p>
+  <p>If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing (e.g. a spinning wheel or hourglass, etc.).</p>
 
-<p>Optional, Boolean</p>
+<p>Boolean, Optional</p>
 
-<p>@since SmartDeviceLink 2.0</p>
+<p>@since SDL 2.0</p>
 
   
   
@@ -415,16 +675,11 @@
       softButtons
   </h3>
   
-  <p>App defined SoftButtons.</p>
+  <p>Buttons for the displayed alert. If omitted on supported displays, the displayed alert shall not have any buttons.</p>
 
-<p>@discussion If omitted on supported displays, the displayed alert shall not have any SoftButtons</p>
+<p>Array of SDLSoftButton, Optional, Array size 0 - 4</p>
 
-<p>Optional, Array of SDLSoftButton, Array size 0 - 4</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSoftButton
-
-</div>
+<p>@since SDL 2.0</p>
 
   
   
@@ -435,6 +690,53 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cancelID">
+      cancelID
+  </h3>
+  
+  <p>An ID for this specific alert to allow cancellation through the <code>CancelInteraction</code> RPC.</p>
+
+<p>Integer, Optional</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLCancelInteraction
+@since SDL 6.0
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-alertIcon">
+      alertIcon
+  </h3>
+  
+  <p>Image to be displayed in the alert. If omitted on supported displays, no (or the default if applicable) icon should be displayed.</p>
+
+<p>SDLImage, Optional
+@since SDL 6.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">alertIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">alertIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

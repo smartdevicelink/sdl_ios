@@ -10,8 +10,9 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppServiceData.h"
-#import "SDLGetAppServiceDataResponse.h"
 #import "SDLAsynchronousRPCOperation.h"
+#import "SDLGetAppServiceDataResponse.h"
+#import "SDLGlobals.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLAsynchronousRPCOperationSpec)
@@ -27,7 +28,7 @@ describe(@"sending responses and notifications", ^{
 
         testOperationQueue = [[NSOperationQueue alloc] init];
         testOperationQueue.name = @"com.sdl.RPCResponse.testqueue";
-        testOperationQueue.maxConcurrentOperationCount = 3;
+        testOperationQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     });
 
     context(@"when a single request succeeds", ^{
@@ -49,7 +50,7 @@ describe(@"sending responses and notifications", ^{
 
     context(@"when multiple request succeed", ^{
         __block NSMutableArray< __kindof SDLRPCMessage *> *sendRPCs = nil;
-        __block int rpcCount = (int)testOperationQueue.maxConcurrentOperationCount + 3;
+        int rpcCount = 9;
 
         beforeEach(^{
             sendRPCs = [NSMutableArray array];
@@ -63,8 +64,6 @@ describe(@"sending responses and notifications", ^{
                 testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPCs[i]];
                 [testOperationQueue addOperation:testOperation];
             }
-
-            [NSThread sleepForTimeInterval:0.5];
 
             expect(testConnectionManager.receivedRequests.count).toEventually(equal(rpcCount));
             expect(testConnectionManager.receivedRequests).toEventually(equal(sendRPCs));
@@ -81,10 +80,12 @@ describe(@"sending responses and notifications", ^{
         it(@"should not send the rpc", ^{
             testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
 
+            [testOperationQueue setSuspended:YES];
             [testOperationQueue addOperation:testOperation];
             [testOperationQueue cancelAllOperations];
+            [testOperationQueue setSuspended:NO];
 
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:0.5];
 
             expect(testConnectionManager.receivedRequests).toEventually(beEmpty());
         });

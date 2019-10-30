@@ -4,21 +4,21 @@
 
 <ul>
   <li><a href="#section--initWithMessage:">-initWithMessage:</a></li>
+  <li><a href="#section--initWithMessage:timeout:softButtons:cancelID:">-initWithMessage:timeout:softButtons:cancelID:</a></li>
   <li><a href="#section--initWithMessage:timeout:softButtons:">-initWithMessage:timeout:softButtons:</a></li>
   <li><a href="#section-scrollableMessageBody">scrollableMessageBody</a></li>
   <li><a href="#section-timeout">timeout</a></li>
   <li><a href="#section-softButtons">softButtons</a></li>
+  <li><a href="#section-cancelID">cancelID</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Creates a full screen overlay containing a large block of formatted text that
-can be scrolled with up to 8 SoftButtons defined
-<p>
-Function Group: ScrollableMessage
-<p>
-<b>HMILevel needs to be FULL</b>
-<p></p>
+<p>Creates a full screen overlay containing a large block of formatted text that can be scrolled with buttons available.</p>
+
+<p>If connecting to SDL Core v.6.0+, the scrollable message can be canceled programmatically using the <code>cancelID</code>. On older versions of SDL Core, the scrollable message will persist until the user has interacted with the scrollable message or the specified timeout has elapsed.</p>
+
+<p>@since SDL 2.0</p>
 
 
 <section class="section task-group-section">
@@ -26,12 +26,12 @@ Function Group: ScrollableMessage
       -initWithMessage:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a scrolling message with text.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMessage</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -39,17 +39,66 @@ Function Group: ScrollableMessage
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>message</dt>
+      <dd><p>Body of text that can include newlines and tabs</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLScrollableMessage object</p>
+  </div>
+  
+  <h3 id="section--initWithMessage:timeout:softButtons:cancelID:">
+      -initWithMessage:timeout:softButtons:cancelID:
+  </h3>
+  
+  <p>Convenience init for creating a scrolling message with text and buttons.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span>
+                                <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span>
+                            <span class="nf">softButtons</span><span class="p">:</span>
+                                <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+                               <span class="nf">cancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?,</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>message</dt>
+      <dd><p>Body of text that can include newlines and tabs</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the displayed scrollable message</p></dd>
+      <dt>cancelID</dt>
+      <dd><p>An ID for this specific scrollable message to allow cancellation through the <code>CancelInteraction</code> RPC</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLScrollableMessage object</p>
+  </div>
   
   <h3 id="section--initWithMessage:timeout:softButtons:">
       -initWithMessage:timeout:softButtons:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for creating a scrolling message with text and buttons.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMessage</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span>
+                                <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span>
+                            <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                                            <span class="n"><a href="../Classes/SDLScrollableMessage.html#/c:objc(cs)SDLScrollableMessage(py)softButtons">softButtons</a></span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -57,16 +106,29 @@ Function Group: ScrollableMessage
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>message</dt>
+      <dd><p>Body of text that can include newlines and tabs</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Buttons for the displayed scrollable message</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLScrollableMessage object</p>
+  </div>
   
   <h3 id="section-scrollableMessageBody">
       scrollableMessageBody
   </h3>
   
-  <p>A Body of text that can include newlines and tabs
-@discussion A String value representing the Body of text that can include
-           newlines and tabs
-           <p>
-           <b>Notes: </b>Maxlength=500</p>
+  <p>Body of text that can include newlines and tabs.</p>
+
+<p>String, Required, Max length 500 chars</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -85,11 +147,11 @@ Function Group: ScrollableMessage
       timeout
   </h3>
   
-  <p>Gets/Sets an App defined timeout. Indicates how long of a timeout in milliseconds from the
-last action
-@discussion An Integer value representing an App defined timeout in milliseconds
-           <p>
-           <b>Notes</b>:Minval=0; Maxval=65535;Default=30000</p>
+  <p>App defined timeout. Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout). If not set, a default value of 30 seconds is used by Core.</p>
+
+<p>Integer, Optional, Min value: 1000, Max value: 65535, Default value: 30000</p>
+
+<p>@since SDL 2.0</p>
 
   
   
@@ -107,12 +169,11 @@ last action
       softButtons
   </h3>
   
-  <p>Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
-system defined <q>Close</q> SoftButton will be displayed
-@discussion A Vector<SoftButton> value representing App defined
-           SoftButtons
-           <p>
-           <b>Notes: </b>Minsize=0, Maxsize=8</p>
+  <p>Buttons for the displayed scrollable message. If omitted on supported displays, only the system defined <q>Close</q> SoftButton will be displayed.</p>
+
+<p>Array of SDLSoftButton, Optional, Array size: 0-8</p>
+
+<p>Since SDL 2.0</p>
 
   
   
@@ -123,6 +184,32 @@ system defined <q>Close</q> SoftButton will be displayed
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cancelID">
+      cancelID
+  </h3>
+  
+  <p>An ID for this specific scrollable message to allow cancellation through the <code>CancelInteraction</code> RPC.</p>
+
+<p>Integer, Optional</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLCancelInteraction
+@since SDL 6.0
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

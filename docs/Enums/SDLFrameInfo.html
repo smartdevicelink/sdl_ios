@@ -1,0 +1,337 @@
+<h1>SDLFrameInfo Enumeration Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLFrameInfoHeartbeat">SDLFrameInfoHeartbeat</a></li>
+  <li><a href="#section-SDLFrameInfoStartService">SDLFrameInfoStartService</a></li>
+  <li><a href="#section-SDLFrameInfoStartServiceACK">SDLFrameInfoStartServiceACK</a></li>
+  <li><a href="#section-SDLFrameInfoStartServiceNACK">SDLFrameInfoStartServiceNACK</a></li>
+  <li><a href="#section-SDLFrameInfoEndService">SDLFrameInfoEndService</a></li>
+  <li><a href="#section-SDLFrameInfoEndServiceACK">SDLFrameInfoEndServiceACK</a></li>
+  <li><a href="#section-SDLFrameInfoEndServiceNACK">SDLFrameInfoEndServiceNACK</a></li>
+  <li><a href="#section-SDLFrameInfoRegisterSecondaryTransport">SDLFrameInfoRegisterSecondaryTransport</a></li>
+  <li><a href="#section-SDLFrameInfoRegisterSecondaryTransportACK">SDLFrameInfoRegisterSecondaryTransportACK</a></li>
+  <li><a href="#section-SDLFrameInfoRegisterSecondaryTransportNACK">SDLFrameInfoRegisterSecondaryTransportNACK</a></li>
+  <li><a href="#section-SDLFrameInfoTransportEventUpdate">SDLFrameInfoTransportEventUpdate</a></li>
+  <li><a href="#section-SDLFrameInfoServiceDataAck">SDLFrameInfoServiceDataAck</a></li>
+  <li><a href="#section-SDLFrameInfoHeartbeatACK">SDLFrameInfoHeartbeatACK</a></li>
+  <li><a href="#section-SDLFrameInfoSingleFrame">SDLFrameInfoSingleFrame</a></li>
+  <li><a href="#section-SDLFrameInfoFirstFrame">SDLFrameInfoFirstFrame</a></li>
+  <li><a href="#section-SDLFrameInfoConsecutiveLastFrame">SDLFrameInfoConsecutiveLastFrame</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+
+<ul>
+<li><p>The data packet&rsquo;s available data.</p></li>
+<li><p>SDLFrameInfoHeartbeat: A ping packet that is sent to ensure the connection is still active and the service is still valid.</p></li>
+<li><p>SDLFrameInfoStartService: Requests that a specific type of service is started.</p></li>
+<li><p>SDLFrameInfoStartServiceACK: Acknowledges that the specific service has been started successfully.</p></li>
+<li><p>SDLFrameInfoStartServiceNACK: Negatively acknowledges that the specific service was not started.</p></li>
+<li><p>SDLFrameInfoEndService: Requests that a specific type of service is ended.</p></li>
+<li><p>SDLFrameInfoEndServiceACK: Acknowledges that the specific service has been ended successfully.</p></li>
+<li><p>SDLFrameInfoEndServiceNACK: Negatively acknowledges that the specific service was not ended or has not yet been started.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransport: Notifies that a Secondary Transport has been established.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransportACK: Acknowledges that the Secondary Transport has been recognized.</p></li>
+<li><p>SDLFrameInfoRegisterSecondaryTransportNACK: Negatively acknowledges that the Secondary Transport has not been recognized.</p></li>
+<li><p>SDLFrameInfoTransportEventUpdate: Indicates the status or configuration of transport(s) is/are updated.</p></li>
+<li><p>SDLFrameInfoServiceDataAck: Deprecated.</p></li>
+<li><p>SDLFrameInfoHeartbeatACK: Acknowledges that a Heartbeat control packet has been received.</p></li>
+<li><p>SDLFrameInfoSingleFrame: Payload contains a single packet.</p></li>
+<li><p>SDLFrameInfoFirstFrame: First frame in a multiple frame payload.</p></li>
+<li><p>SDLFrameInfoConsecutiveLastFrame: Frame in a multiple frame payload.</p></li>
+</ul>
+
+
+<section class="section task-group-section">
+  <h3 id="section-SDLFrameInfoHeartbeat">
+      SDLFrameInfoHeartbeat
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoHeartbeat</span> <span class="o">=</span> <span class="mh">0x00</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">heartbeat</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoStartService">
+      SDLFrameInfoStartService
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoStartService</span> <span class="o">=</span> <span class="mh">0x01</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">startService</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoStartServiceACK">
+      SDLFrameInfoStartServiceACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoStartServiceACK</span> <span class="o">=</span> <span class="mh">0x02</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">startServiceACK</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoStartServiceNACK">
+      SDLFrameInfoStartServiceNACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoStartServiceNACK</span> <span class="o">=</span> <span class="mh">0x03</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">startServiceNACK</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoEndService">
+      SDLFrameInfoEndService
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoEndService</span> <span class="o">=</span> <span class="mh">0x04</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">endService</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoEndServiceACK">
+      SDLFrameInfoEndServiceACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoEndServiceACK</span> <span class="o">=</span> <span class="mh">0x05</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">endServiceACK</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoEndServiceNACK">
+      SDLFrameInfoEndServiceNACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoEndServiceNACK</span> <span class="o">=</span> <span class="mh">0x06</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">endServiceNACK</span> <span class="o">=</span> <span class="mi">6</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoRegisterSecondaryTransport">
+      SDLFrameInfoRegisterSecondaryTransport
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoRegisterSecondaryTransport</span> <span class="o">=</span> <span class="mh">0x07</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">registerSecondaryTransport</span> <span class="o">=</span> <span class="mi">7</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoRegisterSecondaryTransportACK">
+      SDLFrameInfoRegisterSecondaryTransportACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoRegisterSecondaryTransportACK</span> <span class="o">=</span> <span class="mh">0x08</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">registerSecondaryTransportACK</span> <span class="o">=</span> <span class="mi">8</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoRegisterSecondaryTransportNACK">
+      SDLFrameInfoRegisterSecondaryTransportNACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoRegisterSecondaryTransportNACK</span> <span class="o">=</span> <span class="mh">0x09</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">registerSecondaryTransportNACK</span> <span class="o">=</span> <span class="mi">9</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoTransportEventUpdate">
+      SDLFrameInfoTransportEventUpdate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoTransportEventUpdate</span> <span class="o">=</span> <span class="mh">0xFD</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">transportEventUpdate</span> <span class="o">=</span> <span class="mi">253</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoServiceDataAck">
+      SDLFrameInfoServiceDataAck
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoServiceDataAck</span> <span class="o">=</span> <span class="mh">0xFE</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">serviceDataAck</span> <span class="o">=</span> <span class="mi">254</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoHeartbeatACK">
+      SDLFrameInfoHeartbeatACK
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoHeartbeatACK</span> <span class="o">=</span> <span class="mh">0xFF</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">heartbeatACK</span> <span class="o">=</span> <span class="mi">255</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoSingleFrame">
+      SDLFrameInfoSingleFrame
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoSingleFrame</span> <span class="o">=</span> <span class="mh">0x00</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">singleFrame</span><span class="p">:</span> <span class="kt">SDLFrameInfo</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoFirstFrame">
+      SDLFrameInfoFirstFrame
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoFirstFrame</span> <span class="o">=</span> <span class="mh">0x00</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">firstFrame</span><span class="p">:</span> <span class="kt">SDLFrameInfo</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFrameInfoConsecutiveLastFrame">
+      SDLFrameInfoConsecutiveLastFrame
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLFrameInfoConsecutiveLastFrame</span> <span class="o">=</span> <span class="mh">0x00</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">consecutiveLastFrame</span><span class="p">:</span> <span class="kt">SDLFrameInfo</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

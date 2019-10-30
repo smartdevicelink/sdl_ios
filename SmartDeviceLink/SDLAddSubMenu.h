@@ -3,6 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLMenuLayout.h"
+
 @class SDLImage;
 
 /**
@@ -25,9 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName;
 
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position __deprecated_msg(("Use initWithId:menuName:menuIcon:position: instead"));
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position __deprecated_msg("Use initWithId:menuName:menuLayout:menuIcon:position: instead");
 
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position;
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position __deprecated_msg("Use initWithId:menuName:menuLayout:menuIcon:position: instead");
+
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuLayout:(nullable SDLMenuLayout)menuLayout menuIcon:(nullable SDLImage *)icon position:(UInt8)position;
 
 /**
  * a Menu ID that identifies a sub menu
@@ -67,6 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
  An image that is displayed alongside this submenu item
  */
 @property (strong, nonatomic, nullable) SDLImage *menuIcon;
+
+/**
+ The sub-menu layout. See available menu layouts on SDLWindowCapability.menuLayoutsAvailable. Defaults to LIST.
+ */
+@property (strong, nonatomic, nullable) SDLMenuLayout menuLayout;
 
 @end
 

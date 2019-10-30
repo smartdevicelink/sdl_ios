@@ -14,23 +14,32 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteSubMenu.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLDisplayCapability.h"
+#import "SDLDisplayType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
+#import "SDLMenuConfiguration.h"
 #import "SDLMenuParams.h"
 #import "SDLDynamicMenuUpdateRunScore.h"
 #import "SDLDynamicMenuUpdateAlgorithm.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
+#import "SDLSetGlobalProperties.h"
 #import "SDLScreenManager.h"
+#import "SDLShowAppMenu.h"
+#import "SDLSystemCapabilityManager.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLVersion.h"
 #import "SDLVoiceCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,12 +53,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuManager()
 
+// Dependencies
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
@@ -71,24 +81,24 @@ UInt32 const MenuCellIdMin = 1;
     if (!self) { return nil; }
 
     _lastMenuId = MenuCellIdMin;
+    _menuConfiguration = [[SDLMenuConfiguration alloc] init];
     _menuCells = @[];
     _oldMenuCells = @[];
     _dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeOnWithCompatibility;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
 
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(nonnull SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [self init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
 
     return self;
 }
@@ -100,7 +110,6 @@ UInt32 const MenuCellIdMin = 1;
 
     _currentHMILevel = nil;
     _currentSystemContext = SDLSystemContextMain;
-    _displayCapabilities = nil;
     _inProgressUpdate = nil;
     _hasQueuedUpdate = NO;
     _waitingOnHMIUpdate = NO;
@@ -108,6 +117,42 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark - Setters
+
+- (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
+    NSArray<SDLMenuLayout> *layoutsAvailable = self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable;
+
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
+        SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
+        return;
+    } else if (layoutsAvailable == nil) {
+        SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
+        return;
+    } else if (![layoutsAvailable containsObject:menuConfiguration.mainMenuLayout]
+              || ![layoutsAvailable containsObject:menuConfiguration.defaultSubmenuLayout]) {
+        SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", layoutsAvailable, menuConfiguration);
+        return;
+    } else if (self.currentHMILevel == nil
+        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogE(@"Could not set main menu configuration, HMI level: %@, required: 'Not-NONE', system context: %@, required: 'Not MENU'", self.currentHMILevel, self.currentSystemContext);
+        return;
+    }
+
+    SDLMenuConfiguration *oldConfig = _menuConfiguration;
+    _menuConfiguration = menuConfiguration;
+
+    SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
+    setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
+
+    __weak typeof(self) weakself = self;
+    [self.connectionManager sendConnectionRequest:setGlobalsRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
+        if (error != nil) {
+            SDLLogE(@"Could not set main menu configuration: %@", error);
+            strongself.menuConfiguration = oldConfig;
+            return;
+        }
+    }];
+}
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     if (self.currentHMILevel == nil
@@ -371,7 +416,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.systemCapabilityManager.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -382,10 +427,10 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     self.inProgressUpdate = [mainMenuCommands arrayByAddingObjectsFromArray:subMenuCommands];
-
+    
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^void(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
         }
@@ -424,7 +469,7 @@ UInt32 const MenuCellIdMin = 1;
         case SDLDynamicMenuUpdatesModeOnWithCompatibility:
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            return ![self.displayCapabilities.displayType isEqualToEnum:SDLDisplayTypeGen38Inch];
+            return ![self.systemCapabilityManager.displays.firstObject.displayName isEqualToString:SDLDisplayTypeGen38Inch];
 #pragma clang diagnostic pop
 
     }
@@ -433,7 +478,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark Artworks
 
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
-    if (![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self.systemCapabilityManager.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         return @[];
     }
 
@@ -556,7 +601,15 @@ UInt32 const MenuCellIdMin = 1;
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
-    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
+
+    SDLMenuLayout submenuLayout = nil;
+    if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
+        submenuLayout = cell.submenuLayout;
+    } else {
+        submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
+    }
+
+    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuLayout:submenuLayout menuIcon:icon position:(UInt8)position];
 }
 
 #pragma mark - Calling handlers
@@ -585,32 +638,13 @@ UInt32 const MenuCellIdMin = 1;
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
-- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
-    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
-
-    if (!response.success.boolValue) { return; }
-    if (response.displayCapabilities == nil) {
-        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
-
-    self.displayCapabilities = response.displayCapabilities;
-}
-
-- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
-    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
-    if (!response.success.boolValue) { return; }
-    if (response.displayCapabilities == nil) {
-        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
-        return;
-    }
-
-    self.displayCapabilities = response.displayCapabilities;
-}
-
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+    
     SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
 
@@ -636,6 +670,46 @@ UInt32 const MenuCellIdMin = 1;
             self.waitingUpdateMenuCells = @[];
         }
     }
+}
+
+- (BOOL)openMenu {
+    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"The openMenu method is not supported on this head unit.");
+        return NO;
+    }
+
+    SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
+
+    [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application menu: %@", error);
+        }
+    }];
+
+    return YES;
+}
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+    if (cell.subCells.count == 0) {
+        SDLLogE(@"The cell %@ does not contain any sub cells, so no submenu can be opened", cell);
+        return NO;
+    } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"The openSubmenu method is not supported on this head unit.");
+        return NO;
+    } else if (![self.menuCells containsObject:cell]) {
+        SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
+        return NO;
+    }
+
+    SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
+
+    [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application to submenu cell: %@, with error: %@", cell, error);
+        }
+    }];
+
+    return YES;
 }
 
 @end

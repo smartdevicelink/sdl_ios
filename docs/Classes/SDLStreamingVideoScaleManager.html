@@ -1,0 +1,204 @@
+<h1>SDLStreamingVideoScaleManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-scale">scale</a></li>
+  <li><a href="#section-displayViewportResolution">displayViewportResolution</a></li>
+  <li><a href="#section-appViewportFrame">appViewportFrame</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithScale:displayViewportResolution:">-initWithScale:displayViewportResolution:</a></li>
+  <li><a href="#section--scaleTouchEventCoordinates:">-scaleTouchEventCoordinates:</a></li>
+  <li><a href="#section--scaleHapticRect:">-scaleHapticRect:</a></li>
+  <li><a href="#section--stop">-stop</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This class consolidates the logic of scaling between the view controller&rsquo;s coordinate system and the display&rsquo;s coordinate system.</p>
+
+<p>The main goal of using scaling is to align different screens and use a common range of <q>points per inch</q>. This allows showing assets with a similar size on different screen resolutions.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-scale">
+      scale
+  </h3>
+  
+  <p>The scaling factor the app should use to change the size of the projecting view.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-displayViewportResolution">
+      displayViewportResolution
+  </h3>
+  
+  <p>The screen resolution of the connected display. The units are pixels.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGSize</span> <span class="n">displayViewportResolution</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayViewportResolution</span><span class="p">:</span> <span class="kt">CGSize</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appViewportFrame">
+      appViewportFrame
+  </h3>
+  
+  <p>The frame of the app&rsquo;s projecting view. This is calculated by dividing the display&rsquo;s viewport resolution by the scale. The units are points.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGRect</span> <span class="n">appViewportFrame</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appViewportFrame</span><span class="p">:</span> <span class="kt">CGRect</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Creates a default streaming video scale manager.
+The scale value will be set to 1.0 and the displayViewportResolution will be set to {0, 0}.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLStreamingVideoScaleManager object</p>
+  </div>
+  
+  <h3 id="section--initWithScale:displayViewportResolution:">
+      -initWithScale:displayViewportResolution:
+  </h3>
+  
+  <p>Convenience init for creating the manager with a scale and connected display viewport resolution.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithScale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">scale</span>
+            <span class="nf">displayViewportResolution</span><span class="p">:(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">displayViewportResolution</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">displayViewportResolution</span><span class="p">:</span> <span class="kt">CGSize</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>scale</dt>
+      <dd><p>The scaling factor the app should use to change the size of the projecting view</p></dd>
+      <dt>displayViewportResolution</dt>
+      <dd><p>The current screen resolution of the connected display</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLStreamingVideoScaleManager object</p>
+  </div>
+  
+  <h3 id="section--scaleTouchEventCoordinates:">
+      -scaleTouchEventCoordinates:
+  </h3>
+  
+  <p>Scales the coordinates of an <code>OnTouchEvent</code> from the display&rsquo;s coordinate system to the app&rsquo;s viewport coordinate system. If the scale value is less than 1.0, the touch events will be returned without being scaled.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLOnTouchEvent.html">SDLOnTouchEvent</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">scaleTouchEventCoordinates</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLOnTouchEvent.html">SDLOnTouchEvent</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">onTouchEvent</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scaleTouchEventCoordinates</span><span class="p">(</span><span class="n">_</span> <span class="nv">onTouchEvent</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLOnTouchEvent.html">SDLOnTouchEvent</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLOnTouchEvent.html">SDLOnTouchEvent</a></span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>onTouchEvent</dt>
+      <dd><p>A touch event with coordinates</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The touch event coordinates in the app&rsquo;s viewport coordinate system</p>
+  </div>
+  
+  <h3 id="section--scaleHapticRect:">
+      -scaleHapticRect:
+  </h3>
+  
+  <p>Scales a haptic rectangle from the app&rsquo;s viewport coordinate system to the display&rsquo;s coordinate system. If the scale value is less than 1.0, the haptic rectangle will be returned without being scaled.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHapticRect.html">SDLHapticRect</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">scaleHapticRect</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHapticRect.html">SDLHapticRect</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">hapticRect</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scale</span><span class="p">(</span><span class="n">_</span> <span class="nv">hapticRect</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHapticRect.html">SDLHapticRect</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLHapticRect.html">SDLHapticRect</a></span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>hapticRect</dt>
+      <dd><p>A haptic rectangle</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The position of the haptic rectangle in the display&rsquo;s coordinate system</p>
+  </div>
+  
+  <h3 id="section--stop">
+      -stop
+  </h3>
+  
+  <p>Stops the manager. This method is used internally.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+</section>

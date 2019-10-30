@@ -13,6 +13,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -39,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration.streamingMediaConfig];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager streamingConfiguration: configuration.streamingMediaConfig encryptionConfiguration:configuration.encryptionConfig];
     _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
@@ -143,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (CGSize)screenSize {
-    return self.videoLifecycleManager.screenSize;
+    return self.videoLifecycleManager.videoScaleManager.displayViewportResolution;
 }
 
 - (nullable SDLVideoStreamingFormat *)videoFormat {
@@ -163,6 +164,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self.videoLifecycleManager.requestedEncryptionType;
 }
 
+- (BOOL)showVideoBackgroundDisplay {
+    // both audio and video managers should have same type
+    return self.videoLifecycleManager.showVideoBackgroundDisplay;
+}
+
 #pragma mark - Setters
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
     self.videoLifecycleManager.rootViewController = rootViewController;
@@ -171,6 +177,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.videoLifecycleManager.requestedEncryptionType = requestedEncryptionType;
     self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
+}
+
+- (void)setShowVideoBackgroundDisplay:(BOOL)showVideoBackgroundDisplay {
+    self.videoLifecycleManager.showVideoBackgroundDisplay = showVideoBackgroundDisplay;
 }
 
 @end

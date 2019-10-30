@@ -2,33 +2,11 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLAddCommand.h"
-#import "SDLAddSubMenu.h"
-#import "SDLDeleteCommand.h"
-#import "SDLDeleteSubMenu.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayType.h"
-#import "SDLFileManager.h"
-#import "SDLHMILevel.h"
-#import "SDLImage.h"
-#import "SDLImageField.h"
-#import "SDLImageFieldName.h"
-#import "SDLMediaClockFormat.h"
-#import "SDLMenuCell.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLMenuManager.h"
-#import "SDLMenuManagerConstants.h"
-#import "SDLOnCommand.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRPCNotificationNotification.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLRPCResponseNotification.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLScreenManager.h"
-#import "SDLScreenParams.h"
-#import "SDLSystemContext.h"
-#import "SDLTextField.h"
 #import "TestConnectionManager.h"
+#import "SDLGlobals.h"
 
 
 @interface SDLMenuCell()
@@ -42,10 +20,11 @@
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
@@ -63,9 +42,7 @@ describe(@"menu manager", ^{
     __block SDLMenuManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
-    __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
-    __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
-    __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
+    __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testArtwork2 = nil;
 
@@ -75,34 +52,54 @@ describe(@"menu manager", ^{
     __block SDLMenuCell *submenuCell = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
+    __block SDLMenuConfiguration *testMenuConfiguration = nil;
+
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 subCells:@[textOnlyCell]];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+        testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
 
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
-        testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
+        mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+
+        SDLImageField *commandIconField = [[SDLImageField alloc] init];
+        commandIconField.name = SDLImageFieldNameCommandIcon;
+        SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
+        windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
+        windowCapability.imageFields = @[commandIconField];
+        windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
+        windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
+
+        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
+        displayCapability.windowCapabilities = @[windowCapability];
+
+        OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
+        OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
     });
 
     it(@"should instantiate correctly", ^{
         expect(testManager.menuCells).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
+        expect(testManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
         expect(testManager.currentHMILevel).to(beNil());
-        expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
         expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastMenuId).to(equal(1));
         expect(testManager.oldMenuCells).to(beEmpty());
         expect(testManager.waitingUpdateMenuCells).to(beNil());
+        expect(testManager.menuConfiguration).toNot(beNil());
     });
 
     describe(@"updating menu cells before HMI is ready", ^{
@@ -135,67 +132,32 @@ describe(@"menu manager", ^{
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
                 testManager.currentHMILevel = nil;
-                testManager.menuCells = @[textOnlyCell];
             });
 
-            it(@"should not update", ^{
+            it(@"should not update the menu configuration", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+            });
+
+            it(@"should not update the menu cells", ^{
+                testManager.menuCells = @[textOnlyCell];
                 expect(mockConnectionManager.receivedRequests).to(beEmpty());
             });
         });
 
         context(@"when in the menu", ^{
             beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
                 testManager.currentHMILevel = SDLHMILevelFull;
                 testManager.currentSystemContext = SDLSystemContextMenu;
-                testManager.menuCells = @[textOnlyCell];
             });
 
-            it(@"should not update", ^{
-                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+            it(@"should update the menu configuration", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
             });
-
-            describe(@"when exiting the menu", ^{
-                beforeEach(^{
-                    SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
-                    onHMIStatus.hmiLevel = SDLHMILevelFull;
-                    onHMIStatus.systemContext = SDLSystemContextMain;
-
-                    SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
-                    [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
-                });
-
-                it(@"should update", ^{
-                    expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
-                });
-            });
-        });
-    });
-
-    describe(@"Notificaiton Responses", ^{
-        it(@"should set display capabilities when SDLDidReceiveSetDisplayLayoutResponse is received", ^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-
-            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
-            testSetDisplayLayoutResponse.success = @YES;
-            testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
-
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testSetDisplayLayoutResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
-        });
-
-        it(@"should set display capabilities when SDLDidReceiveRegisterAppInterfaceResponse is received", ^{
-            testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-
-            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-            testRegisterAppInterfaceResponse.success = @YES;
-            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
-
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            expect(testManager.displayCapabilities).to(equal(testDisplayCapabilities));
         });
     });
 
@@ -203,12 +165,6 @@ describe(@"menu manager", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
-
-            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            testManager.displayCapabilities.imageFields = @[commandIconField];
-            testManager.displayCapabilities.graphicSupported = @YES;
         });
 
         context(@"duplicate titles", ^{
@@ -553,12 +509,6 @@ describe(@"menu manager", ^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
 
-            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            SDLImageField *commandIconField = [[SDLImageField alloc] init];
-            commandIconField.name = SDLImageFieldNameCommandIcon;
-            testManager.displayCapabilities.imageFields = @[commandIconField];
-            testManager.displayCapabilities.graphicSupported = @YES;
-
             cellCalled = NO;
             testTriggerSource = nil;
         });
@@ -593,7 +543,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
@@ -612,7 +562,46 @@ describe(@"menu manager", ^{
         });
     });
 
-    context(@"On disconnects", ^{
+    describe(@"updating the menu configuration", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        context(@"if the connection RPC version is less than 6.0.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"];
+            });
+
+            it(@"should fail to send a SetGlobalProperties RPC update", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+
+                expect(testManager.menuConfiguration).toNot(equal(testMenuConfiguration));
+                expect(mockConnectionManager.receivedRequests).to(haveCount(0));
+            });
+        });
+
+        context(@"if the connection RPC version is greater than or equal to 6.0.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            });
+
+            it(@"should send a SetGlobalProperties RPC update", ^{
+                testManager.menuConfiguration = testMenuConfiguration;
+
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
+                expect(mockConnectionManager.receivedRequests).to(haveCount(1));
+
+                SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];
+                response.success = @YES;
+                [mockConnectionManager respondToLastRequestWithResponse:response];
+
+                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
+            });
+        });
+    });
+
+    context(@"when the manager stops", ^{
         beforeEach(^{
             [testManager stop];
         });
@@ -623,13 +612,97 @@ describe(@"menu manager", ^{
 
             expect(testManager.menuCells).to(beEmpty());
             expect(testManager.currentHMILevel).to(beNil());
-            expect(testManager.displayCapabilities).to(beNil());
             expect(testManager.inProgressUpdate).to(beNil());
             expect(testManager.hasQueuedUpdate).to(beFalse());
             expect(testManager.waitingOnHMIUpdate).to(beFalse());
             expect(testManager.lastMenuId).to(equal(1));
             expect(testManager.oldMenuCells).to(beEmpty());
             expect(testManager.waitingUpdateMenuCells).to(beEmpty());
+            expect(testManager.menuConfiguration).toNot(beNil());
+        });
+    });
+
+    describe(@"ShowMenu RPC", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        context(@"when open menu RPC can be sent", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+            });
+
+            it(@"should send showAppMenu RPC", ^{
+                BOOL canSendRPC = [testManager openMenu];
+
+                NSPredicate *showMenu = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:showMenu];
+
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(openMenu).to(haveCount(1));
+                expect(canSendRPC).to(equal(YES));
+           });
+
+            it(@"should send showAppMenu RPC with cellID", ^ {
+                testManager.menuCells = @[submenuCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                expect(openMenu).to(haveCount(1));
+                expect(canSendRPC).to(equal(YES));
+            });
+        });
+
+        context(@"when open menu RPC can not be sent", ^{
+            it(@"should not send a showAppMenu RPC when cell has no subcells", ^ {
+                BOOL canSendRPC = [testManager openSubmenu:textOnlyCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
+
+            it(@"should not send a showAppMenu RPC when RPC verison is not at least 6.0.0", ^ {
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
+
+            it(@"should not send a showAppMenu RPC when the cell is not in the menu array", ^ {
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
+                NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(openMenu).to(haveCount(0));
+                expect(canSendRPC).to(equal(NO));
+            });
         });
     });
 

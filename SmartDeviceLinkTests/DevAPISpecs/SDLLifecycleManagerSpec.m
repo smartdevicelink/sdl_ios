@@ -102,7 +102,7 @@ describe(@"a lifecycle manager", ^{
     };
 
     beforeEach(^{
-        OCMStub([proxyMock iapProxyWithListener:[OCMArg any] secondaryTransportManager:[OCMArg any]]).andReturn(proxyMock);
+        OCMStub([proxyMock iapProxyWithListener:[OCMArg any] secondaryTransportManager:[OCMArg any] encryptionLifecycleManager:[OCMArg any]]).andReturn(proxyMock);
         OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
         
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];
@@ -136,7 +136,6 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.streamManager).toNot(beNil());
         expect(testManager.systemCapabilityManager).toNot(beNil());
         expect(testManager.rpcOperationQueue).toNot(beNil());
-        expect(testManager.rpcOperationQueue.maxConcurrentOperationCount).to(equal(3));
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
         expect(testManager.authToken).to(beNil());
     });
@@ -255,12 +254,10 @@ describe(@"a lifecycle manager", ^{
             });
             
             describe(@"stopping the manager", ^{
-                beforeEach(^{
-                    [testManager stop];
-                });
-                
                 it(@"should simply stop", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                    [testManager stop];
+                    
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
                 });
             });
         });
@@ -668,6 +665,28 @@ describe(@"a lifecycle manager", ^{
                 });
             });
          });
+    });
+});
+
+describe(@"configuring the lifecycle manager", ^{
+    __block SDLLifecycleConfiguration *lifecycleConfig = nil;
+    __block SDLLifecycleManager *testManager = nil;
+
+    beforeEach(^{
+        lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test app" fullAppId:@"Test ID"];
+    });
+
+    context(@"if no secondary transport is allowed", ^{
+        beforeEach(^{
+            lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsNone;
+
+            SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+            testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+        });
+
+        it(@"should not create a secondary transport manager", ^{
+            expect(testManager.secondaryTransportManager).to(beNil());
+        });
     });
 });
 

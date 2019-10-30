@@ -17,12 +17,14 @@
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 #import "SDLTouchType.h"
 #import "SDLTouch.h"
+#import "SDLVideoStreamingCapability.h"
 
 @interface SDLTouchManager ()
 
@@ -31,20 +33,85 @@
 @property (nonatomic, assign) CGFloat previousPinchDistance;
 @property (nonatomic, strong, nullable) SDLPinchGesture *currentPinchGesture;
 @property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
+@property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
+
+@end
+
+@interface TestGroup : NSObject
+
++ (void)testTouchesWithTimeout:(CGFloat)timeoutTime
+                numTimesCalled:(NSUInteger)numTimesHandlerCalled expected:(NSUInteger)expectedNumTimesHandlerCalled
+                     singleTap:(BOOL)didCallSingleTap expected:(BOOL)expectedDidCallSingleTap
+                     doubleTap:(BOOL)didCallDoubleTap expected:(BOOL)expectedDidCallDoubleTap
+                      beginPan:(BOOL)didCallBeginPan expected:(BOOL)expectedDidCallBeginPan
+                       movePan:(BOOL)didCallMovePan expected:(BOOL)expectedDidCallMovePan
+                        endPan:(BOOL)didCallEndPan expected:(BOOL)expectedDidCallEndPan
+                     cancelPan:(BOOL)didCallCancelPan expected:(BOOL)expectedDidCallCancelPan
+                    beginPinch:(BOOL)didCallBeginPinch expected:(BOOL)expectedDidCallBeginPinch
+                     movePinch:(BOOL)didCallMovePinch expected:(BOOL)expectedDidCallMovePinch
+                      endPinch:(BOOL)didCallEndPinch expected:(BOOL)expectedDidCallEndPinch
+                   cancelPinch:(BOOL)didCallCancelPinch expected:(BOOL)expectedDidCallCancelPinch;
+
+@end
+
+@implementation TestGroup
+
++ (void)testTouchesWithTimeout:(CGFloat)timeoutTime
+                numTimesCalled:(NSUInteger)numTimesHandlerCalled expected:(NSUInteger)expectedNumTimesHandlerCalled
+                     singleTap:(BOOL)didCallSingleTap expected:(BOOL)expectedDidCallSingleTap
+                     doubleTap:(BOOL)didCallDoubleTap expected:(BOOL)expectedDidCallDoubleTap
+                      beginPan:(BOOL)didCallBeginPan expected:(BOOL)expectedDidCallBeginPan
+                       movePan:(BOOL)didCallMovePan expected:(BOOL)expectedDidCallMovePan
+                        endPan:(BOOL)didCallEndPan expected:(BOOL)expectedDidCallEndPan
+                     cancelPan:(BOOL)didCallCancelPan expected:(BOOL)expectedDidCallCancelPan
+                    beginPinch:(BOOL)didCallBeginPinch expected:(BOOL)expectedDidCallBeginPinch
+                     movePinch:(BOOL)didCallMovePinch expected:(BOOL)expectedDidCallMovePinch
+                      endPinch:(BOOL)didCallEndPinch expected:(BOOL)expectedDidCallEndPinch
+                   cancelPinch:(BOOL)didCallCancelPinch expected:(BOOL)expectedDidCallCancelPinch
+{
+    expect(didCallSingleTap).withTimeout(timeoutTime).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+    expect(didCallDoubleTap).withTimeout(timeoutTime).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+    expect(didCallBeginPan).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+    expect(didCallMovePan).withTimeout(timeoutTime).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+    expect(didCallEndPan).withTimeout(timeoutTime).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+    expect(didCallCancelPan).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+    expect(didCallBeginPinch).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+    expect(didCallMovePinch).withTimeout(timeoutTime).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+    expect(didCallEndPinch).withTimeout(timeoutTime).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+    expect(didCallCancelPinch).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+}
+
 @end
 
 QuickSpecBegin(SDLTouchManagerSpec)
 
 describe(@"SDLTouchManager Tests", ^{
-    __block SDLTouchManager *touchManager;
+    __block SDLTouchManager *touchManager = nil;
 
     context(@"initializing", ^{
-        it(@"should correctly have default properties", ^{
-            SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+        it(@"Should initialize correctly with initWithHitTester", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            #pragma clang diagnostic pop
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(@(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero))).to(beTrue());
+        });
+
+        it(@"Should initialize correctly with initWithHitTester:videoScaleManager:", ^{
+            SDLTouchManager *touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
+            expect(touchManager.touchEventDelegate).to(beNil());
+            expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
+            expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
+            expect(@(touchManager.isTouchEnabled)).to(beTruthy());
+            expect(touchManager.videoScaleManager.scale).to(equal(1.0));
+            expect(@(CGRectEqualToRect(touchManager.videoScaleManager.appViewportFrame, CGRectZero))).to(beTrue());
         });
     });
 
@@ -97,7 +164,7 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
-            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
+            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
             touchManager.touchEventHandler = ^(SDLTouch *touch, SDLTouchType type) {
@@ -210,10 +277,22 @@ describe(@"SDLTouchManager Tests", ^{
 
             numTimesHandlerCalled = 0;
             expectedNumTimesHandlerCalled = 0;
+            
+            singleTapTests = nil;
+            doubleTapTests = nil;
+            panStartTests = nil;
+            panMoveTests = nil;
+            panEndTests = nil;
+            panCanceledTests = nil;
+            pinchStartTests = nil;
+            pinchMoveTests = nil;
+            pinchEndTests = nil;
+            pinchCanceledTests = nil;
         });
 
         describe(@"When receiving a tap gesture", ^{
             __block SDLTouchCoord* firstTouchCoord;
+            __block SDLTouchCoord* firstTouchCoordEnd;
             __block NSUInteger firstTouchTimeStamp;
             __block SDLOnTouchEvent* firstOnTouchEventStart;
             __block SDLOnTouchEvent* firstOnTouchEventEnd;
@@ -223,38 +302,106 @@ describe(@"SDLTouchManager Tests", ^{
                 firstTouchCoord.x = @(controlPoint.x);
                 firstTouchCoord.y = @(controlPoint.y);
                 firstTouchTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+                
+                firstTouchCoordEnd = firstTouchCoord.copy;
 
-                SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
-                touchEvent.touchEventId = @0;
-                touchEvent.coord = [NSArray arrayWithObject:firstTouchCoord];
-                touchEvent.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                SDLTouchEvent *touchEventStart = [[SDLTouchEvent alloc] init];
+                touchEventStart.touchEventId = @0;
+                touchEventStart.coord = [NSArray arrayWithObject:firstTouchCoord];
+                touchEventStart.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                
+                SDLTouchEvent *touchEventEnd = touchEventStart.copy;
+                touchEventEnd.coord = [NSArray arrayWithObject:firstTouchCoordEnd];
 
                 firstOnTouchEventStart = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventStart.type = SDLTouchTypeBegin;
-                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventStart.event = [NSArray arrayWithObject:touchEventStart];
 
                 firstOnTouchEventEnd = [[SDLOnTouchEvent alloc] init];
                 firstOnTouchEventEnd.type = SDLTouchTypeEnd;
-                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEvent];
+                firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEventEnd];
             });
 
             describe(@"when receiving a single tap", ^{
+                __block CGPoint expectedScaledPoint = CGPointZero;
+                
                 it(@"should correctly handle a single tap", ^{
                     singleTapTests = ^(NSInvocation* invocation) {
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
                         [invocation getArgument:&point atIndex:4];
-
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
                     };
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use scale = 1.5 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+
+                    touchManager.videoScaleManager.scale = 1.5;
 
                     performTouchEvent(touchManager, firstOnTouchEventStart);
                     performTouchEvent(touchManager, firstOnTouchEventEnd);
-
+                    
+                    expectedScaledPoint = CGPointMake(66.666664123535156, 133.33332824707031);
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 2;
+                    
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use a scale of 1 if passed a scale value less than 1 to calculate coordinates", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+                    
+                    touchManager.videoScaleManager.scale = 0.75;
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
+                    expectedScaledPoint = CGPointMake(100, 200);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
+                });
+                
+                it(@"should correctly use a scale of 1 if the scale value is not set", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        CGPoint point;
+                        [invocation getArgument:&point atIndex:4];
+                        expect(@(CGPointEqualToPoint(point, expectedScaledPoint))).to(beTrue());
+                    };
+                    
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+                    
+                    expectedScaledPoint = CGPointMake(100, 200);
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 2;
+                    
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
@@ -302,6 +449,9 @@ describe(@"SDLTouchManager Tests", ^{
 
                     expectedDidCallSingleTap = YES;
                     expectedNumTimesHandlerCalled = 3;
+
+                    expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
@@ -356,6 +506,9 @@ describe(@"SDLTouchManager Tests", ^{
                         
                         expectedDidCallDoubleTap = YES;
                         expectedNumTimesHandlerCalled = 4;
+
+                        expect(didCallDoubleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+                        expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
                 });
 
@@ -376,6 +529,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                         expectedDidCallDoubleTap = NO;
                         expectedNumTimesHandlerCalled = 4;
+
+                        expect(didCallDoubleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+
+                        expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
                 });
             });
@@ -410,6 +567,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                         expectedDidCallSingleTap = NO;
                         expectedNumTimesHandlerCalled = 2;
+
+                        expect(didCallSingleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallSingleTap ? beTrue() : beFalse());
+
+                        expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
                 });
 
@@ -441,6 +602,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                         expectedDidCallDoubleTap = NO;
                         expectedNumTimesHandlerCalled = 4;
+
+                        expect(didCallDoubleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+
+                        expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
 
                     it(@"should not issue delegate callbacks when a double tap is canceled before the start of the second tap", ^{
@@ -452,6 +617,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                         expectedDidCallDoubleTap = NO;
                         expectedNumTimesHandlerCalled = 3;
+
+                        expect(didCallDoubleTap).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallDoubleTap ? beTrue() : beFalse());
+
+                        expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                     });
                 });
 
@@ -604,6 +773,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPan = YES;
                     expectedDidCallCancelPan = NO;
                     expectedNumTimesHandlerCalled = 4;
+
+                    expect(didCallBeginPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+                    expect(didCallMovePan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+                    expect(didCallEndPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+                    expect(didCallCancelPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
 
@@ -638,6 +814,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPan = NO;
                     expectedDidCallCancelPan = YES;
                     expectedNumTimesHandlerCalled = 3;
+
+                    expect(didCallBeginPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+                    expect(didCallMovePan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+                    expect(didCallEndPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+                    expect(didCallCancelPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 it(@"should issue a cancel pan delegate callback when a pan is canceled right after second move detected", ^{
@@ -685,6 +868,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPan = NO;
                     expectedDidCallCancelPan = YES;
                     expectedNumTimesHandlerCalled = 4;
+
+                    expect(didCallBeginPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+                    expect(didCallMovePan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+                    expect(didCallEndPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+                    expect(didCallCancelPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 it(@"should not issue a cancel pan delegate callback if the cancel onTouchEvent is received while a pan gesture is not in progress", ^{
@@ -695,6 +885,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPan = NO;
                     expectedDidCallCancelPan = NO;
                     expectedNumTimesHandlerCalled = 1;
+
+                    expect(didCallBeginPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPan ? beTrue() : beFalse());
+                    expect(didCallMovePan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePan ? beTrue() : beFalse());
+                    expect(didCallEndPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPan ? beTrue() : beFalse());
+                    expect(didCallCancelPan).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPan ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 afterEach(^{
@@ -815,7 +1012,7 @@ describe(@"SDLTouchManager Tests", ^{
                         [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
-                        expect(@(CGPointEqualToPoint(point, pinchStartCenter))).to(beTruthy());
+                        expect(@(CGPointEqualToPoint(point, pinchStartCenter))).to(beTrue());
                     };
 
                     pinchMoveTests = ^(NSInvocation* invocation) {
@@ -828,7 +1025,7 @@ describe(@"SDLTouchManager Tests", ^{
                         [invocation getArgument:&scale atIndex:4];
                         
                         expect(touchManagerCallback).to(equal(touchManager));
-                        expect(@(CGPointEqualToPoint(point, pinchMoveCenter))).to(beTruthy());
+                        expect(@(CGPointEqualToPoint(point, pinchMoveCenter))).to(beTrue());
                         expect(@(scale)).to(beCloseTo(@(pinchMoveScale)).within(0.0001));
                     };
                     
@@ -840,7 +1037,7 @@ describe(@"SDLTouchManager Tests", ^{
                         [invocation getArgument:&point atIndex:4];
                         
                         expect(touchManagerCallback).to(equal(touchManager));
-                        expect(@(CGPointEqualToPoint(point, pinchEndCenter))).to(beTruthy());
+                        expect(@(CGPointEqualToPoint(point, pinchEndCenter))).to(beTrue());
                     };
                     
                     performTouchEvent(touchManager, pinchStartFirstFingerOnTouchEvent);
@@ -854,6 +1051,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPinch = YES;
                     expectedDidCallCancelPinch = NO;
                     expectedNumTimesHandlerCalled = 4;
+
+                    expect(didCallBeginPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+                    expect(didCallMovePinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+                    expect(didCallEndPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+                    expect(didCallCancelPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
 
@@ -905,6 +1109,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPinch = YES;
                     expectedDidCallCancelPinch = NO;
                     expectedNumTimesHandlerCalled = 4;
+
+                    expect(didCallBeginPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+                    expect(didCallMovePinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+                    expect(didCallEndPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+                    expect(didCallCancelPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
             });
             
@@ -939,6 +1150,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPinch = NO;
                     expectedDidCallCancelPinch = YES;
                     expectedNumTimesHandlerCalled = 3;
+
+                    expect(didCallBeginPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+                    expect(didCallMovePinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+                    expect(didCallEndPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+                    expect(didCallCancelPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 it(@"should notify delegates if pinch is canceled while it is in progress", ^{
@@ -986,6 +1204,13 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPinch = NO;
                     expectedDidCallCancelPinch = YES;
                     expectedNumTimesHandlerCalled = 4;
+
+                    expect(didCallBeginPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+                    expect(didCallMovePinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+                    expect(didCallEndPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+                    expect(didCallCancelPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 it(@"should not issue a cancel pinch delegate callback if the cancel onTouchEvent is received while a pinch gesture is not in progress", ^{
@@ -996,28 +1221,19 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedDidCallEndPinch = NO;
                     expectedDidCallCancelPinch = NO;
                     expectedNumTimesHandlerCalled = 1;
+
+                    expect(didCallBeginPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallBeginPinch ? beTrue() : beFalse());
+                    expect(didCallMovePinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallMovePinch ? beTrue() : beFalse());
+                    expect(didCallEndPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallEndPinch ? beTrue() : beFalse());
+                    expect(didCallCancelPinch).withTimeout((touchManager.tapTimeThreshold + additionalWaitTime)).toEventually(expectedDidCallCancelPinch ? beTrue() : beFalse());
+
+                    expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
                 });
 
                 afterEach(^{
                     expect(touchManager.currentPinchGesture).toEventually(beNil());
                 });
             });
-        });
-
-        afterEach(^{
-            CGFloat timeoutTime = touchManager.tapTimeThreshold + additionalWaitTime;
-            expect(@(didCallSingleTap)).withTimeout(timeoutTime).toEventually(expectedDidCallSingleTap ? beTruthy() : beFalsy());
-            expect(@(didCallDoubleTap)).withTimeout(timeoutTime).toEventually(expectedDidCallDoubleTap ? beTruthy() : beFalsy());
-            expect(@(didCallBeginPan)).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPan ? beTruthy() : beFalsy());
-            expect(@(didCallMovePan)).withTimeout(timeoutTime).toEventually(expectedDidCallMovePan ? beTruthy() : beFalsy());
-            expect(@(didCallEndPan)).withTimeout(timeoutTime).toEventually(expectedDidCallEndPan ? beTruthy() : beFalsy());
-            expect(@(didCallCancelPan)).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPan ? beTruthy() : beFalsy());
-            expect(@(didCallBeginPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallBeginPinch ? beTruthy() : beFalsy());
-            expect(@(didCallMovePinch)).withTimeout(timeoutTime).toEventually(expectedDidCallMovePinch ? beTruthy() : beFalsy());
-            expect(@(didCallEndPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallEndPinch ? beTruthy() : beFalsy());
-            expect(@(didCallCancelPinch)).withTimeout(timeoutTime).toEventually(expectedDidCallCancelPinch ? beTruthy() : beFalsy());
-
-            expect(numTimesHandlerCalled).to(equal(@(expectedNumTimesHandlerCalled)));
         });
     });
 });

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSNumber+NumberType.h"
 #import "SDLInteractionMode.h"
 #import "SDLMetadataType.h"
 #import "SDLTextAlignment.h"
@@ -19,7 +20,9 @@
 @class SDLFileManager;
 @class SDLKeyboardProperties;
 @class SDLMenuCell;
+@class SDLMenuConfiguration;
 @class SDLSoftButtonObject;
+@class SDLSystemCapabilityManager;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -106,6 +109,11 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
  */
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
+/**
+ The title of the current template layout.
+ */
+@property (copy, nonatomic, nullable) NSString *title;
+
 #pragma mark Soft Buttons
 
 /**
@@ -114,6 +122,17 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 #pragma mark Menu
+
+/**
+ Configures the layout of the menu and sub-menus. If set after a menu already exists, the existing main menu layout will be updated.
+
+ If set menu layouts don't match available menu layouts in WindowCapability, an error log will be emitted and the layout will not be set.
+
+ Setting this parameter will send a message to the remote system. This value will be set immediately, but if that message is rejected, the original value will be re-set and an error log will be emitted.
+
+ This only works on head units supporting RPC spec version 6.0 and newer. If the connected head unit does not support this feature, a warning log will be emitted and nothing will be set.
+ */
+@property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
 
 /**
  The current list of menu cells displayed in the app's menu.
@@ -160,10 +179,10 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param connectionManager The connection manager used to send RPCs
  @param fileManager The file manager used to upload files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The screen manager
  */
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  Starts the manager and all sub-managers
@@ -274,8 +293,32 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
  @param delegate The keyboard delegate called when the user interacts with the keyboard
+ @return A unique cancelID that can be used to cancel this keyboard
  */
-- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+- (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate;
+
+/**
+ Cancels the keyboard-only interface if it is currently showing. If the keyboard has not yet been sent to Core, it will not be sent.
+
+ This will only dismiss an already presented keyboard if connected to head units running SDL 6.0+.
+
+ @param cancelID The unique ID assigned to the keyboard, passed as the return value from `presentKeyboardWithInitialText:keyboardDelegate:`
+ */
+- (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
+
+#pragma mark Menu
+
+/**
+ Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
+ */
+- (BOOL)openMenu;
+
+/**
+ Present the application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden. You must update the menu with the proper cells before calling this method. This RPC will fail if the cell does not contain a sub menu, or is not in the menu array.
+
+@param cell The submenu cell that should be opened as a sub menu, with its sub cells as the options.
+ */
+- (BOOL)openSubmenu:(SDLMenuCell *)cell;
 
 @end
 

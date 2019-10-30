@@ -12,12 +12,15 @@
   <li><a href="#section-enableForcedFramerateSync">enableForcedFramerateSync</a></li>
   <li><a href="#section-allowMultipleViewControllerOrientations">allowMultipleViewControllerOrientations</a></li>
   <li><a href="#section--init">-init</a></li>
+  <li><a href="#section-+secureConfiguration">+secureConfiguration</a></li>
   <li><a href="#section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:">-initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:</a></li>
+  <li><a href="#section--initWithEncryptionFlag:videoSettings:dataSource:rootViewController:">-initWithEncryptionFlag:videoSettings:dataSource:rootViewController:</a></li>
   <li><a href="#section--initWithSecurityManagers:">-initWithSecurityManagers:</a></li>
   <li><a href="#section-+secureConfigurationWithSecurityManagers:">+secureConfigurationWithSecurityManagers:</a></li>
   <li><a href="#section-+insecureConfiguration">+insecureConfiguration</a></li>
   <li><a href="#section-+autostreamingInsecureConfigurationWithInitialViewController:">+autostreamingInsecureConfigurationWithInitialViewController:</a></li>
   <li><a href="#section-+autostreamingSecureConfigurationWithSecurityManagers:initialViewController:">+autostreamingSecureConfigurationWithSecurityManagers:initialViewController:</a></li>
+  <li><a href="#section-+autostreamingSecureConfigurationWithInitialViewController:">+autostreamingSecureConfigurationWithInitialViewController:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -222,6 +225,28 @@
     <p>The configuration</p>
   </div>
   
+  <h3 id="section-+secureConfiguration">
+      +secureConfiguration
+  </h3>
+  
+  <p>Create a secure video streaming configuration. Security managers will be provided from SDLEncryptionConfiguration and the encryption flag will be set to SDLStreamingEncryptionFlagAuthenticateAndEncrypt. If you&rsquo;d like custom video encoder settings, you can set the property manually.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">secureConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">secure</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
   <h3 id="section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:">
       -initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:
   </h3>
@@ -248,6 +273,40 @@
   <dl>
       <dt>securityManagers</dt>
       <dd><p>The security managers to use or nil for none.</p></dd>
+      <dt>encryptionFlag</dt>
+      <dd><p>The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.</p></dd>
+      <dt>videoSettings</dt>
+      <dd><p>Custom video encoder settings to be used in video streaming.</p></dd>
+      <dt>rootViewController</dt>
+      <dd><p>The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section--initWithEncryptionFlag:videoSettings:dataSource:rootViewController:">
+      -initWithEncryptionFlag:videoSettings:dataSource:rootViewController:
+  </h3>
+  
+  <p>Manually set all the properties to the streaming media configuration</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithEncryptionFlag</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
+             <span class="nf">videoSettings</span><span class="p">:</span>
+                 <span class="p">(</span><span class="n">nullable</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoSettings</span>
+                <span class="nf">dataSource</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLStreamingMediaManagerDataSource.html">SDLStreamingMediaManagerDataSource</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">dataSource</span>
+        <span class="nf">rootViewController</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">rootViewController</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
       <dt>encryptionFlag</dt>
       <dd><p>The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.</p></dd>
       <dt>videoSettings</dt>
@@ -381,6 +440,35 @@
   <dl>
       <dt>securityManagers</dt>
       <dd><p>The security managers available for secure streaming use</p></dd>
+      <dt>initialViewController</dt>
+      <dd><p>The initial view controller that will be streamed, this can be a basic <code>UIViewController</code> if you need to set your actual streaming view controller at a later time on <code>SDLManager.streamingManager.rootViewController</code>.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section-+autostreamingSecureConfigurationWithInitialViewController:">
+      +autostreamingSecureConfigurationWithInitialViewController:
+  </h3>
+  
+  <p>Create a CarWindow secure configuration with a view controller.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">autostreamingSecureConfigurationWithInitialViewController</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialViewController</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">autostreamingSecureConfiguration</span><span class="p">(</span><span class="n">withInitialViewController</span> <span class="nv">initialViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
       <dt>initialViewController</dt>
       <dd><p>The initial view controller that will be streamed, this can be a basic <code>UIViewController</code> if you need to set your actual streaming view controller at a later time on <code>SDLManager.streamingManager.rootViewController</code>.</p></dd>
   </dl>

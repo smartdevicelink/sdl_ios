@@ -11,36 +11,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLLockScreenConfiguration ()
-
-@end
-
-
 @implementation SDLLockScreenConfiguration
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithAutoLockScreen:(BOOL)enableAutomatic enableInOptional:(BOOL)enableOptional backgroundColor:(UIColor *)backgroundColor appIcon:(nullable UIImage *)appIcon viewController:(nullable UIViewController *)customViewController {
+- (instancetype)initWithDisplayMode:(SDLLockScreenConfigurationDisplayMode)mode enableDismissGesture:(BOOL)enableDismissGesture showDeviceLogo:(BOOL)showDeviceLogo backgroundColor:(UIColor *)backgroundColor appIcon:(nullable UIImage *)appIcon viewController:(nullable UIViewController *)customViewController {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    _enableAutomaticLockScreen = enableAutomatic;
-    _showInOptionalState = enableOptional;
+    _displayMode = mode;
+    _enableAutomaticLockScreen = (mode == SDLLockScreenConfigurationDisplayModeNever) ? NO : YES;
+    _showInOptionalState = (mode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired) ? YES : NO;
+
+    _enableDismissGesture = enableDismissGesture;
     _backgroundColor = backgroundColor;
     _appIcon = appIcon;
     _customViewController = customViewController;
+    _showDeviceLogo = showDeviceLogo;
 
     return self;
 }
 
 + (instancetype)disabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:NO enableInOptional:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
+    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeNever enableDismissGesture:NO showDeviceLogo:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
+    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeRequiredOnly enableDismissGesture:YES showDeviceLogo:YES backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfigurationWithAppIcon:(UIImage *)lockScreenAppIcon backgroundColor:(nullable UIColor *)lockScreenBackgroundColor {
@@ -48,11 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
         lockScreenBackgroundColor = [self.class sdl_defaultBackgroundColor];
     }
 
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:lockScreenBackgroundColor appIcon:lockScreenAppIcon viewController:nil];
+    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeRequiredOnly enableDismissGesture:YES showDeviceLogo:YES backgroundColor:lockScreenBackgroundColor appIcon:lockScreenAppIcon viewController:nil];
 }
 
 + (instancetype)enabledConfigurationWithViewController:(UIViewController *)viewController {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self.class sdl_defaultBackgroundColor] appIcon:nil viewController:viewController];
+    return [[self alloc] initWithDisplayMode:SDLLockScreenConfigurationDisplayModeRequiredOnly enableDismissGesture:YES showDeviceLogo:YES backgroundColor:[self.class sdl_defaultBackgroundColor] appIcon:nil viewController:viewController];
 }
 
 
@@ -63,14 +62,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
+#pragma mark - Setters / Getters
+
+- (void)setEnableAutomaticLockScreen:(BOOL)enableAutomaticLockScreen {
+    _enableAutomaticLockScreen = enableAutomaticLockScreen;
+
+    if (!_enableAutomaticLockScreen) {
+        _displayMode = SDLLockScreenConfigurationDisplayModeNever;
+    } else if (_showInOptionalState) {
+        _displayMode = SDLLockScreenConfigurationDisplayModeOptionalOrRequired;
+    } else {
+        _displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
+    }
+}
+
+- (void)setShowInOptionalState:(BOOL)showInOptionalState {
+    _showInOptionalState = showInOptionalState;
+
+    if (!_enableAutomaticLockScreen) {
+        _displayMode = SDLLockScreenConfigurationDisplayModeNever;
+    } else if (_showInOptionalState) {
+        _displayMode = SDLLockScreenConfigurationDisplayModeOptionalOrRequired;
+    } else {
+        _displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
+    }
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen : _enableAutomaticLockScreen
-                                           enableInOptional : _showInOptionalState
-                                               backgroundColor : _backgroundColor
-                                                   appIcon : _appIcon
-                                                       viewController : _customViewController];
+    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] initWithDisplayMode:_displayMode enableDismissGesture:_enableDismissGesture showDeviceLogo:_showDeviceLogo backgroundColor:_backgroundColor appIcon:_appIcon viewController:_customViewController];
 
     return new;
 }

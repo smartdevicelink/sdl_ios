@@ -118,6 +118,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 - (void)stop;
 
+/**
+ *  Start the encryption lifecycle manager, which will attempt to open a secure service.
+ *
+ */
+- (void)startRPCEncryption;
 
 #pragma mark Send RPC Requests
 

@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLUploadFileOperation ()
 
-@property (strong, nonatomic) SDLFileWrapper *fileWrapper;
+@property (strong, nonatomic, readwrite) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSInputStream *inputStream;
 
@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+    if (self.isCancelled) { return; }
 
     [self sdl_sendFile:self.fileWrapper.file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
 }
@@ -70,21 +71,25 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSInteger highestCorrelationIDReceived = -1;
 
     if (self.isCancelled) {
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
+        return;
     }
 
     if (file == nil) {
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
+        return;
     }
 
     self.inputStream = [self sdl_openInputStreamWithFile:file];
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
         // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
+
+        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
         [self finishOperation];
-        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
+        return;
     }
 
     dispatch_group_t putFileGroup = dispatch_group_create();
@@ -92,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Wait for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
-    dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         typeof(weakself) strongself = weakself;
         [weakself sdl_closeInputStream];
 
@@ -101,6 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             completion(YES, bytesAvailable, nil);
         }
+
         [weakself finishOperation];
     });
 
@@ -259,7 +265,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
-    return self.fileWrapper.file.name;
+    return [NSString stringWithFormat:@"%@ - %@", self.class, self.fileWrapper.file.name];
 }
 
 - (NSOperationQueuePriority)queuePriority {

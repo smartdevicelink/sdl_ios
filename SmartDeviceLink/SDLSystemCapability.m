@@ -16,6 +16,8 @@
 #import "SDLSystemCapabilityType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLSeatLocationCapability.h"
+#import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -81,6 +83,30 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithDisplayCapabilities:(NSArray<SDLDisplayCapability *> *)capabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeDisplays;
+    self.displayCapabilities = [capabilities copy];
+    
+    return self;
+}
+    
+- (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeSeatLocation;
+    self.seatLocationCapability = capability;
+    
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
@@ -128,6 +154,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
     return [self.store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
+}
+
+- (void)setSeatLocationCapability:(nullable SDLSeatLocationCapability *)seatLocationCapability {
+    [self.store sdl_setObject:seatLocationCapability forName:SDLRPCParameterNameSeatLocationCapability];
+}
+
+- (nullable SDLSeatLocationCapability *)seatLocationCapability {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSeatLocationCapability ofClass:SDLSeatLocationCapability.class error:nil];
+}
+
+- (void)setDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
+    [self.store sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];
+}
+
+- (nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
 }
 
 @end
