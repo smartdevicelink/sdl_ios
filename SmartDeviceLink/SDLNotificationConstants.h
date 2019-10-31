@@ -94,22 +94,36 @@ typedef void (^SDLRPCButtonNotificationHandler)(SDLOnButtonPress *_Nullable butt
  */
 typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *command);
 
-/**
- *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
- */
+
 #pragma mark - Notification info dictionary keys
+/**
+*  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
+*/
 extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
 
 /**
  *  Some general NSNotification names not associated with any specific RPC response or request.
  */
 #pragma mark - General notifications
+/// Name for a DidDisconnect notification
 extern SDLNotificationName const SDLTransportDidDisconnect;
+
+/// Name for a DidConnect notification
 extern SDLNotificationName const SDLTransportDidConnect;
+
+/// Name for a ConnectError notification
 extern SDLNotificationName const SDLTransportConnectError;
+
+/// Name for an Error notification
 extern SDLNotificationName const SDLDidReceiveError;
+
+/// Name for a LockScreenIcon notification
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
+
+/// Name for a BecomeReady notification
 extern SDLNotificationName const SDLDidBecomeReady;
+
+/// Name for an UpdateProjectionView notification
 extern SDLNotificationName const SDLDidUpdateProjectionView;
 
 /**
@@ -327,6 +341,9 @@ extern SDLNotificationName const SDLDidReceiveButtonPressRequest;
 /// Name for a CancelInteraction request RPC
 extern SDLNotificationName const SDLDidReceiveCancelInteractionRequest;
 
+/// Name for a ChangeRegistration request RPC
+extern SDLNotificationName const SDLDidReceiveChangeRegistrationRequest;
+
 /// Name for a CloseApplication request RPC
 extern SDLNotificationName const SDLDidReceiveCloseApplicationRequest;
 
@@ -499,28 +516,73 @@ extern SDLNotificationName const SDLDidReceiveUpdateTurnListRequest;
  *  NSNotification names associated with specific RPC notifications.
  */
 #pragma mark - RPC Notifications
+/// Name for a DriverDistractionState notification RPC
 extern SDLNotificationName const SDLDidChangeDriverDistractionStateNotification;
+
+/// Name for a HMIStatus notification RPC
 extern SDLNotificationName const SDLDidChangeHMIStatusNotification;
+
+/// Name for an AppServiceData notification RPC
 extern SDLNotificationName const SDLDidReceiveAppServiceDataNotification;
+
+/// Name for an AppUnregistered notification RPC
 extern SDLNotificationName const SDLDidReceiveAppUnregisteredNotification;
+
+/// Name for an AudioPassThru notification RPC
 extern SDLNotificationName const SDLDidReceiveAudioPassThruNotification;
+
+/// Name for a ButtonEvent notification RPC
 extern SDLNotificationName const SDLDidReceiveButtonEventNotification;
+
+/// Name for a ButtonPress notification RPC
 extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
+
+/// Name for a Command notification RPC
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
+
+/// Name for a EncodedData notification RPC
 extern SDLNotificationName const SDLDidReceiveEncodedDataNotification;
+
+/// Name for a InteriorVehicleData notification RPC
 extern SDLNotificationName const SDLDidReceiveInteriorVehicleDataNotification;
+
+/// Name for a KeyboardInput notification RPC
 extern SDLNotificationName const SDLDidReceiveKeyboardInputNotification;
+
+/// Name for a Language notification RPC
 extern SDLNotificationName const SDLDidChangeLanguageNotification;
+
+/// Name for a LockScreenStatus notification RPC
 extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;
+
+/// Name for a NewHash notification RPC
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;
+
+/// Name for a VehicleIcon notification RPC
 extern SDLNotificationName const SDLDidReceiveVehicleIconNotification;
+
+/// Name for a ChangePermissions notification RPC
 extern SDLNotificationName const SDLDidChangePermissionsNotification;
+
+/// Name for a RemoteControlStatus notification RPC
 extern SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification;
+
+/// Name for a SystemCapability notification RPC
 extern SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification;
+
+/// Name for a SystemRequest notification RPC
 extern SDLNotificationName const SDLDidReceiveSystemRequestNotification;
+
+/// Name for a TurnByTurnStat notification RPC
 extern SDLNotificationName const SDLDidChangeTurnByTurnStateNotification;
+
+/// Name for a TouchEvent notification RPC
 extern SDLNotificationName const SDLDidReceiveTouchEventNotification;
+
+/// Name for a VehicleData notification RPC
 extern SDLNotificationName const SDLDidReceiveVehicleDataNotification;
+
+/// Name for a Waypoint notification RPC
 extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 
 @interface SDLNotificationConstants : NSObject
