@@ -83,6 +83,7 @@ typedef NS_ENUM(NSUInteger, SDLLockScreenConfigurationDisplayMode) {
  */
 @property (strong, nonatomic, readonly, nullable) UIViewController *customViewController;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

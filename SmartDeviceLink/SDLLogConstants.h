@@ -20,8 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef BOOL (^SDLLogFilterBlock)(SDLLogModel *log);
 
+/// An enum describing log bytes direction
 typedef NS_ENUM(NSUInteger, SDLLogBytesDirection) {
+    /// SDLLogBytesDirection
+    ///
+    /// Trasmit
     SDLLogBytesDirectionTransmit,
+
+    /// SDLLogBytesDirection
+    ///
+    /// Receive
     SDLLogBytesDirectionReceive
 };
 

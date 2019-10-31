@@ -15,10 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVersion : NSObject <NSCopying>
 
+/// Major version
 @property (nonatomic, assign) NSUInteger major;
+
+/// Minor version
 @property (nonatomic, assign) NSUInteger minor;
+
+/// Patch version
 @property (nonatomic, assign) NSUInteger patch;
 
+/// A String format of the current SDLVersion
 @property (nonatomic, copy, readonly) NSString *stringVersion;
 
 - (instancetype)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
