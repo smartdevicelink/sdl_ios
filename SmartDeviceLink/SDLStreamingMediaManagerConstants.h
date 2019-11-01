@@ -80,7 +80,9 @@ extern SDLAudioStreamManagerState *const SDLAudioStreamManagerStateReady;
 /// Audio state shutting down
 extern SDLAudioStreamManagerState *const SDLAudioStreamManagerStateShuttingDown;
 
+/// Typedef SDLAppState
 typedef NSString SDLAppState;
+
 /// App state inactive
 extern SDLAppState *const SDLAppStateInactive;
 

@@ -32,6 +32,7 @@
 @protocol SDLFloat
 @end
 
+/// Declarations
 @interface NSNumber (NumberType) <SDLInt, SDLUInt, SDLBool, SDLFloat>
 
 @end

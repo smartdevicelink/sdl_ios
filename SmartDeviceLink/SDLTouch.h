@@ -23,6 +23,7 @@ typedef enum {
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Describes a touch location
 @interface SDLTouch : NSObject
 
 /**

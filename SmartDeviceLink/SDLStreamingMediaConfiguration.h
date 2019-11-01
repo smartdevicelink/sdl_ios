@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
     SDLCarWindowRenderingTypeViewBeforeScreenUpdates
 };
 
+/// The streaming media configuration. Use this class to configure streaming media information.
 @interface SDLStreamingMediaConfiguration : NSObject <NSCopying>
 
 /**
