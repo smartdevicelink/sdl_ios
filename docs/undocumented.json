@@ -1,13 +1,6 @@
 {
   "warnings": [
     {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/NSNumber+NumberType.h",
-      "line": 35,
-      "symbol": "NSNumber(NumberType)",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.category",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLEnum.h",
       "line": 13,
       "symbol": "NSString(SDLEnum)",
@@ -64,20 +57,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLServiceEncryptionDelegate.h",
-      "line": 15,
-      "symbol": "SDLServiceEncryptionDelegate",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
-      "line": 33,
-      "symbol": "SDLStreamingMediaConfiguration",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
       "line": 54,
       "symbol": "SDLVideoStreamManagerState",
@@ -92,13 +71,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 83,
-      "symbol": "SDLAppState",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLTouch.h",
       "line": 16,
       "symbol": "SDLTouchIdentifier",
@@ -106,24 +78,10 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLTouch.h",
-      "line": 26,
-      "symbol": "SDLTouch",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLTouchManager.h",
       "line": 21,
       "symbol": "SDLTouchEventHandler",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLTouchManager.h",
-      "line": 24,
-      "symbol": "SDLTouchManager",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -135,106 +93,8 @@
     },
     {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 16,
-      "symbol": "SDLVersion",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 30,
-      "symbol": "SDLVersion.-initWithMajor:minor:patch:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 31,
-      "symbol": "SDLVersion.+versionWithMajor:minor:patch:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 32,
-      "symbol": "SDLVersion.-initWithString:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 33,
-      "symbol": "SDLVersion.+versionWithString:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 36,
-      "symbol": "SDLVersion.-initWithSyncMsgVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 37,
-      "symbol": "SDLVersion.+versionWithSyncMsgVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 39,
-      "symbol": "SDLVersion.-initWithSDLMsgVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 40,
-      "symbol": "SDLVersion.+versionWithSDLMsgVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 42,
+      "line": 86,
       "symbol": "SDLVersion.-compare:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 43,
-      "symbol": "SDLVersion.-isLessThanVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 44,
-      "symbol": "SDLVersion.-isEqualToVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 45,
-      "symbol": "SDLVersion.-isGreaterThanVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 46,
-      "symbol": "SDLVersion.-isGreaterThanOrEqualToVersion:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 47,
-      "symbol": "SDLVersion.-isLessThanOrEqualToVersion:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
