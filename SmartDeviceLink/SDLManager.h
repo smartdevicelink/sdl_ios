@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param error the error is any exists
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
+/// SDLManager
 @interface SDLManager : NSObject
 
 /**

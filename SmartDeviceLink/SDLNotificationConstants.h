@@ -589,6 +589,7 @@ extern SDLNotificationName const SDLDidReceiveVehicleDataNotification;
 /// Name for a Waypoint notification RPC
 extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 
+/// Defines all of the RPC names
 @interface SDLNotificationConstants : NSObject
 
 /**
