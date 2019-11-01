@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLReadDID : SDLRPCRequest
 
+/// Convenience init
+///
+/// @param ecuNumber An ID of the vehicle module
+/// @param didLocation Raw data from vehicle data DID location(s)
+/// @return An SDLReadDID object
 - (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation;
 
 /**

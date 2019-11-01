@@ -8,6 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Basic information that all RPC responses contain
 @interface SDLRPCResponse : SDLRPCMessage
 
 /**

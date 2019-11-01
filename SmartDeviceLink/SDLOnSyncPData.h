@@ -12,9 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnSyncPData : SDLRPCNotification
 
 /// The url
+///
+/// Optional
 @property (nullable, strong, nonatomic) NSString *URL;
 
 /// How long until a timeout
+///
+/// Optional
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end

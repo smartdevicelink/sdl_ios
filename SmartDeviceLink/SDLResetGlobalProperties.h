@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLResetGlobalProperties : SDLRPCRequest
 
+/// Convenience init to reset global properties.
+///
+/// @param properties An array of one or more GlobalProperty enumeration elements
+/// @return An SDLResetGlobalProperties object
 - (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties;
 
 /**

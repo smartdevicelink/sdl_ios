@@ -10,8 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+The handler that will be called when the command is activated
+*/
 typedef void(^SDLVoiceCommandSelectionHandler)(void);
 
+/// Voice commands available for the user to speak and be recognized by the IVI's voice recognition engine.
 @interface SDLVoiceCommand : NSObject
 
 /**

@@ -24,16 +24,31 @@ typedef NS_ENUM(NSInteger, SDLStreamingEncryptionFlag) {
     SDLStreamingEncryptionFlagAuthenticateAndEncrypt
 };
 
+/// Name of video stream start notification
 extern NSString *const SDLVideoStreamDidStartNotification;
+
+/// Name of video stream stop notification
 extern NSString *const SDLVideoStreamDidStopNotification;
+
+/// Name of video stream suspended notification
 extern NSString *const SDLVideoStreamSuspendedNotification;
 
+/// Name of audio stream start notification
 extern NSString *const SDLAudioStreamDidStartNotification;
+
+/// Name of audio stream stop notification
 extern NSString *const SDLAudioStreamDidStopNotification;
 
+/// Lockscreen will present notification
 extern NSString *const SDLLockScreenManagerWillPresentLockScreenViewController;
+
+/// Lockscreen did present notification
 extern NSString *const SDLLockScreenManagerDidPresentLockScreenViewController;
+
+/// Lockscreen will dismiss notification
 extern NSString *const SDLLockScreenManagerWillDismissLockScreenViewController;
+
+/// Lockscreen did dismiss notification
 extern NSString *const SDLLockScreenManagerDidDismissLockScreenViewController;
 
 typedef NSString SDLVideoStreamManagerState;

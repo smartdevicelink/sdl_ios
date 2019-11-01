@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCStruct : NSObject <NSCopying>
 
+/// The store that contains RPC data
 @property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, id> *store;
 @property (assign, nonatomic, getter=isPayloadProtected) BOOL payloadProtected;
 /**

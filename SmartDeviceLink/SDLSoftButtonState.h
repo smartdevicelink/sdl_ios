@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) SDLSoftButton *softButton;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

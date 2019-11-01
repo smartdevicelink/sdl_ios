@@ -25,6 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param backgroundColor he background color to be used on the template
 /// @return An SDLTemplateColorScheme
 - (instancetype)initWithPrimaryRGBColor:(SDLRGBColor *)primaryColor secondaryRGBColor:(SDLRGBColor *)secondaryColor backgroundRGBColor:(SDLRGBColor *)backgroundColor;
+
+///  Convenience init
+///
+/// @param primaryColor This must always be your primary brand color
+/// @param secondaryColor This may be an accent or complimentary color to your primary brand color
+/// @param backgroundColor he background color to be used on the template
+/// @return An SDLTemplateColorScheme
 - (instancetype)initWithPrimaryColor:(UIColor *)primaryColor secondaryColor:(UIColor *)secondaryColor backgroundColor:(UIColor *)backgroundColor;
 
 /**

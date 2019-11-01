@@ -15,19 +15,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Delegate methods in the SDLChoiceSet
+/// Delegate for the the SDLChoiceSet.
 @protocol SDLChoiceSetDelegate <NSObject>
 
 /// Delegate method called after a choice set item was selected
-/// @param choiceSet the choice set displayed
-/// @param choice the item selected
-/// @param source the trigger source
-/// @param rowIndex the row of the selected choice
+///
+/// @param choiceSet The choice set displayed
+/// @param choice The item selected
+/// @param source The trigger source
+/// @param rowIndex The row of the selected choice
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source atRowIndex:(NSUInteger)rowIndex;
 
 /// Delegate method called on an error
-/// @param choiceSet the choice set displayed
-/// @param error the item selected
+///
+/// @param choiceSet TSDLAudioStreamManager.hhe choice set displayed
+/// @param error The error
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 
 @end

@@ -87,6 +87,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  */
 - (void)cancelPendingTouches;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
