@@ -22,13 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param ttsText The text to speak
 /// @param softButtons An arry of soft buttons
-/// @return An instance of the alert maneuver class
+/// @return An SDLAlertManeuver object
 - (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /// Create a new alert maneuver with these parameters
+///
 /// @param ttsChunks An array of text chunks
 /// @param softButtons An arry of soft buttons
-/// @return An instance of the alert maneuver class
+/// @return An SDLAlertManeuver object
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /**
