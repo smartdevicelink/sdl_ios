@@ -1,13 +1,6 @@
 {
   "warnings": [
     {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLEnum.h",
-      "line": 13,
-      "symbol": "NSString(SDLEnum)",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.category",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLManager.h",
       "line": 37,
       "symbol": "SDLManager",
@@ -16,58 +9,9 @@
     },
     {
       "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 28,
-      "symbol": "SDLNotificationName",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 30,
-      "symbol": "SDLNotificationUserInfoKey",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLNotificationConstants.h",
-      "line": 588,
+      "line": 592,
       "symbol": "SDLNotificationConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLRPCFunctionNames.h",
-      "line": 14,
-      "symbol": "SDLRPCFunctionName",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLRPCStruct.h",
-      "line": 11,
-      "symbol": "SDLRPCStruct",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLRPCStruct.h",
-      "line": 15,
-      "symbol": "SDLRPCStruct.payloadProtected",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 54,
-      "symbol": "SDLVideoStreamManagerState",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 70,
-      "symbol": "SDLAudioStreamManagerState",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -82,20 +26,6 @@
       "line": 21,
       "symbol": "SDLTouchEventHandler",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLTouchManagerDelegate.h",
-      "line": 15,
-      "symbol": "SDLTouchManagerDelegate",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/justingluck/Livio/sdl_ios/SmartDeviceLink/SDLVersion.h",
-      "line": 86,
-      "symbol": "SDLVersion.-compare:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
