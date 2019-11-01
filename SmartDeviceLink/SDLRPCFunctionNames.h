@@ -8,7 +8,7 @@
 
 #import "SDLEnum.h"
 
-/*
+/**
  *  All RPC request / response / notification names
  */
 typedef SDLEnum SDLRPCFunctionName SDL_SWIFT_ENUM;

@@ -8,11 +8,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Contains information about the store
 @interface SDLRPCStruct : NSObject <NSCopying>
 
 /// The store that contains RPC data
 @property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, id> *store;
+
+/// BOOL representing if the payload is protected
 @property (assign, nonatomic, getter=isPayloadProtected) BOOL payloadProtected;
+
 /**
  *  Convenience init
  *

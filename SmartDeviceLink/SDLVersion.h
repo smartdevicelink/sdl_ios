@@ -74,15 +74,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Convenience init to set version using SDLMsgVersion
 ///
 /// @param sdlMsgVersion Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
-/// @return
+/// @return An SDLVersion object
 - (instancetype)initWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion;
 
 /// Convenience init to set version using SDLMsgVersion
 ///
 /// @param sdlMsgVersion Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
-/// @return
+/// @return SDLVersion object
 + (instancetype)versionWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion;
 
+/// Compare two SDLVersions
 - (NSComparisonResult)compare:(SDLVersion *)otherVersion;
 
 /// Compare is less than

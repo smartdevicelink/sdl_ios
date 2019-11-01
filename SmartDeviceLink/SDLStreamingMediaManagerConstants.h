@@ -51,7 +51,9 @@ extern NSString *const SDLLockScreenManagerWillDismissLockScreenViewController;
 /// Lockscreen did dismiss notification
 extern NSString *const SDLLockScreenManagerDidDismissLockScreenViewController;
 
+/// The current state of the video stream manager
 typedef NSString SDLVideoStreamManagerState;
+
 /// Streaming state stopped
 extern SDLVideoStreamManagerState *const SDLVideoStreamManagerStateStopped;
 
@@ -67,7 +69,9 @@ extern SDLVideoStreamManagerState *const SDLVideoStreamManagerStateSuspended;
 /// Streaming state shutting down
 extern SDLVideoStreamManagerState *const SDLVideoStreamManagerStateShuttingDown;
 
+/// The current state of the audio stream manager
 typedef NSString SDLAudioStreamManagerState;
+
 /// Audio state stopped
 extern SDLAudioStreamManagerState *const SDLAudioStreamManagerStateStopped;
 

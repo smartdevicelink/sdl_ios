@@ -25,8 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 #define NOTIFICATION_TYPEDEF NSNotificationName
 #endif
 
+/// NSNotification names
 typedef NOTIFICATION_TYPEDEF SDLNotificationName;
 
+/// SDLNotificationUserInfoKey
+///
+/// The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
 typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
