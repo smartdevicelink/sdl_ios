@@ -16,10 +16,10 @@
 /// Format of the Artwork
 typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
 
-    /// Image foramt: PNG
+    /// Image format: PNG
     SDLArtworkImageFormatPNG,
 
-    /// Image foramt: JPG
+    /// Image format: JPG
     SDLArtworkImageFormatJPG
 };
 

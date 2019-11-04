@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteCommand : SDLRPCRequest
 
-/// Convenience init to remove a command from the menu.
+/// Convenience init to remove a command from the menu
 ///
 /// @param commandId The Command ID that identifies the Command to be deleted from Command Menu
 /// @return An SDLDeleteCommand object

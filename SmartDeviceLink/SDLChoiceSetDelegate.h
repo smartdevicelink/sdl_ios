@@ -15,10 +15,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Delegate for the the SDLChoiceSet.
+/// Delegate for the the SDLChoiceSet. Contains methods that get called when an action is taken on a choice cell.
 @protocol SDLChoiceSetDelegate <NSObject>
 
-/// Delegate method called after a choice set item was selected
+/// Delegate method called after a choice set item is selected
 ///
 /// @param choiceSet The choice set displayed
 /// @param choice The item selected
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Delegate method called on an error
 ///
-/// @param choiceSet TSDLAudioStreamManager.hhe choice set displayed
+/// @param choiceSet The choice set
 /// @param error The error
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error;
 

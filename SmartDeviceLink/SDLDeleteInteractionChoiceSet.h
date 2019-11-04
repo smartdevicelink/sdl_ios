@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteInteractionChoiceSet : SDLRPCRequest
 
-/// Convenience init to delete a choice set.
+/// Convenience init to delete a choice set
 ///
 /// @param choiceId A unique ID that identifies the Choice Set
 /// @return An SDLDeleteInteractionChoiceSet object

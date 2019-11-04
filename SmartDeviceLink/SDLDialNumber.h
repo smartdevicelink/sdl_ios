@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDialNumber : SDLRPCRequest
 
-/// Convenience init to initiate a dial number request.
+/// Convenience init to initiate a dial number request
 ///
 /// @param number Up to 40 character string representing the phone number. All characters stripped except for '0'-'9', '*', '#', ',', ';', and '+'.
 /// @return An SDLDialNumber object

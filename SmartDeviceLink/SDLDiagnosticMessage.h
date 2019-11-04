@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDiagnosticMessage : SDLRPCRequest
 
-/// Convenience init.
+/// Convenience init
 /// 
 /// @param targetId Name of target ECU
 /// @param length Length of message (in bytes)

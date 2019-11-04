@@ -10,14 +10,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLDateTime : SDLRPCStruct
 
-/// Convenience init for creating a date.
+/// Convenience init for creating a date
 ///
 /// @param hour Hour part of time
 /// @param minute Minutes part of time
 /// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute;
 
-/// Convenience init for creating a date.
+/// Convenience init for creating a date
 ///
 /// @param hour Hour part of time
 /// @param minute Minutes part of time
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond;
 
-/// Convenience init for creating a date.
+/// Convenience init for creating a date
 ///
 /// @param hour Hour part of time
 /// @param minute Minutes part of time
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year;
 
-/// Convenience init for creating a date with all properties.
+/// Convenience init for creating a date with all properties
 ///
 /// @param hour Hour part of time
 /// @param minute Minutes part of time

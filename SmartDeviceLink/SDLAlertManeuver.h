@@ -18,14 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertManeuver : SDLRPCRequest
 
-/// Create a new alert maneuver with these parameters
+/// Convenience init to create an alert maneuver with these parameters
 ///
 /// @param ttsText The text to speak
 /// @param softButtons An arry of soft buttons
+///
 /// @return An SDLAlertManeuver object
 - (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-/// Create a new alert maneuver with these parameters
+///  Convenience init to create an alert maneuver with all parameters
 ///
 /// @param ttsChunks An array of text chunks
 /// @param softButtons An arry of soft buttons

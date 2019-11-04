@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-///Current light control capabilitie. If included, the platform supports light controls
+/// Current light control capabilitie. If included, the platform supports light controls.
 ///
 /// @since RPC 5.0
 @interface SDLLightControlCapabilities : SDLRPCStruct
