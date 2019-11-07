@@ -13,7 +13,7 @@
  */
 typedef SDLEnum SDLHybridAppPreference SDL_SWIFT_ENUM;
 
-/**SDLImageResolution.h
+/**
  *  App preference of mobile.
  */
 extern SDLHybridAppPreference const SDLHybridAppPreferenceMobile;

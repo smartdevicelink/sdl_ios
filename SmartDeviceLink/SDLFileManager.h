@@ -18,7 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// The handler that is called when the manager is set up or failed to set up with an error
+/// The handler that is called when the manager is set up or failed to set up with an error.
+/// This is for internal use only.
 ///
 /// @param success True if every request succeeded, false if any failed.
 /// @param error The error that occurred during the request if any occurred.
