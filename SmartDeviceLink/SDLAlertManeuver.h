@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertManeuver : SDLRPCRequest
 
-/// Convenience init to create an alert maneuver with these parameters
+/// Convenience init to create an alert maneuver with required parameters
 ///
 /// @param ttsText The text to speak
 /// @param softButtons An arry of soft buttons

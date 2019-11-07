@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Log filter information
+/// Represents a filter over which SDL logs should be logged
 @interface SDLLogFilter : NSObject
 
 /// A block that takes in a log model and returns whether or not the log passes the filter and should therefore be logged.

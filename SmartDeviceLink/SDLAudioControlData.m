@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
+
     self.source = source;
     self.keepContext = keepContext;
     self.volume = volume;

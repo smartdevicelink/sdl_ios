@@ -48,7 +48,7 @@ extern SDLNavigationJunction const SDLNavigationJunctionJughandle;
  */
 extern SDLNavigationJunction const SDLNavigationJunctionAllWayYield;
 
-/**SDLNavigationServiceData.h
+/**
  *  A junction designated for traffic turn arounds.
  */
 extern SDLNavigationJunction const SDLNavigationJunctionTurnAround;

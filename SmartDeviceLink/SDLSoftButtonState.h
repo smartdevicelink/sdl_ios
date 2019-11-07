@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// A soft button state, includes data such as text, name and artwork
+/// A soft button state including data such as text, name and artwork
 @interface SDLSoftButtonState : NSObject
 
 /**

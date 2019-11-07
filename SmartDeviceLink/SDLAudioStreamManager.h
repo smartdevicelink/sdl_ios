@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Domain error for AudioStreamManager
+/// Error relates to AudioStreamManager
 extern NSString *const SDLErrorDomainAudioStreamManager;
 
 /// AudioStreamManager errors

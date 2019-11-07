@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
 
-/// Convenience init with all parametersSDLKeyboardDelegate.h
+/// Convenience init with all parameters
 ///
 /// @param width Resolution width
 /// @param height Resolution height

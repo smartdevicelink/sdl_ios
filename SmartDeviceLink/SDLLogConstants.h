@@ -22,14 +22,10 @@ typedef BOOL (^SDLLogFilterBlock)(SDLLogModel *log);
 
 /// An enum describing log bytes direction
 typedef NS_ENUM(NSUInteger, SDLLogBytesDirection) {
-    /// SDLLogBytesDirection
-    ///
-    /// Trasmit
+    /// Transmit from the app
     SDLLogBytesDirectionTransmit,
 
-    /// SDLLogBytesDirection
-    ///
-    /// Receive
+    /// Receive from the module
     SDLLogBytesDirectionReceive
 };
 

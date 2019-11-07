@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
+/// Specifies a major / minor / patch version number for semantic versioning purposes and comparisons
 @interface SDLVersion : NSObject <NSCopying>
 
 /// Major version

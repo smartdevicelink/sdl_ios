@@ -13,7 +13,6 @@
 ///
 /// When on this feature will smart arrange a new menu comparing it to the old menu if one exists.
 typedef NS_ENUM(NSUInteger, SDLDynamicMenuUpdatesMode) {
-
     /// Forces on compatibility mode. This will force the menu manager to delete and re-add each menu item for every menu update. This mode is generally not advised due to performance issues.
     SDLDynamicMenuUpdatesModeForceOn = 0,
 
@@ -28,8 +27,7 @@ typedef NS_ENUM(NSUInteger, SDLDynamicMenuUpdatesMode) {
 /// Menu cell state
 ///
 /// Cell state that tells the menu manager what it should do with a given SDLMenuCell
-typedef NS_ENUM(NSUInteger, MenuCellState) {\
-
+typedef NS_ENUM(NSUInteger, MenuCellState) {
     /// Marks the cell to be deleted
     MenuCellStateDelete = 0,
 

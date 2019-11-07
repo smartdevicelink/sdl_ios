@@ -38,7 +38,7 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
 /// A protocol with available keyboard delegate methods and properties
 @protocol SDLKeyboardDelegate <NSObject>
 
-/**SDLLifecycleConfiguration.h
+/**
  The keyboard session completed with some input.
 
  This will be sent upon ENTRY_SUBMITTED or ENTRY_VOICE. If the event is ENTRY_VOICE, the user requested to start a voice session in order to submit input to this keyboard. This MUST be handled by you. Start an Audio Pass Thru session if supported.

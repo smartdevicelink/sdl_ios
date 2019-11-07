@@ -10,8 +10,6 @@
 
 @class SDLTouchEvent;
 
-/// Enum: SDLTouchIdentifier
-///
 /// Identifies finger touch
 typedef enum {
     /// Touch was first finger

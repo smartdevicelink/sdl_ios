@@ -11,19 +11,13 @@
  *  The data packet's header and payload combination.
  */
 typedef NS_ENUM(UInt8, SDLFrameType) {
-    ///SDLFrameType
-    ///
-    /// An SDLFrameType: Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.
+    /// Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.
     SDLFrameTypeControl = 0x00,
 
-    ///SDLFrameType
-    ///
-    /// An SDLFrameType: Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.
+    /// Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.
     SDLFrameTypeSingle = 0x01,
 
-    ///SDLFrameType
-    ///
-    /// An SDLFrameType: The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.
+    /// The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.
     SDLFrameTypeFirst = 0x02,
 
     ///SDLFrameType

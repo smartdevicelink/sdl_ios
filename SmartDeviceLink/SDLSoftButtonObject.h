@@ -58,7 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Create a single-state soft button. For example, a button that brings up a Perform Interaction menu.
- 
  @param name The name of the button
  @param state The single state of the button
  @param eventHandler The handler to be called when the button is pressed

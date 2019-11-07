@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRDSData : SDLRPCStruct
 
 /// Convenience init
+///
 /// @param programService Program Service Name
 /// @param radioText Radio Text
 /// @param clockText The clock text in UTC format as YYYY-MM-DDThh:mm:ss.sTZD

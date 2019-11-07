@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The view controller fo the lockscreen.
 @interface SDLLockScreenViewController : UIViewController
 
-/// A block that can be used to close the lockscreen when the user swipes on the lockscreen.
+/// A block that can be used to close the lockscreen when the user swipes on the lockscreen. Override this in your own custom view controllers if you build a custom lock screen.
 typedef void (^SwipeGestureCallbackBlock)(void);
 
 /**

@@ -7,7 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Current audio control capability. If included, the platform supports audio controls.
+ Describes a head unit's audio control capabilities.
 
  @since RPC 5.0
  */

@@ -7,10 +7,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// The function IDs os each RPC
+/// A function ID for an SDL RPC
 @interface SDLFunctionID : NSObject
 
-/// A shared instance
+/// The shared object for pulling function id information
 + (instancetype)sharedInstance;
 
 /// Gets the function name for a given function ID

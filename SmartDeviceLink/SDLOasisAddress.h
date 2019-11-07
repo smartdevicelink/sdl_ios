@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode;
 
 /// Convenience init to describe an oasis address with all parameters
+///
 /// @param subThoroughfare Portion of thoroughfare (e.g. house number)
 /// @param thoroughfare Hypernym for street, road etc
 /// @param locality Hypernym for city/village

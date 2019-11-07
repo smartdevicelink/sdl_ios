@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCreateInteractionChoiceSet : SDLRPCRequest
 
-/// Convenience init for creating a choice set
+/// Convenience init for creating a choice set RPC
 ///
 /// @param choiceId A unique ID that identifies the Choice Set
 /// @param choiceSet Array of choices, which the user can select by menu or voice recognition

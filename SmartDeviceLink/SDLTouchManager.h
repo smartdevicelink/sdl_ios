@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param type The type of touch
 typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 
-/// Touch Manager responsible for providing touch event notifications.
+/// Touch Manager responsible for processing touch event notifications.
 @interface SDLTouchManager : NSObject
 
 /**

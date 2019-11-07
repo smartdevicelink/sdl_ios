@@ -7,12 +7,12 @@
  The type of RPC message
  */
 typedef NS_ENUM(Byte, SDLRPCMessageType) {
-    /// A request from the app to the IVI system
+    /// A request that will require a response
     SDLRPCMessageTypeRequest = 0,
 
-    /// A response from the IVI system to the app
+    /// A response to a request
     SDLRPCMessageTypeResponse,
 
-    /// A notification from the IVI system to the app
+    /// A notification that does not have a response
     SDLRPCMessageTypeNotification
 };

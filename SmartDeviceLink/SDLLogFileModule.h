@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Log file module information
+/// A log file module is a collection of source code files that form a cohesive unit and that logs can all use to describe themselves. E.g. a "transport" module, or a "Screen Manager" module.
 @interface SDLLogFileModule : NSObject
 
 /**

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChangeRegistration : SDLRPCRequest
 
 /**
-Constructs a newly allocated SDLChangeRegistration object with the given parameters
+Constructs a newly allocated SDLChangeRegistration object with required parameters
 
 @param language the name of the button
 @param hmiDisplayLanguage the module where the button should be pressed
@@ -30,7 +30,7 @@ Constructs a newly allocated SDLChangeRegistration object with the given paramet
 - (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage;
 
 /**
-Constructs a newly allocated SDLChangeRegistration object with the given parameters
+Constructs a newly allocated SDLChangeRegistration object with all parameters
 
 @param language the language the app wants to change to
 @param hmiDisplayLanguage HMI display language

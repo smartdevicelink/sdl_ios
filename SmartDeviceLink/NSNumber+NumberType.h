@@ -32,7 +32,7 @@
 @protocol SDLFloat
 @end
 
-/// Declarations
+/// Extensions to NSNumber allowing for details on what kind of NSNumber is contained within.
 @interface NSNumber (NumberType) <SDLInt, SDLUInt, SDLBool, SDLFloat>
 
 @end

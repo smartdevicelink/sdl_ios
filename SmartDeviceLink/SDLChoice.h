@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoice : SDLRPCStruct
 
 /**
-Constructs a newly allocated SDLChangeRegistration object with the given parameters
+Constructs a newly allocated SDLChangeRegistration object with the required parameters
 
 @param choiceId the application-scoped identifier that uniquely identifies this choice
 @param menuName text which appears in menu, representing this choice
@@ -27,7 +27,7 @@ Constructs a newly allocated SDLChangeRegistration object with the given paramet
 - (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands;
 
 /**
-Constructs a newly allocated SDLChangeRegistration object with the given parameters
+Constructs a newly allocated SDLChangeRegistration object with all parameters
 
 @param choiceId the application-scoped identifier that uniquely identifies this choice
 @param menuName text which appears in menu, representing this choice

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSISData : SDLRPCStruct
 
-/// Convenience init to
+/// Convenience init to SISData
 ///
 /// @param stationShortName Identifies the 4-alpha-character station call sign
 /// @param id A SDLStationIDNumber

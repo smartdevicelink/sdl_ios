@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Convenience init
 ///
-/// @param handler A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur
+/// @param handler A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur
 - (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler;
 
 /// Convenience init
@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param highlighted Displays in an alternate mode, e.g. with a colored background or foreground. Depends on the IVI system
 /// @param buttonId Value which is returned via OnButtonPress / OnButtonEvent
 /// @param systemAction Parameter indicating whether selecting a SoftButton shall call a specific system action
-/// @param handler A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur.
+/// @param handler A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur.
 - (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCButtonNotificationHandler)handler;
 
-/// A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur.
+/// A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur.
 @property (copy, nonatomic) SDLRPCButtonNotificationHandler handler;
 
 /**

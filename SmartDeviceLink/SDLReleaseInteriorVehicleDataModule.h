@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Releases a controlled module so others can take control
+/// Releases a controlled remote control module so others can take control
 ///
 /// @since 6.0
 @interface SDLReleaseInteriorVehicleDataModule : SDLRPCRequest
