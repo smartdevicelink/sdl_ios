@@ -25,12 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 #define NOTIFICATION_TYPEDEF NSNotificationName
 #endif
 
-/// NSNotification names
+/// NSNotification names specific to incoming SDL RPC
 typedef NOTIFICATION_TYPEDEF SDLNotificationName;
 
-/// SDLNotificationUserInfoKey
-///
-/// The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
+/// The key used in all SDL NSNotifications to extract the response or notification from the userInfo dictionary.
 typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
@@ -100,6 +98,7 @@ typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *command);
 
 
 #pragma mark - Notification info dictionary keys
+
 /**
 *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
 */
@@ -109,31 +108,33 @@ extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
  *  Some general NSNotification names not associated with any specific RPC response or request.
  */
 #pragma mark - General notifications
-/// Name for a DidDisconnect notification
+
+/// Name for a disconnection notification
 extern SDLNotificationName const SDLTransportDidDisconnect;
 
-/// Name for a DidConnect notification
+/// Name for a connection notification
 extern SDLNotificationName const SDLTransportDidConnect;
 
-/// Name for a ConnectError notification
+/// Name for a error during connection notification
 extern SDLNotificationName const SDLTransportConnectError;
 
-/// Name for an Error notification
+/// Name for a general error notification
 extern SDLNotificationName const SDLDidReceiveError;
 
-/// Name for a LockScreenIcon notification
+/// Name for an incoming lock screen icon notification
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
 
-/// Name for a BecomeReady notification
+/// Name for an SDL became ready notification
 extern SDLNotificationName const SDLDidBecomeReady;
 
-/// Name for an UpdateProjectionView notification
+/// Name for a notification sent by the user when their CarWindow view has been updated
 extern SDLNotificationName const SDLDidUpdateProjectionView;
 
 /**
  *  NSNotification names associated with specific RPC responses.
  */
 #pragma mark - RPC responses
+
 /// Name for an AddCommand response RPC
 extern SDLNotificationName const SDLDidReceiveAddCommandResponse;
 
@@ -293,7 +294,7 @@ extern SDLNotificationName const SDLDidReceiveSliderResponse;
 /// Name for a Speak response RPC
 extern SDLNotificationName const SDLDidReceiveSpeakResponse;
 
-/// Name for a Subscribe response RPC
+/// Name for a SubscribeButton response RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeButtonResponse;
 
 /// Name for a SubscribeVehicleData response RPC
@@ -327,6 +328,7 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
  *  NSNotification names associated with specific RPC requests.
  */
 #pragma mark - RPC requests
+
 /// Name for an AddCommand request RPC
 extern SDLNotificationName const SDLDidReceiveAddCommandRequest;
 
@@ -520,6 +522,7 @@ extern SDLNotificationName const SDLDidReceiveUpdateTurnListRequest;
  *  NSNotification names associated with specific RPC notifications.
  */
 #pragma mark - RPC Notifications
+
 /// Name for a DriverDistractionState notification RPC
 extern SDLNotificationName const SDLDidChangeDriverDistractionStateNotification;
 
@@ -589,7 +592,7 @@ extern SDLNotificationName const SDLDidReceiveVehicleDataNotification;
 /// Name for a Waypoint notification RPC
 extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 
-/// Defines all of the RPC names
+/// This class defines methods for getting groups of notifications
 @interface SDLNotificationConstants : NSObject
 
 /**
