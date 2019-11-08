@@ -1217,6 +1217,7 @@
 		5DBF0D5E1F3A68C0008AF2C9 /* SDLControlFramePayloadVideoStartServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF0D5D1F3A68C0008AF2C9 /* SDLControlFramePayloadVideoStartServiceSpec.m */; };
 		5DBF0D601F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */; };
 		5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */; };
+		5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC49BDC237314B500B2B8F2 /* SceneDelegate.swift */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
 		5DCC458D221C9F6600036C2F /* SDLVersionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */; };
 		5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */; };
@@ -2964,6 +2965,7 @@
 		5DBF0D5D1F3A68C0008AF2C9 /* SDLControlFramePayloadVideoStartServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadVideoStartServiceSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadVideoStartServiceSpec.m; sourceTree = "<group>"; };
 		5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFrameVideoStartServiceAckSpec.m; path = ControlFramePayloadSpecs/SDLControlFrameVideoStartServiceAckSpec.m; sourceTree = "<group>"; };
 		5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadNakSpec.m; sourceTree = "<group>"; };
+		5DC49BDC237314B500B2B8F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "Example Apps/Example Swift/SceneDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
 		5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = SmartDeviceLink.podspec; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVersionSpec.m; path = DevAPISpecs/SDLVersionSpec.m; sourceTree = "<group>"; };
@@ -6251,6 +6253,7 @@
 				5D1FF2F92130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist */,
 				5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */,
 				5D1FF2F6213047C1000EB9B4 /* SmartDeviceLink-Example-Swift-Bridging-Header.h */,
+				5DC49BDC237314B500B2B8F2 /* SceneDelegate.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -8350,6 +8353,7 @@
 				5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */,
 				5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */,
 				5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */,
+				5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */,
 				5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */,
 				5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */,
 				5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */,
@@ -8761,7 +8765,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
@@ -8781,7 +8785,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
