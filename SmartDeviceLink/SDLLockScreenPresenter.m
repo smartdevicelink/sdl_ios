@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Present Lock Window
 
 - (void)present {
+    SDLLogD(@"Trying to present lock screen");
     dispatch_async(dispatch_get_main_queue(), ^{
         if (@available(iOS 13.0, *)) {
             [self sdl_presentIOS13];
@@ -76,7 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentIOS13 {
-    SDLLogD(@"Seeking to present lock screen on iOS 13");
     if (@available(iOS 13.0, *)) {
         UIWindowScene *appWindowScene = nil;
         for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
@@ -118,10 +118,19 @@ NS_ASSUME_NONNULL_BEGIN
             self.lockWindow.backgroundColor = [UIColor clearColor];
             self.lockWindow.rootViewController = self.screenshotViewController;
         }
+
+        [self sdl_presentWithAppWindow:appWindow];
     }
 }
 
-- (void)sdl_presentWithAppWindow:(UIWindow *)appWindow {
+- (void)sdl_presentWithAppWindow:(nullable UIWindow *)appWindow {
+    if (appWindow == nil) {
+        SDLLogW(@"Attempted to present lock window but app window is nil");
+        return;
+    }
+
+    SDLLogD(@"Presenting lock screen window from app window: %@", appWindow);
+
     // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
@@ -145,6 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Dismiss Lock Window
 
 - (void)dismiss {
+    SDLLogD(@"Trying to dismiss lock screen");
     dispatch_async(dispatch_get_main_queue(), ^{
         if (@available(iOS 13.0, *)) {
             [self sdl_dismissIOS13];
@@ -158,6 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray* windows = [[UIApplication sharedApplication] windows];
     UIWindow *appWindow = nil;
     for (UIWindow *window in windows) {
+        SDLLogV(@"Checking window: %@", window);
         if (window != self.lockWindow) {
             appWindow = window;
             break;
@@ -192,8 +203,8 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<UIWindow *> *windows = appWindowScene.windows;
         UIWindow *appWindow = nil;
         for (UIWindow *window in windows) {
+            SDLLogV(@"Checking window: %@", window);
             if (window != self.lockWindow) {
-                SDLLogV(@"Found app window");
                 appWindow = window;
                 break;
             }
@@ -203,7 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_dismissWithAppWindow:(UIWindow *)appWindow {
+- (void)sdl_dismissWithAppWindow:(nullable UIWindow *)appWindow {
     if (appWindow == nil) {
         SDLLogE(@"Unable to find the app's window");
         return;
@@ -219,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
     // Dismiss the lockscreen
-    SDLLogD(@"Dismiss lock screen window");
+    SDLLogD(@"Dismiss lock screen window from app window: %@", appWindow);
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
         CGRect lockFrame = self.lockWindow.frame;
         lockFrame.origin.x = CGRectGetWidth(lockFrame);

@@ -38,11 +38,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    if (self.presentingViewController != nil) {
+        return self.presentingViewController.shouldAutorotate;
+    } else {
+        return YES;
+    }
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    if (self.presentingViewController != nil) {
+        return self.presentingViewController.supportedInterfaceOrientations;
+    } else {
+        return UIInterfaceOrientationMaskAll;
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -73,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setLockedLabelText:(NSString *_Nullable)lockedLabelText {
     _lockedLabelText = lockedLabelText;
-    
+
     [self sdl_layoutViews];
 }
 
@@ -114,13 +122,13 @@ NS_ASSUME_NONNULL_BEGIN
 
         self.lockedLabel.textColor = iconColor;
         self.lockedLabel.numberOfLines = 0;
-        
+
         if (self.lockedLabelText != nil) {
             self.lockedLabel.text = self.lockedLabelText;
         } else {
             self.lockedLabel.text = NSLocalizedString(@"Locked for your safety", nil);
         }
-        
+
         self.view.backgroundColor = self.backgroundColor;
 
         if (self.vehicleIcon != nil && self.appIcon != nil) {
@@ -150,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.backupImageView.image = nil;
     self.backupImageView.tintColor = nil;
-    
+
     self.arrowUpImageView.alpha = 1.0;
     self.arrowDownImageView.alpha = 1.0;
 
@@ -163,7 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.backupImageView.image = self.appIcon;
     self.backupImageView.tintColor = nil;
-    
+
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
 
@@ -176,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.backupImageView.image = self.vehicleIcon;
     self.backupImageView.tintColor = nil;
-    
+
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
 

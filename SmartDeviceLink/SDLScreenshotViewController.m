@@ -50,7 +50,7 @@
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
-    if (self.currentAppWindow == nil) { return UIInterfaceOrientationMaskAll; }
+    if (self.currentAppWindow == nil) { return YES; }
 
     UIViewController *viewController = [self sdl_topMostControllerForWindow:self.currentAppWindow];
 
