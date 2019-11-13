@@ -21,14 +21,10 @@ extern NSString *const SDLErrorDomainAudioStreamManager;
 
 /// AudioStreamManager errors
 typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
-    /// SDLAudioStreamManagerError
-    ///
-    /// Not connected error
+    /// The audio stream is not currently connected
     SDLAudioStreamManagerErrorNotConnected = -1,
 
-    /// SDLAudioStreamManagerError
-    ///
-    /// No queued audio
+    /// Attempted to play but there's no audio in the queue
     SDLAudioStreamManagerErrorNoQueuedAudio = -2
 };
 

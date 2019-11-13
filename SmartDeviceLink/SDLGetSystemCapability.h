@@ -14,8 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  SDLGetWayPoints.
- *  Request for expanded information about a supported system/HMI capability
+ *  SDL RPC Request for expanded information about a supported system/HMI capability
  *
  *  @since SDL 4.5
  */

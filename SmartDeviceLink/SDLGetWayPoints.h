@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// This RPC allows you to get navigation waypoint data
 ///
-/// @since 4.1
+/// @since RPC 4.1
 @interface SDLGetWayPoints : SDLRPCRequest
 
 /// Convenience init to get waypoints.

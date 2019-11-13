@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLogFilter : NSObject
 
 /// A block that takes in a log model and returns whether or not the log passes the filter and should therefore be logged.
-///
-/// Optional
 @property (strong, nonatomic, readonly) SDLLogFilterBlock filter;
 
 /// Initializer unavailable

@@ -13,6 +13,6 @@ typedef NS_ENUM(Byte, SDLRPCMessageType) {
     /// A response to a request
     SDLRPCMessageTypeResponse,
 
-    /// A notification that does not have a response
+    /// A message that does not have a response
     SDLRPCMessageTypeNotification
 };

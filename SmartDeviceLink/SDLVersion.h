@@ -16,13 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Specifies a major / minor / patch version number for semantic versioning purposes and comparisons
 @interface SDLVersion : NSObject <NSCopying>
 
-/// Major version
+/// Major version (e.g. X.0.0)
 @property (nonatomic, assign) NSUInteger major;
 
-/// Minor version
+/// Minor version (e.g. 0.X.0)
 @property (nonatomic, assign) NSUInteger minor;
 
-/// Patch version
+/// Patch version (e.g. 0.0.X)
 @property (nonatomic, assign) NSUInteger patch;
 
 /// A String format of the current SDLVersion

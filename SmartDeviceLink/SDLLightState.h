@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Current light control state
 ///
-/// @since SDL 5.0
+/// @since RPC 5.0
 @interface SDLLightState : SDLRPCStruct
 
 /**
