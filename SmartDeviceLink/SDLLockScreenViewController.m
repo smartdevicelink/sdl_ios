@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowDownImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowLeftImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowRightImageView;
 @property (strong, nonatomic) SwipeGestureCallbackBlock dismissGestureCallback;
 @property (strong, nonatomic, nullable) UISwipeGestureRecognizer *swipeGesture;
 
@@ -116,9 +118,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         self.arrowUpImageView.image = [self.class sdl_imageWithName:@"lock_arrow_up_black"];
         self.arrowUpImageView.tintColor = iconColor;
-
         self.arrowDownImageView.image = [self.class sdl_imageWithName:@"lock_arrow_down_black"];
         self.arrowDownImageView.tintColor = iconColor;
+        self.arrowLeftImageView.image = [self.class sdl_imageWithName:@"lock_arrow_left_black"];
+        self.arrowLeftImageView.tintColor = iconColor;
+        self.arrowRightImageView.image = [self.class sdl_imageWithName:@"lock_arrow_right_black"];
+        self.arrowRightImageView.tintColor = iconColor;
 
         self.lockedLabel.textColor = iconColor;
         self.lockedLabel.numberOfLines = 0;
@@ -161,6 +166,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.arrowUpImageView.alpha = 1.0;
     self.arrowDownImageView.alpha = 1.0;
+    self.arrowLeftImageView.alpha = 1.0;
+    self.arrowRightImageView.alpha = 1.0;
 
     self.sdlIconImageView.alpha = 1.0;
 }
@@ -174,6 +181,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
+    self.arrowLeftImageView.alpha = 0.0;
+    self.arrowRightImageView.alpha = 0.0;
 
     self.sdlIconImageView.alpha = 1.0;
 }
@@ -187,6 +196,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
+    self.arrowLeftImageView.alpha = 0.0;
+    self.arrowRightImageView.alpha = 0.0;
 
     self.sdlIconImageView.alpha = 1.0;
 }
@@ -200,6 +211,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
+    self.arrowLeftImageView.alpha = 0.0;
+    self.arrowRightImageView.alpha = 0.0;
 
     self.sdlIconImageView.alpha = 0.0;
 }
