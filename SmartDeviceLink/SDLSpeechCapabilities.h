@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-/*
+/**
  * Contains information about TTS capabilities on the SDL platform. Used in RegisterAppInterfaceResponse, and TTSChunk.
  *
  * @since SDL 1.0

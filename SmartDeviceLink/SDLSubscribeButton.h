@@ -69,6 +69,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler;
 
+/// Construct a SDLSubscribeButton with a handler callback when an event occurs with a button name.
+///
+/// @param buttonName The name of the button to subscribe to
+/// @param handler A callback that will be called when a button event occurs for the subscribed button
+/// @return An SDLSubscribeButton object
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCButtonNotificationHandler)handler;
 
 /**

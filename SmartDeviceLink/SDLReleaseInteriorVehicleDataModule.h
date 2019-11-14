@@ -11,8 +11,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Releases a controlled remote control module so others can take control
+///
+/// @since 6.0
 @interface SDLReleaseInteriorVehicleDataModule : SDLRPCRequest
 
+/// Convenience init to release a controlled module
+/// @param moduleType The module type that the app requests to control.
+/// @param moduleId Id of a module, published by System Capability.
+/// @return An SDLReleaseInteriorVehicleDataModule object
 - (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
 
 /**

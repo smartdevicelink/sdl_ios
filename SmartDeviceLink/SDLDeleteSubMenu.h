@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteSubMenu : SDLRPCRequest
 
+/// Convenience init to delete a submenu
+/// 
+/// @param menuId Identifies the SDLSubMenu to be delete
+/// @return An SDLDeleteSubMenu object
 - (instancetype)initWithId:(UInt32)menuId;
 
 /**

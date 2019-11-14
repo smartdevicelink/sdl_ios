@@ -14,6 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// The encryption configuration data
 @interface SDLEncryptionConfiguration : NSObject <NSCopying>
 
 /**

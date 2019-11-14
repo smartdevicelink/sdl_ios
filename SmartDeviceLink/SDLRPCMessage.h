@@ -7,6 +7,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Parent class of all RPC messages.
+///
+/// Contains basic information about an RPC message.
 @interface SDLRPCMessage : SDLRPCStruct <NSCopying>
 
 /**

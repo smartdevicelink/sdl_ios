@@ -6,6 +6,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Describes a head unit's audio control capabilities.
+
+ @since RPC 5.0
+ */
 @interface SDLAudioControlCapabilities : SDLRPCStruct
 
 /**

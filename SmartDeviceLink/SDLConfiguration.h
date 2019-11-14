@@ -17,6 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Contains information about the app's configurtion, such as lifecycle, lockscreen, encryption, etc.
 @interface SDLConfiguration : NSObject <NSCopying>
 
 /**

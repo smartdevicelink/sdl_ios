@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 __deprecated_msg("Use SDLMsgVersion instead")
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
+/// Convenience init to describe the SDL version
+///
+/// @param majorVersion The major version indicates versions that is not-compatible to previous versions
+/// @param minorVersion The minor version indicates a change to a previous version that should still allow to be run on an older version (with limited functionality)
+/// @param patchVersion Allows backward-compatible fixes to the API without increasing the minor version of the interface
+/// @return An SDLSyncMsgVersion object
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;
 
 /**

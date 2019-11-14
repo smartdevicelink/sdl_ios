@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Typedef SDLFileName
 typedef NSString SDLFileName;
 
 /**

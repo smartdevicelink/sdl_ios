@@ -9,18 +9,18 @@
  */
 typedef SDLEnum SDLSupportedSeat SDL_SWIFT_ENUM __deprecated;
 
-/**
- * @abstract Save current seat postions and settings to seat memory.
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* Save current seat positions and settings to seat memory.
+*/
 extern SDLSupportedSeat const SDLSupportedSeatDriver;
 #pragma clang diagnostic pop
 
-/**
- * @abstract Restore / apply the seat memory settings to the current seat.
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* Restore / apply the seat memory settings to the current seat.
+*/
 extern SDLSupportedSeat const SDLSupportedSeatFrontPassenger;
 #pragma clang diagnostic pop

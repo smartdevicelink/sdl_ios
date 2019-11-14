@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Crates an SDLFile from a file
 @interface SDLFile : NSObject <NSCopying>
 
 /**
@@ -64,6 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) BOOL isStaticIcon;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

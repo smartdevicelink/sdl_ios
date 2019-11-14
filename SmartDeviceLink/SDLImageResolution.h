@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
 
+/// Convenience init with all parameters
+///
+/// @param width Resolution width
+/// @param height Resolution height
+/// @return An SDLImageResolution object
 - (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height;
 
 @end

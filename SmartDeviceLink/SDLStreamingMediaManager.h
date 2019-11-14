@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Interface
 
+/// Manager to help control streaming media services.
 @interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
@@ -114,6 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A data source for the streaming manager's preferred resolutions and preferred formats.
 @protocol SDLStreamingMediaManagerDataSource <NSObject>
 
 /**

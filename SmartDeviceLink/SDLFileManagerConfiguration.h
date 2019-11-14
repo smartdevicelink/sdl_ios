@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// File manager configuration information
 @interface SDLFileManagerConfiguration : NSObject <NSCopying>
 
 /**

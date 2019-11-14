@@ -12,7 +12,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// NSString typedef
+///
+/// SDLPermissionRPCName: The name of the permission
 typedef NSString *SDLPermissionRPCName;
+
+/// NSUUID typedef
+///
+/// SDLPermissionObserverIdentifier: A unique identifier
 typedef NSUUID *SDLPermissionObserverIdentifier;
 
 /**

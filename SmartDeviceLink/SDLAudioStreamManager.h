@@ -16,13 +16,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Error relates to AudioStreamManager
 extern NSString *const SDLErrorDomainAudioStreamManager;
 
+/// AudioStreamManager errors
 typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
+    /// The audio stream is not currently connected
     SDLAudioStreamManagerErrorNotConnected = -1,
+
+    /// Attempted to play but there's no audio in the queue
     SDLAudioStreamManagerErrorNoQueuedAudio = -2
 };
 
+/**
+ The manager to control the audio stream
+ */
 @interface SDLAudioStreamManager : NSObject
 
 /**

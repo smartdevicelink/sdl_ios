@@ -115,10 +115,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(clear(playPauseIndicator:));
 
+/// Convenience init to create a SDLSetMediaClockTimer object
+///
+/// @param updateMode The type of SetMediaClockTimer RPC
+/// @param hours Hour
+/// @param minutes Minuute
+/// @param seconds Seconds
+/// @param audioStreamingIndicator The audio streaming indicator used for a play/pause button
+/// @return An SDLSetMediaClockTimer object
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds audioStreamingIndicator:(SDLAudioStreamingIndicator)audioStreamingIndicator __deprecated_msg("Use a specific initializer");
 
+/// Convenience init to create a SDLSetMediaClockTimer object
+///
+/// @param updateMode The type of SetMediaClockTimer RPC
+/// @param hours Hour
+/// @param minutes Minuute
+/// @param seconds Seconds
+/// @return An SDLSetMediaClockTimer object
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds __deprecated_msg("Use a specific initializer");
 
+/// Convenience init to create a SDLSetMediaClockTimer object
+///
+/// @param updateMode he type of SetMediaClockTimer RPC
+/// @return An SDLSetMediaClockTimer object
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode __deprecated_msg("Use a specific initializer");
 
 /**

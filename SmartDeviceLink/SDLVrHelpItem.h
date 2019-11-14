@@ -12,8 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLVRHelpItem : SDLRPCStruct
 
+/// Convenience init to create a VR help item with the following parameters
+///
+/// @param text Text to display for VR Help item
+/// @param image Image for VR Help item
+/// @return An SDLVRHelpItem object
 - (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image;
 
+/// Convenience init to create a VR help item with all parameters
+///
+/// @param text Text to display for VR Help item
+/// @param image Image for VR Help item
+/// @param position  Position to display item in VR Help list
+/// @return An SDLVRHelpItem object
 - (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image position:(UInt8)position;
 
 /**

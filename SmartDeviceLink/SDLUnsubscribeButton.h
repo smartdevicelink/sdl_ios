@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLUnsubscribeButton : SDLRPCRequest
 
+/// Convenience init to unsubscribe from a subscription button
+///
+/// @param buttonName A name of the button to unsubscribe from
+/// @return A name of the button to unsubscribe from
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName;
 
 /**

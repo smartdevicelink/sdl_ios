@@ -35,9 +35,8 @@ typedef void(^SDLKeyboardAutoCompleteResultsHandler)(NSArray<NSString *> *_Nulla
  */
 typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nullable updatedCharacterSet);
 
+/// They delegate of a keyboard popup allowing customization at runtime of the keyboard.
 @protocol SDLKeyboardDelegate <NSObject>
-
-//
 
 /**
  The keyboard session completed with some input.

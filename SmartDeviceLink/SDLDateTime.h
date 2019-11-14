@@ -10,12 +10,46 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLDateTime : SDLRPCStruct
 
+/// Convenience init for creating a date
+///
+/// @param hour Hour part of time
+/// @param minute Minutes part of time
+/// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute;
 
+/// Convenience init for creating a date
+///
+/// @param hour Hour part of time
+/// @param minute Minutes part of time
+/// @param second Seconds part of time
+/// @param millisecond Milliseconds part of time
+/// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond;
 
+/// Convenience init for creating a date
+///
+/// @param hour Hour part of time
+/// @param minute Minutes part of time
+/// @param second Seconds part of time
+/// @param millisecond Milliseconds part of time
+/// @param day Day of the month
+/// @param month Month of the year
+/// @param year The year in YYYY format
+/// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year;
 
+/// Convenience init for creating a date with all properties
+///
+/// @param hour Hour part of time
+/// @param minute Minutes part of time
+/// @param second Seconds part of time
+/// @param millisecond Milliseconds part of time
+/// @param day Day of the month
+/// @param month Month of the year
+/// @param year The year in YYYY format
+/// @param timezoneMinuteOffset Time zone offset in Min with regard to UTC
+/// @param timezoneHourOffset Time zone offset in Hours with regard to UTC
+/// @return An SDLDateTime object
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year timezoneMinuteOffset:(UInt8)timezoneMinuteOffset timezoneHourOffset:(int)timezoneHourOffset;
 
 /**

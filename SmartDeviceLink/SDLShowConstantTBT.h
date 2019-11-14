@@ -16,6 +16,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLShowConstantTBT : SDLRPCRequest
 
+/// Convenience init to create navigation directions
+///
+/// @param navigationText1 The first line of text in a multi-line overlay screen
+/// @param navigationText2 The second line of text in a multi-line overlay screen
+/// @param eta Estimated Time of Arrival time at final destination
+/// @param timeToDestination The amount of time needed to reach the final destination
+/// @param totalDistance The distance to the final destination
+/// @param turnIcon An icon to show with the turn description
+/// @param nextTurnIcon An icon to show with the next turn description
+/// @param distanceToManeuver Fraction of distance till next maneuver
+/// @param distanceToManeuverScale Distance till next maneuver
+/// @param maneuverComplete If and when a maneuver has completed while an AlertManeuver is active, the app must send this value set to TRUE in order to clear the AlertManeuver overlay. If omitted the value will be assumed as FALSE
+/// @param softButtons Three dynamic SoftButtons available (first SoftButton is fixed to "Turns")
+/// @return An SDLShowConstantTBT object
 - (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /**

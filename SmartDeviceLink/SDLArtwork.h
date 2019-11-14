@@ -13,13 +13,21 @@
 
 @class SDLImage;
 
+/// Image format of an artwork file
 typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
+
+    /// Image format: PNG
     SDLArtworkImageFormatPNG,
+
+    /// Image format: JPG
     SDLArtworkImageFormatJPG
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An SDLFile subclass specifically designed for images
+ */
 @interface SDLArtwork : SDLFile
 
 /**

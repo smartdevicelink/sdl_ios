@@ -19,8 +19,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChangeRegistration : SDLRPCRequest
 
+/**
+Constructs a newly allocated SDLChangeRegistration object with required parameters
+
+@param language the name of the button
+@param hmiDisplayLanguage the module where the button should be pressed
+
+@return An instance of the SDLChangeRegistration class.
+*/
 - (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage;
 
+/**
+Constructs a newly allocated SDLChangeRegistration object with all parameters
+
+@param language the language the app wants to change to
+@param hmiDisplayLanguage HMI display language
+@param appName request a new app name registration
+@param ttsName request a new TTSName registration
+@param ngnMediaScreenAppName request a new app short name registration
+@param vrSynonyms request a new VR synonyms registration
+
+@return An instance of the SDLChangeRegistration class.
+*/
 - (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms;
 
 /**

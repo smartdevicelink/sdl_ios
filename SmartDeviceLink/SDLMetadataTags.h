@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Metadata for Show fields
 @interface SDLMetadataTags : SDLRPCStruct
 
 /**
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2;
 
+/// Constructs a newly allocated SDLMetadataType with all parameters
 - (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 mainField3:(nullable NSArray<SDLMetadataType> *)mainField3 mainField4:(nullable NSArray<SDLMetadataType> *)mainField4;
 
 /**

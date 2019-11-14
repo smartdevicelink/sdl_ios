@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Contains information about a weather alert
+///
+/// @since RPC 5.1
 @interface SDLWeatherAlert : SDLRPCStruct
 
 /**

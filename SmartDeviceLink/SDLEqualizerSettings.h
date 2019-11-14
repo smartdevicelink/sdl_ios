@@ -11,6 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLEqualizerSettings : SDLRPCStruct
 
+/// Convenience init
+/// 
+/// @param channelId Read-only channel / frequency name
+/// @param channelSetting Reflects the setting, from 0%-100%.
 - (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting;
 
 /**

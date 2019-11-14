@@ -6,6 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Superclass of RPC requests
 @interface SDLRPCRequest : SDLRPCMessage
 
 /**
