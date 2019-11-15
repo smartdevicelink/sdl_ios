@@ -1,4 +1,10 @@
 # Changelog
+## 6.4.1
+### Bug Fixes
+* Update code documentation (https://www.github.com/smartdevicelink/sdl_ios/issues/983).
+* Fix crashes related to apps using iOS 13 multi-window (`UIWindowScene`) APIs (https://www.github.com/smartdevicelink/sdl_ios/issues/1430).
+* Fix lock screen not working properly on apps using iOS 13 multi-window APIs (https://www.github.com/smartdevicelink/sdl_ios/issues/1469).
+
 ## 6.4.0
 ### Versions
 * Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
