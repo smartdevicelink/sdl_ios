@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  A navigation service manifest.
  */
 @interface SDLNavigationServiceManifest : SDLRPCStruct

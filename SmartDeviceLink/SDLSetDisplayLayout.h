@@ -19,12 +19,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetDisplayLayout : SDLRPCRequest
 
+/// Convenience init to set a display layout
+///
+/// @param predefinedLayout A template layout an app uses to display information
+/// @return An SDLSetDisplayLayout object
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
 
+/// Convenience init to set a display layout
+///
+/// @param displayLayout A display layout name
+/// @return An SDLSetDisplayLayout object
 - (instancetype)initWithLayout:(NSString *)displayLayout;
 
+/// Convenience init to set a display layout
+///
+/// @param predefinedLayout A display layout. Predefined or dynamically created screen layout
+/// @param dayColorScheme The color scheme to be used on a head unit using a "light" or "day" color scheme
+/// @param nightColorScheme The color scheme to be used on a head unit using a "dark" or "night" color scheme
+/// @return An SDLSetDisplayLayout object
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme;
-
 
 /**
  * A display layout. Predefined or dynamically created screen layout.

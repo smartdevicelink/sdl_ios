@@ -8,6 +8,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The audio control data information.
+
+ @since RPC 5.0
+ */
 @interface SDLAudioControlData : SDLRPCStruct
 
 

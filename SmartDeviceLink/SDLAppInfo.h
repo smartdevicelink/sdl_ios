@@ -10,6 +10,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppInfo : SDLRPCStruct
 
+/// Convenience init with no parameters
+///
+/// @return An SDLAppInfo object
 + (instancetype)currentAppInfo;
 
 /**

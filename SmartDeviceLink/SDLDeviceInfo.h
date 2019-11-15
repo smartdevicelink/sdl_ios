@@ -10,6 +10,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLDeviceInfo : SDLRPCStruct
 
+/// Convenience init. Object will contain all information about the connected device automatically.
+///
+/// @return An SDLDeviceInfo object
 + (instancetype)currentDevice;
 
 /**

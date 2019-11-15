@@ -8,6 +8,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Permissions for a given set of RPCs
+///
+/// @since RPC 2.0
 @interface SDLPermissionItem : SDLRPCStruct
 
 /**

@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLPhoneCapability : SDLRPCStruct
 
+/// Convenience init for defining the phone capability
+///
+/// @param dialNumberEnabled Whether or not the DialNumber RPC is enabled.
+/// @return An SDLPhoneCapability object
 - (instancetype)initWithDialNumber:(BOOL)dialNumberEnabled;
 
 /**

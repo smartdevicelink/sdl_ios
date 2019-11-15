@@ -5,7 +5,7 @@
 
 #import "SDLRequestType.h"
 
-/*
+/**
  *  An asynchronous request from the device; binary data can be included in hybrid part of message for some requests (such as HTTP, Proprietary, or Authentication requests)
  *
  *  @since SmartDeviceLink 3.0

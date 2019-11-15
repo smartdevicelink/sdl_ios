@@ -10,6 +10,9 @@
   @since SDL 6.0
  */
 typedef NS_ENUM(NSUInteger, SDLPredefinedWindows){
-    SDLPredefinedWindowsDefaultWindow = 0, //The default window is a main window pre-created on behalf of the app.
-    SDLPredefinedWindowsPrimaryWidget = 1 //The primary widget of the app.
+    /// The default window is a main window pre-created on behalf of the app.
+    SDLPredefinedWindowsDefaultWindow = 0,
+
+    /// The primary widget of the app.
+    SDLPredefinedWindowsPrimaryWidget = 1
 };

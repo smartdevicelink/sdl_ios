@@ -17,6 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLUpdateTurnList : SDLRPCRequest
 
+/// Convenience init to update a list of maneuvers for navigation
+///
+/// @param turnList A struct used in UpdateTurnList for Turn-by-Turn navigation applications
+/// @param softButtons An array of softbuttons
 - (instancetype)initWithTurnList:(nullable NSArray<SDLTurn *> *)turnList softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /**

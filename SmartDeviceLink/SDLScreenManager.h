@@ -45,6 +45,7 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
  */
 typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 
+/// The SDLScreenManager is a manager to control SDL UI features. Use the screen manager for setting up the UI of the template, creating a menu for your users, creating softbuttons, setting textfields, etc..
 @interface SDLScreenManager : NSObject
 
 #pragma mark Text and Graphics
@@ -242,6 +243,8 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark Soft Button
 
+/// Retrieve a SoftButtonObject based on its name.
+/// @param name The name of the button
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name;
 
 #pragma mark Choice Sets

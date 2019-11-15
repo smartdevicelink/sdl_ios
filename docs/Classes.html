@@ -575,14 +575,14 @@
  *  @param updatedAppServiceRecord  Service record for a specific app service provider
  *  @return                         A SDLAppServiceCapability object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateReason</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">)</span><span class="nv">updateReason</span> <span class="nf">updatedAppServiceRecord</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateReason</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span><span class="p">)</span><span class="nv">updateReason</span> <span class="nf">updatedAppServiceRecord</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAppServiceRecord.html">SDLAppServiceRecord</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">updatedAppServiceRecord</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Only included in `OnSystemCapbilityUpdated`. Update reason for this service record.
  *
  *  SDLServiceUpdateReason, Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">updateReason</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">updateReason</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Service record for a specific app service provider.
@@ -619,7 +619,7 @@
  *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Convenience init for media service data.
@@ -658,7 +658,7 @@
  *  @param navigationServiceData    The navigation service data
  *  @return                         A SDLAppServiceData object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="nf">mediaServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span> <span class="nf">weatherServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span> <span class="nf">navigationServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">serviceId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span> <span class="nf">mediaServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span> <span class="nf">weatherServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span> <span class="nf">navigationServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
@@ -883,7 +883,7 @@
 
  @return An instance of this class to be passed to a screen manager.
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer"</span><span class="p">);</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Convenience helper to create a persistent artwork from an image.
@@ -948,7 +948,7 @@
 
  @return An instance of this class to be passed to a screen manager.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStaticIcon</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span><span class="p">)</span><span class="nv">staticIcon</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -1095,7 +1095,7 @@
  @param equalizerSettings list of supported Equalizer channels.
  @return An instance of the SDLAudioControlData class.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSource</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span><span class="p">)</span><span class="nv">source</span> <span class="nf">keepContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">keepContext</span> <span class="nf">volume</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">volume</span> <span class="nf">equalizerSettings</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLEqualizerSettings.html">SDLEqualizerSettings</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerSettings</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSource</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span><span class="p">)</span><span class="nv">source</span> <span class="nf">keepContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">keepContext</span> <span class="nf">volume</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">volume</span> <span class="nf">equalizerSettings</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLEqualizerSettings.html">SDLEqualizerSettings</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerSettings</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract   In a getter response or a notification,
@@ -1105,7 +1105,7 @@
  *
  * Optional, SDLPrimaryAudioSource
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span> <span class="n">source</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span> <span class="n">source</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract This parameter shall not be present in any getter responses or notifications.
@@ -1499,7 +1499,7 @@
 
  @return A SDLCancelInteraction object
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">performInteraction</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">performInteraction</span><span class="p">());</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">performInteraction</span> <span class="nf">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">performInteraction</span><span class="p">());</span>
 
 <span class="cm">/**
  The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
@@ -1950,7 +1950,7 @@
  *  @param endpoint             The websocket endpoint
  *  @return                     A SDLCloudAppProperties object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span> <span class="nf">nicknames</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nicknames</span> <span class="nf">enabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span> <span class="nf">authToken</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">authToken</span> <span class="nf">cloudTransportType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudTransportType</span> <span class="nf">hybridAppPreference</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">)</span><span class="nv">hybridAppPreference</span> <span class="nf">endpoint</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">endpoint</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span> <span class="nf">nicknames</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nicknames</span> <span class="nf">enabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span> <span class="nf">authToken</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">authToken</span> <span class="nf">cloudTransportType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudTransportType</span> <span class="nf">hybridAppPreference</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">)</span><span class="nv">hybridAppPreference</span> <span class="nf">endpoint</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">endpoint</span><span class="p">;</span>
 
 <span class="cm">/**
  *  An array of app names a cloud app is allowed to register with. If included in a `SetCloudAppProperties` request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.
@@ -1992,7 +1992,7 @@
  *
  *  SDLHybridAppPreference, Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="n">hybridAppPreference</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="n">hybridAppPreference</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The websocket endpoint.
@@ -2968,7 +2968,7 @@ see SDLPerformAudioPassThru</p>
 <span class="cm">/**
  *  The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span>
 
 <span class="cm">/**
  * A stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
@@ -3182,8 +3182,8 @@ see SDLPerformAudioPassThru</p>
 
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nf">functionNameForId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">functionID</span><span class="p">;</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">functionIdForName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">functionName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nf">functionNameForId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">functionID</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">functionIdForName</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">functionName</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -3412,7 +3412,7 @@ Function Group: ProprietaryData
  *  @param crc         Additional CRC32 checksum to protect data integrity up to 512 Mbits
  *  @return            A SDLGetFileResponse object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithOffset</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">length</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">length</span> <span class="nf">fileType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span> <span class="nf">crc</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">crc</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithOffset</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">offset</span> <span class="nf">length</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">length</span> <span class="nf">fileType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span> <span class="nf">crc</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">crc</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Optional offset in bytes for resuming partial data chunks.
@@ -3433,7 +3433,7 @@ Function Group: ProprietaryData
  *
  *  SDLFileType, Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span> <span class="n">fileType</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Additional CRC32 checksum to protect data integrity up to 512 Mbits.
@@ -3486,14 +3486,14 @@ whenever new data is available for the module.</p>
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetInteriorVehicleDataConsent</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span> <span class="nf">moduleIds</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleIds</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span> <span class="nf">moduleIds</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleIds</span><span class="p">;</span>
 
 <span class="cm">/**
  * The module type that the app requests to control.
  *
  * Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">moduleType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">moduleType</span><span class="p">;</span>
 
 <span class="cm">/**
  * Ids of a module of same type, published by System Capability.
@@ -3578,7 +3578,7 @@ whenever new data is available for the module.</p>
  *  @param type The type of system capability
  *  @return     A SDLSystemCapabilityType object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Convenience init
@@ -3587,14 +3587,14 @@ whenever new data is available for the module.</p>
  *  @param subscribe    Whether or not to subscribe to updates of the supplied service capability type
  *  @return             A SDLSystemCapabilityType object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span> <span class="nf">subscribe</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">subscribe</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span> <span class="nf">subscribe</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">subscribe</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The type of system capability to get more information on
  *
  *  SDLSystemCapabilityType, Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">systemCapabilityType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">systemCapabilityType</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Flag to subscribe to updates of the supplied service capability type. If true, the requester will be subscribed. If false, the requester will not be subscribed and be removed as a subscriber if it was previously subscribed.
@@ -3688,7 +3688,7 @@ whenever new data is available for the module.</p>
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGetWayPoints</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLWayPointType.h@T@SDLWayPointType">SDLWayPointType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLWayPointType.h@T@SDLWayPointType">SDLWayPointType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
 
 <span class="cm">/**
  * To request for either the destination
@@ -3696,7 +3696,7 @@ whenever new data is available for the module.</p>
  *
  * Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLWayPointType.h@T@SDLWayPointType">SDLWayPointType</a></span> <span class="n">waypointType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLWayPointType.h@T@SDLWayPointType">SDLWayPointType</a></span> <span class="n">waypointType</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -4080,7 +4080,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param name The name of a light or a group of lights
  @return An instance of the SDLLightCapabilities class
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
 
 <span class="cm">/**
  Constructs a newly allocated SDLLightCapabilities object with given parameters
@@ -4092,14 +4092,14 @@ cases the language of the head unit changes or does not match the app language.<
 
  @return An instance of the SDLLightCapabilities class
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span> <span class="nf">densityAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">densityAvailable</span> <span class="nf">colorAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">colorAvailable</span> <span class="nf">statusAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">statusAvailable</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span> <span class="nf">densityAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">densityAvailable</span> <span class="nf">colorAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">colorAvailable</span> <span class="nf">statusAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">statusAvailable</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract The name of a light or a group of lights
  *
  * Required, SDLLightName
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">name</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">name</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract  Indicates if the light's density can be set remotely (similar to a dimmer).
@@ -4252,7 +4252,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param status Reflects the status of Light.
  @return An instance of the SDLLightState class
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span><span class="p">;</span>
 
 <span class="cm">/**
  Constructs a newly allocated SDLLightState object with given parameters
@@ -4263,7 +4263,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param color Reflects the color of Light.
  @return An instance of the SDLLightState class
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span> <span class="nf">density</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">density</span> <span class="nf">color</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span> <span class="nf">density</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">density</span> <span class="nf">color</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span><span class="p">;</span>
 
 <span class="cm">/**
  Constructs a newly allocated SDLLightState object with given parameters
@@ -4274,21 +4274,21 @@ cases the language of the head unit changes or does not match the app language.<
  @param lightColor Reflects the color of Light.
  @return An instance of the SDLLightState class
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">lightStatus</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">lightStatus</span> <span class="nf">lightDensity</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">lightDensity</span> <span class="nf">lightColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightColor</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">lightStatus</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">lightStatus</span> <span class="nf">lightDensity</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">lightDensity</span> <span class="nf">lightColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightColor</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract The name of a light or a group of lights
  *
  * Required, SDLLightName
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">id</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">id</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract Reflects the status of Light.
  *
  * Required, SDLLightStatus
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span> <span class="n">status</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span> <span class="n">status</span><span class="p">;</span>
 
 <span class="cm">/**
  * @abstract Reflects the density of Light.
@@ -4425,7 +4425,7 @@ cases the language of the head unit changes or does not match the app language.<
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLockScreenViewController</span> <span class="p">:</span> <span class="nc">UIViewController</span>
 
-<span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n"><a href="Type Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">^</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
 
 <span class="cm">/**
  *  The app's icon. This will be set by the lock screen configuration.
@@ -4450,7 +4450,7 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  *  Adds a swipe gesture to the lock screen view controller.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDismissGestureWithCallback</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)</span><span class="nv">swipeGestureCallback</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDismissGestureWithCallback</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLockScreenViewController.h@T@SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></span><span class="p">)</span><span class="nv">swipeGestureCallback</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Remove swipe gesture to the lock screen view controller.
@@ -4634,7 +4634,7 @@ cases the language of the head unit changes or does not match the app language.<
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLogFilter</span> <span class="p">:</span> <span class="nc">NSObject</span>
 
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">filter</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">filter</span><span class="p">;</span>
 
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
 
@@ -4644,7 +4644,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param filter The custom filter to be used
  @return An instance of SDLLogFilter
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCustomFilter</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span><span class="nv">filter</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCustomFilter</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span><span class="nv">filter</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
 
 <span class="cm">/**
  Returns a filter that only allows logs not containing the passed string within their message.
@@ -4816,17 +4816,17 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  *  The current HMI level of the running app.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="n">hmiLevel</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="n">hmiLevel</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The current audio streaming state of the running app.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span> <span class="n">audioStreamingState</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span> <span class="n">audioStreamingState</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The current system context of the running app.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span> <span class="n">systemContext</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span> <span class="n">systemContext</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The file manager to be used by the running app.
@@ -4900,7 +4900,7 @@ cases the language of the head unit changes or does not match the app language.<
  *
  *  @param readyHandler The block called when the manager is ready to be used or an error occurs while attempting to become ready.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithReadyHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span><span class="nv">readyHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">start</span><span class="p">(</span><span class="n">readyHandler</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithReadyHandler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span><span class="nv">readyHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">start</span><span class="p">(</span><span class="n">readyHandler</span><span class="o">:</span><span class="p">));</span>
 
 <span class="cm">/**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
@@ -4938,7 +4938,7 @@ cases the language of the head unit changes or does not match the app language.<
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">withResponseHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">)</span><span class="nv">handler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="o">:</span><span class="n">responseHandler</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">withResponseHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">)</span><span class="nv">handler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="o">:</span><span class="n">responseHandler</span><span class="o">:</span><span class="p">));</span>
 
 <span class="cm">/**
  Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.
@@ -4947,7 +4947,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param progressHandler A handler called every time a response is received
  @param completionHandler A handler to call when all requests have been responded to
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
 
 <span class="cm">/**
  Send all of the requests one at a time, with the next one going out only after the previous one has received a response. Call the completionHandler after all requests have either failed or given a response.
@@ -4956,12 +4956,12 @@ cases the language of the head unit changes or does not match the app language.<
  @param progressHandler A handler called every time a response is received. Return NO to cancel any requests that have not yet been sent, YES to continue sending requests.
  @param completionHandler A handler to call when all requests have been responded to
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendSequentialRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">sendSequential</span><span class="p">(</span><span class="n">requests</span><span class="o">:</span><span class="n">progressHandler</span><span class="o">:</span><span class="n">completionHandler</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendSequentialRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">sendSequential</span><span class="p">(</span><span class="n">requests</span><span class="o">:</span><span class="n">progressHandler</span><span class="o">:</span><span class="n">completionHandler</span><span class="o">:</span><span class="p">));</span>
 
 
 <span class="cp">#pragma mark - RPC Subscriptions
 </span>
-<span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span> <span class="p">(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">message</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">^</span><span class="n"><a href="Type%20Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span> <span class="p">(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">message</span><span class="p">);</span>
 
 <span class="cm">/**
  * Subscribe to callbacks about a particular RPC request, notification, or response with a block callback.
@@ -4970,7 +4970,7 @@ cases the language of the head unit changes or does not match the app language.<
  * @param block The block that will be called every time an RPC of the name and type specified is received.
  * @return An object that can be passed to `unsubscribeFromRPC:ofType:withObserver:` to unsubscribe the block.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withBlock</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span><span class="nv">block</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">block</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withBlock</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock">SDLRPCUpdatedBlock</a></span><span class="p">)</span><span class="nv">block</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">block</span><span class="o">:</span><span class="p">));</span>
 
 <span class="cm">/**
  * Subscribe to callbacks about a particular RPC request, notification, or response with a selector callback.
@@ -4986,7 +4986,7 @@ cases the language of the head unit changes or does not match the app language.<
  * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.
  * @param selector The selector on `observer` that will be called every time an RPC of the name and type specified is received.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="nf">selector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="n">selector</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">subscribeToRPC</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="nf">selector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">subscribe</span><span class="p">(</span><span class="n">to</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="n">selector</span><span class="o">:</span><span class="p">));</span>
 
 <span class="cm">/**
  * Unsubscribe to callbacks about a particular RPC request, notification, or response.
@@ -4994,7 +4994,7 @@ cases the language of the head unit changes or does not match the app language.<
  * @param rpcName The name of the RPC request, response, or notification to unsubscribe from.
  * @param observer The object representing a block callback or selector callback to be unsubscribed
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">unsubscribeFromRPC</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">unsubscribe</span><span class="p">(</span><span class="n">from</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">unsubscribeFromRPC</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="p">)</span><span class="nv">rpcName</span> <span class="nf">withObserver</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">observer</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">unsubscribe</span><span class="p">(</span><span class="n">from</span><span class="o">:</span><span class="n">observer</span><span class="o">:</span><span class="p">));</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -5110,7 +5110,7 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  The handler that will be called when the command is activated
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuCell.h@T@SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></span> <span class="n">handler</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMenuCell.h@T@SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></span> <span class="n">handler</span><span class="p">;</span>
 
 <span class="cm">/**
  If this is non-nil, this cell will be a sub-menu button, displaying the subcells in a menu when pressed.
@@ -5120,7 +5120,7 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  The layout in which the `subCells` will be displayed.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">submenuLayout</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">submenuLayout</span><span class="p">;</span>
 
 <span class="cm">/**
  Create a menu cell that has no subcells.
@@ -5131,7 +5131,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param handler The code that will be run when the menu cell is selected
  @return The menu cell
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">voiceCommands</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">handler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLMenuCell.h@T@SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">voiceCommands</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">handler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMenuCell.h@T@SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="cm">/**
  Create a menu cell that has subcells and when selected will go into a deeper part of the menu
@@ -5161,7 +5161,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param subCells The subcells that will appear when the cell is selected
  @return The menu cell
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">submenuLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">layout</span> <span class="nf">subCells</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">subCells</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">submenuLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">layout</span> <span class="nf">subCells</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">subCells</span><span class="p">;</span>
 
 
 <span class="k">@end</span></code></pre>
@@ -5188,12 +5188,12 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  * Changes the default main menu layout. Defaults to `SDLMenuLayoutList`.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">mainMenuLayout</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">mainMenuLayout</span><span class="p">;</span>
 
 <span class="cm">/**
  * Changes the default submenu layout. To change this for an individual submenu, set the `menuLayout` property on the `SDLMenuCell` initializer for creating a cell with sub-cells. Defaults to `SDLMenuLayoutList`.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">defaultSubmenuLayout</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span> <span class="n">defaultSubmenuLayout</span><span class="p">;</span>
 
 <span class="cm">/**
  Initialize a new menu configuration with a main menu layout and a default submenu layout which can be overriden per-submenu if desired.
@@ -5202,7 +5202,7 @@ cases the language of the head unit changes or does not match the app language.<
  @param defaultSubmenuLayout The new default submenu layout
  @return The menu configuration
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainMenuLayout</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">mainMenuLayout</span> <span class="nf">defaultSubmenuLayout</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">defaultSubmenuLayout</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainMenuLayout</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">mainMenuLayout</span> <span class="nf">defaultSubmenuLayout</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">defaultSubmenuLayout</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -5249,9 +5249,9 @@ cases the language of the head unit changes or does not match the app language.<
 <span class="cm">/**
  Constructs a newly allocated SDLMetadataType object with NSArrays
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTextFieldTypes</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTextFieldTypes</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span><span class="p">;</span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTextFieldTypes</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span> <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTextFieldTypes</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span> <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data contained in the "mainField1" text field.
@@ -5260,7 +5260,7 @@ cases the language of the head unit changes or does not match the app language.<
 
  Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField1</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField1</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data contained in the "mainField2" text field.
@@ -5269,7 +5269,7 @@ cases the language of the head unit changes or does not match the app language.<
 
  Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField2</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField2</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data contained in the "mainField3" text field.
@@ -5278,7 +5278,7 @@ cases the language of the head unit changes or does not match the app language.<
 
  Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField3</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField3</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data contained in the "mainField4" text field.
@@ -5287,7 +5287,7 @@ cases the language of the head unit changes or does not match the app language.<
 
  Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField4</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">mainField4</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -5414,7 +5414,7 @@ cases the language of the head unit changes or does not match the app language.<
  *  @param action The navigation action
  *  @return A SDLNavigationInstruction object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Convenience init for all parameters.
@@ -5429,7 +5429,7 @@ cases the language of the head unit changes or does not match the app language.<
  *  @param image An image representation of this instruction
  *  @return A SDLNavigationInstruction object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="nf">eta</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">eta</span> <span class="nf">bearing</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">bearing</span> <span class="nf">junctionType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">)</span><span class="nv">junctionType</span> <span class="nf">drivingSide</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">)</span><span class="nv">drivingSide</span> <span class="nf">details</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">details</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocationDetails</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDetails</span> <span class="nf">action</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span><span class="p">)</span><span class="nv">action</span> <span class="nf">eta</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">eta</span> <span class="nf">bearing</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">bearing</span> <span class="nf">junctionType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span><span class="p">)</span><span class="nv">junctionType</span> <span class="nf">drivingSide</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span><span class="p">)</span><span class="nv">drivingSide</span> <span class="nf">details</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">details</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The location details.
@@ -5443,7 +5443,7 @@ cases the language of the head unit changes or does not match the app language.<
  *
  *  SDLNavigationAction, Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="n">action</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="n">action</span><span class="p">;</span>
 
 <span class="cm">/**
  *  The estimated time of arrival.
@@ -5464,14 +5464,14 @@ cases the language of the head unit changes or does not match the app language.<
  *
  *  SDLNavigationJunction, Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="n">junctionType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="n">junctionType</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Used to infer which side of the road this instruction takes place. For a U-Turn (action=TURN, bearing=180) this will determine which direction the turn should take place.
  *
  *  SDLDirection, Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="n">drivingSide</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="n">drivingSide</span><span class="p">;</span>
 
 <span class="cm">/**
  *  This is a string representation of this instruction, used to display instructions to the users. This is not intended to be read aloud to the users, see the param prompt in `NavigationServiceData` for that.
@@ -5657,14 +5657,14 @@ cases the language of the head unit changes or does not match the app language.<
 
  @return All response notification names
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allResponseNames</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allResponseNames</span><span class="p">;</span>
 
 <span class="cm">/**
  All of the possible SDL Button event notification names
 
  @return The names
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allButtonEventNotifications</span><span class="p">;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">allButtonEventNotifications</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -6520,7 +6520,7 @@ A keyboard can be used for searches. For example, the user could be asked to ent
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isRPCAllowed</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isRPCAllowed</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Determine if all RPCs are allowed for the current HMI level
@@ -6529,7 +6529,7 @@ A keyboard can be used for searches. For example, the user could be asked to ent
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span><span class="nf">groupStatusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span><span class="nf">groupStatusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber&lt;BOOL&gt; specifying if that RPC is currently allowed
@@ -6538,7 +6538,7 @@ A keyboard can be used for searches. For example, the user could be asked to ent
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">statusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">statusOfRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -6553,7 +6553,7 @@ A keyboard can be used for searches. For example, the user could be asked to ent
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span><span class="p">)</span><span class="nf">addObserverForRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span> <span class="nf">groupType</span><span class="p">:(</span><span class="n"><a href="Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">)</span><span class="nv">groupType</span> <span class="nf">withHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span><span class="p">)</span><span class="nf">addObserverForRPCs</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span> <span class="nf">groupType</span><span class="p">:(</span><span class="n"><a href="Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">)</span><span class="nv">groupType</span> <span class="nf">withHandler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Remove every current observer
@@ -6565,13 +6565,13 @@ A keyboard can be used for searches. For example, the user could be asked to ent
  *
  *  @param identifier The identifier specifying which observer to remove
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserverForIdentifier</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span><span class="p">)</span><span class="nv">identifier</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserverForIdentifier</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span><span class="p">)</span><span class="nv">identifier</span><span class="p">;</span>
 
 
 <span class="cm">/**
  *  Check whether or not an RPC needs encryption.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">rpcRequiresEncryption</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">rpcRequiresEncryption</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -6886,14 +6886,14 @@ Subsequent calls with the same service type will update the manifest for that se
  *  @param name    The name of the message
  *  @return        A SDLRPCMessage object
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithName</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">name</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended to be a public facing API"</span><span class="p">);</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is not intended to be a public facing API"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Returns the function name.
  *
  *  @return The function name
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">getFunctionName</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Call the .name property instead"</span><span class="p">);</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">getFunctionName</span> <span class="nf">__deprecated_msg</span><span class="p">(</span><span class="s">"Call the .name property instead"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  Sets the function name.
@@ -7054,7 +7054,7 @@ Subsequent calls with the same service type will update the manifest for that se
 <span class="cm">/**
  *  The result of the SDLRPCRequest. If the request failed, the result code contains the failure reason.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLResult.h@T@SDLResult">SDLResult</a></span> <span class="n">resultCode</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLResult.h@T@SDLResult">SDLResult</a></span> <span class="n">resultCode</span><span class="p">;</span>
 
 <span class="cm">/**
  *  More detailed success or error message.
@@ -7240,7 +7240,7 @@ Subsequent calls with the same service type will update the manifest for that se
   
   <p>Registers the application&rsquo;s interface with SDL. The <code>RegisterAppInterface</code> RPC declares the properties of the app, including the messaging interface version, the app name, etc. The mobile application must establish its interface registration with SDL before any other interaction with SDL can take place. The registration lasts until it is terminated either by the application calling the <code><a href="Classes.html#/c:objc(cs)SDLUnregisterAppInterface">SDLUnregisterAppInterface</a></code> method, or by SDL sending an <code><a href="Classes/SDLOnAppInterfaceUnregistered.html">SDLOnAppInterfaceUnregistered</a></code> notification, or by loss of the underlying transport connection, or closing of the underlying message transmission protocol RPC session.</p>
 
-<p>Until the application receives its first <code><a href="Classes/SDLOnHMIStatus.html">SDLOnHMIStatus</a></code> notification, its <code><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></code> is assumed to be <code>NONE</code>, the <code><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></code> is assumed to be <code>NOT_AUDIBLE</code>, and the <code><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></code> is assumed to be <code>MAIN</code>.</p>
+<p>Until the application receives its first <code><a href="Classes/SDLOnHMIStatus.html">SDLOnHMIStatus</a></code> notification, its <code><a href="Type%20Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></code> is assumed to be <code>NONE</code>, the <code><a href="Type%20Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></code> is assumed to be <code>NOT_AUDIBLE</code>, and the <code><a href="Type%20Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></code> is assumed to be <code>MAIN</code>.</p>
 
 <p>All SDL resources which the application creates or uses (e.g. choice sets, command menu, etc.) are associated with the application&rsquo;s interface registration. Therefore, when the interface registration ends, the SDL resources associated with the application are disposed of. As a result, even though the application itself may continue to run on its host platform (e.g. mobile device) after the interface registration terminates, the application will not be able to use the SDL HMI without first establishing a new interface registration and re-creating its required SDL resources. That is, SDL resources created by (or on behalf of) an application do not persist beyond the life-span of the interface registration. Resources and settings whose lifespan is tied to the duration of an application&rsquo;s interface registration include: choice sets, command menus, and the media clock timer display value</p>
 
@@ -7299,14 +7299,14 @@ Subsequent calls with the same service type will update the manifest for that se
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLReleaseInteriorVehicleDataModule</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span> <span class="nf">moduleId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleId</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span> <span class="nf">moduleId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleId</span><span class="p">;</span>
 
 <span class="cm">/**
  * The module type that the app requests to control.
  *
  * Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">moduleType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">moduleType</span><span class="p">;</span>
 
 <span class="cm">/**
  * Id of a module, published by System Capability.
@@ -7486,27 +7486,27 @@ Subsequent calls with the same service type will update the manifest for that se
 <span class="cm">/**
  What alignment textField(1-4) should use
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span> <span class="n">textAlignment</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span> <span class="n">textAlignment</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data textField1 describes
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField1Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField1Type</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data textField2 describes
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField2Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField2Type</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data textField3 describes
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField3Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField3Type</span><span class="p">;</span>
 
 <span class="cm">/**
  The type of data textField4 describes
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span><span class="p">;</span>
 
 <span class="cm">/**
  The title of the current template layout.
@@ -7637,7 +7637,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endUpdatesWithCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endUpdatesWithCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="cp">#pragma mark Soft Button
 </span>
@@ -7651,7 +7651,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param choices The choices to be preloaded.
  @param handler The handler to be called when complete.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">preloadChoices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span> <span class="nf">withCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLScreenManager.h@T@SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">preloadChoices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span> <span class="nf">withCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="cm">/**
  Delete loaded cells from the head unit. If the cells don't exist on the head unit they will be ignored.
@@ -7670,7 +7670,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param choiceSet The set to be displayed
  @param mode If the set should be presented for the user to interact via voice, touch, or both
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span><span class="p">;</span>
 
 <span class="cm">/**
  Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
@@ -7685,7 +7685,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param mode If the set should be presented for the user to interact via voice, touch, or both
  @param delegate The keyboard delegate called when the user interacts with the search field of the choice set
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentSearchableChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span> <span class="nf">withKeyboardDelegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentSearchableChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span> <span class="nf">withKeyboardDelegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span>
 
 <span class="cm">/**
  Present a keyboard-only interface to the user and receive input. The user will be able to input text in the keyboard when in a non-driver distraction situation.
@@ -7947,7 +7947,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
  @return A `SendLocation` object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAddress</span><span class="p">:(</span><span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span> <span class="nf">addressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">addressLines</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAddress</span><span class="p">:(</span><span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span> <span class="nf">addressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">addressLines</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span><span class="p">;</span>
 
 <span class="cm">/**
  Create a `SendLocation` request with Lat/Long coordinate, not an address object
@@ -7978,7 +7978,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param address The address information to be passed to the nav system for determining the route
  @return A `SendLocation` object
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLongitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">longitude</span> <span class="nf">latitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">latitude</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">displayAddressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">displayAddressLines</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span> <span class="nf">address</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLongitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">longitude</span> <span class="nf">latitude</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">latitude</span> <span class="nf">locationName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationName</span> <span class="nf">locationDescription</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">locationDescription</span> <span class="nf">displayAddressLines</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">displayAddressLines</span> <span class="nf">phoneNumber</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">deliveryMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span><span class="p">)</span><span class="nv">deliveryMode</span> <span class="nf">timeStamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timeStamp</span> <span class="nf">address</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">address</span><span class="p">;</span>
 
 <span class="cm">/**
  * The longitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
@@ -8034,7 +8034,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  *
  * Optional
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span> <span class="n">deliveryMode</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDeliveryMode.h@T@SDLDeliveryMode">SDLDeliveryMode</a></span> <span class="n">deliveryMode</span><span class="p">;</span>
 
 <span class="cm">/**
  * Arrival time of Location. If multiple SendLocations are sent, this will be used for sorting as well.
@@ -8625,7 +8625,7 @@ change the settings of a specific remote control module.</p>
 <span class="cm">/**
  A special system action
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemAction.h@T@SDLSystemAction">SDLSystemAction</a></span> <span class="n">systemAction</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSystemAction.h@T@SDLSystemAction">SDLSystemAction</a></span> <span class="n">systemAction</span><span class="p">;</span>
 
 <span class="cm">/**
  An SDLSoftButton describing this state
@@ -8793,7 +8793,7 @@ change the settings of a specific remote control module.</p>
 <span class="cm">/**
  *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is now unused, the security managers are taken in from SDLEncryptionConfiguration"</span><span class="p">);</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span> <span class="nf">__deprecated_msg</span><span class="p">(</span><span class="s">"This is now unused, the security managers are taken in from SDLEncryptionConfiguration"</span><span class="p">);</span>
 
 <span class="cm">/**
  *  What encryption level video/audio streaming should be. The default is SDLStreamingEncryptionFlagAuthenticateAndEncrypt.
@@ -8900,7 +8900,7 @@ change the settings of a specific remote control module.</p>
 
  @return The configuration
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">insecureConfiguration</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer instead"</span><span class="p">);</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">insecureConfiguration</span> <span class="nf">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer instead"</span><span class="p">);</span>
 
 <span class="cm">/**
  Create a CarWindow insecure configuration with a view controller
@@ -9436,7 +9436,7 @@ change the settings of a specific remote control module.</p>
  @param fileName The name of the file to use
  @return The request
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span><span class="p">)</span><span class="nv">requestType</span> <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span><span class="p">)</span><span class="nv">requestType</span> <span class="nf">fileName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span>
 
 <span class="cm">/**
  Create an OEM_PROPRIETARY system request with a subtype and file name
@@ -9452,7 +9452,7 @@ change the settings of a specific remote control module.</p>
  *
  *  Required
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="n">requestType</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="n">requestType</span><span class="p">;</span>
 
 <span class="cm">/**
  A request subType used when the `requestType` is `OEM_SPECIFIC`.
@@ -9761,7 +9761,7 @@ change the settings of a specific remote control module.</p>
  *  @abstract
  *      Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span> <span class="n">touchEventHandler</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span> <span class="n">touchEventHandler</span><span class="p">;</span>
 
 <span class="cm">/**
  Distance between two taps on the screen, in the head unit's coordinate system, used for registering double-tap callbacks.
@@ -9792,7 +9792,7 @@ change the settings of a specific remote control module.</p>
  *  @remark
  *      Default is 0.05 seconds.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">movementTimeThreshold</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"This is now unused, the movement time threshold is now synced to the framerate automatically"</span><span class="p">);</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">movementTimeThreshold</span> <span class="nf">__deprecated_msg</span><span class="p">(</span><span class="s">"This is now unused, the movement time threshold is now synced to the framerate automatically"</span><span class="p">);</span>
 
 <span class="cm">/**
  If set to NO, the display link syncing will be ignored and `movementTimeThreshold` will be used. Defaults to YES.
@@ -10278,9 +10278,9 @@ See SDLSubscribeButton</p>
 <span class="cm">/**
  The handler that will be called when the command is activated
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLVoiceCommand.h@T@SDLVoiceCommandSelectionHandler">SDLVoiceCommandSelectionHandler</a></span> <span class="n">handler</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVoiceCommand.h@T@SDLVoiceCommandSelectionHandler">SDLVoiceCommandSelectionHandler</a></span> <span class="n">handler</span><span class="p">;</span>
 
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithVoiceCommands</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">handler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLVoiceCommand.h@T@SDLVoiceCommandSelectionHandler">SDLVoiceCommandSelectionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithVoiceCommands</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">handler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLVoiceCommand.h@T@SDLVoiceCommandSelectionHandler">SDLVoiceCommandSelectionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 

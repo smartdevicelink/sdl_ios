@@ -16,6 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// The permission manager monitoring RPC permissions.
 @interface SDLPermissionManager : NSObject
 
 /**

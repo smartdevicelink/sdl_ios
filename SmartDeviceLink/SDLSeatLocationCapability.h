@@ -17,6 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSeatLocationCapability : SDLRPCStruct
 
+/// Constructs a newly allocated SDLSeatLocationCapability object with all parameters
+///
+/// @param seats Describes the location of a seat
+/// @param cols Number of columns
+/// @param rows Number of rows
+/// @param levels Number of levels
+/// @return An SDLSeatLocationCapability object
 - (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels;
 
 /**

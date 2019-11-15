@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Delegate for the encryption service.
 @protocol SDLServiceEncryptionDelegate <NSObject>
 
 /**

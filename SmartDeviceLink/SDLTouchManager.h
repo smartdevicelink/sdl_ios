@@ -18,9 +18,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Handler for touch events
+///
+/// @param touch Describes a touch location
+/// @param type The type of touch
 typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 
-
+/// Touch Manager responsible for processing touch event notifications.
 @interface SDLTouchManager : NSObject
 
 /**
@@ -87,6 +91,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  */
 - (void)cancelPendingTouches;
 
+/// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

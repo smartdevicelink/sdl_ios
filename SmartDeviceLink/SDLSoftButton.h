@@ -16,10 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSoftButton : SDLRPCStruct
 
+/// Convenience init
+///
+/// @param handler A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur
 - (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler;
 
+/// Convenience init
+///
+/// @param type Describes whether this soft button displays only text, only an image, or both
+/// @param text Optional text to display (if defined as TEXT or BOTH type)
+/// @param image Optional image struct for SoftButton (if defined as IMAGE or BOTH type)
+/// @param highlighted Displays in an alternate mode, e.g. with a colored background or foreground. Depends on the IVI system
+/// @param buttonId Value which is returned via OnButtonPress / OnButtonEvent
+/// @param systemAction Parameter indicating whether selecting a SoftButton shall call a specific system action
+/// @param handler A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur.
 - (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCButtonNotificationHandler)handler;
 
+/// A handler that may optionally be run when the SDLSoftButton has a corresponding notification occur.
 @property (copy, nonatomic) SDLRPCButtonNotificationHandler handler;
 
 /**

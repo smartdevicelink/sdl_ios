@@ -13,8 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  A currently available service.
+ *
+ *  @since RPC 5.1
  */
 @interface SDLAppServiceCapability : SDLRPCStruct
 

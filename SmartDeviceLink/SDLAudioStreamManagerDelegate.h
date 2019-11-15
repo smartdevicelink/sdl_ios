@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Delegate for the AudioStreamManager
 @protocol SDLAudioStreamManagerDelegate <NSObject>
 
 @required

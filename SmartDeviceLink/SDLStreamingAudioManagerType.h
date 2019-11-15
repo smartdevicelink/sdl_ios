@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+/// Streaming audio manager
 @protocol SDLStreamingAudioManagerType <NSObject>
 
 /**

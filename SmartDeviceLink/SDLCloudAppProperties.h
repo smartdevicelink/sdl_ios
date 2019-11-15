@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  The cloud application properties.
  */
 @interface SDLCloudAppProperties : SDLRPCStruct

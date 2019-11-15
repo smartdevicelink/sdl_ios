@@ -10,9 +10,11 @@
 
 #import "SDLFileType.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
+/// Response to GetFiles
+///
+/// @since RPC 5.1
 @interface SDLGetFileResponse : SDLRPCResponse
 
 /**

@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLHapticRect : SDLRPCStruct
 
+/// Convenience init with all parameters
+///
+/// @param id A user control spatial identifier
+/// @param rect The position of the haptic rectangle to be highlighted. The center of this rectangle will be "touched" when a press occurs
+/// @return An SDLHapticRect object
 - (instancetype)initWithId:(UInt32)id rect:(SDLRectangle *)rect;
 
 /**

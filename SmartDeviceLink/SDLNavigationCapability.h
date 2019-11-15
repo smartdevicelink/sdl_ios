@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLNavigationCapability : SDLRPCStruct
 
+/// Convenience init with all parameters
+///
+/// @param sendLocationEnabled Whether or not the SendLocation RPC is enabled
+/// @param waypointsEnabled Whether SDLNavigationInstruction.hor not Waypoint related RPCs are enabled
+/// @return An SDLNavigationCapability object
 - (instancetype)initWithSendLocation:(BOOL)sendLocationEnabled waypoints:(BOOL)waypointsEnabled;
 
 /**

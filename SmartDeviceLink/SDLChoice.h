@@ -9,14 +9,36 @@
 /**
  * A choice is an option which a user can select either via the menu or via voice recognition (VR) during an application initiated interaction.
  *
- * Since SmartDeviceLink 1.0
+ * Since RPC 1.0
  */
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoice : SDLRPCStruct
 
+/**
+Constructs a newly allocated SDLChangeRegistration object with the required parameters
+
+@param choiceId the application-scoped identifier that uniquely identifies this choice
+@param menuName text which appears in menu, representing this choice
+@param vrCommands vr synonyms for this choice
+
+@return An instance of the SDLChangeRegistration class.
+*/
 - (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands;
 
+/**
+Constructs a newly allocated SDLChangeRegistration object with all parameters
+
+@param choiceId the application-scoped identifier that uniquely identifies this choice
+@param menuName text which appears in menu, representing this choice
+@param vrCommands vr synonyms for this choice
+@param image the image of the choice
+@param secondaryText secondary text to display; e.g. address of POI in a search result entry
+@param secondaryImage secondary image for choice
+@param tertiaryText tertiary text to display; e.g. distance to POI for a search result entry
+
+@return An instance of the SDLChangeRegistration class.
+*/
 - (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText;
 
 /**

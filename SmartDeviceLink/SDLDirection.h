@@ -8,17 +8,17 @@
 
 #import "SDLEnum.h"
 
-/*
+/**
  *  A navigation direction.
  */
 typedef SDLEnum SDLDirection SDL_SWIFT_ENUM;
 
-/*
+/**
  *  Direction left
  */
 extern SDLDirection const SDLDirectionLeft;
 
-/*
+/**
  *  Direction right
  */
 extern SDLDirection const SDLDirectionRight;

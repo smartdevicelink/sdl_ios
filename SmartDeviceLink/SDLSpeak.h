@@ -43,8 +43,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSpeak : SDLRPCRequest
 
+/// Convenience init to create a speak message
+///
+/// @param ttsText The text to speak
+/// @return An SDLSpeak object
 - (instancetype)initWithTTS:(NSString *)ttsText;
 
+/// Convenience init to create a speak message
+///
+/// @param ttsChunks An array of TTSChunk structs which, taken together, specify the phrase to be spoken
+/// @return An SDLSpeak object
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks;
 
 /**

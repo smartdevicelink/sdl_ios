@@ -15,6 +15,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Contains information about the current weather
+///
+/// @since RPC 5.1
 @interface SDLWeatherData : SDLRPCStruct
 
 /**

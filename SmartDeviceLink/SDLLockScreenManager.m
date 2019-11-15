@@ -132,6 +132,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
+    // App may have been disconnected in the background
+    if (!self.canPresent && self.presenter.presented) {
+        [self.presenter dismiss];
+    }
+
     [self sdl_checkLockScreen];
 }
 

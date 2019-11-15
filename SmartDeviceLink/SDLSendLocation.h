@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// SendLocation is used to send a location to the navigation system for navigation
+///
+/// @since RPC 3.0
 @interface SDLSendLocation : SDLRPCRequest
 
 /**

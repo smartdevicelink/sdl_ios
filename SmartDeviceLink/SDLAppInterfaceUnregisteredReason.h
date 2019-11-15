@@ -64,6 +64,12 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
  */
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized;
 
+/// The app could not register due to a protocol violation
+///
+/// @since RPC 4.0
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonProtocolViolation;
 
+/// The HMI resource is unsupported
+///
+/// @since RPC 4.1
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource;

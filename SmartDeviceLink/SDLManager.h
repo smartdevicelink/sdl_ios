@@ -28,10 +28,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
+/// The block called when the manager is ready to be used or an error occurs while attempting to become ready.
+///
+/// @param success a bool value if the set up succeeded
+/// @param error the error is any exists
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
-
+/// The top level manager object for all of SDL's interactions with the app and the head unit
 @interface SDLManager : NSObject
 
 /**
@@ -99,12 +102,12 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
-/**
- * Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
- * The only reason to use this is to access the `putFileStream:withRequest:` method. All other functionality exists on managers in 4.3. This will be removed in 5.0 and the functionality replicated on `SDLFileManager`.
- */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
+* All the other functionality exists on managers in sdl_ios 4.3+.
+*/
 @property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
@@ -187,6 +190,9 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 #pragma mark - RPC Subscriptions
 
+/// The block that will be called every time an RPC is received when subscribed to an RPC.
+///
+/// @param message The RPC message
 typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
 
 /**

@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// The delegate to be notified of processed touches such as pinches, pans, and taps
 @protocol SDLTouchManagerDelegate <NSObject>
 
 @optional

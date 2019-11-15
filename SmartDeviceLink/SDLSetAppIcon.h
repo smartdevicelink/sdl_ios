@@ -16,8 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetAppIcon : SDLRPCRequest
 
+/// Convenience init to set an image icon from a file name. The file must already be uploaded to the head unit.
+///
+/// @param fileName A file reference name
+/// @return An SDLSetAppIcon object
 - (instancetype)initWithFileName:(NSString *)fileName;
-
 
 /**
  * A file reference name

@@ -3,10 +3,10 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for SmartDeviceLink.
+/// Project version number for SmartDeviceLink.
 FOUNDATION_EXPORT double SmartDeviceLinkVersionNumber;
 
-//! Project version string for SmartDeviceLink.
+/// Project version string for SmartDeviceLink.
 FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 /***** RPCs *****/
