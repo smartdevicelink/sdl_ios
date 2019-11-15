@@ -118,7 +118,7 @@
  @param fileURL The URL that finished playing
  @param successfully Whether or not it was played successfully
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">fileDidFinishPlaying</span><span class="o">:</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">fileURL</span> <span class="n">successfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">fileDidFinishPlaying</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span> <span class="nf">successfully</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">successfully</span><span class="p">;</span>
 
 <span class="cm">/**
  Called when a file from the SDLAudioStreamManager could not play
@@ -137,7 +137,7 @@
  @param audioManager A reference to the audio stream manager
  @param successfully Whether or not the data buffer played successfully
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">dataBufferDidFinishPlayingSuccessfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">dataBufferDidFinishPlayingSuccessfully</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">successfully</span><span class="p">;</span>
 
 <span class="cm">/**
  Called when a data buffer from the SDLAudioStreamManager could not play
@@ -168,7 +168,7 @@
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLChoiceSetDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">choiceSet</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="n">choiceSet</span> <span class="n">didSelectChoice</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*</span><span class="p">)</span><span class="n">choice</span> <span class="n">withSource</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span><span class="p">)</span><span class="n">source</span> <span class="n">atRowIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">rowIndex</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">choiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">didSelectChoice</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choice</span> <span class="nf">withSource</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span><span class="p">)</span><span class="nv">source</span> <span class="nf">atRowIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">rowIndex</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">choiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">didReceiveError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
@@ -202,7 +202,7 @@
  @param inputText The submitted input text on the keyboard
  @param source ENTRY_SUBMITTED if the user pressed the submit button on the keyboard, ENTRY_VOICE if the user requested that a voice session begin
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">userDidSubmitInput</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">inputText</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="n">source</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userDidSubmitInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputText</span> <span class="nf">withEvent</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">source</span><span class="p">;</span>
 
 <span class="cm">/**
  The keyboard session aborted.
@@ -211,7 +211,7 @@
 
  @param event ENTRY_CANCELLED if the user cancelled the keyboard input, or ENTRY_ABORTED if the system aborted the input due to a higher priority event
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidAbortWithReason</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidAbortWithReason</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
 
 <span class="k">@optional</span>
 <span class="cm">/**
@@ -219,7 +219,7 @@
 
  @return The custom keyboard configuration to use.
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="n"><a href="Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="n">customKeyboardConfiguration</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n"><a href="Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="n">customKeyboardConfiguration</span><span class="p">;</span>
 
 <span class="cm">/**
  Implement this if you wish to update the KeyboardProperties.autoCompleteText as the user updates their input. This is called upon a KEYPRESS event.
@@ -227,7 +227,7 @@
  @param currentInputText The user's full current input text
  @param completionHandler A completion handler to update the autoCompleteText
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use updateAutocompleteWithInput:autoCompleteResultsHandler:"</span><span class="p">);</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use updateAutocompleteWithInput:autoCompleteResultsHandler:"</span><span class="p">);</span>
 
 <span class="cm">/**
  Implement this if you wish to updated the KeyboardProperties.autoCompleteList as the user updates their input. This is called upon a KEYPRESS event.
@@ -237,7 +237,7 @@
  @param currentInputText The user's full current input text
  @param resultsHandler A completion handler to update the autoCompleteList
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">autoCompleteResultsHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></span><span class="p">)</span><span class="nv">resultsHandler</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">autoCompleteResultsHandler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></span><span class="p">)</span><span class="nv">resultsHandler</span><span class="p">;</span>
 
 <span class="cm">/**
  Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.
@@ -245,7 +245,7 @@
  @param currentInputText The user's full current input text
  @param completionHandler A completion handler to update the limitedCharacterSet
  */</span>
-<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateCharacterSetWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateCharacterSetWithInput</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
 
 <span class="c1">// This will be sent for any event that occurs with the event and the current input text</span>
 
@@ -255,7 +255,7 @@
  @param event The event that occurred
  @param currentInputText The user's full current input text
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidSendEvent</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span> <span class="nf">text</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidSendEvent</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span> <span class="nf">text</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -300,7 +300,7 @@
 <span class="cm">/**
  *  Called upon a disconnection from the remote system.
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">managerDidDisconnect</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">managerDidDisconnect</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Called when the HMI level state of this application changes on the remote system. This is equivalent to the application's state changes in iOS such as foreground, background, or closed.
@@ -308,7 +308,7 @@
  *  @param oldLevel The previous level which has now been left.
  *  @param newLevel The current level.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">oldLevel</span> <span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">oldLevel</span> <span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span>
 
 <span class="k">@optional</span>
 <span class="cm">/**
@@ -317,7 +317,7 @@
  *  @param oldState The previous state which has now been left.
  *  @param newState The current state.
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamingState</span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="n">oldState</span> <span class="n">didChangeToState</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="n">newState</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamingState</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="nv">oldState</span> <span class="nf">didChangeToState</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="nv">newState</span><span class="p">;</span>
 
 <span class="cm">/**
  *  Called when the system context of this application changes on the remote system. This refers to whether or not a user-initiated interaction is in progress, and if so, what it is.
@@ -325,7 +325,7 @@
  *  @param oldContext The previous context which has now been left.
  *  @param newContext The current context.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">systemContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">oldContext</span> <span class="nf">didChangeToContext</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">newContext</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">systemContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">oldContext</span> <span class="nf">didChangeToContext</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">newContext</span><span class="p">;</span>
 
 <span class="cm">/**
  * Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the apps registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
@@ -333,7 +333,7 @@
  * @param language The language of the connected head unit the manager is trying to update the configuration.
  * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLifecycleConfigurationUpdate.html">SDLLifecycleConfigurationUpdate</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">managerShouldUpdateLifecycleToLanguage</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLifecycleConfigurationUpdate.html">SDLLifecycleConfigurationUpdate</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">managerShouldUpdateLifecycleToLanguage</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span><span class="p">;</span>
 
 
 <span class="k">@end</span></code></pre>
@@ -388,7 +388,7 @@
  *  @param encrypted return true if the the encryption service was setup successfully, will return false if the service is presently not encrypted.
  *  @param error will return any error that happens or nil if there is no error.
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">serviceEncryptionUpdatedOnService</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="n">type</span> <span class="n">encrypted</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">encrypted</span> <span class="n">error</span><span class="o">:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">__nullable</span><span class="p">)</span><span class="n">error</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">serviceEncryptionUpdated</span><span class="p">(</span><span class="n">serviceType</span><span class="o">:</span><span class="n">isEncrypted</span><span class="o">:</span><span class="n">error</span><span class="o">:</span><span class="p">));</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">serviceEncryptionUpdatedOnService</span><span class="p">:(</span><span class="n"><a href="Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">type</span> <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">encrypted</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">__nullable</span><span class="p">)</span><span class="nv">error</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">serviceEncryptionUpdated</span><span class="p">(</span><span class="n">serviceType</span><span class="o">:</span><span class="n">isEncrypted</span><span class="o">:</span><span class="n">error</span><span class="o">:</span><span class="p">));</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -455,7 +455,7 @@
  @param headUnitPreferredOrder The head unit's preferred order of format usage. The first item is the one that will be used unless this proxy does not support it, then the next item, etc.
  @return Your preferred order of format usage.
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">preferredVideoFormatOrderFromHeadUnitPreferredOrder</span><span class="o">:</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">headUnitPreferredOrder</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">preferredVideoFormatOrderFromHeadUnitPreferredOrder</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">headUnitPreferredOrder</span><span class="p">;</span>
 
 <span class="cm">/**
  Implement to return a different resolution to use for video streaming than the head unit's requested resolution. If you return a resolution that the head unit does not like, the manager will fail to start up. In nearly all cases, it's best to simply return the head unit's preferred order, or not implement this method (which does the same thing), and adapt your UI to the head unit's preferred resolution instead.
@@ -495,7 +495,7 @@
  @param view The view under the touch if it could be determined
  @param point The point at which the touch occurred in the head unit's coordinate system
  */</span>
-<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">manager</span> <span class="n">didReceiveSingleTapForView</span><span class="o">:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="n">view</span> <span class="n">atPoint</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didReceiveSingleTapForView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
 
 <span class="cm">/**
  A double tap was received
