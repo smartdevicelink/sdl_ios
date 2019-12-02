@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenPresenter ()
 
-@property (strong, nonatomic) SDLScreenshotViewController *screenshotViewController;
+@property (strong, nonatomic, nullable) SDLScreenshotViewController *screenshotViewController;
 @property (strong, nonatomic) UIWindow *lockWindow;
 
 @end
@@ -44,7 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)present {
     SDLLogD(@"Trying to present lock screen");
+
+    __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        weakself.screenshotViewController = [[SDLScreenshotViewController alloc] init];
+        weakself.lockWindow.rootViewController = weakself.screenshotViewController;
+
         if (@available(iOS 13.0, *)) {
             [self sdl_presentIOS13];
         } else {
@@ -155,12 +160,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dismiss {
     SDLLogD(@"Trying to dismiss lock screen");
+
+    __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (@available(iOS 13.0, *)) {
             [self sdl_dismissIOS13];
         } else {
             [self sdl_dismissIOS12];
         }
+
+        weakself.lockWindow.rootViewController = nil;
+        weakself.screenshotViewController = nil;
     });
 }
 
