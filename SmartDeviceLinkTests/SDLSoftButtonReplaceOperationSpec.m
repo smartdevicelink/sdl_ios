@@ -60,6 +60,9 @@ describe(@"a soft button replace operation", ^{
 
     __block NSString *testMainField1 = @"Test main field 1";
 
+    __block SDLRPCResponse *successResponse = nil;
+    __block SDLRPCResponse *failedResponse = nil;
+
     beforeEach(^{
         resultError = nil;
         hasCalledOperationCompletionHandler = NO;
@@ -84,6 +87,14 @@ describe(@"a soft button replace operation", ^{
         button4 = [[SDLSoftButtonObject alloc] initWithName:object4Name state:object4State1 handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];;
 
         OCMStub([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+
+        successResponse = [[SDLRPCResponse alloc] init];
+        successResponse.success = @YES;
+        successResponse.resultCode = SDLResultSuccess;
+
+        failedResponse = [[SDLRPCResponse alloc] init];
+        failedResponse.success = @NO;
+        failedResponse.resultCode = SDLResultRejected;
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -114,6 +125,22 @@ describe(@"a soft button replace operation", ^{
                 expect(sentRequests.firstObject.softButtons.firstObject.image).to(beNil());
                 expect(sentRequests.firstObject.softButtons.firstObject.type).to(equal(SDLSoftButtonTypeText));
             });
+
+            context(@"When a response is received to the text upload", ^{
+                it(@"should finish the operation on a successful response", ^{
+                    [testConnectionManager respondToLastRequestWithResponse:successResponse];
+
+                    expect(testOp.isFinished).to(beTrue());
+                    expect(testOp.isExecuting).to(beFalse());
+                });
+
+                it(@"should finish the operation on a failed response", ^{
+                    [testConnectionManager respondToLastRequestWithResponse:failedResponse];
+
+                    expect(testOp.isFinished).to(beTrue());
+                    expect(testOp.isExecuting).to(beFalse());
+                });
+            });
         });
 
         context(@"with artworks", ^{
@@ -123,7 +150,7 @@ describe(@"a soft button replace operation", ^{
                 testSoftButtonObjects = @[button1, button2];
             });
 
-            fcontext(@"but the HMI does not support artworks", ^{
+            context(@"but the HMI does not support artworks", ^{
                 beforeEach(^{
                     SDLSoftButtonCapabilities *capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @NO;
@@ -152,9 +179,6 @@ describe(@"a soft button replace operation", ^{
 
                 context(@"When a response is received to the text upload", ^{
                     it(@"should finish the operation on a successful response", ^{
-                        SDLRPCResponse *successResponse = [[SDLRPCResponse alloc] init];
-                        successResponse.success = @YES;
-                        successResponse.resultCode = SDLResultSuccess;
                         [testConnectionManager respondToLastRequestWithResponse:successResponse];
 
                         expect(testOp.isFinished).to(beTrue());
@@ -162,9 +186,6 @@ describe(@"a soft button replace operation", ^{
                     });
 
                     it(@"should finish the operation on a failed response", ^{
-                        SDLRPCResponse *failedResponse = [[SDLRPCResponse alloc] init];
-                        failedResponse.success = @NO;
-                        failedResponse.resultCode = SDLResultRejected;
                         [testConnectionManager respondToLastRequestWithResponse:failedResponse];
 
                         expect(testOp.isFinished).to(beTrue());
@@ -233,6 +254,22 @@ describe(@"a soft button replace operation", ^{
                         expect(sentRequests.firstObject.softButtons.lastObject.image).toNot(beNil());
                         expect(sentRequests.firstObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeBoth));
                     });
+
+                    context(@"When a response is received to the text upload", ^{
+                        it(@"should finish the operation on a successful response", ^{
+                            [testConnectionManager respondToLastRequestWithResponse:successResponse];
+
+                            expect(testOp.isFinished).to(beTrue());
+                            expect(testOp.isExecuting).to(beFalse());
+                        });
+
+                        it(@"should finish the operation on a failed response", ^{
+                            [testConnectionManager respondToLastRequestWithResponse:failedResponse];
+
+                            expect(testOp.isFinished).to(beTrue());
+                            expect(testOp.isExecuting).to(beFalse());
+                        });
+                    });
                 });
 
                 context(@"when the artworks need uploading", ^{
@@ -262,6 +299,22 @@ describe(@"a soft button replace operation", ^{
                             expect(sentRequests.firstObject.softButtons.firstObject.text).to(equal(object3State1Text));
                             expect(sentRequests.firstObject.softButtons.firstObject.image).toNot(beNil());
                             expect(sentRequests.firstObject.softButtons.firstObject.type).to(equal(SDLSoftButtonTypeBoth));
+                        });
+
+                        context(@"When a response is received to the text upload", ^{
+                            it(@"should finish the operation on a successful response", ^{
+                                [testConnectionManager respondToLastRequestWithResponse:successResponse];
+
+                                expect(testOp.isFinished).to(beTrue());
+                                expect(testOp.isExecuting).to(beFalse());
+                            });
+
+                            it(@"should finish the operation on a failed response", ^{
+                                [testConnectionManager respondToLastRequestWithResponse:failedResponse];
+
+                                expect(testOp.isFinished).to(beTrue());
+                                expect(testOp.isExecuting).to(beFalse());
+                            });
                         });
                     });
 
@@ -301,6 +354,22 @@ describe(@"a soft button replace operation", ^{
                             expect(sentRequests.lastObject.softButtons.lastObject.text).to(equal(object2State1Text));
                             expect(sentRequests.lastObject.softButtons.lastObject.image).toNot(beNil());
                             expect(sentRequests.lastObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeBoth));
+                        });
+
+                        context(@"When a response is received to the text upload", ^{
+                            it(@"should finish the operation on a successful response", ^{
+                                [testConnectionManager respondToLastRequestWithResponse:successResponse];
+
+                                expect(testOp.isFinished).to(beTrue());
+                                expect(testOp.isExecuting).to(beFalse());
+                            });
+
+                            it(@"should finish the operation on a failed response", ^{
+                                [testConnectionManager respondToLastRequestWithResponse:failedResponse];
+
+                                expect(testOp.isFinished).to(beTrue());
+                                expect(testOp.isExecuting).to(beFalse());
+                            });
                         });
                     });
                 });
