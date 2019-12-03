@@ -1,60 +1,85 @@
 //
-//  SDLTemplateConfiguration.m
+//  SDLTemplateConfiguration.h
 //  SmartDeviceLink
 
-#import "SDLTemplateConfiguration.h"
+#import "SDLTemplateColorScheme.h"
+#import "SDLPredefinedLayout.h"
 
-#import "NSMutableDictionary+Store.h"
-#import "SDLRPCParameterNames.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLTemplateConfiguration
+/**
+ Used to set an alternate template layout to a window.
+
+ @since SDL 6.0
+ */
+@interface SDLTemplateConfiguration : SDLRPCStruct
 
 
-- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
-    return [self initWithTemplate:predefinedLayout];
-}
+/**
+ Constructor with the required values.
 
-- (instancetype)initWithTemplate:(NSString *)template {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-    self.template = template;
-    return self;
-}
+ @param predefinedLayout A template layout an app uses to display information. The broad details of the layout are defined, but the details depend on the IVI system. Used in SetDisplayLayout.
+ */
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
 
-- (instancetype)initWithTemplate:(NSString *)template dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithTemplate:template];
-    if (!self) {
-        return nil;
-    }
-    self.dayColorScheme = dayColorScheme;
-    self.nightColorScheme = nightColorScheme;
-    return self;
-}
+#ifndef __cplusplus
+/**
+ Init with the required values.
 
-- (void)setTemplate:(NSString *)template {
-    [self.store sdl_setObject:template forName:SDLRPCParameterNameTemplate];
-}
+ @param template Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ */
+- (instancetype)initWithTemplate:(NSString *)template;
 
-- (NSString *)template {
-    return [self.store sdl_objectForName:SDLRPCParameterNameTemplate ofClass:NSString.class error:nil];
-}
 
-- (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {
-    [self.store sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
-}
+/**
+ Convinience constructor with all the parameters.
 
-- (nullable SDLTemplateColorScheme *)dayColorScheme {
-    return [self.store sdl_objectForName:SDLRPCParameterNameDayColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
-}
+ @param template Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ @param dayColorScheme The color scheme to use when the head unit is in a light / day situation. If nil, the existing color scheme will be used.
+ @param nightColorScheme The color scheme to use when the head unit is in a dark / night situation.
+ */
+- (instancetype)initWithTemplate:(NSString *)template dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
 
-- (void)setNightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    [self.store sdl_setObject:nightColorScheme forName:SDLRPCParameterNameNightColorScheme];
-}
+/**
+ Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ */
+@property (strong, nonatomic) NSString *template;
+#endif
 
-- (nullable SDLTemplateColorScheme *)nightColorScheme {
-    return [self.store sdl_objectForName:SDLRPCParameterNameNightColorScheme ofClass:SDLTemplateColorScheme.class error:nil];
-}
+#ifdef __cplusplus
+/**
+ Init with the required values.
+
+ @param templateName Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ */
+- (instancetype)initWithTemplate:(NSString *)templateName;
+
+
+/**
+ Convinience constructor with all the parameters.
+
+ @param templateName Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ @param dayColorScheme The color scheme to use when the head unit is in a light / day situation. If nil, the existing color scheme will be used.
+ @param nightColorScheme The color scheme to use when the head unit is in a dark / night situation.
+ */
+- (instancetype)initWithTemplate:(NSString *)templateName dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+
+/**
+ Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
+ */
+@property (strong, nonatomic) NSString *templateName;
+#endif
+
+/**
+ The color scheme to use when the head unit is in a light / day situation.
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
+
+/**
+ The color scheme to use when the head unit is in a dark / night situation.
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 
 @end
+
+NS_ASSUME_NONNULL_END
