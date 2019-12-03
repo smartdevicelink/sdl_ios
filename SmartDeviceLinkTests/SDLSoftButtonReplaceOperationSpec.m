@@ -123,7 +123,7 @@ describe(@"a soft button replace operation", ^{
                 testSoftButtonObjects = @[button1, button2];
             });
 
-            context(@"but we don't support artworks", ^{
+            fcontext(@"but the HMI does not support artworks", ^{
                 beforeEach(^{
                     SDLSoftButtonCapabilities *capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @NO;
@@ -132,9 +132,11 @@ describe(@"a soft button replace operation", ^{
                     [testOp start];
                 });
 
-                it(@"should not send artworks", ^{
+                it(@"should not upload any artworks", ^{
                     OCMReject([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
 
+                it(@"should send the button text", ^{
                     NSArray<SDLShow *> *sentRequests = testConnectionManager.receivedRequests;
                     expect(sentRequests).to(haveCount(1));
                     expect(sentRequests.firstObject.mainField1).to(equal(testMainField1));
@@ -147,9 +149,31 @@ describe(@"a soft button replace operation", ^{
                     expect(sentRequests.firstObject.softButtons.lastObject.image).to(beNil());
                     expect(sentRequests.firstObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeText));
                 });
+
+                context(@"When a response is received to the text upload", ^{
+                    it(@"should finish the operation on a successful response", ^{
+                        SDLRPCResponse *successResponse = [[SDLRPCResponse alloc] init];
+                        successResponse.success = @YES;
+                        successResponse.resultCode = SDLResultSuccess;
+                        [testConnectionManager respondToLastRequestWithResponse:successResponse];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(testOp.isExecuting).to(beFalse());
+                    });
+
+                    it(@"should finish the operation on a failed response", ^{
+                        SDLRPCResponse *failedResponse = [[SDLRPCResponse alloc] init];
+                        failedResponse.success = @NO;
+                        failedResponse.resultCode = SDLResultRejected;
+                        [testConnectionManager respondToLastRequestWithResponse:failedResponse];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(testOp.isExecuting).to(beFalse());
+                    });
+                });
             });
 
-            context(@"but we don't support artworks and some buttons are image-only", ^{
+            context(@"but the HMI does not support artworks and some buttons are image-only", ^{
                 __block NSArray<SDLSoftButtonObject *> *testImageOnlySoftButtonObjects = nil;
 
                 beforeEach(^{
@@ -178,7 +202,7 @@ describe(@"a soft button replace operation", ^{
                 });
             });
 
-            context(@"and we support artworks", ^{
+            context(@"and the HMI supports artworks", ^{
                 __block SDLSoftButtonCapabilities *buttonCapabilities = nil;
 
                 beforeEach(^{
