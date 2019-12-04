@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
 
+// HAX: We are doing this because `template` is a C++ keyword and won't compile.
 #ifndef __cplusplus
 /**
  Init with the required values.
