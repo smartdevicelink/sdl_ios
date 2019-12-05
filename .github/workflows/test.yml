@@ -6,38 +6,41 @@ jobs:
   test:
     name: library unit tests
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        destination: ['platform=iOS Simulator,OS=13.2,name=iPhone 11']
+    env:
+      DEVICE: "iPhone 11"
+      PLATFORM: "iOS Simulator"
+      OS: "OS 13.2"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
-          set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "${destination}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c
+          set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c
           
   build_objc_example:
     name: build obj-c example app
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        destination: ['platform=iOS Simulator,OS=13.2,name=iPhone 11']
+    env:
+      DEVICE: "iPhone 11"
+      PLATFORM: "iOS Simulator"
+      OS: "OS 13.2"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
-         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination ${destination} -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
 
   build_swift_example:
     name: build swift example app
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        destination: ['platform=iOS Simulator,OS=13.2,name=iPhone 11']
+    env:
+      DEVICE: "iPhone 11"
+      PLATFORM: "iOS Simulator"
+      OS: "OS 13.2"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
-         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination ${destination} -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
