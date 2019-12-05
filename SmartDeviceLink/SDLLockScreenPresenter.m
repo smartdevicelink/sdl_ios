@@ -34,8 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
     CGRect screenFrame = [[UIScreen mainScreen] bounds];
     _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
     _lockWindow.backgroundColor = [UIColor clearColor];
-    _screenshotViewController = [[SDLScreenshotViewController alloc] init];
-    _lockWindow.rootViewController = _screenshotViewController;
 
     return self;
 }
