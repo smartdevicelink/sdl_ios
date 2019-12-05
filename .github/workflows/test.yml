@@ -9,7 +9,7 @@ jobs:
     env:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
-      OS: "OS 13.1"
+      OS: "13.1"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
