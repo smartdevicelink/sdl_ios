@@ -2,14 +2,14 @@ name: CI
 
 on: [push]
 
-jobs:   
+jobs:
   test:
     name: library unit tests
     runs-on: macOS-latest
     env:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
-      OS: "OS 13.2"
+      OS: "OS 13.1"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
@@ -23,7 +23,7 @@ jobs:
     env:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
-      OS: "OS 13.2"
+      OS: "OS 13.1"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
@@ -37,7 +37,7 @@ jobs:
     env:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
-      OS: "OS 13.2"
+      OS: "OS 13.1"
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
