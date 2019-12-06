@@ -3,6 +3,15 @@ name: CI
 on: [push]
 
 jobs:
+  build:
+    name: update and build testing frameworks
+    steps:
+      - name: Update testing frameworks
+        run: |
+          brew update
+          brew outdated carthage || brew upgrade carthage
+      - name: Install testing frameworks
+        run: carthage bootstrap --platform ios
   test:
     name: library unit tests
     runs-on: macOS-latest
@@ -10,11 +19,13 @@ jobs:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
       OS: "13.1"
+    needs: build
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
+          git submodule update
           set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c
           
   build_objc_example:
@@ -24,12 +35,14 @@ jobs:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
       OS: "OS 13.1"
+    needs: build
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
-         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+          git submodule update
+          set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
 
   build_swift_example:
     name: build swift example app
@@ -38,9 +51,11 @@ jobs:
       DEVICE: "iPhone 11"
       PLATFORM: "iOS Simulator"
       OS: "OS 13.1"
+    needs: build
     steps:
       - name: Checkout project
         uses: actions/checkout@v1
       - name: build and test
         run: |
-         set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+          git submodule update
+          set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=$PLATFORM,OS=$OS,name=$DEVICE" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
