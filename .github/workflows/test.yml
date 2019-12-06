@@ -5,6 +5,7 @@ on: [push]
 jobs:
   build:
     name: update and build testing frameworks
+    runs-on: macOS-latest
     steps:
       - name: Update testing frameworks
         run: |
