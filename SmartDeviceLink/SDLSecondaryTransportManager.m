@@ -356,6 +356,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)sdl_handleTransportEventUpdate {
+    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
     if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
         // The system sent Transport Event Update frame prior to Start Service ACK. Just keep the information and do nothing here.
         SDLLogV(@"Received TCP transport information prior to Start Service ACK");
