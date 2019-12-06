@@ -22,5 +22,5 @@ script:
 - set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=iOS Simulator,OS=13.2.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO build | xcpretty -c;
 - set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=iOS Simulator,OS=13.2.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
 
-after_script:
-- bash <(curl -s https://codecov.io/bash)
+after_success:
+- bash <(curl -s https://codecov.io/bash) -J 'SmartDeviceLink'
