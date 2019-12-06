@@ -510,7 +510,6 @@ static const int TCPPortUnspecified = -1;
     [protocol.protocolDelegateTable addObject:self];
 
     self.secondaryProtocol = protocol;
-    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryTransport = transport;
 
     // we reuse Session ID acquired from primary transport's protocol
@@ -533,7 +532,6 @@ static const int TCPPortUnspecified = -1;
     [protocol.protocolDelegateTable addObject:self];
 
     self.secondaryProtocol = protocol;
-    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryTransport = transport;
 
     // we reuse Session ID acquired from primary transport's protocol
