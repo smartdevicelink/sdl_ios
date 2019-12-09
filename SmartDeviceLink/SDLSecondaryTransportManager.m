@@ -18,6 +18,7 @@
 #import "SDLLogMacros.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
