@@ -7,34 +7,22 @@ env:
   global:
     - FRAMEWORK_NAME=SmartDeviceLink
 
+cache:
+  directories:
+  - Carthage
+
 notifications:
   email: false
 
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
-
-before_script:
-- carthage bootstrap --platform ios
+- carthage bootstrap --verbose --no-use-binaries --platform iOS --cache-builds
 
 script:
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator13.2" -destination "OS=13.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -sdk "iphonesimulator13.2" -destination "OS=13.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -sdk "iphonesimulator13.2" -destination "OS=13.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination "platform=iOS Simulator,OS=13.2.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO build | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=iOS Simulator,OS=13.2.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO build | xcpretty -c;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=iOS Simulator,OS=13.2.2,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
 
-after_script:
-- bash <(curl -s https://codecov.io/bash)
-
-before_deploy:
-  - carthage build --no-skip-current --platform ios
-  - carthage archive $FRAMEWORK_NAME
-
-deploy:
-  provider: releases
-  api_key:
-    secure: p28zh58SsuOu7kD1/OhTklKsuAGD/DbSjBHDW7Tz1Yw+KDOm/RZZwdCmm9s3aroK7imtzSePj16v6Wxg4JT1JbVdNo2meEg/b6Ue0BcifEOx6dxKqeAtutQQdG3xqRIJxPZaK1nm6BSUZ5haaLMEKIFfiumQSaVwQVhs0chP0d4=
-  file: "$FRAMEWORK_NAME.framework.zip"
-  skip_cleanup: true
-  on:
-    repo: smartdevicelink/sdl_ios
-    tags: true
+after_success:
+- bash <(curl -s https://codecov.io/bash) -J 'SmartDeviceLink'
