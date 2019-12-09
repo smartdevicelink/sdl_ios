@@ -95,6 +95,8 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 // TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
+// App is ready to set security manager to secondary protocol
+@property (assign, nonatomic) BOOL isAppReady;
 
 @end
 
@@ -120,8 +122,7 @@ static const int TCPPortUnspecified = -1;
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
 
-    // Listen for Security Manager set event and update the security manager
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(securityManagerWasSet) name:SDLSecurityManagerSet object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeReady) name:SDLDidBecomeReady object:nil];
 
     return self;
 }
@@ -228,7 +229,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)didEnterStateConfigured {
-    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady])
+    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady)
         || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
@@ -356,6 +357,7 @@ static const int TCPPortUnspecified = -1;
     // this will trigger audio / video streaming if they are allowed on primary transport
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
+    self.isAppReady = true;
     [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
 }
 
@@ -511,6 +513,7 @@ static const int TCPPortUnspecified = -1;
     transport.delegate = protocol;
     protocol.transport = transport;
     [protocol.protocolDelegateTable addObject:self];
+    protocol.securityManager = self.primaryProtocol.securityManager;
 
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -533,6 +536,7 @@ static const int TCPPortUnspecified = -1;
     transport.delegate = protocol;
     protocol.transport = transport;
     [protocol.protocolDelegateTable addObject:self];
+    protocol.securityManager = self.primaryProtocol.securityManager;
 
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -709,8 +713,11 @@ static const int TCPPortUnspecified = -1;
     }
 }
 
-- (void)securityManagerWasSet {
+- (void)appDidBecomeReady {
     self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
+    if ([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured]) {
+         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+    }
 }
 
 @end

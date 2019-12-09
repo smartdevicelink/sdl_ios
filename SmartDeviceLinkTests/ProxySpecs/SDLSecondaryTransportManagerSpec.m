@@ -52,6 +52,8 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
+@property (assign, nonatomic) BOOL isAppReady;
+
 
 @end
 
@@ -700,6 +702,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
+                manager.isAppReady = true;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -816,6 +819,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
+                manager.isAppReady = true;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -974,6 +978,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
+                manager.isAppReady = true;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
