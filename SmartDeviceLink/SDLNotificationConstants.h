@@ -130,9 +130,6 @@ extern SDLNotificationName const SDLDidBecomeReady;
 /// Name for a notification sent by the user when their CarWindow view has been updated
 extern SDLNotificationName const SDLDidUpdateProjectionView;
 
-// Name for a security manager set notification
-extern SDLNotificationName const SDLSecurityManagerSet;
-
 /**
  *  NSNotification names associated with specific RPC responses.
  */
