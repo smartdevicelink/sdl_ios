@@ -18,6 +18,7 @@
 #import "SDLLogMacros.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
@@ -118,6 +119,9 @@ static const int TCPPortUnspecified = -1;
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
+
+    // Listen for Security Manager set event and update the security manager
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(securityManagerWasSet) name:SDLSecurityManagerSet object:nil];
 
     return self;
 }
@@ -356,7 +360,6 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)sdl_handleTransportEventUpdate {
-    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
     if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
         // The system sent Transport Event Update frame prior to Start Service ACK. Just keep the information and do nothing here.
         SDLLogV(@"Received TCP transport information prior to Start Service ACK");
@@ -704,6 +707,10 @@ static const int TCPPortUnspecified = -1;
         SDLLogE(@"Unknown type of primary transport");
         return SDLSecondaryTransportTypeDisabled;
     }
+}
+
+- (void)securityManagerWasSet {
+    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
 }
 
 @end

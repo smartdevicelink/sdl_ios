@@ -535,6 +535,8 @@ static float DefaultConnectionTimeout = 45.0;
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
     }
+    // Post Notification that the securityManager is set
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLSecurityManagerSet object:nil];
 
     if ([SDLGlobals sharedGlobals].protocolVersion.major >= 4) {
         [self sendMobileHMIState];
