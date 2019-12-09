@@ -54,7 +54,6 @@ static const int TCPPortUnspecified = -1;
 @property (assign, nonatomic) int tcpPort;
 @property (assign, nonatomic) BOOL isAppReady;
 
-
 @end
 
 @interface SDLSecondaryTransportManager (ForTest)
