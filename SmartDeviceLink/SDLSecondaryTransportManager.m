@@ -96,7 +96,7 @@ static const int TCPPortUnspecified = -1;
 // TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
 // App is ready to set security manager to secondary protocol
-@property (assign, nonatomic) BOOL isAppReady;
+@property (assign, nonatomic, getter=isAppReady) BOOL appReady;
 
 @end
 
