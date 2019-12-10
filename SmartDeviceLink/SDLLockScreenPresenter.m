@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) SDLScreenshotViewController *screenshotViewController;
-@property (strong, nonatomic, nullable) UIWindow *lockWindow;
+@property (strong, nonatomic) UIWindow *lockWindow;
 
 @end
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (nullable UIWindow *)lockWindow {
+- (UIWindow *)lockWindow {
     if(!_lockWindow) {
         CGRect screenFrame = [[UIScreen mainScreen] bounds];
         _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
