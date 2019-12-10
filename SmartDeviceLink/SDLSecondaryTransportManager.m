@@ -357,7 +357,6 @@ static const int TCPPortUnspecified = -1;
     // this will trigger audio / video streaming if they are allowed on primary transport
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
-    self.isAppReady = true;
     [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
 }
 
@@ -714,7 +713,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)appDidBecomeReady {
-    self.secondaryProtocol.securityManager = self.primaryProtocol.securityManager;
+    self.appReady = YES;
     if ([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured]) {
          [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
