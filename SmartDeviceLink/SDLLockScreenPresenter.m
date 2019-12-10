@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) SDLScreenshotViewController *screenshotViewController;
-@property (strong, nonatomic) UIWindow *lockWindow;
+@property (strong, nonatomic, nullable) UIWindow *lockWindow;
 
 @end
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (UIWindow *)lockWindow {
+- (nullable UIWindow *)lockWindow {
     if(!_lockWindow) {
         CGRect screenFrame = [[UIScreen mainScreen] bounds];
         _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
@@ -237,14 +237,20 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Dismiss the lockscreen
     SDLLogD(@"Dismiss lock screen window from app window: %@", appWindow);
+    __weak typeof(self) weakself = self;
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
         CGRect lockFrame = self.lockWindow.frame;
         lockFrame.origin.x = CGRectGetWidth(lockFrame);
-        self.lockWindow.frame = lockFrame;
+        weakself.lockWindow.frame = lockFrame;
 
-        // Quickly move the map back, and make it the key window.
+        // Make the `appWindow` the visible window
         appWindow.frame = self.lockWindow.bounds;
         [appWindow makeKeyAndVisible];
+
+        // Destroy the lock screen window
+        weakself.screenshotViewController = nil;
+        weakself.lockWindow.rootViewController = nil;
+        weakself.lockWindow = nil;
 
         // Tell ourselves we are done.
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
