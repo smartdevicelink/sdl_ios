@@ -14,11 +14,13 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
 #import "SDLIAPTransport.h"
+#import "SDLNotificationConstants.h"
 #import "SDLProtocol.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLFakeSecurityManager.h"
 
 /* copied from SDLSecondaryTransportManager.m */
 typedef NSNumber SDLServiceTypeBox;
@@ -45,6 +47,7 @@ static const int TCPPortUnspecified = -1;
 
 // we need to reach to private properties for the tests
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
+@property (nullable, strong, nonatomic) SDLProtocol *primaryProtocol;
 @property (nullable, strong, nonatomic) id<SDLTransportType> secondaryTransport;
 @property (nullable, strong, nonatomic) SDLProtocol *secondaryProtocol;
 @property (strong, nonatomic, nonnull) NSArray<SDLTransportClassBox *> *transportsForAudioService;
@@ -52,7 +55,7 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
-@property (assign, nonatomic) BOOL isAppReady;
+@property (assign, nonatomic, getter=isAppReady) BOOL appReady;
 
 @end
 
@@ -410,6 +413,7 @@ describe(@"the secondary transport manager ", ^{
 
                     testStartServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMtu authToken:nil protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
                     testStartServiceACKMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testStartServiceACKHeader andPayload:testStartServiceACKPayload.data];
+                    manager.appReady = YES;
                 });
 
                 it(@"should configure its properties and immediately transition to Connecting state", ^{
@@ -492,6 +496,7 @@ describe(@"the secondary transport manager ", ^{
                 testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLTCPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
+
                 dispatch_sync(testStateMachineQueue, ^{
                     [manager startWithPrimaryProtocol:testPrimaryProtocol];
                 });
@@ -499,21 +504,41 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionIAP;
             });
 
-            it(@"should transition to Connecting state", ^{
+            it(@"should transition to Connecting state but before RAIR is sent", ^{
                 // setToState cannot be used here, as the method will set the state after calling didEnterStateConfigured
                 dispatch_sync(testStateMachineQueue, ^{
                     [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                expect(manager.secondaryProtocol.securityManager).to(beNil());
+
                 OCMVerifyAll(testStreamingProtocolDelegate);
             });
+
+            it(@"should transition to Connecting state after RAIR is sent", ^{
+                testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
+
+                dispatch_sync(testStateMachineQueue, ^{
+                     [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
+                });
+
+                // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
+
+                expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
+
+                OCMVerifyAll(testStreamingProtocolDelegate);
+            });
+
         });
         describe(@"if secondary transport is TCP", ^{
             beforeEach(^{
                 testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLIAPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
+
                 dispatch_sync(testStateMachineQueue, ^{
                     [manager startWithPrimaryProtocol:testPrimaryProtocol];
                 });
@@ -521,15 +546,17 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = nil;
                 manager.tcpPort = TCPPortUnspecified;
-
-                dispatch_sync(testStateMachineQueue, ^{
-                    [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
-                });
             });
 
             describe(@"and Transport Event Update is not received", ^{
                 it(@"should stay in Configured state", ^{
+
+                    dispatch_sync(testStateMachineQueue, ^{
+                        [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                    });
+
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
+
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
             });
@@ -553,11 +580,34 @@ describe(@"the secondary transport manager ", ^{
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
                 });
 
-                it(@"should transition to Connecting state", ^{
+                it(@"should transition to Connecting state but before RAIR is sent", ^{
+                    dispatch_sync(testStateMachineQueue, ^{
+                        [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                    });
+
                     [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                    expect(manager.secondaryProtocol.securityManager).to(beNil());
+                    OCMVerifyAll(testStreamingProtocolDelegate);
+                });
+
+                it(@"should transition to Connecting state after RAIR is sent", ^{
+                    testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
+                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [NSThread sleepForTimeInterval:0.1];
+
+                    dispatch_sync(testStateMachineQueue, ^{
+                         [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
+                    });
+
+                    // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
+
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                    expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
+
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
             });
@@ -585,7 +635,6 @@ describe(@"the secondary transport manager ", ^{
             });
         });
     });
-
 
     describe(@"In Connecting state", ^{
         __block SDLProtocol *secondaryProtocol = nil;
@@ -701,7 +750,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.isAppReady = true;
+                manager.appReady = YES;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -818,7 +867,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.isAppReady = true;
+                manager.appReady = YES;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -977,7 +1026,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.isAppReady = true;
+                manager.appReady = YES;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
