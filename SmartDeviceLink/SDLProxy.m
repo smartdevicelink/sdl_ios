@@ -535,6 +535,7 @@ static float DefaultConnectionTimeout = 45.0;
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
     }
+    
     if ([SDLGlobals sharedGlobals].protocolVersion.major >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
