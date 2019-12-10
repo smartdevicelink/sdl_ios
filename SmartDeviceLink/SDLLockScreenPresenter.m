@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) SDLScreenshotViewController *screenshotViewController;
-@property (strong, nonatomic) UIWindow *lockWindow;
+@property (strong, nonatomic, nullable) UIWindow *lockWindow;
 
 @end
 
@@ -27,15 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
-    self = [super init];
-    if (!self) { return nil; }
-
-    CGRect screenFrame = [[UIScreen mainScreen] bounds];
-    _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
-    _lockWindow.backgroundColor = [UIColor clearColor];
-
-    return self;
+- (nullable UIWindow *)lockWindow {
+    if(!_lockWindow) {
+        CGRect screenFrame = [[UIScreen mainScreen] bounds];
+        _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
+        _lockWindow.backgroundColor = [UIColor clearColor];
+    }
+    return _lockWindow;
 }
 
 #pragma mark - Present Lock Window
@@ -62,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSArray* windows = [[UIApplication sharedApplication] windows];
+    NSArray *windows = [[UIApplication sharedApplication] windows];
     UIWindow *appWindow = nil;
     for (UIWindow *window in windows) {
         if (window != self.lockWindow) {
