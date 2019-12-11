@@ -156,26 +156,38 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Present the VC depending on the lock screen status
-    if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (!self.presenter.presented && self.canPresent) {
-            [self.presenter present];
-        }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
-        }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
-        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.presenter.presented) {
-            [self.presenter dismiss];
-        }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        if (self.presenter.presented) {
-            [self.presenter dismiss];
-        }
-    }
+    __weak typeof(self) weakself = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if (!([UIApplication sharedApplication].applicationState == UIApplicationStateActive)) {
+			// Don't present lock screen when app is backgrounded because the screenshot will be a black screen
+			return;
+		}
+
+		[weakself sdl_checkLockScreenStatus];
+	});
+}
+
+- (void)sdl_checkLockScreenStatus {
+	// Present the VC depending on the lock screen status
+	if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
+		if (!self.presenter.presented && self.canPresent) {
+			[self.presenter present];
+		}
+	} else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
+		if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
+			[self.presenter present];
+		}
+	} else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
+		if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
+			[self.presenter present];
+		} else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.presenter.presented) {
+			[self.presenter dismiss];
+		}
+	} else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
+		if (self.presenter.presented) {
+			[self.presenter dismiss];
+		}
+	}
 }
 
 - (void)sdl_updateLockScreenDismissable {
