@@ -207,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         NSArray<UIWindow *> *windows = appWindowScene.windows;
         UIWindow *appWindow = nil;
-        for (UIWindow *window in windows.reverseObjectEnumerator) {
+        for (UIWindow *window in windows) {
             SDLLogV(@"Checking window: %@", window);
             if ([window.rootViewController isKindOfClass:[self.coveredRootViewController class]]) {
                 appWindow = window;
