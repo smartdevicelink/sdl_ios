@@ -656,7 +656,7 @@ static const int TCPPortUnspecified = -1;
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
             if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
-                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady]) {
+                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady) {
                 SDLLogD(@"Resuming TCP transport since the app becomes foreground");
                 [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             }
