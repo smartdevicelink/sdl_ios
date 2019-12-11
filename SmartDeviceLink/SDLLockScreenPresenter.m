@@ -98,10 +98,11 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
 
+		// Find the currently visible app window
         NSArray<UIWindow *> *windows = appWindowScene.windows;
         UIWindow *appWindow = nil;
         for (UIWindow *window in windows) {
-            if (window != self.lockWindow) {
+            if (window.isKeyWindow) {
                 SDLLogV(@"Found app window");
                 appWindow = window;
                 break;
@@ -202,9 +203,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         NSArray<UIWindow *> *windows = appWindowScene.windows;
         UIWindow *appWindow = nil;
-        for (UIWindow *window in windows) {
+        for (UIWindow *window in windows.reverseObjectEnumerator) {
             SDLLogV(@"Checking window: %@", window);
-            if (window != self.lockWindow) {
+            if (window != self.lockWindow && ![window.rootViewController isKindOfClass:[UIInputViewController class]]) {
                 appWindow = window;
                 break;
             }
