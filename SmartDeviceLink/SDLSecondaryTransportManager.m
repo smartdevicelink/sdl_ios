@@ -282,6 +282,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)didEnterStateReconnecting {
+    self.appReady = NO;
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
