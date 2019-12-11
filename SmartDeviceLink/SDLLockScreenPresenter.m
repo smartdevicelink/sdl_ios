@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
     // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
-	// Save the currently visible root view controller so we can find it when dismissing the lock screen window
+	// Save the currently visible root view controller so we can find it when dismissing the lock screen window. It is not possible to present/dismiss a view in a window that is not visible so we don't have to worry about the `rootViewController` changing.
 	self.coveredRootViewController = appWindow.rootViewController;
 
     CGRect firstFrame = appWindow.frame;
