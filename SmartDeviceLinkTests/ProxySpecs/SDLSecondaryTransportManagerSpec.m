@@ -501,16 +501,15 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 manager.secondaryTransportType = SDLTransportSelectionIAP;
+
+                dispatch_sync(testStateMachineQueue, ^{
+                    [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                });
             });
 
             context(@"before the security manager is set by register app interface response", ^{
-                it(@"should transition to Connecting", ^{
-                    // setToState cannot be used here, as the method will set the state after calling didEnterStateConfigured
-                    dispatch_sync(testStateMachineQueue, ^{
-                        [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
-                    });
-
-                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                it(@"should stay in state Configured", ^{
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
                     expect(manager.secondaryProtocol.securityManager).to(beNil());
                     expect(manager.isAppReady).to(equal(NO));
 
@@ -519,16 +518,13 @@ describe(@"the secondary transport manager ", ^{
             });
 
             context(@"after the security manager is set by register app interface response", ^{
-                it(@"should transition to Connecting state", ^{
+                beforeEach(^{
                     testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
-
-                    dispatch_sync(testStateMachineQueue, ^{
-                         [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
-                    });
-
                     // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
                     [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
+                });
 
+                it(@"should transition to Connecting state", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
                     expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
                     expect(manager.isAppReady).to(equal(YES));
@@ -559,7 +555,6 @@ describe(@"the secondary transport manager ", ^{
 
             describe(@"and Transport Event Update is not received", ^{
                 it(@"should stay in Configured state", ^{
-
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
@@ -583,29 +578,28 @@ describe(@"the secondary transport manager ", ^{
 
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
+
+                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [NSThread sleepForTimeInterval:0.1];
+
                 });
 
                 context(@"before the security manager is set by register app interface response", ^{
-                    it(@"should transition to Connecting", ^{
-                        [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
-                        [NSThread sleepForTimeInterval:0.1];
-
-                        expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                    it(@"should stay in Configured state", ^{
+                        expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
                         expect(manager.secondaryProtocol.securityManager).to(beNil());
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
                 });
 
                 context(@"after the security manager is set by register app interface response", ^{
-                    it(@"should transition to Connecting", ^{
+                    beforeEach(^{
                         testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
-
                         // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
                         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
-
-                        [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
-                        [NSThread sleepForTimeInterval:0.1];
-
+                    });
+                    
+                    it(@"should transition to Connecting", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
                         expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
 

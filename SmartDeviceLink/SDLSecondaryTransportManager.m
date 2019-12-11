@@ -230,7 +230,7 @@ static const int TCPPortUnspecified = -1;
 
 - (void)didEnterStateConfigured {
     if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady)
-        || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
+        || (self.secondaryTransportType == SDLSecondaryTransportTypeIAP && self.isAppReady)) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
@@ -372,7 +372,7 @@ static const int TCPPortUnspecified = -1;
         return;
     }
 
-    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady]) {
+    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady] && self.isAppReady) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     } else if ([self sdl_isTransportOpened]) {
         // Disconnect current transport. If the IP address is available then we will reconnect immediately.
@@ -715,7 +715,7 @@ static const int TCPPortUnspecified = -1;
 
 - (void)appDidBecomeReady {
     self.appReady = YES;
-    if ([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured]) {
+    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress) || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
          [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
