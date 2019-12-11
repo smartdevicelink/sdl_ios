@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLScreenshotViewController *screenshotViewController;
 @property (strong, nonatomic) UIWindow *lockWindow;
+@property (strong, nonatomic, nullable) UIViewController *coveredRootViewController;
 
 @end
 
@@ -135,6 +136,9 @@ NS_ASSUME_NONNULL_BEGIN
     // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
+	// Save the currently visible root view controller so we can find it when dismissing the lock screen window
+	self.coveredRootViewController = appWindow.rootViewController;
+
     CGRect firstFrame = appWindow.frame;
     firstFrame.origin.x = CGRectGetWidth(firstFrame);
     appWindow.frame = firstFrame;
@@ -205,8 +209,9 @@ NS_ASSUME_NONNULL_BEGIN
         UIWindow *appWindow = nil;
         for (UIWindow *window in windows.reverseObjectEnumerator) {
             SDLLogV(@"Checking window: %@", window);
-            if (window != self.lockWindow && ![window.rootViewController isKindOfClass:[UIInputViewController class]]) {
+            if ([window.rootViewController isKindOfClass:[self.coveredRootViewController class]]) {
                 appWindow = window;
+				self.coveredRootViewController = nil;
                 break;
             }
         }
