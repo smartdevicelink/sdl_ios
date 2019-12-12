@@ -152,18 +152,6 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (!([UIApplication sharedApplication].applicationState == UIApplicationStateActive)) {
-            // Don't present lock screen when app is backgrounded because the screenshot will be a black screen
-            return;
-        }
-
-        [weakself sdl_checkLockScreenStatus];
-    });
-}
-
-- (void)sdl_checkLockScreenStatus {
     // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (!self.presenter.presented && self.canPresent) {
