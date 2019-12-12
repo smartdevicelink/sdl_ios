@@ -25,39 +25,39 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLLockScreenPresenter
 
 - (void)stop {
-	if (!self.lockWindow) {
-		return;
-	}
+    if (!self.lockWindow) {
+        return;
+    }
 
-	if (!(self.lockViewController && self.presented)) {
-		// The lockscreen was shown at least once
-		self.lockWindow = nil;
-		return;
-	}
+    if (!(self.lockViewController && self.presented)) {
+        // The lockscreen was shown at least once
+        self.lockWindow = nil;
+        return;
+    }
 
     // Remove the lock screen if presented
-	[self sdl_dismissWithCompletionHandler:^(BOOL success) {
-		if (!self.lockWindow) { return; }
-		self.lockWindow = nil;
-	}];
+    [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+        if (!self.lockWindow) { return; }
+        self.lockWindow = nil;
+    }];
 }
 
 #pragma mark - Present Lock Window
 
 - (void)present {
     SDLLogD(@"Trying to present lock screen");
-	__weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-		[weakSelf sdl_presentLockscreen];
+        [weakSelf sdl_presentLockscreen];
     });
 }
 
 - (void)sdl_presentLockscreen {
-	if (!self.lockWindow) {
-		self.lockWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-		self.lockWindow.backgroundColor = UIColor.clearColor;
-		self.lockWindow.rootViewController = [SDLLockScreenRootViewController new];
-	}
+    if (!self.lockWindow) {
+        self.lockWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        self.lockWindow.backgroundColor = UIColor.clearColor;
+        self.lockWindow.rootViewController = [SDLLockScreenRootViewController new];
+    }
 
     // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lock screen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
@@ -73,36 +73,36 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Dismiss Lock Window
 
 - (void)dismiss {
-	[self sdl_dismissWithCompletionHandler:nil];
+    [self sdl_dismissWithCompletionHandler:nil];
 }
 
 - (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-		[weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
-	});
+        [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
+    });
 }
 
 - (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
-	if (self.lockViewController == nil) {
+    if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lock screen, but lockViewController is not set");
-		if (completionHandler == nil) { return; }
+        if (completionHandler == nil) { return; }
         return completionHandler(NO);
     }
 
-	// Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lock screen will be very janky.
+    // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lock screen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
     SDLLogD(@"Hiding the lock screen window");
-	__weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
-		[weakSelf.lockWindow setHidden:YES];
+        [weakSelf.lockWindow setHidden:YES];
 
         // Tell ourselves we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
-		if (completionHandler == nil) { return; }
-		return completionHandler(YES);
+        if (completionHandler == nil) { return; }
+        return completionHandler(YES);
     }];
 }
 
