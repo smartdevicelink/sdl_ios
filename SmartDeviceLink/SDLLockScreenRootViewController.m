@@ -1,23 +1,27 @@
 //
-//  SDLLockScreenWindowViewController.m
+//  SDLLockScreenRootViewController.m
 //  SmartDeviceLink
 //
 //  Created by Nicole on 12/12/19.
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLLockScreenWindowViewController.h"
+#import "SDLLockScreenRootViewController.h"
 
-@interface SDLLockScreenWindowViewController ()
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLLockScreenRootViewController ()
 
 @end
 
-@implementation SDLLockScreenWindowViewController
+@implementation SDLLockScreenRootViewController
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view.
+	self.view.backgroundColor = UIColor.clearColor;
 }
+
+#pragma mark - Orientation
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -52,3 +56,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

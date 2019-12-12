@@ -1284,6 +1284,8 @@
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		8803DCEF22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */; };
 		8803DCF022C2B84B00FBB7CE /* SDLBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */; };
+		880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */; };
+		880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };
 		880D267D220DE5DF00B3F496 /* SDLWeatherServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880D267E220DE5DF00B3F496 /* SDLWeatherServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D267C220DE5DF00B3F496 /* SDLWeatherServiceManifest.m */; };
@@ -3031,6 +3033,8 @@
 		880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfiguration.m; sourceTree = "<group>"; };
 		8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLBackgroundTaskManager.h; sourceTree = "<group>"; };
 		8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLBackgroundTaskManager.m; sourceTree = "<group>"; };
+		880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenRootViewController.h; sourceTree = "<group>"; };
+		880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenRootViewController.m; sourceTree = "<group>"; };
 		880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceDataSpec.m; sourceTree = "<group>"; };
 		880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherServiceManifest.h; sourceTree = "<group>"; };
 		880D267C220DE5DF00B3F496 /* SDLWeatherServiceManifest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceManifest.m; sourceTree = "<group>"; };
@@ -5458,6 +5462,8 @@
 		5D76E31F1D39731100647CFA /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */,
+				880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */,
 				5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */,
 				5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */,
 				5D76E3231D39767000647CFA /* SDLLockScreenPresenter.m */,
@@ -6644,6 +6650,7 @@
 				8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */,
 				5D9FDA901F2A7D3400A495C8 /* bson_array.h in Headers */,
 				5D61FDCB1A84238C00846EE7 /* SDLTextFieldName.h in Headers */,
+				880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */,
 				5D61FD8B1A84238C00846EE7 /* SDLSetMediaClockTimer.h in Headers */,
 				DA6223BD1E7B088200878689 /* CVPixelBufferRef+SDLUtil.h in Headers */,
 				5D61FD031A84238C00846EE7 /* SDLOnButtonEvent.h in Headers */,
@@ -7533,6 +7540,7 @@
 				008DB36A22EA8261003F458C /* SDLReleaseInteriorVehicleDataModule.m in Sources */,
 				88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */,
 				5D61FC4E1A84238C00846EE7 /* SDLBitsPerSample.m in Sources */,
+				880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */,
 				5D00AC701F1511B9004000D9 /* SDLGetSystemCapability.m in Sources */,
 				5D61FDEA1A84238C00846EE7 /* SDLUnsubscribeButtonResponse.m in Sources */,
 				7538765022D8CEDB00FE8484 /* SDLShowAppMenu.m in Sources */,
