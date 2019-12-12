@@ -39,4 +39,10 @@
     _presented = NO;
 }
 
+- (void)stop {
+    if (!self.lockViewController) { return; }
+
+    _presented = NO;
+}
+
 @end
