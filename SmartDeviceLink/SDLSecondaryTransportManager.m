@@ -715,7 +715,8 @@ static const int TCPPortUnspecified = -1;
 
 - (void)appDidBecomeReady {
     self.appReady = YES;
-    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress) || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
+    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress != nil)
+        || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
          [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
