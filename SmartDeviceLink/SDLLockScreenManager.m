@@ -90,12 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stop {
+	// Don't allow the lockscreen to present again until we start
     self.canPresent = NO;
-
-    // Remove the lock screen if presented, don't allow it to present again until we start
-    if (self.presenter.lockViewController != nil) {
-        [self.presenter dismiss];
-    }
+	[self.presenter stop];
 }
 
 - (nullable UIViewController *)lockScreenViewController {

@@ -20,12 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The view controller to be presented.
  */
-@property (strong, nonatomic) UIViewController *lockViewController;
+@property (strong, nonatomic, nullable) UIViewController *lockViewController;
 
 /**
  *  Whether or not `viewController` is currently presented.
  */
 @property (assign, nonatomic, readonly) BOOL presented;
+
+/**
+ * 	Dismisses and destroys the lock screen window.
+ */
+- (void)stop;
+
 
 @end
 

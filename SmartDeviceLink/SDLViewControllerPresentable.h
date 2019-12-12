@@ -18,5 +18,6 @@
 
 - (void)present;
 - (void)dismiss;
+- (void)stop;
 
 @end
