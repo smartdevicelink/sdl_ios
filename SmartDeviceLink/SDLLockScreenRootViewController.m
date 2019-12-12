@@ -17,42 +17,42 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLLockScreenRootViewController
 
 - (void)viewDidLoad {
-	[super viewDidLoad];
-	self.view.backgroundColor = UIColor.clearColor;
+    [super viewDidLoad];
+    self.view.backgroundColor = UIColor.clearColor;
 }
 
 #pragma mark - Orientation
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-	UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
-
-	if (viewController != nil) {
-		return viewController.supportedInterfaceOrientations;
-	}
-
-	return super.supportedInterfaceOrientations;
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+    
+    if (viewController != nil) {
+        return viewController.supportedInterfaceOrientations;
+    }
+    
+    return super.supportedInterfaceOrientations;
 }
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
-	UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
-
-	if (viewController != nil) {
-		return viewController.shouldAutorotate;
-	}
-
-	return super.shouldAutorotate;
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+    
+    if (viewController != nil) {
+        return viewController.shouldAutorotate;
+    }
+    
+    return super.shouldAutorotate;
 }
 
 - (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
-	UIViewController *topController = window.rootViewController;
-
-	while (topController.presentedViewController) {
-		topController = topController.presentedViewController;
-	}
-
-	return topController;
+    UIViewController *topController = window.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
 }
 
 @end
