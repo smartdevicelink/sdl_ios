@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+BOOL isDissmissing = NO;
 
 @implementation SDLLockScreenPresenter
 
@@ -155,6 +156,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dismiss {
     SDLLogD(@"Trying to dismiss lock screen");
+    if(isDissmissing) {
+        return;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (@available(iOS 13.0, *)) {
             [self sdl_dismissIOS13];
@@ -231,6 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Dismiss the lockscreen
     SDLLogD(@"Dismiss lock screen window from app window: %@", appWindow);
+    isDissmissing = YES;
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
         CGRect lockFrame = self.lockWindow.frame;
         lockFrame.origin.x = CGRectGetWidth(lockFrame);
@@ -242,6 +247,8 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Tell ourselves we are done.
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+
+        isDissmissing = NO;
     }];
 }
 
