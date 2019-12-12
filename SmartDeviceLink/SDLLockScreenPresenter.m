@@ -10,6 +10,7 @@
 
 #import "SDLLogMacros.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLLockScreenWindowViewController.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -55,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 	if (!self.lockWindow) {
 		self.lockWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
 		self.lockWindow.backgroundColor = UIColor.clearColor;
-		self.lockWindow.rootViewController = [UIViewController new];
+		self.lockWindow.rootViewController = [SDLLockScreenWindowViewController new];
 	}
 
     // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lock screen will be very janky.
