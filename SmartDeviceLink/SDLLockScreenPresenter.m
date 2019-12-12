@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Remove the lock screen if presented
     [self sdl_dismissWithCompletionHandler:^(BOOL success) {
-        if (!self.lockWindow) { return; }
         self.lockWindow = nil;
     }];
 }
