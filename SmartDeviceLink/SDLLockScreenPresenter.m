@@ -29,15 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (!(self.lockViewController && self.presented)) {
-        // The lockscreen was shown at least once
-        self.lockWindow = nil;
-        return;
-    }
-
     // Remove the lock screen if presented
+    __weak typeof(self) weakSelf = self;
     [self sdl_dismissWithCompletionHandler:^(BOOL success) {
-        self.lockWindow = nil;
+        weakSelf.lockWindow = nil;
     }];
 }
 
@@ -52,11 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentLockscreen {
-    if (!self.lockWindow) {
-        self.lockWindow = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        self.lockWindow.backgroundColor = UIColor.clearColor;
-        self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
-    }
+    [self sdl_createLockScreenWindow];
 
     // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lock screen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
@@ -122,6 +113,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sdl_presented {
     return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
+}
+
+#pragma mark - Window Helpers
+
+- (void)sdl_createLockScreenWindow {
+    if (self.lockWindow) { return; }
+    self.lockWindow = [self.class sdl_createUIWindow];
+    self.lockWindow.backgroundColor = UIColor.clearColor;
+    self.lockWindow.windowLevel = UIWindowLevelAlert + 1;
+    self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
+}
+
+/// Beginning with iOS 13, if the app is using `SceneDelegate` class, then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear even though it will be added to the `UIApplication`'s `windows` stack.
++ (UIWindow *)sdl_createUIWindow {
+    if (@available(iOS 13.0, *)) {
+        for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+             // The scene is either foreground active / inactive, background, or unattached. If the latter three, we don't want to do anything with them. Also check that the scene is for the application and not an external display or CarPlay.
+            if (scene.activationState != UISceneActivationStateForegroundActive ||
+                ![scene.session.role isEqualToString: UIWindowSceneSessionRoleApplication] ||
+                ![scene isKindOfClass:[UIWindowScene class]]) {
+                continue;
+            }
+
+            return [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
+        }
+    }
+
+    return [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
 }
 
 @end
