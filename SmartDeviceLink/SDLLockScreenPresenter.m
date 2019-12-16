@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Remove the lock screen if presented
     __weak typeof(self) weakSelf = self;
-    [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+    [self sdl_dismissWithCompletionHandler:^{
         weakSelf.lockWindow = nil;
     }];
 }
@@ -71,18 +71,18 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_dismissWithCompletionHandler:nil];
 }
 
-- (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
+- (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
     });
 }
 
-- (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
+- (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
     if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lock screen, but lockViewController is not set");
         if (completionHandler == nil) { return; }
-        return completionHandler(NO);
+        return completionHandler();
     }
 
     // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lock screen will be very janky.
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
         if (completionHandler == nil) { return; }
-        return completionHandler(YES);
+        return completionHandler();
     }];
 }
 
