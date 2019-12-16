@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_presentLockscreen {
     if (!self.lockWindow) {
         self.lockWindow = [self.class sdl_createUIWindow];
-        self.lockWindow.backgroundColor = UIColor.clearColor;
+        self.lockWindow.backgroundColor = [UIColor clearColor];
         self.lockWindow.windowLevel = UIWindowLevelAlert + 1;
         self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
     }
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Presenting the lock screen window");
     [self.lockWindow makeKeyAndVisible];
     [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
-        // Tell ourselves we are done so video streaming can resume
+        // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
     }];
 }
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
         [weakSelf.lockWindow setHidden:YES];
 
-        // Tell ourselves we are done so video streaming can resume
+        // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
         if (completionHandler == nil) { return; }

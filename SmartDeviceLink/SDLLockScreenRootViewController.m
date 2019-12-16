@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.clearColor;
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - Orientation
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
     UIViewController *topController = window.rootViewController;
 
-    while (topController.presentedViewController) {
+    while (topController.presentedViewController != nil) {
         topController = topController.presentedViewController;
     }
 
