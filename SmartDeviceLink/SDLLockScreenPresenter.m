@@ -30,9 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Remove the lock screen if presented
-    __weak typeof(self) weakSelf = self;
     [self sdl_dismissWithCompletionHandler:^{
-        weakSelf.lockWindow = nil;
+        self.lockWindow = nil;
     }];
 }
 
@@ -42,6 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Trying to present lock screen");
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            SDLLogV(@"Application is backgrounded. The lockscreen will not be shown until the application is brought to the foreground.");
+            return;
+        }
         [weakSelf sdl_presentLockscreen];
     });
 }
@@ -74,6 +77,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            SDLLogV(@"Application is backgrounded. The lockscreen will not be dismissed until the app is brought to the foreground.");
+            if (completionHandler == nil) { return; }
+            return completionHandler();
+        }
         [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
     });
 }
@@ -81,6 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
     if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lock screen, but lockViewController is not set");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
+    }
+
+    if ([self sdl_dismissed]) {
+        SDLLogD(@"Lock screen is already being dismissed.");
         if (completionHandler == nil) { return; }
         return completionHandler();
     }
@@ -101,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - isPresented Getter
+#pragma mark - Custom Presented / Dismissed Getters
 
 - (BOOL)presented {
     __block BOOL isPresented = NO;
@@ -118,6 +132,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sdl_presented {
     return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
+}
+
+- (BOOL)sdl_dismissed {
+    return (self.lockViewController.isBeingDismissed || self.lockViewController.isMovingFromParentViewController);
 }
 
 #pragma mark - Window Helpers
