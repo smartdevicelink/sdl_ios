@@ -47,7 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_presentLockscreen {
-    [self sdl_createLockScreenWindow];
+    if (!self.lockWindow) {
+        self.lockWindow = [self.class sdl_createUIWindow];
+        self.lockWindow.backgroundColor = UIColor.clearColor;
+        self.lockWindow.windowLevel = UIWindowLevelAlert + 1;
+        self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
+    }
 
     // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lock screen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
@@ -117,15 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Window Helpers
 
-- (void)sdl_createLockScreenWindow {
-    if (self.lockWindow) { return; }
-    self.lockWindow = [self.class sdl_createUIWindow];
-    self.lockWindow.backgroundColor = UIColor.clearColor;
-    self.lockWindow.windowLevel = UIWindowLevelAlert + 1;
-    self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
-}
-
-/// Beginning with iOS 13, if the app is using `SceneDelegate` class, then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear even though it will be added to the `UIApplication`'s `windows` stack.
+/// Beginning with iOS 13, if the app is using `SceneDelegate` class, then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear even though it is added to the `UIApplication`'s `windows` stack.
 + (UIWindow *)sdl_createUIWindow {
     if (@available(iOS 13.0, *)) {
         for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
