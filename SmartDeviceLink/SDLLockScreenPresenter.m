@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Window Helpers
 
-/// Beginning with iOS 13, if the app is using `SceneDelegate` class, then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear even though it is added to the `UIApplication`'s `windows` stack.
+/// If the app is using `SceneDelegate` class (iOS 13+), then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear on the screen even though it is added to the `UIApplication`'s `windows` stack.
 + (UIWindow *)sdl_createUIWindow {
     if (@available(iOS 13.0, *)) {
         for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
