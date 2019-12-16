@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
         for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
              // The scene is either foreground active / inactive, background, or unattached. If the latter three, we don't want to do anything with them. Also check that the scene is for the application and not an external display or CarPlay.
             if (scene.activationState != UISceneActivationStateForegroundActive ||
-                ![scene.session.role isEqualToString: UIWindowSceneSessionRoleApplication] ||
+                ![scene.session.role isEqualToString:UIWindowSceneSessionRoleApplication] ||
                 ![scene isKindOfClass:[UIWindowScene class]]) {
                 continue;
             }
