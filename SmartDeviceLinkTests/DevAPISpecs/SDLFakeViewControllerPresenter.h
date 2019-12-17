@@ -12,6 +12,6 @@
 
 @interface SDLFakeViewControllerPresenter : NSObject <SDLViewControllerPresentable>
 
-@property (strong, nonatomic) UIViewController *lockViewController;
+@property (strong, nonatomic, nullable) UIViewController *lockViewController;
 
 @end

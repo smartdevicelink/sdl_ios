@@ -11,8 +11,8 @@
 
 @interface SDLFakeViewControllerPresenter ()
 
-@property (assign, nonatomic, readwrite) BOOL presented;
-@property (assign, nonatomic, readwrite) BOOL dismissed;
+@property (assign, nonatomic) BOOL presented;
+@property (assign, nonatomic) BOOL dismissed;
 
 @end
 
