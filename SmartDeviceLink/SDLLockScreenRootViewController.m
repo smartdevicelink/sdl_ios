@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.view.backgroundColor = [UIColor clearColor];
 }
 
-
 #pragma mark - Orientation
 
 /// The view controller should inherit the orientation of the view controller over which the lock screen is being presented.
@@ -29,11 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:UIApplication.sharedApplication.windows.firstObject];
 
-    if (viewController != nil) {
-        return viewController.supportedInterfaceOrientations;
-    }
-
-    return super.supportedInterfaceOrientations;
+    return (viewController != nil) ? viewController.supportedInterfaceOrientations : super.supportedInterfaceOrientations;
 }
 
 /// The view controller should inherit the auto rotate settings of the view controller over which the lock screen is being presented.
@@ -41,18 +36,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)shouldAutorotate {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:UIApplication.sharedApplication.windows.firstObject];
 
-    if (viewController != nil) {
-        return viewController.shouldAutorotate;
-    }
-
-    return super.shouldAutorotate;
+    return (viewController != nil) ? viewController.shouldAutorotate : super.shouldAutorotate;
 }
 
-/// Gets the topmost view controller in a window
+/// Gets the view controller on top of the stack in a window
 /// @param window The window
-- (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
-    UIViewController *topController = window.rootViewController;
+- (nullable UIViewController *)sdl_topMostControllerForWindow:(nullable UIWindow *)window {
+    if (!window || !window.rootViewController) {
+        return nil;
+    }
 
+    UIViewController *topController = window.rootViewController;
     while (topController.presentedViewController != nil) {
         topController = topController.presentedViewController;
     }
