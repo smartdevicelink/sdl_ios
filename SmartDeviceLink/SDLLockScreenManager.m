@@ -130,8 +130,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     // Dismiss the lock screen if the app was disconnected in the background
     __weak typeof(self) weakself = self;
-    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isDismissed) {
-        if (!weakself.canPresent && isPresented && !isDismissed) {
+    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isBeingDismissed) {
+        if (!weakself.canPresent && isPresented && !isBeingDismissed) {
             [weakself.presenter dismiss];
         }
     }];
