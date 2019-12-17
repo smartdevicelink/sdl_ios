@@ -63,6 +63,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLLogD(@"Presenting the lock screen window");
     [self.lockWindow makeKeyAndVisible];
+
+    if ([self sdl_presented]) {
+        // Make sure we are not already animating, otherwise the app may crash
+        SDLLogV(@"The lockViewController already being presented");
+        return;
+    }
+
     [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
         // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
@@ -90,6 +97,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
     if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lock screen, but lockViewController is not set");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
+    }
+
+    if ([self sdl_dismissed]) {
+        // Make sure we are not already animating, otherwise the app may crash
+        SDLLogV(@"The lockViewController already being dismissed");
         if (completionHandler == nil) { return; }
         return completionHandler();
     }
