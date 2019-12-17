@@ -1,5 +1,5 @@
 //
-//  SDLDialogPresenting.h
+//  SDLViewControllerPresentable.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Joel Fischer on 7/15/16.
@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Handler for the lock screen's current presentation status
 /// @param isPresented Returns true if the lock screen is presented or is in the process of being presented
-/// @param isDismissed Returns true if the lock screen is dismissed or is in the process of being dismissed
-typedef void(^SDLLockScreenPresentationStatusHandler)(BOOL isPresented, BOOL isDismissed);
+/// @param isBeingDismissed Returns true if the lock screen is in the process of being dismissed
+typedef void(^SDLLockScreenPresentationStatusHandler)(BOOL isPresented, BOOL isBeingDismissed);
 
 /// A protocol used to tell a view controller to present another view controller. This makes testing of modal VCs' presentation easier.
 @protocol SDLViewControllerPresentable <NSObject>

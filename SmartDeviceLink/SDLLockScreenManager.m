@@ -156,12 +156,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakself = self;
-    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isDismissed) {
-        [weakself sdl_updatePresentation:isPresented isDismissed:isDismissed];
+    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isBeingDismissed) {
+        [weakself sdl_updatePresentation:isPresented isBeingDismissed:isBeingDismissed];
     }];
 }
 
-- (void)sdl_updatePresentation:(BOOL)isPresented isDismissed:(BOOL)isDismissed {
+- (void)sdl_updatePresentation:(BOOL)isPresented isBeingDismissed:(BOOL)isBeingDismissed {
     // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (!isPresented && self.canPresent) {
@@ -174,11 +174,11 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !isPresented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
-        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && isPresented && !isDismissed) {
+        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && isPresented && !isBeingDismissed) {
             [self.presenter dismiss];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        if (isPresented && !isDismissed) {
+        if (isPresented && !isBeingDismissed) {
             [self.presenter dismiss];
         }
     }
