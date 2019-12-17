@@ -21,11 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
     self.view.backgroundColor = [UIColor clearColor];
 }
 
+
 #pragma mark - Orientation
 
-// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+/// The view controller should inherit the orientation of the view controller over which the lock screen is being presented.
+/// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:UIApplication.sharedApplication.windows.firstObject];
 
     if (viewController != nil) {
         return viewController.supportedInterfaceOrientations;
@@ -34,9 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
     return super.supportedInterfaceOrientations;
 }
 
-// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+/// The view controller should inherit the auto rotate settings of the view controller over which the lock screen is being presented.
+/// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
-    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:UIApplication.sharedApplication.windows.firstObject];
 
     if (viewController != nil) {
         return viewController.shouldAutorotate;
@@ -45,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
     return super.shouldAutorotate;
 }
 
+/// Gets the topmost view controller in a window
+/// @param window The window
 - (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
     UIViewController *topController = window.rootViewController;
 
