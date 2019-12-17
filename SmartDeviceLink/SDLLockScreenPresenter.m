@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            // If the the `UIWindow` is created while the app is backgrounded and the app is using `SceneDelegate` class (iOS 13+), then the window will not be created correctly. Wait until the app is foregrounded before creating the window.
             SDLLogV(@"Application is backgrounded. The lockscreen will not be shown until the application is brought to the foreground.");
             return;
         }
@@ -93,12 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
         return completionHandler();
     }
 
-    if ([self sdl_dismissed]) {
-        SDLLogD(@"Lock screen is already being dismissed.");
-        if (completionHandler == nil) { return; }
-        return completionHandler();
-    }
-
     // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lock screen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
@@ -117,17 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Custom Presented / Dismissed Getters
 
-- (BOOL)presented {
-    __block BOOL isPresented = NO;
+- (void)lockScreenPresentationStatusWithHandler:(SDLLockScreenPresentationStatusHandler)handler {
     if ([NSThread isMainThread]) {
-        isPresented = [self sdl_presented];
+        return handler([self sdl_presented], [self sdl_dismissed]);
     } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            isPresented = [self sdl_presented];
+            return handler([self sdl_presented], [self sdl_dismissed]);
         });
     }
-
-    return isPresented;
 }
 
 - (BOOL)sdl_presented {

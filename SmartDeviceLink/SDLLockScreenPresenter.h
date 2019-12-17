@@ -17,21 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLLockScreenPresenter : NSObject <SDLViewControllerPresentable>
 
-/**
- *  The view controller to be presented.
- */
+/// The view controller to be presented as a lock screen
 @property (strong, nonatomic, nullable) UIViewController *lockViewController;
-
-/**
- *  Whether or not `viewController` is currently presented.
- */
-@property (assign, nonatomic, readonly) BOOL presented;
-
-/**
- * 	Dismisses and destroys the lock screen window.
- */
-- (void)stop;
-
 
 @end
 

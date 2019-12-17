@@ -128,10 +128,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
-    // App may have been disconnected in the background
-    if (!self.canPresent && self.presenter.presented) {
-        [self.presenter dismiss];
-    }
+    // Dismiss the lock screen if the app was disconnected in the background
+    __weak typeof(self) weakself = self;
+    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isDismissed) {
+        if (!weakself.canPresent && isPresented && !isDismissed) {
+            [weakself.presenter dismiss];
+        }
+    }];
 
     [self sdl_checkLockScreen];
 }
@@ -152,23 +155,30 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    __weak typeof(self) weakself = self;
+    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isDismissed) {
+        [weakself sdl_updatePresentation:isPresented isDismissed:isDismissed];
+    }];
+}
+
+- (void)sdl_updatePresentation:(BOOL)isPresented isDismissed:(BOOL)isDismissed {
     // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (!self.presenter.presented && self.canPresent) {
+        if (!isPresented && self.canPresent) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
+        if (!isPresented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
+        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !isPresented && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter present];
-        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.presenter.presented) {
+        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && isPresented && !isDismissed) {
             [self.presenter dismiss];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        if (self.presenter.presented) {
+        if (isPresented && !isDismissed) {
             [self.presenter dismiss];
         }
     }
