@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) UIWindow *lockWindow;
+@property (assign, nonatomic) BOOL presented;
 
 @end
 
@@ -25,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLLockScreenPresenter
 
 - (void)stop {
+    _presented = NO;
+
     if (!self.lockWindow) {
         return;
     }
@@ -37,20 +40,53 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Present Lock Window
 
+- (void)updateLockscreenStatus:(BOOL)presented {
+    if (presented == self.presented) { return; }
+    self.presented = presented;
+
+    if (presented) {
+        [self sdl_presentLockscreenWithCompletionHandler:^(BOOL success) {
+            SDLLogE(@"Presented lock screen");
+            if (!success) {
+
+            }
+            if (!self.presented) {
+                SDLLogE(@"The lock screen should be dismissed");
+                [self sdl_dismissWithCompletionHandler:nil];
+            }
+        }];
+    } else {
+        [self sdl_dismissWithCompletionHandler:^{
+            SDLLogE(@"Dismissed lock screen");
+            if (self.presented) {
+                SDLLogE(@"The lock screen should be presented");
+                [self sdl_presentLockscreenWithCompletionHandler:nil];
+            } else {
+
+            }
+        }];
+    }
+}
+
 - (void)present {
+    [self sdl_dismissWithCompletionHandler:nil];
+}
+
+- (void)sdl_presentWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
     SDLLogD(@"Trying to present lock screen");
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             // If the the `UIWindow` is created while the app is backgrounded and the app is using `SceneDelegate` class (iOS 13+), then the window will not be created correctly. Wait until the app is foregrounded before creating the window.
             SDLLogV(@"Application is backgrounded. The lockscreen will not be shown until the application is brought to the foreground.");
-            return;
+            if (completionHandler == nil) { return; }
+            return completionHandler(NO);
         }
-        [weakSelf sdl_presentLockscreen];
+        [weakSelf sdl_presentLockscreenWithCompletionHandler:completionHandler];
     });
 }
 
-- (void)sdl_presentLockscreen {
+- (void)sdl_presentLockscreenWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
     if (!self.lockWindow) {
         self.lockWindow = [self.class sdl_createUIWindow];
         self.lockWindow.backgroundColor = [UIColor clearColor];
@@ -67,12 +103,16 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self sdl_presented]) {
         // Make sure we are not already animating, otherwise the app may crash
         SDLLogV(@"The lockViewController already being presented");
-        return;
+        if (completionHandler == nil) { return; }
+        return completionHandler(NO);
     }
 
     [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
         // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+
+        if (completionHandler == nil) { return; }
+        return completionHandler(YES);
     }];
 }
 
@@ -124,13 +164,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+
 #pragma mark - Custom Presented / Dismissed Getters
 
 - (void)lockScreenPresentationStatusWithHandler:(SDLLockScreenPresentationStatusHandler)handler {
     if ([NSThread isMainThread]) {
         return handler([self sdl_presented], [self sdl_dismissed]);
     } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             return handler([self sdl_presented], [self sdl_dismissed]);
         });
     }

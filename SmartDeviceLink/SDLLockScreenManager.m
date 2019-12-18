@@ -110,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.lastLockNotification = notification.notification;
+
     [self sdl_checkLockScreen];
 }
 
@@ -136,7 +137,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }];
 
-    [self sdl_checkLockScreen];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf sdl_checkLockScreen];
+    });
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
@@ -164,23 +168,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_updatePresentation:(BOOL)isPresented isBeingDismissed:(BOOL)isBeingDismissed {
     // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (!isPresented && self.canPresent) {
-            [self.presenter present];
+        if (self.canPresent) {
+            [self.presenter updateLockscreenStatus:YES];
+//            [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!isPresented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
+        if (self.canPresent && !self.lockScreenDismissedByUser) {
+            [self.presenter updateLockscreenStatus:YES];
+//            [self.presenter present];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !isPresented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
-        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && isPresented && !isBeingDismissed) {
-            [self.presenter dismiss];
+        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
+//            [self.presenter present];
+            [self.presenter updateLockscreenStatus:YES];
+        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
+//            [self.presenter dismiss];
+            [self.presenter updateLockscreenStatus:NO];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        if (isPresented && !isBeingDismissed) {
-            [self.presenter dismiss];
-        }
+//        if (isPresented) {
+//            [self.presenter dismiss];
+            [self.presenter updateLockscreenStatus:NO];
+//        }
     }
 }
 

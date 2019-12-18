@@ -34,6 +34,8 @@ typedef void(^SDLLockScreenPresentationStatusHandler)(BOOL isPresented, BOOL isB
 /// @param handler A SDLLockScreenPresentationStatusHandler
 - (void)lockScreenPresentationStatusWithHandler:(nonnull SDLLockScreenPresentationStatusHandler)handler;
 
+- (void)updateLockscreenStatus:(BOOL)presented;
+
 @end
 
 NS_ASSUME_NONNULL_END
