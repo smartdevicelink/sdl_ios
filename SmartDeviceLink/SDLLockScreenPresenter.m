@@ -49,7 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/// Shows or hides the lock screen with an animation. If the lockscreen is shown/dismissed in rapid succession the final state of the lock screen may not match the expected state as the order in which the animations finish can be random. To guard against this scenario, store the expected state of the lock screen. When the animation finishes, check the expected state to make sure that the final state of the lock screen matches the expected state. If not perform a final animation to the expected state.
+/// @param show True if the lock screen should be shown; false if it should be dismissed
 - (void)updateLockScreenToShow:(BOOL)show {
+    // Store the expected state of the lock screen
     self.showLockScreen = show;
 
     if (show) {
