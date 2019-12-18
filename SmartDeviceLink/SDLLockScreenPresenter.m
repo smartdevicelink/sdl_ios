@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) UIWindow *lockWindow;
-@property (assign, nonatomic, readwrite) BOOL presented;
+@property (assign, nonatomic) BOOL presented;
 
 @end
 
