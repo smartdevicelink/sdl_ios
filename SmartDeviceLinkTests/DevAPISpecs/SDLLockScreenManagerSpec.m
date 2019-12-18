@@ -126,7 +126,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should have presented the lock screen", ^{
-                    expect(fakePresenter.presented).to(beTrue());
+                    expect(fakePresenter.presented).toEventually(beTrue());
                 });
                 
                 it(@"should not have a vehicle icon", ^{
