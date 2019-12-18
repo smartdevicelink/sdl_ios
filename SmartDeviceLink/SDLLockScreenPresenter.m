@@ -50,11 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateLockScreenToShow:(BOOL)show {
-    if (show == self.presented) { return; }
     self.presented = show;
 
     if (show) {
-        [self sdl_presentLockscreenWithCompletionHandler:^{
+        [self sdl_presentWithCompletionHandler:^{
             if (self.presented) { return; }
 
             SDLLogV(@"The lockscreen has been presented but needs to be dismissed");

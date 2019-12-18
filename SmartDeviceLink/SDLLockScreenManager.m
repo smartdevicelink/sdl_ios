@@ -135,9 +135,9 @@ NS_ASSUME_NONNULL_BEGIN
         if (!weakSelf.canPresent) {
             [weakSelf.presenter updateLockScreenToShow:NO];
         }
-
-        [weakSelf sdl_checkLockScreen];
     });
+
+    [self sdl_checkLockScreen];
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
