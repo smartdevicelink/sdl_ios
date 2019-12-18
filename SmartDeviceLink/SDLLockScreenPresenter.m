@@ -86,18 +86,18 @@ NS_ASSUME_NONNULL_BEGIN
         self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
     }
 
-    // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lockscreen will be very janky.
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-
     SDLLogD(@"Presenting the lockscreen window");
     [self.lockWindow makeKeyAndVisible];
 
     if ([self sdl_isPresented]) {
-        // Make sure we are not already animating, otherwise the app may crash
+        // Call this right before attempting to present the view controller make sure we are not already animating, otherwise the app may crash.
         SDLLogV(@"The lockscreen is already being presented");
         if (completionHandler == nil) { return; }
         return completionHandler();
     }
+
+    // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lockscreen will be very janky.
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
     [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
         // Tell everyone we are done so video streaming can resume
