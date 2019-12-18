@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) UIWindow *lockWindow;
-@property (assign, nonatomic) BOOL presented;
+@property (assign, nonatomic) BOOL showLockScreen;
 
 @end
 
@@ -31,13 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _presented = NO;
+    _showLockScreen = NO;
 
     return self;
 }
 
 - (void)stop {
-    self.presented = NO;
+    self.showLockScreen = NO;
 
     if (!self.lockWindow) {
         return;
@@ -50,18 +50,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateLockScreenToShow:(BOOL)show {
-    self.presented = show;
+    self.showLockScreen = show;
 
     if (show) {
         [self sdl_presentWithCompletionHandler:^{
-            if (self.presented) { return; }
+            if (self.showLockScreen) { return; }
 
             SDLLogV(@"The lockscreen has been presented but needs to be dismissed");
             [self sdl_dismissWithCompletionHandler:nil];
         }];
     } else {
         [self sdl_dismissWithCompletionHandler:^{
-            if (!self.presented) { return; }
+            if (!self.showLockScreen) { return; }
 
             SDLLogV(@"The lockscreen has been dismissed but needs to be presented");
             [self sdl_presentLockscreenWithCompletionHandler:nil];
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Presenting the lockscreen window");
     [self.lockWindow makeKeyAndVisible];
 
-    if ([self sdl_isPresented]) {
+    if ([self sdl_isPresentedOrPresenting]) {
         // Call this right before attempting to present the view controller to make sure we are not already animating, otherwise the app may crash.
         SDLLogV(@"The lockscreen is already being presented");
         if (completionHandler == nil) { return; }
@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
         return completionHandler();
     }
 
-    if ([self sdl_isBeingDismissed]) {
+    if ([self sdl_isDismissing]) {
         // Make sure we are not already animating, otherwise the app may crash
         SDLLogV(@"The lockscreen is already being dismissed");
         if (completionHandler == nil) { return; }
@@ -164,11 +164,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Custom Presented / Dismissed Getters
 
-- (BOOL)sdl_isPresented {
+/// Returns whether or not the lockViewController is presented or currently animating
+- (BOOL)sdl_isPresentedOrPresenting {
     return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
 }
 
-- (BOOL)sdl_isBeingDismissed {
+/// Returns whether or not the lockViewController is currently animating
+- (BOOL)sdl_isDismissing {
     return (self.lockViewController.isBeingDismissed || self.lockViewController.isMovingFromParentViewController);
 }
 
