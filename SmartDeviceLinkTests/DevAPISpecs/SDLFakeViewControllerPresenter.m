@@ -12,7 +12,6 @@
 @interface SDLFakeViewControllerPresenter ()
 
 @property (assign, nonatomic) BOOL presented;
-@property (assign, nonatomic) BOOL dismissed;
 
 @end
 
@@ -24,34 +23,19 @@
     if (!self) { return nil; }
 
     _presented = NO;
-    _dismissed = NO;
 
     return self;
-}
-
-- (void)present {
-    if (!self.lockViewController) { return; }
-    
-    _presented = YES;
-    _dismissed = NO;
-}
-
-- (void)dismiss {
-    if (!self.lockViewController) { return; }
-    
-    _presented = NO;
-    _dismissed = YES;
 }
 
 - (void)stop {
     if (!self.lockViewController) { return; }
 
     _presented = NO;
-    _dismissed = YES;
 }
 
-- (void)lockScreenPresentationStatusWithHandler:(nonnull SDLLockScreenPresentationStatusHandler)handler {
-    return handler(_presented, _dismissed);
+- (void)updateLockScreenToShow:(BOOL)show {
+    _presented = show;
 }
+
 
 @end

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenPresenter ()
 
 @property (strong, nonatomic, nullable) UIWindow *lockWindow;
-@property (assign, nonatomic) BOOL presented;
+@property (assign, nonatomic, readwrite) BOOL presented;
 
 @end
 
@@ -27,8 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (void)stop {
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
     _presented = NO;
+
+    return self;
+}
+
+- (void)stop {
+    self.presented = NO;
 
     if (!self.lockWindow) {
         return;
