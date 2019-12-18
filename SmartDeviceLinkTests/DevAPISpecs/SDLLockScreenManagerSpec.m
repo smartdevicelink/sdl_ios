@@ -80,7 +80,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should not have presented the lock screen", ^{
-                     expect(fakePresenter.presented).toEventually(beFalse());
+                    expect(fakePresenter.presented).toEventually(beFalse());
                 });
             });
         });
