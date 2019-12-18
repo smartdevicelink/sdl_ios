@@ -126,7 +126,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should have presented the lock screen", ^{
-                    expect(fakePresenter.presented).toEventually(beTrue());
+                    expect(fakePresenter.presented).to(beTrue());
                 });
                 
                 it(@"should not have a vehicle icon", ^{
@@ -205,7 +205,7 @@ describe(@"a lock screen manager", ^{
                     });
                     
                     it(@"should have dismissed the lock screen", ^{
-                         expect(fakePresenter.presented).toEventually(beFalse());
+                        expect(fakePresenter.presented).toEventually(beFalse());
                     });
                 });
                 
@@ -227,7 +227,7 @@ describe(@"a lock screen manager", ^{
                     });
                     
                     it(@"should have dismissed the lock screen", ^{
-                         expect(fakePresenter.presented).toEventually(beFalse());
+                        expect(fakePresenter.presented).toEventually(beFalse());
                     });
                 });
             });
@@ -409,7 +409,6 @@ describe(@"a lock screen manager", ^{
 
         beforeEach(^{
             mockViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
-            //OCMClassMock([SDLFakeViewControllerPresenter class]);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
