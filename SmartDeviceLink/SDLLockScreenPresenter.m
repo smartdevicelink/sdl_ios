@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lockWindow makeKeyAndVisible];
 
     if ([self sdl_isPresented]) {
-        // Call this right before attempting to present the view controller make sure we are not already animating, otherwise the app may crash.
+        // Call this right before attempting to present the view controller to make sure we are not already animating, otherwise the app may crash.
         SDLLogV(@"The lockscreen is already being presented");
         if (completionHandler == nil) { return; }
         return completionHandler();
