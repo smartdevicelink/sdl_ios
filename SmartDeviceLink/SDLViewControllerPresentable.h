@@ -26,8 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param show True if the lock screen should be presented; false if dismissed.
 - (void)updateLockScreenToShow:(BOOL)show;
 
-
-
 @end
 
 NS_ASSUME_NONNULL_END
