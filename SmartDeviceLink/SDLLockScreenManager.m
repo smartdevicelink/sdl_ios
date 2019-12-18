@@ -129,16 +129,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
-    // Dismiss the lock screen if the app was disconnected in the background
-    __weak typeof(self) weakself = self;
-    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isBeingDismissed) {
-        if (!weakself.canPresent && isPresented && !isBeingDismissed) {
-            [weakself.presenter dismiss];
-        }
-    }];
-
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        // Dismiss the lock screen if the app was disconnected in the background
+        if (!weakSelf.canPresent) {
+            [weakSelf.presenter updateLockScreenToShow:NO];
+        }
+
         [weakSelf sdl_checkLockScreen];
     });
 }
@@ -159,37 +156,30 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    __weak typeof(self) weakself = self;
-    [self.presenter lockScreenPresentationStatusWithHandler:^(BOOL isPresented, BOOL isBeingDismissed) {
-        [weakself sdl_updatePresentation:isPresented isBeingDismissed:isBeingDismissed];
-    }];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf sdl_updatePresentation];
+    });
 }
 
-- (void)sdl_updatePresentation:(BOOL)isPresented isBeingDismissed:(BOOL)isBeingDismissed {
+- (void)sdl_updatePresentation {
     // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (self.canPresent) {
-            [self.presenter updateLockscreenStatus:YES];
-//            [self.presenter present];
+            [self.presenter updateLockScreenToShow:YES];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter updateLockscreenStatus:YES];
-//            [self.presenter present];
+            [self.presenter updateLockScreenToShow:YES];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
-//            [self.presenter present];
-            [self.presenter updateLockscreenStatus:YES];
+            [self.presenter updateLockScreenToShow:YES];
         } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
-//            [self.presenter dismiss];
-            [self.presenter updateLockscreenStatus:NO];
+            [self.presenter updateLockScreenToShow:NO];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-//        if (isPresented) {
-//            [self.presenter dismiss];
-            [self.presenter updateLockscreenStatus:NO];
-//        }
+        [self.presenter updateLockScreenToShow:NO];
     }
 }
 
@@ -225,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
-                [strongSelf.presenter dismiss];
+                [strongSelf.presenter updateLockScreenToShow:NO];
                 strongSelf.lockScreenDismissedByUser = YES;
             }];
             lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;
