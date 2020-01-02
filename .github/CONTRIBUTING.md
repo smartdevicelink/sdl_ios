@@ -3,7 +3,7 @@
 Third party contributions are essential for making SDL great. However, we do have a few guidelines we need contributors to follow.
 
 ### Issues
-If writing a bug report, please make sure <a href="http://yourbugreportneedsmore.info" target="_blank">it has enough info</a>. Include all relevant information.
+If writing a bug report, please make sure <a href="https://your.bugreportneedsmore.info" target="_blank">it has enough info</a>. Include all relevant information.
 
 If requesting a feature, understand that we appreciate the input! However, it may not immediately fit our roadmap, and it may take a while for us to get to your request.
 
