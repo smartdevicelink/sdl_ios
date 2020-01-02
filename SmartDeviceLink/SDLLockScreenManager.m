@@ -163,7 +163,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updatePresentation {
-    // Present the VC depending on the lock screen status
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (self.canPresent) {
             [self.presenter updateLockScreenToShow:YES];
