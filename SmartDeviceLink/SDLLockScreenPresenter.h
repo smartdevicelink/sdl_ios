@@ -13,11 +13,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  An instance of `SDLViewControllerPresentable` used in production (not testing) for presenting the SDL lock screen.
+ *  An instance of `SDLViewControllerPresentable` used in production (not testing) for presenting the SDL lockscreen.
  */
 @interface SDLLockScreenPresenter : NSObject <SDLViewControllerPresentable>
 
-/// The view controller to be presented as a lock screen
+/// The view controller to be presented as a lockscreen
 @property (strong, nonatomic, nullable) UIViewController *lockViewController;
 
 @end
