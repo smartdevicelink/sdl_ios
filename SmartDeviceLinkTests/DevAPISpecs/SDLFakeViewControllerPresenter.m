@@ -11,7 +11,7 @@
 
 @interface SDLFakeViewControllerPresenter ()
 
-@property (assign, nonatomic) BOOL showLockScreen;
+@property (assign, nonatomic) BOOL shouldShowLockScreen;
 
 @end
 
@@ -22,7 +22,7 @@
     self = [super init];
     if (!self) { return nil; }
 
-    _showLockScreen = NO;
+    _shouldShowLockScreen = NO;
 
     return self;
 }
@@ -30,11 +30,11 @@
 - (void)stop {
     if (!self.lockViewController) { return; }
 
-    _showLockScreen = NO;
+    _shouldShowLockScreen = NO;
 }
 
 - (void)updateLockScreenToShow:(BOOL)show {
-    _showLockScreen = show;
+    _shouldShowLockScreen = show;
 }
 
 

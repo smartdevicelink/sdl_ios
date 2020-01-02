@@ -48,7 +48,7 @@ describe(@"a lock screen manager", ^{
         
         it(@"should set properties correctly", ^{
             // Note: We can't check the "lockScreenPresented" flag on the Lock Screen Manager because it's a computer property checking the window
-            expect(fakePresenter.showLockScreen).toEventually(beFalse());
+            expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
             expect(testManager.lockScreenViewController).to(beNil());
         });
         
@@ -58,7 +58,7 @@ describe(@"a lock screen manager", ^{
             });
             
             it(@"should not have a lock screen controller", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                 expect(testManager.lockScreenViewController).to(beNil());
             });
             
@@ -80,7 +80,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should not have presented the lock screen", ^{
-                    expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                    expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                 });
             });
         });
@@ -92,7 +92,7 @@ describe(@"a lock screen manager", ^{
         });
         
         it(@"should set properties correctly", ^{
-            expect(fakePresenter.showLockScreen).toEventually(beFalse());
+            expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
             expect(testManager.lockScreenViewController).to(beNil());
         });
         
@@ -102,7 +102,7 @@ describe(@"a lock screen manager", ^{
             });
             
             it(@"should set up the view controller correctly", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                 expect(testManager.lockScreenViewController).toNot(beNil());
                 expect(testManager.lockScreenViewController).to(beAnInstanceOf([SDLLockScreenViewController class]));
             });
@@ -126,7 +126,7 @@ describe(@"a lock screen manager", ^{
                 });
                 
                 it(@"should have presented the lock screen", ^{
-                    expect(fakePresenter.showLockScreen).toEventually(beTrue());
+                    expect(fakePresenter.shouldShowLockScreen).toEventually(beTrue());
                 });
                 
                 it(@"should not have a vehicle icon", ^{
@@ -205,7 +205,7 @@ describe(@"a lock screen manager", ^{
                     });
                     
                     it(@"should have dismissed the lock screen", ^{
-                        expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                        expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                     });
                 });
                 
@@ -227,7 +227,7 @@ describe(@"a lock screen manager", ^{
                     });
                     
                     it(@"should have dismissed the lock screen", ^{
-                        expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                        expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                     });
                 });
             });
@@ -270,7 +270,7 @@ describe(@"a lock screen manager", ^{
         });
         
         it(@"should set properties correctly", ^{
-            expect(fakePresenter.showLockScreen).toEventually(beFalse());
+            expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
             expect(testManager.lockScreenViewController).to(beNil());
         });
         
@@ -280,7 +280,7 @@ describe(@"a lock screen manager", ^{
             });
             
             it(@"should set up the view controller correctly", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                 expect(testManager.lockScreenViewController).toNot(beNil());
                 expect(testManager.lockScreenViewController).to(beAnInstanceOf([SDLLockScreenViewController class]));
                 expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).backgroundColor).to(equal(testColor));
@@ -298,7 +298,7 @@ describe(@"a lock screen manager", ^{
         });
         
         it(@"should set properties correctly", ^{
-            expect(fakePresenter.showLockScreen).toEventually(beFalse());
+            expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
             expect(testManager.lockScreenViewController).to(beNil());
         });
         
@@ -308,7 +308,7 @@ describe(@"a lock screen manager", ^{
             });
             
             it(@"should set up the view controller correctly", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beFalse());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beFalse());
                 expect(testManager.lockScreenViewController).toNot(beNil());
                 expect(testManager.lockScreenViewController).toNot(beAnInstanceOf([SDLLockScreenViewController class]));
                 expect(testManager.lockScreenViewController).to(equal(testViewController));
@@ -383,7 +383,7 @@ describe(@"a lock screen manager", ^{
             });
 
             it(@"should present the lock screen if not already presented", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beTrue());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beTrue());
             });
         });
 
@@ -396,7 +396,7 @@ describe(@"a lock screen manager", ^{
             });
 
             it(@"should present the lock screen if not already presented", ^{
-                expect(fakePresenter.showLockScreen).toEventually(beTrue());
+                expect(fakePresenter.shouldShowLockScreen).toEventually(beTrue());
             });
         });
     });
