@@ -8,8 +8,8 @@
 
 #import "SDLLockScreenPresenter.h"
 
+#import "SDLLockScreenRootViewController.h"
 #import "SDLLogMacros.h"
-#import "SDLScreenshotViewController.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 
@@ -17,8 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenPresenter ()
 
-@property (strong, nonatomic) SDLScreenshotViewController *screenshotViewController;
-@property (strong, nonatomic) UIWindow *lockWindow;
+@property (strong, nonatomic, nullable) UIWindow *lockWindow;
+@property (assign, nonatomic) BOOL shouldShowLockScreen;
+@property (assign, nonatomic) BOOL isDismissing;
+@property (assign, nonatomic) BOOL isPresentedOrPresenting;
 
 @end
 
@@ -31,241 +33,186 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    CGRect screenFrame = [[UIScreen mainScreen] bounds];
-    _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
-    _lockWindow.backgroundColor = [UIColor clearColor];
-    _screenshotViewController = [[SDLScreenshotViewController alloc] init];
-    _lockWindow.rootViewController = _screenshotViewController;
+    _shouldShowLockScreen = NO;
 
     return self;
 }
 
+/// Resets the manager by dismissing and destroying the lockscreen.
+- (void)stop {
+    self.shouldShowLockScreen = NO;
+
+    if (self.lockWindow == nil) {
+        return;
+    }
+
+    // Dismiss and destroy the lockscreen window
+    [self sdl_dismissWithCompletionHandler:^{
+        self.lockWindow = nil;
+    }];
+}
+
+/// Shows or hides the lockscreen with an animation. If the lockscreen is shown/dismissed in rapid succession the final state of the lockscreen may not match the expected state as the order in which the animations finish can be random. To guard against this scenario, store the expected state of the lockscreen. When the animation finishes, check the expected state to make sure that the final state of the lockscreen matches the expected state. If not, perform a final animation to the expected state.
+/// @param show True if the lockscreen should be shown; false if it should be dismissed
+- (void)updateLockScreenToShow:(BOOL)show {
+    // Store the expected state of the lockscreen
+    self.shouldShowLockScreen = show;
+
+    if (show) {
+        [self sdl_presentWithCompletionHandler:^{
+            if (self.shouldShowLockScreen) { return; }
+
+            SDLLogV(@"The lockscreen has been presented but needs to be dismissed");
+            [self sdl_dismissWithCompletionHandler:nil];
+        }];
+    } else {
+        [self sdl_dismissWithCompletionHandler:^{
+            if (!self.shouldShowLockScreen) { return; }
+
+            SDLLogV(@"The lockscreen has been dismissed but needs to be presented");
+            [self sdl_presentLockscreenWithCompletionHandler:nil];
+        }];
+    }
+}
+
+
 #pragma mark - Present Lock Window
 
-- (void)present {
-    SDLLogD(@"Trying to present lock screen");
+/// Checks if the lockscreen can be presented and if so presents the lockscreen on the main thread
+/// @param completionHandler Called when the lockscreen has finished its animation or if the lockscreen can not be presented
+- (void)sdl_presentWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+    if (self.lockViewController == nil) {
+        SDLLogW(@"Attempted to present a lockscreen, but lockViewController is not set");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
+    }
+
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (@available(iOS 13.0, *)) {
-            [self sdl_presentIOS13];
-        } else {
-            [self sdl_presentIOS12];
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            // If the the `UIWindow` is created while the app is backgrounded and the app is using `SceneDelegate` class (iOS 13+), then the window will not be created correctly. Wait until the app is foregrounded before creating the window.
+            SDLLogV(@"Application is backgrounded. The lockscreen will not be shown until the application is brought to the foreground.");
+            if (completionHandler == nil) { return; }
+            return completionHandler();
         }
+        [weakSelf sdl_presentLockscreenWithCompletionHandler:completionHandler];
     });
 }
 
-- (void)sdl_presentIOS12 {
-    if (self.lockWindow.isKeyWindow) {
-        SDLLogW(@"Attempted to present lock window when it is already presented");
-        return;
+/// Handles the presentation of the lockscreen with animation.
+/// @param completionHandler Called when the lockscreen is presented successfully or if it is already in the process of being presented
+- (void)sdl_presentLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+    if (self.lockWindow == nil) {
+        self.lockWindow = [self.class sdl_createUIWindow];
+        self.lockWindow.backgroundColor = [UIColor clearColor];
+        self.lockWindow.windowLevel = UIWindowLevelAlert + 1;
+        self.lockWindow.rootViewController = [[SDLLockScreenRootViewController alloc] init];
     }
 
-    NSArray* windows = [[UIApplication sharedApplication] windows];
-    UIWindow *appWindow = nil;
-    for (UIWindow *window in windows) {
-        if (window != self.lockWindow) {
-            appWindow = window;
-            break;
-        }
-    }
-
-    if (appWindow == nil) {
-        SDLLogE(@"Unable to find the app's window");
-        return;
-    }
-
-    [self sdl_presentWithAppWindow:appWindow];
-}
-
-- (void)sdl_presentIOS13 {
-    if (@available(iOS 13.0, *)) {
-        UIWindowScene *appWindowScene = nil;
-        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            SDLLogV(@"Checking scene: %@", scene);
-            // The scene is either foreground active / inactive, background, or unattached. If the latter three, we don't want to do anything with them. Also check that the scene is for the application and not an external display or CarPlay.
-            if ((scene.activationState != UISceneActivationStateForegroundActive) ||
-                (![scene.session.role isEqualToString: UIWindowSceneSessionRoleApplication])) {
-                SDLLogV(@"Skipping scene due to activation state or role");
-                continue;
-            }
-
-            // The scene is foreground active or inactive. Now find the windows.
-            if ([scene isKindOfClass:[UIWindowScene class]]) {
-                appWindowScene = (UIWindowScene *)scene;
-                break;
-            } else {
-                SDLLogV(@"Skipping scene due to it not being a UIWindowScene");
-                continue;
-            }
-        }
-
-        NSArray<UIWindow *> *windows = appWindowScene.windows;
-        UIWindow *appWindow = nil;
-        for (UIWindow *window in windows) {
-            if (window != self.lockWindow) {
-                SDLLogV(@"Found app window");
-                appWindow = window;
-                break;
-            }
-        }
-
-        if (appWindow == nil) {
-            SDLLogE(@"Unable to find the app's window");
-            return;
-        }
-
-        if (![windows containsObject:self.lockWindow]) {
-            self.lockWindow = [[UIWindow alloc] initWithWindowScene:appWindowScene];
-            self.lockWindow.backgroundColor = [UIColor clearColor];
-            self.lockWindow.rootViewController = self.screenshotViewController;
-        }
-
-        [self sdl_presentWithAppWindow:appWindow];
-    }
-}
-
-- (void)sdl_presentWithAppWindow:(nullable UIWindow *)appWindow {
-    if (appWindow == nil) {
-        SDLLogW(@"Attempted to present lock window but app window is nil");
-        return;
-    }
-
-    SDLLogD(@"Presenting lock screen window from app window: %@", appWindow);
-
-    // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-
-    CGRect firstFrame = appWindow.frame;
-    firstFrame.origin.x = CGRectGetWidth(firstFrame);
-    appWindow.frame = firstFrame;
-
-    // We then move the lockWindow to the original appWindow location.
-    self.lockWindow.frame = appWindow.bounds;
-    [self.screenshotViewController loadScreenshotOfWindow:appWindow];
+    SDLLogD(@"Presenting the lockscreen window");
     [self.lockWindow makeKeyAndVisible];
 
-    // And present the lock screen.
-    SDLLogD(@"Present lock screen window");
+    if (self.isPresentedOrPresenting) {
+        // Call this right before attempting to present the view controller to make sure we are not already animating, otherwise the app may crash.
+        SDLLogV(@"The lockscreen is already being presented");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
+    }
+
+    // Let ourselves know that the lockscreen will present so we can pause video streaming for a few milliseconds - otherwise the animation to show the lockscreen will be very janky.
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+
     [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
-        // Tell ourselves we are done.
+        // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+
+        if (completionHandler == nil) { return; }
+        return completionHandler();
     }];
 }
+
 
 #pragma mark - Dismiss Lock Window
 
-- (void)dismiss {
-    SDLLogD(@"Trying to dismiss lock screen");
+/// Checks if the lockscreen can be dismissed and if so dismisses the lockscreen on the main thread.
+/// @param completionHandler Called when the lockscreen has finished its animation or if the lockscreen can not be dismissed
+- (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+    if (self.lockViewController == nil) {
+        SDLLogW(@"Attempted to dismiss lockscreen, but lockViewController is not set");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
+    }
+
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (@available(iOS 13.0, *)) {
-            [self sdl_dismissIOS13];
-        } else {
-            [self sdl_dismissIOS12];
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            SDLLogV(@"Application is backgrounded. The lockscreen will not be dismissed until the app is brought to the foreground.");
+            if (completionHandler == nil) { return; }
+            return completionHandler();
         }
+        [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
     });
 }
 
-- (void)sdl_dismissIOS12 {
-    NSArray* windows = [[UIApplication sharedApplication] windows];
-    UIWindow *appWindow = nil;
-    for (UIWindow *window in windows) {
-        SDLLogV(@"Checking window: %@", window);
-        if (window != self.lockWindow) {
-            appWindow = window;
-            break;
-        }
+/// Handles the dismissal of the lockscreen with animation.
+/// @param completionHandler Called when the lockscreen is dismissed successfully or if it is already in the process of being dismissed
+- (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+    if (self.isDismissing) {
+        // Make sure we are not already animating, otherwise the app may crash
+        SDLLogV(@"The lockscreen is already being dismissed");
+        if (completionHandler == nil) { return; }
+        return completionHandler();
     }
 
-    [self sdl_dismissWithAppWindow:appWindow];
-}
-
-- (void)sdl_dismissIOS13 {
-    if (@available(iOS 13.0, *)) {
-        UIWindowScene *appWindowScene = nil;
-        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            SDLLogV(@"Checking scene: %@", scene);
-            // The scene is either foreground active / inactive, background, or unattached. If the latter three, we don't want to do anything with them. Also check that the scene is for the application and not an external display or CarPlay.
-            if ((scene.activationState != UISceneActivationStateForegroundActive) ||
-                (![scene.session.role isEqualToString: UIWindowSceneSessionRoleApplication])) {
-                SDLLogV(@"Skipping scene due to activation state or role");
-                continue;
-            }
-
-            // The scene is foreground active or inactive. Now find the windows.
-            if ([scene isKindOfClass:[UIWindowScene class]]) {
-                appWindowScene = (UIWindowScene *)scene;
-                break;
-            } else {
-                SDLLogV(@"Skipping scene due to it not being a UIWindowScene");
-                continue;
-            }
-        }
-
-        NSArray<UIWindow *> *windows = appWindowScene.windows;
-        UIWindow *appWindow = nil;
-        for (UIWindow *window in windows) {
-            SDLLogV(@"Checking window: %@", window);
-            if (window != self.lockWindow) {
-                appWindow = window;
-                break;
-            }
-        }
-
-        [self sdl_dismissWithAppWindow:appWindow];
-    }
-}
-
-- (void)sdl_dismissWithAppWindow:(nullable UIWindow *)appWindow {
-    if (appWindow == nil) {
-        SDLLogE(@"Unable to find the app's window");
-        return;
-    } else if (appWindow.isKeyWindow) {
-        SDLLogW(@"Attempted to dismiss lock screen, but it is already dismissed");
-        return;
-    } else if (self.lockViewController == nil) {
-        SDLLogW(@"Attempted to dismiss lock screen, but lockViewController is not set");
-        return;
-    }
-
-    // Let us know we are about to dismiss.
+    // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lockscreen will be very janky.
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
-    // Dismiss the lockscreen
-    SDLLogD(@"Dismiss lock screen window from app window: %@", appWindow);
+    SDLLogD(@"Dismissing the lockscreen window");
+    __weak typeof(self) weakSelf = self;
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
-        CGRect lockFrame = self.lockWindow.frame;
-        lockFrame.origin.x = CGRectGetWidth(lockFrame);
-        self.lockWindow.frame = lockFrame;
+        [weakSelf.lockWindow setHidden:YES];
 
-        // Quickly move the map back, and make it the key window.
-        appWindow.frame = self.lockWindow.bounds;
-        [appWindow makeKeyAndVisible];
-
-        // Tell ourselves we are done.
+        // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+
+        if (completionHandler == nil) { return; }
+        return completionHandler();
     }];
 }
 
 
-#pragma mark - isPresented Getter
+#pragma mark - Custom Presented / Dismissed Getters
 
-- (BOOL)presented {
-    __block BOOL isPresented = NO;
-    if ([NSThread isMainThread]) {
-        isPresented = [self sdl_presented];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            isPresented = [self sdl_presented];
-        });
-    }
-
-    return isPresented;
+/// Returns whether or not the lockViewController is currently presented or currently animating the presentation of the lockscreen
+- (BOOL)isPresentedOrPresenting {
+    return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
 }
 
-- (BOOL)sdl_presented {
-    return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
+/// Returns whether or not the lockViewController is currently animating the dismissal of the lockscreen
+- (BOOL)isDismissing {
+    return (self.lockViewController.isBeingDismissed || self.lockViewController.isMovingFromParentViewController);
+}
+
+#pragma mark - Window Helpers
+
+/// If the app is using `SceneDelegate` class (iOS 13+), then the `UIWindow` must be initalized using the active `UIWindowScene`. Otherwise, the newly created window will not appear on the screen even though it is added to the `UIApplication`'s `windows` stack (This seems to be a bug as no official documentation says that a `UIWindow` must be created this way if using the `SceneDelegate` class)
++ (UIWindow *)sdl_createUIWindow {
+    if (@available(iOS 13.0, *)) {
+        for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+             // The scene is either foreground active / inactive, background, or unattached. If the latter three, we don't want to do anything with them. Also check that the scene is for the application and not an external display or CarPlay.
+            if (scene.activationState != UISceneActivationStateForegroundActive ||
+                ![scene.session.role isEqualToString:UIWindowSceneSessionRoleApplication] ||
+                ![scene isKindOfClass:[UIWindowScene class]]) {
+                continue;
+            }
+
+            return [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
+        }
+    }
+
+    return [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
 }
 
 @end
 
 NS_ASSUME_NONNULL_END
-
