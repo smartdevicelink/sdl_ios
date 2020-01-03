@@ -579,7 +579,7 @@ typedef NSString * SDLServiceID;
 
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id<NSObject>)observer selector:(SEL)selector {
     // DISPLAYS always works due to old-style SetDisplayLayoutRepsonse updates, but otherwise, subscriptions won't work
-    if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return nil; }
+    if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return NO; }
 
     NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
     if (numberOfParametersInSelector > 1) { return NO; }
@@ -587,7 +587,7 @@ typedef NSString * SDLServiceID;
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
     [self.capabilityObservers[type] addObject:observerObject];
 
-    return observerObject.observer;
+    return YES;
 }
 
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
