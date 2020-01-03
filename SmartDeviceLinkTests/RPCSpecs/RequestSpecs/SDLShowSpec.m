@@ -15,6 +15,7 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextAlignment.h"
 
 QuickSpecBegin(SDLShowSpec)
@@ -27,6 +28,13 @@ NSArray<SDLMetadataType> *formatArray = @[SDLMetadataTypeMediaArtist,SDLMetadata
 SDLMetadataTags* testMetadata = [[SDLMetadataTags alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
 
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLTemplateConfiguration *testTemplateConfig = nil;
+    __block int testWindowID = 4;
+
+    beforeEach(^{
+        testTemplateConfig = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLShow* testRequest = [[SDLShow alloc] init];
 
@@ -44,6 +52,8 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.softButtons = [@[button] mutableCopy];
         testRequest.customPresets = [@[@"preset1", @"preset2"] mutableCopy];
         testRequest.metadataTags = testMetadata;
+        testRequest.windowID = @(testWindowID);
+        testRequest.templateConfiguration = testTemplateConfig;
 
         expect(testRequest.mainField1).to(equal(@"field1"));
         expect(testRequest.mainField2).to(equal(@"field2"));
@@ -59,7 +69,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
         expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
         expect(testRequest.metadataTags).to(equal(testMetadata));
-
+        expect(testRequest.windowID).to(equal(testWindowID));
+        expect(testRequest.templateConfiguration).to(equal(testTemplateConfig));
     });
 
     it(@"Should return nil if not set", ^{
@@ -79,6 +90,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.softButtons).to(beNil());
         expect(testRequest.customPresets).to(beNil());
         expect(testRequest.metadataTags).to(beNil());
+        expect(testRequest.windowID).to(beNil());
+        expect(testRequest.templateConfiguration).to(beNil());
     });
 
     describe(@"initializing", ^{
@@ -344,7 +357,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameSecondaryGraphic:image2,
                                                        SDLRPCParameterNameSoftButtons:[@[button] mutableCopy],
                                                        SDLRPCParameterNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
-                                                       SDLRPCParameterNameMetadataTags:testMetadata},
+                                                       SDLRPCParameterNameMetadataTags:testMetadata,
+                                                       SDLRPCParameterNameWindowId:@(testWindowID),
+                                                       SDLRPCParameterNameTemplateConfiguration:testTemplateConfig
+                                                     },
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -365,6 +381,8 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
             expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
             expect(testRequest.metadataTags).to(equal(testMetadata));
+            expect(testRequest.windowID).to(equal(testWindowID));
+            expect(testRequest.templateConfiguration).to(equal(testTemplateConfig));
         });
     });
 });
