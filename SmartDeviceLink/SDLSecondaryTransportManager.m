@@ -18,6 +18,7 @@
 #import "SDLLogMacros.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
@@ -94,6 +95,8 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 // TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
+// App is ready to set security manager to secondary protocol
+@property (assign, nonatomic, getter=isAppReady) BOOL appReady;
 
 @end
 
@@ -118,6 +121,8 @@ static const int TCPPortUnspecified = -1;
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeReady) name:SDLDidBecomeReady object:nil];
 
     return self;
 }
@@ -224,8 +229,8 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)didEnterStateConfigured {
-    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady])
-        || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
+    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady)
+        || (self.secondaryTransportType == SDLSecondaryTransportTypeIAP && self.isAppReady)) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
@@ -277,6 +282,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)didEnterStateReconnecting {
+    self.appReady = NO;
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
@@ -366,7 +372,7 @@ static const int TCPPortUnspecified = -1;
         return;
     }
 
-    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady]) {
+    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady] && self.isAppReady) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     } else if ([self sdl_isTransportOpened]) {
         // Disconnect current transport. If the IP address is available then we will reconnect immediately.
@@ -507,6 +513,7 @@ static const int TCPPortUnspecified = -1;
     transport.delegate = protocol;
     protocol.transport = transport;
     [protocol.protocolDelegateTable addObject:self];
+    protocol.securityManager = self.primaryProtocol.securityManager;
 
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -529,6 +536,7 @@ static const int TCPPortUnspecified = -1;
     transport.delegate = protocol;
     protocol.transport = transport;
     [protocol.protocolDelegateTable addObject:self];
+    protocol.securityManager = self.primaryProtocol.securityManager;
 
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -648,7 +656,7 @@ static const int TCPPortUnspecified = -1;
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
             if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
-                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady]) {
+                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady) {
                 SDLLogD(@"Resuming TCP transport since the app becomes foreground");
                 [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             }
@@ -702,6 +710,14 @@ static const int TCPPortUnspecified = -1;
     } else {
         SDLLogE(@"Unknown type of primary transport");
         return SDLSecondaryTransportTypeDisabled;
+    }
+}
+
+- (void)appDidBecomeReady {
+    self.appReady = YES;
+    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress != nil)
+        || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
+         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
 
