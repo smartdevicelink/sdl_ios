@@ -1,4 +1,17 @@
 # Changelog
+## 6.5.0
+### Bug Fixes
+* Fix the `SDLSystemCapabilityManager subscribeToCapabilityType:withObserver:selector:` not returning a BOOL as was declared (https://www.github.com/smartdevicelink/sdl_ios/issues/1465).
+* Fix the Soft Button Manager failing if the template is changed and the new template does not support soft buttons (https://www.github.com/smartdevicelink/sdl_ios/issues/1474).
+* Objective-C++ projects that previously saw APIs that caused a compiler failure due to keyword restrictions will now no longer see those APIs and will see different APIs instead. All non-Objective-C++ projects will be unchanged. Because the previous release was un-compilable, we are considering this a minor change instead of a major change due to adding APIs (https://www.github.com/smartdevicelink/sdl_ios/issues/1478).
+* In some cases the lock screen would show status bar rotation even though the view controller didn't rotate (https://www.github.com/smartdevicelink/sdl_ios/issues/1480).
+* Fix the security manager not being set when using a secondary transport in certain cases (https://www.github.com/smartdevicelink/sdl_ios/issues/1482).
+* Fix `Show.templateConfiguration` RPC parameter not getting set properly (https://www.github.com/smartdevicelink/sdl_ios/issues/1486).
+* In some cases the lock screen window would cause the app's window to display incorrectly when dismissed (https://www.github.com/smartdevicelink/sdl_ios/issues/1492).
+* Attempt to fix a background crash when disconnecting – note that your app will still close due to iOS' background restrictions (https://www.github.com/smartdevicelink/sdl_ios/issues/1494).
+* In some cases the lock screen window would continue to hide the app's window when dismissed (https://www.github.com/smartdevicelink/sdl_ios/issues/1496).
+* When the app runs more than one `UIWindow`, the lock screen manager would sometimes choose the wrong window to display when the lock window is dismissed (https://www.github.com/smartdevicelink/sdl_ios/issues/1501).
+
 ## 6.4.1
 ### Bug Fixes
 * Update code documentation (https://www.github.com/smartdevicelink/sdl_ios/issues/983).

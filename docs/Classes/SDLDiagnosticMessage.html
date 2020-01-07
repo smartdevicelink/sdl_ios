@@ -21,12 +21,15 @@
       -initWithTargetId:length:data:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTargetId</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">targetId</span> <span class="nf">length</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">length</span> <span class="nf">data</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithTargetId</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">targetId</span>
+              <span class="nf">length</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">length</span>
+                <span class="nf">data</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -34,6 +37,19 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>targetId</dt>
+      <dd><p>Name of target ECU</p></dd>
+      <dt>length</dt>
+      <dd><p>Length of message (in bytes)</p></dd>
+      <dt>data</dt>
+      <dd><p>Array of bytes comprising CAN message</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLDiagnosticMessage object</p>
+  </div>
   
   <h3 id="section-targetID">
       targetID

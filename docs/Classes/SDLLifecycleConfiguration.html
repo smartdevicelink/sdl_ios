@@ -41,12 +41,12 @@
       -init
   </h3>
   
-  <p>Undocumented</p>
+  <p>Initializer unavailable</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
   
   
@@ -294,7 +294,7 @@
 
 <p>Optional</p>
 
-<p>@discussion  The <code>fullAppId</code> is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the <code>fullAppId</code> can be truncated to create the required <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> needed to register the app. The <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> is the first 10 non-dash (<q>-</q>) characters of the <code>fullAppId</code> (e.g. if you have a <code>fullAppId</code> of 123e4567-e89b-12d3-a456-426655440000, the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> will be 123e4567e8).</p>
+<p>@discussion  The <code>fullAppId</code> is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the <code>fullAppId</code> can be truncated to create the required <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> needed to register the app. The <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> is the first 10 non-dash (&ldquo;-&rdquo;) characters of the <code>fullAppId</code> (e.g. if you have a <code>fullAppId</code> of 123e4567-e89b-12d3-a456-426655440000, the <code><a href="../Classes/SDLLifecycleConfiguration.html#/c:objc(cs)SDLLifecycleConfiguration(py)appId">appId</a></code> will be 123e4567e8).</p>
 
   
   

@@ -18,7 +18,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Represents a filter over which SDL logs should be logged</p>
 
 
 <section class="section task-group-section">
@@ -26,12 +26,12 @@
       filter
   </h3>
   
-  <p>Undocumented</p>
+  <p>A block that takes in a log model and returns whether or not the log passes the filter and should therefore be logged.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">filter</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">_Nonnull</span> <span class="n">filter</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -44,12 +44,12 @@
       -init
   </h3>
   
-  <p>Undocumented</p>
+  <p>Initializer unavailable</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
   
   

@@ -20,12 +20,16 @@
       -initWithSeats:cols:rows:levels:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Constructs a newly allocated SDLSeatLocationCapability object with all parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSeats</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatLocation.html">SDLSeatLocation</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seats</span> <span class="nf">cols</span><span class="p">:(</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cols</span> <span class="nf">rows</span><span class="p">:(</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rows</span> <span class="nf">levels</span><span class="p">:(</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">levels</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSeats</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatLocation.html">SDLSeatLocation</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seats</span>
+                                 <span class="nf">cols</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cols</span>
+                                 <span class="nf">rows</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rows</span>
+                               <span class="nf">levels</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">levels</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -33,6 +37,21 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>seats</dt>
+      <dd><p>Describes the location of a seat</p></dd>
+      <dt>cols</dt>
+      <dd><p>Number of columns</p></dd>
+      <dt>rows</dt>
+      <dd><p>Number of rows</p></dd>
+      <dt>levels</dt>
+      <dd><p>Number of levels</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSeatLocationCapability object</p>
+  </div>
   
   <h3 id="section-cols">
       cols

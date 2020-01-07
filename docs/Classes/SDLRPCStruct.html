@@ -11,7 +11,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Superclass of all RPC-related structs and messages</p>
 
 
 <section class="section task-group-section">
@@ -19,12 +19,13 @@
       store
   </h3>
   
-  <p>Undocumented</p>
+  <p>The store that contains RPC data</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">store</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">store</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -37,12 +38,13 @@
       payloadProtected
   </h3>
   
-  <p>Undocumented</p>
+  <p>Declares if the RPC payload ought to be protected</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isPayloadProtected</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">payloadProtected</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">isPayloadProtected</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">payloadProtected</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

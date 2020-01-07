@@ -25,12 +25,12 @@ Function Group: ProprietaryData
       -initWithECUName:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithECUName</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithECUName</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -38,17 +38,26 @@ Function Group: ProprietaryData
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>Name of the module to receive the DTC form</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLGetDTCs object</p>
+  </div>
   
   <h3 id="section--initWithECUName:mask:">
       -initWithECUName:mask:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init with all properties</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithECUName</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">name</span> <span class="nf">mask</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">mask</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithECUName</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">name</span> <span class="nf">mask</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">mask</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -56,6 +65,17 @@ Function Group: ProprietaryData
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>Name of the module to receive the DTC form</p></dd>
+      <dt>mask</dt>
+      <dd><p>DTC Mask Byte to be sent in diagnostic request to module</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLGetDTCs object</p>
+  </div>
   
   <h3 id="section-ecuName">
       ecuName

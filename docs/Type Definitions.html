@@ -562,7 +562,7 @@
       SDLDirection
   </h3>
   
-  <p>Undocumented</p>
+  <p>A navigation direction.</p>
 
   
   
@@ -721,12 +721,12 @@
       SDLEnum
   </h3>
   
-  <p>Undocumented</p>
+  <p>NSString SDLEnum typedef</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">NSString</span><span class="o">*</span> <span class="n">SDLEnum</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">SDLEnum</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -739,12 +739,13 @@
       SDLFileManagerStartupCompletionHandler
   </h3>
   
-  <p>Undocumented</p>
+  <p>The handler that is called when the manager is set up or failed to set up with an error.
+This is for internal use only.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerStartupCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">__nullable</span> <span class="n">error</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerStartupCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -752,12 +753,19 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>success</dt>
+      <dd><p>True if every request succeeded, false if any failed.</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if any occurred.</p></dd>
+  </dl>
   
   <h3 id="section-SDLFileName">
       SDLFileName
   </h3>
   
-  <p>Undocumented</p>
+  <p>Typedef SDLFileName</p>
 
   
   
@@ -1105,7 +1113,7 @@
       SDLHMILevel
   </h3>
   
-  <p>Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing <q>focus</q> to other applications (e.g. phone, other mobile applications, etc.). Used in OnHMIStatus</p>
+  <p>Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing &ldquo;focus&rdquo; to other applications (e.g. phone, other mobile applications, etc.). Used in OnHMIStatus</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1494,7 +1502,7 @@
       SwipeGestureCallbackBlock
   </h3>
   
-  <p>Undocumented</p>
+  <p>A block that can be used to close the lockscreen when the user swipes on the lockscreen. Override this in your own custom view controllers if you build a custom lock screen.</p>
 
   
   
@@ -1557,12 +1565,12 @@
       SDLManagerReadyBlock
   </h3>
   
-  <p>Undocumented</p>
+  <p>The block called when the manager is ready to be used or an error occurs while attempting to become ready.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLManagerReadyBlock</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLManagerReadyBlock</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1570,17 +1578,24 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>success</dt>
+      <dd><p>a bool value if the set up succeeded</p></dd>
+      <dt>error</dt>
+      <dd><p>the error is any exists</p></dd>
+  </dl>
   
   <h3 id="section-SDLRPCUpdatedBlock">
       SDLRPCUpdatedBlock
   </h3>
   
-  <p>Undocumented</p>
+  <p>The block that will be called every time an RPC is received when subscribed to an RPC.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRPCUpdatedBlock</span><span class="p">)</span> <span class="p">(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">message</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRPCUpdatedBlock</span><span class="p">)(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1588,6 +1603,11 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>message</dt>
+      <dd><p>The RPC message</p></dd>
+  </dl>
   
   <h3 id="section-SDLMassageCushion">
       SDLMassageCushion
@@ -1692,12 +1712,12 @@ c = character <br></p>
       SDLMenuCellSelectionHandler
   </h3>
   
-  <p>Undocumented</p>
+  <p>The handler to run when a menu item is selected.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLMenuCellSelectionHandler</span><span class="p">)(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span> <span class="n">triggerSource</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMenuCellSelectionHandler</span><span class="p">)(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span> <span class="n">_Nonnull</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1705,6 +1725,11 @@ c = character <br></p>
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>triggerSource</dt>
+      <dd><p>The trigger source of the selection</p></dd>
+  </dl>
   
   <h3 id="section-SDLMenuLayout">
       SDLMenuLayout
@@ -1764,7 +1789,7 @@ c = character <br></p>
       SDLNavigationAction
   </h3>
   
-  <p>Undocumented</p>
+  <p>A navigation action.</p>
 
   
   
@@ -1782,7 +1807,7 @@ c = character <br></p>
       SDLNavigationJunction
   </h3>
   
-  <p>Undocumented</p>
+  <p>A navigation junction type.</p>
 
   
   
@@ -1800,12 +1825,12 @@ c = character <br></p>
       SDLNotificationName
   </h3>
   
-  <p>Undocumented</p>
+  <p>NSNotification names specific to incoming SDL RPC</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">NOTIFICATION_TYPEDEF</span> <span class="n">SDLNotificationName</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">NSNotificationName</span> <span class="n">SDLNotificationName</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1818,7 +1843,7 @@ c = character <br></p>
       SDLNotificationUserInfoKey
   </h3>
   
-  <p>Undocumented</p>
+  <p>The key used in all SDL NSNotifications to extract the response or notification from the userInfo dictionary.</p>
 
   
   
@@ -1982,8 +2007,7 @@ c = character <br></p>
     <p class="aside-title">Warning</p>
     This only works if you send the RPC using SDLManager.
 
-</div>
-<div class="aside aside-warning">
+</div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>Only one of the two parameters will be set for each block call.</p>
 
@@ -2061,7 +2085,9 @@ c = character <br></p>
       SDLPermissionRPCName
   </h3>
   
-  <p>Undocumented</p>
+  <p>NSString typedef</p>
+
+<p>SDLPermissionRPCName: The name of the permission</p>
 
   
   
@@ -2079,7 +2105,9 @@ c = character <br></p>
       SDLPermissionObserverIdentifier
   </h3>
   
-  <p>Undocumented</p>
+  <p>NSUUID typedef</p>
+
+<p>SDLPermissionObserverIdentifier: A unique identifier</p>
 
   
   
@@ -2236,7 +2264,7 @@ c = character <br></p>
       SDLRPCFunctionName
   </h3>
   
-  <p>Undocumented</p>
+  <p>All RPC request / response / notification names</p>
 
   
   
@@ -2450,7 +2478,9 @@ c = character <br></p>
       SDLSpeechCapabilities
   </h3>
   
-  <p>Undocumented</p>
+  <p>Contains information about TTS capabilities on the SDL platform. Used in RegisterAppInterfaceResponse, and TTSChunk.</p>
+
+<p>@since SDL 1.0</p>
 
   
   
@@ -2468,7 +2498,7 @@ c = character <br></p>
       SDLStaticIconName
   </h3>
   
-  <p>Undocumented</p>
+  <p>Static icon names</p>
 
   
   
@@ -2486,7 +2516,7 @@ c = character <br></p>
       SDLVideoStreamManagerState
   </h3>
   
-  <p>Undocumented</p>
+  <p>The current state of the video stream manager</p>
 
   
   
@@ -2501,7 +2531,7 @@ c = character <br></p>
       SDLAudioStreamManagerState
   </h3>
   
-  <p>Undocumented</p>
+  <p>The current state of the audio stream manager</p>
 
   
   
@@ -2516,7 +2546,7 @@ c = character <br></p>
       SDLAppState
   </h3>
   
-  <p>Undocumented</p>
+  <p>Typedef SDLAppState</p>
 
   
   
@@ -2777,10 +2807,7 @@ c = character <br></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
-    <span class="n">SDLTouchIdentifierFirstFinger</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">SDLTouchIdentifierSecondFinger</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="p">}</span> <span class="n">SDLTouchIdentifier</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="k">enum</span> <span class="n">SDLTouchIdentifier</span> <span class="n">SDLTouchIdentifier</span></code></pre>
 
   
   
@@ -2790,12 +2817,12 @@ c = character <br></p>
       SDLTouchEventHandler
   </h3>
   
-  <p>Undocumented</p>
+  <p>Handler for touch events</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLTouchEventHandler</span><span class="p">)(</span><span class="n"><a href="Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="n">touch</span><span class="p">,</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span> <span class="n">type</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLTouchEventHandler</span><span class="p">)(</span><span class="n"><a href="Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span> <span class="n">_Nonnull</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2803,6 +2830,13 @@ c = character <br></p>
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>touch</dt>
+      <dd><p>Describes a touch location</p></dd>
+      <dt>type</dt>
+      <dd><p>The type of touch</p></dd>
+  </dl>
   
   <h3 id="section-SDLTouchType">
       SDLTouchType
@@ -2846,7 +2880,7 @@ c = character <br></p>
       SDLTurnSignal
   </h3>
   
-  <p>Undocumented</p>
+  <p>Enumeration that describes the status of the turn light indicator.</p>
 
   
   
@@ -3070,12 +3104,12 @@ c = character <br></p>
       SDLVoiceCommandSelectionHandler
   </h3>
   
-  <p>Undocumented</p>
+  <p>The handler that will be called when the command is activated</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLVoiceCommandSelectionHandler</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLVoiceCommandSelectionHandler</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
