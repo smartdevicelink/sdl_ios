@@ -222,8 +222,7 @@ describe(@"choice set manager tests", ^{
 
                 beforeEach(^{
                     pendingPreloadOp = [[SDLPreloadChoicesOperation alloc] init];
-                    OCMPartialMock(pendingPreloadOp);
-                    OCMStub([pendingPreloadOp removeChoicesFromUpload:[OCMArg any]]);
+
                     [testManager.transactionQueue addOperation:pendingPreloadOp];
 
                     testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
@@ -232,11 +231,6 @@ describe(@"choice set manager tests", ^{
                 });
 
                 it(@"should properly start the deletion", ^{
-                    OCMStub([pendingPreloadOp removeChoicesFromUpload:[OCMArg checkWithBlock:^BOOL(id obj) {
-                        NSArray<SDLChoiceCell *> *choices = (NSArray<SDLChoiceCell *> *)obj;
-                        return (choices.count == 1) && ([choices.firstObject isEqual:testCell1]);
-                    }]]);
-
                     expect(testManager.pendingPreloadChoices).to(beEmpty());
                     expect(testManager.transactionQueue.operationCount).to(equal(1)); // No delete operation
                 });
