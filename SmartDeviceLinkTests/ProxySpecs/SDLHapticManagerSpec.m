@@ -44,14 +44,14 @@ BOOL compareScaledRectangle(SDLRectangle *sdlRectangle, CGRect cgRect, float sca
 
 QuickSpecBegin(SDLHapticManagerSpec)
 
-describe(@"the haptic manager", ^{
+fdescribe(@"the haptic manager", ^{
     __block UIWindow *uiWindow;
     __block UIViewController *uiViewController;
 
     __block SDLFocusableItemLocator *hapticManager;
     __block SDLSendHapticData* sentHapticRequest;
 
-    __block id sdlLifecycleManager = OCMClassMock([SDLLifecycleManager class]);
+    __block id<SDLConnectionManagerType> sdlLifecycleManager = nil;
     __block SDLStreamingVideoScaleManager *sdlStreamingVideoScaleManager = nil;
     __block CGRect viewRect1;
     __block CGRect viewRect2;
@@ -61,17 +61,11 @@ describe(@"the haptic manager", ^{
         uiViewController = [[UIViewController alloc] init];
         uiWindow.rootViewController = uiViewController;
 
+        sdlLifecycleManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+
         hapticManager = nil;
         sentHapticRequest = nil;
         sdlStreamingVideoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:1.0 displayViewportResolution:uiViewController.view.frame.size];
-
-        OCMExpect([[sdlLifecycleManager stub] sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
-            BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
-            if(isFirstArg) {
-                sentHapticRequest = value;
-            }
-            return YES;
-        }]  withResponseHandler:[OCMArg any]]);
     });
 
     context(@"when disabled", ^{
@@ -86,7 +80,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have no views", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMReject([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             expect(sentHapticRequest).to(beNil());
         });
@@ -99,7 +99,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have no focusable view", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMReject([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
             expect(sentHapticRequest.hapticRectData.count).to(equal(0));
         });
     });
@@ -116,7 +122,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have one view", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             int expectedCount = 1;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -143,7 +155,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have one view", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             int expectedCount = 1;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -176,7 +194,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have two views", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             int expectedCount = 2;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -214,7 +238,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have only leaf views added", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             int expectedCount = 2;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -252,7 +282,13 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have only leaf views added", ^{
-            OCMVerify(sdlLifecycleManager);
+            OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
 
             int expectedCount = 2;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -273,6 +309,14 @@ describe(@"the haptic manager", ^{
 
     context(@"when initialized with two views and then updated with one view removed", ^{
         beforeEach(^{
+            OCMStub([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
+
             viewRect1 = CGRectMake(101, 101, 50, 50);
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
             [uiViewController.view addSubview:textField1];
@@ -291,8 +335,6 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have one view", ^{
-            OCMVerify(sdlLifecycleManager);
-
             int expectedCount = 1;
             expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
 
@@ -308,6 +350,14 @@ describe(@"the haptic manager", ^{
 
     context(@"when initialized with one view and notified after adding one more view", ^{
         beforeEach(^{
+            OCMStub([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                if(isFirstArg) {
+                    sentHapticRequest = value;
+                }
+                return YES;
+            }] withResponseHandler:[OCMArg any]]);
+
             viewRect1 = CGRectMake(101, 101, 50, 50);
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
             [uiViewController.view addSubview:textField1];
@@ -324,8 +374,6 @@ describe(@"the haptic manager", ^{
         });
 
         it(@"should have two views", ^{
-            OCMVerify(sdlLifecycleManager);
-
             int expectedCount = 2;
             expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
 
@@ -422,7 +470,13 @@ describe(@"the haptic manager", ^{
              });
 
              it(@"should have sent one view that has been scaled", ^{
-                 OCMVerify(sdlLifecycleManager);
+                 OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                     BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                     if(isFirstArg) {
+                         sentHapticRequest = value;
+                     }
+                     return YES;
+                 }] withResponseHandler:[OCMArg any]]);
 
                  int expectedCount = 1;
                  expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
@@ -445,7 +499,13 @@ describe(@"the haptic manager", ^{
              });
 
              it(@"should have sent one view that has not been scaled", ^{
-                 OCMVerify(sdlLifecycleManager);
+                 OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+                     BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
+                     if(isFirstArg) {
+                         sentHapticRequest = value;
+                     }
+                     return YES;
+                 }] withResponseHandler:[OCMArg any]]);
 
                  int expectedCount = 1;
                  expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
