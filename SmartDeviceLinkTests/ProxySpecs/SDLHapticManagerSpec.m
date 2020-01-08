@@ -44,7 +44,7 @@ BOOL compareScaledRectangle(SDLRectangle *sdlRectangle, CGRect cgRect, float sca
 
 QuickSpecBegin(SDLHapticManagerSpec)
 
-fdescribe(@"the haptic manager", ^{
+describe(@"the haptic manager", ^{
     __block UIWindow *uiWindow;
     __block UIViewController *uiViewController;
 
