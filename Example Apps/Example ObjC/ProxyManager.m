@@ -288,22 +288,36 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
-
+    BOOL isNeedUpdate = YES;
     if ([language isEqualToEnum:SDLLanguageEnUs]) {
-        update.appName = ExampleAppName;
+        update.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     } else if ([language isEqualToString:SDLLanguageEsMx]) {
-        update.appName = ExampleAppNameSpanish;
+        update.ttsName = [SDLTTSChunk textChunksFromString:SDLLanguageEsMx];
     } else if ([language isEqualToString:SDLLanguageFrCa]) {
+        update.ttsName = [SDLTTSChunk textChunksFromString:SDLLanguageFrCa];
+    } else {
+        isNeedUpdate = NO;
+    }
+    
+    if ([hmiLanguage isEqualToEnum:SDLLanguageEnUs]) {
+        update.appName = ExampleAppName;
+    } else if ([hmiLanguage isEqualToString:SDLLanguageEsMx]) {
+        update.appName = ExampleAppNameSpanish;
+    } else if ([hmiLanguage isEqualToString:SDLLanguageFrCa]) {
         update.appName = ExampleAppNameFrench;
     } else {
+        isNeedUpdate = NO;
+    }
+    
+    if (!isNeedUpdate) {
         return nil;
     }
-
-    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
     return update;
 }
+
+
 
 @end
 
