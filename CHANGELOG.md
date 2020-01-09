@@ -1,5 +1,9 @@
 # Changelog
-## 6.5.0
+## 6.5.0 (Since RC 1)
+### Bug Fixes
+* Update testing dependencies and fix a few tests that fail after updating OCMock to 3.5.0 due to mocks not being used properly in a test (https://www.github.com/smartdevicelink/sdl_ios/issues/1517).
+
+## 6.5.0 Release Candidate 1
 ### Bug Fixes
 * Fix the `SDLSystemCapabilityManager subscribeToCapabilityType:withObserver:selector:` not returning a BOOL as was declared (https://www.github.com/smartdevicelink/sdl_ios/issues/1465).
 * Fix the Soft Button Manager failing if the template is changed and the new template does not support soft buttons (https://www.github.com/smartdevicelink/sdl_ios/issues/1474).
