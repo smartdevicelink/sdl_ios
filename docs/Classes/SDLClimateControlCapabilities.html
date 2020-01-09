@@ -37,12 +37,21 @@
       -initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to describe the climate control capabilities.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span> <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span> <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span> <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span> <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span> <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span> <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span> <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span> <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable: dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable: heatedSteeringWheelAvailable:heatedWindshieldAvailable: heatedRearWindowAvailable:heatedMirrorsAvailable: climateEnableAvailable: instead"</span><span class="p">);</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                         <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span>
+               <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span>
+                         <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span>
+                      <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span>
+                     <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span>
+                   <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span>
+                   <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span>
+                      <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span>
+                  <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -50,17 +59,57 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the climate control module</p></dd>
+      <dt>fanSpeedAvailable</dt>
+      <dd><p>Availability of the control of fan speed</p></dd>
+      <dt>desiredTemperatureAvailable</dt>
+      <dd><p>Availability of the control of desired temperature</p></dd>
+      <dt>acEnableAvailable</dt>
+      <dd><p>Availability of the control of turn on/off AC</p></dd>
+      <dt>acMaxEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable air conditioning is ON on the maximum level</p></dd>
+      <dt>circulateAirEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable circulate Air mode</p></dd>
+      <dt>autoModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable auto mode</p></dd>
+      <dt>dualModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable dual mode</p></dd>
+      <dt>defrostZoneAvailable</dt>
+      <dd><p>Availability of the control of defrost zones</p></dd>
+      <dt>ventilationModeAvailable</dt>
+      <dd><p>Availability of the control of air ventilation mode</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlCapabilities object</p>
+  </div>
   
   <h3 id="section--initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:">
       -initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to describe the climate control capabilities.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span> <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span> <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span> <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span> <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span> <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span> <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span> <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span> <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span> <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span> <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span> <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span> <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable: dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable: heatedSteeringWheelAvailable:heatedWindshieldAvailable: heatedRearWindowAvailable:heatedMirrorsAvailable: climateEnableAvailable: instead"</span><span class="p">);</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                         <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span>
+               <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span>
+                         <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span>
+                      <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span>
+                     <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span>
+                   <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span>
+                   <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span>
+                      <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span>
+                  <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span>
+              <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span>
+                 <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span>
+                 <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span>
+                    <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -68,17 +117,66 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the climate control module</p></dd>
+      <dt>fanSpeedAvailable</dt>
+      <dd><p>Availability of the control of fan speed</p></dd>
+      <dt>desiredTemperatureAvailable</dt>
+      <dd><p>Availability of the control of desired temperature</p></dd>
+      <dt>acEnableAvailable</dt>
+      <dd><p>Availability of the control of turn on/off AC</p></dd>
+      <dt>acMaxEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable air conditioning is ON on the maximum level</p></dd>
+      <dt>circulateAirEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable circulate Air mode</p></dd>
+      <dt>autoModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable auto mode</p></dd>
+      <dt>dualModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable dual mode</p></dd>
+      <dt>defrostZoneAvailable</dt>
+      <dd><p>Availability of the control of defrost zones</p></dd>
+      <dt>ventilationModeAvailable</dt>
+      <dd><p>Availability of the control of air ventilation mode</p></dd>
+      <dt>heatedSteeringWheelAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Steering Wheel</p></dd>
+      <dt>heatedWindshieldAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Windshield</p></dd>
+      <dt>heatedRearWindowAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Rear Window</p></dd>
+      <dt>heatedMirrorsAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Mirrors</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlCapabilities object</p>
+  </div>
   
   <h3 id="section--initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:climateEnableAvailable:">
       -initWithModuleName:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:climateEnableAvailable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to describe the climate control capabilities.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span> <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span> <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span> <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span> <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span> <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span> <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span> <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span> <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span> <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span> <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span> <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span> <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span> <span class="nf">climateEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">climateEnableAvailable</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithModuleName: moduleId:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable: dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable: heatedSteeringWheelAvailable:heatedWindshieldAvailable: heatedRearWindowAvailable:heatedMirrorsAvailable: climateEnableAvailable: instead"</span><span class="p">);</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                         <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span>
+               <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span>
+                         <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span>
+                      <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span>
+                     <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span>
+                   <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span>
+                   <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span>
+                      <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span>
+                  <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span>
+              <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span>
+                 <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span>
+                 <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span>
+                    <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span>
+                    <span class="nf">climateEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">climateEnableAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -86,17 +184,69 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the climate control module</p></dd>
+      <dt>fanSpeedAvailable</dt>
+      <dd><p>Availability of the control of fan speed</p></dd>
+      <dt>desiredTemperatureAvailable</dt>
+      <dd><p>Availability of the control of desired temperature</p></dd>
+      <dt>acEnableAvailable</dt>
+      <dd><p>Availability of the control of turn on/off AC</p></dd>
+      <dt>acMaxEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable air conditioning is ON on the maximum level</p></dd>
+      <dt>circulateAirEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable circulate Air mode</p></dd>
+      <dt>autoModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable auto mode</p></dd>
+      <dt>dualModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable dual mode</p></dd>
+      <dt>defrostZoneAvailable</dt>
+      <dd><p>Availability of the control of defrost zones</p></dd>
+      <dt>ventilationModeAvailable</dt>
+      <dd><p>Availability of the control of air ventilation mode</p></dd>
+      <dt>heatedSteeringWheelAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Steering Wheel</p></dd>
+      <dt>heatedWindshieldAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Windshield</p></dd>
+      <dt>heatedRearWindowAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Rear Window</p></dd>
+      <dt>heatedMirrorsAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Mirrors</p></dd>
+      <dt>climateEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable climate control</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlCapabilities object</p>
+  </div>
   
   <h3 id="section--initWithModuleName:moduleInfo:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:climateEnableAvailable:">
       -initWithModuleName:moduleInfo:fanSpeedAvailable:desiredTemperatureAvailable:acEnableAvailable:acMaxEnableAvailable:circulateAirAvailable:autoModeEnableAvailable:dualModeEnableAvailable:defrostZoneAvailable:ventilationModeAvailable:heatedSteeringWheelAvailable:heatedWindshieldAvailable:heatedRearWindowAvailable:heatedMirrorsAvailable:climateEnableAvailable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to describe the climate control capabilities with all properities.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">moduleInfo</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLModuleInfo.html">SDLModuleInfo</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleInfo</span> <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span> <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span> <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span> <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span> <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span> <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span> <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span> <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span> <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span> <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span> <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span> <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span> <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span> <span class="nf">climateEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">climateEnableAvailable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                                <span class="nf">moduleInfo</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLModuleInfo.html">SDLModuleInfo</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleInfo</span>
+                         <span class="nf">fanSpeedAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fanSpeedAvailable</span>
+               <span class="nf">desiredTemperatureAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">desiredTemperatureAvailable</span>
+                         <span class="nf">acEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acEnableAvailable</span>
+                      <span class="nf">acMaxEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">acMaxEnableAvailable</span>
+                     <span class="nf">circulateAirAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">circulateAirEnableAvailable</span>
+                   <span class="nf">autoModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoModeEnableAvailable</span>
+                   <span class="nf">dualModeEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">dualModeEnableAvailable</span>
+                      <span class="nf">defrostZoneAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">defrostZoneAvailable</span>
+                  <span class="nf">ventilationModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">ventilationModeAvailable</span>
+              <span class="nf">heatedSteeringWheelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedSteeringWheelAvailable</span>
+                 <span class="nf">heatedWindshieldAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedWindshieldAvailable</span>
+                 <span class="nf">heatedRearWindowAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedRearWindowAvailable</span>
+                    <span class="nf">heatedMirrorsAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatedMirrorsAvailable</span>
+                    <span class="nf">climateEnableAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">climateEnableAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -104,6 +254,45 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the climate control module.</p></dd>
+      <dt>moduleInfo</dt>
+      <dd><p>Information about a RC module, including its id</p></dd>
+      <dt>fanSpeedAvailable</dt>
+      <dd><p>Availability of the control of fan speed</p></dd>
+      <dt>desiredTemperatureAvailable</dt>
+      <dd><p>Availability of the control of desired temperature</p></dd>
+      <dt>acEnableAvailable</dt>
+      <dd><p>Availability of the control of turn on/off AC</p></dd>
+      <dt>acMaxEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable air conditioning is ON on the maximum level</p></dd>
+      <dt>circulateAirEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable circulate Air mode.</p></dd>
+      <dt>autoModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable auto mode</p></dd>
+      <dt>dualModeEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable dual mode</p></dd>
+      <dt>defrostZoneAvailable</dt>
+      <dd><p>Availability of the control of defrost zones</p></dd>
+      <dt>ventilationModeAvailable</dt>
+      <dd><p>Availability of the control of air ventilation mode</p></dd>
+      <dt>heatedSteeringWheelAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Steering Wheel</p></dd>
+      <dt>heatedWindshieldAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Windshield</p></dd>
+      <dt>heatedRearWindowAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Rear Window</p></dd>
+      <dt>heatedMirrorsAvailable</dt>
+      <dd><p>Availability of the control (enable/disable) of heated Mirrors</p></dd>
+      <dt>climateEnableAvailable</dt>
+      <dd><p>Availability of the control of enable/disable climate control</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlCapabilities object</p>
+  </div>
   
   <h3 id="section-moduleName">
       moduleName
@@ -313,7 +502,7 @@
   
   <p>A set of all defrost zones that are controllable.</p>
 
-<p>Optional, NSArray of type SDLDefrostZone minsize=<q>1</q> maxsize=<q>100</q></p>
+<p>Optional, NSArray of type SDLDefrostZone minsize=&ldquo;1&rdquo; maxsize=&ldquo;100&rdquo;</p>
 
   
   
@@ -357,7 +546,7 @@
   <p>A set of all ventilation modes that are controllable.
  True: Available, False: Not Available, Not present: Not Available.</p>
 
-<p>Optional, NSArray of type SDLVentilationMode minsize=<q>1</q> maxsize=<q>100</q></p>
+<p>Optional, NSArray of type SDLVentilationMode minsize=&ldquo;1&rdquo; maxsize=&ldquo;100&rdquo;</p>
 
   
   

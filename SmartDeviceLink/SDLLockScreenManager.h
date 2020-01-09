@@ -15,6 +15,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Manages presenting and dismissing the lock screen based on several settings:
+/// 1. The lock screen configuration set by the developer. If the set to the default configuration, the lock screen manager will show or hide the lockscreen based on the the current HMILevel of the SDL app and the current driver distraction (DD) status. However, the developer can also set the lockscreen to always show or not show at all.
+/// 2. Whether the passenger has dismissed the lockscreen (RPC v.6.0+). Once the passenger has dismissed the lockscreen, it will not be shown again during the same session.
+///
+/// | HMI Level      | DD  | Lock Screen Status |
+/// |----------------|-----|--------------------|
+/// | HMI_NONE       | -   | OFF                |
+/// | HMI_BACKGROUND | OFF | OFF                |
+/// | HMI_BACKGROUND | ON  | REQUIRED           |
+/// | HMI_FULL       | OFF | OPTIONAL           |
+/// | HMI_FULL       | ON  | REQUIRED           |
+/// | HMI_LIMITED    | OFF | OPTIONAL           |
+/// | HMI_LIMITED    | ON  | REQUIRED           |
 @interface SDLLockScreenManager : NSObject
 
 /**

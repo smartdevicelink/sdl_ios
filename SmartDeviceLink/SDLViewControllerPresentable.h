@@ -1,5 +1,5 @@
 //
-//  SDLDialogPresenting.h
+//  SDLViewControllerPresentable.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Joel Fischer on 7/15/16.
@@ -8,15 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- *  A protocol used to tell a view controller to present another view controller. This makes testing of modal VCs' presentation easier.
- */
+NS_ASSUME_NONNULL_BEGIN
+
+/// A protocol used to tell a view controller to present another view controller. This makes testing of modal VCs' presentation easier.
 @protocol SDLViewControllerPresentable <NSObject>
 
-@property (strong, nonatomic) UIViewController *lockViewController;
-@property (assign, nonatomic, readonly) BOOL presented;
+/// The view controller to be presented as a lockscreen
+@property (strong, nonatomic, nullable) UIViewController *lockViewController;
 
-- (void)present;
-- (void)dismiss;
+/// Whether or not the lockscreen should be presented
+@property (assign, nonatomic, readonly) BOOL shouldShowLockScreen;
+
+/// Dismisses and destroys the lock screen window
+- (void)stop;
+
+/// Shows or hides the lock screen with animation
+/// @param show True if the lock screen should be presented; false if dismissed.
+- (void)updateLockScreenToShow:(BOOL)show;
 
 @end
+
+NS_ASSUME_NONNULL_END

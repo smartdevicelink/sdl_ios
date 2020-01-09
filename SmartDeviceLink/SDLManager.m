@@ -12,7 +12,6 @@
 #import "SDLLifecycleManager.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
-#import "SDLLockScreenPresenter.h"
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"

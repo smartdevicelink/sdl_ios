@@ -215,11 +215,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTemplateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
-    [self.store sdl_setObject:templateConfiguration forName:SDLRPCParameterNameTemplateConfiguration];
+    [self.parameters sdl_setObject:templateConfiguration forName:SDLRPCParameterNameTemplateConfiguration];
 }
 
 - (nullable SDLTemplateConfiguration *)templateConfiguration {
-    return [self.store sdl_objectForName:SDLRPCParameterNameTemplateConfiguration ofClass:SDLTemplateConfiguration.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTemplateConfiguration ofClass:SDLTemplateConfiguration.class error:nil];
 }
 
 - (void)setTemplateTitle:(nullable NSString *)templateTitle {

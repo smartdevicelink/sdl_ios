@@ -33,12 +33,21 @@
       -initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for climate control data.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span> <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span> <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span> <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span> <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span> <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span> <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span> <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span> <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone: dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable: heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable instead"</span><span class="p">);</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+      <span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span>
+    <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span>
+              <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span>
+    <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span>
+        <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span>
+           <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span>
+        <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span>
+           <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span>
+       <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -46,17 +55,58 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fanSpeed</dt>
+      <dd><p>Speed of Fan in integer</p></dd>
+      <dt>desiredTemperature</dt>
+      <dd><p>Desired Temperature in SDLTemperature</p></dd>
+      <dt>acEnable</dt>
+      <dd><p>Represents if AC is enabled</p></dd>
+      <dt>circulateAirEnable</dt>
+      <dd><p>Represents if circulation of air is enabled</p></dd>
+      <dt>autoModeEnable</dt>
+      <dd><p>Represents if auto mode is enabled</p></dd>
+      <dt>defrostZone</dt>
+      <dd><p>Represents the kind of defrost zone</p></dd>
+      <dt>dualModeEnable</dt>
+      <dd><p>Represents if dual mode is enabled</p></dd>
+      <dt>acMaxEnable</dt>
+      <dd><p>Represents if ac max is enabled</p></dd>
+      <dt>ventilationMode</dt>
+      <dd><p>Represents the kind of ventilation zone</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlData object</p>
+  </div>
   
   <h3 id="section--initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable:heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:">
       -initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable:heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for climate control data.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span> <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span> <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span> <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span> <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span> <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span> <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span> <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span> <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span> <span class="nf">heatedSteeringWheelEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedSteeringWheelEnable</span> <span class="nf">heatedWindshieldEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedWindshieldEnable</span> <span class="nf">heatedRearWindowEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedRearWindowEnable</span> <span class="nf">heatedMirrorsEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedMirrorsEnable</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone: dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable: heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable instead"</span><span class="p">);</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+             <span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span>
+           <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span>
+                     <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span>
+           <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span>
+               <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span>
+                  <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span>
+               <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span>
+                  <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span>
+              <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span>
+    <span class="nf">heatedSteeringWheelEnable</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedSteeringWheelEnable</span>
+       <span class="nf">heatedWindshieldEnable</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedWindshieldEnable</span>
+       <span class="nf">heatedRearWindowEnable</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedRearWindowEnable</span>
+          <span class="nf">heatedMirrorsEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedMirrorsEnable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -64,17 +114,67 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fanSpeed</dt>
+      <dd><p>Speed of Fan in integer</p></dd>
+      <dt>desiredTemperature</dt>
+      <dd><p>Desired Temperature in SDLTemperature</p></dd>
+      <dt>acEnable</dt>
+      <dd><p>Represents if AC is enabled</p></dd>
+      <dt>circulateAirEnable</dt>
+      <dd><p>Represents if circulation of air is enabled</p></dd>
+      <dt>autoModeEnable</dt>
+      <dd><p>Represents if auto mode is enabled</p></dd>
+      <dt>defrostZone</dt>
+      <dd><p>Represents the kind of defrost zone</p></dd>
+      <dt>dualModeEnable</dt>
+      <dd><p>Represents if dual mode is enabled</p></dd>
+      <dt>acMaxEnable</dt>
+      <dd><p>Represents if ac max is enabled</p></dd>
+      <dt>ventilationMode</dt>
+      <dd><p>Represents the kind of ventilation zone</p></dd>
+      <dt>heatedSteeringWheelEnable</dt>
+      <dd><p>Represents if heated steering wheel is enabled</p></dd>
+      <dt>heatedWindshieldEnable</dt>
+      <dd><p>Represents if heated windshield is enabled</p></dd>
+      <dt>heatedRearWindowEnable</dt>
+      <dd><p>Represents if heated rear window is enabled</p></dd>
+      <dt>heatedMirrorsEnable</dt>
+      <dd><p>Represents if heated mirrors are enabled</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlData object</p>
+  </div>
   
   <h3 id="section--initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable:heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable:">
       -initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable:heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init for climate control data with all properties.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span> <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span> <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span> <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span> <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span> <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span> <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span> <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span> <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span> <span class="nf">heatedSteeringWheelEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedSteeringWheelEnable</span> <span class="nf">heatedWindshieldEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedWindshieldEnable</span> <span class="nf">heatedRearWindowEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedRearWindowEnable</span> <span class="nf">heatedMirrorsEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedMirrorsEnable</span> <span class="nf">climateEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">climateEnable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+             <span class="nf">initWithFanSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fanSpeed</span>
+           <span class="nf">desiredTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">desiredTemperature</span>
+                     <span class="nf">acEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acEnable</span>
+           <span class="nf">circulateAirEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">circulateAirEnable</span>
+               <span class="nf">autoModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoModeEnable</span>
+                  <span class="nf">defrostZone</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">)</span><span class="nv">defrostZone</span>
+               <span class="nf">dualModeEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">dualModeEnable</span>
+                  <span class="nf">acMaxEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">acMaxEnable</span>
+              <span class="nf">ventilationMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">)</span><span class="nv">ventilationMode</span>
+    <span class="nf">heatedSteeringWheelEnable</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedSteeringWheelEnable</span>
+       <span class="nf">heatedWindshieldEnable</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedWindshieldEnable</span>
+       <span class="nf">heatedRearWindowEnable</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedRearWindowEnable</span>
+          <span class="nf">heatedMirrorsEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatedMirrorsEnable</span>
+                <span class="nf">climateEnable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">climateEnable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -82,6 +182,41 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fanSpeed</dt>
+      <dd><p>Speed of Fan in integer</p></dd>
+      <dt>desiredTemperature</dt>
+      <dd><p>Desired Temperature in SDLTemperature</p></dd>
+      <dt>acEnable</dt>
+      <dd><p>Represents if AC is enabled</p></dd>
+      <dt>circulateAirEnable</dt>
+      <dd><p>Represents if circulation of air is enabled</p></dd>
+      <dt>autoModeEnable</dt>
+      <dd><p>Represents if auto mode is enabled</p></dd>
+      <dt>defrostZone</dt>
+      <dd><p>Represents the kind of defrost zone</p></dd>
+      <dt>dualModeEnable</dt>
+      <dd><p>Represents if dual mode is enabled</p></dd>
+      <dt>acMaxEnable</dt>
+      <dd><p>Represents if ac max is enabled</p></dd>
+      <dt>ventilationMode</dt>
+      <dd><p>Represents the kind of ventilation zone</p></dd>
+      <dt>heatedSteeringWheelEnable</dt>
+      <dd><p>Represents if heated steering wheel is enabled</p></dd>
+      <dt>heatedWindshieldEnable</dt>
+      <dd><p>Represents if heated windshield is enabled</p></dd>
+      <dt>heatedRearWindowEnable</dt>
+      <dd><p>Represents if heated rear window is enabled</p></dd>
+      <dt>heatedMirrorsEnable</dt>
+      <dd><p>Represents if heated mirrors are enabled</p></dd>
+      <dt>climateEnable</dt>
+      <dd><p>Represents if climate is enabled</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLClimateControlData object</p>
+  </div>
   
   <h3 id="section-fanSpeed">
       fanSpeed
@@ -216,7 +351,7 @@
       defrostZone
   </h3>
   
-  <p>Represents the kind of defrost zone</p>
+  <p>Represents the kind of defrost zone.</p>
 
 <p>Optional, SDLDefrostZone</p>
 
@@ -278,7 +413,7 @@
       ventilationMode
   </h3>
   
-  <p>Represents the kind of Ventilation zone</p>
+  <p>Represents the kind of Ventilation zone.</p>
 
 <p>Optional, SDLVentilationMode</p>
 

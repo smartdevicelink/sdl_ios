@@ -56,12 +56,14 @@
       -initWithMainField1:mainField2:alignment:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+                                <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+                                 <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -69,17 +71,35 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section--initWithMainField1:mainField1Type:mainField2:mainField2Type:alignment:">
       -initWithMainField1:mainField1Type:mainField2:mainField2Type:alignment:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField1Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField1Type</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField2Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField2Type</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+        <span class="nf">mainField1Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField1Type</span>
+            <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+        <span class="nf">mainField2Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField2Type</span>
+             <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -87,17 +107,38 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField1Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>mainField2Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section--initWithMainField1:mainField2:mainField3:mainField4:alignment:">
       -initWithMainField1:mainField2:mainField3:mainField4:alignment:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span> <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+                                <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+                                <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span>
+                                <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span>
+                                 <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -105,17 +146,43 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>mainField3</dt>
+      <dd><p>The text displayed on the third display line</p></dd>
+      <dt>mainField4</dt>
+      <dd><p>The text displayed on the fourth display line</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section--initWithMainField1:mainField1Type:mainField2:mainField2Type:mainField3:mainField3Type:mainField4:mainField4Type:alignment:">
       -initWithMainField1:mainField1Type:mainField2:mainField2Type:mainField3:mainField3Type:mainField4:mainField4Type:alignment:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField1Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField1Type</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField2Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField2Type</span> <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span> <span class="nf">mainField3Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField3Type</span> <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span> <span class="nf">mainField4Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField4Type</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+        <span class="nf">mainField1Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField1Type</span>
+            <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+        <span class="nf">mainField2Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField2Type</span>
+            <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span>
+        <span class="nf">mainField3Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField3Type</span>
+            <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span>
+        <span class="nf">mainField4Type</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span><span class="p">)</span><span class="nv">mainField4Type</span>
+             <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -123,17 +190,47 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField1Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>mainField2Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>mainField3</dt>
+      <dd><p>The text displayed on the third display line</p></dd>
+      <dt>mainField3Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>mainField4</dt>
+      <dd><p>The text displayed on the fourth display line</p></dd>
+      <dt>mainField4Type</dt>
+      <dd><p>Text field metadata types</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section--initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack:">
       -initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span> <span class="nf">statusBar</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">statusBar</span> <span class="nf">mediaClock</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaClock</span> <span class="nf">mediaTrack</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTrack</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+                                <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+                                 <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span>
+                                 <span class="nf">statusBar</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">statusBar</span>
+                                <span class="nf">mediaClock</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaClock</span>
+                                <span class="nf">mediaTrack</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTrack</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -141,17 +238,48 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+      <dt>statusBar</dt>
+      <dd><p>Text in the status Bar</p></dd>
+      <dt>mediaClock</dt>
+      <dd><p>The value for the mediaClock field</p></dd>
+      <dt>mediaTrack</dt>
+      <dd><p>The text in the track field</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section--initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:">
       -initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Convenience init to set template elements with the following parameters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span> <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span> <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span> <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span> <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span> <span class="nf">statusBar</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">statusBar</span> <span class="nf">mediaClock</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaClock</span> <span class="nf">mediaTrack</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTrack</span> <span class="nf">graphic</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">graphic</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span> <span class="nf">customPresets</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">customPresets</span> <span class="nf">textFieldMetadata</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLMetadataTags.html">SDLMetadataTags</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">metadata</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+            <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+            <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span>
+            <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span>
+             <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span>
+             <span class="nf">statusBar</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">statusBar</span>
+            <span class="nf">mediaClock</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaClock</span>
+            <span class="nf">mediaTrack</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTrack</span>
+               <span class="nf">graphic</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">graphic</span>
+           <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+         <span class="nf">customPresets</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">customPresets</span>
+     <span class="nf">textFieldMetadata</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLMetadataTags.html">SDLMetadataTags</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">metadata</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -159,6 +287,37 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>The text displayed on the first display line</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>The text displayed on the second display line</p></dd>
+      <dt>mainField3</dt>
+      <dd><p>The text displayed on the third display line</p></dd>
+      <dt>mainField4</dt>
+      <dd><p>The text displayed on the fourth display line</p></dd>
+      <dt>alignment</dt>
+      <dd><p>The alignment that specifies how the text should be aligned on display</p></dd>
+      <dt>statusBar</dt>
+      <dd><p>Text in the status bar</p></dd>
+      <dt>mediaClock</dt>
+      <dd><p>The value for the mediaClock field</p></dd>
+      <dt>mediaTrack</dt>
+      <dd><p>The text in the track field</p></dd>
+      <dt>graphic</dt>
+      <dd><p>An image to be shown on supported displays</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>The the Soft buttons defined by the app</p></dd>
+      <dt>customPresets</dt>
+      <dd><p>The custom presets defined by the App</p></dd>
+      <dt>metadata</dt>
+      <dd><p>Text field metadata</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLShow object</p>
+  </div>
   
   <h3 id="section-mainField1">
       mainField1

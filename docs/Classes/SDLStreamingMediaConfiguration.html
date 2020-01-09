@@ -25,7 +25,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>The streaming media configuration. Use this class to configure streaming media information.</p>
 
 
 <section class="section task-group-section">
@@ -112,23 +112,19 @@
     <p class="aside-title">Note</p>
     <p>If you wish to alter this <code>rootViewController</code> while streaming via CarWindow, you must set a new <code>rootViewController</code> on <code><a href="../Classes/SDLStreamingMediaManager.html">SDLStreamingMediaManager</a></code> and this will update both the haptic view parser and CarWindow.</p>
 
-</div>
-<div class="aside aside-warning">
+</div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>Apps using views outside of the <code>UIView</code> heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the <code><a href="../Classes/SDLSendHapticData.html">SDLSendHapticData</a></code> RPC request.</p>
 
-</div>
-<div class="aside aside-warning">
+</div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>If the <code>rootViewController</code> is app UI and is set from the <code>UIViewController</code> class, it should only be set after viewDidAppear:animated is called. Setting the <code>rootViewController</code> in <code>viewDidLoad</code> or <code>viewWillAppear:animated</code> can cause weird behavior when setting the new frame.</p>
 
-</div>
-<div class="aside aside-warning">
+</div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>If setting the <code>rootViewController</code> when the app returns to the foreground, the app should register for the <code>UIApplicationDidBecomeActive</code> notification and not the <code>UIApplicationWillEnterForeground</code> notification. Setting the frame after a notification from the latter can also cause weird behavior when setting the new frame.</p>
 
-</div>
-<div class="aside aside-warning">
+</div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>While <code>viewDidLoad</code> will fire, appearance methods will not.</p>
 

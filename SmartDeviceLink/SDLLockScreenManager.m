@@ -17,7 +17,6 @@
 #import "SDLOnLockScreenStatus.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLScreenshotViewController.h"
 #import "SDLViewControllerPresentable.h"
 
 
@@ -91,12 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stop {
+    // Don't allow the lockscreen to present again until we start
     self.canPresent = NO;
-
-    // Remove the lock screen if presented, don't allow it to present again until we start
-    if (self.presenter.lockViewController != nil) {
-        [self.presenter dismiss];
-    }
+    [self.presenter stop];
 }
 
 - (nullable UIViewController *)lockScreenViewController {
@@ -114,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.lastLockNotification = notification.notification;
+
     [self sdl_checkLockScreen];
 }
 
@@ -132,10 +129,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
-    // App may have been disconnected in the background
-    if (!self.canPresent && self.presenter.presented) {
-        [self.presenter dismiss];
-    }
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Dismiss the lock screen if the app was disconnected in the background
+        if (!weakSelf.canPresent) {
+            [weakSelf.presenter updateLockScreenToShow:NO];
+        }
+    });
 
     [self sdl_checkLockScreen];
 }
@@ -156,25 +156,29 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Present the VC depending on the lock screen status
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf sdl_updatePresentation];
+    });
+}
+
+- (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (!self.presenter.presented && self.canPresent) {
-            [self.presenter present];
+        if (self.canPresent) {
+            [self.presenter updateLockScreenToShow:YES];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
-        if (!self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
+        if (self.canPresent && !self.lockScreenDismissedByUser) {
+            [self.presenter updateLockScreenToShow:YES];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
-        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && !self.presenter.presented && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter present];
-        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.presenter.presented) {
-            [self.presenter dismiss];
+        if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
+            [self.presenter updateLockScreenToShow:YES];
+        } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
+            [self.presenter updateLockScreenToShow:NO];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        if (self.presenter.presented) {
-            [self.presenter dismiss];
-        }
+        [self.presenter updateLockScreenToShow:NO];
     }
 }
 
@@ -210,7 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
-                [strongSelf.presenter dismiss];
+                [strongSelf.presenter updateLockScreenToShow:NO];
                 strongSelf.lockScreenDismissedByUser = YES;
             }];
             lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;

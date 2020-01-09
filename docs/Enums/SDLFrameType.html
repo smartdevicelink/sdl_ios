@@ -11,14 +11,7 @@
 
 <h3>Overview</h3>
 
-
-<ul>
-<li><p>The data packet&rsquo;s header and payload combination.</p></li>
-<li><p>SDLFrameTypeControl: Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.</p></li>
-<li><p>SDLFrameTypeSingle: Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.</p></li>
-<li><p>SDLFrameTypeFirst: The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.</p></li>
-<li><p>SDLFrameTypeConsecutive: The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames&rsquo; payloads should be buffered until the entire sequence is complete.</p></li>
-</ul>
+<p>The data packet&rsquo;s header and payload combination.</p>
 
 
 <section class="section task-group-section">
@@ -26,7 +19,7 @@
       SDLFrameTypeControl
   </h3>
   
-  <p>Undocumented</p>
+  <p>Lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.</p>
 
   
   
@@ -44,7 +37,7 @@
       SDLFrameTypeSingle
   </h3>
   
-  <p>Undocumented</p>
+  <p>Contains all the data for a particular packet in the payload. The majority of frames sent over the protocol utilize this frame type.</p>
 
   
   
@@ -62,7 +55,7 @@
       SDLFrameTypeFirst
   </h3>
   
-  <p>Undocumented</p>
+  <p>The First Frame in a multiple frame payload contains information about the entire sequence of frames so that the receiving end can correctly parse all the frames and reassemble the entire payload. The payload of this frame is only eight bytes and contains information regarding the rest of the sequence.</p>
 
   
   
@@ -80,7 +73,7 @@
       SDLFrameTypeConsecutive
   </h3>
   
-  <p>Undocumented</p>
+  <p>The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames&rsquo; payloads should be buffered until the entire sequence is complete.</p>
 
   
   

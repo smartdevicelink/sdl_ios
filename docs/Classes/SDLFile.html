@@ -23,7 +23,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Crates an SDLFile from a file</p>
 
 
 <section class="section task-group-section">
@@ -197,12 +197,12 @@
       -init
   </h3>
   
-  <p>Undocumented</p>
+  <p>Initializer unavailable</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
   
   
@@ -212,7 +212,7 @@
       -initWithFileURL:name:persistent:
   </h3>
   
-  <p>The designated initializer for an SDL File. The only major property that is not set using this is <q>overwrite</q>, which defaults to NO.</p>
+  <p>The designated initializer for an SDL File. The only major property that is not set using this is &ldquo;overwrite&rdquo;, which defaults to NO.</p>
 
   
   
@@ -343,7 +343,7 @@
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
+      <dd><p>The file extension. For example &ldquo;png&rdquo;. Currently supported file extensions are: &ldquo;bmp&rdquo;, &ldquo;jpg&rdquo;, &ldquo;jpeg&rdquo;, &ldquo;png&rdquo;, &ldquo;wav&rdquo;, &ldquo;mp3&rdquo;, &ldquo;aac&rdquo;, &ldquo;json&rdquo;. All others will be sent as binary files.</p></dd>
       <dt>persistent</dt>
       <dd><p>Whether or not the remote file with this data should be persistent</p></dd>
   </dl>
@@ -377,7 +377,7 @@
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
+      <dd><p>The file extension. For example &ldquo;png&rdquo;. Currently supported file extensions are: &ldquo;bmp&rdquo;, &ldquo;jpg&rdquo;, &ldquo;jpeg&rdquo;, &ldquo;png&rdquo;, &ldquo;wav&rdquo;, &ldquo;mp3&rdquo;, &ldquo;aac&rdquo;, &ldquo;json&rdquo;. All others will be sent as binary files.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -412,7 +412,7 @@
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
+      <dd><p>The file extension. For example &ldquo;png&rdquo;. Currently supported file extensions are: &ldquo;bmp&rdquo;, &ldquo;jpg&rdquo;, &ldquo;jpeg&rdquo;, &ldquo;png&rdquo;, &ldquo;wav&rdquo;, &ldquo;mp3&rdquo;, &ldquo;aac&rdquo;, &ldquo;json&rdquo;. All others will be sent as binary files.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>

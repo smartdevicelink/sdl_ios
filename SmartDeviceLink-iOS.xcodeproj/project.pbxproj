@@ -1222,8 +1222,6 @@
 		5DCC458D221C9F6600036C2F /* SDLVersionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */; };
 		5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */; };
 		5DCD7AE11FCCA8D200A0FC7F /* SDLCarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */; };
-		5DCD7AF31FCCA8E400A0FC7F /* SDLScreenshotViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */; };
-		5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */; };
 		5DCF76F51ACDBAD300BB647B /* SDLSendLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DCF76F61ACDBAD300BB647B /* SDLSendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */; };
 		5DCF76F91ACDD7CD00BB647B /* SDLSendLocationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1286,6 +1284,8 @@
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		8803DCEF22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */; };
 		8803DCF022C2B84B00FBB7CE /* SDLBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */; };
+		880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */; };
+		880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };
 		880D267D220DE5DF00B3F496 /* SDLWeatherServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880D267E220DE5DF00B3F496 /* SDLWeatherServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D267C220DE5DF00B3F496 /* SDLWeatherServiceManifest.m */; };
@@ -2971,8 +2971,6 @@
 		5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVersionSpec.m; path = DevAPISpecs/SDLVersionSpec.m; sourceTree = "<group>"; };
 		5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCarWindow.h; sourceTree = "<group>"; };
 		5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindow.m; sourceTree = "<group>"; };
-		5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLScreenshotViewController.h; sourceTree = "<group>"; };
-		5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLScreenshotViewController.m; sourceTree = "<group>"; };
 		5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendLocation.h; sourceTree = "<group>"; };
 		5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendLocation.m; sourceTree = "<group>"; };
 		5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendLocationResponse.h; sourceTree = "<group>"; };
@@ -3035,6 +3033,8 @@
 		880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfiguration.m; sourceTree = "<group>"; };
 		8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLBackgroundTaskManager.h; sourceTree = "<group>"; };
 		8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLBackgroundTaskManager.m; sourceTree = "<group>"; };
+		880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenRootViewController.h; sourceTree = "<group>"; };
+		880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenRootViewController.m; sourceTree = "<group>"; };
 		880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceDataSpec.m; sourceTree = "<group>"; };
 		880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherServiceManifest.h; sourceTree = "<group>"; };
 		880D267C220DE5DF00B3F496 /* SDLWeatherServiceManifest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceManifest.m; sourceTree = "<group>"; };
@@ -5419,8 +5419,6 @@
 				5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */,
 				5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */,
 				5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */,
-				5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */,
-				5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */,
 			);
 			name = "Lock Screen UI";
 			sourceTree = "<group>";
@@ -5464,6 +5462,8 @@
 		5D76E31F1D39731100647CFA /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */,
+				880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */,
 				5D76E3201D39742300647CFA /* SDLViewControllerPresentable.h */,
 				5D76E3221D39767000647CFA /* SDLLockScreenPresenter.h */,
 				5D76E3231D39767000647CFA /* SDLLockScreenPresenter.m */,
@@ -6604,7 +6604,6 @@
 				5D61FC781A84238C00846EE7 /* SDLDeleteFileResponse.h in Headers */,
 				5DA240001F325621009C0313 /* SDLStreamingMediaConfiguration.h in Headers */,
 				5D61FC5F1A84238C00846EE7 /* SDLCharacterSet.h in Headers */,
-				5DCD7AF31FCCA8E400A0FC7F /* SDLScreenshotViewController.h in Headers */,
 				5DD67CC71E68B568009CD394 /* SDLLogMacros.h in Headers */,
 				5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */,
 				5D61FDC51A84238C00846EE7 /* SDLTCPTransport.h in Headers */,
@@ -6651,6 +6650,7 @@
 				8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */,
 				5D9FDA901F2A7D3400A495C8 /* bson_array.h in Headers */,
 				5D61FDCB1A84238C00846EE7 /* SDLTextFieldName.h in Headers */,
+				880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */,
 				5D61FD8B1A84238C00846EE7 /* SDLSetMediaClockTimer.h in Headers */,
 				DA6223BD1E7B088200878689 /* CVPixelBufferRef+SDLUtil.h in Headers */,
 				5D61FD031A84238C00846EE7 /* SDLOnButtonEvent.h in Headers */,
@@ -7540,6 +7540,7 @@
 				008DB36A22EA8261003F458C /* SDLReleaseInteriorVehicleDataModule.m in Sources */,
 				88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */,
 				5D61FC4E1A84238C00846EE7 /* SDLBitsPerSample.m in Sources */,
+				880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */,
 				5D00AC701F1511B9004000D9 /* SDLGetSystemCapability.m in Sources */,
 				5D61FDEA1A84238C00846EE7 /* SDLUnsubscribeButtonResponse.m in Sources */,
 				7538765022D8CEDB00FE8484 /* SDLShowAppMenu.m in Sources */,
@@ -7811,7 +7812,6 @@
 				5D9FDA911F2A7D3400A495C8 /* bson_object.c in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
-				5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */,
 				1EB59CA4202D92F600343A61 /* SDLMassageMode.m in Sources */,
 				5D61FD081A84238C00846EE7 /* SDLOnCommand.m in Sources */,
 				5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */,
@@ -8573,7 +8573,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				SWIFT_VERSION = 5.0;
@@ -8589,7 +8589,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				SWIFT_VERSION = 5.0;
@@ -8632,7 +8632,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -8677,7 +8677,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -8767,7 +8767,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
@@ -8787,7 +8787,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
@@ -8833,7 +8833,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -8883,7 +8883,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 6.4.1;
+				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;

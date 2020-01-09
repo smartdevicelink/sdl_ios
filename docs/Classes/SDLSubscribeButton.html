@@ -12,7 +12,7 @@
 <h3>Overview</h3>
 
 <p>Establishes a subscription to button notifications for HMI buttons. Buttons
- are not necessarily physical buttons, but can also be <q>soft</q> buttons on a
+ are not necessarily physical buttons, but can also be &ldquo;soft&rdquo; buttons on a
  touch screen, depending on the display in the vehicle. Once subscribed to a
  particular button, an application will receive both
  SDLOnButtonEvent and SDLOnButtonPress notifications
@@ -94,12 +94,14 @@
       -initWithButtonName:handler:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Construct a SDLSubscribeButton with a handler callback when an event occurs with a button name.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithButtonName</span><span class="p">:(</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span> <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithButtonName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span>
+               <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -107,6 +109,17 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonName</dt>
+      <dd><p>The name of the button to subscribe to</p></dd>
+      <dt>handler</dt>
+      <dd><p>A callback that will be called when a button event occurs for the subscribed button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSubscribeButton object</p>
+  </div>
   
   <h3 id="section-handler">
       handler
