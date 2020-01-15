@@ -1,0 +1,11 @@
+{
+  "enums": {
+    "FunctionID": {
+      "template": true
+    }
+  },
+  "structs": {
+  },
+  "functions": {
+  }
+}

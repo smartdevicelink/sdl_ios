@@ -1,0 +1,56 @@
+from collections import OrderedDict, defaultdict
+from unittest import TestCase
+
+from model.enum import Enum
+from model.enum_element import EnumElement
+from transformers.enums_producer import EnumsProducer
+
+
+class TestEnumsProducer(TestCase):
+    def setUp(self):
+        self.maxDiff = None
+
+        self.producer = EnumsProducer('SDLEnum', defaultdict(dict))
+
+    def test_FunctionID(self):
+        elements = OrderedDict()
+        elements['RESERVED'] = EnumElement(name='RESERVED', value=0)
+        elements['RegisterAppInterfaceID'] = EnumElement(name='RegisterAppInterfaceID', hex_value=1)
+        elements['PerformAudioPassThruID'] = EnumElement(name='PerformAudioPassThruID', hex_value=10)
+
+        item = Enum(name='FunctionID', elements=elements)
+        expected = OrderedDict()
+        expected['origin'] = 'FunctionID'
+        expected['name'] = 'SDLFunctionID'
+        expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
+        expected['params'] = (
+            self.producer.param_named(description=[], name='Reserved', origin='RESERVED', since=None, value=0),
+            self.producer.param_named(description=[], name='RegisterAppInterface', origin='RegisterAppInterfaceID',
+                                      since=None, value=None),
+            self.producer.param_named(description=[], name='PerformAudioPassThru', origin='PerformAudioPassThruID',
+                                      since=None, value=None),)
+
+        actual = self.producer.transform(item)
+        self.assertDictEqual(expected, actual)
+
+    def test_TextFieldName(self):
+        elements = OrderedDict()
+        elements['SUCCESS'] = EnumElement(name='SUCCESS')
+        elements['mainField1'] = EnumElement(name='mainField1')
+        elements['H264'] = EnumElement(name='H264')
+        elements['UNSUPPORTED_REQUEST'] = EnumElement(name='UNSUPPORTED_REQUEST')
+        item = Enum(name='TextFieldName', elements=elements)
+
+        expected = OrderedDict()
+        expected['origin'] = 'TextFieldName'
+        expected['name'] = 'SDLTextFieldName'
+        expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
+        expected['params'] = (
+            self.producer.param_named(description=[], name='Success', origin='SUCCESS', since=None, value=None),
+            self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None, value=None),
+            self.producer.param_named(description=[], name='H264', origin='H264', since=None, value=None),
+            self.producer.param_named(description=[], name='UnsupportedRequest', origin='UNSUPPORTED_REQUEST',
+                                      since=None, value=None))
+
+        actual = self.producer.transform(item)
+        self.assertDictEqual(expected, actual)

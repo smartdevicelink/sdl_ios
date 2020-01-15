@@ -1,0 +1,18 @@
+{% extends "base_struct_function.m" %}
+{% block imports %}
+{{super()}}
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
+{%- endblock %}
+{% block constructors %}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (instancetype)init {
+    if ((self = [super initWithName:SDLRPCFunctionName{{origin}}])) {
+    }
+    return self;
+}
+#pragma clang diagnostic pop
+{{super()}}
+{%- endblock -%}
+{% set parameters_store = 'parameters' %}

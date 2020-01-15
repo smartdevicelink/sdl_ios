@@ -1,0 +1,1 @@
+{% extends "base_struct_function.h" %}
