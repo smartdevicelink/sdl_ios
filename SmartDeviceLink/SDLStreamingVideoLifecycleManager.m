@@ -185,6 +185,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             [self.protocol.protocolDelegateTable addObject:self];
         }
     }
+    
+    // resume HMIState when start manager
+    if (_resumeHMIStatus) {
+        _hmiLevel = _oldHmiLevel;
+        _videoStreamingState = _oldVideoStreamingState;
+    }
 
     // attempt to start streaming since we may already have necessary conditions met
     [self sdl_startVideoSession];
@@ -199,6 +205,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
+    // cleared state when stop manager
+    _oldHmiLevel = _hmiLevel;
+    _oldVideoStreamingState = _videoStreamingState;
+    _resumeHMIStatus = YES;
     _hmiLevel = SDLHMILevelNone;
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _lastPresentationTimestamp = kCMTimeInvalid;
@@ -611,6 +621,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
     self.hmiLevel = hmiStatus.hmiLevel;
+    // received notification of HMI status change, no need resume HMIStatus.
+    self.resumeHMIStatus = NO;
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {

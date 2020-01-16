@@ -90,7 +90,12 @@ NS_ASSUME_NONNULL_BEGIN
             [self.protocol.protocolDelegateTable addObject:self];
         }
     }
-
+    
+    // resume HMIState when start manager
+    if (_resumeHMIStatus) {
+        self.hmiLevel = self.oldHmiLevel;
+    }
+    
     // attempt to start streaming since we may already have necessary conditions met
     [self sdl_startAudioSession];
 }
@@ -99,6 +104,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Stopping manager");
     [self sdl_stopAudioSession];
 
+    // cleared state when stop manager
+    self.oldHmiLevel = self.hmiLevel;
+    self.resumeHMIStatus = YES;
     self.hmiLevel = SDLHMILevelNone;
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
@@ -261,6 +269,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     self.hmiLevel = hmiStatus.hmiLevel;
+    // received notification of HMI status change, no need resume HMIStatus.
+    self.resumeHMIStatus = NO;
 
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }

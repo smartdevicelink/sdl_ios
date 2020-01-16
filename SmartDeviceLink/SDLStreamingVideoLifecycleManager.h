@@ -43,6 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
 /**
+ *  oldHmiLevel: save HMI status at stop manager, resume HMI status at start manager.
+ *  oldVideoStreamingState: save HMI status at stop manager, resume HMI status at start manager.
+ *  resumeHMIStatus: YES: need resume HMI status    NO: no need resume HMI status
+ */
+@property (copy, nonatomic, nullable) SDLHMILevel oldHmiLevel;
+@property (copy, nonatomic, nullable) SDLVideoStreamingState oldVideoStreamingState;
+@property (nonatomic) BOOL resumeHMIStatus;
+
+/**
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;

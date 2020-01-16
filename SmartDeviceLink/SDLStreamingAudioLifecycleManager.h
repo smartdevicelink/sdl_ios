@@ -36,6 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
 
 /**
+ *  oldHmiLevel: save HMI status at stop manager, resume HMI status at start manager.
+ *  resumeHMIStatus: YES: need resume HMI status    NO: no need resume HMI status
+*/
+@property (copy, nonatomic, nullable) SDLHMILevel oldHmiLevel;
+@property (nonatomic) BOOL resumeHMIStatus;
+
+/**
  *  Whether or not the audio session is connected.
  */
 @property (assign, nonatomic, readonly, getter=isAudioConnected) BOOL audioConnected;
