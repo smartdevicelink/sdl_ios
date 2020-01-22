@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
 ///
-/// @param frequencyInteger Must be between 875 and 1080
+/// @param frequencyInteger Must be between 0 and 1710
 /// @param frequencyFraction Must be between 0 and 9
 /// @return An instance of the SDLRadioControlData class
 - (instancetype)initFMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction;
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
 ///
-/// @param frequencyInteger Must be between 875 and 1080
+/// @param frequencyInteger Must be between 0 and 1710
 /// @return An instance of the SDLRadioControlData class
 - (instancetype)initAMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger;
 
