@@ -41,7 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable;
 
-
 /// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
 ///
 /// @param frequencyInteger Must be between 875 and 1080

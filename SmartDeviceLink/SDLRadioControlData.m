@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     if(!self) {
         return nil;
     }
-
+    
     self.band = SDLRadioBandFM;
     self.frequencyInteger = frequencyInteger;
     self.frequencyFraction = frequencyFraction;
