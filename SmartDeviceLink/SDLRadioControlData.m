@@ -43,6 +43,67 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initFMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+
+    self.band = SDLRadioBandFM;
+    self.frequencyInteger = frequencyInteger;
+    self.frequencyFraction = frequencyFraction;
+
+    return self;
+}
+
+- (instancetype)initAMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+
+    self.frequencyInteger = frequencyInteger;
+    self.band = SDLRadioBandAM;
+
+    return self;
+}
+
+- (instancetype)initXMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+
+    self.frequencyInteger = frequencyInteger;
+    self.band = SDLRadioBandXM;
+
+    return self;
+}
+
+- (instancetype)initFMWithHdChannel:(nullable NSNumber<SDLInt> *)hdChannel {
+    self = [self init];
+     if(!self) {
+         return nil;
+     }
+
+    self.hdChannel = hdChannel;
+    self.band = SDLRadioBandFM;
+
+    return self;
+}
+
+- (instancetype)initAMWithHdChannel:(nullable NSNumber<SDLInt> *)hdChannel {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+
+    self.hdChannel = hdChannel;
+    self.band = SDLRadioBandAM;
+
+    return self;
+}
+
 - (void)setFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger {
     [self.store sdl_setObject:frequencyInteger forName:SDLRPCParameterNameFrequencyInteger];
 }
