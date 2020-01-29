@@ -37,7 +37,7 @@
 
 #pragma mark Debug Logs
 
-#if DEBUG
+#if DEBUG+0
 
 /**
  Log data bytes coming or going from SDL and the remote system to the console in verbose logging mode
