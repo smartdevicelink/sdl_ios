@@ -152,120 +152,6 @@ typedef NSString * SDLServiceID;
     return [[SDLAppServicesCapabilities alloc] initWithAppServices:self.appServicesCapabilitiesDictionary.allValues];
 }
 
-#pragma mark - Notifications
-
-/**
- *  Registers for notifications and responses from Core
- */
-- (void)sdl_registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityResponseNotification:) name:SDLDidReceiveGetSystemCapabilitiesResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
-}
-
-/**
- *  Called when a `RegisterAppInterfaceResponse` response is received from Core. The head unit capabilities are saved.
- *
- *  @param notification The `RegisterAppInterfaceResponse` response received from Core
- */
-- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
-    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
-    if (!response.success.boolValue) { return; }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    self.displayCapabilities = response.displayCapabilities;
-    self.softButtonCapabilities = response.softButtonCapabilities;
-    self.buttonCapabilities = response.buttonCapabilities;
-    self.presetBankCapabilities = response.presetBankCapabilities;
-#pragma clang diagnostic pop
-
-    self.hmiCapabilities = response.hmiCapabilities;
-    self.hmiZoneCapabilities = response.hmiZoneCapabilities;
-    self.speechCapabilities = response.speechCapabilities;
-    self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
-    self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
-    self.audioPassThruCapabilities = response.audioPassThruCapabilities;
-    self.pcmStreamCapability = response.pcmStreamCapabilities;
-    
-    self.shouldConvertDeprecatedDisplayCapabilities = YES;
-    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
-    
-    // call the observers in case the new display capability list is created from deprecated types
-    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
-}
-
-/**
- *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
- *
- *  @param notification The `SetDisplayLayoutResponse` response received from Core
- */
-- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-#pragma clang diagnostic pop
-    if (!response.success.boolValue) { return; }
-
-    // If we've received a display capability update then we should not convert our deprecated display capabilities and we should just return
-    if (!self.shouldConvertDeprecatedDisplayCapabilities) { return; }
-
-    self.displayCapabilities = response.displayCapabilities;
-    self.buttonCapabilities = response.buttonCapabilities;
-    self.softButtonCapabilities = response.softButtonCapabilities;
-    self.presetBankCapabilities = response.presetBankCapabilities;
-
-    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
-
-    // Call the observers in case the new display capability list is created from deprecated types
-    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
-}
-
-
-/**
- *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
- *
- *  @param notification The `OnSystemCapabilityUpdated` notification received from Core
- */
-- (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
-    SDLOnSystemCapabilityUpdated *systemCapabilityUpdatedNotification = (SDLOnSystemCapabilityUpdated *)notification.notification;
-    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability completionHandler:nil];
-}
-
-/**
- Called with a `GetSystemCapabilityResponse` notification is received from core. The updated system capability is saved.
-
- @param notification The `GetSystemCapabilityResponse` notification received from Core
- */
-- (void)sdl_systemCapabilityResponseNotification:(SDLRPCResponseNotification *)notification {
-    SDLGetSystemCapabilityResponse *systemCapabilityResponse = (SDLGetSystemCapabilityResponse *)notification.response;
-    [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability completionHandler:nil];
-}
-
-/**
- *  Called when an `OnHMIStatus` notification is received from Core. The first time the `hmiLevel` is `FULL` attempt to subscribe to system capabilty updates.
- *
- *  @param notification The `OnHMIStatus` notification received from Core
- */
-- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
-    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
-    
-    if (self.isFirstHMILevelFull || ![hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-        return;
-    }
-
-    self.isFirstHMILevelFull = YES;
-    [self sdl_subscribeToSystemCapabilityUpdates];
-}
-
 #pragma mark - Window And Display Capabilities
 
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID {
@@ -386,6 +272,36 @@ typedef NSString * SDLServiceID;
 }
 
 #pragma mark - System Capability Updates
+
+- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type {
+    if ([self sdl_cachedCapabilityForType:type] != nil) {
+        return YES;
+    } else if (self.hmiCapabilities != nil) {
+        SDLHMICapabilities *hmiCapabilities = self.hmiCapabilities;
+    }
+
+    return NO;
+}
+
+- (nullable SDLSystemCapability *)sdl_cachedCapabilityForType:(SDLSystemCapabilityType)type {
+    if ([type isEqualToEnum:SDLSystemCapabilityTypePhoneCall] && self.phoneCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithPhoneCapability:self.phoneCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeNavigation] && self.navigationCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithNavigationCapability:self.navigationCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeAppServices] && self.appServicesCapabilities != nil) {
+        return [[SDLSystemCapability alloc] initWithAppServicesCapabilities:self.appServicesCapabilities];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDisplays] && self.displays != nil) {
+        return [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation] && self.seatLocationCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithSeatLocationCapability:self.seatLocationCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl] && self.remoteControlCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithRemoteControlCapability:self.remoteControlCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming] && self.videoStreamingCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithVideoStreamingCapability:self.videoStreamingCapability];
+    } else {
+        return nil;
+    }
+}
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     if (self.supportsSubscriptions) {
@@ -627,6 +543,120 @@ typedef NSString * SDLServiceID;
 
     if (handler == nil) { return; }
     handler(nil, self);
+}
+
+#pragma mark - Notifications
+
+/**
+ *  Registers for notifications and responses from Core
+ */
+- (void)sdl_registerForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityResponseNotification:) name:SDLDidReceiveGetSystemCapabilitiesResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
+}
+
+/**
+ *  Called when a `RegisterAppInterfaceResponse` response is received from Core. The head unit capabilities are saved.
+ *
+ *  @param notification The `RegisterAppInterfaceResponse` response received from Core
+ */
+- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
+    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    if (!response.success.boolValue) { return; }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    self.displayCapabilities = response.displayCapabilities;
+    self.softButtonCapabilities = response.softButtonCapabilities;
+    self.buttonCapabilities = response.buttonCapabilities;
+    self.presetBankCapabilities = response.presetBankCapabilities;
+#pragma clang diagnostic pop
+
+    self.hmiCapabilities = response.hmiCapabilities;
+    self.hmiZoneCapabilities = response.hmiZoneCapabilities;
+    self.speechCapabilities = response.speechCapabilities;
+    self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
+    self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
+    self.audioPassThruCapabilities = response.audioPassThruCapabilities;
+    self.pcmStreamCapability = response.pcmStreamCapabilities;
+
+    self.shouldConvertDeprecatedDisplayCapabilities = YES;
+    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
+
+    // call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
+}
+
+/**
+ *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
+ *
+ *  @param notification The `SetDisplayLayoutResponse` response received from Core
+ */
+- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+#pragma clang diagnostic pop
+    if (!response.success.boolValue) { return; }
+
+    // If we've received a display capability update then we should not convert our deprecated display capabilities and we should just return
+    if (!self.shouldConvertDeprecatedDisplayCapabilities) { return; }
+
+    self.displayCapabilities = response.displayCapabilities;
+    self.buttonCapabilities = response.buttonCapabilities;
+    self.softButtonCapabilities = response.softButtonCapabilities;
+    self.presetBankCapabilities = response.presetBankCapabilities;
+
+    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
+
+    // Call the observers in case the new display capability list is created from deprecated types
+    SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
+    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
+}
+
+
+/**
+ *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
+ *
+ *  @param notification The `OnSystemCapabilityUpdated` notification received from Core
+ */
+- (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnSystemCapabilityUpdated *systemCapabilityUpdatedNotification = (SDLOnSystemCapabilityUpdated *)notification.notification;
+    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability completionHandler:nil];
+}
+
+/**
+ Called with a `GetSystemCapabilityResponse` notification is received from core. The updated system capability is saved.
+
+ @param notification The `GetSystemCapabilityResponse` notification received from Core
+ */
+- (void)sdl_systemCapabilityResponseNotification:(SDLRPCResponseNotification *)notification {
+    SDLGetSystemCapabilityResponse *systemCapabilityResponse = (SDLGetSystemCapabilityResponse *)notification.response;
+    [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability completionHandler:nil];
+}
+
+/**
+ *  Called when an `OnHMIStatus` notification is received from Core. The first time the `hmiLevel` is `FULL` attempt to subscribe to system capabilty updates.
+ *
+ *  @param notification The `OnHMIStatus` notification received from Core
+ */
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
+        return;
+    }
+
+    if (self.isFirstHMILevelFull || ![hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
+        return;
+    }
+
+    self.isFirstHMILevelFull = YES;
+    [self sdl_subscribeToSystemCapabilityUpdates];
 }
 
 @end

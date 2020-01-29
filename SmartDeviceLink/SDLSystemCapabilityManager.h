@@ -51,6 +51,14 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
 typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 
 /**
+ An observer block for whenever a subscription or value is retrieved.
+
+ @param capability The capability that was updated.
+ @param error An error that occurred.
+ */
+typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *capability, NSError *error);
+
+/**
  A manager that handles updating and subscribing to SDL capabilities.
  */
 @interface SDLSystemCapabilityManager : NSObject
@@ -246,6 +254,11 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  */
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
 
+/// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work.
+/// @param type The SystemCapabilityType that will be checked.
+/// @return Whether or not `type` is supported by the connected head unit.
+- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
+
 /**
  Subscribe to a particular capability type using a block callback
 
@@ -259,7 +272,8 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  * Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:
  *
  * 1. No parameters e.g. `- (void)phoneCapabilityUpdated;`
- * 2. One `SDLSystemCapability *` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
+ * 2. One `SDLSystemCapability *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
+ * 3. Two parameters, one `SDLSystemCapability *` parameter, and one `NSError *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error`
  *
  * This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called.
  *
