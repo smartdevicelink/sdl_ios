@@ -292,7 +292,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateAppInactive {
     SDLLogD(@"App became inactive");
-    if (!self.protocol) { return; }
+    if (!self.protocol) {
+        SDLLogV(@"No session established with head unit. Ignoring app backgrounded notification");
+        return;
+    }
 
     if (_showVideoBackgroundDisplay) {
         [self sdl_sendBackgroundFrames];
@@ -310,7 +313,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
     SDLLogD(@"App became active");
-    if (!self.protocol) { return; }
+    if (!self.protocol) {
+        SDLLogV(@"No session established with head unit. Ignoring app foregounded notification");
+        return;
+    }
 
     if (self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
@@ -656,7 +662,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (!self.protocol) {
-        SDLLogV(@"Video manager is not yet started");
+        SDLLogV(@"No session established with head unit. Video start service request will not be sent.");
         return;
     }
 
@@ -710,6 +716,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
     } else {
         SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: (not available)", displayLink.duration, displayLink.timestamp);
+    }
+
+    if (![self.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
+        SDLLogD(@"hmiLevel is not FULL. Not sending video data: %@", self.hmiLevel);
+        return;
     }
 
     [self.touchManager syncFrame];
