@@ -26,6 +26,9 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 @property (assign, nonatomic) double timestampOffset;
 
+@property (assign, nonatomic, nullable) CVPixelBufferPoolRef pool;
+@property (assign, nonatomic) CGSize imageDimensions;
+
 @end
 
 
@@ -54,6 +57,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _compressionSession = NULL;
     _currentFrameNumber = 0;
     _videoEncoderSettings = properties;
+    _imageDimensions = dimensions;
     
     _delegate = delegate;
     
@@ -134,6 +138,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         CFRelease(self.compressionSession);
         self.compressionSession = NULL;
     }
+
+    self.pool = nil;
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
@@ -176,7 +182,18 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
-    return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+    // HAX: When the app is backgrounded, some of the time the compression session gets invalidated. This causes the pool to fail when the app is foregrounded and video frames are sent again.
+    if (self.pool == nil) {
+        NSError* error = nil;
+        [self sdl_resetCompressionSessionWithError:&error];
+        if (error != nil) {
+            return nil;
+        }
+
+        self.pool = VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+    }
+
+    return self.pool;
 }
 
 #pragma mark - Private
@@ -310,6 +327,21 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     
     
     return nalUnits;
+}
+
+/// Attempts to create a new VTCompressionSession using the image dimensions passed when the video encoded was created.
+/// @param error The error that occured when creating the VTCompressionSession, if any occured
+- (void)sdl_resetCompressionSessionWithError:(NSError **)error {
+    OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.imageDimensions.width, (int32_t)self.imageDimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+
+    if (status == noErr) {
+        return;
+    }
+
+    if (!*error) {
+        *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
+        SDLLogE(@"Error attempting to create video compression session: %@", *error);
+    }
 }
 
 @end
