@@ -94,6 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (pixelBuffer != nil) {
         [self.streamManager sendVideoData:pixelBuffer];
         CVPixelBufferRelease(pixelBuffer);
+    } else {
+        SDLLogE(@"Video frame will not be sent because the pixel buffer is nil");
     }
 }
 
