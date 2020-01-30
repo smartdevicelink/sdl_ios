@@ -191,8 +191,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)stop {
-    SDLLogD(@"Stopping manager");
-    [self sdl_stopVideoSession];
+    SDLLogD(@"Stopping video streaming lifecycle manager");
 
     _protocol = nil;
     _backgroundingPixelBuffer = NULL;
@@ -204,7 +203,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _lastPresentationTimestamp = kCMTimeInvalid;
 
     [self.videoScaleManager stop];
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+
+    if (!self.isVideoStopped) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+    }
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -251,6 +253,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (BOOL)isVideoStreamingPaused {
     return !(self.isVideoConnected && self.isHmiStateVideoStreamCapable && self.isAppStateVideoStreamCapable);
+}
+
+- (BOOL)isVideoStopped {
+    return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateStopped];
 }
 
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
@@ -610,6 +616,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
         return;
     }
+
     self.hmiLevel = hmiStatus.hmiLevel;
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
@@ -676,12 +683,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_stopVideoSession {
     SDLLogV(@"Attempting to stop video session");
     if (!self.isStreamingSupported) {
+        SDLLogV(@"Head unit does not support video streaming. Will not send an end video service request");
         return;
     }
 
-
     if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+    } else {
+        SDLLogV(@"No video currently streaming. Will not send an end video service request");
     }
 }
 

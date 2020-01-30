@@ -269,6 +269,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.lockScreenManager stop];
     [self.screenManager stop];
     [self.encryptionLifecycleManager stop];
+    [self.streamManager stop];
     if (self.secondaryTransportManager != nil) {
         [self.secondaryTransportManager stop];
     } else {
