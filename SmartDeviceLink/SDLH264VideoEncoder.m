@@ -182,7 +182,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
-    // HAX: When the app is backgrounded, some of the time the compression session gets invalidated. This causes the pool to fail when the app is foregrounded and video frames are sent again.
+    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated. This causes the pool to fail when the app is foregrounded and video frames are sent again.
     if (self.pool == nil) {
         NSError* error = nil;
         [self sdl_resetCompressionSessionWithError:&error];
