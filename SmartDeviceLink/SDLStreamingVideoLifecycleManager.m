@@ -718,11 +718,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: (not available)", displayLink.duration, displayLink.timestamp);
     }
 
-//    if (![self.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-//        SDLLogD(@"hmiLevel is not FULL. Not sending video data: %@", self.hmiLevel);
-//        return;
-//    }
-
     [self.touchManager syncFrame];
     [self.carWindow syncFrame];
 }
