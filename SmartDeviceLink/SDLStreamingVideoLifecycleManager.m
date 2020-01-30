@@ -416,10 +416,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
 
-    if (self.videoEncoder != nil) {
-        [self.videoEncoder stop];
-        self.videoEncoder = nil;
-    }
+//    if (self.videoEncoder != nil) {
+//        [self.videoEncoder stop];
+//        self.videoEncoder = nil;
+//    }
 
     [self disposeDisplayLink];
 
@@ -451,9 +451,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
 
+    if (!self.isAppStateVideoStreamCapable) {
+        SDLLogV(@"App is in the background and can not stream video. Video will resume when app is foregrounded");
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
+        return;
+    }
+
     if (self.useDisplayLink) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            // And start up the displayLink
             NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
             self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
@@ -623,7 +628,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
+    SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatus.hmiLevel;
+    SDLLogV(@"hmi level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {
