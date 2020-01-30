@@ -138,8 +138,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         CFRelease(self.compressionSession);
         self.compressionSession = NULL;
     }
-
-    self.pool = nil;
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
