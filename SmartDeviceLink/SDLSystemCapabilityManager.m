@@ -19,6 +19,7 @@
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
+#import "SDLHMICapabilities.h"
 #import "SDLLogMacros.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
@@ -277,8 +278,35 @@ typedef NSString * SDLServiceID;
     if ([self sdl_cachedCapabilityForType:type] != nil) {
         return YES;
     } else if (self.hmiCapabilities != nil) {
-        SDLHMICapabilities *hmiCapabilities = self.hmiCapabilities;
+        if ([type isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
+            return self.hmiCapabilities.phoneCall.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
+            return self.hmiCapabilities.navigation.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+            return self.hmiCapabilities.displays.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
+            return self.hmiCapabilities.remoteControl.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
+            return self.hmiCapabilities.seatLocation.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
+            //This is a corner case that the param was not available in 5.1.0, but the app services feature was available. We have to say it's available because we don't know.
+            if ([[SDLGlobals sharedGlobals].rpcVersion isEqualToVersion:[SDLVersion versionWithString:@"5.1.0"]]) {
+                return YES;
+            }
+
+            return self.hmiCapabilities.appServices.boolValue;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+            if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithString:@"3.0.0"]] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanOrEqualToVersion:[SDLVersion versionWithString:@"4.4.0"]]) {
+                // This was before the system capability feature was added so check if graphics are supported instead using the deprecated display capabilities
+                return self.displayCapabilities.graphicSupported;
+            }
+
+            return self.hmiCapabilities.videoStreaming.boolValue;
+        } else {
+            return NO;
+        }
     }
+
 
     return NO;
 }
