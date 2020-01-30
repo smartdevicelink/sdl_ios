@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Video / Audio Start Service ACK
+#pragma mark Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     switch (startServiceACK.header.serviceType) {
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-#pragma mark Video / Audio Start Service NAK
+#pragma mark Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
 }
 
-#pragma mark Video / Audio End Service
+#pragma mark End Service
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
