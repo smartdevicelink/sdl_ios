@@ -340,13 +340,14 @@ typedef NSString * SDLServiceID;
 
 /// Sends a GetSystemCapability and sends back the response
 /// @param type The type to get
-/// @param subscribe Whether to change the subscription status
+/// @param subscribe Whether to change the subscription status. YES to subscribe, NO to unsubscribe, nil to keep whatever the current state is
 /// @param handler The handler to be returned
 - (void)sdl_sendGetSystemCapabilityWithType:(SDLSystemCapabilityType)type subscribe:(nullable NSNumber<SDLBool> *)subscribe completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     __weak typeof(self) weakSelf = self;
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
     getSystemCapability.subscribe = subscribe;
 
+    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (![response isKindOfClass:[SDLGetSystemCapabilityResponse class]]) {
             if (handler == nil) { return; }
@@ -362,8 +363,10 @@ typedef NSString * SDLServiceID;
         }
 
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
+        if (![weakself.subscriptionStatus[type] isEqualToNumber:subscribe] && weakself.supportsSubscriptions) {
+            weakself.subscriptionStatus[type] = subscribe;
+        }
 
-        // TODO: Keep track of subscriptions
         [weakSelf sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
     }];
 }
@@ -493,6 +496,7 @@ typedef NSString * SDLServiceID;
 #pragma mark - Manager Subscriptions
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block {
+    // TODO: If it doesn't support subscriptions, get the data only once, then return NO
     // DISPLAYS always works due to old-style SetDisplayLayoutRepsonse updates, but otherwise, subscriptions won't work
     if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return nil; }
 
@@ -501,7 +505,9 @@ typedef NSString * SDLServiceID;
     if (self.capabilityObservers[type] == nil) {
         self.capabilityObservers[type] = [NSMutableArray array];
 
-        // TODO: Subscribe
+        if (self.supportsSubscriptions) {
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        }
     }
     [self.capabilityObservers[type] addObject:observerObject];
 
@@ -509,6 +515,7 @@ typedef NSString * SDLServiceID;
 }
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateBlock:(SDLCapabilityUpdateWithErrorHandler)block {
+    // TODO: If it doesn't support subscriptions, get the data only once, then return NO
     // DISPLAYS always works due to old-style SetDisplayLayoutRepsonse updates, but otherwise, subscriptions won't work
     if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return nil; }
 
@@ -517,7 +524,9 @@ typedef NSString * SDLServiceID;
     if (self.capabilityObservers[type] == nil) {
         self.capabilityObservers[type] = [NSMutableArray array];
 
-        // TODO: Subscribe
+        if (self.supportsSubscriptions) {
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        }
     }
     [self.capabilityObservers[type] addObject:observerObject];
 
@@ -532,14 +541,14 @@ typedef NSString * SDLServiceID;
     // DISPLAYS always works due to old-style SetDisplayLayoutResponse updates, but otherwise, subscriptions won't work
     if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return NO; }
 
-    // TODO: If the first subscription to the type, subscribe to it in `GetSystemCapability`
-
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
 
     if (self.capabilityObservers[type] == nil) {
         self.capabilityObservers[type] = [NSMutableArray array];
 
-        // TODO: Subscribe
+        if (self.supportsSubscriptions) {
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        }
     }
     [self.capabilityObservers[type] addObject:observerObject];
 
@@ -550,7 +559,11 @@ typedef NSString * SDLServiceID;
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
         if ([observer isEqual:capabilityObserver.observer]) {
             [self.capabilityObservers[type] removeObject:capabilityObserver];
-            // TODO: If this was the last observer, unsubscribe from the HU
+
+            if (self.capabilityObservers[type].count == 0 && self.supportsSubscriptions) {
+                [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+            }
+
             break;
         }
     }
@@ -567,7 +580,7 @@ typedef NSString * SDLServiceID;
             observer.block(capability);
 #pragma clang diagnostic pop
         } else if (observer.updateBlock != nil) {
-            observer.updateBlock(capability, NO, error); // TODO: Subscribed based on whether we are subscribed
+            observer.updateBlock(capability, self.subscriptionStatus[type].boolValue, error);
         } else {
             if (![observer respondsToSelector:observer.selector]) {
                 @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
@@ -585,7 +598,7 @@ typedef NSString * SDLServiceID;
                 [invocation setArgument:&error atIndex:3];
             }
             if (numberOfParametersInSelector >= 3) {
-                BOOL argVal = NO; // TODO: Send actual subscription status
+                BOOL argVal = self.subscriptionStatus[type].boolValue;
                 [invocation setArgument:&argVal atIndex:4];
             }
             if (numberOfParametersInSelector >= 4) {
@@ -597,7 +610,7 @@ typedef NSString * SDLServiceID;
     }
 
     if (handler == nil) { return; }
-    handler(capability, NO, nil); // TODO: Subscribed or not needs to say YES if we're subscribed
+    handler(capability, self.subscriptionStatus[type].boolValue, nil);
 }
 
 #pragma mark - Notifications
