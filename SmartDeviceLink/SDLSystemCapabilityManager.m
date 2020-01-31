@@ -70,6 +70,7 @@ typedef NSString * SDLServiceID;
 
 @property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
 @property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
+@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
 
 @property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
 
@@ -95,22 +96,14 @@ typedef NSString * SDLServiceID;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _capabilityObservers = [NSMutableDictionary dictionary];
-    for (SDLSystemCapabilityType capabilityType in [self.class sdl_systemCapabilityTypes]) {
-        _capabilityObservers[capabilityType] = [NSMutableArray array];
-    }
+    _subscriptionStatus = [NSMutableDictionary dictionary];
 
     [self sdl_registerForNotifications];    
 
     return self;
 }
 
-- (void)start {
-    SDLVersion *onSystemCapabilityNotificationRPCVersion = [SDLVersion versionWithString:@"5.1.0"];
-    SDLVersion *headUnitRPCVersion = SDLGlobals.sharedGlobals.rpcVersion;
-    if ([headUnitRPCVersion isGreaterThanOrEqualToVersion:onSystemCapabilityNotificationRPCVersion]) {
-        _supportsSubscriptions = YES;
-    }
-}
+- (void)start { }
 
 /**
  *  Resets the capabilities when a transport session is closed.
@@ -137,15 +130,18 @@ typedef NSString * SDLServiceID;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _supportsSubscriptions = NO;
-    for (SDLSystemCapabilityType capabilityType in [self.class sdl_systemCapabilityTypes]) {
-        _capabilityObservers[capabilityType] = [NSMutableArray array];
-    }
+    [_capabilityObservers removeAllObjects];
+    [_subscriptionStatus removeAllObjects];
 
     _isFirstHMILevelFull = NO;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
 }
 
 #pragma mark - Getters
+
+- (BOOL)supportsSubscriptions {
+    return [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithString:@"5.1.0"]];
+}
 
 - (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
     if (self.appServicesCapabilitiesDictionary.count == 0) { return nil; }
@@ -337,52 +333,41 @@ typedef NSString * SDLServiceID;
         handler(nil, self);
     } else {
         // Go and get the actual data
-        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-        [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:handler];
+        __weak typeof(self) weakself = self;
+        [self sdl_sendGetSystemCapabilityWithType:type subscribe:nil completionHandler:^(SDLSystemCapability * _Nonnull capability, BOOL subscribed, NSError * _Nonnull error) {
+            handler(error, weakself);
+        }];
     }
-}
-
-/**
- *  A list of all possible system capability types.
- *
- *  @return An array of all possible system capability types
- */
-+ (NSArray<SDLSystemCapabilityType> *)sdl_systemCapabilityTypes {
-    return @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl, SDLSystemCapabilityTypeDisplays, SDLSystemCapabilityTypeSeatLocation];
 }
 
 # pragma mark Subscribing
 
-/**
- * Sends a subscribe request for all possible system capabilites. If connecting to Core versions 4.5+, the requested capability will be returned in the response. If connecting to Core versions 5.1+, the manager will received `OnSystemCapabilityUpdated` notifications when the capability updates if the subscription was successful.
- */
-- (void)sdl_subscribeToSystemCapabilityUpdates {
-    for (SDLSystemCapabilityType type in [self.class sdl_systemCapabilityTypes]) {
-        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-        if (self.supportsSubscriptions) {
-            getSystemCapability.subscribe = @YES;
+/// Sends a GetSystemCapability and sends back the response
+/// @param type The type to get
+/// @param subscribe Whether to change the subscription status
+/// @param handler The handler to be returned
+- (void)sdl_sendGetSystemCapabilityWithType:(SDLSystemCapabilityType)type subscribe:(nullable NSNumber<SDLBool> *)subscribe completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
+    __weak typeof(self) weakSelf = self;
+    SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
+    getSystemCapability.subscribe = subscribe;
+
+    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (![response isKindOfClass:[SDLGetSystemCapabilityResponse class]]) {
+            if (handler == nil) { return; }
+            handler(nil, NO, error);
+            return;
         }
 
-        [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:nil];
-    }
-}
-
-/**
- *  Sends a `GetSystemCapability` to Core and handles the response by saving the returned data and notifying the subscriber.
- *
- *  @param getSystemCapability The `GetSystemCapability` request to send
- */
-- (void)sdl_sendGetSystemCapability:(SDLGetSystemCapability *)getSystemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
-    __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             // An error is returned if the request was unsuccessful or if a Generic Response was returned
             if (handler == nil) { return; }
-            handler(error, weakSelf);
+            handler(nil, NO, error);
             return;
         }
 
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
+
+        // TODO: Keep track of subscriptions
         [weakSelf sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability completionHandler:handler];
     }];
 }
@@ -396,7 +381,7 @@ typedef NSString * SDLServiceID;
  @param handler The handler to be called when the save completes
  @return Whether or not the save occurred. This can be `NO` if the new system capability is equivalent to the old capability.
  */
-- (BOOL)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
+- (BOOL)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     if ([self.lastReceivedCapability isEqual:systemCapability]) {
         [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
         return NO;
@@ -516,19 +501,50 @@ typedef NSString * SDLServiceID;
     if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return nil; }
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
+
+    if (self.capabilityObservers[type] == nil) {
+        self.capabilityObservers[type] = [NSMutableArray array];
+
+        // TODO: Subscribe
+    }
+    [self.capabilityObservers[type] addObject:observerObject];
+
+    return observerObject.observer;
+}
+
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateBlock:(SDLCapabilityUpdateWithErrorHandler)block {
+    // DISPLAYS always works due to old-style SetDisplayLayoutRepsonse updates, but otherwise, subscriptions won't work
+    if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return nil; }
+
+    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:block];
+
+    if (self.capabilityObservers[type] == nil) {
+        self.capabilityObservers[type] = [NSMutableArray array];
+
+        // TODO: Subscribe
+    }
     [self.capabilityObservers[type] addObject:observerObject];
 
     return observerObject.observer;
 }
 
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id<NSObject>)observer selector:(SEL)selector {
-    // DISPLAYS always works due to old-style SetDisplayLayoutRepsonse updates, but otherwise, subscriptions won't work
+    NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
+    if (numberOfParametersInSelector > 2) { return NO; }
+
+    // TODO: If it doesn't support subscriptions, get the data only once, then return NO
+    // DISPLAYS always works due to old-style SetDisplayLayoutResponse updates, but otherwise, subscriptions won't work
     if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return NO; }
 
-    NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
-    if (numberOfParametersInSelector > 1) { return NO; }
+    // TODO: If the first subscription to the type, subscribe to it in `GetSystemCapability`
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
+
+    if (self.capabilityObservers[type] == nil) {
+        self.capabilityObservers[type] = [NSMutableArray array];
+
+        // TODO: Subscribe
+    }
     [self.capabilityObservers[type] addObject:observerObject];
 
     return YES;
@@ -538,6 +554,7 @@ typedef NSString * SDLServiceID;
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
         if ([observer isEqual:capabilityObserver.observer]) {
             [self.capabilityObservers[type] removeObject:capabilityObserver];
+            // TODO: If this was the last observer, unsubscribe from the HU
             break;
         }
     }
@@ -546,7 +563,7 @@ typedef NSString * SDLServiceID;
 /// Calls all observers of a capability type with an updated capability
 /// @param capability The new capability update
 /// @param handler The update handler to call, if one exists after the observers are called
-- (void)sdl_callObserversForCapabilityUpdate:(SDLSystemCapability *)capability handler:(nullable SDLUpdateCapabilityHandler)handler {
+- (void)sdl_callObserversForCapabilityUpdate:(SDLSystemCapability *)capability handler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[capability.systemCapabilityType]) {
         if (observer.block != nil) {
             observer.block(capability);
@@ -570,7 +587,7 @@ typedef NSString * SDLServiceID;
     }
 
     if (handler == nil) { return; }
-    handler(nil, self);
+    handler(capability, NO, nil); // TODO: Subscribed or not needs to say YES if we're subscribed
 }
 
 #pragma mark - Notifications

@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 
+typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *capability, NSError *error);
+
 /**
  An observer object for SDLSystemCapabilityManager
  */
@@ -51,6 +53,13 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  @return The observer
  */
 - (instancetype)initWithObserver:(id<NSObject>)observer block:(SDLCapabilityUpdateHandler)block;
+
+/// Create an observer using an object and a callback block
+
+/// @param observer The object that can be used to unsubscribe the block
+/// @param block The block that will be called when the subscription triggers
+/// @return The observer
+- (instancetype)initWithObserver:(id<NSObject>)observer updateHandler:(SDLCapabilityUpdateWithErrorHandler)block;
 
 @end
 

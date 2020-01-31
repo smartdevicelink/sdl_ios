@@ -54,9 +54,10 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  An observer block for whenever a subscription or value is retrieved.
 
  @param capability The capability that was updated.
+ @param subscribed Whether or not the capability was subscribed or if the capability will only be pulled once.
  @param error An error that occurred.
  */
-typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *capability, NSError *error);
+typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error);
 
 /**
  A manager that handles updating and subscribing to SDL capabilities.
@@ -252,35 +253,49 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *capabil
  *  @param type The type of capability to retrieve
  *  @param handler The handler to be called when the retrieval is complete
  */
-- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
+- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler __deprecated_msg("use a subscribe method instead, which will return a single new value if subscriptions are not available");
+
 
 /// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work.
 /// @param type The SystemCapabilityType that will be checked.
 /// @return Whether or not `type` is supported by the connected head unit.
 - (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
 
-/**
- Subscribe to a particular capability type using a block callback
+/// Subscribe to a particular capability type using a block callback.
 
- @param type The type of capability to subscribe to
- @param block The block to be called when the capability is updated
- @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
- */
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block;
+/// This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
+
+/// @param type The type of capability to subscribe to
+/// @param block The block to be called when the capability is updated
+/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateBlock: instead");
+
+/// Subscribe to a particular capability type using a block callback.
+
+/// This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
+
+/// @param type The type of capability to subscribe to
+/// @param block The block to be called when the capability is updated with an error if one occurs
+/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateBlock:(SDLCapabilityUpdateWithErrorHandler)block;
 
 /**
- * Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:
+ * Subscribe to a particular capability type with a selector callback.
+ *
+ * The selector supports the following parameters:
  *
  * 1. No parameters e.g. `- (void)phoneCapabilityUpdated;`
- * 2. One `SDLSystemCapability *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
- * 3. Two parameters, one `SDLSystemCapability *` parameter, and one `NSError *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error`
  *
- * This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called.
+ * 2. One `SDLSystemCapability *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
+ *
+ * 3. Two parameters, one `SDLSystemCapability *` parameter, and one `BOOL` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error`
+ *
+ * This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
  *
  * @param type The type of the system capability to subscribe to
  * @param observer The object that will have `selector` called whenever the capability is updated
  * @param selector The selector on `observer` that will be called whenever the capability is updated
- * @return Whether or not the subscription succeeded. `NO` if the connected system doesn't support capability subscriptions, or if the `selector` doesn't support the correct parameters (see above)
+ * @return Whether or not the subscription succeeded. `NO` if the connected system doesn't support capability subscriptions, or if the `selector` doesn't support the correct parameters (see above).
  */
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer selector:(SEL)selector;
 
