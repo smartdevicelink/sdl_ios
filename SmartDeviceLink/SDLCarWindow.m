@@ -92,7 +92,11 @@ NS_ASSUME_NONNULL_BEGIN
     CGImageRef imageRef = screenshot.CGImage;
     CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     if (pixelBuffer != nil) {
-        [self.streamManager sendVideoData:pixelBuffer];
+        BOOL success = [self.streamManager sendVideoData:pixelBuffer];
+        if (!success) {
+            SDLLogE(@"Video frame will not be sent because the video frame encoding failed");
+            return;
+        }
         CVPixelBufferRelease(pixelBuffer);
     } else {
         SDLLogE(@"Video frame will not be sent because the pixel buffer is nil");
@@ -190,6 +194,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.streamManager.videoScaleManager.appViewportFrame.size.width == 0) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
+        return;
+    }
+
+    if (CGRectEqualToRect(rootViewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
+        SDLLogV(@"The CarWindow frame is already the correct size");
         return;
     }
 
