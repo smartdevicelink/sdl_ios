@@ -416,10 +416,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
 
-//    if (self.videoEncoder != nil) {
-//        [self.videoEncoder stop];
-//        self.videoEncoder = nil;
-//    }
+    if (self.videoEncoder != nil) {
+        [self.videoEncoder stop];
+        self.videoEncoder = nil;
+    }
 
     [self disposeDisplayLink];
 
@@ -478,7 +478,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream suspended");
 
     [self disposeDisplayLink];
-        
+
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
 }
 
@@ -491,12 +491,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    switch (startServiceACK.header.serviceType) {
-        case SDLServiceTypeVideo: {
-            [self sdl_handleVideoStartServiceAck:startServiceACK];
-        } break;
-        default: break;
-    }
+    if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
+    [self sdl_handleVideoStartServiceAck:startServiceACK];
 }
 
 - (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartServiceAck {
@@ -534,12 +530,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    switch (startServiceNAK.header.serviceType) {
-        case SDLServiceTypeVideo: {
-            [self sdl_handleVideoStartServiceNak:startServiceNAK];
-        }
-        default: break;
-    }
+    if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
+    [self sdl_handleVideoStartServiceNak:startServiceNAK];
 }
 
 - (void)sdl_handleVideoStartServiceNak:(SDLProtocolMessage *)videoStartServiceNak {
@@ -551,6 +543,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (nakPayload.rejectedParams.count == 0) {
         [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
+    } else {
+        SDLLogV(@"video nak payload: %@)", nakPayload.rejectedParams.description);
     }
 
     // If height and/or width was rejected, and we have another resolution to try, advance our counter to try another resolution
@@ -570,12 +564,22 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark End Service
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
+    SDLLogD(@"Video service ended successfully");
+
     [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
+
+    if (endServiceNAK.payload != nil) {
+        SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
+        SDLLogW(@"Video service ended with end service NAK. Rejected parameters: %@", nakPayload.description);
+    } else {
+        SDLLogW(@"Video service ended with end service NAK. Rejected parameters not returned.");
+    }
+
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
@@ -630,7 +634,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatus.hmiLevel;
-    SDLLogV(@"hmi level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
+    SDLLogV(@"video hmi level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {
@@ -641,7 +645,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }
 
-    if (self.isHmiStateVideoStreamCapable) {
+    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone] && self.isVideoConnected) {
+        [self resetVideo];
+    } else if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];
     } else {
         [self sdl_stopVideoSession];
@@ -708,13 +714,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
-    switch (serviceType) {
-        case SDLServiceTypeVideo:
-            [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
-            break;
-        default:
-            break;
-    }
+    if (serviceType != SDLServiceTypeVideo) { return; }
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
