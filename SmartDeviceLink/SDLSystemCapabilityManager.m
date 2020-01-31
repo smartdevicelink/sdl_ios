@@ -74,8 +74,6 @@ typedef NSString * SDLServiceID;
 
 @property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
 
-@property (assign, nonatomic) BOOL isFirstHMILevelFull;
-
 @property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
 
 @end
@@ -91,7 +89,6 @@ typedef NSString * SDLServiceID;
     }
 
     _connectionManager = manager;
-    _isFirstHMILevelFull = NO;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
@@ -133,7 +130,6 @@ typedef NSString * SDLServiceID;
     [_capabilityObservers removeAllObjects];
     [_subscriptionStatus removeAllObjects];
 
-    _isFirstHMILevelFull = NO;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
 }
 
@@ -368,7 +364,7 @@ typedef NSString * SDLServiceID;
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
 
         // TODO: Keep track of subscriptions
-        [weakSelf sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability completionHandler:handler];
+        [weakSelf sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
     }];
 }
 
@@ -381,9 +377,9 @@ typedef NSString * SDLServiceID;
  @param handler The handler to be called when the save completes
  @return Whether or not the save occurred. This can be `NO` if the new system capability is equivalent to the old capability.
  */
-- (BOOL)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
+- (BOOL)sdl_saveSystemCapability:(nullable SDLSystemCapability *)systemCapability error:(nullable NSError *)error completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     if ([self.lastReceivedCapability isEqual:systemCapability]) {
-        [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+        [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
         return NO;
     }
     self.lastReceivedCapability = systemCapability;
@@ -392,31 +388,31 @@ typedef NSString * SDLServiceID;
 
     if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
         if ([self.phoneCapability isEqual:systemCapability.phoneCapability]) {
-            [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+            [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
             return NO;
         }
         self.phoneCapability = systemCapability.phoneCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
         if ([self.navigationCapability isEqual:systemCapability.navigationCapability]) {
-            [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+            [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
             return NO;
         }
         self.navigationCapability = systemCapability.navigationCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
         if ([self.remoteControlCapability isEqual:systemCapability.remoteControlCapability]) {
-            [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+            [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
             return NO;
         }
         self.remoteControlCapability = systemCapability.remoteControlCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
         if ([self.seatLocationCapability isEqual:systemCapability.seatLocationCapability]) {
-            [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+            [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
             return NO;
         }
         self.seatLocationCapability = systemCapability.seatLocationCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) {
-            [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+            [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
             return NO;
         }
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;
@@ -433,7 +429,7 @@ typedef NSString * SDLServiceID;
 
     SDLLogD(@"Updated system capability manager with new data: %@", systemCapability);
 
-    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:handler];
+    [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:error handler:handler];
     return YES;
 }
 
@@ -563,26 +559,40 @@ typedef NSString * SDLServiceID;
 /// Calls all observers of a capability type with an updated capability
 /// @param capability The new capability update
 /// @param handler The update handler to call, if one exists after the observers are called
-- (void)sdl_callObserversForCapabilityUpdate:(SDLSystemCapability *)capability handler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
-    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[capability.systemCapabilityType]) {
+- (void)sdl_callObserversForType:(SDLSystemCapabilityType)type update:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error handler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
+    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if (observer.block != nil) {
             observer.block(capability);
+#pragma clang diagnostic pop
+        } else if (observer.updateBlock != nil) {
+            observer.updateBlock(capability, NO, error); // TODO: Subscribed based on whether we are subscribed
         } else {
-            NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            if (numberOfParametersInSelector == 0) {
-                if ([observer.observer respondsToSelector:observer.selector]) {
-                    [observer.observer performSelector:observer.selector];
-                }
-            } else if (numberOfParametersInSelector == 1) {
-                if ([observer.observer respondsToSelector:observer.selector]) {
-                    [observer.observer performSelector:observer.selector withObject:capability];
-                }
-            } else {
+            if (![observer respondsToSelector:observer.selector]) {
                 @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
             }
-#pragma clang diagnostic pop
+
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[(NSObject *)observer.observer methodSignatureForSelector:observer.selector]];
+            [invocation setSelector:observer.selector];
+            [invocation setTarget:observer.observer];
+
+            NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
+            if (numberOfParametersInSelector >= 1) {
+                [invocation setArgument:&capability atIndex:2];
+            }
+            if (numberOfParametersInSelector >= 2) {
+                [invocation setArgument:&error atIndex:3];
+            }
+            if (numberOfParametersInSelector >= 3) {
+                BOOL argVal = NO; // TODO: Send actual subscription status
+                [invocation setArgument:&argVal atIndex:4];
+            }
+            if (numberOfParametersInSelector >= 4) {
+                @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+            }
+
+            [invocation invoke];
         }
     }
 
@@ -592,9 +602,7 @@ typedef NSString * SDLServiceID;
 
 #pragma mark - Notifications
 
-/**
- *  Registers for notifications and responses from Core
- */
+/// Registers for notifications and responses from Core
 - (void)sdl_registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -631,9 +639,9 @@ typedef NSString * SDLServiceID;
     self.shouldConvertDeprecatedDisplayCapabilities = YES;
     self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
 
-    // call the observers in case the new display capability list is created from deprecated types
+    // Call the observers in case the new display capability list is created from deprecated types
     SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
+    [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:nil handler:nil];
 }
 
 /**
@@ -660,7 +668,7 @@ typedef NSString * SDLServiceID;
 
     // Call the observers in case the new display capability list is created from deprecated types
     SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForCapabilityUpdate:systemCapability handler:nil];
+    [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:nil handler:nil];
 }
 
 
@@ -671,7 +679,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnSystemCapabilityUpdated *systemCapabilityUpdatedNotification = (SDLOnSystemCapabilityUpdated *)notification.notification;
-    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability completionHandler:nil];
+    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability error:nil completionHandler:nil];
 }
 
 /**
@@ -681,27 +689,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_systemCapabilityResponseNotification:(SDLRPCResponseNotification *)notification {
     SDLGetSystemCapabilityResponse *systemCapabilityResponse = (SDLGetSystemCapabilityResponse *)notification.response;
-    [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability completionHandler:nil];
-}
-
-/**
- *  Called when an `OnHMIStatus` notification is received from Core. The first time the `hmiLevel` is `FULL` attempt to subscribe to system capabilty updates.
- *
- *  @param notification The `OnHMIStatus` notification received from Core
- */
-- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
-    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
-
-    if (self.isFirstHMILevelFull || ![hmiStatus.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-        return;
-    }
-
-    self.isFirstHMILevelFull = YES;
-    [self sdl_subscribeToSystemCapabilityUpdates];
+    [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability error:nil completionHandler:nil];
 }
 
 @end
