@@ -68,8 +68,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     
     if (status != noErr) {
         if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
-            SDLLogE(@"Error attempting to create video compression session: %@", *error);
+            NSString *description = @"Compression session could not be created";
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status), NSLocalizedDescriptionKey: description }];
         }
         
         return nil;
@@ -83,7 +83,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
         if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
+            NSString *description = [NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties];
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status), NSLocalizedDescriptionKey: description }];
         }
         
         return nil;
@@ -133,6 +134,10 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (void)stop {
+    _currentFrameNumber = 0;
+    _imageDimensions = CGSizeZero;
+    _timestampOffset = 0.0;
+
     if (self.compressionSession != NULL) {
         VTCompressionSessionInvalidate(self.compressionSession);
         CFRelease(self.compressionSession);
@@ -180,12 +185,12 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
-    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated. This causes the pool to fail when the app is foregrounded and video frames are sent again.
-    if (self.pool == nil) {
-        NSError* error = nil;
+    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool to fail when the app is foregrounded and video frames are sent again.
+    if (self.pool == NULL) {
+        NSError* error = NULL;
         [self sdl_resetCompressionSessionWithError:&error];
-        if (error != nil) {
-            return nil;
+        if (error != NULL) {
+            return NULL;
         }
 
         self.pool = VTCompressionSessionGetPixelBufferPool(self.compressionSession);
