@@ -646,7 +646,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!self.protocol) { return; }
 
     if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone] && self.isVideoConnected) {
-        [self resetVideo];
+        //do nothing
     } else if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];
     } else {
