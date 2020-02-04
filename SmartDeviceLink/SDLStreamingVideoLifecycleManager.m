@@ -71,7 +71,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic) NSString *connectedVehicleMake;
+@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
@@ -127,6 +127,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager videoScaleManager:_videoScaleManager];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
+    _connectedVehicleMake = nil;
     _dataSource = configuration.streamingMediaConfig.dataSource;
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _backgroundingPixelBuffer = NULL;
@@ -201,6 +202,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _hmiLevel = SDLHMILevelNone;
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _lastPresentationTimestamp = kCMTimeInvalid;
+    _connectedVehicleMake = nil;
 
     [self.videoScaleManager stop];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

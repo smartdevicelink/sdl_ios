@@ -17,6 +17,7 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGenericResponse.h"
 #import "SDLGlobals.h"
+#import "SDLHMICapabilities.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
@@ -35,11 +36,12 @@
 #import "SDLSystemCapability.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLVehicleType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingState.h"
 #import "TestConnectionManager.h"
 #import "SDLVersion.h"
-#import "SDLHMICapabilities.h"
+
 
 @interface SDLStreamingVideoLifecycleManager ()
 @property (weak, nonatomic) SDLProtocol *protocol;
@@ -139,6 +141,7 @@ describe(@"the streaming video manager", ^{
             __block SDLScreenParams *someScreenParams = nil;
             __block SDLImageResolution *someImageResolution = nil;
             __block SDLHMICapabilities *someHMICapabilities = nil;
+            __block SDLVehicleType *testVehicleType = nil;
 
             beforeEach(^{
                 someImageResolution = [[SDLImageResolution alloc] init];
@@ -147,6 +150,12 @@ describe(@"the streaming video manager", ^{
 
                 someScreenParams = [[SDLScreenParams alloc] init];
                 someScreenParams.resolution = someImageResolution;
+
+                testVehicleType = [[SDLVehicleType alloc] init];
+                testVehicleType.make = @"OEM_make";
+                testVehicleType.model = @"OEM_model";
+                testVehicleType.modelYear = @"OEM_year";
+                testVehicleType.trim = @"OEM_trim";
             });
 
             context(@"that does not support video streaming", ^{
@@ -160,6 +169,7 @@ describe(@"the streaming video manager", ^{
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
                     someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
+                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
@@ -169,6 +179,10 @@ describe(@"the streaming video manager", ^{
 
                 it(@"should not support streaming", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
+                });
+
+                it(@"should not save the vehicle make", ^{
+                    expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 });
             });
 
@@ -191,6 +205,8 @@ describe(@"the streaming video manager", ^{
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
 
+                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
+
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -200,6 +216,10 @@ describe(@"the streaming video manager", ^{
                 it(@"should support streaming", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
+                });
+
+                it(@"should save the vehicle make", ^{
+                    expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
                 });
             });
 
@@ -217,6 +237,9 @@ describe(@"the streaming video manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
+
+                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
+
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -226,6 +249,10 @@ describe(@"the streaming video manager", ^{
                 it(@"should support streaming even though hmiCapabilities.videoStreaming is nil", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
+                });
+
+                it(@"should save the vehicle make", ^{
+                    expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
                 });
             });
         });
@@ -716,6 +743,10 @@ describe(@"the streaming video manager", ^{
     });
 
     describe(@"when stopped", ^{
+        beforeEach(^{
+            streamingLifecycleManager.connectedVehicleMake = @"OEM_make";
+        });
+
         context(@"if video is not stopped", ^{
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
