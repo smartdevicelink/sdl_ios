@@ -543,8 +543,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (nakPayload.rejectedParams.count == 0) {
         [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
-    } else {
-        SDLLogV(@"video nak payload: %@)", nakPayload.rejectedParams.description);
     }
 
     // If height and/or width was rejected, and we have another resolution to try, advance our counter to try another resolution
@@ -572,13 +570,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
-
-    if (endServiceNAK.payload != nil) {
-        SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
-        SDLLogW(@"Video service ended with end service NAK. Rejected parameters: %@", nakPayload.description);
-    } else {
-        SDLLogW(@"Video service ended with end service NAK. Rejected parameters not returned.");
-    }
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
@@ -634,7 +625,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatus.hmiLevel;
-    SDLLogV(@"video hmi level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
+    SDLLogV(@"HMI level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {
@@ -643,11 +634,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     // if startWithProtocol has not been called yet, abort here
-    if (!self.protocol) { return; }
+    if (!self.protocol) {
+        SDLLogV(@"No session established with head unit. HMI status is not relevant.");
+        return;
+    }
 
-    if (![self.hmiLevel isEqualToEnum:SDLHMILevelNone] && self.isVideoConnected) {
-        //do nothing
-    } else if (self.isHmiStateVideoStreamCapable) {
+    if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];
     } else {
         [self sdl_stopVideoSession];
