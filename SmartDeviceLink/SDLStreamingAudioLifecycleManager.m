@@ -56,9 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Creating AudioStreamingLifecycleManager");
 
     _connectionManager = connectionManager;
-
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
-
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
@@ -96,12 +94,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stop {
-    SDLLogD(@"Stopping manager");
-    [self sdl_stopAudioSession];
+    SDLLogD(@"Stopping audio streaming lifecycle manager");
+    _hmiLevel = SDLHMILevelNone;
 
-    self.hmiLevel = SDLHMILevelNone;
-
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
+    if (!self.isAudioStopped) {
+        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
+    }
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -313,6 +311,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isHmiStateAudioStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+}
+
+- (BOOL)isAudioStopped {
+    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped];
 }
 
 @end
