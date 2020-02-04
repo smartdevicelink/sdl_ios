@@ -476,9 +476,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateVideoStreamSuspended {
     SDLLogD(@"Video stream suspended");
-
     [self disposeDisplayLink];
-
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
 }
 
