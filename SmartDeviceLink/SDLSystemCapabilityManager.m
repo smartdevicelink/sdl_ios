@@ -604,7 +604,7 @@ typedef NSString * SDLServiceID;
     } else if (observer.updateBlock != nil) {
         observer.updateBlock(capability, self.subscriptionStatus[capability.systemCapabilityType].boolValue, error);
     } else {
-        if (![observer respondsToSelector:observer.selector]) {
+        if (![observer.observer respondsToSelector:observer.selector]) {
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
         }
 
