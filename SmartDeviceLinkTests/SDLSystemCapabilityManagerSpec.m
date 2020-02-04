@@ -11,6 +11,7 @@
 #import "SDLDisplayCapability.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
+#import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageField.h"
 #import "SDLImageResolution.h"
@@ -32,6 +33,7 @@
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
+#import "SDLVersion.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowTypeCapabilities.h"
@@ -40,8 +42,6 @@
 
 
 @interface SDLSystemCapabilityManager ()
-
-@property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
 
 @end
 
@@ -452,15 +452,15 @@ describe(@"System capability manager", ^{
         });
     });
 
-    describe(@"subscribing to capability types", ^{
+    fdescribe(@"subscribing to capability types", ^{
         __block TestSystemCapabilityObserver *phoneObserver = nil;
         __block TestSystemCapabilityObserver *navigationObserver = nil;
 
-        __block NSUInteger blockObserverTriggeredCount = 0;
+        __block NSUInteger observerTriggeredCount = 0;
 
         beforeEach(^{
-            blockObserverTriggeredCount = 0;
-            testSystemCapabilityManager.supportsSubscriptions = YES;
+            observerTriggeredCount = 0;
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
             phoneObserver = [[TestSystemCapabilityObserver alloc] init];
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
@@ -472,7 +472,8 @@ describe(@"System capability manager", ^{
             __block BOOL observationSuccess = NO;
 
             beforeEach(^{
-                testSystemCapabilityManager.supportsSubscriptions = NO;
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"]; // doesn't subscriptions
+
 
                 observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
             });
@@ -487,7 +488,7 @@ describe(@"System capability manager", ^{
 
             beforeEach(^{
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    blockObserverTriggeredCount++;
+                    observerTriggeredCount++;
                 }];
 
                 SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -499,7 +500,7 @@ describe(@"System capability manager", ^{
 
             it(@"should notify subscribers of the new data", ^{
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(blockObserverTriggeredCount).toEventually(equal(1));
+                expect(observerTriggeredCount).toEventually(equal(1));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
             });
 
@@ -517,7 +518,7 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(blockObserverTriggeredCount).toEventually(equal(1));
+                    expect(observerTriggeredCount).toEventually(equal(1));
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
                 });
             });
@@ -528,7 +529,7 @@ describe(@"System capability manager", ^{
 
             beforeEach(^{
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    blockObserverTriggeredCount++;
+                    observerTriggeredCount++;
                 }];
 
                 SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:[[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]]];
@@ -539,7 +540,7 @@ describe(@"System capability manager", ^{
 
             it(@"should notify subscribers of the new data", ^{
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(blockObserverTriggeredCount).toEventually(equal(1));
+                expect(observerTriggeredCount).toEventually(equal(1));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
             });
 
@@ -557,7 +558,7 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(blockObserverTriggeredCount).toEventually(equal(1));
+                    expect(observerTriggeredCount).toEventually(equal(1));
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
                 });
             });

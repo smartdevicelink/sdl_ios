@@ -8,6 +8,8 @@
 
 #import "TestSystemCapabilityObserver.h"
 
+#import "SDLSystemCapability.h"
+
 @implementation TestSystemCapabilityObserver
 
 - (instancetype)init {
@@ -23,7 +25,15 @@
     self.selectorCalledCount++;
 }
 
-- (void)capabilityUpdatedWithNotification:(SDLSystemCapabilityManager *)capabilityManager {
+- (void)capabilityUpdatedWithNotification:(SDLSystemCapability *)capability {
+    self.selectorCalledCount++;
+}
+
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error {
+    self.selectorCalledCount++;
+}
+
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed {
     self.selectorCalledCount++;
 }
 

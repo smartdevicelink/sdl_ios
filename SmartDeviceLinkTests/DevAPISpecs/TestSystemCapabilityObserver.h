@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLSystemCapabilityManager;
+@class SDLSystemCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSUInteger selectorCalledCount;
 
 - (void)capabilityUpdated;
-- (void)capabilityUpdatedWithNotification:(SDLSystemCapabilityManager *)capabilityManager;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed;
 
 @end
 

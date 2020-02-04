@@ -596,39 +596,39 @@ typedef NSString * SDLServiceID;
 }
 
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            if (observer.block != nil) {
-                observer.block(capability);
-    #pragma clang diagnostic pop
-            } else if (observer.updateBlock != nil) {
-                observer.updateBlock(capability, self.subscriptionStatus[capability.systemCapabilityType].boolValue, error);
-            } else {
-                if (![observer respondsToSelector:observer.selector]) {
-                    @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
-                }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (observer.block != nil) {
+        observer.block(capability);
+#pragma clang diagnostic pop
+    } else if (observer.updateBlock != nil) {
+        observer.updateBlock(capability, self.subscriptionStatus[capability.systemCapabilityType].boolValue, error);
+    } else {
+        if (![observer respondsToSelector:observer.selector]) {
+            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+        }
 
-                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[(NSObject *)observer.observer methodSignatureForSelector:observer.selector]];
-                [invocation setSelector:observer.selector];
-                [invocation setTarget:observer.observer];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[(NSObject *)observer.observer methodSignatureForSelector:observer.selector]];
+        [invocation setSelector:observer.selector];
+        [invocation setTarget:observer.observer];
 
-                NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
-                if (numberOfParametersInSelector >= 1) {
-                    [invocation setArgument:&capability atIndex:2];
-                }
-                if (numberOfParametersInSelector >= 2) {
-                    [invocation setArgument:&error atIndex:3];
-                }
-                if (numberOfParametersInSelector >= 3) {
-                    BOOL argVal = self.subscriptionStatus[capability.systemCapabilityType].boolValue;
-                    [invocation setArgument:&argVal atIndex:4];
-                }
-                if (numberOfParametersInSelector >= 4) {
-                    @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
-                }
+        NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
+        if (numberOfParametersInSelector >= 1) {
+            [invocation setArgument:&capability atIndex:2];
+        }
+        if (numberOfParametersInSelector >= 2) {
+            [invocation setArgument:&error atIndex:3];
+        }
+        if (numberOfParametersInSelector >= 3) {
+            BOOL argVal = self.subscriptionStatus[capability.systemCapabilityType].boolValue;
+            [invocation setArgument:&argVal atIndex:4];
+        }
+        if (numberOfParametersInSelector >= 4) {
+            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+        }
 
-                [invocation invoke];
-            }
+        [invocation invoke];
+    }
 }
 
 #pragma mark - Notifications
@@ -674,7 +674,7 @@ typedef NSString * SDLServiceID;
 
     // Call the observers in case the new display capability list is created from deprecated types
     SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:nil handler:nil];
+    [self sdl_callObserversForUpdate:systemCapability error:nil handler:nil];
 }
 
 /**
@@ -703,7 +703,7 @@ typedef NSString * SDLServiceID;
 
     // Call the observers in case the new display capability list is created from deprecated types
     SDLSystemCapability *systemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
-    [self sdl_callObserversForType:systemCapability.systemCapabilityType update:systemCapability error:nil handler:nil];
+    [self sdl_callObserversForUpdate:systemCapability error:nil handler:nil];
 }
 
 
