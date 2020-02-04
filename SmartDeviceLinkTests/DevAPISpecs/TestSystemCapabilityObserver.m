@@ -25,7 +25,7 @@
     self.selectorCalledCount++;
 }
 
-- (void)capabilityUpdatedWithNotification:(SDLSystemCapability *)capability {
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability {
     self.selectorCalledCount++;
 }
 

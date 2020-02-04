@@ -255,6 +255,11 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  */
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 
+/// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work.
+/// @param type The SystemCapabilityType that will be checked.
+/// @return Whether or not `type` is supported by the connected head unit.
+- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
+
 /**
  *  This method has been superceded by `subscribeToCapabilityType:` methods. You should use one of those instead, unless you only want a value once, and it must be updated. If you subscribe to a capability and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscriptions. Therefore, you can use this method to force an update to all subscriptions of that particular type.
  *
@@ -264,12 +269,6 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  *  @param handler The handler to be called when the retrieval is complete
  */
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
-
-
-/// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work.
-/// @param type The SystemCapabilityType that will be checked.
-/// @return Whether or not `type` is supported by the connected head unit.
-- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
 
 /// Subscribe to a particular capability type using a block callback.
 ///
@@ -282,7 +281,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// @param type The type of capability to subscribe to
 /// @param block The block to be called when the capability is updated
 /// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateBlock: instead");
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateHandler: instead");
 
 /// Subscribe to a particular capability type using a handler callback.
 ///
@@ -311,7 +310,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  * 4. Three parameters, one `SDLSystemCapability *` parameter, one `NSError` parameter, and one `BOOL` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed`
  *
  * On v5.1.0+ systems (where `supportsSubscriptions == YES`):
-   This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+ * This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
  *
  * On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
  * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.

@@ -452,20 +452,21 @@ describe(@"System capability manager", ^{
         });
     });
 
-    fdescribe(@"subscribing to capability types", ^{
+    describe(@"subscribing to capability types", ^{
         __block TestSystemCapabilityObserver *phoneObserver = nil;
         __block TestSystemCapabilityObserver *navigationObserver = nil;
 
         __block NSUInteger observerTriggeredCount = 0;
+        __block NSUInteger handlerTriggeredCount = 0;
 
         beforeEach(^{
             observerTriggeredCount = 0;
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
             phoneObserver = [[TestSystemCapabilityObserver alloc] init];
-            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithCapability:)];
             navigationObserver = [[TestSystemCapabilityObserver alloc] init];
-            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithCapability:)];
         });
 
         describe(@"when observers aren't supported", ^{
@@ -474,8 +475,7 @@ describe(@"System capability manager", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"]; // doesn't subscriptions
 
-
-                observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+                observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithCapability:)];
             });
 
             it(@"should fail to subscribe", ^{
@@ -483,12 +483,17 @@ describe(@"System capability manager", ^{
             });
         });
 
-        context(@"from a GetSystemCapabilitiesResponse", ^{
+        fcontext(@"from a GetSystemCapabilitiesResponse", ^{
             __block id blockObserver = nil;
+            __block id handlerObserver = nil;
 
             beforeEach(^{
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     observerTriggeredCount++;
+                }];
+
+                handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
+                    handlerTriggeredCount++;
                 }];
 
                 SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -500,6 +505,7 @@ describe(@"System capability manager", ^{
 
             it(@"should notify subscribers of the new data", ^{
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
+                expect(handlerTriggeredCount).toEventually(equal(1));
                 expect(observerTriggeredCount).toEventually(equal(1));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
             });
