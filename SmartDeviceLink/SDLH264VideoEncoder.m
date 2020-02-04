@@ -334,12 +334,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 /// Attempts to create a new VTCompressionSession using the image dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
 - (BOOL)sdl_resetCompressionSession {
     OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.imageDimensions.width, (int32_t)self.imageDimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
-
-    if (status == noErr) {
-        return NO;
-    }
-
-    return YES;
+    return (status == noErr) ? YES : NO;
 }
 
 @end
