@@ -16,9 +16,11 @@
 #import "SDLControlFramePayloadTransportEventUpdate.h"
 #import "SDLIAPTransport.h"
 #import "SDLLogMacros.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
 #import "SDLNotificationConstants.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
@@ -98,6 +100,8 @@ static const int TCPPortUnspecified = -1;
 // App is ready to set security manager to secondary protocol
 @property (assign, nonatomic, getter=isAppReady) BOOL appReady;
 
+@property (assign, nonatomic) BOOL shouldOpenConnection;
+
 @end
 
 @implementation SDLSecondaryTransportManager
@@ -123,7 +127,8 @@ static const int TCPPortUnspecified = -1;
     _tcpPort = TCPPortUnspecified;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeReady) name:SDLDidBecomeReady object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    
     return self;
 }
 
@@ -229,8 +234,8 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)didEnterStateConfigured {
-    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady)
-        || (self.secondaryTransportType == SDLSecondaryTransportTypeIAP && self.isAppReady)) {
+    if ((self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady && self.shouldOpenConnection)
+        || (self.secondaryTransportType == SDLSecondaryTransportTypeIAP && self.isAppReady && self.shouldOpenConnection)) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
@@ -372,7 +377,7 @@ static const int TCPPortUnspecified = -1;
         return;
     }
 
-    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady] && self.isAppReady) {
+    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured] && [self sdl_isTCPReady] && self.isAppReady && self.shouldOpenConnection) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     } else if ([self sdl_isTransportOpened]) {
         // Disconnect current transport. If the IP address is available then we will reconnect immediately.
@@ -656,7 +661,7 @@ static const int TCPPortUnspecified = -1;
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
             if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
-                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady) {
+                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady && self.shouldOpenConnection) {
                 SDLLogD(@"Resuming TCP transport since the app becomes foreground");
                 [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             }
@@ -715,9 +720,21 @@ static const int TCPPortUnspecified = -1;
 
 - (void)appDidBecomeReady {
     self.appReady = YES;
-    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress != nil)
+    if (([self.stateMachine.currentState isEqualToString:SDLSecondaryTransportStateConfigured] && self.tcpPort != SDLControlFrameInt32NotFound && self.ipAddress != nil && self.shouldOpenConnection)
         || self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
          [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+    }
+}
+
+- (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
+        return;
+    }
+
+    SDLOnHMIStatus *hmiStatusNotification = notification.notification;
+    if(![hmiStatusNotification.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
+        self.shouldOpenConnection = true;
+        [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
     }
 }
 

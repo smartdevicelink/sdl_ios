@@ -161,7 +161,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object: _notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName: BackgroundTaskTransportName];
@@ -244,8 +244,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
-        // We reuse our queue to run secondary transport manager's state machine
-        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
+        if([self.configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
+           [self.configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
+           [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
+           [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
+            // We reuse our queue to run secondary transport manager's state machine
+            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
+        }
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
     }
 #pragma clang diagnostic pop
