@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
         CVPixelBufferRelease(pixelBuffer);
     } else {
-        SDLLogE(@"Video frame will not be sent because the pixel buffer is nil");
+        SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
     }
 }
 
@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (CGRectEqualToRect(rootViewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
-        SDLLogV(@"The CarWindow frame is already the correct size");
+        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(rootViewController.view.frame));
         return;
     }
 
