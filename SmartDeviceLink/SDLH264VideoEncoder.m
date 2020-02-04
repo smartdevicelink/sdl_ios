@@ -26,7 +26,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 @property (assign, nonatomic) double timestampOffset;
 
-@property (assign, nonatomic, nullable) CVPixelBufferPoolRef pool;
+@property (assign, nonatomic, readwrite) CVPixelBufferPoolRef CV_NULLABLE pixelBufferPool;
 @property (assign, nonatomic) CGSize imageDimensions;
 
 @end
@@ -135,7 +135,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 - (void)stop {
     _currentFrameNumber = 0;
-    _imageDimensions = CGSizeZero;
     _timestampOffset = 0.0;
 
     if (self.compressionSession != NULL) {
@@ -186,16 +185,16 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
     // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool and/or the compression session to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
-    if (self.pool == NULL) {
+    if (!_pixelBufferPool) {
         BOOL success = [self sdl_resetCompressionSession];
         if (success == NO) {
             return NULL;
         }
 
-        self.pool = VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+        _pixelBufferPool = VTCompressionSessionGetPixelBufferPool(self.compressionSession);
     }
 
-    return self.pool;
+    return _pixelBufferPool;
 }
 
 #pragma mark - Private
