@@ -171,12 +171,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    switch (startServiceACK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceAck:startServiceACK];
-        } break;
-        default: break;
-    }
+    if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
+    [self sdl_handleAudioStartServiceAck:startServiceACK];
 }
 
 - (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartServiceAck {
@@ -196,12 +192,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    switch (startServiceNAK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceNak:startServiceNAK];
-        } break;
-        default: break;
-    }
+    if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+    [self sdl_handleAudioStartServiceNak:startServiceNAK];
 }
 
 - (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
@@ -212,12 +204,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark End Service
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
+    SDLLogD(@"Audio service ended successfully");
+
     [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+    SDLLogE(@"Audio service did not end successfully");
+
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
