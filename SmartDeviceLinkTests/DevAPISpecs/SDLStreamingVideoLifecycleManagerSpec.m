@@ -42,6 +42,8 @@
 #import "SDLHMICapabilities.h"
 
 @interface SDLStreamingVideoLifecycleManager ()
+@property (weak, nonatomic) SDLProtocol *protocol;
+@property (copy, nonatomic) NSString *connectedVehicleMake;
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 @end
@@ -709,6 +711,48 @@ describe(@"the streaming video manager", ^{
                 it(@"should have set all the right properties", ^{
                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 });
+            });
+        });
+    });
+
+    describe(@"when stopped", ^{
+        context(@"if video is not stopped", ^{
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
+                [streamingLifecycleManager stop];
+            });
+
+            it(@"should transition to the stopped state", ^{
+                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+            });
+
+            it(@"should reset the saved properties", ^{
+                expect(streamingLifecycleManager.protocol).to(beNil());
+                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
+                expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+                expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
+                expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
+                expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+            });
+        });
+
+        context(@"if video is already stopped", ^{
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLAudioStreamManagerStateStopped fromOldState:nil callEnterTransition:NO];
+                [streamingLifecycleManager stop];
+            });
+
+            it(@"should stay in the stopped state", ^{
+                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+            });
+
+            it(@"should reset the saved properties", ^{
+                expect(streamingLifecycleManager.protocol).to(beNil());
+                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
+                expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+                expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
+                expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
+                expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
             });
         });
     });

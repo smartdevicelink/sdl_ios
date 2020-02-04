@@ -20,6 +20,12 @@
 #import "SDLV2ProtocolMessage.h"
 #import "TestConnectionManager.h"
 
+
+@interface SDLStreamingAudioLifecycleManager()
+@property (weak, nonatomic) SDLProtocol *protocol;
+@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@end
+
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
 
 describe(@"the streaming audio manager", ^{
@@ -414,8 +420,10 @@ describe(@"the streaming audio manager", ^{
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
             });
 
-            it(@"should reset the hmiLevel", ^{
+            it(@"should reset the saved properties", ^{
+                expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
             });
         });
 
@@ -429,8 +437,10 @@ describe(@"the streaming audio manager", ^{
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
             });
 
-            it(@"should reset the hmiLevel", ^{
+            it(@"should reset the saved properties", ^{
+                expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
             });
         });
     });

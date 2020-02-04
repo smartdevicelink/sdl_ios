@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic) NSString *connectedVehicleMake;
+@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @end
 
@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
+    _connectedVehicleMake = nil;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
 #pragma clang diagnostic push
@@ -95,11 +96,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping audio streaming lifecycle manager");
+    _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
-
-    if (!self.isAudioStopped) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
-    }
+    _connectedVehicleMake = nil;
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -307,10 +307,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isHmiStateAudioStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
-}
-
-- (BOOL)isAudioStopped {
-    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped];
 }
 
 @end

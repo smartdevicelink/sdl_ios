@@ -203,10 +203,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _lastPresentationTimestamp = kCMTimeInvalid;
 
     [self.videoScaleManager stop];
-
-    if (!self.isVideoStopped) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
-    }
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -253,10 +250,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (BOOL)isVideoStreamingPaused {
     return !(self.isVideoConnected && self.isHmiStateVideoStreamCapable && self.isAppStateVideoStreamCapable);
-}
-
-- (BOOL)isVideoStopped {
-    return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateStopped];
 }
 
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
