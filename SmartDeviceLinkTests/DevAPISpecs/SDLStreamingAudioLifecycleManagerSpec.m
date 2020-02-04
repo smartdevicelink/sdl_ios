@@ -402,6 +402,38 @@ describe(@"the streaming audio manager", ^{
             });
         });
     });
+
+    describe(@"when stopped", ^{
+        context(@"if audio not stopped", ^{
+            beforeEach(^{
+                [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
+                [streamingLifecycleManager stop];
+            });
+
+            it(@"should transition to the stopped state", ^{
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+            });
+
+            it(@"should reset the hmiLevel", ^{
+                expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+            });
+        });
+
+        context(@"if audio is already stopped", ^{
+            beforeEach(^{
+                [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateStopped fromOldState:nil callEnterTransition:NO];
+                [streamingLifecycleManager stop];
+            });
+
+            it(@"should stay in the stopped state", ^{
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+            });
+
+            it(@"should reset the hmiLevel", ^{
+                expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
+            });
+        });
+    });
 });
 
 QuickSpecEnd
