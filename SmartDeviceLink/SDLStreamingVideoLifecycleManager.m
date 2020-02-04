@@ -570,6 +570,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
+    SDLLogE(@"Video service did not end successfully");
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
