@@ -248,12 +248,22 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 - (void)stop;
 
 /**
- *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
+ * Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.
+ *
+ * @param windowID The ID of the window to get capabilities
+ * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
+ */
+- (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
+
+/**
+ *  This method has been superceded by `subscribeToCapabilityType:` methods. You should use one of those instead, unless you only want a value once, and it must be updated. If you subscribe to a capability and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscriptions. Therefore, you can use this method to force an update to all subscriptions of that particular type.
+ *
+ *  Retrieves and updates a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
  *
  *  @param type The type of capability to retrieve
  *  @param handler The handler to be called when the retrieval is complete
  */
-- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler __deprecated_msg("use a subscribe method instead, which will return a single new value if subscriptions are not available");
+- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
 
 
 /// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work.
@@ -262,22 +272,30 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 - (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
 
 /// Subscribe to a particular capability type using a block callback.
-
-/// This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
-
+///
+/// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
+/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+///
+/// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
+///
 /// @param type The type of capability to subscribe to
 /// @param block The block to be called when the capability is updated
 /// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateBlock: instead");
 
-/// Subscribe to a particular capability type using a block callback.
-
-/// This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
+/// Subscribe to a particular capability type using a handler callback.
+///
+/// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
+/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+///
+/// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
 
 /// @param type The type of capability to subscribe to
-/// @param block The block to be called when the capability is updated with an error if one occurs
+/// @param handler The block to be called when the capability is updated with an error if one occurs
 /// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateBlock:(SDLCapabilityUpdateWithErrorHandler)block;
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler;
 
 /**
  * Subscribe to a particular capability type with a selector callback.
@@ -292,7 +310,11 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  *
  * 4. Three parameters, one `SDLSystemCapability *` parameter, one `NSError` parameter, and one `BOOL` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed`
  *
- * This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (`supportsSubscriptions == YES`). If this method is called on a sub-v5.1.0 system (`supportsSubscriptions == NO`), the method will return `NO` and the selector will never be called, unless the `type` is `DISPLAYS` which is supported on every version.
+ * On v5.1.0+ systems (where `supportsSubscriptions == YES`):
+   This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+ *
+ * On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
+ * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
  *
  * @param type The type of the system capability to subscribe to
  * @param observer The object that will have `selector` called whenever the capability is updated
@@ -302,20 +324,12 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer selector:(SEL)selector;
 
 /**
- * Unsubscribe from a particular capability type. If it was subscribed with a block, the return value should be passed to the `observer` to unsubscribe the block. If it was subscribed with a selector, the `observer` object should be passed to unsubscribe the object selector.
+ * Unsubscribe from a particular capability type. If it was subscribed with a block / handler, the return value should be passed to the `observer` to unsubscribe the block. If it was subscribed with a selector, the `observer` object (on which the selector exists and is called) should be passed to unsubscribe the object selector.
  *
  * @param type The type of the system capability to unsubscribe from
  * @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.
  */
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer;
-
-/**
- * Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.
- *
- * @param windowID The ID of the window to get capabilities
- * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
- */
-- (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 
 @end
 
