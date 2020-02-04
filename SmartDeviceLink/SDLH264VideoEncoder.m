@@ -185,11 +185,10 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
-    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool to fail when the app is foregrounded and video frames are sent again.
+    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
     if (self.pool == NULL) {
-        NSError* error = NULL;
-        [self sdl_resetCompressionSessionWithError:&error];
-        if (error != NULL) {
+        BOOL success = [self sdl_resetCompressionSession];
+        if (success == NO) {
             return NULL;
         }
 
@@ -332,19 +331,15 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     return nalUnits;
 }
 
-/// Attempts to create a new VTCompressionSession using the image dimensions passed when the video encoded was created.
-/// @param error The error that occured when creating the VTCompressionSession, if any occured
-- (void)sdl_resetCompressionSessionWithError:(NSError **)error {
+/// Attempts to create a new VTCompressionSession using the image dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
+- (BOOL)sdl_resetCompressionSession {
     OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.imageDimensions.width, (int32_t)self.imageDimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status == noErr) {
-        return;
+        return NO;
     }
 
-    if (!*error) {
-        *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
-        SDLLogE(@"Error attempting to create video compression session: %@", *error);
-    }
+    return YES;
 }
 
 @end
