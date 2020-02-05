@@ -291,8 +291,13 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 #pragma mark System Capability Manager
 
-+ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportCapabilityType {
-    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportCapabilityType userInfo:nil];
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Module does not understand system capabilities", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The connected module does not support system capabilities", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Use isCapabilitySupported to know if the feature is supported on the head unit, but no more infomration about the feature will be available on this module", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities userInfo:userInfo];
 }
 
 #pragma mark Transport

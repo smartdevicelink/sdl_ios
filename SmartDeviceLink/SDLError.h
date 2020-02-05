@@ -76,6 +76,11 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
 
+
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError;
@@ -86,10 +91,6 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark Store
 
 + (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
-
-#pragma mark System Capability Manager
-
-+ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportCapabilityType;
 
 @end
 
