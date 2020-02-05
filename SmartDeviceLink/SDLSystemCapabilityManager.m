@@ -506,7 +506,7 @@ typedef NSString * SDLServiceID;
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
         self.capabilityObservers[type] = [NSMutableArray array];
-        
+
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
             [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
@@ -581,7 +581,11 @@ typedef NSString * SDLServiceID;
             if (self.capabilityObservers[type].count == 0 && self.supportsSubscriptions) {
                 SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
                 self.capabilityObservers[type] = nil;
-                [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+
+                // We don't want to send this for the displays type because that's automatically subscribed
+                if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+                    [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+                }
             }
 
             break;
