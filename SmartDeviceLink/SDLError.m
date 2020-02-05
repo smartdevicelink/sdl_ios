@@ -21,6 +21,7 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
 SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
@@ -286,6 +287,12 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
+}
+
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportCapabilityType {
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportCapabilityType userInfo:nil];
 }
 
 #pragma mark Transport

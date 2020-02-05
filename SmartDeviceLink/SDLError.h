@@ -23,6 +23,7 @@ extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
@@ -85,6 +86,10 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark Store
 
 + (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
+
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportCapabilityType;
 
 @end
 
