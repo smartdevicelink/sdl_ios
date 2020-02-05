@@ -48,7 +48,7 @@
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
-describe(@"System capability manager", ^{
+fdescribe(@"System capability manager", ^{
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
 
@@ -461,6 +461,7 @@ describe(@"System capability manager", ^{
 
         beforeEach(^{
             observerTriggeredCount = 0;
+            handlerTriggeredCount = 0;
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
             phoneObserver = [[TestSystemCapabilityObserver alloc] init];
@@ -483,7 +484,7 @@ describe(@"System capability manager", ^{
             });
         });
 
-        fcontext(@"from a GetSystemCapabilitiesResponse", ^{
+        context(@"from a GetSystemCapabilitiesResponse", ^{
             __block id blockObserver = nil;
             __block id handlerObserver = nil;
 
@@ -504,15 +505,16 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should notify subscribers of the new data", ^{
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(handlerTriggeredCount).toEventually(equal(1));
-                expect(observerTriggeredCount).toEventually(equal(1));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
+                expect(handlerTriggeredCount).toEventually(equal(2));
+                expect(observerTriggeredCount).toEventually(equal(2));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
             });
 
             describe(@"unsubscribing", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:handlerObserver];
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -523,9 +525,10 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(observerTriggeredCount).toEventually(equal(1));
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(2)); // No change from above
+                    expect(handlerTriggeredCount).toEventually(equal(2));
+                    expect(observerTriggeredCount).toEventually(equal(2));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
                 });
             });
         });
@@ -545,9 +548,9 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should notify subscribers of the new data", ^{
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(observerTriggeredCount).toEventually(equal(1));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
+                expect(observerTriggeredCount).toEventually(equal(2));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
             });
 
             describe(@"unsubscribing", ^{
@@ -563,9 +566,9 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(observerTriggeredCount).toEventually(equal(1));
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(2)); // No change from above
+                    expect(observerTriggeredCount).toEventually(equal(2));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
                 });
             });
         });
@@ -629,20 +632,6 @@ describe(@"System capability manager", ^{
                 expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
                 expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
             });
-        });
-    });
-
-    describe(@"when entering HMI FULL", ^{
-        beforeEach(^{
-            SDLOnHMIStatus *fullStatus = [[SDLOnHMIStatus alloc] init];
-            fullStatus.hmiLevel = SDLHMILevelFull;
-            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:fullStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-        });
-
-        it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(7));
-            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
         });
     });
 
