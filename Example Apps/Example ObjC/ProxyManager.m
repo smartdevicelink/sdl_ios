@@ -161,15 +161,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-    SDLSystemCapabilityManager *scm = self.sdlManager.systemCapabilityManager;
-    id observerObj = [scm subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
-        NSLog(@"SCM update: %@, %@, %@", capability, (subscribed ? @"YES" : @"NO"), error);
-    }];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [scm unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:observerObj];
-    });
-
     SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
     [self.sdlManager sendRequest:setDisplayLayout];
 
