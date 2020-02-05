@@ -65,11 +65,6 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 @interface SDLSystemCapabilityManager : NSObject
 
 /**
- YES if subscriptions are available on the connected head unit. If NO, calls to `subscribeToCapabilityType:withBlock` and `subscribeToCapabilityType:withObserver:selector` will fail.
- */
-@property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
-
-/**
  * Provides window capabilities of all displays connected with SDL. By default, one display is connected and supported which includes window capability information of the default main window of the display. May be nil if the system has not provided display and window capability information yet.
  *
  * @see SDLDisplayCapability
@@ -222,6 +217,11 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 @property (nullable, strong, nonatomic, readonly) SDLWindowCapability *defaultMainWindowCapability;
 
 /**
+ YES if subscriptions are available on the connected module and you will automatically be notified if the value changes on the module. If NO, calls to `subscribe` methods will subscribe to updates, but the module will not automatically notify you. You will need to call `updateWithCapabilityType:completionHandler:` to force an update if you need one (though this should be rare).
+ */
+@property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
+
+/**
  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
 
  @return nil
@@ -258,7 +258,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work. If this returns NO, then the feature is not supported by the head unit. If YES, the feature is supported by the head unit. You can subscribe to the capability type to get more information about the capability's support and features on the connected module.
 /// @param type The SystemCapabilityType that will be checked.
 /// @return Whether or not `type` is supported by the connected head unit.
-- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type;
+- (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type NS_SWIFT_NAME(isCapabilitySupported(type:));
 
 /**
  *  This method has been superceded by `subscribeToCapabilityType:` methods. You should use one of those instead, unless you only want a value once, and it must be updated. If you subscribe to a capability and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscriptions. Therefore, you can use this method to force an update to all subscriptions of that particular type.
@@ -294,7 +294,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// @param type The type of capability to subscribe to
 /// @param handler The block to be called when the capability is updated with an error if one occurs
 /// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler;
+- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler NS_SWIFT_NAME(subscribe(capabilityType:updateHandler:));
 
 /**
  * Subscribe to a particular capability type with a selector callback.

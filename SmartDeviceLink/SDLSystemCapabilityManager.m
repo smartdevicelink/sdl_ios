@@ -380,8 +380,9 @@ typedef NSString * SDLServiceID;
  */
 - (BOOL)sdl_saveSystemCapability:(nullable SDLSystemCapability *)systemCapability error:(nullable NSError *)error completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     SDLLogV(@"Saving system capability type: %@", systemCapability);
+
+    // If this is equal to the last received capability (e.g. a notification and GetSystemCapabilityResponse), don't save twice or call the observer twice.
     if ([self.lastReceivedCapability isEqual:systemCapability]) {
-        [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
         return NO;
     }
     self.lastReceivedCapability = systemCapability;
