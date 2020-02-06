@@ -39,6 +39,7 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
 #import "SDLVersion.h"
+#import "SDLVideoStreamingState.h"
 
 
 // Ignore the deprecated proxy methods
@@ -624,6 +625,37 @@ describe(@"a lifecycle manager", ^{
                         [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
 
                         OCMVerify([testManager.delegate audioStreamingState:oldAudioStreamingState didChangeToState:testAudioStreamingState]);
+                    });
+                });
+            });
+
+            describe(@"receiving a video state change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLVideoStreamingState testVideoStreamingState = nil;
+                __block SDLAudioStreamingState oldVideoStreamingState = nil;
+
+                beforeEach(^{
+                    oldVideoStreamingState = testManager.videoStreamingState;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+
+                context(@"a not audible audio state", ^{
+                    beforeEach(^{
+                        testVideoStreamingState = SDLVideoStreamingStateNotStreamable;
+                        testHMIStatus.videoStreamingState = testVideoStreamingState;
+
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+                    });
+
+                    it(@"should set the audio state", ^{
+                        expect(testManager.videoStreamingState).toEventually(equal(testVideoStreamingState));
+                    });
+
+                    it(@"should call the delegate", ^{
+                        // Since notifications are sent to SDLManagerDelegate observers on the main thread, force the block to execute manually on the main thread. If this is not done, the test case may fail.
+                        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+
+                        OCMVerify([testManager.delegate videoStreamingState:oldVideoStreamingState didChangetoState:testVideoStreamingState]);
                     });
                 });
             });
