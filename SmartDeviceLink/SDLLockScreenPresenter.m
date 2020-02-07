@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) UIWindow *lockWindow;
 @property (assign, nonatomic) BOOL shouldShowLockScreen;
 @property (assign, nonatomic) BOOL isDismissing;
-@property (assign, nonatomic) BOOL isPresentedOrPresenting;
 
 @end
 
@@ -168,9 +167,12 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
     SDLLogD(@"Dismissing the lockscreen window");
+    _isDismissing = YES;
     __weak typeof(self) weakSelf = self;
     [self.lockViewController dismissViewControllerAnimated:YES completion:^{
-        [weakSelf.lockWindow setHidden:YES];
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf->_isDismissing = NO;
+        [strongSelf.lockWindow setHidden:YES];
 
         // Tell everyone we are done so video streaming can resume
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
@@ -190,7 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Returns whether or not the lockViewController is currently animating the dismissal of the lockscreen
 - (BOOL)isDismissing {
-    return (self.lockViewController.isBeingDismissed || self.lockViewController.isMovingFromParentViewController);
+    return (_isDismissing || self.lockViewController.isBeingDismissed || self.lockViewController.isMovingFromParentViewController);
 }
 
 #pragma mark - Window Helpers
