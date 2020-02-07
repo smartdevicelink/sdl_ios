@@ -98,11 +98,8 @@ int const CreateSessionRetries = 3;
         return;
     }
 
-    double retryDelay = self.sdl_retryDelay;
-    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
-
     self.retryCounter = 0;
-    [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
+    [self sdl_connect:newAccessory];
 }
 
 /**
@@ -508,10 +505,16 @@ int const CreateSessionRetries = 3;
         return YES;
     } else if ([protocolString isEqualToString:ControlProtocolString]) {
         self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
-        [self.controlSession startSession];
+
+        double retryDelay = [self sdl_retryDelay];
+        SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", accessory, retryDelay);
+        [self.controlSession performSelector:@selector(startSession) withObject:nil afterDelay:retryDelay];
+
         return YES;
     } else if ([protocolString isEqualToString:LegacyProtocolString]) {
         self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
+
+        SDLLogD(@"Accessory Connected (%@), Opening immediately", accessory);
         [self.dataSession startSession];
         return YES;
     }
