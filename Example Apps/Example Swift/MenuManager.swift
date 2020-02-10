@@ -181,8 +181,15 @@ private extension MenuManager {
         return SDLMenuCell(title: ACSliderMenuName, icon: nil, voiceCommands: [ACSliderMenuName], handler: { _ in
             let slider = SDLSlider(numTicks: 3, position: 1, sliderHeader: "Select a letter", sliderFooters: ["A", "B", "C"], timeout: 3000)
             manager.send(request: slider, responseHandler: { (request, response, error) in
-                guard let response = response, response.resultCode == .success else {
-                    manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
+                guard let response = response else { return }
+                guard response.resultCode == .success else {
+                    if response.resultCode == .timedOut {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider timed out"))
+                    } else if response.resultCode == .aborted {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider cancelled"))
+                    } else {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
+                    }
                     return
                 }
             })
@@ -193,8 +200,15 @@ private extension MenuManager {
         return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
             let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines")
             manager.send(request: scrollableMessage, responseHandler: { (request, response, error) in
-                guard let response = response, response.resultCode == .success else {
-                    manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable could not be displayed"))
+                guard let response = response else { return }
+                guard response.resultCode == .success else {
+                    if response.resultCode == .timedOut {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message timed out"))
+                    } else if response.resultCode == .aborted {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message cancelled"))
+                    } else {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message could not be displayed"))
+                    }
                     return
                 }
             })
