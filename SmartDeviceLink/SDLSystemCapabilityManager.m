@@ -346,7 +346,7 @@ typedef NSString * SDLServiceID;
         if (![response isKindOfClass:[SDLGetSystemCapabilityResponse class]]) {
             SDLLogE(@"GetSystemCapability failed, type: %@, did not return a GetSystemCapability response", type);
             if (handler == nil) { return; }
-            handler(nil, NO, [NSError sdl_systemCapabilityManager_moduleDoesNotSupportCapabilityType]);
+            handler(nil, NO, [NSError sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities]);
             return;
         }
 
