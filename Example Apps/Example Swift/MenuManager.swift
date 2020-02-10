@@ -185,6 +185,8 @@ private extension MenuManager {
                 guard response.resultCode == .success else {
                     if response.resultCode == .timedOut {
                         manager.send(AlertManager.alertWithMessageAndCloseButton("Slider timed out"))
+                    } else if response.resultCode == .aborted {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider cancelled"))
                     } else {
                         manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
                     }
@@ -202,6 +204,8 @@ private extension MenuManager {
                 guard response.resultCode == .success else {
                     if response.resultCode == .timedOut {
                         manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message timed out"))
+                    } else if response.resultCode == .aborted {
+                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message cancelled"))
                     } else {
                         manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message could not be displayed"))
                     }
