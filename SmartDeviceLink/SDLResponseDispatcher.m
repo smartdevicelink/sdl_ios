@@ -151,14 +151,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
-    @synchronized (self) {
-        for (SDLSoftButton *sb in softButtons) {
-            if (!sb.softButtonID) {
-                @throw [NSException sdl_missingIdException];
-            }
-            if (sb.handler) {
-                self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
-            }
+    // Don't need to synchronize this method because it's only called from `storeRequest:handler:`
+    for (SDLSoftButton *sb in softButtons) {
+        if (!sb.softButtonID) {
+            @throw [NSException sdl_missingIdException];
+        }
+        if (sb.handler) {
+            self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
         }
     }
 }
