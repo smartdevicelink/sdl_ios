@@ -295,7 +295,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Module does not understand system capabilities", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The connected module does not support system capabilities", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Use isCapabilitySupported to know if the feature is supported on the head unit, but no more infomration about the feature will be available on this module", nil)
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Use isCapabilitySupported to find out if the feature is supported on the head unit, but no more information about the feature is available on this module", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities userInfo:userInfo];
 }

@@ -257,7 +257,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  */
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 
-/// Returns whether or not the capability type is supported on the system. You can use this to check if subscribing to the capability will work. If this returns NO, then the feature is not supported by the head unit. If YES, the feature is supported by the head unit. You can subscribe to the capability type to get more information about the capability's support and features on the connected module.
+/// Returns whether or not the capability type is supported on the module. You can use this to check if subscribing to the capability will work. If this returns NO, then the feature is not supported by the head unit. If YES, the feature is supported by the head unit. You can subscribe to the capability type to get more information about the capability's support and features on the connected module.
 /// @param type The SystemCapabilityType that will be checked.
 /// @return Whether or not `type` is supported by the connected head unit.
 - (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type NS_SWIFT_NAME(isCapabilitySupported(type:));
