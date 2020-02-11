@@ -217,7 +217,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 @property (nullable, strong, nonatomic, readonly) SDLWindowCapability *defaultMainWindowCapability;
 
 /**
- YES if subscriptions are available on the connected module and you will automatically be notified if the value changes on the module. If NO, calls to `subscribe` methods will subscribe to updates, but the module will not automatically notify you. You will need to call `updateWithCapabilityType:completionHandler:` to force an update if you need one (though this should be rare).
+ YES if subscriptions are available on the connected module and you will automatically be notified if the value changes on the module. If NO, calls to `subscribe` methods will subscribe to updates, but the module will not automatically notify you. You will need to call `updateWithCapabilityType:completionHandler:` to force an update if you need one (though this should be rare). This does not apply to the `DISPLAYS` capability type which you can always subscribe to.
  */
 @property (assign, nonatomic, readonly) BOOL supportsSubscriptions;
 
@@ -248,10 +248,12 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 - (void)stop;
 
 /**
- * Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.
+ * Returns the window capability of one of your app's windows with the specified window ID that is on the primary display (i.e. the head unit itself). This is a convenience method to easily access capabilities of windows such as your apps' widget windows.
  *
- * @param windowID The ID of the window to get capabilities
- * @returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.
+ * To get the capabilities of the main window on the main display (i.e. your app's primary app screen on the head unit itself).
+ *
+ * @param windowID The ID of the window from which to get capabilities
+ * @returns The window window capabilities of the window with the specified windowID, or nil if the window is not known or no window capabilities exist.
  */
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 
@@ -261,22 +263,20 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 - (BOOL)isCapabilitySupported:(SDLSystemCapabilityType)type NS_SWIFT_NAME(isCapabilitySupported(type:));
 
 /**
- *  This method has been superceded by `subscribeToCapabilityType:` methods. You should use one of those instead, unless you only want a value once, and it must be updated. If you subscribe to a capability and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscriptions. Therefore, you can use this method to force an update to all subscriptions of that particular type.
+ * This method has been superseded by the `subscribeToCapabilityType:` methods. You should use one of those methods instead unless you only want a value once (you don't want to keep a long-lasting observer) and it must be current (most capabilities do not need to be updated). If you have a separate subscription observer and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscription callbacks that you've set up with the new value if there is one. Therefore, you can use this method to force an update to all subscriptions of that particular type on head units that don't support subscriptions (`supportsSubscriptions == NO`).
  *
- *  Retrieves and updates a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
- *
- *  @param type The type of capability to retrieve
- *  @param handler The handler to be called when the retrieval is complete
+ * @param type The type of capability to retrieve
+ * @param handler The handler to be called when the retrieval is complete
  */
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
 
 /// Subscribe to a particular capability type using a block callback.
 ///
 /// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
-/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
 ///
 /// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
-/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
 ///
 /// @param type The type of capability to subscribe to
 /// @param block The block to be called when the capability is updated

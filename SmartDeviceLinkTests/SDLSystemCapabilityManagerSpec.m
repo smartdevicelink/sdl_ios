@@ -254,7 +254,7 @@ describe(@"System capability manager", ^{
                             testSystemCapabilityManager.displayCapabilities.graphicSupported = @YES;
                         });
 
-                        fit(@"should return true", ^{
+                        it(@"should return true", ^{
                             expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beTrue());
                         });
                     });

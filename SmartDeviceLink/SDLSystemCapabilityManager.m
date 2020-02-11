@@ -623,13 +623,16 @@ typedef NSString * SDLServiceID;
 }
 
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
+    SDLSystemCapabilityType type = capability.systemCapabilityType;
+    BOOL subscribed = self.subscriptionStatus[type].boolValue || [type isEqualToEnum:SDLSystemCapabilityTypeDisplays];
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (observer.block != nil) {
         observer.block(capability);
 #pragma clang diagnostic pop
     } else if (observer.updateBlock != nil) {
-        observer.updateBlock(capability, self.subscriptionStatus[capability.systemCapabilityType].boolValue, error);
+        observer.updateBlock(capability, subscribed, error);
     } else {
         if (![observer.observer respondsToSelector:observer.selector]) {
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
@@ -647,8 +650,7 @@ typedef NSString * SDLServiceID;
             [invocation setArgument:&error atIndex:3];
         }
         if (numberOfParametersInSelector >= 3) {
-            BOOL argVal = self.subscriptionStatus[capability.systemCapabilityType].boolValue;
-            [invocation setArgument:&argVal atIndex:4];
+            [invocation setArgument:&subscribed atIndex:4];
         }
         if (numberOfParametersInSelector >= 4) {
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
