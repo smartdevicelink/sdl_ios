@@ -13,6 +13,7 @@
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
+#import "SDLHMILevel.h"
 #import "SDLIAPTransport.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotificationNotification.h"
@@ -58,7 +59,7 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
-@property (assign, nonatomic) BOOL shouldOpenConnection;
+@property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 @end
 
@@ -133,7 +134,7 @@ static const int TCPPortUnspecified = -1;
 
 QuickSpecBegin(SDLSecondaryTransportManagerSpec)
 
-describe(@"the secondary transport manager ", ^{
+fdescribe(@"the secondary transport manager ", ^{
     __block SDLSecondaryTransportManager *manager = nil;
     __block dispatch_queue_t testStateMachineQueue;
     __block SDLProtocol *testPrimaryProtocol = nil;
@@ -425,7 +426,7 @@ describe(@"the secondary transport manager ", ^{
 
                     testStartServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMtu authToken:nil protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
                     testStartServiceACKMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testStartServiceACKHeader andPayload:testStartServiceACKPayload.data];
-                    manager.shouldOpenConnection = YES;
+                    manager.currentHMILevel = SDLHMILevelFull;
                 });
 
                 it(@"should configure its properties and immediately transition to Connecting state", ^{
@@ -522,7 +523,7 @@ describe(@"the secondary transport manager ", ^{
             context(@"before the app context is HMI FULL", ^{
                 it(@"should stay in state Configured", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
-                    expect(manager.shouldOpenConnection).to(equal(NO));
+                    expect(manager.currentHMILevel).to(beNil());
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -535,7 +536,7 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should transition to Connecting state", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
-                    expect(manager.shouldOpenConnection).to(equal(YES));
+                    expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -595,7 +596,7 @@ describe(@"the secondary transport manager ", ^{
                 context(@"before the app context is HMI FULL", ^{
                     it(@"should stay in Configured state", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
-                        expect(manager.shouldOpenConnection).to(equal(NO));
+                        expect(manager.currentHMILevel).to(beNil());
 
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
@@ -608,7 +609,7 @@ describe(@"the secondary transport manager ", ^{
                     
                     it(@"should transition to Connecting", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
-                        expect(manager.shouldOpenConnection).to(equal(YES));
+                        expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
 
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
@@ -782,7 +783,7 @@ describe(@"the secondary transport manager ", ^{
                 beforeEach(^{
                     testTcpIpAddress = @"172.16.12.34";
                     testTcpPort = 12345;
-                    manager.shouldOpenConnection = YES;
+                    manager.currentHMILevel = SDLHMILevelFull;
 
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
@@ -870,7 +871,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.shouldOpenConnection = YES;
+                manager.currentHMILevel = SDLHMILevelFull;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -1058,7 +1059,7 @@ describe(@"the secondary transport manager ", ^{
                 beforeEach(^{
                     testTcpIpAddress = @"172.16.12.34";
                     testTcpPort = 12345;
-                    manager.shouldOpenConnection = YES;
+                    manager.currentHMILevel = SDLHMILevelFull;
 
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
