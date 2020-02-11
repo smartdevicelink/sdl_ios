@@ -148,7 +148,7 @@ describe(@"the secondary transport manager ", ^{
          [[NSNotificationCenter defaultCenter] postNotification:notification];
 
          [NSThread sleepForTimeInterval:0.3];
-         };
+    };
 
     beforeEach(^{
         [SDLSecondaryTransportManager swapGetAppStateMethod];
