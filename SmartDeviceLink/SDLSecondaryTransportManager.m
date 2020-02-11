@@ -125,7 +125,7 @@ static const int TCPPortUnspecified = -1;
     _tcpPort = TCPPortUnspecified;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    
+
     return self;
 }
 
