@@ -134,7 +134,7 @@ static const int TCPPortUnspecified = -1;
 
 QuickSpecBegin(SDLSecondaryTransportManagerSpec)
 
-fdescribe(@"the secondary transport manager ", ^{
+describe(@"the secondary transport manager ", ^{
     __block SDLSecondaryTransportManager *manager = nil;
     __block dispatch_queue_t testStateMachineQueue;
     __block SDLProtocol *testPrimaryProtocol = nil;
