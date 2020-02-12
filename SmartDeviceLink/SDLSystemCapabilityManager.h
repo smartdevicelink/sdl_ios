@@ -280,7 +280,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 ///
 /// @param type The type of capability to subscribe to
 /// @param block The block to be called when the capability is updated
-/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
+/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateHandler: instead");
 
 /// Subscribe to a particular capability type using a handler callback.
@@ -293,7 +293,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 
 /// @param type The type of capability to subscribe to
 /// @param handler The block to be called when the capability is updated with an error if one occurs
-/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren't available on this head unit
+/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler NS_SWIFT_NAME(subscribe(capabilityType:updateHandler:));
 
 /**
@@ -318,7 +318,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  * @param type The type of the system capability to subscribe to
  * @param observer The object that will have `selector` called whenever the capability is updated
  * @param selector The selector on `observer` that will be called whenever the capability is updated
- * @return Whether or not the subscription succeeded. `NO` if the connected system doesn't support capability subscriptions, or if the `selector` doesn't support the correct parameters (see above).
+ * @return YES if the manager is attempting the subscription, or NO if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS), or the selector doesn't contain the correct number of parameters.
  */
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer selector:(SEL)selector;
 

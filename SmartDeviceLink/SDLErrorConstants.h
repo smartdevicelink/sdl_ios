@@ -153,7 +153,9 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
 };
 
 typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
-    SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1
+    SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1,
+    SDLSystemCapabilityManagerErrorHMINone = -2,
+    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
 };
 
 /**

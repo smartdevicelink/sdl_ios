@@ -75,6 +75,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
 
 @property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
+@property (strong, nonatomic) SDLHMILevel currentHMILevel;
 
 @end
 
@@ -318,7 +319,16 @@ typedef NSString * SDLServiceID;
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     SDLLogV(@"Updating capability type: %@", type);
-    if (self.supportsSubscriptions) {
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        SDLLogE(@"Attempted to update type: %@ in HMI level NONE, which is not allowed. Please wait until you are in HMI BACKGROUND, LIMITED, or FULL before attempting to update any SystemCapabilityType DISPLAYS.", type);
+        return handler([NSError sdl_systemCapabilityManager_cannotUpdateInHMINONE], self);
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        SDLLogE(@"Attempted to update type DISPLAYS, which is not allowed. You are always subscribed to displays, please either pull the cached data directly or subscribe for updates to DISPLAYS.");
+        return handler([NSError sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS], self);
+    }
+
+    // If we support subscriptions and we're already subscribed
+    if (self.supportsSubscriptions && [self.subscriptionStatus[type] isEqualToNumber:@YES]) {
         // Just return the cached data because we get `onSystemCapability` callbacks
         handler(nil, self);
     } else {
@@ -350,9 +360,8 @@ typedef NSString * SDLServiceID;
             return;
         }
 
-        if (error != nil) {
+        if (response.success.boolValue == false) {
             SDLLogE(@"GetSystemCapability failed, type: %@, error: %@", type, error);
-            // An error is returned if the request was unsuccessful or if a Generic Response was returned
             if (handler == nil) { return; }
             handler(nil, NO, error);
             return;
@@ -501,9 +510,14 @@ typedef NSString * SDLServiceID;
 #pragma mark - Manager Subscriptions
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block {
-    SDLLogD(@"Subscribing to capability type: %@ with a handler", type);
-    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
+    SDLLogD(@"Subscribing to capability type: %@ with a handler (DEPRECATED)", type);
 
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        SDLLogE(@"Attempted to subscribe to type: %@ in HMI level NONE, which is not allowed. Please wait until you are in HMI BACKGROUND, LIMITED, or FULL before attempting to subscribe to any SystemCapabilityType other than DISPLAYS.", type);
+        return nil;
+    }
+
+    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
         self.capabilityObservers[type] = [NSMutableArray array];
@@ -528,8 +542,13 @@ typedef NSString * SDLServiceID;
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler {
     SDLLogD(@"Subscribing to capability type: %@ with a handler", type);
-    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:handler];
 
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        SDLLogE(@"Attempted to subscribe to type: %@ in HMI level NONE, which is not allowed. Please wait until you are in HMI BACKGROUND, LIMITED, or FULL before attempting to subscribe to any SystemCapabilityType other than DISPLAYS.", type);
+        return nil;
+    }
+
+    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:handler];
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
         self.capabilityObservers[type] = [NSMutableArray array];
@@ -560,6 +579,11 @@ typedef NSString * SDLServiceID;
         return NO;
     }
 
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+        SDLLogE(@"Attempted to subscribe to type: %@ in HMI level NONE, which is not allowed. Please wait until you are in HMI BACKGROUND, LIMITED, or FULL before attempting to subscribe to any SystemCapabilityType other than DISPLAYS.", type);
+        return NO;
+    }
+
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
@@ -575,16 +599,12 @@ typedef NSString * SDLServiceID;
             }];
         }
     }
-    [self.capabilityObservers[type] addObject:observerObject];
 
-    // Call immediately with the cached value
+    // Store the observer and call it immediately with the cached value
+    [self.capabilityObservers[type] addObject:observerObject];
     [self sdl_invokeObserver:observerObject withCapability:[self sdl_cachedCapabilityForType:type] error:nil];
 
-    // If it doesn't support subscriptions, get the data only once (subscribe can be YES, it will be ignored), then return NO. DISPLAYS always works due to old-style SetDisplayLayoutResponse updates, but otherwise, subscriptions won't work.
-    if (!self.supportsSubscriptions && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) { return NO;
-    } else {
-        return YES;
-    }
+    return YES;
 }
 
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
@@ -597,7 +617,7 @@ typedef NSString * SDLServiceID;
                 SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
                 self.capabilityObservers[type] = nil;
 
-                // We don't want to send this for the displays type because that's automatically subscribed
+                // We don't want to send this for the displays type because that's automatically subscribed and must remain subscribed
                 if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
                     [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
                 }
@@ -758,6 +778,11 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Received GetSystemCapability response for type %@", systemCapabilityResponse.systemCapability.systemCapabilityType);
 
     [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability error:nil completionHandler:nil];
+}
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *onHMIStatus = (SDLOnHMIStatus *)notification.notification;
+    self.currentHMILevel = onHMIStatus.hmiLevel;
 }
 
 @end

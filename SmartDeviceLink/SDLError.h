@@ -80,6 +80,8 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark System Capability Manager
 
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS;
 
 #pragma mark Transport
 

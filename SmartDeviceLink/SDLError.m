@@ -300,6 +300,24 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities userInfo:userInfo];
 }
 
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capabilities cannot be updated in HMI NONE.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to subscribe or update a system capability in HMI NONE, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Wait until you are in HMI BACKGROUND, LIMITED, OR FULL before subscribing or updating a capability.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorHMINone userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capability type DISPLAYS cannot be updated.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to update  system capability type DISPLAYS, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Subscribe to DISPLAYS to automatically receive updates or retrieve a cached display capability value directly from the SystemCapabilityManager.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays userInfo:userInfo];
+}
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError {
