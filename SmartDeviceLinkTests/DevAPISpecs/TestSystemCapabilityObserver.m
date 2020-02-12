@@ -17,6 +17,9 @@
     if (!self) { return nil; }
 
     _selectorCalledCount = 0;
+    _capabilitiesReceived = [NSMutableArray<SDLSystemCapability *> array];
+    _errorsReceived = [NSMutableArray<NSError *> array];
+    _subscribedValuesReceived = [NSMutableArray<NSNumber *> array];
 
     return self;
 }
@@ -27,14 +30,36 @@
 
 - (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability {
     self.selectorCalledCount++;
+
+    if (capability != nil) {
+        [self.capabilitiesReceived addObject:capability];
+    }
 }
 
 - (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error {
     self.selectorCalledCount++;
+
+    if (capability != nil) {
+        [self.capabilitiesReceived addObject:capability];
+    }
+
+    if (error != nil) {
+        [self.errorsReceived addObject:error];
+    }
 }
 
 - (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed {
     self.selectorCalledCount++;
+
+    if (capability != nil) {
+        [self.capabilitiesReceived addObject:capability];
+    }
+
+    if (error != nil) {
+        [self.errorsReceived addObject:error];
+    }
+    
+    [self.subscribedValuesReceived addObject:@(subscribed)];
 }
 
 @end

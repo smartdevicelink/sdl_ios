@@ -12,8 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A handler mirroring the one in SDLSystemCapabilityManager.h for `initWithObserver:block:`
 typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 
+/// A handler mirroring the one in SDLSystemCapabilityManager.h for `initWithObserver:updateHandler:`
 typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *_Nullable capability, BOOL subscribed, NSError *_Nullable error);
 
 /**

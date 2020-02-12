@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TestSystemCapabilityObserver : NSObject
 
 @property (assign, nonatomic) NSUInteger selectorCalledCount;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSystemCapability *> *capabilitiesReceived;
+@property (strong, nonatomic, nullable) NSMutableArray<NSError *> *errorsReceived;
+@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *subscribedValuesReceived;
 
 - (void)capabilityUpdated;
 - (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability;
