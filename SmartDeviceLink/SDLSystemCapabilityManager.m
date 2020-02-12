@@ -530,7 +530,7 @@ typedef NSString * SDLServiceID;
     [self.capabilityObservers[type] addObject:observerObject];
 
     // Call the block immediately with the cached value
-    [self sdl_invokeObserver:observerObject withCapability:[self sdl_cachedCapabilityForType:type] error:nil];
+    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return observerObject.observer;
 }
@@ -556,7 +556,7 @@ typedef NSString * SDLServiceID;
     [self.capabilityObservers[type] addObject:observerObject];
 
     // Call the block immediately with the cached value
-    [self sdl_invokeObserver:observerObject withCapability:[self sdl_cachedCapabilityForType:type] error:nil];
+    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return observerObject.observer;
 }
@@ -592,7 +592,7 @@ typedef NSString * SDLServiceID;
 
     // Store the observer and call it immediately with the cached value
     [self.capabilityObservers[type] addObject:observerObject];
-    [self sdl_invokeObserver:observerObject withCapability:[self sdl_cachedCapabilityForType:type] error:nil];
+    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return YES;
 }
@@ -619,15 +619,14 @@ typedef NSString * SDLServiceID;
     [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
 
     for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
-        [self sdl_invokeObserver:observer withCapability:capability error:error];
+        [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
     }
 
     if (handler == nil) { return; }
     handler(capability, self.subscriptionStatus[type].boolValue, error);
 }
 
-- (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
-    SDLSystemCapabilityType type = capability.systemCapabilityType;
+- (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
     BOOL subscribed = self.subscriptionStatus[type].boolValue || [type isEqualToEnum:SDLSystemCapabilityTypeDisplays];
 
 #pragma clang diagnostic push
