@@ -631,6 +631,7 @@ fdescribe(@"System capability manager", ^{
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithCapability:error:)];
             videoStreamingObserver = [[TestSystemCapabilityObserver alloc] init];
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:videoStreamingObserver selector:@selector(capabilityUpdatedWithCapability:error:subscribed:)];
+            displaysObserver = [[TestSystemCapabilityObserver alloc] init];
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:displaysObserver selector:@selector(capabilityUpdatedWithCapability:error:subscribed:)];
         });
 
@@ -739,7 +740,7 @@ fdescribe(@"System capability manager", ^{
             it(@"should notify subscribers of the new data", ^{
                 expect(handlerTriggeredCount).toEventually(equal(2));
                 expect(observerTriggeredCount).toEventually(equal(2));
-                
+
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
 
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
