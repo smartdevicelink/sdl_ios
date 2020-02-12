@@ -681,6 +681,8 @@ fdescribe(@"System capability manager", ^{
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
 
                 expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
 
                 expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
@@ -746,6 +748,8 @@ fdescribe(@"System capability manager", ^{
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
 
                 expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
 
                 expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
