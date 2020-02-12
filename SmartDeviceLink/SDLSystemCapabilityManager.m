@@ -524,12 +524,7 @@ typedef NSString * SDLServiceID;
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
-            __weak typeof(self) weakself = self;
-            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
-                if (error != nil) {
-                    [weakself sdl_invokeObserver:observerObject withCapability:capability error:error];
-                }
-            }];
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
         }
     }
     [self.capabilityObservers[type] addObject:observerObject];
@@ -555,12 +550,7 @@ typedef NSString * SDLServiceID;
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
-            __weak typeof(self) weakself = self;
-            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
-                if (error != nil) {
-                    [weakself sdl_invokeObserver:observerObject withCapability:capability error:error];
-                }
-            }];
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
         }
     }
     [self.capabilityObservers[type] addObject:observerObject];
@@ -584,6 +574,11 @@ typedef NSString * SDLServiceID;
         return NO;
     }
 
+    if (observer == nil) {
+        SDLLogE(@"Attempted to subscribe to type: %@ with a selector on a *nil* observer, which will always fail.", type);
+        return NO;
+    }
+
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
@@ -591,12 +586,7 @@ typedef NSString * SDLServiceID;
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
-            __weak typeof(self) weakself = self;
-            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
-                if (error != nil) {
-                    [weakself sdl_invokeObserver:observerObject withCapability:capability error:error];
-                }
-            }];
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
         }
     }
 
@@ -613,16 +603,7 @@ typedef NSString * SDLServiceID;
         if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
             [self.capabilityObservers[type] removeObject:capabilityObserver];
 
-            if (self.capabilityObservers[type].count == 0 && self.supportsSubscriptions) {
-                SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
-                self.capabilityObservers[type] = nil;
-
-                // We don't want to send this for the displays type because that's automatically subscribed and must remain subscribed
-                if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
-                    [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
-                }
-            }
-
+            [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
             break;
         }
     }
@@ -634,12 +615,15 @@ typedef NSString * SDLServiceID;
 - (void)sdl_callObserversForUpdate:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error handler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     SDLSystemCapabilityType type = capability.systemCapabilityType;
     SDLLogV(@"Calling observers for type: %@ with update: %@", type, capability);
+
+    [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
+
     for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
         [self sdl_invokeObserver:observer withCapability:capability error:error];
     }
 
     if (handler == nil) { return; }
-    handler(capability, self.subscriptionStatus[type].boolValue, nil);
+    handler(capability, self.subscriptionStatus[type].boolValue, error);
 }
 
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
@@ -677,6 +661,39 @@ typedef NSString * SDLServiceID;
         }
 
         [invocation invoke];
+    }
+}
+
+- (void)sdl_removeNilObserversAndUnsubscribeIfNecessary {
+    SDLLogV(@"Checking for nil observers and removing them, then checking for subscriptions we don't need and unsubscribing.");
+    // Loop through our observers
+    for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
+        for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
+            // If an observer object is nil, remove it
+            if (observer.observer == nil) {
+                [self.capabilityObservers[key] removeObject:observer];
+            }
+
+            // If we no longer have any observers for that type, remove the array
+            if (self.capabilityObservers[key].count == 0) {
+                [self.capabilityObservers removeObjectForKey:key];
+            }
+        }
+    }
+
+    // If we don't support subscriptions, we don't want to unsubscribe by sending an RPC below
+    if (!self.supportsSubscriptions) {
+        return;
+    }
+
+    // Loop through our subscription statuses, check if we're subscribed. If we are, and we do not have observers for that type, and that type is not DISPLAYS, then unsubscribe.
+    for (SDLSystemCapabilityType type in self.subscriptionStatus.allKeys) {
+        if ([self.subscriptionStatus[type] isEqualToNumber:@YES]
+            && self.capabilityObservers[type] == nil
+            && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+            SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
+            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+        }
     }
 }
 
