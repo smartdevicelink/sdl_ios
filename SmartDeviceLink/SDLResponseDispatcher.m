@@ -40,11 +40,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLResponseDispatcher ()
 
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
+
 @property (strong, nonatomic, readwrite, nullable) SDLAudioPassThruHandler audioPassThruHandler;
 
 @end
 
 
+// https://www.objc.io/issues/2-concurrency/low-level-concurrency-apis/#multiple-readers-single-writer
 @implementation SDLResponseDispatcher
 
 - (instancetype)init {
@@ -55,6 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) {
         return nil;
+    }
+
+    if (@available(iOS 10.0, *)) {
+        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.lifecycle.responseDispatcher", DISPATCH_QUEUE_CONCURRENT, [SDLGlobals sharedGlobals].sdlConcurrentQueue);
+    } else {
+        _readWriteQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     }
 
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
@@ -86,78 +95,111 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Storage
 
 - (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLResponseHandler)handler {
-    @synchronized (self) {
-        NSNumber *correlationId = request.correlationID;
+    NSNumber *correlationId = request.correlationID;
+    __weak typeof(self) weakself = self;
 
-        // Check for RPCs that require an extra handler
-        if ([request isKindOfClass:[SDLAddCommand class]]) {
-            SDLAddCommand *addCommand = (SDLAddCommand *)request;
-            if (!addCommand.cmdID) {
-                @throw [NSException sdl_missingIdException];
-            }
-            if (addCommand.handler) {
-                self.commandHandlerMap[addCommand.cmdID] = addCommand.handler;
-            }
-        } else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
-            // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
-            SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
-            SDLButtonName buttonName = subscribeButton.buttonName;
-            if (!buttonName) {
-                @throw [NSException sdl_missingIdException];
-            }
-            if (subscribeButton.handler) {
-                self.buttonHandlerMap[buttonName] = subscribeButton.handler;
-            }
-        } else if ([request isKindOfClass:[SDLAlert class]]) {
-            SDLAlert *alert = (SDLAlert *)request;
-            [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
-        } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
-            SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
-            [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
-        } else if ([request isKindOfClass:[SDLShow class]]) {
-            SDLShow *show = (SDLShow *)request;
-            [self sdl_addToCustomButtonHandlerMap:show.softButtons];
-        } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
-            SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
-            self.audioPassThruHandler = performAudioPassThru.audioDataHandler;
+    // Check for RPCs that require an extra handler
+    if ([request isKindOfClass:[SDLAddCommand class]]) {
+        SDLAddCommand *addCommand = (SDLAddCommand *)request;
+        if (!addCommand.cmdID) {
+            @throw [NSException sdl_missingIdException];
         }
+        if (addCommand.handler) {
+            dispatch_barrier_async(self.readWriteQueue, ^{
+                weakself.commandHandlerMap[addCommand.cmdID] = addCommand.handler;
+            });
+        }
+    } else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
+        // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
+        SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
+        SDLButtonName buttonName = subscribeButton.buttonName;
+        if (!buttonName) {
+            @throw [NSException sdl_missingIdException];
+        }
+        if (subscribeButton.handler) {
+            dispatch_barrier_async(self.readWriteQueue, ^{
+                weakself.buttonHandlerMap[buttonName] = subscribeButton.handler;
+            });
+        }
+    } else if ([request isKindOfClass:[SDLAlert class]]) {
+        SDLAlert *alert = (SDLAlert *)request;
+        [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
+    } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
+        SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
+        [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
+    } else if ([request isKindOfClass:[SDLShow class]]) {
+        SDLShow *show = (SDLShow *)request;
+        [self sdl_addToCustomButtonHandlerMap:show.softButtons];
+    } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
+        SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
 
-        // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
-        self.rpcRequestDictionary[correlationId] = request;
-        if (handler) {
-            self.rpcResponseHandlerMap[correlationId] = handler;
-        }
+        dispatch_barrier_async(self.readWriteQueue, ^{
+            weakself.audioPassThruHandler = performAudioPassThru.audioDataHandler;
+        });
     }
+
+    // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
+    dispatch_barrier_async(self.readWriteQueue, ^{
+        weakself.rpcRequestDictionary[correlationId] = request;
+        if (handler) {
+            weakself.rpcResponseHandlerMap[correlationId] = handler;
+        }
+    });
 }
 
 - (void)clear {
-    @synchronized (self) {
+    __weak typeof(self) weakself = self;
+
+    __block NSArray<SDLResponseHandler> *handlers = nil;
+    __block NSArray<SDLRPCRequest *> *requests = nil;
+
+    dispatch_sync(self.readWriteQueue, ^{
+        NSMutableArray *handlerArray = [NSMutableArray array];
+        NSMutableArray *requestArray = [NSMutableArray array];
+
         // When we get disconnected we have to delete all existing responseHandlers as they are not valid anymore
         for (SDLRPCCorrelationId *correlationID in self.rpcResponseHandlerMap.dictionaryRepresentation) {
             SDLResponseHandler responseHandler = self.rpcResponseHandlerMap[correlationID];
+            SDLRPCRequest *request = self.rpcRequestDictionary[correlationID];
 
             if (responseHandler != NULL) {
-                responseHandler(self.rpcRequestDictionary[correlationID], nil, [NSError sdl_lifecycle_notConnectedError]);
+                [handlerArray addObject:responseHandler];
+                [requestArray addObject:request];
             }
         }
 
-        [self.rpcRequestDictionary removeAllObjects];
-        [self.rpcResponseHandlerMap removeAllObjects];
-        [self.commandHandlerMap removeAllObjects];
-        [self.buttonHandlerMap removeAllObjects];
-        [self.customButtonHandlerMap removeAllObjects];
-        _audioPassThruHandler = nil;
+        handlers = [handlerArray copy];
+        requests = [requestArray copy];
+    });
+
+    for (NSUInteger i = 0; i < handlers.count; i++) {
+        SDLResponseHandler responseHandler = handlers[i];
+        SDLRPCRequest *request = requests[i];
+
+        responseHandler(request, nil, [NSError sdl_lifecycle_notConnectedError]);
     }
+
+    dispatch_barrier_async(self.readWriteQueue, ^{
+        [weakself.rpcRequestDictionary removeAllObjects];
+        [weakself.rpcResponseHandlerMap removeAllObjects];
+        [weakself.commandHandlerMap removeAllObjects];
+        [weakself.buttonHandlerMap removeAllObjects];
+        [weakself.customButtonHandlerMap removeAllObjects];
+        weakself.audioPassThruHandler = nil;
+    });
 }
 
 - (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
-    // Don't need to synchronize this method because it's only called from `storeRequest:handler:`
+    __weak typeof(self) weakself = self;
+
     for (SDLSoftButton *sb in softButtons) {
         if (!sb.softButtonID) {
             @throw [NSException sdl_missingIdException];
         }
         if (sb.handler) {
-            self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
+            dispatch_barrier_async(self.readWriteQueue, ^{
+                weakself.customButtonHandlerMap[sb.softButtonID] = sb.handler;
+            });
         }
     }
 }
@@ -167,57 +209,71 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Called by notifications
 - (void)sdl_runHandlersForResponse:(SDLRPCResponseNotification *)notification {
-    @synchronized (self) {
-        if (![notification isResponseKindOfClass:[SDLRPCResponse class]]) {
-            return;
+    __weak typeof(self) weakself = self;
+    if (![notification isResponseKindOfClass:[SDLRPCResponse class]]) {
+        return;
+    }
+
+    __kindof SDLRPCResponse *response = notification.response;
+
+    NSError *error = nil;
+    if (![response.success boolValue]) {
+        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode andReason:response.info];
+    }
+
+    __block SDLResponseHandler handler = nil;
+    __block SDLRPCRequest *request = nil;
+
+    dispatch_sync(self.readWriteQueue, ^{
+        handler = self.rpcResponseHandlerMap[response.correlationID];
+        request = self.rpcRequestDictionary[response.correlationID];
+    });
+
+    // Find the appropriate request completion handler, remove the request and response handler
+    dispatch_barrier_async(self.readWriteQueue, ^{
+        [weakself.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
+        [weakself.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];
+    });
+
+    // Run the response handler
+    if (handler) {
+        if (!response.success.boolValue) {
+            SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
         }
+        handler(request, response, error);
+    }
 
-        __kindof SDLRPCResponse *response = notification.response;
+    // If we errored on the response, the delete / unsubscribe was unsuccessful
+    if (error) {
+        return;
+    }
 
-        NSError *error = nil;
-        if (![response.success boolValue]) {
-            error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode andReason:response.info];
-        }
-
-        // Find the appropriate request completion handler, remove the request and response handler
-        SDLResponseHandler handler = self.rpcResponseHandlerMap[response.correlationID];
-        SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
-        [self.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
-        [self.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];
-
-        // Run the response handler
-        if (handler) {
-            if (!response.success.boolValue) {
-                SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
-            }
-            handler(request, response, error);
-        }
-
-        // If we errored on the response, the delete / unsubscribe was unsuccessful
-        if (error) {
-            return;
-        }
-
-        // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
+    // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
+    dispatch_barrier_async(self.readWriteQueue, ^{
         if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
             SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
             NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
-            [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
+            [weakself.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
         } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
             SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
             SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
-            [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
+            [weakself.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
         } else if ([response isKindOfClass:[SDLPerformAudioPassThruResponse class]]) {
-            _audioPassThruHandler = nil;
+            weakself.audioPassThruHandler = nil;
         }
-    }
+    });
 }
 
 #pragma mark Command
 
 - (void)sdl_runHandlerForCommand:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommandNotification = notification.notification;
-    SDLRPCCommandNotificationHandler handler = self.commandHandlerMap[onCommandNotification.cmdID];
+
+    __block SDLRPCCommandNotificationHandler handler = nil;
+
+    dispatch_sync(self.readWriteQueue, ^{
+        handler = self.commandHandlerMap[onCommandNotification.cmdID];
+    });
 
     if (handler) {
         handler(onCommandNotification);
@@ -230,7 +286,7 @@ NS_ASSUME_NONNULL_BEGIN
     __kindof SDLRPCNotification *rpcNotification = notification.notification;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
-    SDLRPCButtonNotificationHandler handler = nil;
+    __block SDLRPCButtonNotificationHandler handler = nil;
 
     if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
@@ -242,13 +298,15 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
-        // Custom buttons
-        handler = self.customButtonHandlerMap[customID];
-    } else {
-        // Static buttons
-        handler = self.buttonHandlerMap[name];
-    }
+    dispatch_sync(self.readWriteQueue, ^{
+        if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
+            // Custom buttons
+            handler = self.customButtonHandlerMap[customID];
+        } else {
+            // Static buttons
+            handler = self.buttonHandlerMap[name];
+        }
+    });
 
     if (handler == nil) {
         return;
@@ -265,9 +323,14 @@ NS_ASSUME_NONNULL_BEGIN
     
 - (void)sdl_runHandlerForAudioPassThru:(SDLRPCNotificationNotification *)notification {
     SDLOnAudioPassThru *onAudioPassThruNotification = notification.notification;
-    
-    if (self.audioPassThruHandler) {
-        self.audioPassThruHandler(onAudioPassThruNotification.bulkData);
+
+    __block SDLAudioPassThruHandler handler = nil;
+    dispatch_sync(self.readWriteQueue, ^{
+        handler = self.audioPassThruHandler;
+    });
+
+    if (handler) {
+        handler(onAudioPassThruNotification.bulkData);
     }
 }
 
