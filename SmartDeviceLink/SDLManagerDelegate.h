@@ -43,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState;
 
 /// Called when the video streaming state of this application changes. This refers to streaming video for navigation purposes. If you are "autostreaming" via CarWindow, you should not do anything with this method. Everything should be handled for you automatically.
+///
+/// Only supported on RPC v5.0+ connections.
+///
 /// @param oldState The previous state
 /// @param newState The current state
 - (void)videoStreamingState:(nullable SDLVideoStreamingState)oldState didChangetoState:(SDLVideoStreamingState)newState;

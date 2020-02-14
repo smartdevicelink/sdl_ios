@@ -817,8 +817,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogD(@"Audio streaming state changed from %@ to %@", oldAudioStreamingState, self.audioStreamingState);
     }
 
-    if (![oldAudioStreamingState isEqualToEnum:self.videoStreamingState]) {
-        SDLLogD(@"Video streaming state changed from %@ to %@", oldAudioStreamingState, self.videoStreamingState);
+    if (![oldVideoStreamingState isEqualToEnum:self.videoStreamingState]) {
+        SDLLogD(@"Video streaming state changed from %@ to %@", oldVideoStreamingState, self.videoStreamingState);
     }
 
     if (![oldSystemContext isEqualToEnum:self.systemContext]) {
