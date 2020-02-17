@@ -284,6 +284,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
     self.audioStreamingState = nil;
+    self.videoStreamingState = nil;
     self.systemContext = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
@@ -527,6 +528,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
     if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
+    }
+
+    if ([self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
+        [self.delegate videoStreamingState:SDLVideoStreamingStateNotStreamable didChangetoState:self.videoStreamingState];
     }
 
     // Stop the background task now that setup has completed
@@ -795,8 +800,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 
-    SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
+    SDLAudioStreamingState oldAudioStreamingState = self.audioStreamingState;
     self.audioStreamingState = hmiStatusNotification.audioStreamingState;
+
+    SDLVideoStreamingState oldVideoStreamingState = self.videoStreamingState;
+    self.videoStreamingState = hmiStatusNotification.videoStreamingState;
 
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
@@ -805,8 +813,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
     }
 
-    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]) {
-        SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
+    if (![oldAudioStreamingState isEqualToEnum:self.audioStreamingState]) {
+        SDLLogD(@"Audio streaming state changed from %@ to %@", oldAudioStreamingState, self.audioStreamingState);
+    }
+
+    if (![oldVideoStreamingState isEqualToEnum:self.videoStreamingState]) {
+        SDLLogD(@"Video streaming state changed from %@ to %@", oldVideoStreamingState, self.videoStreamingState);
     }
 
     if (![oldSystemContext isEqualToEnum:self.systemContext]) {
@@ -826,10 +838,16 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
 
-    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
-        && !(oldStreamingState == nil && self.audioStreamingState == nil)
+    if (![oldAudioStreamingState isEqualToEnum:self.audioStreamingState]
+        && !(oldAudioStreamingState == nil && self.audioStreamingState == nil)
         && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
-        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+        [self.delegate audioStreamingState:oldAudioStreamingState didChangeToState:self.audioStreamingState];
+    }
+
+    if (![oldVideoStreamingState isEqualToEnum:self.videoStreamingState]
+        && !(oldVideoStreamingState == nil && self.videoStreamingState == nil)
+        && [self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
+        [self.delegate videoStreamingState:oldVideoStreamingState didChangetoState:self.videoStreamingState];
     }
 
     if (![oldSystemContext isEqualToEnum:self.systemContext]
