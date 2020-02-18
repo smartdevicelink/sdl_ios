@@ -348,7 +348,9 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
 }
 
-- (void)sdl_doNothing {}
+- (void)sdl_doNothing {
+    SDLLogV(@"Doing nothing to trigger cancel");
+}
 
 @end
 

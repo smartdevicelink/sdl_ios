@@ -887,8 +887,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     if (oldProtocol != nil) {
-        [self.streamManager stopVideo];
+        [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+            [self.secondaryTransportManager disconnectSecondaryTransport];
+        }];
     }
+    
     if (newProtocol != nil) {
         [self.streamManager startVideoWithProtocol:newProtocol];
     }

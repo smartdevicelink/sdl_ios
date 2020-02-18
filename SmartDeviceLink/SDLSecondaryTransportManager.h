@@ -61,6 +61,8 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  */
 - (void)stop;
 
+- (BOOL)disconnectSecondaryTransport;
+
 /**
  * Call this method when Start Service ACK control frame is received on primary transport.
 

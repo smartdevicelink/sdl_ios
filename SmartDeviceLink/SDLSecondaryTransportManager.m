@@ -266,14 +266,14 @@ static const int TCPPortUnspecified = -1;
     SDLLogD(@"Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
-    [self sdl_disconnectSecondaryTransport];
+    // [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
     SDLLogD(@"Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
-    [self sdl_disconnectSecondaryTransport];
+    //[self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateStopped {
@@ -300,7 +300,7 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)sdl_stopManager {
-    SDLLogD(@"SDLSecondaryTransportManager stop");
+    SDLLogD(@"SDLSecondaryTransportManager in state stopped");
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
@@ -483,6 +483,10 @@ static const int TCPPortUnspecified = -1;
             SDLLogW(@"Unknown transport type for secondary transport: %ld", (long)self.secondaryTransportType);
             return NO;
     }
+}
+
+- (BOOL)disconnectSecondaryTransport {
+    return [self sdl_disconnectSecondaryTransport];
 }
 
 - (BOOL)sdl_disconnectSecondaryTransport {

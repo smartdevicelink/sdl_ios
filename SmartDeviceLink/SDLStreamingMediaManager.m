@@ -81,6 +81,16 @@ NS_ASSUME_NONNULL_BEGIN
     self.videoStarted = NO;
 }
 
+- (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.videoLifecycleManager stopWithCompletionHandler:^(BOOL success) {
+        weakSelf.videoStarted = NO;
+
+        if (completionHandler == nil) { return; }
+        return completionHandler(success);
+    }];
+}
+
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     return [self.videoLifecycleManager sendVideoData:imageBuffer];
 }

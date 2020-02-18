@@ -92,6 +92,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 
+@property (nonatomic, copy, nullable) void (^videoEndServiceReceivedHandler)(BOOL success);
+
+@property (nonatomic, copy, nullable) void (^audioDataReceivedHandler)(NSData *__nullable audioData);
+
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
@@ -175,6 +179,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _ssrc = arc4random_uniform(UINT32_MAX);
     _lastPresentationTimestamp = kCMTimeInvalid;
 
+    _videoEndServiceReceivedHandler = nil;
+
     return self;
 }
 
@@ -206,6 +212,30 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [self.videoScaleManager stop];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+}
+
+- (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+    self.videoEndServiceReceivedHandler = completionHandler;
+
+    // Can't sent procol to `nil` else we will not get a response to the end service frame
+
+    _backgroundingPixelBuffer = NULL;
+    _preferredFormatIndex = 0;
+    _preferredResolutionIndex = 0;
+
+    _hmiLevel = SDLHMILevelNone;
+    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
+    _lastPresentationTimestamp = kCMTimeInvalid;
+    _connectedVehicleMake = nil;
+
+    [self.videoScaleManager stop];
+
+    if (self.isVideoConnected || self.isVideoSuspended) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+    } else {
+        SDLLogV(@"No video currently streaming. No need to send an end video service request");
+        return completionHandler(NO);
+    }
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -485,6 +515,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
+
     [self sdl_handleVideoStartServiceAck:startServiceACK];
 }
 
@@ -558,12 +589,19 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
     SDLLogD(@"Video service ended successfully");
 
-    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+    if (self.videoEndServiceReceivedHandler != nil) {
+        [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+        self.videoEndServiceReceivedHandler(YES);
+    }
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
     SDLLogE(@"Video service did not end successfully");
+
+    if (self.videoEndServiceReceivedHandler != nil) {
+        self.videoEndServiceReceivedHandler(NO);
+    }
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
@@ -606,6 +644,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(self.videoScaleManager.displayViewportResolution));
 }
 
+/// Parses out the `hmiLevel` and `videoStreamingState` from an `OnHMIStatus` notification from Core. Since Core only allows video streaming when the `hmiLevel` is `FULL` or `LIMITED`, sending video data when the `hmiLevel` is not `FULL` or `LIMITED` will result in Core forcing an unregistration with a reason of `PROTOCOL_VIOLATION`.
+/// 2. The `hmiLevel` will go to `FULL` when the user opens the SDL app by tapping on the SDL app icon on the HMI or uses a voice command to launch the SDL app.
+/// 3. The `hmiLevel` will go to `LIMITED` when the user backgrounds the SDL app by opening another app or by going back to the home screen.
+/// 4. The `hmiLevel` will go to `NONE` when the user "exits" the app (either through gesture or voice commands). It will also go to `NONE` if video fails to stream and the user presses "cancel" on the HMI popup. In these cases the transport between the phone and accessory will still be open. It will also go to `NONE` when the user disconnects the transport between the phone and accessory. In this case no notification will be recieved since the transport was disconnected.
+///
+/// @param notification The `OnHMIStatus` notification
 - (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
     NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
     if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
@@ -701,6 +745,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
     if (serviceType != SDLServiceTypeVideo) { return; }
+
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
