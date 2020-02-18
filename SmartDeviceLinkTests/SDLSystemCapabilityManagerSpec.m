@@ -31,6 +31,7 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSystemCapability.h"
+#import "SDLSystemCapabilityObserver.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
 #import "SDLVersion.h"
@@ -40,8 +41,11 @@
 #import "TestConnectionManager.h"
 #import "TestSystemCapabilityObserver.h"
 
+typedef NSString * SDLServiceID;
 
 @interface SDLSystemCapabilityManager ()
+
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 @property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
@@ -61,12 +65,23 @@
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
 
+@property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
+
+@property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
+@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
+@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
+
+@property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
+
+@property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
+@property (strong, nonatomic) SDLHMILevel currentHMILevel;
+
 @end
 
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
-fdescribe(@"System capability manager", ^{
+describe(@"System capability manager", ^{
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
 
@@ -157,7 +172,7 @@ fdescribe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
-
+        expect(testSystemCapabilityManager.currentHMILevel).to(equal(SDLHMILevelNone));
     });
 
     describe(@"isCapabilitySupported method should work correctly", ^{
@@ -520,7 +535,7 @@ fdescribe(@"System capability manager", ^{
         });
     });
 
-    context(@"When sending a updateCapabilityType request", ^{
+    context(@"When sending a updateCapabilityType request in HMI FULL", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
@@ -531,6 +546,8 @@ fdescribe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
+
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
         });
 
         context(@"If the request failed with an error", ^{
@@ -594,10 +611,12 @@ fdescribe(@"System capability manager", ^{
         });
     });
 
-    describe(@"updating the SCM through OnSystemCapability", ^{
+    describe(@"updating the SCM through OnSystemCapability in HMI Full", ^{
         __block SDLPhoneCapability *phoneCapability = nil;
 
         beforeEach(^{
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
+
             phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
             SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:phoneCapability];
             SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
@@ -611,7 +630,7 @@ fdescribe(@"System capability manager", ^{
         });
     });
 
-    describe(@"subscribing to capability types", ^{
+    describe(@"subscribing to capability types when HMI is full", ^{
         __block TestSystemCapabilityObserver *phoneObserver = nil;
         __block TestSystemCapabilityObserver *navigationObserver = nil;
         __block TestSystemCapabilityObserver *videoStreamingObserver = nil;
@@ -621,6 +640,8 @@ fdescribe(@"System capability manager", ^{
         __block NSUInteger handlerTriggeredCount = 0;
 
         beforeEach(^{
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
+
             observerTriggeredCount = 0;
             handlerTriggeredCount = 0;
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
