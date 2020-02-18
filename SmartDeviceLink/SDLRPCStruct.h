@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param dict A dictionary
  *  @return     A SDLRPCStruct object
  */
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict __deprecated_msg("This is not intended for public use");
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
 
 /**
  *  Converts struct to JSON formatted data
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param version The protocol version
  *  @return        JSON formatted data
  */
-- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version __deprecated_msg("This is not intended for public use");
+- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version;
 
 @end
 
