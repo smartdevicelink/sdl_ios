@@ -656,7 +656,7 @@ describe(@"System capability manager", ^{
             [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:displaysObserver selector:@selector(capabilityUpdatedWithCapability:error:subscribed:)];
         });
 
-        describe(@"when observers aren't supported", ^{
+        context(@"when observers aren't supported", ^{
             __block BOOL observationSuccess = NO;
 
             beforeEach(^{
@@ -693,11 +693,11 @@ describe(@"System capability manager", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
-            it(@"should notify subscribers of the new data", ^{
-                expect(handlerTriggeredCount).toEventually(equal(2));
-                expect(observerTriggeredCount).toEventually(equal(2));
+            it(@"should not notify subscribers of new data because it was sent outside of the SCM", ^{
+                expect(handlerTriggeredCount).toEventually(equal(1));
+                expect(observerTriggeredCount).toEventually(equal(1));
 
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
 
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
 
@@ -724,10 +724,10 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(handlerTriggeredCount).toEventually(equal(2));
-                    expect(observerTriggeredCount).toEventually(equal(2));
+                    expect(handlerTriggeredCount).toEventually(equal(1));
+                    expect(observerTriggeredCount).toEventually(equal(1));
 
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(2)); // No change from above
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
 
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
 
