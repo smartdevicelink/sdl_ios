@@ -72,8 +72,6 @@ typedef NSString * SDLServiceID;
 @property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
 @property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
 
-@property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
-
 @property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
 @property (strong, nonatomic) SDLHMILevel currentHMILevel;
 
@@ -394,12 +392,6 @@ typedef NSString * SDLServiceID;
 - (BOOL)sdl_saveSystemCapability:(nullable SDLSystemCapability *)systemCapability error:(nullable NSError *)error completionHandler:(nullable SDLCapabilityUpdateWithErrorHandler)handler {
     SDLLogV(@"Saving system capability type: %@", systemCapability);
 
-    // If this is equal to the last received capability (e.g. a notification and GetSystemCapabilityResponse), don't save twice or call the observer twice.
-    if ([self.lastReceivedCapability isEqual:systemCapability]) {
-        return NO;
-    }
-    self.lastReceivedCapability = systemCapability;
-
     SDLSystemCapabilityType systemCapabilityType = systemCapability.systemCapabilityType;
 
     if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
@@ -708,7 +700,6 @@ typedef NSString * SDLServiceID;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityResponseNotification:) name:SDLDidReceiveGetSystemCapabilitiesResponse object:nil];
 }
 
 /**
@@ -786,18 +777,6 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Received OnSystemCapability update for type %@", systemCapabilityUpdatedNotification.systemCapability.systemCapabilityType);
 
     [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability error:nil completionHandler:nil];
-}
-
-/**
- Called with a `GetSystemCapabilityResponse` notification is received from core. The updated system capability is saved.
-
- @param notification The `GetSystemCapabilityResponse` notification received from Core
- */
-- (void)sdl_systemCapabilityResponseNotification:(SDLRPCResponseNotification *)notification {
-    SDLGetSystemCapabilityResponse *systemCapabilityResponse = (SDLGetSystemCapabilityResponse *)notification.response;
-    SDLLogV(@"Received GetSystemCapability response for type %@", systemCapabilityResponse.systemCapability.systemCapabilityType);
-
-    [self sdl_saveSystemCapability:systemCapabilityResponse.systemCapability error:nil completionHandler:nil];
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
