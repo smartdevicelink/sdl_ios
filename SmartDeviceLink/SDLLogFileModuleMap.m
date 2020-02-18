@@ -14,6 +14,9 @@
 
 + (NSSet<SDLLogFileModule *> *)sdlModuleMap {
     return [NSSet setWithArray:@[[self sdl_transportModule],
+                                 [self sdl_tcpTransportModule],
+                                 [self sdl_iapTransportModule],
+                                 [self sdl_secondaryTransportModule],
                                  [self sdl_proxyModule],
                                  [self sdl_protocolModule],
                                  [self sdl_rpcModule],
@@ -33,9 +36,25 @@
                                  [self sdl_utilitiesModule]]];
 }
 
+#pragma mark Transport
+
 + (SDLLogFileModule *)sdl_transportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLIAPDataSession", @"SDLIAPControlSession", @"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLStreamDelegate"]]];
 }
+
++ (SDLLogFileModule *)sdl_tcpTransportModule {
+    return [SDLLogFileModule moduleWithName:@"Transport/TCP" files:[NSSet setWithArray:@[@"SDLTCPTransport"]]];
+}
+
++ (SDLLogFileModule *)sdl_iapTransportModule {
+    return [SDLLogFileModule moduleWithName:@"Transport/IAP" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLIAPDataSession", @"SDLIAPControlSession"]]];
+}
+
++ (SDLLogFileModule *)sdl_secondaryTransportModule {
+    return [SDLLogFileModule moduleWithName:@"Transport/Secondary" files:[NSSet setWithArray:@[@"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler"]]];
+}
+
+#pragma mark Low-Level
 
 + (SDLLogFileModule *)sdl_proxyModule {
     return [SDLLogFileModule moduleWithName:@"Proxy" files:[NSSet setWithArray:@[@"SDLProxy", @"SDLPolicyDataParser"]]];
@@ -49,12 +68,11 @@
     return [SDLLogFileModule moduleWithName:@"RPC" files:[NSSet setWithArray:@[@"SDLRPCPayload", @"NSMutableDictionary+Store"]]];
 }
 
+#pragma mark Managers
+
 + (SDLLogFileModule *)sdl_dispatcherModule {
     return [SDLLogFileModule moduleWithName:@"Dispatcher" files:[NSSet setWithArray:@[@"SDLNotificationDispatcher", @"SDLResponseDispatcher"]]];
 }
-
-
-#pragma mark Managers
 
 + (SDLLogFileModule *)sdl_fileManagerModule {
     return [SDLLogFileModule moduleWithName:@"File" files:[NSSet setWithArray:@[@"SDLFileManager", @"SDLFile", @"SDLArtwork", @"SDLListFilesOperation", @"SDLUploadFileOperation", @"SDLDeleteFileOperation"]]];

@@ -13,14 +13,18 @@
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
+#import "SDLHMILevel.h"
 #import "SDLIAPTransport.h"
 #import "SDLNotificationConstants.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLProtocol.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLFakeSecurityManager.h"
+#import "SDLHMILevel.h"
+#import "SDLOnHMIStatus.h"
 
 /* copied from SDLSecondaryTransportManager.m */
 typedef NSNumber SDLServiceTypeBox;
@@ -55,7 +59,7 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
-@property (assign, nonatomic, getter=isAppReady) BOOL appReady;
+@property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 @end
 
@@ -136,6 +140,15 @@ describe(@"the secondary transport manager ", ^{
     __block SDLProtocol *testPrimaryProtocol = nil;
     __block id<SDLTransportType> testPrimaryTransport = nil;
     __block id testStreamingProtocolDelegate = nil;
+
+    __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
+         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
+         hmiStatus.hmiLevel = hmiLevel;
+         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:self rpcNotification:hmiStatus];
+         [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+         [NSThread sleepForTimeInterval:0.3];
+    };
 
     beforeEach(^{
         [SDLSecondaryTransportManager swapGetAppStateMethod];
@@ -413,7 +426,7 @@ describe(@"the secondary transport manager ", ^{
 
                     testStartServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMtu authToken:nil protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
                     testStartServiceACKMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testStartServiceACKHeader andPayload:testStartServiceACKPayload.data];
-                    manager.appReady = YES;
+                    manager.currentHMILevel = SDLHMILevelFull;
                 });
 
                 it(@"should configure its properties and immediately transition to Connecting state", ^{
@@ -507,27 +520,23 @@ describe(@"the secondary transport manager ", ^{
                 });
             });
 
-            context(@"before the security manager is set by register app interface response", ^{
+            context(@"before the app context is HMI FULL", ^{
                 it(@"should stay in state Configured", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
-                    expect(manager.secondaryProtocol.securityManager).to(beNil());
-                    expect(manager.isAppReady).to(equal(NO));
+                    expect(manager.currentHMILevel).to(beNil());
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
             });
 
-            context(@"after the security manager is set by register app interface response", ^{
+            context(@"app becomes HMI FULL", ^{
                 beforeEach(^{
-                    testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
-                    // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
+                    sendNotificationForHMILevel(SDLHMILevelFull);
                 });
 
                 it(@"should transition to Connecting state", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
-                    expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
-                    expect(manager.isAppReady).to(equal(YES));
+                    expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -561,7 +570,7 @@ describe(@"the secondary transport manager ", ^{
                 });
             });
 
-            describe(@"and Transport Event Update is received", ^{
+            describe(@"and a Transport Event Update has been received", ^{
                 __block SDLProtocolHeader *testTransportEventUpdateHeader = nil;
                 __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
                 __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
@@ -584,24 +593,23 @@ describe(@"the secondary transport manager ", ^{
 
                 });
 
-                context(@"before the security manager is set by register app interface response", ^{
+                context(@"before the app context is HMI FULL", ^{
                     it(@"should stay in Configured state", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
-                        expect(manager.secondaryProtocol.securityManager).to(beNil());
+                        expect(manager.currentHMILevel).to(beNil());
+
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
                 });
 
-                context(@"after the security manager is set by register app interface response", ^{
+                context(@"app becomes HMI FULL", ^{
                     beforeEach(^{
-                        testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
-                        // By the time this notification is recieved the RAIR should have been sent and the security manager should exist if available
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReady object:nil];
+                        sendNotificationForHMILevel(SDLHMILevelFull);
                     });
                     
                     it(@"should transition to Connecting", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
-                        expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
+                        expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
 
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
@@ -731,7 +739,6 @@ describe(@"the secondary transport manager ", ^{
                 [NSThread sleepForTimeInterval:0.1];
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateReconnecting));
-                expect(manager.isAppReady).to(equal(NO));
                 OCMVerifyAll(testStreamingProtocolDelegate);
             });
         });
@@ -776,7 +783,7 @@ describe(@"the secondary transport manager ", ^{
                 beforeEach(^{
                     testTcpIpAddress = @"172.16.12.34";
                     testTcpPort = 12345;
-                    manager.appReady = YES;
+                    manager.currentHMILevel = SDLHMILevelFull;
 
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
@@ -864,7 +871,7 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.appReady = YES;
+                manager.currentHMILevel = SDLHMILevelFull;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -1023,7 +1030,6 @@ describe(@"the secondary transport manager ", ^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
                 manager.tcpPort = 12345;
-                manager.appReady = YES;
 
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
                 testTransportEventUpdateHeader.frameType = SDLFrameTypeControl;
@@ -1053,6 +1059,7 @@ describe(@"the secondary transport manager ", ^{
                 beforeEach(^{
                     testTcpIpAddress = @"172.16.12.34";
                     testTcpPort = 12345;
+                    manager.currentHMILevel = SDLHMILevelFull;
 
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
