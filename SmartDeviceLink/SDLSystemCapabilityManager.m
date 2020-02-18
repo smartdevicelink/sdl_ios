@@ -96,6 +96,8 @@ typedef NSString * SDLServiceID;
     _capabilityObservers = [NSMutableDictionary dictionary];
     _subscriptionStatus = [NSMutableDictionary dictionary];
 
+    _currentHMILevel = SDLHMILevelNone;
+
     [self sdl_registerForNotifications];    
 
     return self;
@@ -130,6 +132,8 @@ typedef NSString * SDLServiceID;
     _supportsSubscriptions = NO;
     [_capabilityObservers removeAllObjects];
     [_subscriptionStatus removeAllObjects];
+
+    _currentHMILevel = SDLHMILevelNone;
 
     _shouldConvertDeprecatedDisplayCapabilities = YES;
 }
