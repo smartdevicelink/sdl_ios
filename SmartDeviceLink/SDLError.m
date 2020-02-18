@@ -312,7 +312,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"System capability type DISPLAYS cannot be updated.", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to update  system capability type DISPLAYS, which is not allowed.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to update system capability type DISPLAYS, which is not allowed.", nil),
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Subscribe to DISPLAYS to automatically receive updates or retrieve a cached display capability value directly from the SystemCapabilityManager.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays userInfo:userInfo];
