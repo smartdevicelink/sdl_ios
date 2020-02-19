@@ -11,6 +11,7 @@
 
 #import "SDLSecondaryTransportManager.h"
 
+#import "SDLBackgroundTaskManager.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
@@ -98,9 +99,13 @@ static const int TCPPortUnspecified = -1;
 // App is ready to set security manager to secondary protocol
 @property (assign, nonatomic, getter=isAppReady) BOOL appReady;
 
+@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+
 @end
 
 @implementation SDLSecondaryTransportManager
+
+NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secondaryTransportBackgroundTask";
 
 #pragma mark - Public
 
@@ -121,6 +126,8 @@ static const int TCPPortUnspecified = -1;
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
+
+    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName: BackgroundTaskSecondaryTransportName];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeReady) name:SDLDidBecomeReady object:nil];
 
@@ -393,23 +400,46 @@ static const int TCPPortUnspecified = -1;
 #pragma mark - Starting / Stopping / Restarting services
 
 - (void)sdl_handleTransportUpdateWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
-    // update audio service
+    __weak typeof(self) weakSelf = self;
+    [self updateAudioServiceWithPrimaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable transportUpdatedBlock:^(SDLProtocol * _Nullable oldAudioProtocol, SDLProtocol * _Nullable newAudioProtocol) {
+        [weakSelf updateVideoServiceWithPrimaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable transportUpdatedBlock:^(SDLProtocol * _Nullable oldVideoProtocol, SDLProtocol * _Nullable newVideoProtocol) {
+            [weakSelf.streamingProtocolDelegate streamingServiceProtocolDidUpdateFromOldVideoProtocol:oldVideoProtocol toNewVideoProtocol:newVideoProtocol fromOldAudioProtocol:oldAudioProtocol toNewAudioProtocol:newAudioProtocol];
+        }];
+    }];
+
+//    // update audio service
+//    [self sdl_updateService:SDLServiceTypeAudio
+//          allowedTransports:self.transportsForAudioService
+//           primaryAvailable:primaryAvailable
+//         secondaryAvailable:secondaryAvailable
+//      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
+//        //[self.streamingProtocolDelegate audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
+//    }];
+//
+//    // update video service
+//    [self sdl_updateService:SDLServiceTypeVideo
+//          allowedTransports:self.transportsForVideoService
+//           primaryAvailable:primaryAvailable
+//         secondaryAvailable:secondaryAvailable
+//      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
+//        //[self.streamingProtocolDelegate videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
+//    }];
+}
+
+- (void)updateAudioServiceWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldAudioProtocol, SDLProtocol * _Nullable newAudioProtocol))transportUpdatedBlock {
     [self sdl_updateService:SDLServiceTypeAudio
           allowedTransports:self.transportsForAudioService
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolDelegate audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
-      }];
+      transportUpdatedBlock:transportUpdatedBlock];
+}
 
-    // update video service
+- (void)updateVideoServiceWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldVideoProtocol, SDLProtocol * _Nullable newVideoProtocol))transportUpdatedBlock {
     [self sdl_updateService:SDLServiceTypeVideo
           allowedTransports:self.transportsForVideoService
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolDelegate videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
-      }];
+      transportUpdatedBlock:transportUpdatedBlock];
 }
 
 - (void)sdl_updateService:(UInt8)service
@@ -498,6 +528,8 @@ static const int TCPPortUnspecified = -1;
     SDLLogD(@"Disconnect secondary transport");
     [self.secondaryTransport disconnect];
     self.secondaryTransport = nil;
+
+    [self.backgroundTaskManager endBackgroundTask];
 
     return YES;
 }
@@ -656,9 +688,13 @@ static const int TCPPortUnspecified = -1;
         if (notification.name == UIApplicationWillResignActiveNotification) {
             if ([self sdl_isTransportOpened] && self.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
                 SDLLogD(@"Disconnecting TCP transport since the app will go to background");
+                // Start a background task so we can tear down the TCP socket successfully before the app is suspended
+                [self.backgroundTaskManager startBackgroundTask];
                 [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
+            [self.backgroundTaskManager endBackgroundTask];
+
             if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
                 && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady] && self.isAppReady) {
                 SDLLogD(@"Resuming TCP transport since the app becomes foreground");

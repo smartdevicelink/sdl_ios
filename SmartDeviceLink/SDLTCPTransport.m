@@ -15,14 +15,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const TCPIOThreadName = @"com.smartdevicelink.tcpiothread";
-NSTimeInterval const IOThreadWaitSecs = 1.0;
 NSUInteger const DefaultReceiveBufferSize = 16 * 1024;
 NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
 @interface SDLTCPTransport ()
 
 @property (nullable, nonatomic, strong) NSThread *ioThread;
-@property (nonatomic, strong) dispatch_semaphore_t ioThreadStoppedSemaphore;
+//@property (nonatomic, strong) dispatch_semaphore_t ioThreadStoppedSemaphore;
 @property (nonatomic, assign) NSUInteger receiveBufferSize;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (nullable, nonatomic, strong) NSInputStream *inputStream;
@@ -78,7 +77,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     self.ioThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_tcpTransportEventLoop) object:nil];
     self.ioThread.name = TCPIOThreadName;
-    self.ioThreadStoppedSemaphore = dispatch_semaphore_create(0);
+    // self.ioThreadStoppedSemaphore = dispatch_semaphore_create(0);
 
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
@@ -106,12 +105,14 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     [self sdl_cancelIOThread];
 
-    long ret = dispatch_semaphore_wait(self.ioThreadStoppedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOThreadWaitSecs * NSEC_PER_SEC)));
-    if (ret == 0) {
-        SDLLogD(@"TCP transport thread stopped");
-    } else {
-        SDLLogE(@"Failed to stop TCP transport thread");
+    // Calling `dispatch_semaphore_wait` freezes the thread so shutdown never occurs `cancel` never gets called
+    if (self.ioThread != nil) {
+        [self sdl_teardownStream:self.inputStream];
+        [self sdl_teardownStream:self.outputStream];
+
+        [self.connectionTimer invalidate];
     }
+
     self.ioThread = nil;
 
     self.inputStream = nil;
@@ -145,7 +146,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self.inputStream open];
         [self.outputStream open];
 
-        while (![self.ioThread isCancelled]) {
+        while (self.ioThread != nil && ![self.ioThread isCancelled]) {
             BOOL ret = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
             if (!ret) {
                 SDLLogW(@"Failed to start TCP transport run loop");
@@ -158,8 +159,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_teardownStream:self.outputStream];
 
         [self.connectionTimer invalidate];
-
-        dispatch_semaphore_signal(self.ioThreadStoppedSemaphore);
     }
 }
 
@@ -179,7 +178,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
 - (void)sdl_cancelIOThread {
     [self.ioThread cancel];
-    // wake up the run loop in case we don't have any I/O event
+
+    // Wake up the run loop in case we don't have any I/O event
     [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 

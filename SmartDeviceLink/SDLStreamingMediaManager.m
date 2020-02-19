@@ -76,6 +76,16 @@ NS_ASSUME_NONNULL_BEGIN
     self.audioStarted = NO;
 }
 
+- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.audioLifecycleManager stopWithCompletionHandler:^(BOOL success) {
+        weakSelf.audioStarted = NO;
+
+        if (completionHandler == nil) { return; }
+        return completionHandler(success);
+    }];
+}
+
 - (void)stopVideo {
     [self.videoLifecycleManager stop];
     self.videoStarted = NO;
@@ -89,6 +99,14 @@ NS_ASSUME_NONNULL_BEGIN
         if (completionHandler == nil) { return; }
         return completionHandler(success);
     }];
+}
+
+- (void)destroyVideoProtocol {
+    [self.videoLifecycleManager closeProtocol];
+}
+
+- (void)destroyAudioProtocol {
+    [self.audioLifecycleManager closeProtocol];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {

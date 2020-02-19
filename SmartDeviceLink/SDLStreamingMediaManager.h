@@ -152,6 +152,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopAudio;
 
+- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
+
+- (void)destroyAudioProtocol;
+
 /**
  *  Stop the video feature of the manager. This method is used internally.
  */
@@ -159,6 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
 
+- (void)destroyVideoProtocol;
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *

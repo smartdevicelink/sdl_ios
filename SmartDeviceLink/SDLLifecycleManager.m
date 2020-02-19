@@ -273,8 +273,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if (self.secondaryTransportManager != nil) {
         [self.secondaryTransportManager stop];
     } else {
-        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
-        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+        [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:self.proxy.protocol toNewVideoProtocol:nil fromOldAudioProtocol:self.proxy.protocol
+         toNewAudioProtocol:nil];
+//        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+//        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
     }
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
@@ -453,8 +455,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     
     // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:self.proxy.protocol fromOldAudioProtocol:nil toNewAudioProtocol:self.proxy.protocol];
+//        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+//        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 
     dispatch_group_enter(managerGroup);
@@ -868,34 +871,86 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 #pragma mark Streaming protocol listener
 
-- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
-    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
-        return;
-    }
+- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
 
-    if (oldProtocol != nil) {
-        [self.streamManager stopAudio];
-    }
-    if (newProtocol != nil) {
-        [self.streamManager startAudioWithProtocol:newProtocol];
+    BOOL videoProtocolUpdated = ((oldVideoProtocol == nil && newVideoProtocol == nil) || (oldVideoProtocol == newVideoProtocol)) ? NO : YES;
+    BOOL audioProtocolUpdated = ((oldAudioProtocol == nil && newAudioProtocol == nil) || (oldAudioProtocol == newAudioProtocol)) ? NO : YES;
+
+    if (videoProtocolUpdated && audioProtocolUpdated) {
+        // Stop both audio and video session before destroying the transport
+        if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
+            [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
+                [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+                    [self.secondaryTransportManager disconnectSecondaryTransport];
+                    [self.streamManager destroyAudioProtocol];
+                    [self.streamManager destroyVideoProtocol];
+                    
+                    if (newAudioProtocol != nil) {
+                        [self.streamManager startAudioWithProtocol:newAudioProtocol];
+                    }
+                    if (newVideoProtocol != nil) {
+                        [self.streamManager startVideoWithProtocol:newVideoProtocol];
+                    }
+                }];
+            }];
+        } else if (oldVideoProtocol != nil) {
+            [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+                [self.secondaryTransportManager disconnectSecondaryTransport];
+
+                if (newVideoProtocol != nil) {
+                    [self.streamManager startVideoWithProtocol:newVideoProtocol];
+                }
+            }];
+        } else if (oldAudioProtocol != nil) {
+            [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
+                [self.secondaryTransportManager disconnectSecondaryTransport];
+
+                if (newAudioProtocol != nil) {
+                    [self.streamManager startAudioWithProtocol:newAudioProtocol];
+                }
+            }];
+        } else {
+            // Both old audio and video protocols are nil
+            if (newAudioProtocol != nil) {
+                [self.streamManager startAudioWithProtocol:newAudioProtocol];
+            }
+            if (newVideoProtocol != nil) {
+                [self.streamManager startVideoWithProtocol:newVideoProtocol];
+            }
+        }
     }
 }
 
-- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
-    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
-        return;
-    }
-
-    if (oldProtocol != nil) {
-        [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
-            [self.secondaryTransportManager disconnectSecondaryTransport];
-        }];
-    }
-    
-    if (newProtocol != nil) {
-        [self.streamManager startVideoWithProtocol:newProtocol];
-    }
-}
+//- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+//    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+//        return;
+//    }
+//
+//    if (oldProtocol != nil) {
+//        [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
+//            [self.secondaryTransportManager disconnectSecondaryTransport];
+//        }];
+//    }
+//    if (newProtocol != nil) {
+//        [self.streamManager startAudioWithProtocol:newProtocol];
+//    }
+//}
+//
+//- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+//    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+//        return;
+//    }
+//
+//    if (oldProtocol != nil) {
+//        [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+//            [self.secondaryTransportManager disconnectSecondaryTransport];
+//        }];
+//    }
+//
+//    if (newProtocol != nil) {
+//        [self.streamManager startVideoWithProtocol:newProtocol];
+//    }
+//}
 
 @end
 

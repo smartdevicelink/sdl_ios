@@ -158,8 +158,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stop;
 
-
 - (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
+
+- (void)closeProtocol;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.

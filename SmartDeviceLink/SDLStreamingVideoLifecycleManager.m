@@ -217,14 +217,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     self.videoEndServiceReceivedHandler = completionHandler;
 
-    // Can't sent procol to `nil` else we will not get a response to the end service frame
+    // Can't sent procol to `nil` else we will not get a response to the end video service control frame
 
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
-    _hmiLevel = SDLHMILevelNone;
-    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
+//    _hmiLevel = SDLHMILevelNone;
+//    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _lastPresentationTimestamp = kCMTimeInvalid;
     _connectedVehicleMake = nil;
 
@@ -236,6 +236,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogV(@"No video currently streaming. No need to send an end video service request");
         return completionHandler(NO);
     }
+}
+
+- (void)closeProtocol {
+    self.protocol = nil;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -378,6 +382,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _videoEncoder = nil;
     }
 
+    _backgroundingPixelBuffer = NULL;
+    _preferredFormatIndex = 0;
+    _preferredResolutionIndex = 0;
+    _lastPresentationTimestamp = kCMTimeInvalid;
+
     [self disposeDisplayLink];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
@@ -515,16 +524,16 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-
     [self sdl_handleVideoStartServiceAck:startServiceACK];
 }
 
 - (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartServiceAck {
-    SDLLogD(@"Video service started");
+    SDLLogW(@"Video Start ACKed");
+    //SDLLogD(@"Video service started");
     _videoEncrypted = videoStartServiceAck.header.encrypted;
 
     SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:videoStartServiceAck.payload];
-    SDLLogV(@"ACK: %@", videoAckPayload);
+    //SDLLogV(@"ACK payload: %@", videoAckPayload);
 
     if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
@@ -559,9 +568,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_handleVideoStartServiceNak:(SDLProtocolMessage *)videoStartServiceNak {
-    SDLLogW(@"Video service failed to start due to NAK");
+    SDLLogW(@"Video Start NAKed");
+
+    //SDLLogW(@"Video service failed to start due to NAK");
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:videoStartServiceNak.payload];
-    SDLLogD(@"NAK: %@", videoStartServiceNak);
+    //SDLLogD(@"NAK parameters: %@", nakPayload);
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
@@ -587,17 +598,20 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-    SDLLogD(@"Video service ended successfully");
+    SDLLogW(@"Video End ACKed");
+    //SDLLogD(@"Video service ended successfully");
 
     if (self.videoEndServiceReceivedHandler != nil) {
-        [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
         self.videoEndServiceReceivedHandler(YES);
     }
+
+    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
-    SDLLogE(@"Video service did not end successfully");
+    SDLLogW(@"Video End NAKed");
+    //SDLLogE(@"Video service did not end successfully");
 
     if (self.videoEndServiceReceivedHandler != nil) {
         self.videoEndServiceReceivedHandler(NO);
@@ -739,13 +753,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     } else {
-        SDLLogV(@"No video currently streaming. Will not send an end video service request");
+        SDLLogV(@"no video streaming but we are going to send an end service anyways");
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     }
 }
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
     if (serviceType != SDLServiceTypeVideo) { return; }
-
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
