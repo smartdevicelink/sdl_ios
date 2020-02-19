@@ -94,8 +94,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (nonatomic, copy, nullable) void (^videoEndServiceReceivedHandler)(BOOL success);
 
-@property (nonatomic, copy, nullable) void (^audioDataReceivedHandler)(NSData *__nullable audioData);
-
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
@@ -230,12 +228,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [self.videoScaleManager stop];
 
-    if (self.isVideoConnected || self.isVideoSuspended) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
-    } else {
-        SDLLogV(@"No video currently streaming. No need to send an end video service request");
-        return completionHandler(NO);
-    }
+    // Always send an end service, regardless of whether video is streaming or not
+
+    [self.protocol endServiceWithType:SDLServiceTypeVideo];
+//    if (![self.currentVideoStreamState isEqualToEnum:SDLVideoStreamManagerStateStopped]) {
+//        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+//    } else {
+//        SDLLogV(@"No video currently streaming. No need to send an end video service request");
+//        return completionHandler(NO);
+//    }
 }
 
 - (void)closeProtocol {
@@ -603,6 +604,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (self.videoEndServiceReceivedHandler != nil) {
         self.videoEndServiceReceivedHandler(YES);
+        self.videoEndServiceReceivedHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
@@ -615,6 +617,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (self.videoEndServiceReceivedHandler != nil) {
         self.videoEndServiceReceivedHandler(NO);
+        self.videoEndServiceReceivedHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];

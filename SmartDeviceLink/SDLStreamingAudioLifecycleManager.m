@@ -112,12 +112,13 @@ NS_ASSUME_NONNULL_BEGIN
     // _hmiLevel = SDLHMILevelNone;
     _connectedVehicleMake = nil;
 
-    if (self.isAudioConnected) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
-    } else {
-        SDLLogV(@"No audio currently streaming. No need to send an end audio service request");
-        return completionHandler(NO);
-    }
+    [self.protocol endServiceWithType:SDLServiceTypeAudio];
+//    if (self.isAudioConnected) {
+//        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
+//    } else {
+//        SDLLogV(@"No audio currently streaming. No need to send an end audio service request");
+//        return completionHandler(NO);
+//    }
 }
 
 - (void)closeProtocol {
@@ -234,6 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.audioEndServiceReceivedHandler != nil) {
         self.audioEndServiceReceivedHandler(YES);
+        self.audioEndServiceReceivedHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
@@ -246,6 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.audioEndServiceReceivedHandler != nil) {
         self.audioEndServiceReceivedHandler(NO);
+        self.audioEndServiceReceivedHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
