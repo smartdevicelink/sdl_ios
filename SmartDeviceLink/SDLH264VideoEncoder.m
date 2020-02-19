@@ -64,6 +64,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     OSStatus status;
     
     // Create a compression session
+    SDLLogW(@"compression session width %f x height %f", dimensions.width, dimensions.height);
     status = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
@@ -199,6 +200,14 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 #pragma mark - Private
 #pragma mark Callback
+
+
+/// Callback function that VideoToolbox calls when encoding is complete.
+/// @param outputCallbackRefCon The callback's reference value
+/// @param sourceFrameRefCon The frame's reference value
+/// @param status Returns `noErr` if compression was successful;error if not successful
+/// @param infoFlags Information about the encode operation (frame dropped or if encode ran asynchronously)
+/// @param sampleBuffer Contains the compressed frame if compression was successful and the frame was not dropped; null otherwise
 void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
