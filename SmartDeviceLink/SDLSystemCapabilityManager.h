@@ -292,44 +292,41 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 ///
 /// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
 /// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
-
+///
 /// @param type The type of capability to subscribe to
 /// @param handler The block to be called when the capability is updated with an error if one occurs
 /// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler NS_SWIFT_NAME(subscribe(capabilityType:updateHandler:));
 
-/**
- * Subscribe to a particular capability type with a selector callback.
- *
- * The selector supports the following parameters:
- *
- * 1. No parameters e.g. `- (void)phoneCapabilityUpdated;`
- *
- * 2. One `SDLSystemCapability *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
- *
- * 3. Two parameters, one `SDLSystemCapability *` parameter, and one `NSError` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error`
- *
- * 4. Three parameters, one `SDLSystemCapability *` parameter, one `NSError` parameter, and one `BOOL` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed`
- *
- * On v5.1.0+ systems (where `supportsSubscriptions == YES`):
- * This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
- *
- * On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
- * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
- *
- * @param type The type of the system capability to subscribe to
- * @param observer The object that will have `selector` called whenever the capability is updated
- * @param selector The selector on `observer` that will be called whenever the capability is updated
- * @return YES if the manager is attempting the subscription, or NO if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS), or the selector doesn't contain the correct number of parameters.
- */
+
+/// Subscribe to a particular capability type with a selector callback.
+///
+/// The selector supports the following parameters:
+///
+/// 1. No parameters e.g. `- (void)phoneCapabilityUpdated;`
+///
+/// 2. One `SDLSystemCapability *` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability`
+///
+/// 3. Two parameters, one `SDLSystemCapability *` parameter, and one `NSError` parameter, e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error`
+///
+/// 4. Three parameters, one `SDLSystemCapability *` parameter, one `NSError` parameter, and one `BOOL` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed`
+///
+/// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
+/// This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
+///
+/// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
+///
+/// @param type The type of the system capability to subscribe to
+/// @param observer The object that will have `selector` called whenever the capability is updated
+/// @param selector The selector on `observer` that will be called whenever the capability is updated
+/// @return YES if the manager is attempting the subscription, or NO if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS), or the selector doesn't contain the correct number of parameters.
 - (BOOL)subscribeToCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer selector:(SEL)selector;
 
-/**
- * Unsubscribe from a particular capability type. If it was subscribed with a block / handler, the return value should be passed to the `observer` to unsubscribe the block. If it was subscribed with a selector, the `observer` object (on which the selector exists and is called) should be passed to unsubscribe the object selector.
- *
- * @param type The type of the system capability to unsubscribe from
- * @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.
- */
+/// Unsubscribe from a particular capability type. If it was subscribed with a block / handler, the return value should be passed to the `observer` to unsubscribe the block. If it was subscribed with a selector, the `observer` object (on which the selector exists and is called) should be passed to unsubscribe the object selector.
+///
+/// @param type The type of the system capability to unsubscribe from
+/// @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer;
 
 @end
