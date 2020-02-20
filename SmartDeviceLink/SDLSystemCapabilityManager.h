@@ -273,7 +273,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// Subscribe to a particular capability type using a block callback.
 ///
 /// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
-/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
+/// This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
 ///
 /// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
 /// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
@@ -286,7 +286,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// Subscribe to a particular capability type using a handler callback.
 ///
 /// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
-/// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
+/// This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
 ///
 /// Note that when the cached value is returned, the `subscribed` flag on the handler will be false until the subscription completes successfully and a new value is retrieved.
 ///
@@ -312,7 +312,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  * 4. Three parameters, one `SDLSystemCapability *` parameter, one `NSError` parameter, and one `BOOL` parameter e.g. `- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed`
  *
  * On v5.1.0+ systems (where `supportsSubscriptions == YES`):
- * This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
+ * This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
  *
  * On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
  * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
