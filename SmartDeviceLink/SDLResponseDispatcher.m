@@ -179,30 +179,28 @@ NS_ASSUME_NONNULL_BEGIN
     [self.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];
 
+    // If we errored on the response, the delete / unsubscribe was unsuccessful
+    if (error == nil) {
+        // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
+        if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
+            SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
+            NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
+            [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
+        } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
+            SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
+            SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
+            [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
+        } else if ([response isKindOfClass:[SDLPerformAudioPassThruResponse class]]) {
+            _audioPassThruHandler = nil;
+        }
+    }
+
     // Run the response handler
     if (handler) {
         if (!response.success.boolValue) {
             SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
         }
         handler(request, response, error);
-    }
-
-    // If we errored on the response, the delete / unsubscribe was unsuccessful
-    if (error) {
-        return;
-    }
-
-    // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
-    if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
-        SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
-        NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
-        [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
-    } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
-        SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
-        SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
-        [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
-    } else if ([response isKindOfClass:[SDLPerformAudioPassThruResponse class]]) {
-        _audioPassThruHandler = nil;
     }
 }
 
