@@ -276,7 +276,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
 ///
 /// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
-/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the current cached value of `nil` will be returned immediately, an updated value will be retrieved, and a subscription will be attempted.
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
 ///
 /// @param type The type of capability to subscribe to
 /// @param block The block to be called when the capability is updated
@@ -291,7 +291,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 /// Note that when the cached value is returned, the `subscribed` flag on the handler will be false until the subscription completes successfully and a new value is retrieved.
 ///
 /// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
-/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
+/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
 
 /// @param type The type of capability to subscribe to
 /// @param handler The block to be called when the capability is updated with an error if one occurs
@@ -315,7 +315,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  * This method will be called immediately with the current value and will be called every time the value is updated. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and a subscription will be attempted. The current cached value (`nil`) will nevertheless be returned immediately.
  *
  * On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
- * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned. The current cached value (`nil`) will nevertheless be returned immediately.
+ * The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
  *
  * @param type The type of the system capability to subscribe to
  * @param observer The object that will have `selector` called whenever the capability is updated
