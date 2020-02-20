@@ -517,17 +517,20 @@ typedef NSString * SDLServiceID;
 
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
-        self.capabilityObservers[type] = [NSMutableArray array];
+        self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
             [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        } else {
+            // If we're not calling the GSC RPC we should invoke the observer with the cached data
+            [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
         }
+    } else {
+        // Store the observer and call it immediately with the cached value
+        [self.capabilityObservers[type] addObject:observerObject];
+        [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
     }
-    [self.capabilityObservers[type] addObject:observerObject];
-
-    // Call the block immediately with the cached value
-    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return observerObject.observer;
 }
@@ -544,17 +547,20 @@ typedef NSString * SDLServiceID;
 
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
-        self.capabilityObservers[type] = [NSMutableArray array];
+        self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
             [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        } else {
+            // If we're not calling the GSC RPC we should invoke the observer with the cached data
+            [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
         }
+    } else {
+        // Store the observer and call it immediately with the cached value
+        [self.capabilityObservers[type] addObject:observerObject];
+        [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
     }
-    [self.capabilityObservers[type] addObject:observerObject];
-
-    // Call the block immediately with the cached value
-    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return observerObject.observer;
 }
@@ -581,17 +587,20 @@ typedef NSString * SDLServiceID;
 
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
-        self.capabilityObservers[type] = [NSMutableArray array];
+        self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
             [self sdl_sendGetSystemCapabilityWithType:type subscribe:@YES completionHandler:nil];
+        } else {
+            // If we're not calling the GSC RPC we should invoke the observer with the cached data
+            [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
         }
+    } else {
+        // Store the observer and call it immediately with the cached value
+        [self.capabilityObservers[type] addObject:observerObject];
+        [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
     }
-
-    // Store the observer and call it immediately with the cached value
-    [self.capabilityObservers[type] addObject:observerObject];
-    [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
 
     return YES;
 }
