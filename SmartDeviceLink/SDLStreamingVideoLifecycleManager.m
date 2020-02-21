@@ -592,7 +592,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma clang diagnostic pop
     if (resolution != nil) {
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
-                                                                      resolution.resolutionHeight.floatValue);
+                                 resolution.resolutionHeight.floatValue);
         // workaround for older high resolution displays that don't support scaling
         NSString *make = registerResponse.vehicleType.make;
         CGSize resolution = self.videoScaleManager.displayViewportResolution;
