@@ -137,7 +137,13 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSlider *sliderRPC = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"Select a letter" sliderFooters:@[@"A", @"B", @"C"] timeout:10000];
         [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider could not be displayed" textField2:nil iconName:nil]];
+                if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider timed out" textField2:nil iconName:nil]];
+                } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider cancelled" textField2:nil iconName:nil]];
+                } else {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider could not be displayed" textField2:nil iconName:nil]];
+                }
             }
         }];
     }];
@@ -148,8 +154,14 @@ NS_ASSUME_NONNULL_BEGIN
         SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines"];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
-            }
+                if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message timed out" textField2:nil iconName:nil]];
+                } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message cancelled" textField2:nil iconName:nil]];
+                } else {
+                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
+                }
+           }
         }];
     }];
 }
