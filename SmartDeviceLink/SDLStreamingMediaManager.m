@@ -19,8 +19,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-
 @interface SDLStreamingMediaManager ()
 
 @property (strong, nonatomic) SDLStreamingAudioLifecycleManager *audioLifecycleManager;
@@ -33,8 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingMediaManager
 
-#pragma mark - Public
-#pragma mark Lifecycle
+#pragma mark - Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
     self = [super init];
@@ -58,19 +55,16 @@ NS_ASSUME_NONNULL_BEGIN
     [self startVideoWithProtocol:protocol];
 }
 
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol {
-    [self.audioLifecycleManager startWithProtocol:protocol];
-    self.audioStarted = YES;
-}
-
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol {
-    [self.videoLifecycleManager startWithProtocol:protocol];
-    self.videoStarted = YES;
-}
-
 - (void)stop {
     [self stopAudio];
     [self stopVideo];
+}
+
+#pragma mark - Audio
+
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol {
+    [self.audioLifecycleManager startWithProtocol:protocol];
+    self.audioStarted = YES;
 }
 
 - (void)stopAudio {
@@ -86,6 +80,21 @@ NS_ASSUME_NONNULL_BEGIN
         if (completionHandler == nil) { return; }
         return completionHandler(success);
     }];
+}
+
+- (void)destroyAudioProtocol {
+    [self.audioLifecycleManager destroyProtocol];
+}
+
+- (BOOL)sendAudioData:(NSData*)audioData {
+    return [self.audioLifecycleManager sendAudioData:audioData];
+}
+
+#pragma mark - Video
+
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol {
+    [self.videoLifecycleManager startWithProtocol:protocol];
+    self.videoStarted = YES;
 }
 
 - (void)stopVideo {
@@ -107,10 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.videoLifecycleManager destroyProtocol];
 }
 
-- (void)destroyAudioProtocol {
-    [self.audioLifecycleManager destroyProtocol];
-}
-
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     return [self.videoLifecycleManager sendVideoData:imageBuffer];
 }
@@ -118,11 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
     return [self.videoLifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
 }
-
-- (BOOL)sendAudioData:(NSData*)audioData {
-    return [self.audioLifecycleManager sendAudioData:audioData];
-}
-
 
 #pragma mark - Getters
 
@@ -200,6 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Setters
+
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
     self.videoLifecycleManager.rootViewController = rootViewController;
 }
