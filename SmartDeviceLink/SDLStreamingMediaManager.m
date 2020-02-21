@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.audioLifecycleManager stopWithCompletionHandler:^(BOOL success) {
+    [self.audioLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
         weakSelf.audioStarted = NO;
 
         if (completionHandler == nil) { return; }
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)destroyAudioProtocol {
-    [self.audioLifecycleManager closeProtocol];
+    [self.audioLifecycleManager destroyProtocol];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {

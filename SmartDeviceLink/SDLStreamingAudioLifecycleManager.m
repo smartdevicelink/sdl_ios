@@ -96,32 +96,35 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_startAudioSession];
 }
 
+/// Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end audio service control frame as the module will never receive the request.
 - (void)stop {
     SDLLogD(@"Stopping audio streaming lifecycle manager");
+
+    // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
     _protocol = nil;
+
+    // Reset the `hmiLevel`. This is done because we will not get a notification with the updated hmi status due to the transport being destroyed.
     _hmiLevel = SDLHMILevelNone;
+
+    // Reset the `connectedVehicleMake` because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module. It is possible that the user could connect to different module during the same app session.
     _connectedVehicleMake = nil;
+
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+// Stops the manager when audio needs to be stopped on the secondary transport. The primary transport is still open.
+// 1. Since the primary transport is still open, do will not reset the `hmiLevel` since we can still get notifications from the module with the updated hmi status on the primary transport.
+// 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
+- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+    SDLLogD(@"Stopping audio streaming");
     self.audioEndServiceReceivedHandler = completionHandler;
 
-    // Can't sent procol to `nil` else we will not get a response to the end audio service control frame
-
-    // _hmiLevel = SDLHMILevelNone;
-    _connectedVehicleMake = nil;
-
+    // Always send an end audio service control frame, regardless of whether video is streaming or not.
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
-//    if (self.isAudioConnected) {
-//        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
-//    } else {
-//        SDLLogV(@"No audio currently streaming. No need to send an end audio service request");
-//        return completionHandler(NO);
-//    }
 }
 
-- (void)closeProtocol {
+/// Used internally to destroy the protocol after the secondary transport is shut down.
+- (void)destroyProtocol {
     self.protocol = nil;
 }
 
@@ -191,19 +194,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Start Service ACK
+#pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
-    [self sdl_handleAudioStartServiceAck:startServiceACK];
-}
 
-- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartServiceAck {
-    SDLLogW(@"Audio start ACKed");
+    SDLLogW(@"Request to start audio service ACKed");
     //SDLLogD(@"Audio service started");
-    _audioEncrypted = audioStartServiceAck.header.encrypted;
+    _audioEncrypted = startServiceACK.header.encrypted;
 
-    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartServiceAck.payload];
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
     //SDLLogV(@"ACK: %@", audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
@@ -213,26 +213,19 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-#pragma mark Start Service NAK
-
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
-    [self sdl_handleAudioStartServiceNak:startServiceNAK];
-}
+    SDLLogW(@"Request to start audio service NAKed");
 
-- (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
-    SDLLogW(@"Audio start NAKed");
-    //SDLLogW(@"Audio service failed to start due to NAK");
     [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
 }
 
-#pragma mark End Service
+#pragma mark End Service ACK/NAK
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
-    SDLLogW(@"Audio end ACKed");
-    //SDLLogD(@"Audio service ended successfully");
 
+    SDLLogW(@"Request to end audio service ACKed");
     if (self.audioEndServiceReceivedHandler != nil) {
         self.audioEndServiceReceivedHandler(YES);
         self.audioEndServiceReceivedHandler = nil;
@@ -243,9 +236,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
-    SDLLogW(@"Audio end NAKed");
-    //SDLLogE(@"Audio service did not end successfully");
 
+    SDLLogW(@"Request to end audio service ACKed");
     if (self.audioEndServiceReceivedHandler != nil) {
         self.audioEndServiceReceivedHandler(NO);
         self.audioEndServiceReceivedHandler = nil;

@@ -196,7 +196,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 
-/// Stops the manager when the device disconnects from the module.
+/// Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end video service control frame as the module will never receive the request.
 - (void)stop {
     SDLLogD(@"Stopping video streaming lifecycle manager");
 
@@ -522,20 +522,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Start Service ACK
+#pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-    [self sdl_handleVideoStartServiceAck:startServiceACK];
-}
 
-- (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartServiceAck {
-    SDLLogW(@"Video Start ACKed");
-    //SDLLogD(@"Video service started");
-    _videoEncrypted = videoStartServiceAck.header.encrypted;
+    SDLLogD(@"Request to start video service ACKed");
+    _videoEncrypted = startServiceACK.header.encrypted;
 
-    SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:videoStartServiceAck.payload];
-    //SDLLogV(@"ACK payload: %@", videoAckPayload);
+    SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:startServiceACK.payload];
 
     if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
@@ -558,23 +553,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
     self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
     self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
-
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
-
-#pragma mark Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
-    [self sdl_handleVideoStartServiceNak:startServiceNAK];
-}
 
-- (void)sdl_handleVideoStartServiceNak:(SDLProtocolMessage *)videoStartServiceNak {
-    SDLLogW(@"Video Start NAKed");
-
-    //SDLLogW(@"Video service failed to start due to NAK");
-    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:videoStartServiceNak.payload];
-    //SDLLogD(@"NAK parameters: %@", nakPayload);
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
+    SDLLogE(@"Request to start video service NAKed with reason: %@", nakPayload.description);
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
@@ -600,9 +585,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-    SDLLogW(@"Video End ACKed");
-    //SDLLogD(@"Video service ended successfully");
 
+    SDLLogD(@"Request to end video service ACKed");
     if (self.videoEndServiceReceivedHandler != nil) {
         self.videoEndServiceReceivedHandler(YES);
         self.videoEndServiceReceivedHandler = nil;
@@ -613,9 +597,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
-    SDLLogW(@"Video End NAKed");
-    //SDLLogE(@"Video service did not end successfully");
 
+    SDLLogE(@"Request to end video service NAKed");
     if (self.videoEndServiceReceivedHandler != nil) {
         self.videoEndServiceReceivedHandler(NO);
         self.videoEndServiceReceivedHandler = nil;
