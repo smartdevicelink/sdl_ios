@@ -36,7 +36,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  */
 @interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
 
-/** state of this manager */
+// State of this manager
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 
 /**
@@ -50,28 +50,31 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
                                       serialQueue:(dispatch_queue_t)queue;
 
 /**
- *  Start the manager.
+ Start the manager.
 
  @param primaryProtocol protocol that runs on the main (primary) transport
  */
 - (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol;
 
 /**
- *  Stop the manager.
+ Stop the manager.
  */
 - (void)stop;
 
+/**
+ Destroys the secondary transport.
+ */
 - (BOOL)disconnectSecondaryTransport;
 
 /**
- * Call this method when Start Service ACK control frame is received on primary transport.
+ Call this method when Start Service ACK control frame is received on primary transport.
 
  @param payload payload of Start Service ACK frame received on the primary transport
  */
 - (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload;
 
 /**
- * Call this method when Transport Event Update control frame is received on primary transport.
+ Call this method when Transport Event Update control frame is received on primary transport.
 
  @param payload payload of Transport Event Update frame received on the primary transport
  */

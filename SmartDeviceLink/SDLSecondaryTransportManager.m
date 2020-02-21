@@ -308,15 +308,11 @@ NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secon
     // before disconnecting Secondary Transport, stop running services
     SDLLogD(@"Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-
-    // [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
     SDLLogD(@"Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-
-    //[self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateStopped {
