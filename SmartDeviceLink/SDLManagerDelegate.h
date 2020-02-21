@@ -13,6 +13,7 @@
 #import "SDLSystemContext.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLanguage.h"
+#import "SDLVideoStreamingState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,6 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState;
 
+/// Called when the video streaming state of this application changes. This refers to streaming video for navigation purposes. If you are "autostreaming" via CarWindow, you should not do anything with this method. Everything should be handled for you automatically.
+///
+/// Only supported on RPC v5.0+ connections.
+///
+/// @param oldState The previous state
+/// @param newState The current state
+- (void)videoStreamingState:(nullable SDLVideoStreamingState)oldState didChangetoState:(SDLVideoStreamingState)newState;
+
 /**
  *  Called when the system context of this application changes on the remote system. This refers to whether or not a user-initiated interaction is in progress, and if so, what it is.
  *
@@ -56,7 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
  */
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language;
-
 
 @end
 

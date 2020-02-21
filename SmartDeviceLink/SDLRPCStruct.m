@@ -54,8 +54,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store description];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (NSDictionary<NSString *, id> *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
     NSMutableDictionary<NSString *, id> *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
     for (NSString *key in dict.keyEnumerator) {
@@ -82,7 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
     return ret;
 }
-#pragma clang diagnostic pop
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] initWithDictionary:_store];

@@ -215,10 +215,7 @@ describe(@"SendRPCRequest Tests", ^ {
     
     context(@"During V1 session", ^ {
         it(@"Should send the correct data", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [[[[mockRequest stub] andReturn:dictionaryV1] ignoringNonObjectArgs] serializeAsDictionary:1];
-#pragma clang diagnostic pop
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
             SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
@@ -255,10 +252,7 @@ describe(@"SendRPCRequest Tests", ^ {
     
     context(@"During V2 session", ^ {
         it(@"Should send the correct data bulk data when bulk data is available", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
-#pragma clang diagnostic pop
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
             [[[mockRequest stub] andReturn:@"DeleteCommand"] name];
             [[[mockRequest stub] andReturn:[NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")]] bulkData];

@@ -309,24 +309,23 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         NSError *error;
         switch (stream.streamError.code) {
             case ECONNREFUSED: {
-                SDLLogD(@"TCP connection error: ECONNREFUSED");
+                SDLLogE(@"TCP connection error: ECONNREFUSED (connection refused)");
                 error = [NSError sdl_transport_connectionRefusedError];
             } break;
             case ETIMEDOUT: {
-                SDLLogD(@"TCP connection error: ETIMEDOUT");
+                SDLLogE(@"TCP connection error: ETIMEDOUT (connection timed out)");
                 error = [NSError sdl_transport_connectionTimedOutError];
             } break;
             case ENETDOWN: {
-                SDLLogD(@"TCP connection error: ENETDOWN");
+                SDLLogE(@"TCP connection error: ENETDOWN (network down)");
                 error = [NSError sdl_transport_networkDownError];
             } break;
             case ENETUNREACH: {
-                // This is just for safe. I did not observe ENETUNREACH error on iPhone.
-                SDLLogD(@"TCP connection error: ENETUNREACH");
+                SDLLogE(@"TCP connection error: ENETUNREACH (network unreachable)");
                 error = [NSError sdl_transport_networkDownError];
             } break;
             default: {
-                SDLLogD(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
+                SDLLogE(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
                 error = [NSError sdl_transport_unknownError];
             } break;
         }
@@ -338,6 +337,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_onStreamEnd:(NSStream *)stream {
+    SDLLogD(@"Stream ended");
     NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onStreamEnd is called on a wrong thread!");
 
     [self sdl_cancelIOThread];
