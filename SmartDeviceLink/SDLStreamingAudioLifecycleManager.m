@@ -200,11 +200,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLLogW(@"Request to start audio service ACKed");
-    //SDLLogD(@"Audio service started");
     _audioEncrypted = startServiceACK.header.encrypted;
 
     SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
-    //SDLLogV(@"ACK: %@", audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
