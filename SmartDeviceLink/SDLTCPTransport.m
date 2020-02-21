@@ -21,7 +21,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @interface SDLTCPTransport ()
 
 @property (nullable, nonatomic, strong) NSThread *ioThread;
-//@property (nonatomic, strong) dispatch_semaphore_t ioThreadStoppedSemaphore;
 @property (nonatomic, assign) NSUInteger receiveBufferSize;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (nullable, nonatomic, strong) NSInputStream *inputStream;
@@ -77,7 +76,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     self.ioThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_tcpTransportEventLoop) object:nil];
     self.ioThread.name = TCPIOThreadName;
-    // self.ioThreadStoppedSemaphore = dispatch_semaphore_create(0);
 
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
@@ -105,7 +103,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     [self sdl_cancelIOThread];
 
-    // Calling `dispatch_semaphore_wait` freezes the thread so shutdown never occurs `cancel` never gets called
     if (self.ioThread != nil) {
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
@@ -348,9 +345,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
 }
 
-- (void)sdl_doNothing {
-    SDLLogV(@"Doing nothing to trigger cancel");
-}
+- (void)sdl_doNothing {}
 
 @end
 
