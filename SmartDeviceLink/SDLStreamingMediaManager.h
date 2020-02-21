@@ -152,8 +152,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopAudio;
 
+/**
+*  Stops the audio feature of the manager on the secondary transport. This method is used internally.
+*/
 - (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
 
+/**
+ *  Destroys the audio transport protocol after the secondary transport has been shut down. This method is used internally.
+ */
 - (void)destroyAudioProtocol;
 
 /**
@@ -161,9 +167,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopVideo;
 
+/**
+ *  Stops the video feature of the manager on the secondary transport. This method is used internally.
+ */
 - (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
 
+/**
+ *  Destroys the video service protocol after the secondary transport has been shut down. This method is used internally.
+ */
 - (void)destroyVideoProtocol;
+
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *
