@@ -877,47 +877,46 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     BOOL audioProtocolUpdated = ((oldAudioProtocol == nil && newAudioProtocol == nil) || (oldAudioProtocol == newAudioProtocol)) ? NO : YES;
 
     if (videoProtocolUpdated && audioProtocolUpdated) {
-        // Stop both audio and video session before destroying the transport
         if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
+            // Both an audio and video service are currently running. Make sure both audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
             [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
                 [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
                     [self.secondaryTransportManager disconnectSecondaryTransport];
                     [self.streamManager destroyAudioProtocol];
                     [self.streamManager destroyVideoProtocol];
-                    
-                    if (newAudioProtocol != nil) {
-                        [self.streamManager startAudioWithProtocol:newAudioProtocol];
-                    }
-                    if (newVideoProtocol != nil) {
-                        [self.streamManager startVideoWithProtocol:newVideoProtocol];
-                    }
+                    [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
                 }];
             }];
         } else if (oldVideoProtocol != nil) {
+            // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
             [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
                 [self.secondaryTransportManager disconnectSecondaryTransport];
-
-                if (newVideoProtocol != nil) {
-                    [self.streamManager startVideoWithProtocol:newVideoProtocol];
-                }
+                [self.streamManager destroyVideoProtocol];
+                [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
             }];
         } else if (oldAudioProtocol != nil) {
+            // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
             [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
                 [self.secondaryTransportManager disconnectSecondaryTransport];
-
-                if (newAudioProtocol != nil) {
-                    [self.streamManager startAudioWithProtocol:newAudioProtocol];
-                }
+                [self.streamManager destroyAudioProtocol];
+                [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
             }];
         } else {
-            // Both old audio and video protocols are nil
-            if (newAudioProtocol != nil) {
-                [self.streamManager startAudioWithProtocol:newAudioProtocol];
-            }
-            if (newVideoProtocol != nil) {
-                [self.streamManager startVideoWithProtocol:newVideoProtocol];
-            }
+            // No audio and/or video service currently running. Just start the new audio and/or video service.
+            [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
         }
+    }
+}
+
+/// Starts the audio and/or video services using the new protocol.
+/// @param newAudioProtocol The new audio protocol
+/// @param newVideoProtocol The new video protocol
+- (void)sdl_startNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol startNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol {
+    if (newAudioProtocol != nil) {
+        [self.streamManager startAudioWithProtocol:newAudioProtocol];
+    }
+    if (newVideoProtocol != nil) {
+        [self.streamManager startVideoWithProtocol:newVideoProtocol];
     }
 }
 

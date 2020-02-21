@@ -195,53 +195,53 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_startVideoSession];
 }
 
+
+/// Stops the manager when the device disconnects from the module.
 - (void)stop {
     SDLLogD(@"Stopping video streaming lifecycle manager");
 
-    _protocol = nil;
+    // Reset the video streaming parameters as video is not streaming.
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
+    _lastPresentationTimestamp = kCMTimeInvalid;
 
+    // Reset the `hmiLevel` and `videoStreamingState`. This is done because we will not get a notification with the updated hmi status due to the transport being destroyed.
     _hmiLevel = SDLHMILevelNone;
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
-    _lastPresentationTimestamp = kCMTimeInvalid;
+
+    // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
+    _protocol = nil;
+
+    // Reset the video scale manager because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module.
+    [self.videoScaleManager stop];
+
+    // Reset the `connectedVehicleMake` because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module. It is possible that the user could connect to different module during the same app session.
     _connectedVehicleMake = nil;
 
-    [self.videoScaleManager stop];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
-- (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+// Stops the manager when video needs to be stopped on the secondary transport. The primary transport is still open.
+// 1. Since the primary transport is still open, do will not reset the `hmiLevel` and `videoStreamingState` since we can still get notifications from the module with the updated hmi status on the primary transport.
+// 2. We need to send an end video service control frame to the module to ensure that the video session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end video service request.
+// 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
+- (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     self.videoEndServiceReceivedHandler = completionHandler;
 
-    // Can't sent procol to `nil` else we will not get a response to the end video service control frame
+    // Always send an end video service control frame, regardless of whether video is streaming or not.
+    [self.protocol endServiceWithType:SDLServiceTypeVideo];
+}
 
+/// Used internally to destroy the protocol after the secondary transport is shut down.
+- (void)destroyProtocol {
+    self.protocol = nil;
+
+    // Reset the video streaming parameters as video is not streaming.
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
-
-//    _hmiLevel = SDLHMILevelNone;
-//    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _lastPresentationTimestamp = kCMTimeInvalid;
-    _connectedVehicleMake = nil;
-
-    // Don't reset the dimensions - seems to be a video start service bug
-    //[self.videoScaleManager stop];
-
-    // Always send an end service, regardless of whether video is streaming or not
-
-    [self.protocol endServiceWithType:SDLServiceTypeVideo];
-//    if (![self.currentVideoStreamState isEqualToEnum:SDLVideoStreamManagerStateStopped]) {
-//        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
-//    } else {
-//        SDLLogV(@"No video currently streaming. No need to send an end video service request");
-//        return completionHandler(NO);
-//    }
-}
-
-- (void)closeProtocol {
-    self.protocol = nil;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {

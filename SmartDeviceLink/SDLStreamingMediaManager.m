@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.videoLifecycleManager stopWithCompletionHandler:^(BOOL success) {
+    [self.videoLifecycleManager stopVideoWithCompletionHandler:^(BOOL success) {
         weakSelf.videoStarted = NO;
 
         if (completionHandler == nil) { return; }
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)destroyVideoProtocol {
-    [self.videoLifecycleManager closeProtocol];
+    [self.videoLifecycleManager destroyProtocol];
 }
 
 - (void)destroyAudioProtocol {

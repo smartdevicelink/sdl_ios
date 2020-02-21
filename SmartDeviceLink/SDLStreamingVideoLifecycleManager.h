@@ -154,13 +154,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProtocol:(SDLProtocol *)protocol;
 
 /**
- *  Stop the manager. This method is used internally.
+ *  This method is used internally to stop the manager when the device disconnects from the module.
  */
 - (void)stop;
 
-- (void)stopWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
+/**
+ *  This method is used internally to end a video service on the secondary transport. The primary transport is still open.
+ *
+ *  @param completionHandler Called when the module ACKs or NAKs to the request to end the video service.
+ */
+- (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
 
-- (void)closeProtocol;
+/**
+ *  This method is used internally to destroy the protocol after the secondary transport is shut down.
+ */
+- (void)destroyProtocol;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
