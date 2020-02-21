@@ -281,8 +281,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:self.proxy.protocol toNewVideoProtocol:nil fromOldAudioProtocol:self.proxy.protocol
          toNewAudioProtocol:nil];
-//        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
-//        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
     }
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
@@ -463,8 +461,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
         [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:self.proxy.protocol fromOldAudioProtocol:nil toNewAudioProtocol:self.proxy.protocol];
-//        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-//        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 
     dispatch_group_enter(managerGroup);
