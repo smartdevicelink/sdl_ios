@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
-@property (nonatomic, copy, nullable) void (^audioEndServiceReceivedHandler)(BOOL success);
+@property (nonatomic, copy, nullable) SDLAudioEndedCompletionHandler audioEndedCompletionHandler;
 
 @end
 
@@ -115,9 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
 // Stops the manager when audio needs to be stopped on the secondary transport. The primary transport is still open.
 // 1. Since the primary transport is still open, do will not reset the `hmiLevel` since we can still get notifications from the module with the updated hmi status on the primary transport.
 // 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
-- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+- (void)stopAudioWithCompletionHandler:(nullable SDLAudioEndedCompletionHandler)completionHandler {
     SDLLogD(@"Stopping audio streaming");
-    self.audioEndServiceReceivedHandler = completionHandler;
+    self.audioEndedCompletionHandler = completionHandler;
 
     // Always send an end audio service control frame, regardless of whether video is streaming or not.
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
@@ -226,9 +226,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLLogW(@"Request to end audio service ACKed");
-    if (self.audioEndServiceReceivedHandler != nil) {
-        self.audioEndServiceReceivedHandler(YES);
-        self.audioEndServiceReceivedHandler = nil;
+    if (self.audioEndedCompletionHandler != nil) {
+        self.audioEndedCompletionHandler(YES);
+        self.audioEndedCompletionHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
@@ -238,9 +238,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLLogW(@"Request to end audio service ACKed");
-    if (self.audioEndServiceReceivedHandler != nil) {
-        self.audioEndServiceReceivedHandler(NO);
-        self.audioEndServiceReceivedHandler = nil;
+    if (self.audioEndedCompletionHandler != nil) {
+        self.audioEndedCompletionHandler(NO);
+        self.audioEndedCompletionHandler = nil;
     }
 
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];

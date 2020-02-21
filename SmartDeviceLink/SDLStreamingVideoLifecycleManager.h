@@ -28,7 +28,9 @@
 @protocol SDLFocusableItemLocatorType;
 @protocol SDLStreamingMediaManagerDataSource;
 
-
+/// Called when an end video service ACK or NAK has been received.
+/// @param success True if the end service ACKed; False if NAKed.
+typedef void (^SDLVideoEndedCompletionHandler)(BOOL success);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -163,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param completionHandler Called when the module ACKs or NAKs to the request to end the video service.
  */
-- (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler;
+- (void)stopVideoWithCompletionHandler:(nullable SDLVideoEndedCompletionHandler)videoEndedCompletionHandler;
 
 /**
  *  This method is used internally to destroy the protocol after the secondary transport is shut down.
