@@ -65,6 +65,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     self.canPresent = NO;
 
+    [self sdl_runOnMainQueue:^{
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            SDLLogW(@"Attempted to start lock screen manager, but we are in the background. We will attempt to start again when we are in the foreground.");
+            return;
+        } else {
+            // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
+            if (self.presenter.lockViewController != nil) {
+                [self.presenter updateLockScreenToShow:NO];
+                [self.presenter stop];
+            }
+
+            [self sdl_start];
+        }
+    }];
+}
+
+- (void)sdl_start {
     // Create and initialize the lock screen controller depending on the configuration
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeNever) {
         self.presenter.lockViewController = nil;
@@ -130,14 +147,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Dismiss the lock screen if the app was disconnected in the background
+    [self sdl_runOnMainQueue:^{
+        // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
         if (!weakSelf.canPresent) {
-            [weakSelf.presenter updateLockScreenToShow:NO];
+            [weakSelf start];
         }
-    });
 
-    [self sdl_checkLockScreen];
+        [self sdl_checkLockScreen];
+    }];
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
@@ -157,9 +174,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self sdl_runOnMainQueue:^{
         [weakSelf sdl_updatePresentation];
-    });
+    }];
 }
 
 - (void)sdl_updatePresentation {
@@ -209,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self sdl_runOnMainQueue:^{
         __strong typeof(self) strongSelf = weakself;
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
@@ -222,7 +239,17 @@ NS_ASSUME_NONNULL_BEGIN
             [lockscreenViewController removeDismissGesture];
             lockscreenViewController.lockedLabelText = nil;
         }
-    });
+    }];
+}
+
+#pragma mark - Threading Utilities
+
+- (void)sdl_runOnMainQueue:(void (^)(void))block {
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
 }
 
 @end

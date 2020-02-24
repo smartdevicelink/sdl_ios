@@ -46,8 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Dismiss and destroy the lockscreen window
-    [self sdl_dismissWithCompletionHandler:^{
-        self.lockWindow = nil;
+    [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            self.lockWindow = nil;
+            self.lockViewController = nil;
+        }
     }];
 }
 
@@ -65,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
             [self sdl_dismissWithCompletionHandler:nil];
         }];
     } else {
-        [self sdl_dismissWithCompletionHandler:^{
+        [self sdl_dismissWithCompletionHandler:^(BOOL success) {
             if (!self.shouldShowLockScreen) { return; }
 
             SDLLogV(@"The lockscreen has been dismissed but needs to be presented");
@@ -87,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self sdl_runOnMainQueue:^{
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             // If the the `UIWindow` is created while the app is backgrounded and the app is using `SceneDelegate` class (iOS 13+), then the window will not be created correctly. Wait until the app is foregrounded before creating the window.
             SDLLogV(@"Application is backgrounded. The lockscreen will not be shown until the application is brought to the foreground.");
@@ -95,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
             return completionHandler();
         }
         [weakSelf sdl_presentLockscreenWithCompletionHandler:completionHandler];
-    });
+    }];
 }
 
 /// Handles the presentation of the lockscreen with animation.
@@ -135,32 +138,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Checks if the lockscreen can be dismissed and if so dismisses the lockscreen on the main thread.
 /// @param completionHandler Called when the lockscreen has finished its animation or if the lockscreen can not be dismissed
-- (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+- (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
     if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lockscreen, but lockViewController is not set");
         if (completionHandler == nil) { return; }
-        return completionHandler();
+        return completionHandler(NO);
     }
 
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self sdl_runOnMainQueue:^{
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             SDLLogV(@"Application is backgrounded. The lockscreen will not be dismissed until the app is brought to the foreground.");
             if (completionHandler == nil) { return; }
-            return completionHandler();
+            return completionHandler(NO);
         }
         [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
-    });
+    }];
 }
 
 /// Handles the dismissal of the lockscreen with animation.
 /// @param completionHandler Called when the lockscreen is dismissed successfully or if it is already in the process of being dismissed
-- (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+- (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(BOOL success))completionHandler {
     if (self.isDismissing || !self.isPresentedOrPresenting) {
         // Make sure we are not already animating, otherwise the app may crash
         SDLLogV(@"The lockscreen is already being dismissed");
         if (completionHandler == nil) { return; }
-        return completionHandler();
+        return completionHandler(NO);
     }
 
     // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lockscreen will be very janky.
@@ -179,10 +182,19 @@ NS_ASSUME_NONNULL_BEGIN
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
         if (completionHandler == nil) { return; }
-        return completionHandler();
+        return completionHandler(YES);
     }];
 }
 
+#pragma mark - Threading Utilities
+
+- (void)sdl_runOnMainQueue:(void (^)(void))block {
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
+}
 
 #pragma mark - Custom Presented / Dismissed Getters
 
