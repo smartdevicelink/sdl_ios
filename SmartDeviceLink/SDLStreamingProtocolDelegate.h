@@ -16,14 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Called when protocol instance for audio and/or video service has been updated.
 ///
-/// If `newVideoProtocol` or `newAudioProtocol` is nil, it indicates that underlying transport has become unavailable.
+/// If `newVideoProtocol` or `newAudioProtocol` is nil it indicates that underlying transport has become unavailable.
 ///
 /// @param oldVideoProtocol protocol instance that was being used for video streaming
 /// @param newVideoProtocol protocol instance that will be used for video streaming
 /// @param oldAudioProtocol protocol instance that was being used for audio streaming
 /// @param newAudioProtocol protocol instance that will be used for audio streaming
 - (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
-
 
 @end
 
