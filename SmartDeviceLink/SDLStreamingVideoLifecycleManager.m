@@ -532,7 +532,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // This is the definitive screen size that will be used
     if ((videoAckPayload.height != SDLControlFrameInt32NotFound || videoAckPayload.height != 0) && (videoAckPayload.width != SDLControlFrameInt32NotFound && videoAckPayload.width != 0)) {
-            self.videoScaleManager.displayViewportResolution = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
+        self.videoScaleManager.displayViewportResolution = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
     } else if (self.preferredResolutions.count > 0) {
         // If a preferred resolution was set, use the first option to set the screen size
         SDLImageResolution *preferredResolution = self.preferredResolutions.firstObject;
@@ -658,9 +658,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatus.hmiLevel;
-    SDLLogV(@"HMI level changed from %@ to $%@", oldHMILevel, self.hmiLevel);
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {
