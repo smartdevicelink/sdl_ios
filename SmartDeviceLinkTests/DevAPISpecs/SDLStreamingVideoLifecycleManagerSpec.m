@@ -619,7 +619,7 @@ describe(@"the streaming video manager", ^{
                 context(@"with missing screen height and screen width values", ^{
                     beforeEach(^{
                         streamingLifecycleManager.preferredResolutions = @[];
-                        
+
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                         expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(equal(@YES));
@@ -637,13 +637,13 @@ describe(@"the streaming video manager", ^{
                     context(@"If the preferred resolution was set in the data source", ^{
                         __block SDLImageResolution *preferredResolutionLow = nil;
                         __block SDLImageResolution *preferredResolutionHigh = nil;
-                        
+
                         beforeEach(^{
                             preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
                             preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
                             streamingLifecycleManager.dataSource = testDataSource;
                             streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
-                            
+
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
                         it(@"should set the screen size using the first provided preferred resolution", ^{
@@ -799,7 +799,7 @@ describe(@"the streaming video manager", ^{
         });
     });
 
-    describe(@"when stopped", ^{
+    describe(@"when the manager is stopped", ^{
         beforeEach(^{
             streamingLifecycleManager.connectedVehicleMake = @"OEM_make";
         });
@@ -842,6 +842,88 @@ describe(@"the streaming video manager", ^{
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
                 expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
             });
+        });
+    });
+
+    describe(@"when video is stopped", ^{
+        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+        __block BOOL handlerCalled = nil;
+        __block BOOL videoServiceEnded = nil;
+
+        beforeEach(^{
+            handlerCalled = NO;
+            videoServiceEnded = NO;
+            [streamingLifecycleManager startWithProtocol:protocolMock];
+        });
+
+        context(@"if stopping video on secondary transport", ^{
+            beforeEach(^{
+                [streamingLifecycleManager stopVideoWithCompletionHandler:^(BOOL success) {
+                    handlerCalled = YES;
+                    videoServiceEnded = success;
+                }];
+            });
+
+            it(@"should send an end video service control frame", ^{
+                OCMVerify([protocolMock endServiceWithType:SDLServiceTypeVideo]);
+            });
+
+            context(@"If the end video service ACKs", ^{
+                __block SDLProtocolHeader *testVideoHeader = nil;
+                __block SDLProtocolMessage *testVideoMessage = nil;
+
+                beforeEach(^{
+                    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testVideoHeader.frameType = SDLFrameTypeSingle;
+                    testVideoHeader.frameData = SDLFrameInfoEndServiceACK;
+                    testVideoHeader.encrypted = NO;
+                    testVideoHeader.serviceType = SDLServiceTypeVideo;
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
+
+                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
+                });
+
+                it(@"should call the handler with a success result", ^{
+                    expect(handlerCalled).to(beTrue());
+                    expect(videoServiceEnded).to(beTrue());
+                });
+            });
+
+            context(@"If the end audio service NAKs", ^{
+                __block SDLProtocolHeader *testVideoHeader = nil;
+                __block SDLProtocolMessage *testVideoMessage = nil;
+
+                beforeEach(^{
+                    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testVideoHeader.frameType = SDLFrameTypeSingle;
+                    testVideoHeader.frameData = SDLFrameInfoEndServiceNACK;
+                    testVideoHeader.encrypted = NO;
+                    testVideoHeader.serviceType = SDLServiceTypeVideo;
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
+
+                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
+                });
+
+                it(@"should call the handler with an unsuccessful result", ^{
+                    expect(handlerCalled).to(beTrue());
+                    expect(videoServiceEnded).to(beFalse());
+                });
+            });
+        });
+    });
+
+    describe(@"when the protocol is destroyed", ^{
+        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+
+        beforeEach(^{
+            [streamingLifecycleManager startWithProtocol:protocolMock];
+            expect(streamingLifecycleManager.protocol).toNot(beNil());
+
+            [streamingLifecycleManager destroyProtocol];
+        });
+
+        it(@"should destroy the protocol", ^{
+            expect(streamingLifecycleManager.protocol).to(beNil());
         });
     });
 

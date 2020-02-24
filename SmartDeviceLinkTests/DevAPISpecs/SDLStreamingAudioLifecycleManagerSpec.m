@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLAudioStreamManager.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
@@ -33,6 +34,7 @@ describe(@"the streaming audio manager", ^{
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLEncryptionConfiguration *encryptionConfiguration = [SDLEncryptionConfiguration defaultConfiguration];
     __block TestConnectionManager *testConnectionManager = nil;
+    __block id mockAudioStreamManager = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -44,8 +46,10 @@ describe(@"the streaming audio manager", ^{
     };
 
     beforeEach(^{
+        mockAudioStreamManager = OCMClassMock([SDLAudioStreamManager class]);
+
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration];
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration audioManager:mockAudioStreamManager];
     });
 
     it(@"should initialize properties", ^{
@@ -409,7 +413,7 @@ describe(@"the streaming audio manager", ^{
         });
     });
 
-    describe(@"when stopped", ^{
+    describe(@"when the manager is stopped", ^{
         context(@"if audio not stopped", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
@@ -424,6 +428,7 @@ describe(@"the streaming audio manager", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
+                OCMVerify([mockAudioStreamManager stop]);
             });
         });
 
@@ -441,7 +446,95 @@ describe(@"the streaming audio manager", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
+                OCMVerify([mockAudioStreamManager stop]);
             });
+        });
+    });
+
+    describe(@"when audio is stopped", ^{
+        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+        __block BOOL handlerCalled = nil;
+        __block BOOL audioServiceEnded = nil;
+
+        beforeEach(^{
+            handlerCalled = NO;
+            audioServiceEnded = NO;
+            [streamingLifecycleManager startWithProtocol:protocolMock];
+        });
+
+        context(@"if stopping audio on secondary transport", ^{
+            beforeEach(^{
+                [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
+                [streamingLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
+                    handlerCalled = YES;
+                    audioServiceEnded = success;
+                }];
+            });
+
+            it(@"should reset the audio stream manger", ^{
+                OCMVerify([mockAudioStreamManager stop]);
+            });
+
+            it(@"should send an end audio service control frame", ^{
+                OCMVerify([protocolMock endServiceWithType:SDLServiceTypeAudio]);
+            });
+
+            context(@"If the end audio service ACKs", ^{
+                __block SDLProtocolHeader *testAudioHeader = nil;
+                __block SDLProtocolMessage *testAudioMessage = nil;
+
+                beforeEach(^{
+                    testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testAudioHeader.frameType = SDLFrameTypeSingle;
+                    testAudioHeader.frameData = SDLFrameInfoEndServiceACK;
+                    testAudioHeader.encrypted = NO;
+                    testAudioHeader.serviceType = SDLServiceTypeAudio;
+                    testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
+
+                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                });
+
+                it(@"should call the handler with a success result", ^{
+                    expect(handlerCalled).to(beTrue());
+                    expect(audioServiceEnded).to(beTrue());
+                });
+            });
+
+            context(@"If the end audio service NAKs", ^{
+                __block SDLProtocolHeader *testAudioHeader = nil;
+                __block SDLProtocolMessage *testAudioMessage = nil;
+
+                beforeEach(^{
+                    testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testAudioHeader.frameType = SDLFrameTypeSingle;
+                    testAudioHeader.frameData = SDLFrameInfoEndServiceNACK;
+                    testAudioHeader.encrypted = NO;
+                    testAudioHeader.serviceType = SDLServiceTypeAudio;
+                    testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
+
+                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+                });
+
+                it(@"should call the handler with an unsuccessful result", ^{
+                    expect(handlerCalled).to(beTrue());
+                    expect(audioServiceEnded).to(beFalse());
+                });
+            });
+        });
+    });
+
+    describe(@"when the protocol is destroyed", ^{
+        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+
+        beforeEach(^{
+            [streamingLifecycleManager startWithProtocol:protocolMock];
+            expect(streamingLifecycleManager.protocol).toNot(beNil());
+
+            [streamingLifecycleManager destroyProtocol];
+        });
+
+        it(@"should destroy the protocol", ^{
+            expect(streamingLifecycleManager.protocol).to(beNil());
         });
     });
 });
