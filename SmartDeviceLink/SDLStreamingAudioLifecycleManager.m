@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLStreamingAudioLifecycleManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration {
+    return [self initWithConnectionManager:connectionManager streamingConfiguration:streamingConfiguration encryptionConfiguration:encryptionConfiguration audioManager:nil];
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration audioManager:(nullable SDLAudioStreamManager *)audioManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -58,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Creating AudioStreamingLifecycleManager");
 
     _connectionManager = connectionManager;
-    _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
+    _audioManager = audioManager != nil ? audioManager : [[SDLAudioStreamManager alloc] initWithManager:self];
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
     _connectedVehicleMake = nil;
 

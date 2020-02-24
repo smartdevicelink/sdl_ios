@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This method is used internally to end a video service on the secondary transport. The primary transport is still open.
  *
- *  @param completionHandler Called when the module ACKs or NAKs to the request to end the video service.
+ *  @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
  */
 - (void)stopVideoWithCompletionHandler:(nullable SDLVideoEndedCompletionHandler)videoEndedCompletionHandler;
 

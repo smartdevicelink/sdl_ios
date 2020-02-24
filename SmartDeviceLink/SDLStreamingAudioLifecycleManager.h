@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration audioManager:(nullable SDLAudioStreamManager *)audioManager NS_DESIGNATED_INITIALIZER;
+
 /**
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
@@ -72,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param encryptionConfiguration The encryption configuration with security managers
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
@@ -87,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This method is used internally to end an audio service on the secondary transport. The primary transport is still open.
  *
- *  @param completionHandler Called when the module ACKs or NAKs to the request to end the audio service.
+ *  @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 */
 - (void)stopAudioWithCompletionHandler:(nullable SDLAudioEndedCompletionHandler)audioEndedCompletionHandler;
 

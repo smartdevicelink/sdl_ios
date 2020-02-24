@@ -236,12 +236,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 /// Used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol {
     self.protocol = nil;
-
-    // Reset the video streaming parameters as video is not streaming.
-    _backgroundingPixelBuffer = NULL;
-    _preferredFormatIndex = 0;
-    _preferredResolutionIndex = 0;
-    _lastPresentationTimestamp = kCMTimeInvalid;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
