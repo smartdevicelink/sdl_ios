@@ -342,7 +342,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendRequest:regRequest
+    [self sendConnectionManagerRequest:regRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
         if (error != nil || ![response.success boolValue]) {
@@ -587,7 +587,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
         setAppIcon.syncFileName = appIcon.name;
 
-        [self sdl_sendRequest:setAppIcon
+        [self sendConnectionManagerRequest:setAppIcon
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil) {
                 SDLLogW(@"Error setting up app icon: %@", error);
@@ -651,7 +651,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    [self sdl_sendRequest:rpc withResponseHandler:nil];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
+    }];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -676,13 +678,17 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         
         return;
     }
-    
-    [self sdl_sendRequest:request withResponseHandler:handler];
+
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sdl_sendRequest:request withResponseHandler:handler];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
