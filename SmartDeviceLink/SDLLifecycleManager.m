@@ -739,8 +739,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // this is to make sure that the transition happens on the dedicated queue
 - (void)sdl_runOnProcessingQueue:(void (^)(void))block {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    if (dispatch_get_specific("com.sdl.serialProcessing") != nil) {
         block();
     } else {
         dispatch_sync(self.lifecycleQueue, block);
@@ -748,15 +747,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sdl_transitionToState:(SDLState *)state {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    [self sdl_runOnProcessingQueue:^{
         [self.lifecycleStateMachine transitionToState:state];
-    } else {
-        // once this method returns, the transition is completed
-        dispatch_sync(self.lifecycleQueue, ^{
-            [self.lifecycleStateMachine transitionToState:state];
-        });
-    }
+    }];
 }
 
 /**

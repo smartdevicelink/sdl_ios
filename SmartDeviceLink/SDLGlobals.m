@@ -61,8 +61,12 @@ typedef NSNumber *MTUBox;
     dispatch_queue_attr_t qosSerial = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
     dispatch_queue_attr_t qosConcurrent = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0);
 
+    static void *processingQueueKey = "com.sdl.serialProcessing";
+    static void *concurrentQueueKey = "com.sdl.concurrentProcessing";
     _sdlProcessingQueue = dispatch_queue_create("com.sdl.serialProcessing", qosSerial);
+    dispatch_queue_set_specific(_sdlProcessingQueue, processingQueueKey, (void *)processingQueueKey, NULL);
     _sdlConcurrentQueue = dispatch_queue_create("com.sdl.concurrentProcessing", qosConcurrent);
+    dispatch_queue_set_specific(_sdlConcurrentQueue, concurrentQueueKey, (void *)concurrentQueueKey, NULL);
 
     return self;
 }
