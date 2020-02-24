@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Checks if the lockscreen can be dismissed and if so dismisses the lockscreen on the main thread.
 /// @param completionHandler Called when the lockscreen has finished its animation or if the lockscreen can not be dismissed
 - (void)sdl_dismissWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
-    if (self.lockViewController == nil || !self.isPresentedOrPresenting) {
+    if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to dismiss lockscreen, but lockViewController is not set");
         if (completionHandler == nil) { return; }
         return completionHandler();
@@ -156,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Handles the dismissal of the lockscreen with animation.
 /// @param completionHandler Called when the lockscreen is dismissed successfully or if it is already in the process of being dismissed
 - (void)sdl_dismissLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
-    if (self.isDismissing) {
+    if (self.isDismissing || !self.isPresentedOrPresenting) {
         // Make sure we are not already animating, otherwise the app may crash
         SDLLogV(@"The lockscreen is already being dismissed");
         if (completionHandler == nil) { return; }
