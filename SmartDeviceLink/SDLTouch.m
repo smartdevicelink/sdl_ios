@@ -32,13 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self init];
     if (self) {
         _identifier = touchEvent.touchEventId.integerValue;
-
-        id firstTimeStamp = touchEvent.timeStamp.firstObject;
+        NSArray<NSNumber<SDLInt> *> *timestamp = touchEvent.timeStamp;
         // In the event we receive a null timestamp, we will supply a device timestamp.
-        if ([firstTimeStamp isKindOfClass:[NSNull class]] && [firstTimeStamp isEqual:[NSNull null]]) {
+        if ((timestamp == nil) || (timestamp.count == 0)) {
             _timeStamp = (NSUInteger)([[NSDate date] timeIntervalSince1970] * 1000);
         } else {
-            NSNumber *timeStampNumber = (NSNumber *)firstTimeStamp;
+            NSNumber *timeStampNumber = (NSNumber *)timestamp[0];
             _timeStamp = timeStampNumber.unsignedIntegerValue;
         }
 
