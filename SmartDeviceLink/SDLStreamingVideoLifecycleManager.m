@@ -561,7 +561,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
-    SDLLogE(@"Request to start video service NAKed with reason: %@", nakPayload.description);
+    SDLLogW(@"Request to start video service NAKed with reason: %@", nakPayload.description);
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
@@ -600,7 +600,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
-    SDLLogE(@"Request to end video service NAKed");
+    SDLLogW(@"Request to end video service NAKed");
     if (self.videoEndedCompletionHandler != nil) {
         self.videoEndedCompletionHandler(NO);
         self.videoEndedCompletionHandler = nil;

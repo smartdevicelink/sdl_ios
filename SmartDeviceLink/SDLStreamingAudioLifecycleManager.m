@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
-    SDLLogW(@"Request to start audio service ACKed");
+    SDLLogD(@"Request to start audio service ACKed");
     _audioEncrypted = startServiceACK.header.encrypted;
 
     SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
@@ -223,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
-    SDLLogW(@"Request to end audio service ACKed");
+    SDLLogD(@"Request to end audio service ACKed");
     if (self.audioEndedCompletionHandler != nil) {
         self.audioEndedCompletionHandler(YES);
         self.audioEndedCompletionHandler = nil;
