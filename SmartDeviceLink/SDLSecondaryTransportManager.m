@@ -62,6 +62,10 @@ static const float RetryConnectionDelay = 5.0;
 // Indicates that a TCP port is not specified (unconfigured).
 static const int TCPPortUnspecified = -1;
 
+struct TransportUpdated {
+   SDLProtocol * _Nullable oldProtocol;
+   SDLProtocol * _Nullable newProtocol;
+} transportUpdated;
 
 @interface SDLSecondaryTransportManager ()
 
@@ -335,35 +339,18 @@ NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secon
 #pragma mark - Starting / Stopping / Restarting services
 
 - (void)sdl_handleTransportUpdateWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
-    __weak typeof(self) weakSelf = self;
-    [self updateAudioServiceWithPrimaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable transportUpdatedBlock:^(SDLProtocol * _Nullable oldAudioProtocol, SDLProtocol * _Nullable newAudioProtocol) {
-        [weakSelf updateVideoServiceWithPrimaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable transportUpdatedBlock:^(SDLProtocol * _Nullable oldVideoProtocol, SDLProtocol * _Nullable newVideoProtocol) {
-            [weakSelf.streamingProtocolDelegate streamingServiceProtocolDidUpdateFromOldVideoProtocol:oldVideoProtocol toNewVideoProtocol:newVideoProtocol fromOldAudioProtocol:oldAudioProtocol toNewAudioProtocol:newAudioProtocol];
-        }];
-    }];
+    struct TransportUpdated audioTransportUpdated = [self sdl_updateService:SDLServiceTypeAudio allowedTransports:self.transportsForAudioService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
+    struct TransportUpdated videoTransportUpdated = [self sdl_updateService:SDLServiceTypeVideo allowedTransports:self.transportsForVideoService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
+
+    if (audioTransportUpdated.newProtocol == audioTransportUpdated.oldProtocol && videoTransportUpdated.newProtocol == videoTransportUpdated.oldProtocol) { return; }
+
+    [self.streamingProtocolDelegate streamingServiceProtocolDidUpdateFromOldVideoProtocol:videoTransportUpdated.oldProtocol toNewVideoProtocol:videoTransportUpdated.newProtocol fromOldAudioProtocol:audioTransportUpdated.oldProtocol toNewAudioProtocol:audioTransportUpdated.newProtocol];
 }
 
-- (void)updateAudioServiceWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldAudioProtocol, SDLProtocol * _Nullable newAudioProtocol))transportUpdatedBlock {
-    [self sdl_updateService:SDLServiceTypeAudio
-          allowedTransports:self.transportsForAudioService
-           primaryAvailable:primaryAvailable
-         secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:transportUpdatedBlock];
-}
-
-- (void)updateVideoServiceWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldVideoProtocol, SDLProtocol * _Nullable newVideoProtocol))transportUpdatedBlock {
-    [self sdl_updateService:SDLServiceTypeVideo
-          allowedTransports:self.transportsForVideoService
-           primaryAvailable:primaryAvailable
-         secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:transportUpdatedBlock];
-}
-
-- (void)sdl_updateService:(UInt8)service
+- (struct TransportUpdated)sdl_updateService:(UInt8)service
         allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList
          primaryAvailable:(BOOL)primaryTransportAvailable
-       secondaryAvailable:(BOOL)secondaryTransportAvailable
-    transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol))transportUpdatedBlock {
+       secondaryAvailable:(BOOL)secondaryTransportAvailable {
     SDLTransportClass newTransport = SDLTransportClassInvalid;
     // the list is in preferred order, so take a look from the beginning
     for (SDLTransportClassBox *transport in transportList) {
@@ -389,10 +376,14 @@ NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secon
         } else if (newTransport != SDLTransportClassInvalid) {
             SDLLogD(@"Starting service 0x%X on %@ transport", service, [self sdl_getTransportClassName:newTransport]);
         }
-
-        transportUpdatedBlock([self sdl_getProtocolFromTransportClass:oldTransport],
-                              [self sdl_getProtocolFromTransportClass:newTransport]);
+    } else {
+        SDLLogV(@"Transport was not updated");
     }
+
+    struct TransportUpdated transportUpdated;
+    transportUpdated.oldProtocol = [self sdl_getProtocolFromTransportClass:oldTransport];
+    transportUpdated.newProtocol = [self sdl_getProtocolFromTransportClass:newTransport];
+    return transportUpdated;
 }
 
 - (nullable SDLProtocol *)sdl_getProtocolFromTransportClass:(SDLTransportClass)transportClass {
