@@ -109,6 +109,9 @@ NS_ASSUME_NONNULL_BEGIN
     // Reset the `connectedVehicleMake` because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module. It is possible that the user could connect to different module during the same app session.
     _connectedVehicleMake = nil;
 
+    // Stop the audio manager
+    [_audioManager stop];
+
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
@@ -118,6 +121,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopAudioWithCompletionHandler:(nullable SDLAudioEndedCompletionHandler)completionHandler {
     SDLLogD(@"Stopping audio streaming");
     self.audioEndedCompletionHandler = completionHandler;
+
+    // Stop the audio manager from sending any more data
+    [_audioManager stop];
 
     // Always send an end audio service control frame, regardless of whether video is streaming or not.
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
