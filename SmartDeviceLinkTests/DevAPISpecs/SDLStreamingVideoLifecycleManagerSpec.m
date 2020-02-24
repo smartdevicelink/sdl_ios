@@ -659,6 +659,8 @@ describe(@"the streaming video manager", ^{
                 __block SDLProtocolHeader *testVideoHeader = nil;
                 __block SDLProtocolMessage *testVideoMessage = nil;
                 __block SDLControlFramePayloadNak *testVideoStartNakPayload = nil;
+                __block NSArray<SDLVideoStreamingFormat *> *testPreferredFormats = nil;
+                __block NSArray<SDLImageResolution *> *testPreferredResolutions = nil;
 
                 beforeEach(^{
                     [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:NO];
@@ -670,8 +672,18 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                 });
 
-                context(@"with data", ^{
+                context(@"with rejected parameters for resolution and codec and there is more than one supported resolution and video codec", ^{
                     beforeEach(^{
+                        SDLVideoStreamingFormat *testVideoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecTheora protocol:SDLVideoStreamingProtocolWebM];
+                        SDLVideoStreamingFormat *testVideoFormat2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                        testPreferredFormats = @[testVideoFormat, testVideoFormat2];
+                        streamingLifecycleManager.preferredFormats = testPreferredFormats;
+
+                        SDLImageResolution *testImageResolution = [[SDLImageResolution alloc] initWithWidth:400 height:200];
+                        SDLImageResolution *testImageResolution2 = [[SDLImageResolution alloc] initWithWidth:500 height:800];
+                        testPreferredResolutions = @[testImageResolution, testImageResolution2];
+                        streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
+
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
@@ -683,8 +695,53 @@ describe(@"the streaming video manager", ^{
                     });
                 });
 
+                context(@"with rejected parameters for codec and there is more than one supported video codec", ^{
+                    beforeEach(^{
+                        SDLVideoStreamingFormat *testVideoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecTheora protocol:SDLVideoStreamingProtocolWebM];
+                        SDLVideoStreamingFormat *testVideoFormat2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                        testPreferredFormats = @[testVideoFormat, testVideoFormat2];
+                        streamingLifecycleManager.preferredFormats = testPreferredFormats;
+
+                        SDLImageResolution *testImageResolution = [[SDLImageResolution alloc] initWithWidth:400 height:200];
+                        testPreferredResolutions = @[testImageResolution];
+                        streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
+
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                        testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
+                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                    });
+
+                    it(@"should have retried with new properties", ^{
+                        expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+                        expect(streamingLifecycleManager.preferredFormatIndex).to(equal(1));
+                    });
+                });
+
+                context(@"with rejected parameters for codec and there are no more supported video codecs", ^{
+                    beforeEach(^{
+                        SDLVideoStreamingFormat *testVideoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                        testPreferredFormats = @[testVideoFormat];
+                        streamingLifecycleManager.preferredFormats = testPreferredFormats;
+
+                        SDLImageResolution *testImageResolution = [[SDLImageResolution alloc] initWithWidth:400 height:200];
+                        testPreferredResolutions = @[testImageResolution];
+                        streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
+
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                        testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
+                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                    });
+
+                    it(@"should end the service", ^{
+                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+                    });
+                });
+
                 context(@"with missing data", ^{
                     beforeEach(^{
+                        streamingLifecycleManager.preferredFormats = testPreferredFormats;
+                        streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
+
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];

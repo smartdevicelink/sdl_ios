@@ -553,6 +553,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
     self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
     self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
+
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
@@ -581,7 +583,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_sendVideoStartService];
 }
 
-#pragma mark End Service
+#pragma mark End Service ACK/NAK
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
@@ -740,8 +742,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     } else {
-        SDLLogV(@"no video streaming but we are going to send an end service anyways");
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+        SDLLogV(@"No video streaming. Will not send an end video service request.");
     }
 }
 
