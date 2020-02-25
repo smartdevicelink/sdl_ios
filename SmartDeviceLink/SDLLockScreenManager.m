@@ -69,13 +69,15 @@ NS_ASSUME_NONNULL_BEGIN
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             SDLLogW(@"Attempted to start lock screen manager, but we are in the background. We will attempt to start again when we are in the foreground.");
             return;
-        } else {
-            // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
-            if (self.presenter.lockViewController != nil) {
-                [self.presenter updateLockScreenToShow:NO];
-                [self.presenter stop];
-            }
+        }
 
+        // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
+        if (self.presenter.lockViewController != nil) {
+            [self.presenter updateLockScreenToShow:NO withCompletionHandler:^{
+                [self.presenter stop];
+                [self sdl_start];
+            }];
+        } else {
             [self sdl_start];
         }
     }];
@@ -182,20 +184,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (self.canPresent) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
-            [self.presenter updateLockScreenToShow:NO];
+            [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        [self.presenter updateLockScreenToShow:NO];
+        [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
     }
 }
 
@@ -231,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
-                [strongSelf.presenter updateLockScreenToShow:NO];
+                [strongSelf.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
                 strongSelf.lockScreenDismissedByUser = YES;
             }];
             lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;

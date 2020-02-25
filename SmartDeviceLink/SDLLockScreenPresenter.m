@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @implementation SDLLockScreenPresenter
 
 #pragma mark - Lifecycle
@@ -56,23 +55,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Shows or hides the lockscreen with an animation. If the lockscreen is shown/dismissed in rapid succession the final state of the lockscreen may not match the expected state as the order in which the animations finish can be random. To guard against this scenario, store the expected state of the lockscreen. When the animation finishes, check the expected state to make sure that the final state of the lockscreen matches the expected state. If not, perform a final animation to the expected state.
 /// @param show True if the lockscreen should be shown; false if it should be dismissed
-- (void)updateLockScreenToShow:(BOOL)show {
+- (void)updateLockScreenToShow:(BOOL)show withCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     // Store the expected state of the lockscreen
     self.shouldShowLockScreen = show;
 
     if (show) {
         [self sdl_presentWithCompletionHandler:^{
-            if (self.shouldShowLockScreen) { return; }
+            if (self.shouldShowLockScreen) {
+                if (completionHandler != nil) { completionHandler(); }
+                return;
+            }
 
             SDLLogV(@"The lockscreen has been presented but needs to be dismissed");
-            [self sdl_dismissWithCompletionHandler:nil];
+            [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+                completionHandler();
+            }];
         }];
     } else {
         [self sdl_dismissWithCompletionHandler:^(BOOL success) {
-            if (!self.shouldShowLockScreen) { return; }
+            if (!self.shouldShowLockScreen) {
+                if (completionHandler != nil) { completionHandler(); }
+                return;
+            }
 
             SDLLogV(@"The lockscreen has been dismissed but needs to be presented");
-            [self sdl_presentLockscreenWithCompletionHandler:nil];
+            [self sdl_presentLockscreenWithCompletionHandler:completionHandler];
         }];
     }
 }
@@ -82,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Checks if the lockscreen can be presented and if so presents the lockscreen on the main thread
 /// @param completionHandler Called when the lockscreen has finished its animation or if the lockscreen can not be presented
-- (void)sdl_presentWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+- (void)sdl_presentWithCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     if (self.lockViewController == nil) {
         SDLLogW(@"Attempted to present a lockscreen, but lockViewController is not set");
         if (completionHandler == nil) { return; }
@@ -103,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Handles the presentation of the lockscreen with animation.
 /// @param completionHandler Called when the lockscreen is presented successfully or if it is already in the process of being presented
-- (void)sdl_presentLockscreenWithCompletionHandler:(void (^ _Nullable)(void))completionHandler {
+- (void)sdl_presentLockscreenWithCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     if (self.lockWindow == nil) {
         self.lockWindow = [self.class sdl_createUIWindow];
         self.lockWindow.backgroundColor = [UIColor clearColor];
