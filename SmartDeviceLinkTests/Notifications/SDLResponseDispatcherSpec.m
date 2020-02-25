@@ -457,9 +457,9 @@ describe(@"a response dispatcher", ^{
                 
                 it(@"should have removed all the handlers", ^{
                     // There should still be the add command request & handler in the dictionaries since we never responded
-                    expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
-                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
-                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
+                    expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
+                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
                 });
             });
         });
