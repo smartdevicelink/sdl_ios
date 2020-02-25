@@ -90,11 +90,11 @@ describe(@"a response dispatcher", ^{
         });
         
         it(@"should store the request and response", ^{
-            expect(testDispatcher.rpcRequestDictionary[testCorrelationId]).toNot(beNil());
-            expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+            expect(testDispatcher.rpcRequestDictionary[testCorrelationId]).toEventuallyNot(beNil());
+            expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
             
-            expect(testDispatcher.rpcResponseHandlerMap[testCorrelationId]).toNot(beNil());
-            expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+            expect(testDispatcher.rpcResponseHandlerMap[testCorrelationId]).toEventuallyNot(beNil());
+            expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
         });
         
         describe(@"when a response arrives", ^{
@@ -139,8 +139,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -249,8 +249,8 @@ describe(@"a response dispatcher", ^{
             it(@"should add the command to the map", ^{
                 [testDispatcher storeRequest:testAddCommand handler:nil];
                 
-                expect(testDispatcher.commandHandlerMap[testAddCommand.cmdID]).toNot(beNil());
-                expect(testDispatcher.commandHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.commandHandlerMap[testAddCommand.cmdID]).toEventuallyNot(beNil());
+                expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@1));
             });
             
             it(@"should throw an exception if there's no command id", ^{
@@ -369,8 +369,8 @@ describe(@"a response dispatcher", ^{
             it(@"should add the subscription to the map", ^{
                 [testDispatcher storeRequest:testSubscribeButton handler:nil];
                 
-                expect(testDispatcher.buttonHandlerMap[testSubscribeButton.buttonName]).toNot(beNil());
-                expect(testDispatcher.buttonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.buttonHandlerMap[testSubscribeButton.buttonName]).toEventuallyNot(beNil());
+                expect(testDispatcher.buttonHandlerMap).toEventually(haveCount(@1));
             });
             
             it(@"should throw an exception if there's no button name", ^{
@@ -499,8 +499,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -610,8 +610,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
