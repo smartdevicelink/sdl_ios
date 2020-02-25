@@ -195,6 +195,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
+- (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session {
+    // to do
+}
+
 #pragma mark Video / Audio Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {

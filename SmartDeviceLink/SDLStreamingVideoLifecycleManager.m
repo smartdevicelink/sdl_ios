@@ -562,6 +562,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
+- (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session {
+    // to do
+}
+
 #pragma mark - SDL RPC Notification callbacks
 
 - (void)sdl_didReceiveRegisterAppInterfaceResponse:(SDLRPCResponseNotification *)notification {
