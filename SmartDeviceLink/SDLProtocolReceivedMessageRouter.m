@@ -97,6 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleTransportEventUpdateMessage:message];
             }
         } break;
+        case SDLFrameInfoEndService: {
+            if ([self.delegate respondsToSelector:@selector(handleProtocolEndService:forSession:)]) {
+                [self.delegate handleProtocolEndService:message forSession:message.header.sessionID];
+            }
+        }
         default: break; // Other frame data is possible, but we don't care about them
     }
 }

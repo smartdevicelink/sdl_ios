@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK;
 - (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK;
 - (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate;
+- (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session;
 
 #pragma mark - Older protocol handlers
 

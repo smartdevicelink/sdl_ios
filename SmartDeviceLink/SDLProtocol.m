@@ -634,6 +634,24 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session {
+    // Respond with EndService ACK
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
+    header.frameType = SDLFrameTypeControl;
+    header.serviceType = SDLServiceTypeControl;
+    header.frameData = SDLFrameInfoEndServiceACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sdl_sendDataToTransport:message.data onService:header.serviceType];
+    
+    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolListener> listener in listeners) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndService:forSession:)]) {
+            [listener handleProtocolEndService:endService forSession:session];
+        }
+    }
+}
+
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     // Control service (but not control frame type) messages are TLS handshake messages
     if (msg.header.serviceType == SDLServiceTypeControl) {
