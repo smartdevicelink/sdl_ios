@@ -739,7 +739,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // this is to make sure that the transition happens on the dedicated queue
 - (void)sdl_runOnProcessingQueue:(void (^)(void))block {
-    if (dispatch_get_specific("com.sdl.serialProcessing") != nil) {
+    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
         block();
     } else {
         dispatch_sync(self.lifecycleQueue, block);
