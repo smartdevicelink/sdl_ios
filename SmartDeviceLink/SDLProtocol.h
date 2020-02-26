@@ -137,6 +137,15 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;
 
+/**
+ * Sends a message to core
+ *
+ * @param data The data to send
+ * @param priority The priority to use when determining the location of the object in the collection. A lower number is considered a higher priority
+ *
+ */
+- (void)sdl_sendDataToTransport:(NSData *)data onService:(NSInteger)priority;
+
 #pragma mark - Recieving
 
 /**

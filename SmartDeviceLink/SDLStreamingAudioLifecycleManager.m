@@ -28,6 +28,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -196,7 +197,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session {
-    // to do
+    // Respond with EndService ACK to address SYNC bug
+    SDLProtocol *sdlProtocol = [[SDLProtocol alloc] init];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
+    header.frameType = SDLFrameTypeControl;
+    header.serviceType = SDLServiceTypeControl;
+    header.frameData = SDLFrameInfoEndServiceACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [sdlProtocol sdl_sendDataToTransport:message.data onService:header.serviceType];
+    
+    [self sdl_stopAudioSession];
 }
 
 #pragma mark Video / Audio Start Service NAK
