@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (!addCommand.cmdID) {
             @throw [NSException sdl_missingIdException];
         }
-        if (addCommand.handler) {
+        if (addCommand.handler != nil) {
             dispatch_barrier_async(self.readWriteQueue, ^{
                 weakself.commandHandlerMap[addCommand.cmdID] = addCommand.handler;
             });

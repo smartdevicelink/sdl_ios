@@ -109,7 +109,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should run the handler", ^{
-                expect(@(handlerCalled)).to(beTruthy());
+                expect(@(handlerCalled)).to(beTrue());
                 expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
                 expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
             });
@@ -322,15 +322,14 @@ describe(@"a response dispatcher", ^{
                     testDeleteResponse.success = @YES;
                     
                     SDLRPCResponseNotification *deleteCommandNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveDeleteCommandResponse object:nil rpcResponse:testDeleteResponse];
-                    
                     [[NSNotificationCenter defaultCenter] postNotification:deleteCommandNotification];
                 });
                 
                 it(@"should have removed all the handlers", ^{
-                    // There should still be the add command request & handler in the dictionaries since we never responded
-                    expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
-                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
-                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+                    // There should still be the add command request & handler in the dictionaries since we never responded to those RPCs, but the command handler map
+                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
+                    expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
+                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
                 });
             });
         });
