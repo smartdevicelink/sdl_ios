@@ -248,15 +248,17 @@ NS_ASSUME_NONNULL_BEGIN
                 weakself.audioPassThruHandler = nil;
             }
         }
-    });
 
-    // Run the response handler
-    if (handler) {
-        if (!response.success.boolValue) {
-            SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
-        }
-        handler(request, response, error);
-    }
+        dispatch_async([SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+            // Run the response handler
+            if (handler) {
+                if (!response.success.boolValue) {
+                    SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
+                }
+                handler(request, response, error);
+            }
+        });
+    });
 }
 
 #pragma mark Command

@@ -304,6 +304,7 @@ describe(@"a response dispatcher", ^{
             describe(@"then deleting the command", ^{
                 __block SDLDeleteCommand *testDeleteCommand = nil;
                 __block SDLDeleteCommandResponse *testDeleteResponse = nil;
+                __block NSUInteger deleteCommandHandlerMapCount = 0;
                 
                 beforeEach(^{
                     [testDispatcher storeRequest:testAddCommand handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {}];
@@ -315,7 +316,9 @@ describe(@"a response dispatcher", ^{
                     testDeleteCommand.correlationID = testDeleteCommandCorrelationId;
                     testDeleteCommand.cmdID = @(testCommandId);
                     
-                    [testDispatcher storeRequest:testDeleteCommand handler:nil];
+                    [testDispatcher storeRequest:testDeleteCommand handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                        deleteCommandHandlerMapCount = testDispatcher.commandHandlerMap.count;
+                    }];
                     
                     testDeleteResponse = [[SDLDeleteCommandResponse alloc] init];
                     testDeleteResponse.correlationID = testDeleteCommandCorrelationId;
@@ -326,10 +329,11 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should have removed all the handlers", ^{
-                    // There should still be the add command request & handler in the dictionaries since we never responded to those RPCs, but the command handler map
-                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
-                    expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
-                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
+                    // There should still be the add command request & handler in the dictionaries since we never responded to those RPCs, but the command handler map should have removed the addCommand handler
+                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(0));
+                    expect(testDispatcher.rpcRequestDictionary.allKeys).toEventually(haveCount(1));
+                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(1));
+                    expect(deleteCommandHandlerMapCount).toEventually(equal(0));
                 });
             });
         });
