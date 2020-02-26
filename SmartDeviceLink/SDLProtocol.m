@@ -251,6 +251,16 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
+- (void)endServiceAckWithType:(SDLServiceType)serviceType forSession:(Byte)session {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
+    header.frameType = SDLFrameTypeControl;
+    header.serviceType = SDLServiceTypeControl;
+    header.frameData = SDLFrameInfoEndServiceACK;
+    header.sessionID = session;
+    
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sdl_sendDataToTransport:message.data onService:serviceType];
+}
 
 #pragma mark - Register Secondary Transport
 

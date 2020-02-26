@@ -563,16 +563,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)handleProtocolEndService:(SDLProtocolMessage *)endService forSession:(Byte)session {
-    // Respond with EndService ACK to address SYNC bug
-    SDLProtocol *sdlProtocol = [[SDLProtocol alloc] init];
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
-    header.frameType = SDLFrameTypeControl;
-    header.serviceType = SDLServiceTypeControl;
-    header.frameData = SDLFrameInfoEndServiceACK;
-    header.sessionID = session;
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [sdlProtocol sdl_sendDataToTransport:message.data onService:header.serviceType];
+    if (endService.header.serviceType != SDLServiceTypeVideo) { return; }
     
+    // Respond with EndService ACK to address SYNC bug
+    [self.protocol endServiceAckWithType:endService.header.serviceType forSession:session];
     [self sdl_stopVideoSession];
 }
 
