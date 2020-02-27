@@ -28,6 +28,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -232,18 +233,25 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLLogD(@"Received Register App Interface");
-    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
+    SDLLogV(@"Checking if audio streaming is supported");
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    SDLLogV(@"Determining whether streaming is supported");
-    _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
-#pragma clang diagnostic pop
-
-    if (!self.isStreamingSupported) {
-        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
-        return;
+    if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
+        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
+        if (self.isStreamingSupported) {
+            SDLLogD(@"Audio streaming is supported on this head unit.");
+        } else {
+            SDLLogE(@"Audio streaming is not supported on this head unit. Exiting.");
+            return;
+        }
+    } else {
+        // Pre-SDL v4.5 there is no way to check if the head unit supports audio streaming, so just assume that it does.
+        SDLLogD(@"Audio streaming may be supported on this head unit.");
+        _streamingSupported = YES;
     }
+#pragma clang diagnostic pop
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
