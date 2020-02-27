@@ -33,8 +33,12 @@
     _shouldShowLockScreen = NO;
 }
 
-- (void)updateLockScreenToShow:(BOOL)show {
+- (void)updateLockScreenToShow:(BOOL)show withCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     _shouldShowLockScreen = show;
+
+    if (completionHandler != nil) {
+        completionHandler();
+    }
 }
 
 
