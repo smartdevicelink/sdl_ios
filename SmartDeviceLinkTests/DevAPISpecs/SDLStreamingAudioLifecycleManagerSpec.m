@@ -5,6 +5,7 @@
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
+#import "SDLHMICapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
@@ -18,6 +19,7 @@
 #import "SDLEncryptionConfiguration.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLVersion.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
@@ -54,7 +56,6 @@ describe(@"the streaming audio manager", ^{
     describe(@"when started", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
-
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
 
         beforeEach(^{
@@ -71,63 +72,70 @@ describe(@"the streaming audio manager", ^{
             expect(streamingLifecycleManager.currentAudioStreamState).to(match(SDLAudioStreamManagerStateStopped));
         });
 
-        describe(@"after receiving a register app interface notification", ^{
+        describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
-            __block SDLDisplayCapabilities *someDisplayCapabilities = nil;
-            __block SDLScreenParams *someScreenParams = nil;
-            __block SDLImageResolution *someImageResolution = nil;
+            __block SDLHMICapabilities *someHMICapabilities = nil;
 
-            beforeEach(^{
-                someImageResolution = [[SDLImageResolution alloc] init];
-                someImageResolution.resolutionWidth = @(600);
-                someImageResolution.resolutionHeight = @(100);
+            context(@"from a module supporting SDL-4.5+", ^{
+                beforeEach(^{
+                    SDLVersion *version = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(version);
+                });
 
-                someScreenParams = [[SDLScreenParams alloc] init];
-                someScreenParams.resolution = someImageResolution;
+                describe(@"that does not support video streaming", ^{
+                    beforeEach(^{
+                        someHMICapabilities = [[SDLHMICapabilities alloc] init];
+                        someHMICapabilities.videoStreaming = @NO;
+
+                        someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
+
+                        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                        [NSThread sleepForTimeInterval:0.1];
+                    });
+
+                    it(@"should set isStreamingSupported to false", ^{
+                        expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
+                    });
+                });
+
+                describe(@"that supports video streaming", ^{
+                    beforeEach(^{
+                        someHMICapabilities = [[SDLHMICapabilities alloc] init];
+                        someHMICapabilities.videoStreaming = @YES;
+
+                        someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
+
+                        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                        [NSThread sleepForTimeInterval:0.1];
+                    });
+
+                    it(@"should set isStreamingSupported to true", ^{
+                        expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
+                    });
+                });
             });
 
-            context(@"that does not support graphics", ^{
+            context(@"from a module supporting pre SDL-4.5", ^{
                 beforeEach(^{
-                    someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    someDisplayCapabilities.graphicSupported = @NO;
-
-                    someDisplayCapabilities.screenParams = someScreenParams;
+                    SDLVersion *version = [SDLVersion versionWithMajor:4 minor:0 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(version);
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                    someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
-#pragma clang diagnostic pop
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                     [NSThread sleepForTimeInterval:0.1];
                 });
 
-                it(@"should not support streaming", ^{
-                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
-                });
-            });
-
-            context(@"that supports graphics", ^{
-                beforeEach(^{
-                    someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    someDisplayCapabilities.graphicSupported = @YES;
-
-                    someDisplayCapabilities.screenParams = someScreenParams;
-
-                    someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                    someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
-#pragma clang diagnostic pop
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
-                });
-
-                it(@"should support streaming", ^{
+                it(@"should set isStreamingSupported to true even though the hmiCapabilities in the RAI response is nil", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                 });
             });
