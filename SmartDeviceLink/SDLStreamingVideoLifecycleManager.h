@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Whether or not video streaming is supported
  *
+ *  @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `true` is returned by default even though the module may NOT support video/audio streaming.
+ *
  *  @see SDLRegisterAppInterface SDLDisplayCapabilities
  */
 @property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
