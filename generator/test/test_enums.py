@@ -10,7 +10,7 @@ class TestEnumsProducer(TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        self.producer = EnumsProducer('SDLEnum', defaultdict(dict))
+        self.producer = EnumsProducer('SDLEnum')
 
     def test_FunctionID(self):
         elements = OrderedDict()

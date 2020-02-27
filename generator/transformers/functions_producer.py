@@ -4,7 +4,6 @@ Functions transformer
 
 import logging
 from collections import namedtuple, OrderedDict
-from pprint import pformat
 
 from model.function import Function
 from transformers.common_producer import InterfaceProducerCommon
@@ -15,11 +14,10 @@ class FunctionsProducer(InterfaceProducerCommon):
     Functions transformer
     """
 
-    def __init__(self, paths, names, mapping=None):
+    def __init__(self, paths, names):
         super(FunctionsProducer, self).__init__(
             container_name='params',
-            names=names,
-            mapping=mapping.get('functions', {}))
+            names=names)
         self.request_class = paths.request_class
         self.response_class = paths.response_class
         self.notification_class = paths.notification_class
@@ -76,8 +74,6 @@ class FunctionsProducer(InterfaceProducerCommon):
                    'since': item.since}
             render[item.name] = self.common_names(**tmp)
 
-        self.custom_mapping_names(render, self.function_names)
-
         return {'params': sorted(render.values(), key=lambda a: a.name)}
 
     def get_simple_params(self, functions: dict, structs: dict) -> dict:
@@ -107,33 +103,4 @@ class FunctionsProducer(InterfaceProducerCommon):
             for param in struct.members.values():
                 render.update(evaluate(param))
 
-        self.custom_mapping_names(render, self.parameter_names)
-
         return {'params': sorted(render.values(), key=lambda a: a.name)}
-
-    def custom_mapping_names(self, render, file_name):
-        """
-
-        :param render:
-        :param file_name:
-        :return:
-        """
-        if file_name in self.mapping:
-            self.logger.debug('applying manual mapping for %s\n%s', file_name, pformat(self.mapping[file_name]))
-            for name, item in self.mapping[file_name].items():
-                if isinstance(item, dict) and name in render:
-                    render[name] = render[name]._replace(**item)
-                elif isinstance(item, list):
-                    for value in item:
-                        data = OrderedDict().fromkeys(self.common_names._fields)
-                        data.update(value)
-                        render[value['name']] = self.common_names(**data)
-                elif name in render:
-                    render[name] = render[name]._replace(name=item)
-                elif isinstance(item, dict):
-                    data = OrderedDict().fromkeys(self.common_names._fields)
-                    data.update(item)
-                    render[name] = self.common_names(**data)
-                else:
-                    render[name] = self.common_names(item, name, '', '')
-                    self.logger.warning('Into %s added name="%s", origin="%s"', self.function_names, item, name)

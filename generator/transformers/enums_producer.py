@@ -15,10 +15,9 @@ class EnumsProducer(InterfaceProducerCommon):
     Enums transformer
     """
 
-    def __init__(self, enum_class, mapping=None):
+    def __init__(self, enum_class):
         super(EnumsProducer, self).__init__(
-            container_name='elements',
-            mapping=mapping.get('enums', {}))
+            container_name='elements')
         self.enum_class = enum_class
         self.logger = logging.getLogger(self.__class__.__name__)
         self.param_named = namedtuple('param_named', 'origin description name since value')

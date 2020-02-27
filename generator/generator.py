@@ -245,7 +245,7 @@ class Generator:
         self.logger.info('Parser type: %s, version %s,\tGenerator version %s',
                          basename(getfile(Parser().__class__)), parser_origin, generator_origin)
 
-    async def get_paths(self, file_name=ROOT.joinpath('paths.ini')):
+    def get_paths(self, file_name=ROOT.joinpath('paths.ini')):
         """
         :param file_name: path to file with container
         :return: namedtuple with container to key elements
@@ -430,15 +430,6 @@ class Generator:
             self.logger.error(error1)
             sys.exit(1)
 
-    async def get_all_async(self, source_xml, source_xsd):
-        """
-
-        :param source_xml:
-        :param source_xsd:
-        :return:
-        """
-        return await asyncio.gather(self.parser(source_xml, source_xsd), self.get_paths(), self.get_mappings())
-
     def main(self):
         """
         Entry point for parser and generator
@@ -449,20 +440,21 @@ class Generator:
         self.versions_compatibility_validating()
         self.output_directory = args.output_directory
 
-        interface, paths, mappings = self.loop.run_until_complete(self.get_all_async(args.source_xml, args.source_xsd))
+        interface = self.loop.run_until_complete(self.parser(args.source_xml, args.source_xsd))
+        paths = self.get_paths()
 
         self.env = [args.templates_directory] + [join(args.templates_directory, k) for k in vars(interface).keys()]
 
         filtered, names = self.filter_pattern(interface, args.regex_pattern)
 
         tasks = []
-        functions_transformer = FunctionsProducer(paths, names, mappings)
+        functions_transformer = FunctionsProducer(paths, names)
         if args.enums and filtered.enums:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.enums,
-                                           EnumsProducer(paths.enum_class, mappings)))
+                                           EnumsProducer(paths.enum_class)))
         if args.structs and filtered.structs:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.structs,
-                                           StructsProducer(paths.struct_class, names, mappings)))
+                                           StructsProducer(paths.struct_class, names)))
         if args.functions and filtered.functions:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.functions, functions_transformer))
             tasks.append(self.process_function_name(args.skip, args.overwrite, interface.functions,

@@ -27,7 +27,7 @@ class TestFunctionsProducer(TestCase):
                       parameter_names='SDLRPCParameterNames')
 
         names = ('FileType', 'Language', 'SyncMsgVersion', 'TemplateColorScheme', 'TTSChunk', 'Choice')
-        self.producer = FunctionsProducer(paths, names, defaultdict(dict))
+        self.producer = FunctionsProducer(paths, names)
 
     def test_process_function_name(self):
         functions = {

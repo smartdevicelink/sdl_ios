@@ -12,7 +12,7 @@ class TestStructsProducer(TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        self.producer = StructsProducer('SDLRPCStruct', ['Image'], defaultdict(dict))
+        self.producer = StructsProducer('SDLRPCStruct', ['Image'])
 
     def test_Version(self):
         version = self.producer.get_version

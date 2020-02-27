@@ -14,11 +14,10 @@ class StructsProducer(InterfaceProducerCommon):
     Structs transformer
     """
 
-    def __init__(self, struct_class, enum_names, mapping=None):
+    def __init__(self, struct_class, enum_names):
         super(StructsProducer, self).__init__(
             container_name='members',
-            names=enum_names,
-            mapping=mapping.get('structs', {}))
+            names=enum_names)
         self.struct_class = struct_class
         self.logger = logging.getLogger(self.__class__.__name__)
 
