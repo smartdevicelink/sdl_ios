@@ -571,24 +571,29 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogD(@"Received Register App Interface");
-    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
-    SDLLogV(@"Determining whether streaming is supported");
+    SDLLogV(@"Checking if video streaming is supported.");
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
         _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
+        if (self.isStreamingSupported) {
+            SDLLogD(@"Video streaming is supported on this head unit.");
+        } else {
+            SDLLogE(@"Video streaming is not supported on this head unit. Exiting.");
+            return;
+        }
     } else {
+        // Pre-SDL v4.5 there is no way to check if the head unit supports video streaming, so just assume that it does.
+        SDLLogD(@"Video streaming may be supported on this head unit.");
         _streamingSupported = YES;
     }
 #pragma clang diagnostic pop
-    if (!self.isStreamingSupported) {
-        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
-        return;
-    }
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    SDLImageResolution* resolution = registerResponse.displayCapabilities.screenParams.resolution;
+    SDLImageResolution *resolution = registerResponse.displayCapabilities.screenParams.resolution;
 #pragma clang diagnostic pop
     if (resolution != nil) {
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
