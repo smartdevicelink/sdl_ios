@@ -1,8 +1,5 @@
 {
   "enums": {
-    "FunctionID": {
-      "template": true
-    }
   },
   "structs": {
   },
