@@ -173,11 +173,6 @@ extension ProxyManager: SDLManagerDelegate {
             vehicleDataManager.subscribeToVehicleOdometer()
         }
 
-        if newLevel == .full && firstHMILevelState != .full {
-            // This is our first time in a `FULL` state.
-            firstHMILevelState = newLevel
-        }
-
         switch newLevel {
         case .full:                // The SDL app is in the foreground
             // Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
