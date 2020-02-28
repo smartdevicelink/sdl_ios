@@ -36,7 +36,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  */
 @interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
 
-// State of this manager
+/// State of this manager
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 
 /**

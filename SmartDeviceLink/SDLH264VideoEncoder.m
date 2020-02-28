@@ -189,7 +189,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool and/or the compression session to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
     if (!_pixelBufferPool) {
         BOOL success = [self sdl_resetCompressionSession];
-        if (success == NO) {
+        if (!success) {
             return NULL;
         }
 
@@ -202,11 +202,10 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 #pragma mark - Private
 #pragma mark Callback
 
-
 /// Callback function that VideoToolbox calls when encoding is complete.
 /// @param outputCallbackRefCon The callback's reference value
 /// @param sourceFrameRefCon The frame's reference value
-/// @param status Returns `noErr` if compression was successful;error if not successful
+/// @param status Returns `noErr` if compression was successful, or an error if not successful
 /// @param infoFlags Information about the encode operation (frame dropped or if encode ran asynchronously)
 /// @param sampleBuffer Contains the compressed frame if compression was successful and the frame was not dropped; null otherwise
 void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
