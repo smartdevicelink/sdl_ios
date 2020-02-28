@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSInteger const MAXDATACOUNT = 200;
+
 @interface SDLMutableDataQueue ()
 
 @property (nonatomic, strong) NSMutableArray *elements;
@@ -33,8 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)enqueueBuffer:(NSMutableData *)data {
     // Since this method is being called from the main thread and the dequeue methods are being called from the data session stream thread, we need to put critical sections around the queue members. Use the @synchronized object level lock to do this.
     @synchronized(self) {
-        [self.elements addObject:data];
-        self.frontDequeued = NO;
+        if ([_elements count] > MAXDATACOUNT) {
+            [_elements removeAllObjects];
+            [_elements addObject:data];
+            self.frontDequeued = NO;
+        }
+        else {
+            [self.elements addObject:data];
+            self.frontDequeued = NO;
+        }
     }
 }
 
