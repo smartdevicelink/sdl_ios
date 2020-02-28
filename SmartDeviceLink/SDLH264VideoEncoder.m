@@ -69,9 +69,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     status = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
-        if (!*error) {
-            NSString *description = @"Compression session could not be created";
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status), NSLocalizedDescriptionKey: description }];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:@"Compression session could not be created"}];
         }
         
         return nil;
@@ -84,9 +83,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     CFDictionaryRef supportedProperties;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        if (!*error) {
-            NSString *description = [NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties];
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status), NSLocalizedDescriptionKey: description }];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
         }
         
         return nil;
@@ -95,9 +93,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
     for (NSString *key in videoEncoderKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
-            if (!*error) {
-                NSString *description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" is not a supported key.", key]}];
             }
             CFRelease(supportedProperties);
             return nil;
@@ -111,9 +108,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
-            if (!*error) {
-                NSString *description = [NSString stringWithFormat:@"Setting key failed \"%@\"", key];
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description, @"OSStatus": @(status)}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Setting key failed \"%@\"", key]}];
             }
             return nil;
         }
@@ -124,8 +120,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     } else if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRTP]) {
         _packetizer = [[SDLRTPH264Packetizer alloc] initWithSSRC:ssrc];
     } else {
-        if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{ @"encoder": protocol}];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{@"encoder": protocol}];
         }
         return nil;
     }
