@@ -343,7 +343,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendRequest:regRequest
+    [self sendConnectionManagerRequest:regRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
         if (error != nil || ![response.success boolValue]) {
@@ -587,7 +587,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
         setAppIcon.syncFileName = appIcon.name;
 
-        [self sdl_sendRequest:setAppIcon
+        [self sendConnectionManagerRequest:setAppIcon
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil) {
                 SDLLogW(@"Error setting up app icon: %@", error);
@@ -651,7 +651,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    [self sdl_sendRequest:rpc withResponseHandler:nil];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
+    }];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -676,13 +678,17 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         
         return;
     }
-    
-    [self sdl_sendRequest:request withResponseHandler:handler];
+
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sdl_sendRequest:request withResponseHandler:handler];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -733,8 +739,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // this is to make sure that the transition happens on the dedicated queue
 - (void)sdl_runOnProcessingQueue:(void (^)(void))block {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
         block();
     } else {
         dispatch_sync(self.lifecycleQueue, block);
@@ -742,15 +747,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sdl_transitionToState:(SDLState *)state {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    [self sdl_runOnProcessingQueue:^{
         [self.lifecycleStateMachine transitionToState:state];
-    } else {
-        // once this method returns, the transition is completed
-        dispatch_sync(self.lifecycleQueue, ^{
-            [self.lifecycleStateMachine transitionToState:state];
-        });
-    }
+    }];
 }
 
 /**

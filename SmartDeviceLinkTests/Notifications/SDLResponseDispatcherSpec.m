@@ -44,7 +44,7 @@ describe(@"a response dispatcher", ^{
         expect(testDispatcher.commandHandlerMap).toNot(beNil());
         expect(testDispatcher.buttonHandlerMap).toNot(beNil());
         expect(testDispatcher.customButtonHandlerMap).toNot(beNil());
-        expect((id)testDispatcher.audioPassThruHandler).to(beNil());
+//        expect(testDispatcher.audioPassThruHandler).to(beNil());
 
         expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
         expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
@@ -66,11 +66,11 @@ describe(@"a response dispatcher", ^{
         it(@"should not store the request", ^{
             [testDispatcher storeRequest:testRPC handler:nil];
             
-            expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@0));
-            expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
-            expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
-            expect(testDispatcher.buttonHandlerMap).toEventually(haveCount(@0));
-            expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+            expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+            expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.buttonHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
         });
     });
     
@@ -90,11 +90,11 @@ describe(@"a response dispatcher", ^{
         });
         
         it(@"should store the request and response", ^{
-            expect(testDispatcher.rpcRequestDictionary[testCorrelationId]).toEventuallyNot(beNil());
-            expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
+            expect(testDispatcher.rpcRequestDictionary[testCorrelationId]).toNot(beNil());
+            expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
             
-            expect(testDispatcher.rpcResponseHandlerMap[testCorrelationId]).toEventuallyNot(beNil());
-            expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
+            expect(testDispatcher.rpcResponseHandlerMap[testCorrelationId]).toNot(beNil());
+            expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
         });
         
         describe(@"when a response arrives", ^{
@@ -109,9 +109,9 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should run the handler", ^{
-                expect(@(handlerCalled)).toEventually(beTruthy());
-                expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@0));
-                expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@0));
+                expect(@(handlerCalled)).toEventually(beTrue());
+                expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
+                expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -139,8 +139,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -165,7 +165,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should run the handler for each", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@2));
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
                     });
                 });
                 
@@ -185,7 +185,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should not run the handler", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
                     });
                 });
             });
@@ -197,7 +197,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -213,7 +213,7 @@ describe(@"a response dispatcher", ^{
 #pragma clang diagnostic pop
                 testShow.softButtons = [@[testSoftButton1] mutableCopy];
                 
-                expectAction(^{ [testDispatcher storeRequest:testShow handler:nil]; }).toEventually(raiseException().named(@"MissingIdException"));
+                expectAction(^{ [testDispatcher storeRequest:testShow handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
         });
         
@@ -221,7 +221,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testShow handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -249,8 +249,8 @@ describe(@"a response dispatcher", ^{
             it(@"should add the command to the map", ^{
                 [testDispatcher storeRequest:testAddCommand handler:nil];
                 
-                expect(testDispatcher.commandHandlerMap[testAddCommand.cmdID]).toEventuallyNot(beNil());
-                expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@1));
+                expect(testDispatcher.commandHandlerMap[testAddCommand.cmdID]).toNot(beNil());
+                expect(testDispatcher.commandHandlerMap).to(haveCount(@1));
             });
             
             it(@"should throw an exception if there's no command id", ^{
@@ -259,7 +259,7 @@ describe(@"a response dispatcher", ^{
                 testAddCommand.cmdID = nil;
                 
 #pragma clang diagnostic pop
-                expectAction(^{ [testDispatcher storeRequest:testAddCommand handler:nil]; }).toEventually(raiseException().named(@"MissingIdException"));
+                expectAction(^{ [testDispatcher storeRequest:testAddCommand handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -281,7 +281,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should run the handler for each", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@1));
+                        expect(@(numTimesHandlerCalled)).to(equal(@1));
                     });
                 });
                 
@@ -296,7 +296,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should not run the handler", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
                     });
                 });
             });
@@ -304,6 +304,7 @@ describe(@"a response dispatcher", ^{
             describe(@"then deleting the command", ^{
                 __block SDLDeleteCommand *testDeleteCommand = nil;
                 __block SDLDeleteCommandResponse *testDeleteResponse = nil;
+                __block NSUInteger deleteCommandHandlerMapCount = 0;
                 
                 beforeEach(^{
                     [testDispatcher storeRequest:testAddCommand handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {}];
@@ -315,22 +316,24 @@ describe(@"a response dispatcher", ^{
                     testDeleteCommand.correlationID = testDeleteCommandCorrelationId;
                     testDeleteCommand.cmdID = @(testCommandId);
                     
-                    [testDispatcher storeRequest:testDeleteCommand handler:nil];
+                    [testDispatcher storeRequest:testDeleteCommand handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                        deleteCommandHandlerMapCount = testDispatcher.commandHandlerMap.count;
+                    }];
                     
                     testDeleteResponse = [[SDLDeleteCommandResponse alloc] init];
                     testDeleteResponse.correlationID = testDeleteCommandCorrelationId;
                     testDeleteResponse.success = @YES;
                     
                     SDLRPCResponseNotification *deleteCommandNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveDeleteCommandResponse object:nil rpcResponse:testDeleteResponse];
-                    
                     [[NSNotificationCenter defaultCenter] postNotification:deleteCommandNotification];
                 });
                 
                 it(@"should have removed all the handlers", ^{
-                    // There should still be the add command request & handler in the dictionaries since we never responded
-                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
-                    expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
-                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
+                    // There should still be the add command request & handler in the dictionaries since we never responded to those RPCs, but the command handler map should have removed the addCommand handler
+                    expect(testDispatcher.commandHandlerMap).to(haveCount(0));
+                    expect(testDispatcher.rpcRequestDictionary.allKeys).to(haveCount(1));
+                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(1));
+                    expect(deleteCommandHandlerMapCount).to(equal(0));
                 });
             });
         });
@@ -341,7 +344,7 @@ describe(@"a response dispatcher", ^{
             });
                                   
             it(@"should not add the command", ^{
-                expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -369,8 +372,8 @@ describe(@"a response dispatcher", ^{
             it(@"should add the subscription to the map", ^{
                 [testDispatcher storeRequest:testSubscribeButton handler:nil];
                 
-                expect(testDispatcher.buttonHandlerMap[testSubscribeButton.buttonName]).toEventuallyNot(beNil());
-                expect(testDispatcher.buttonHandlerMap).toEventually(haveCount(@1));
+                expect(testDispatcher.buttonHandlerMap[testSubscribeButton.buttonName]).toNot(beNil());
+                expect(testDispatcher.buttonHandlerMap).to(haveCount(@1));
             });
             
             it(@"should throw an exception if there's no button name", ^{
@@ -379,7 +382,7 @@ describe(@"a response dispatcher", ^{
                 testSubscribeButton.buttonName = nil;
 #pragma clang diagnostic pop
                 
-                expectAction(^{ [testDispatcher storeRequest:testSubscribeButton handler:nil]; }).toEventually(raiseException().named(@"MissingIdException"));
+                expectAction(^{ [testDispatcher storeRequest:testSubscribeButton handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -406,7 +409,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should run the handler for each", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@2));
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
                     });
                 });
                 
@@ -426,7 +429,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should not run the handler", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
                     });
                 });
             });
@@ -457,9 +460,9 @@ describe(@"a response dispatcher", ^{
                 
                 it(@"should have removed all the handlers", ^{
                     // There should still be the add command request & handler in the dictionaries since we never responded
-                    expect(testDispatcher.commandHandlerMap).toEventually(haveCount(@0));
-                    expect(testDispatcher.rpcRequestDictionary).toEventually(haveCount(@1));
-                    expect(testDispatcher.rpcResponseHandlerMap).toEventually(haveCount(@1));
+                    expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
+                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
                 });
             });
         });
@@ -470,7 +473,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the subscription", ^{
-                expect(testDispatcher.buttonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.buttonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -499,8 +502,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -525,7 +528,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should run the handler for each", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@2));
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
                     });
                 });
                 
@@ -545,7 +548,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should not run the handler", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
                     });
                 });
             });
@@ -557,7 +560,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -573,7 +576,7 @@ describe(@"a response dispatcher", ^{
 #pragma clang diagnostic pop
                 testAlert.softButtons = [@[testSoftButton1] mutableCopy];
                 
-                expectAction(^{ [testDispatcher storeRequest:testAlert handler:nil]; }).toEventually(raiseException().named(@"MissingIdException"));
+                expectAction(^{ [testDispatcher storeRequest:testAlert handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
         });
         
@@ -581,7 +584,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testAlert handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -610,8 +613,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toEventuallyNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@1));
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -636,7 +639,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should run the handler for each", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@2));
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
                     });
                 });
                 
@@ -656,7 +659,7 @@ describe(@"a response dispatcher", ^{
                     });
                     
                     it(@"should not run the handler", ^{
-                        expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
                     });
                 });
             });
@@ -668,7 +671,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -684,7 +687,7 @@ describe(@"a response dispatcher", ^{
 #pragma clang diagnostic pop
                 testScrollableMessage.softButtons = [@[testSoftButton1] mutableCopy];
                 
-                expectAction(^{ [testDispatcher storeRequest:testScrollableMessage handler:nil]; }).toEventually(raiseException().named(@"MissingIdException"));
+                expectAction(^{ [testDispatcher storeRequest:testScrollableMessage handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
         });
         
@@ -692,7 +695,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testScrollableMessage handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).toEventually(haveCount(@0));
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -712,8 +715,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should store the handler" ,^{
-                expect((id)testDispatcher.audioPassThruHandler).toEventuallyNot(beNil());
-                expect((id)testDispatcher.audioPassThruHandler).toEventually(equal((id)testPerformAudioPassThru.audioDataHandler));
+//                expect(testDispatcher.audioPassThruHandler).toNot(beNil());
+//                expect(testDispatcher.audioPassThruHandler).to(equal(testPerformAudioPassThru.audioDataHandler));
             });
             
             describe(@"when an on audio data notification arrives", ^{
@@ -725,7 +728,7 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should run the handler", ^{
-                    expect(@(numTimesHandlerCalled)).toEventually(equal(@1));
+                    expect(@(numTimesHandlerCalled)).to(equal(@1));
                 });
             });
             
@@ -739,7 +742,7 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should clear the handler", ^{
-                    expect((id)testDispatcher.audioPassThruHandler).toEventually(beNil());
+//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
                 });
             });
         });
@@ -763,7 +766,7 @@ describe(@"a response dispatcher", ^{
                });
                
                it(@"should not run a handler", ^{
-                   expect(@(numTimesHandlerCalled)).toEventually(equal(@0));
+                   expect(@(numTimesHandlerCalled)).to(equal(@0));
                });
             });
         
@@ -777,7 +780,7 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should clear the handler", ^{
-                    expect((id)testDispatcher.audioPassThruHandler).toEventually(beNil());
+//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
                 });
             });
             

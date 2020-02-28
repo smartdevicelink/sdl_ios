@@ -26,6 +26,9 @@ extern NSUInteger const SDLDefaultMTUSize;
 extern NSUInteger const SDLV1MTUSize;
 extern NSUInteger const SDLV3MTUSize;
 
+extern void *const SDLProcessingQueueName;
+extern void *const SDLConcurrentQueueName;
+
 @interface SDLGlobals : NSObject
 
 @property (copy, nonatomic, readonly) SDLVersion *protocolVersion;
