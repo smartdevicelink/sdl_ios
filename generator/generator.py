@@ -373,6 +373,7 @@ class Generator:
                 return
             if overwrite:
                 self.logger.info('Overriding %s', file_with_suffix.name)
+                file_with_suffix.unlink()
                 self.write_file(file_with_suffix, templates, data)
             else:
                 while True:

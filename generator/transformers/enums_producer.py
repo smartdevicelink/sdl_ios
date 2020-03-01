@@ -38,6 +38,8 @@ class EnumsProducer(InterfaceProducerCommon):
             render['name'] = name
             render['imports'] = imports
         super(EnumsProducer, self).transform(item, render)
+        if any(map(lambda p: p.value, render['params'])):
+            render['template'] = 'enums/template_numeric'
         return render
 
     def extract_param(self, param: EnumElement):

@@ -56,12 +56,16 @@ class InterfaceProducerCommon(ABC):
             render['description'] = self.extract_description(item.description)
         if item.since:
             render['since'] = item.since
+        if item.history:
+            render['history'] = item.history.pop().since
         if item.deprecated and item.deprecated.lower() == 'true':
             render['deprecated'] = True
 
         render['params'] = OrderedDict()
 
         for param in getattr(item, self.container_name).values():
+            if param.name.lower() in ['id']:
+                param.name = self.minimize_first(item.name) + self.title(param.name)
             render['params'][param.name] = self.extract_param(param)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])

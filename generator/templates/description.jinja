@@ -1,0 +1,23 @@
+{% if description or since or history %}
+/**
+ {%- if description %}
+ {%- for d in description %}
+ * {{d}}
+ {%- endfor %}{% endif -%}
+ {%- if description and ( since or history ) %}
+ *
+ {%- endif %}
+ {%- if deprecated %}
+ * @deprecated
+ {%- endif %}
+ {%- if history %}
+ * @history SDL {{ history }}
+ {%- endif %}
+ {%- if since %}
+ * @since SDL {{ since }}
+ {%- endif %}
+ */
+{%- endif -%}
+{%- if deprecated and deprecated is sameas true %}
+__deprecated
+{%- endif -%}
