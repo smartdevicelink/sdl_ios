@@ -1,36 +1,38 @@
-# pylint: disable=C0103, C0301, C0115, C0116
 """Interface model unit test
 
 """
+import subprocess
 import unittest
 from os import walk
 from os.path import join
 from pathlib import Path
 
-from pylint.lint import Run
+from flake8.api import legacy as flake8
 
 
-class TestCodeFormatAndQuality(unittest.TestCase):
-    MINIMUM_SCORE = 9
-
+class CodeFormatAndQuality(unittest.TestCase):
     def setUp(self):
         """Searching for all python files to be checked
 
         """
-        self.list_of_files = ['--max-line-length=130', '--disable=import-error']
-        root = Path(__file__).absolute().parents[1]
-        for (directory, _, filenames) in walk(root.as_posix()):
+        self.list_of_files = []
+        for (directory, _, filenames) in walk(Path(__file__).absolute().parents[1].as_posix()):
             self.list_of_files += [join(directory, file) for file in filenames
-                                   if file.endswith('.py') and not file.startswith('test')
+                                   if file.endswith('.py') and 'test' not in directory
                                    and 'rpc_spec' not in directory]
 
-    def test_pylint_conformance(self):
-        """Performing checks by PyLint
+    def test_check(self):
+        """Performing checks by flake8
 
         """
-        results = Run(self.list_of_files, do_exit=False)
-        score = results.linter.stats['global_note']
-        self.assertGreaterEqual(score, self.MINIMUM_SCORE)
+
+        style_guide = flake8.get_style_guide(max_line_length=120)
+        report = style_guide.check_files(self.list_of_files)
+        self.assertEqual(report.total_errors, 0)
+
+        process = subprocess.Popen(["flake8", '--exclude=rpc_spec,test', '..'], stdout=subprocess.PIPE)
+        (output, err) = process.communicate()
+        print(output.decode("utf-8"))
 
 
 if __name__ == '__main__':

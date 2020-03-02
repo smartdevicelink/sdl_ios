@@ -15,7 +15,7 @@ try:
     from test_enums import TestEnumsProducer
     from test_functions import TestFunctionsProducer
     from test_structs import TestStructsProducer
-    from test_CodeFormatAndQuality import TestCodeFormatAndQuality
+    from test_CodeFormatAndQuality import CodeFormatAndQuality
 except ImportError as error:
     print('{}.\nProbably you did not initialize submodule'.format(error))
     sys.exit(1)
@@ -29,8 +29,8 @@ def config_logging():
     handler.setFormatter(logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                                            datefmt='%m-%d %H:%M'))
     root_logger = logging.getLogger()
-    handler.setLevel(logging.DEBUG)
-    root_logger.setLevel(logging.DEBUG)
+    handler.setLevel(logging.INFO)
+    root_logger.setLevel(logging.INFO)
     root_logger.addHandler(handler)
 
 
@@ -44,7 +44,7 @@ def main():
     suite.addTests(TestLoader().loadTestsFromTestCase(TestFunctionsProducer))
     suite.addTests(TestLoader().loadTestsFromTestCase(TestStructsProducer))
     suite.addTests(TestLoader().loadTestsFromTestCase(TestEnumsProducer))
-    suite.addTests(TestLoader().loadTestsFromTestCase(TestCodeFormatAndQuality))
+    suite.addTests(TestLoader().loadTestsFromTestCase(CodeFormatAndQuality))
 
     runner = TextTestRunner(verbosity=2)
     runner.run(suite)
