@@ -291,7 +291,7 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     if (testConfig.lifecycleConfig.tcpDebugMode) {
-                        OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
+                        OCMStub([streamingManagerMock startSecondaryTransportOnProtocol:proxyMock]);
                     }
 
                     // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
@@ -306,7 +306,7 @@ describe(@"a lifecycle manager", ^{
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
                     if (testManager.configuration.lifecycleConfig.tcpDebugMode) {
-                        OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any]]);
+                        OCMStub([streamingManagerMock startSecondaryTransportOnProtocol:[OCMArg any]]);
                     }
                 });
                 

@@ -54,7 +54,6 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
@@ -78,7 +77,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 #pragma mark - SDLManager Private Interface
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
+@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLSecondaryTransportDelegate>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -249,7 +248,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
            [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
            [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
             // We reuse our queue to run secondary transport manager's state machine
-            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
+            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self.streamManager serialQueue:self.lifecycleQueue];
+            self.streamManager.secondaryTransportDelegate = self;
         }
 
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
@@ -276,12 +276,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.screenManager stop];
     [self.encryptionLifecycleManager stop];
     [self.streamManager stop];
-    if (self.secondaryTransportManager != nil) {
-        [self.secondaryTransportManager stop];
-    } else {
-        [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:self.proxy.protocol toNewVideoProtocol:nil fromOldAudioProtocol:self.proxy.protocol
-         toNewAudioProtocol:nil];
-    }
+    [self.secondaryTransportManager stop];
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
@@ -458,9 +453,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
     }
     
-    // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
+    // If the secondary transport manager is used, the streaming media manager will be started through `onAudioServiceProtocolUpdated` and `onVideoServiceProtocolUpdated`
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:self.proxy.protocol fromOldAudioProtocol:nil toNewAudioProtocol:self.proxy.protocol];
+        [self.streamManager startSecondaryTransportOnProtocol:self.proxy.protocol];
     }
 
     dispatch_group_enter(managerGroup);
@@ -888,53 +883,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 }
 
-#pragma mark Streaming protocol listener
+#pragma mark - SDLSecondaryTransportDelegate
 
-- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
-
-    BOOL videoProtocolUpdated = ((oldVideoProtocol == nil && newVideoProtocol == nil) || (oldVideoProtocol == newVideoProtocol)) ? NO : YES;
-    BOOL audioProtocolUpdated = ((oldAudioProtocol == nil && newAudioProtocol == nil) || (oldAudioProtocol == newAudioProtocol)) ? NO : YES;
-
-    if (!videoProtocolUpdated && !audioProtocolUpdated) {
-        SDLLogV(@"The video and audio protocols did not update. Nothing will update.");
-        return;
-    }
-
-    if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
-        // Both an audio and video service are currently running. Make sure *BOTH* audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
-         __weak typeof(self) weakSelf = self;
-        [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
-                [strongSelf.streamManager destroyAudioProtocol];
-                [strongSelf.streamManager destroyVideoProtocol];
-                [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-            }];
-        }];
-    } else if (oldVideoProtocol != nil) {
-        // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
-         __weak typeof(self) weakSelf = self;
-        [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
-            [strongSelf.streamManager destroyVideoProtocol];
-            [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-        }];
-    } else if (oldAudioProtocol != nil) {
-        // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
-         __weak typeof(self) weakSelf = self;
-        [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
-            [strongSelf.streamManager destroyAudioProtocol];
-            [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-        }];
-    } else {
-        // No audio and/or video service currently running. Just start the new audio and/or video services.
-        [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-    }
+- (void)destroySecondaryTransport {
+    [self.secondaryTransportManager disconnectSecondaryTransport];
 }
 
 @end
