@@ -315,7 +315,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateAppInactive {
     SDLLogD(@"App became inactive");
-    if (!self.protocol) {
+    if (self.protocol == nil) {
         SDLLogV(@"No session established with head unit. Ignoring app backgrounded notification");
         return;
     }
@@ -336,7 +336,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
     SDLLogD(@"App became active");
-    if (!self.protocol) {
+    if (self.protocol == nil) {
         SDLLogV(@"No session established with head unit. Ignoring app foregounded notification");
         return;
     }
@@ -665,7 +665,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     // if startWithProtocol has not been called yet, abort here
-    if (!self.protocol) {
+    if (self.protocol == nil) {
         SDLLogV(@"No session established with head unit. HMI status is not relevant.");
         return;
     }
@@ -697,7 +697,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
-    if (!self.protocol) {
+    if (self.protocol == nil) {
         SDLLogV(@"No session established with head unit. Video start service request will not be sent.");
         return;
     }
@@ -731,6 +731,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+    } else {
+        SDLLogW(@"No video is currently streaming. Will not send an end video service request.");
     }
 }
 
