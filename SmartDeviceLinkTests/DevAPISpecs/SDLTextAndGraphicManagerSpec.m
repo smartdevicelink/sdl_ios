@@ -370,6 +370,31 @@ describe(@"text and graphic manager", ^{
             testManager.textField4Type = nil;
         });
 
+        context(@"when textFields are nil", ^{
+            beforeEach(^{
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
+            });
+
+            it(@"should send everything", ^{
+                testManager.mediaTrackTextField = textMediaTrack;
+                testManager.title = textTitle;
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField4 = textLine4;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
+                expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
+            });
+        });
+
         context(@"with one line available", ^{
             beforeEach(^{
                 testManager.windowCapability = [[SDLWindowCapability alloc] init];
@@ -845,17 +870,34 @@ describe(@"text and graphic manager", ^{
             context(@"when the image is already on the head unit", ^{
                 beforeEach(^{
                     OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+                });
 
+                it(@"should immediately attempt to update", ^{
                     testManager.primaryGraphic = testArtwork;
                     testManager.secondaryGraphic = testArtwork;
                     testManager.batchUpdates = NO;
                     [testManager updateWithCompletionHandler:nil];
-                });
 
-                it(@"should immediately attempt to update", ^{
                     expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                });
+
+                context(@"when imageFields are nil", ^{
+                    beforeEach(^{
+                        testManager.windowCapability = [[SDLWindowCapability alloc] init];
+                    });
+
+                    it(@"should send everything", ^{
+                        testManager.primaryGraphic = testArtwork;
+                        testManager.secondaryGraphic = testArtwork;
+                        testManager.batchUpdates = NO;
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
+                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
+                        expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                    });
                 });
             });
 
