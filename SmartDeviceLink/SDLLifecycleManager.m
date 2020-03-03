@@ -895,35 +895,45 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     BOOL videoProtocolUpdated = ((oldVideoProtocol == nil && newVideoProtocol == nil) || (oldVideoProtocol == newVideoProtocol)) ? NO : YES;
     BOOL audioProtocolUpdated = ((oldAudioProtocol == nil && newAudioProtocol == nil) || (oldAudioProtocol == newAudioProtocol)) ? NO : YES;
 
-    if (videoProtocolUpdated && audioProtocolUpdated) {
-        if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
-            // Both an audio and video service are currently running. Make sure *BOTH* audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
-            [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
-                [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
-                    [self.secondaryTransportManager disconnectSecondaryTransport];
-                    [self.streamManager destroyAudioProtocol];
-                    [self.streamManager destroyVideoProtocol];
-                    [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-                }];
+    if (!videoProtocolUpdated && !audioProtocolUpdated) {
+        SDLLogV(@"The video and audio protocols did not update. Nothing will update.");
+        return;
+    }
+
+    if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
+        // Both an audio and video service are currently running. Make sure *BOTH* audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
+         __weak typeof(self) weakSelf = self;
+        [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
+                [strongSelf.streamManager destroyAudioProtocol];
+                [strongSelf.streamManager destroyVideoProtocol];
+                [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
             }];
-        } else if (oldVideoProtocol != nil) {
-            // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
-            [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
-                [self.secondaryTransportManager disconnectSecondaryTransport];
-                [self.streamManager destroyVideoProtocol];
-                [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-            }];
-        } else if (oldAudioProtocol != nil) {
-            // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
-            [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
-                [self.secondaryTransportManager disconnectSecondaryTransport];
-                [self.streamManager destroyAudioProtocol];
-                [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-            }];
-        } else {
-            // No audio and/or video service currently running. Just start the new audio and/or video services.
-            [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-        }
+        }];
+    } else if (oldVideoProtocol != nil) {
+        // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
+         __weak typeof(self) weakSelf = self;
+        [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
+            [strongSelf.streamManager destroyVideoProtocol];
+            [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
+        }];
+    } else if (oldAudioProtocol != nil) {
+        // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
+         __weak typeof(self) weakSelf = self;
+        [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.secondaryTransportManager disconnectSecondaryTransport];
+            [strongSelf.streamManager destroyAudioProtocol];
+            [strongSelf.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
+        }];
+    } else {
+        // No audio and/or video service currently running. Just start the new audio and/or video services.
+        [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
     }
 }
 
