@@ -23,6 +23,7 @@ extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
@@ -74,6 +75,13 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
+
+
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS;
 
 #pragma mark Transport
 

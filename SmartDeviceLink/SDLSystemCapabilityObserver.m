@@ -32,6 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithObserver:(id<NSObject>)observer updateHandler:(SDLCapabilityUpdateWithErrorHandler)block {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _observer = observer;
+    _updateBlock = block;
+
+    return self;
+}
+
 - (NSString *)description {
     if (self.selector) {
         return [NSString stringWithFormat:@"Observer: %@[%@] - %@", [_observer class], _observer, NSStringFromSelector(_selector)];

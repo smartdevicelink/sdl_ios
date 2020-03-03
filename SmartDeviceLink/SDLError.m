@@ -21,6 +21,7 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
 SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
@@ -288,6 +289,35 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Module does not understand system capabilities", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The connected module does not support system capabilities", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Use isCapabilitySupported to find out if the feature is supported on the head unit, but no more information about the feature is available on this module", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capabilities cannot be updated in HMI NONE.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to subscribe or update a system capability in HMI NONE, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Wait until you are in HMI BACKGROUND, LIMITED, OR FULL before subscribing or updating a capability.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorHMINone userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capability type DISPLAYS cannot be updated.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to update system capability type DISPLAYS, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Subscribe to DISPLAYS to automatically receive updates or retrieve a cached display capability value directly from the SystemCapabilityManager.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays userInfo:userInfo];
+}
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError {
@@ -381,7 +411,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
     return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
-                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have either 0 or 1 parameters", NSStringFromSelector(selector)]
+                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have between 0 and 3 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
                                  userInfo:nil];
 }
 

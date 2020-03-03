@@ -12,7 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A handler mirroring the one in SDLSystemCapabilityManager.h for `initWithObserver:block:`
 typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
+
+/// A handler mirroring the one in SDLSystemCapabilityManager.h for `initWithObserver:updateHandler:`
+typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *_Nullable capability, BOOL subscribed, NSError *_Nullable error);
 
 /**
  An observer object for SDLSystemCapabilityManager
@@ -32,7 +36,10 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
 /**
  A block called when the observer is triggered
  */
-@property (copy, nonatomic) SDLCapabilityUpdateHandler block;
+@property (copy, nonatomic) SDLCapabilityUpdateHandler block __deprecated_msg("use updateBlock instead");
+
+/// A block called when the observer is triggered
+@property (copy, nonatomic) SDLCapabilityUpdateWithErrorHandler updateBlock;
 
 /**
  Create an observer using an object and a selector on that object
@@ -50,7 +57,14 @@ typedef void (^SDLCapabilityUpdateHandler)(SDLSystemCapability *capability);
  @param block The block that will be called when the subscription triggers
  @return The observer
  */
-- (instancetype)initWithObserver:(id<NSObject>)observer block:(SDLCapabilityUpdateHandler)block;
+- (instancetype)initWithObserver:(id<NSObject>)observer block:(SDLCapabilityUpdateHandler)block __deprecated_msg("use initWithObserver:updateHandler: instead");
+
+/// Create an observer using an object and a callback block
+
+/// @param observer The object that can be used to unsubscribe the block
+/// @param block The block that will be called when the subscription triggers
+/// @return The observer
+- (instancetype)initWithObserver:(id<NSObject>)observer updateHandler:(SDLCapabilityUpdateWithErrorHandler)block;
 
 @end
 
