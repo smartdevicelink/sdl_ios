@@ -858,7 +858,7 @@ describe(@"the streaming video manager", ^{
 
         context(@"if stopping video on secondary transport", ^{
             beforeEach(^{
-                [streamingLifecycleManager stopVideoWithCompletionHandler:^(BOOL success) {
+                [streamingLifecycleManager endVideoServiceWithCompletionHandler:^(BOOL success) {
                     handlerCalled = YES;
                     videoServiceEnded = success;
                 }];

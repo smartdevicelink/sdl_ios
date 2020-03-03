@@ -64,6 +64,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+Create a new streaming media manager for navigation and VPM apps with a specified configuration. Used for testing.
+
+@param connectionManager The pass-through for RPCs
+@param streamingConfiguration The configuration of this streaming media session
+@param encryptionConfiguration The encryption configuration with security managers
+@param audioManager The audio manager.
+@return A new streaming manager
+*/
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration audioManager:(nullable SDLAudioStreamManager *)audioManager NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -91,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 */
-- (void)stopAudioWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)audioEndedCompletionHandler;
+- (void)endAudioServiceWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)audioEndedCompletionHandler;
 
 /**
  *  This method is used internally to destroy the protocol after the secondary transport is shut down.

@@ -171,7 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param completionHandler Called when video has stopped.
 - (void)sdl_stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.videoLifecycleManager stopVideoWithCompletionHandler:^(BOOL success) {
+    [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^(BOOL success) {
         weakSelf.videoStarted = NO;
 
         if (completionHandler == nil) { return; }
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param completionHandler Called when audio has stopped.
 - (void)sdl_stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.audioLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
+    [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^(BOOL success) {
         weakSelf.audioStarted = NO;
 
         if (completionHandler == nil) { return; }

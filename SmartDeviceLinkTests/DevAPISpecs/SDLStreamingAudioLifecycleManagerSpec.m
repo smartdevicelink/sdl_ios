@@ -465,7 +465,7 @@ describe(@"the streaming audio manager", ^{
         context(@"if stopping audio on secondary transport", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
-                [streamingLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
+                [streamingLifecycleManager endAudioServiceWithCompletionHandler:^(BOOL success) {
                     handlerCalled = YES;
                     audioServiceEnded = success;
                 }];
