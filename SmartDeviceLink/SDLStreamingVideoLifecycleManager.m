@@ -92,7 +92,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 
-@property (nonatomic, copy, nullable) SDLVideoEndedCompletionHandler videoEndedCompletionHandler;
+@property (nonatomic, copy, nullable) SDLVideoServiceEndedCompletionHandler videoEndedCompletionHandler;
 
 @end
 
@@ -226,7 +226,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // 1. Since the primary transport is still open, do will not reset the `hmiLevel` and `videoStreamingState` since we can still get notifications from the module with the updated hmi status on the primary transport.
 // 2. We need to send an end video service control frame to the module to ensure that the video session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end video service request.
 // 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
-- (void)stopVideoWithCompletionHandler:(nullable SDLVideoEndedCompletionHandler)completionHandler {
+- (void)stopVideoWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)completionHandler {
     self.videoEndedCompletionHandler = completionHandler;
 
     // Always send an end video service control frame, regardless of whether video is streaming or not.

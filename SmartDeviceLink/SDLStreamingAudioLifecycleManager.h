@@ -23,7 +23,7 @@
 
 /// Called when an end audio service ACK or NAK has been received.
 /// @param success True if the end service ACKed; False if NAKed.
-typedef void (^SDLAudioEndedCompletionHandler)(BOOL success);
+typedef void (^SDLAudioServiceEndedCompletionHandler)(BOOL success);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 */
-- (void)stopAudioWithCompletionHandler:(nullable SDLAudioEndedCompletionHandler)audioEndedCompletionHandler;
+- (void)stopAudioWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)audioEndedCompletionHandler;
 
 /**
  *  This method is used internally to destroy the protocol after the secondary transport is shut down.
