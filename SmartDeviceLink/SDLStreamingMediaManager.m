@@ -60,11 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Audio
 
-- (void)sdl_startAudioWithProtocol:(SDLProtocol *)protocol {
-    [self.audioLifecycleManager startWithProtocol:protocol];
-    self.audioStarted = YES;
-}
-
 - (void)stopAudio {
     [self.audioLifecycleManager stop];
     self.audioStarted = NO;
@@ -75,11 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark Video
-
-- (void)sdl_startVideoWithProtocol:(SDLProtocol *)protocol {
-    [self.videoLifecycleManager startWithProtocol:protocol];
-    self.videoStarted = YES;
-}
 
 - (void)stopVideo {
     [self.videoLifecycleManager stop];
@@ -158,10 +148,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newVideoProtocol The new video protocol
 - (void)sdl_startNewProtocolForAudio:(nullable SDLProtocol *)newAudioProtocol forVideo:(nullable SDLProtocol *)newVideoProtocol {
     if (newAudioProtocol != nil) {
-        [self sdl_startAudioWithProtocol:newAudioProtocol];
+        [self.audioLifecycleManager startWithProtocol:newAudioProtocol];
+        self.audioStarted = YES;
     }
     if (newVideoProtocol != nil) {
-        [self sdl_startVideoWithProtocol:newVideoProtocol];
+        [self.videoLifecycleManager startWithProtocol:newVideoProtocol];
+        self.videoStarted = YES;
     }
 }
 
