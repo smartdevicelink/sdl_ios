@@ -557,7 +557,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
-        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
         return;
     }
 
@@ -586,7 +586,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoEndedCompletionHandler = nil;
     }
 
-    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
@@ -598,7 +598,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoEndedCompletionHandler = nil;
     }
 
-    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -734,11 +734,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
-    if (serviceType != SDLServiceTypeVideo) { return; }
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
-}
-
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
     NSAssert([NSThread isMainThread], @"Display link should always fire on the main thread");
     if (@available(iOS 10.0, *)) {
@@ -812,7 +807,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.preferredFormatIndex >= self.preferredFormats.count
         || self.preferredResolutionIndex >= self.preferredResolutions.count) {
         SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", (unsigned long)self.preferredFormatIndex, (unsigned long)self.preferredResolutionIndex);
-        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
         return;
     }
 

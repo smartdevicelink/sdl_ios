@@ -224,7 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
     SDLLogW(@"Request to start audio service NAKed");
 
-    [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark End Service ACK/NAK
@@ -238,7 +238,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.audioEndedCompletionHandler = nil;
     }
 
-    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
@@ -250,7 +250,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.audioEndedCompletionHandler = nil;
     }
 
-    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -328,11 +328,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isAudioConnected) {
         [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
     }
-}
-
-- (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
-    if (serviceType != SDLServiceTypeAudio) { return; }
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark Setters / Getters
