@@ -469,6 +469,31 @@ describe(@"text and graphic manager", ^{
                 expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
             });
+
+            context(@"when media track and title are available", ^{
+                beforeEach(^{
+                    NSMutableArray<SDLTextField *> *existingFieldsMutable = [testManager.windowCapability.textFields mutableCopy];
+                    SDLTextField *mediaTrack = [[SDLTextField alloc] init];
+                    mediaTrack.name = SDLTextFieldNameMediaTrack;
+                    [existingFieldsMutable addObject:mediaTrack];
+
+                    SDLTextField *title = [[SDLTextField alloc] init];
+                    title.name = SDLTextFieldNameTemplateTitle;
+                    [existingFieldsMutable addObject:title];
+                    testManager.windowCapability.textFields = [existingFieldsMutable copy];
+                });
+
+                it(@"should set media track and title properly", ^{
+                    testManager.mediaTrackTextField = textMediaTrack;
+                    testManager.title = textTitle;
+
+                    testManager.batchUpdates = NO;
+                    [testManager updateWithCompletionHandler:nil];
+
+                    expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                    expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                });
+            });
         });
 
         context(@"with two lines available", ^{
