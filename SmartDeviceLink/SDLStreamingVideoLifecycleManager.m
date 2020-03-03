@@ -640,9 +640,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 /// Parses out the `hmiLevel` and `videoStreamingState` from an `OnHMIStatus` notification from Core. Since Core only allows video streaming when the `hmiLevel` is `FULL` or `LIMITED`, sending video data when the `hmiLevel` is not `FULL` or `LIMITED` will result in Core forcing an unregistration with a reason of `PROTOCOL_VIOLATION`.
-/// 2. The `hmiLevel` will go to `FULL` when the user opens the SDL app by tapping on the SDL app icon on the HMI or uses a voice command to launch the SDL app.
-/// 3. The `hmiLevel` will go to `LIMITED` when the user backgrounds the SDL app by opening another app or by going back to the home screen.
-/// 4. The `hmiLevel` will go to `NONE` when the user "exits" the app (either through gesture or voice commands). It will also go to `NONE` if video fails to stream and the user presses "cancel" on the HMI popup. In these cases the transport between the phone and accessory will still be open. It will also go to `NONE` when the user disconnects the transport between the phone and accessory. In this case no notification will be recieved since the transport was disconnected.
+/// 1. The `hmiLevel` will go to `FULL` when the user opens the SDL app by tapping on the SDL app icon on the HMI or uses a voice command to launch the SDL app.
+/// 2. The `hmiLevel` will go to `LIMITED` when the user backgrounds the SDL app by opening another app or by going back to the home screen.
+/// 3. The `hmiLevel` will go to `NONE` when the user "exits" the app (either through gesture or voice commands). It will also go to `NONE` if video fails to stream and the user presses "cancel" on the HMI popup. In these cases the transport between the phone and accessory will still be open. It will also go to `NONE` when the user disconnects the transport between the phone and accessory. In this case no notification will be recieved since the transport was disconnected.
+/// 4. The `hmiLevel` will go to `BACKGROUND` if the app is in `LIMITED` and another app takes over video streaming capability (i.e. another navigation app's `hmiLevel` changes to `FULL`).
 ///
 /// @param notification The `OnHMIStatus` notification
 - (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
