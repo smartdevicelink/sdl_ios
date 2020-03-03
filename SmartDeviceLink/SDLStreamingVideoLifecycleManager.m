@@ -129,7 +129,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager videoScaleManager:_videoScaleManager];
 
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
-    _connectedVehicleMake = nil;
     _dataSource = configuration.streamingMediaConfig.dataSource;
     _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _backgroundingPixelBuffer = NULL;
@@ -176,8 +175,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _ssrc = arc4random_uniform(UINT32_MAX);
     _lastPresentationTimestamp = kCMTimeInvalid;
-
-    _videoEndedCompletionHandler = nil;
 
     return self;
 }

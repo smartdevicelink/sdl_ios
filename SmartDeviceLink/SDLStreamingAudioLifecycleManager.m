@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _audioManager = audioManager != nil ? audioManager : [[SDLAudioStreamManager alloc] initWithManager:self];
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
-    _connectedVehicleMake = nil;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
 #pragma clang diagnostic push
@@ -100,8 +99,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_startAudioSession];
 }
 
-/// Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end audio service control frame as the module will never receive the request.
 - (void)stop {
+    // Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end audio service control frame as the module will never receive the request.
     SDLLogD(@"Stopping audio streaming lifecycle manager");
 
     // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
