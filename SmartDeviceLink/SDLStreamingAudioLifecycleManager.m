@@ -59,8 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    SDLLogV(@"Creating AudioStreamingLifecycleManager");
-
     _connectionManager = connectionManager;
     _audioManager = audioManager != nil ? audioManager : [[SDLAudioStreamManager alloc] initWithManager:self];
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
@@ -87,6 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    SDLLogD(@"Starting with protocol: %@", self.protocol);
     _protocol = protocol;
 
     @synchronized(self.protocol.protocolDelegateTable) {
@@ -101,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     // Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end audio service control frame as the module will never receive the request.
-    SDLLogD(@"Stopping audio streaming lifecycle manager");
+    SDLLogD(@"Stopping manager");
 
     // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
     _protocol = nil;
@@ -122,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 1. Since the primary transport is still open, do will not reset the `hmiLevel` since we can still get notifications from the module with the updated hmi status on the primary transport.
 // 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
 - (void)endAudioServiceWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)completionHandler {
-    SDLLogD(@"Stopping audio streaming");
+    SDLLogD(@"Ending audio service");
     self.audioEndedCompletionHandler = completionHandler;
 
     // Stop the audio manager from sending any more data
@@ -134,6 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol {
+    SDLLogD(@"Destroying protocol: %@", self.protocol);
     self.protocol = nil;
 }
 
@@ -261,7 +261,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogD(@"Received Register App Interface");
+    SDLLogV(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
 #pragma clang diagnostic push

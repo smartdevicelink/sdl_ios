@@ -104,8 +104,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return nil;
     }
 
-    SDLLogV(@"Creating StreamingLifecycleManager");
-
     _appName = configuration.lifecycleConfig.appName;
     _connectionManager = connectionManager;
     _videoEncoderSettings = [NSMutableDictionary dictionary];
@@ -180,6 +178,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    SDLLogD(@"Starting with protocol: %@", self.protocol);
     _protocol = protocol;
 
     @synchronized(self.protocol.protocolDelegateTable) {
@@ -195,7 +194,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 /// Stops the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end video service control frame as the module will never receive the request.
 - (void)stop {
-    SDLLogD(@"Stopping video streaming lifecycle manager");
+    SDLLogD(@"Stopping manager");
 
     // Reset the video streaming parameters as video is not streaming.
     _backgroundingPixelBuffer = NULL;
@@ -224,6 +223,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // 2. We need to send an end video service control frame to the module to ensure that the video session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end video service request.
 // 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
 - (void)endVideoServiceWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)completionHandler {
+    SDLLogD(@"Ending video service");
     self.videoEndedCompletionHandler = completionHandler;
 
     // Always send an end video service control frame, regardless of whether video is streaming or not.
@@ -232,6 +232,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 /// Used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol {
+    SDLLogD(@"Destroying protocol: %@", self.protocol);
     self.protocol = nil;
 }
 
@@ -730,8 +731,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
-    } else {
-        SDLLogV(@"No video streaming. Will not send an end video service request.");
     }
 }
 

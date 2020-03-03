@@ -27,7 +27,10 @@
                                  [self sdl_systemCapabilityModule],
                                  [self sdl_lockscreenManagerModule],
                                  [self sdl_streamingMediaManagerModule],
-                                 [self sdl_streamingMediaAudioTranscoderModule],
+                                 [self sdl_videoStreamingMediaManagerModule],
+                                 [self sdl_videoStreamingMediaTranscoderModule],
+                                 [self sdl_audioStreamingMediaManagerModule],
+                                 [self sdl_audioStreamingMediaTranscoderModule],
                                  [self sdl_screenManagerModule],
                                  [self sdl_screenManagerTextAndGraphicModule],
                                  [self sdl_screenManagerSoftButtonModule],
@@ -95,11 +98,23 @@
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer", @"SDLStreamingMediaManager", @"SDLStreamingAudioLifecycleManager", @"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+    return [SDLLogFileModule moduleWithName:@"Audio and Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingMediaManager"]]];
 }
 
-+ (SDLLogFileModule *)sdl_streamingMediaAudioTranscoderModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming/Audio Transcode" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
++ (SDLLogFileModule *)sdl_videoStreamingMediaManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+}
+
++ (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {
+    return [SDLLogFileModule moduleWithName:@"Video Streaming/Video Transcoding" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer"]]];
+}
+
++ (SDLLogFileModule *)sdl_audioStreamingMediaManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Audio Streaming" files:[NSSet setWithArray:@[@"SDLStreamingAudioLifecycleManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_audioStreamingMediaTranscoderModule {
+    return [SDLLogFileModule moduleWithName:@"Audio Streaming/Audio Transcoding" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {
