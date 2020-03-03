@@ -178,6 +178,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)destroyVideoProtocol;
 
 /**
+ *  Starts the audio and/or video services using the new protocol.
+ *  @param newAudioProtocol The new audio protocol
+ *  @param newVideoProtocol The new video protocol
+ */
+- (void)startNewProtocolForAudio:(nullable SDLProtocol *)newAudioProtocol forVideo:(nullable SDLProtocol *)newVideoProtocol;
+
+/**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *
  *  @param imageBuffer A CVImageBufferRef to be encoded by Video Toolbox

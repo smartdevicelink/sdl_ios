@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self stopVideo];
 }
 
-#pragma mark - Audio
+#pragma mark Audio
 
 - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
     [self.audioLifecycleManager startWithProtocol:protocol];
@@ -72,25 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.audioStarted = NO;
 }
 
-- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
-    __weak typeof(self) weakSelf = self;
-    [self.audioLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
-        weakSelf.audioStarted = NO;
-
-        if (completionHandler == nil) { return; }
-        return completionHandler(success);
-    }];
-}
-
-- (void)destroyAudioProtocol {
-    [self.audioLifecycleManager destroyProtocol];
-}
-
 - (BOOL)sendAudioData:(NSData*)audioData {
     return [self.audioLifecycleManager sendAudioData:audioData];
 }
 
-#pragma mark - Video
+#pragma mark Video
 
 - (void)startVideoWithProtocol:(SDLProtocol *)protocol {
     [self.videoLifecycleManager startWithProtocol:protocol];
@@ -101,6 +87,27 @@ NS_ASSUME_NONNULL_BEGIN
     [self.videoLifecycleManager stop];
     self.videoStarted = NO;
 }
+
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
+    return [self.videoLifecycleManager sendVideoData:imageBuffer];
+}
+
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
+    return [self.videoLifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
+}
+
+#pragma mark - Secondary Transport
+
+- (void)startNewProtocolForAudio:(nullable SDLProtocol *)newAudioProtocol forVideo:(nullable SDLProtocol *)newVideoProtocol {
+    if (newAudioProtocol != nil) {
+        [self startAudioWithProtocol:newAudioProtocol];
+    }
+    if (newVideoProtocol != nil) {
+        [self startVideoWithProtocol:newVideoProtocol];
+    }
+}
+
+#pragma mark Video
 
 - (void)stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
     __weak typeof(self) weakSelf = self;
@@ -116,12 +123,20 @@ NS_ASSUME_NONNULL_BEGIN
     [self.videoLifecycleManager destroyProtocol];
 }
 
-- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
-    return [self.videoLifecycleManager sendVideoData:imageBuffer];
+#pragma mark Audio
+
+- (void)stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.audioLifecycleManager stopAudioWithCompletionHandler:^(BOOL success) {
+        weakSelf.audioStarted = NO;
+
+        if (completionHandler == nil) { return; }
+        return completionHandler(success);
+    }];
 }
 
-- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
-    return [self.videoLifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
+- (void)destroyAudioProtocol {
+    [self.audioLifecycleManager destroyProtocol];
 }
 
 #pragma mark - Getters

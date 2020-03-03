@@ -903,7 +903,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                     [self.secondaryTransportManager disconnectSecondaryTransport];
                     [self.streamManager destroyAudioProtocol];
                     [self.streamManager destroyVideoProtocol];
-                    [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
+                    [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
                 }];
             }];
         } else if (oldVideoProtocol != nil) {
@@ -911,31 +911,19 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
             [self.streamManager stopVideoWithCompletionHandler:^(BOOL success) {
                 [self.secondaryTransportManager disconnectSecondaryTransport];
                 [self.streamManager destroyVideoProtocol];
-                [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
+                [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
             }];
         } else if (oldAudioProtocol != nil) {
             // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
             [self.streamManager stopAudioWithCompletionHandler:^(BOOL success) {
                 [self.secondaryTransportManager disconnectSecondaryTransport];
                 [self.streamManager destroyAudioProtocol];
-                [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
+                [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
             }];
         } else {
             // No audio and/or video service currently running. Just start the new audio and/or video services.
-            [self sdl_startNewAudioProtocol:newAudioProtocol startNewVideoProtocol:newVideoProtocol];
+            [self.streamManager startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }
-    }
-}
-
-/// Starts the audio and/or video services using the new protocol.
-/// @param newAudioProtocol The new audio protocol
-/// @param newVideoProtocol The new video protocol
-- (void)sdl_startNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol startNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol {
-    if (newAudioProtocol != nil) {
-        [self.streamManager startAudioWithProtocol:newAudioProtocol];
-    }
-    if (newVideoProtocol != nil) {
-        [self.streamManager startVideoWithProtocol:newVideoProtocol];
     }
 }
 
