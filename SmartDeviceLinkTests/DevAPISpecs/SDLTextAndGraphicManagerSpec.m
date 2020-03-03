@@ -378,24 +378,24 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability.textFields = @[lineOneField];
             });
 
-            it(@"should set mediatrack properly", ^{
+            it(@"should not set mediatrack", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
-            it(@"should set title properly", ^{
+            it(@"should not set title", ^{
                 testManager.title = textTitle;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
@@ -479,24 +479,24 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability.textFields = @[lineTwoField];
             });
 
-            it(@"should set mediatrack properly", ^{
+            it(@"should not set mediatrack", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
-            it(@"should set title properly", ^{
+            it(@"should not set title", ^{
                 testManager.title = textTitle;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
@@ -589,24 +589,24 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability.textFields = @[lineThreeField];
             });
 
-            it(@"should set mediatrack properly", ^{
+            it(@"should not set mediatrack", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
-            it(@"should set title properly", ^{
+            it(@"should not set title", ^{
                 testManager.title = textTitle;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
@@ -703,24 +703,24 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability.textFields = @[lineFourField];
             });
 
-            it(@"should set mediatrack properly", ^{
+            it(@"should not set mediatrack", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
-            it(@"should set title properly", ^{
+            it(@"should not set title", ^{
                 testManager.title = textTitle;
 
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
                 expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
                 expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });

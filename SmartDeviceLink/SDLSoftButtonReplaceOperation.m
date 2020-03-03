@@ -273,7 +273,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_supportsSoftButtonImages {
-    return self.softButtonCapabilities ? self.softButtonCapabilities.imageSupported.boolValue : NO;
+    return (self.softButtonCapabilities != nil) ? self.softButtonCapabilities.imageSupported.boolValue : NO;
 }
 
 #pragma mark - Property Overrides

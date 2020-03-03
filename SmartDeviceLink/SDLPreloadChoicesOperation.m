@@ -165,27 +165,51 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSString *menuName = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if ([self.displayName isEqualToString:SDLDisplayTypeGen38Inch] || [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+    if ([self sdl_shouldSendChoiceText]) {
         menuName = cell.text;
     }
-#pragma clang diagnostic pop
 
     if(!menuName) {
         SDLLogE(@"Could not convert SDLChoiceCell to SDLCreateInteractionChoiceSet. It will not be shown. Cell: %@", cell);
         return nil;
     }
     
-    NSString *secondaryText = [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
-    NSString *tertiaryText = [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
+    NSString *secondaryText = [self sdl_shouldSendChoiceSecondaryText] ? cell.secondaryText : nil;
+    NSString *tertiaryText = [self sdl_shouldSendChoiceTertiaryText] ? cell.tertiaryText : nil;
 
-    SDLImage *image = ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? cell.artwork.imageRPC : nil;
-    SDLImage *secondaryImage = ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? cell.secondaryArtwork.imageRPC : nil;
+    SDLImage *image = [self sdl_shouldSendChoicePrimaryImage] ? cell.artwork.imageRPC : nil;
+    SDLImage *secondaryImage = [self sdl_shouldSendChoiceSecondaryImage] ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID.unsignedIntValue choiceSet:@[choice]];
+}
+
+- (BOOL)sdl_shouldSendChoiceText {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if ([self.displayName isEqualToString:SDLDisplayTypeGen38Inch]) {
+        return YES;
+    }
+#pragma clang diagnostic pop
+
+    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
+}
+
+- (BOOL)sdl_shouldSendChoiceSecondaryText {
+    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
+}
+
+- (BOOL)sdl_shouldSendChoiceTertiaryText {
+    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
+}
+
+- (BOOL)sdl_shouldSendChoicePrimaryImage {
+    return (self.defaultMainWindowCapability.imageFields != nil) ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
+}
+
+- (BOOL)sdl_shouldSendChoiceSecondaryImage {
+    return (self.defaultMainWindowCapability.imageFields != nil) ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
 }
 
 #pragma mark - Property Overrides

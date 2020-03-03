@@ -197,6 +197,48 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
+#pragma mark - Open Menu
+
+- (BOOL)openMenu {
+    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"The openMenu method is not supported on this head unit.");
+        return NO;
+    }
+
+    SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
+
+    [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application menu: %@", error);
+        }
+    }];
+
+    return YES;
+}
+
+- (BOOL)openSubmenu:(SDLMenuCell *)cell {
+    if (cell.subCells.count == 0) {
+        SDLLogE(@"The cell %@ does not contain any sub cells, so no submenu can be opened", cell);
+        return NO;
+    } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"The openSubmenu method is not supported on this head unit.");
+        return NO;
+    } else if (![self.menuCells containsObject:cell]) {
+        SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
+        return NO;
+    }
+
+    SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
+
+    [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error opening application to submenu cell: %@, with error: %@", cell, error);
+        }
+    }];
+
+    return YES;
+}
+
 #pragma mark - Build Deletes, Keeps, Adds
 
 - (void)sdl_startSubMenuUpdatesWithOldKeptCells:(NSArray<SDLMenuCell *> *)oldKeptCells newKeptCells:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex {
@@ -670,46 +712,6 @@ UInt32 const MenuCellIdMin = 1;
             self.waitingUpdateMenuCells = @[];
         }
     }
-}
-
-- (BOOL)openMenu {
-    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"The openMenu method is not supported on this head unit.");
-        return NO;
-    }
-
-    SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
-
-    [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Error opening application menu: %@", error);
-        }
-    }];
-
-    return YES;
-}
-
-- (BOOL)openSubmenu:(SDLMenuCell *)cell {
-    if (cell.subCells.count == 0) {
-        SDLLogE(@"The cell %@ does not contain any sub cells, so no submenu can be opened", cell);
-        return NO;
-    } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"The openSubmenu method is not supported on this head unit.");
-        return NO;
-    } else if (![self.menuCells containsObject:cell]) {
-        SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
-        return NO;
-    }
-
-    SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
-
-    [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Error opening application to submenu cell: %@, with error: %@", cell, error);
-        }
-    }];
-
-    return YES;
 }
 
 @end
