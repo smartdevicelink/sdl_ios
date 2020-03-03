@@ -53,6 +53,9 @@ SDLSecondaryTransportState *const SDLSecondaryTransportStateConnecting = @"Conne
 SDLSecondaryTransportState *const SDLSecondaryTransportStateRegistered = @"Registered";
 SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting = @"Reconnecting";
 
+/// Name for the background task started when the device app is backgrounded.
+NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secondaryTransportBackgroundTask";
+
 // Timeout for receiving Register Secondary Transport ACK frame
 static const float RegisterTransportTime = 10.0;
 
@@ -62,7 +65,8 @@ static const float RetryConnectionDelay = 5.0;
 // Indicates that a TCP port is not specified (unconfigured).
 static const int TCPPortUnspecified = -1;
 
-struct TransportUpdated {
+/// The old and new protocols being used when the transport switches. If the old protocol is `nil`, the transport is not yet started; newProtocol is `nil` the transport will be stopped.
+struct TransportProtocolUpdated {
    SDLProtocol * _Nullable oldProtocol;
    SDLProtocol * _Nullable newProtocol;
 } transportUpdated;
@@ -110,8 +114,6 @@ struct TransportUpdated {
 @end
 
 @implementation SDLSecondaryTransportManager
-
-NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secondaryTransportBackgroundTask";
 
 #pragma mark - Public
 
@@ -339,18 +341,15 @@ NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secon
 #pragma mark - Starting / Stopping / Restarting services
 
 - (void)sdl_handleTransportUpdateWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
-    struct TransportUpdated audioTransportUpdated = [self sdl_updateService:SDLServiceTypeAudio allowedTransports:self.transportsForAudioService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
-    struct TransportUpdated videoTransportUpdated = [self sdl_updateService:SDLServiceTypeVideo allowedTransports:self.transportsForVideoService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
+    struct TransportProtocolUpdated audioTransportUpdated = [self sdl_updateService:SDLServiceTypeAudio allowedTransports:self.transportsForAudioService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
+    struct TransportProtocolUpdated videoTransportUpdated = [self sdl_updateService:SDLServiceTypeVideo allowedTransports:self.transportsForVideoService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
 
     if (audioTransportUpdated.newProtocol == audioTransportUpdated.oldProtocol && videoTransportUpdated.newProtocol == videoTransportUpdated.oldProtocol) { return; }
 
     [self.streamingProtocolDelegate streamingServiceProtocolDidUpdateFromOldVideoProtocol:videoTransportUpdated.oldProtocol toNewVideoProtocol:videoTransportUpdated.newProtocol fromOldAudioProtocol:audioTransportUpdated.oldProtocol toNewAudioProtocol:audioTransportUpdated.newProtocol];
 }
 
-- (struct TransportUpdated)sdl_updateService:(UInt8)service
-        allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList
-         primaryAvailable:(BOOL)primaryTransportAvailable
-       secondaryAvailable:(BOOL)secondaryTransportAvailable {
+- (struct TransportProtocolUpdated)sdl_updateService:(UInt8)service allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList primaryAvailable:(BOOL)primaryTransportAvailable secondaryAvailable:(BOOL)secondaryTransportAvailable {
     SDLTransportClass newTransport = SDLTransportClassInvalid;
     // the list is in preferred order, so take a look from the beginning
     for (SDLTransportClassBox *transport in transportList) {
@@ -380,7 +379,7 @@ NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secon
         SDLLogV(@"Transport was not updated");
     }
 
-    struct TransportUpdated transportUpdated;
+    struct TransportProtocolUpdated transportUpdated;
     transportUpdated.oldProtocol = [self sdl_getProtocolFromTransportClass:oldTransport];
     transportUpdated.newProtocol = [self sdl_getProtocolFromTransportClass:newTransport];
     return transportUpdated;
