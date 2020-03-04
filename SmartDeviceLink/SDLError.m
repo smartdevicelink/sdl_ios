@@ -70,8 +70,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
@@ -81,8 +80,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_notConnectedError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil)
                                                        };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
@@ -93,8 +91,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_notReadyError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil)
                                                        };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
@@ -105,8 +102,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
