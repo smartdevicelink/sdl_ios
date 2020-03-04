@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param windowTypeSupported Informs the application how many windows the app is allowed to create per type.
  @param windowCapabilities Contains a list of capabilities of all windows related to the app. @see windowCapabilities
  */
-- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowCapability *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowCapabilities;
+- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowCapability *> *)windowCapabilities;
 
 
 /**
