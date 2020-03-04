@@ -152,6 +152,12 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorInvalidState = -5
 };
 
+typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
+    SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1,
+    SDLSystemCapabilityManagerErrorHMINone = -2,
+    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
+};
+
 /**
  *  Errors associated with transport.
  */

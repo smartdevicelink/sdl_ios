@@ -11,6 +11,7 @@
 #import "SDLDisplayCapability.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
+#import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageField.h"
 #import "SDLImageResolution.h"
@@ -30,18 +31,50 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSystemCapability.h"
+#import "SDLSystemCapabilityObserver.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
+#import "SDLVersion.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowTypeCapabilities.h"
 #import "TestConnectionManager.h"
 #import "TestSystemCapabilityObserver.h"
 
+typedef NSString * SDLServiceID;
 
 @interface SDLSystemCapabilityManager ()
 
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+
+@property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
+@property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
+@property (nonatomic, assign, readwrite) BOOL vrCapability;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
+
+@property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
+
 @property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
+@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
+@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
+
+@property (nullable, strong, nonatomic) SDLSystemCapability *lastReceivedCapability;
+
+@property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
+@property (strong, nonatomic) SDLHMILevel currentHMILevel;
 
 @end
 
@@ -139,7 +172,154 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
+        expect(testSystemCapabilityManager.currentHMILevel).to(equal(SDLHMILevelNone));
+    });
 
+    describe(@"isCapabilitySupported method should work correctly", ^{
+        __block SDLHMICapabilities *hmiCapabilities = nil;
+
+        beforeEach(^{
+            hmiCapabilities = [[SDLHMICapabilities alloc] init];
+        });
+
+        context(@"when there's a cached phone capability and hmiCapabilities is nil", ^{
+            beforeEach(^{
+                testSystemCapabilityManager.phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+            });
+
+            it(@"should return true", ^{
+                expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beTrue());
+            });
+        });
+
+        context(@"when there's no cached capability", ^{
+            describe(@"pulling a phone capability when HMICapabilites.phoneCapability is false", ^{
+                beforeEach(^{
+                    hmiCapabilities.phoneCall = @NO;
+                    testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                });
+
+                it(@"should return NO", ^{
+                    expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beFalse());
+                });
+            });
+
+            describe(@"pulling a phone capability when HMICapabilites.phoneCapability is true", ^{
+                beforeEach(^{
+                    hmiCapabilities.phoneCall = @YES;
+                    testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                });
+
+                it(@"should return NO", ^{
+                    expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beTrue());
+                });
+            });
+
+            describe(@"pulling a phone capability when HMICapabilites.phoneCapability is nil", ^{
+                it(@"should return NO", ^{
+                    expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beFalse());
+                });
+            });
+
+            describe(@"pulling an app services capability", ^{
+                context(@"on RPC connection version 5.1.0 and HMICapabilities.appServices is false", ^{
+                    beforeEach(^{
+                        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"];
+                        hmiCapabilities.appServices = @NO;
+                        testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                    });
+
+                    it(@"should return true", ^{
+                        expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeAppServices]).to(beTrue());
+                    });
+                });
+
+                context(@"on RPC connection version 5.2.0 and HMICapabilities.appServices is false", ^{
+                    beforeEach(^{
+                        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.2.0"];
+                        hmiCapabilities.appServices = @NO;
+                        testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                    });
+
+                    it(@"should return false", ^{
+                        expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeAppServices]).to(beFalse());
+                    });
+                });
+            });
+
+            describe(@"pulling a video streaming capability", ^{
+                context(@"on RPC connection version 2.0.0 and HMICapabilities is nil", ^{
+                    beforeEach(^{
+                        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"2.0.0"];
+                    });
+
+                    it(@"should return false", ^{
+                        expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beFalse());
+                    });
+                });
+
+                context(@"on RPC connection version 3.0.0 and HMICapabilities is nil", ^{
+                    beforeEach(^{
+                        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"3.0.0"];
+                    });
+
+                    context(@"when displayCapabilities.graphicSupported is true", ^{
+                        beforeEach(^{
+                            testSystemCapabilityManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                            testSystemCapabilityManager.displayCapabilities.graphicSupported = @YES;
+                        });
+
+                        it(@"should return true", ^{
+                            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beTrue());
+                        });
+                    });
+
+                    context(@"when displayCapabilities.graphicSupported is false", ^{
+                        beforeEach(^{
+                            testSystemCapabilityManager.displayCapabilities.graphicSupported = @NO;
+                        });
+
+                        it(@"should return true", ^{
+                            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beFalse());
+                        });
+                    });
+                });
+
+                context(@"on RPC connection version 5.1.0", ^{
+                    beforeEach(^{
+                        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"];
+                    });
+
+                    context(@"when HMICapabilites.videoStreaming is false", ^{
+                        beforeEach(^{
+                            hmiCapabilities.videoStreaming = @NO;
+                            testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                        });
+
+                        it(@"should return false", ^{
+                            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beFalse());
+                        });
+                    });
+
+                    context(@"when HMICapabilites.videoStreaming is true", ^{
+                        beforeEach(^{
+                            hmiCapabilities.videoStreaming = @YES;
+                            testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
+                        });
+
+                        it(@"should return true", ^{
+                            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beTrue());
+                        });
+                    });
+
+                    context(@"when HMICapabilites.videoStreaming is nil", ^{
+                        it(@"should return false", ^{
+                            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beFalse());
+                        });
+                    });
+                });
+            });
+        });
     });
 
     context(@"When notified of a register app interface response", ^{
@@ -355,7 +535,7 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When sending a GetSystemCapability request", ^{
+    context(@"When sending a updateCapabilityType request in HMI FULL", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
@@ -366,6 +546,8 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
+
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
         });
 
         context(@"If the request failed with an error", ^{
@@ -377,17 +559,14 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should should not save the capabilities", ^{
-                waitUntilTimeout(1, ^(void (^done)(void)) {
-                    [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                        expect(error).to(equal(testConnectionManager.defaultError));
-                        expect(systemCapabilityManager.phoneCapability).to(beNil());
-                        done();
-                    }];
+                [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                    expect(error).toEventually(equal(testConnectionManager.defaultError));
+                    expect(systemCapabilityManager.phoneCapability).toEventually(beNil());
+                }];
 
-                    [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:0.1];
 
-                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                });
+                [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
 
@@ -397,17 +576,14 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should save the capabilitity", ^{
-                waitUntilTimeout(1, ^(void (^done)(void)){
-                    [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                        expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
-                        expect(error).to(beNil());
-                        done();
-                    }];
+                [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                    expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(testPhoneCapability));
+                    expect(error).toEventually(beNil());
+                }];
 
-                    [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:0.1];
 
-                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                });
+                [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
 
@@ -435,10 +611,12 @@ describe(@"System capability manager", ^{
         });
     });
 
-    describe(@"updating the SCM through OnSystemCapability", ^{
+    describe(@"updating the SCM through OnSystemCapability in HMI Full", ^{
         __block SDLPhoneCapability *phoneCapability = nil;
 
         beforeEach(^{
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
+
             phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
             SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:phoneCapability];
             SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
@@ -452,42 +630,60 @@ describe(@"System capability manager", ^{
         });
     });
 
-    describe(@"subscribing to capability types", ^{
+    describe(@"subscribing to capability types when HMI is full", ^{
         __block TestSystemCapabilityObserver *phoneObserver = nil;
         __block TestSystemCapabilityObserver *navigationObserver = nil;
+        __block TestSystemCapabilityObserver *videoStreamingObserver = nil;
+        __block TestSystemCapabilityObserver *displaysObserver = nil;
 
-        __block NSUInteger blockObserverTriggeredCount = 0;
+        __block NSUInteger observerTriggeredCount = 0;
+        __block NSUInteger handlerTriggeredCount = 0;
 
         beforeEach(^{
-            blockObserverTriggeredCount = 0;
-            testSystemCapabilityManager.supportsSubscriptions = YES;
+            testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
+
+            observerTriggeredCount = 0;
+            handlerTriggeredCount = 0;
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
             phoneObserver = [[TestSystemCapabilityObserver alloc] init];
-            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithCapability:)];
             navigationObserver = [[TestSystemCapabilityObserver alloc] init];
-            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithNotification:)];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeNavigation withObserver:navigationObserver selector:@selector(capabilityUpdatedWithCapability:error:)];
+            videoStreamingObserver = [[TestSystemCapabilityObserver alloc] init];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:videoStreamingObserver selector:@selector(capabilityUpdatedWithCapability:error:subscribed:)];
+            displaysObserver = [[TestSystemCapabilityObserver alloc] init];
+            [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:displaysObserver selector:@selector(capabilityUpdatedWithCapability:error:subscribed:)];
         });
 
-        describe(@"when observers aren't supported", ^{
+        context(@"when observers aren't supported", ^{
             __block BOOL observationSuccess = NO;
 
             beforeEach(^{
-                testSystemCapabilityManager.supportsSubscriptions = NO;
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"]; // no subscriptions
 
-                observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithNotification:)];
+                observationSuccess = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver selector:@selector(capabilityUpdatedWithCapability:)];
             });
 
             it(@"should fail to subscribe", ^{
-                expect(observationSuccess).to(beFalse());
+                expect(observationSuccess).to(beTrue());
             });
         });
 
         context(@"from a GetSystemCapabilitiesResponse", ^{
             __block id blockObserver = nil;
+            __block id handlerObserver = nil;
 
             beforeEach(^{
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    blockObserverTriggeredCount++;
+                    observerTriggeredCount++;
+                }];
+#pragma clang diagnostic pop
+
+                handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
+                    handlerTriggeredCount++;
                 }];
 
                 SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -497,15 +693,27 @@ describe(@"System capability manager", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
-            it(@"should notify subscribers of the new data", ^{
+            it(@"should not notify subscribers of new data because it was sent outside of the SCM", ^{
+                expect(handlerTriggeredCount).toEventually(equal(1));
+                expect(observerTriggeredCount).toEventually(equal(1));
+
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(blockObserverTriggeredCount).toEventually(equal(1));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
+
+                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
+
+                expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
+                expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(displaysObserver.subscribedValuesReceived.firstObject).toEventually(beTrue());
             });
 
             describe(@"unsubscribing", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
+                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:handlerObserver];
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
@@ -516,19 +724,34 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
+                    expect(handlerTriggeredCount).toEventually(equal(1));
+                    expect(observerTriggeredCount).toEventually(equal(1));
+
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(blockObserverTriggeredCount).toEventually(equal(1));
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
+
+                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+
+                    expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 });
             });
         });
 
         context(@"from an OnSystemCapabilities notification", ^{
             __block id blockObserver = nil;
+            __block id handlerObserver = nil;
 
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    blockObserverTriggeredCount++;
+                    observerTriggeredCount++;
+                }];
+#pragma clang diagnostic pop
+
+                handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
+                    handlerTriggeredCount++;
                 }];
 
                 SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:[[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]]];
@@ -538,9 +761,20 @@ describe(@"System capability manager", ^{
             });
 
             it(@"should notify subscribers of the new data", ^{
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(blockObserverTriggeredCount).toEventually(equal(1));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                expect(handlerTriggeredCount).toEventually(equal(2));
+                expect(observerTriggeredCount).toEventually(equal(2));
+
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
+
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
+
+                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
+
+                expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
+                expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
+                expect(displaysObserver.subscribedValuesReceived.firstObject).toEventually(beTrue());
             });
 
             describe(@"unsubscribing", ^{
@@ -556,9 +790,11 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(blockObserverTriggeredCount).toEventually(equal(1));
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(2)); // No change from above
+                    expect(observerTriggeredCount).toEventually(equal(2));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 });
             });
         });
@@ -622,20 +858,6 @@ describe(@"System capability manager", ^{
                 expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
                 expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
             });
-        });
-    });
-
-    describe(@"when entering HMI FULL", ^{
-        beforeEach(^{
-            SDLOnHMIStatus *fullStatus = [[SDLOnHMIStatus alloc] init];
-            fullStatus.hmiLevel = SDLHMILevelFull;
-            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:fullStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-        });
-
-        it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(7));
-            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
         });
     });
 
