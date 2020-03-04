@@ -57,6 +57,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @interface SDLStreamingVideoLifecycleManager() <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
@@ -96,7 +97,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @implementation SDLStreamingVideoLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -106,6 +107,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _appName = configuration.lifecycleConfig.appName;
     _connectionManager = connectionManager;
+    _systemCapabilityManager = systemCapabilityManager;
     _videoEncoderSettings = [NSMutableDictionary dictionary];
     [_videoEncoderSettings addEntriesFromDictionary: SDLH264VideoEncoder.defaultVideoEncoderSettings];
     _customEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings;
@@ -573,24 +575,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
-    SDLLogV(@"Checking if video streaming is supported.");
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
-        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
-        if (self.isStreamingSupported) {
-            SDLLogD(@"Video streaming is supported on this head unit.");
-        } else {
-            SDLLogE(@"Video streaming is not supported on this head unit. Exiting.");
-            return;
-        }
-    } else {
-        // Pre-SDL v4.5 there is no way to check if the head unit supports video streaming, so just assume that it does.
-        SDLLogD(@"Video streaming may be supported on this head unit.");
-        _streamingSupported = YES;
-    }
-#pragma clang diagnostic pop
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     SDLImageResolution *resolution = registerResponse.displayCapabilities.screenParams.resolution;
@@ -835,6 +819,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (NSString *)videoStreamBackgroundString {
     return [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", self.appName];
+}
+
+- (BOOL)isStreamingSupported {
+    return self.systemCapabilityManager != nil ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
 }
 
 @end

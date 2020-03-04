@@ -11,6 +11,7 @@
 
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLSystemCapabilityManager.h"
 
 @class SDLAudioStreamManager;
 @class SDLConfiguration;
@@ -125,7 +126,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration This session's configuration
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration;
+
+/**
+ Create a new streaming media manager for navigation and VPM apps with a specified configuration
+
+ @param connectionManager The pass-through for RPCs
+ @param configuration This session's configuration
+ @return A new streaming manager
+ */
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

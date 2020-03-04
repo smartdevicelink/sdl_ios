@@ -12,6 +12,7 @@
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingState.h"
 
@@ -148,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration This session's configuration
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

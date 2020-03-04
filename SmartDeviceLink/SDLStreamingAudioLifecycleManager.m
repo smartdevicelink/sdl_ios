@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
@@ -48,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingAudioLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -57,19 +58,18 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Creating AudioStreamingLifecycleManager");
 
     _connectionManager = connectionManager;
-
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
-
-    _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
+    _systemCapabilityManager = systemCapabilityManager;
+    _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in streamingConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
 #pragma clang diagnostic pop
-    for (Class securityManagerClass in encryptionConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
     NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
@@ -232,27 +232,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogD(@"Received Register App Interface");
+    SDLLogD(@"Received Register App Interface response");
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
-
-    SDLLogV(@"Checking if audio streaming is supported");
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
-        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
-        if (self.isStreamingSupported) {
-            SDLLogD(@"Audio streaming is supported on this head unit.");
-        } else {
-            SDLLogE(@"Audio streaming is not supported on this head unit. Exiting.");
-            return;
-        }
-    } else {
-        // Pre-SDL v4.5 there is no way to check if the head unit supports audio streaming, so just assume that it does.
-        SDLLogD(@"Audio streaming may be supported on this head unit.");
-        _streamingSupported = YES;
-    }
-#pragma clang diagnostic pop
-
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
 
@@ -321,6 +302,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isHmiStateAudioStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+}
+
+- (BOOL)isStreamingSupported {
+    return self.systemCapabilityManager != nil ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
 }
 
 @end
