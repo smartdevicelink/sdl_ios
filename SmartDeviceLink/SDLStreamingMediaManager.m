@@ -103,9 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
         // Both an audio and video service are currently running. Make sure *BOTH* audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
          __weak typeof(self) weakSelf = self;
-        [self sdl_stopAudioWithCompletionHandler:^(BOOL success) {
+        [self sdl_stopAudioWithCompletionHandler:^ {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf sdl_stopVideoWithCompletionHandler:^(BOOL success) {
+            [strongSelf sdl_stopVideoWithCompletionHandler:^ {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (strongSelf.secondaryTransportDelegate != nil) {
                     [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (oldVideoProtocol != nil) {
         // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
          __weak typeof(self) weakSelf = self;
-        [self sdl_stopVideoWithCompletionHandler:^(BOOL success) {
+        [self sdl_stopVideoWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf.secondaryTransportDelegate != nil) {
                 [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (oldAudioProtocol != nil) {
         // Only an audio service is running. Make sure the audio service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
          __weak typeof(self) weakSelf = self;
-        [self sdl_stopAudioWithCompletionHandler:^(BOOL success) {
+        [self sdl_stopAudioWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf.secondaryTransportDelegate != nil) {
                 [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
@@ -161,13 +161,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Stops the video feature of the manager on the secondary transport.
 /// @param completionHandler Called when video has stopped.
-- (void)sdl_stopVideoWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+- (void)sdl_stopVideoWithCompletionHandler:(void(^)(void))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^(BOOL success) {
-        weakSelf.videoStarted = NO;
-
-        if (completionHandler == nil) { return; }
-        return completionHandler(success);
+    [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.videoStarted = NO;
+        return completionHandler();
     }];
 }
 
@@ -179,13 +178,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Stops the audio feature of the manager on the secondary transport.
 /// @param completionHandler Called when audio has stopped.
-- (void)sdl_stopAudioWithCompletionHandler:(nullable void(^)(BOOL success))completionHandler {
+- (void)sdl_stopAudioWithCompletionHandler:(void(^)(void))completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^(BOOL success) {
-        weakSelf.audioStarted = NO;
-
-        if (completionHandler == nil) { return; }
-        return completionHandler(success);
+    [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^ {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.audioStarted = NO;
+        return completionHandler();
     }];
 }
 

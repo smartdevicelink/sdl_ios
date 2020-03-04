@@ -93,8 +93,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-
-@property (nonatomic, copy, nullable) SDLVideoServiceEndedCompletionHandler videoEndedCompletionHandler;
+@property (nonatomic, copy, nullable) void (^videoServiceEndedCompletionHandler)(void);
 
 @end
 
@@ -209,9 +208,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
-- (void)endVideoServiceWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)completionHandler {
+- (void)endVideoServiceWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Ending video service");
-    self.videoEndedCompletionHandler = completionHandler;
+    self.videoServiceEndedCompletionHandler = completionHandler;
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
@@ -567,9 +566,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLLogD(@"Request to end video service ACKed");
-    if (self.videoEndedCompletionHandler != nil) {
-        self.videoEndedCompletionHandler(YES);
-        self.videoEndedCompletionHandler = nil;
+    if (self.videoServiceEndedCompletionHandler != nil) {
+        self.videoServiceEndedCompletionHandler();
+        self.videoServiceEndedCompletionHandler = nil;
     }
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
@@ -579,9 +578,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLLogE(@"Request to end video service NAKed");
-    if (self.videoEndedCompletionHandler != nil) {
-        self.videoEndedCompletionHandler(NO);
-        self.videoEndedCompletionHandler = nil;
+    if (self.videoServiceEndedCompletionHandler != nil) {
+        self.videoServiceEndedCompletionHandler();
+        self.videoServiceEndedCompletionHandler = nil;
     }
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

@@ -128,6 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (weak, nonatomic, nullable) id<SDLSecondaryTransportDelegate> secondaryTransportDelegate;
 
+#pragma mark - Lifecycle
+
 /// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -155,11 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopVideo;
 
-/**
- *  Starts the video/audio services on the passed protocol. This method is used internally.
- *  @param protocol The protocol to use for the audio/video services
- */
-- (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol;
+#pragma mark - Data Transfer
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
@@ -190,6 +188,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return Whether or not the data was successfully sent.
  */
 - (BOOL)sendAudioData:(NSData *)audioData;
+
+#pragma mark - Secondary Transport Specific
+
+/**
+ *  Starts the video/audio services on the passed protocol. This method is used internally.
+ *  @param protocol The protocol to use for the audio/video services
+ */
+- (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol;
 
 
 @end

@@ -28,9 +28,6 @@
 @protocol SDLFocusableItemLocatorType;
 @protocol SDLStreamingMediaManagerDataSource;
 
-/// Called when an end video service ACK or NAK has been received.
-/// @param success True if the end service ACKed; False if NAKed.
-typedef void (^SDLVideoServiceEndedCompletionHandler)(BOOL success);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -163,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 2. We need to send an end video service control frame to the module to ensure that the video session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end video service request.
 /// 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
 /// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
-- (void)endVideoServiceWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)videoEndedCompletionHandler;
+- (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler;
 
 /// This method is used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol;

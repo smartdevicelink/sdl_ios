@@ -21,9 +21,6 @@
 
 @protocol SDLConnectionManagerType;
 
-/// Called when an end audio service ACK or NAK has been received.
-/// @param success True if the end service ACKed; False if NAKed.
-typedef void (^SDLAudioServiceEndedCompletionHandler)(BOOL success);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -97,7 +94,7 @@ Create a new streaming media manager for navigation and VPM apps with a specifie
 /// 1. Since the primary transport is still open, do will not reset the `hmiLevel` since we can still get notifications from the module with the updated hmi status on the primary transport.
 /// 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
 /// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
-- (void)endAudioServiceWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)audioEndedCompletionHandler;
+- (void)endAudioServiceWithCompletionHandler:(void (^)(void))audioEndedCompletionHandler;
 
 /// This method is used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol;

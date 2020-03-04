@@ -848,19 +848,16 @@ describe(@"the streaming video manager", ^{
     describe(@"when video is stopped", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
         __block BOOL handlerCalled = nil;
-        __block BOOL videoServiceEnded = nil;
 
         beforeEach(^{
             handlerCalled = NO;
-            videoServiceEnded = NO;
             [streamingLifecycleManager startWithProtocol:protocolMock];
         });
 
         context(@"if stopping video on secondary transport", ^{
             beforeEach(^{
-                [streamingLifecycleManager endVideoServiceWithCompletionHandler:^(BOOL success) {
+                [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
                     handlerCalled = YES;
-                    videoServiceEnded = success;
                 }];
             });
 
@@ -885,7 +882,6 @@ describe(@"the streaming video manager", ^{
 
                 it(@"should call the handler with a success result", ^{
                     expect(handlerCalled).to(beTrue());
-                    expect(videoServiceEnded).to(beTrue());
                 });
             });
 
@@ -906,7 +902,6 @@ describe(@"the streaming video manager", ^{
 
                 it(@"should call the handler with an unsuccessful result", ^{
                     expect(handlerCalled).to(beTrue());
-                    expect(videoServiceEnded).to(beFalse());
                 });
             });
         });

@@ -454,20 +454,17 @@ describe(@"the streaming audio manager", ^{
     describe(@"when audio is stopped", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
         __block BOOL handlerCalled = nil;
-        __block BOOL audioServiceEnded = nil;
 
         beforeEach(^{
             handlerCalled = NO;
-            audioServiceEnded = NO;
             [streamingLifecycleManager startWithProtocol:protocolMock];
         });
 
         context(@"if stopping audio on secondary transport", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
-                [streamingLifecycleManager endAudioServiceWithCompletionHandler:^(BOOL success) {
+                [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
                     handlerCalled = YES;
-                    audioServiceEnded = success;
                 }];
             });
 
@@ -496,7 +493,6 @@ describe(@"the streaming audio manager", ^{
 
                 it(@"should call the handler with a success result", ^{
                     expect(handlerCalled).to(beTrue());
-                    expect(audioServiceEnded).to(beTrue());
                 });
             });
 
@@ -517,7 +513,6 @@ describe(@"the streaming audio manager", ^{
 
                 it(@"should call the handler with an unsuccessful result", ^{
                     expect(handlerCalled).to(beTrue());
-                    expect(audioServiceEnded).to(beFalse());
                 });
             });
         });

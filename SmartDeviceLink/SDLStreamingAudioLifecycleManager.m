@@ -44,8 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
 
-@property (nonatomic, copy, nullable) SDLAudioServiceEndedCompletionHandler audioEndedCompletionHandler;
-
+@property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
 @end
 
 @implementation SDLStreamingAudioLifecycleManager
@@ -109,9 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)endAudioServiceWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)completionHandler {
+- (void)endAudioServiceWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Ending audio service");
-    self.audioEndedCompletionHandler = completionHandler;
+    self.audioServiceEndedCompletionHandler = completionHandler;
 
     [_audioManager stop];
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
@@ -219,9 +218,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLLogD(@"Request to end audio service ACKed");
-    if (self.audioEndedCompletionHandler != nil) {
-        self.audioEndedCompletionHandler(YES);
-        self.audioEndedCompletionHandler = nil;
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
     }
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
@@ -231,9 +230,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLLogE(@"Request to end audio service NAKed");
-    if (self.audioEndedCompletionHandler != nil) {
-        self.audioEndedCompletionHandler(NO);
-        self.audioEndedCompletionHandler = nil;
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
     }
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
