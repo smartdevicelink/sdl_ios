@@ -36,8 +36,11 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
+#import "SDLSystemCapability.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,6 +68,7 @@ typedef NSNumber * SDLChoiceId;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
+@property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
@@ -109,6 +113,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)start {
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
         [self.stateMachine transitionToState:SDLChoiceManagerStateCheckingVoiceOptional];
     }
@@ -137,6 +143,19 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     queue.suspended = YES;
 
     return queue;
+}
+
+- (void)sdl_updateTransactionQueueSuspended {
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        || [self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured]
+        || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]
+        || ![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+        SDLLogD(@"Suspending the choice set manager transaction queue. Current HMI level is NONE: %@, current system context is HMIObscured or Alert: %@, window capability has MenuName (choice primary text): %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), (([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) ? @"YES" : @"NO"), ([self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] ? @"YES" : @"NO"));
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the choice set manager transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
 }
 
 #pragma mark - State Management
@@ -215,7 +234,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName defaultMainWindowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
 
     __weak typeof(self) weakSelf = self;
     __weak typeof(preloadOp) weakPreloadOp = preloadOp;
@@ -433,6 +452,23 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - RPC Responses / Notifications
 
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
+    if (capabilities == nil || capabilities.count == 0) {
+        self.currentWindowCapability = nil;
+    } else {
+        SDLDisplayCapability *mainDisplay = capabilities[0];
+        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (currentWindowID == SDLPredefinedWindowsDefaultWindow) {
+                self.currentWindowCapability = windowCapability;
+            }
+        }
+    }
+
+    [self sdl_updateTransactionQueueSuspended];
+}
+
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     // We can only present a choice set if we're in FULL
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
@@ -440,28 +476,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
         return;
     }
-    
-    SDLHMILevel oldHMILevel = self.currentHMILevel;
+
     self.currentHMILevel = hmiStatus.hmiLevel;
-
-    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = YES;
-    }
-
-    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = NO;
-    }
-
-    // We need to check for this to make sure we can currently present the dialog. If the current context is HMI_OBSCURED or ALERT, we have to wait for MAIN to present
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) {
-        self.transactionQueue.suspended = YES;
-    }
-
-    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextMain] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = NO;
-    }
+    [self sdl_updateTransactionQueueSuspended];
 }
 
 @end

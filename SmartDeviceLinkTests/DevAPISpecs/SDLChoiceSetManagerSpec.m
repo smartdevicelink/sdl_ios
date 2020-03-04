@@ -9,19 +9,27 @@
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLDeleteChoicesOperation.h"
+#import "SDLDisplayCapability.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
+#import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
-#import "SDLGlobals.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLSystemContext.h"
+#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
-#import "TestConnectionManager.h"
+#import "SDLTextField.h"
 #import "SDLVersion.h"
+#import "SDLWindowCapability.h"
+
+#import "TestConnectionManager.h"
 
 
 @interface SDLPresentChoiceSetOperation()
@@ -43,6 +51,7 @@
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
+@property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
@@ -51,6 +60,9 @@
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
 
 @end
 
@@ -62,6 +74,9 @@ describe(@"choice set manager tests", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
+
+    __block SDLWindowCapability *enabledWindowCapability = nil;
+    __block SDLWindowCapability *disabledWindowCapability = nil;
 
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
@@ -77,6 +92,10 @@ describe(@"choice set manager tests", ^{
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
+
+        enabledWindowCapability = [[SDLWindowCapability alloc] init];
+        enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetType5 width:500 rows:1]];
+        disabledWindowCapability = [[SDLWindowCapability alloc] init];
     });
 
     it(@"should be in the correct startup state", ^{
@@ -86,10 +105,94 @@ describe(@"choice set manager tests", ^{
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
+    describe(@"receiving an HMI status update", ^{
+        __block SDLOnHMIStatus *newStatus = nil;
+        beforeEach(^{
+            newStatus = [[SDLOnHMIStatus alloc] init];
+        });
+
+        context(@"when starting with the queue suspended", ^{
+            beforeEach(^{
+                testManager.transactionQueue.suspended = YES;
+                testManager.currentHMILevel = SDLHMILevelFull;
+                testManager.currentSystemContext = SDLSystemContextMain;
+                testManager.currentWindowCapability = enabledWindowCapability;
+            });
+
+            it(@"should enable the queue when entering HMI FULL", ^{
+                testManager.currentHMILevel = SDLHMILevelNone;
+
+                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [testManager sdl_hmiStatusNotification:notification];
+
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            });
+
+            it(@"should enable the queue when entering SystemContext Main", ^{
+                testManager.currentSystemContext = SDLSystemContextAlert;
+
+                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [testManager sdl_hmiStatusNotification:notification];
+
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            });
+
+            it(@"should enable the queue when receiving a good window capability", ^{
+                testManager.currentWindowCapability = disabledWindowCapability;
+
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[enabledWindowCapability]];
+                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            });
+        });
+
+        context(@"when starting with the queue enabled", ^{
+            beforeEach(^{
+                testManager.transactionQueue.suspended = NO;
+                testManager.currentHMILevel = SDLHMILevelFull;
+                testManager.currentSystemContext = SDLSystemContextMain;
+                testManager.currentWindowCapability = enabledWindowCapability;
+            });
+
+            it(@"should suspend the queue when entering HMI NONE", ^{
+                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelNone systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [testManager sdl_hmiStatusNotification:notification];
+
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+
+            it(@"should suspend the queue when entering SystemContext Alert", ^{
+                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextAlert audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [testManager sdl_hmiStatusNotification:notification];
+
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+
+            it(@"should suspend the queue when entering SystemContext HMIObscured", ^{
+                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextHMIObscured audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [testManager sdl_hmiStatusNotification:notification];
+
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+
+            it(@"should suspend the queue when receiving a bad display capability", ^{
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[disabledWindowCapability]];
+                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+        });
+    });
+
     describe(@"once started", ^{
         beforeEach(^{
             [testManager start];
-            testManager.transactionQueue.suspended = YES;
         });
 
         it(@"should start checking for VR Optional", ^{
