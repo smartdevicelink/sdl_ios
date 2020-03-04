@@ -77,6 +77,7 @@ describe(@"choice set manager tests", ^{
 
     __block SDLWindowCapability *enabledWindowCapability = nil;
     __block SDLWindowCapability *disabledWindowCapability = nil;
+    __block SDLWindowCapability *blankWindowCapability = nil;
 
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
@@ -96,6 +97,8 @@ describe(@"choice set manager tests", ^{
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
         enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetType5 width:500 rows:1]];
         disabledWindowCapability = [[SDLWindowCapability alloc] init];
+        disabledWindowCapability.textFields = @[];
+        blankWindowCapability = [[SDLWindowCapability alloc] init];
     });
 
     it(@"should be in the correct startup state", ^{
@@ -105,7 +108,7 @@ describe(@"choice set manager tests", ^{
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
-    describe(@"receiving an HMI status update", ^{
+    fdescribe(@"receiving an HMI status update", ^{
         __block SDLOnHMIStatus *newStatus = nil;
         beforeEach(^{
             newStatus = [[SDLOnHMIStatus alloc] init];
@@ -183,6 +186,13 @@ describe(@"choice set manager tests", ^{
 
             it(@"should suspend the queue when receiving a bad display capability", ^{
                 SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[disabledWindowCapability]];
+                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+
+            it(@"should not suspend the queue when receiving an empty display capability", ^{
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[blankWindowCapability]];
                 [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
