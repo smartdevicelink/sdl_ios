@@ -165,9 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
 - (void)endVideoServiceWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)videoEndedCompletionHandler;
 
-/**
- *  This method is used internally to destroy the protocol after the secondary transport is shut down.
- */
+/// This method is used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol;
 
 /**

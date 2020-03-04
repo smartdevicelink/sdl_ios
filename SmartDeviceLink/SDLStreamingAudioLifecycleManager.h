@@ -99,9 +99,7 @@ Create a new streaming media manager for navigation and VPM apps with a specifie
 /// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 - (void)endAudioServiceWithCompletionHandler:(nullable SDLAudioServiceEndedCompletionHandler)audioEndedCompletionHandler;
 
-/**
- *  This method is used internally to destroy the protocol after the secondary transport is shut down.
- */
+/// This method is used internally to destroy the protocol after the secondary transport is shut down.
 - (void)destroyProtocol;
 
 /**
