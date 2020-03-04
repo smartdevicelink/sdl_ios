@@ -101,17 +101,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
-
-    // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
     _protocol = nil;
-
-    // Reset the `hmiLevel`. This is done because we will not get a notification with the updated hmi status due to the transport being destroyed.
     _hmiLevel = SDLHMILevelNone;
-
-    // Reset the `connectedVehicleMake` because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module. It is possible that the user could connect to different module during the same app session.
     _connectedVehicleMake = nil;
-
-    // Stop the audio manager
     [_audioManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
@@ -121,10 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Ending audio service");
     self.audioEndedCompletionHandler = completionHandler;
 
-    // Stop the audio manager from sending any more data
     [_audioManager stop];
-
-    // Always send an end audio service control frame, regardless of whether video is streaming or not.
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 

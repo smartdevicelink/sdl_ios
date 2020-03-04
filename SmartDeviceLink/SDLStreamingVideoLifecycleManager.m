@@ -196,23 +196,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)stop {
     SDLLogD(@"Stopping manager");
 
-    // Reset the video streaming parameters as video is not streaming.
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
     _lastPresentationTimestamp = kCMTimeInvalid;
-
-    // Reset the `hmiLevel` and `videoStreamingState`. This is done because we will not get a notification with the updated hmi status due to the transport being destroyed.
     _hmiLevel = SDLHMILevelNone;
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
-
-    // Since the transport layer has been destroyed, destroy the protocol as it is not usable.
     _protocol = nil;
-
-    // Reset the video scale manager because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module.
     [self.videoScaleManager stop];
-
-    // Reset the `connectedVehicleMake` because we will get a `RegisterAppInterfaceResponse` when a new session is established between the device and a module. It is possible that the user could connect to different module during the same app session.
     _connectedVehicleMake = nil;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
@@ -221,8 +212,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)endVideoServiceWithCompletionHandler:(nullable SDLVideoServiceEndedCompletionHandler)completionHandler {
     SDLLogD(@"Ending video service");
     self.videoEndedCompletionHandler = completionHandler;
-
-    // Always send an end video service control frame, regardless of whether video is streaming or not.
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
