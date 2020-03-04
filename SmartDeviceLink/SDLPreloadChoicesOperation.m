@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
-@property (strong, nonatomic) SDLWindowCapability *defaultMainWindowCapability;
+@property (strong, nonatomic) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
@@ -45,14 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName defaultMainWindowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _displayName = displayName;
-    _defaultMainWindowCapability = defaultMainWindowCapability;
+    _windowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
     _cellsToUpload = [cells mutableCopy];
     _operationId = [NSUUID UUID];
@@ -87,11 +87,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]
+        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]
             && [self sdl_artworkNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
+        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
             && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
@@ -193,23 +193,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
 #pragma clang diagnostic pop
 
-    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
 }
 
 - (BOOL)sdl_shouldSendChoiceSecondaryText {
-    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
 }
 
 - (BOOL)sdl_shouldSendChoiceTertiaryText {
-    return (self.defaultMainWindowCapability.textFields != nil) ? [self.defaultMainWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
 }
 
 - (BOOL)sdl_shouldSendChoicePrimaryImage {
-    return (self.defaultMainWindowCapability.imageFields != nil) ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
+    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
 }
 
 - (BOOL)sdl_shouldSendChoiceSecondaryImage {
-    return (self.defaultMainWindowCapability.imageFields != nil) ? [self.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
+    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
 }
 
 #pragma mark - Property Overrides
