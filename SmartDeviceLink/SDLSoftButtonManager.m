@@ -101,7 +101,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateTransactionQueueSuspended {
-    if (self.windowCapability.softButtonCapabilities == nil || self.windowCapability.softButtonCapabilities.count == 0 || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+    if (self.windowCapability.softButtonCapabilities == nil
+        || self.windowCapability.softButtonCapabilities.count == 0
+        || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
         self.transactionQueue.suspended = YES;
     } else {
         self.transactionQueue.suspended = NO;

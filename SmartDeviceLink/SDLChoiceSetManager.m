@@ -149,7 +149,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]
-        || ![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName]) {
+        || (self.currentWindowCapability.textFields != nil && ![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName])) {
         SDLLogD(@"Suspending the choice set manager transaction queue. Current HMI level is NONE: %@, current system context is HMIObscured or Alert: %@, window capability has MenuName (choice primary text): %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), (([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) ? @"YES" : @"NO"), ([self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] ? @"YES" : @"NO"));
         self.transactionQueue.suspended = YES;
     } else {
