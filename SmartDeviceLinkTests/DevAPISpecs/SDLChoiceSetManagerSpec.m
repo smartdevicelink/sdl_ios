@@ -99,6 +99,7 @@ describe(@"choice set manager tests", ^{
         disabledWindowCapability = [[SDLWindowCapability alloc] init];
         disabledWindowCapability.textFields = @[];
         blankWindowCapability = [[SDLWindowCapability alloc] init];
+        blankWindowCapability.textFields = @[];
     });
 
     it(@"should be in the correct startup state", ^{
@@ -108,7 +109,7 @@ describe(@"choice set manager tests", ^{
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
-    fdescribe(@"receiving an HMI status update", ^{
+    describe(@"receiving an HMI status update", ^{
         __block SDLOnHMIStatus *newStatus = nil;
         beforeEach(^{
             newStatus = [[SDLOnHMIStatus alloc] init];
