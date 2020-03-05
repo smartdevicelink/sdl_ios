@@ -64,7 +64,7 @@
 }
 
 + (SDLLogFileModule *)sdl_protocolModule {
-    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader"]]];
+    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader", @"SDLGlobals"]]];
 }
 
 + (SDLLogFileModule *)sdl_rpcModule {
@@ -102,7 +102,7 @@
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator"]]];
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {
