@@ -56,7 +56,7 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    fcontext(@"when stop video is called", ^{
+    context(@"when stop video is called", ^{
         beforeEach(^{
             testStreamingMediaManager.audioStarted = YES;
             testStreamingMediaManager.videoStarted = YES;
@@ -72,7 +72,7 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    fcontext(@"when stop audio is called", ^{
+    context(@"when stop audio is called", ^{
         beforeEach(^{
             testStreamingMediaManager.audioStarted = YES;
             testStreamingMediaManager.videoStarted = YES;
