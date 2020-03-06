@@ -48,11 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)dealloc {
-    [_audioLifecycleManager stop];
-    [_videoLifecycleManager stop];
-}
-
 - (void)stop {
     [self stopAudio];
     [self stopVideo];
@@ -89,6 +84,42 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol {
      [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
 }
+
+#pragma mark Video
+
+/// Stops the video feature of the manager on the secondary transport.
+/// @param completionHandler Called when video has stopped.
+- (void)sdl_stopVideoWithCompletionHandler:(void(^)(void))completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.videoStarted = NO;
+        return completionHandler();
+    }];
+}
+
+- (void)destroyVideoProtocol {
+    [self.videoLifecycleManager destroyProtocol];
+}
+
+#pragma mark Audio
+
+/// Stops the audio feature of the manager on the secondary transport.
+/// @param completionHandler Called when audio has stopped.
+- (void)sdl_stopAudioWithCompletionHandler:(void(^)(void))completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^ {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.audioStarted = NO;
+        return completionHandler();
+    }];
+}
+
+- (void)destroyAudioProtocol {
+    [self.audioLifecycleManager destroyProtocol];
+}
+
+# pragma mark SDLStreamingProtocolDelegate
 
 - (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
 
@@ -155,40 +186,6 @@ NS_ASSUME_NONNULL_BEGIN
         [self.videoLifecycleManager startWithProtocol:newVideoProtocol];
         self.videoStarted = YES;
     }
-}
-
-#pragma mark Video
-
-/// Stops the video feature of the manager on the secondary transport.
-/// @param completionHandler Called when video has stopped.
-- (void)sdl_stopVideoWithCompletionHandler:(void(^)(void))completionHandler {
-    __weak typeof(self) weakSelf = self;
-    [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^() {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.videoStarted = NO;
-        return completionHandler();
-    }];
-}
-
-- (void)destroyVideoProtocol {
-    [self.videoLifecycleManager destroyProtocol];
-}
-
-#pragma mark Audio
-
-/// Stops the audio feature of the manager on the secondary transport.
-/// @param completionHandler Called when audio has stopped.
-- (void)sdl_stopAudioWithCompletionHandler:(void(^)(void))completionHandler {
-    __weak typeof(self) weakSelf = self;
-    [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^ {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.audioStarted = NO;
-        return completionHandler();
-    }];
-}
-
-- (void)destroyAudioProtocol {
-    [self.audioLifecycleManager destroyProtocol];
 }
 
 #pragma mark - Getters
