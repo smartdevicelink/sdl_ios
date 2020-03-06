@@ -25,6 +25,7 @@
 @interface SDLStreamingAudioLifecycleManager()
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioManager;
 @end
 
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
@@ -46,10 +47,10 @@ describe(@"the streaming audio manager", ^{
     };
 
     beforeEach(^{
-        mockAudioStreamManager = OCMClassMock([SDLAudioStreamManager class]);
-
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration audioManager:mockAudioStreamManager];
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration];
+        mockAudioStreamManager = OCMClassMock([SDLAudioStreamManager class]);
+        streamingLifecycleManager.audioManager = mockAudioStreamManager;
     });
 
     it(@"should initialize properties", ^{

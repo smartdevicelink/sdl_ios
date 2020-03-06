@@ -62,17 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
-Create a new streaming media manager for navigation and VPM apps with a specified configuration. Used for testing.
-
-@param connectionManager The pass-through for RPCs
-@param streamingConfiguration The configuration of this streaming media session
-@param encryptionConfiguration The encryption configuration with security managers
-@param audioManager The audio manager.
-@return A new streaming manager
-*/
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration audioManager:(nullable SDLAudioStreamManager *)audioManager NS_DESIGNATED_INITIALIZER;
-
-/**
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
@@ -80,7 +69,7 @@ Create a new streaming media manager for navigation and VPM apps with a specifie
  @param encryptionConfiguration The encryption configuration with security managers
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
