@@ -88,6 +88,17 @@ describe(@"the streaming media manager", ^{
         });
     });
 
+    context(@"when setting the encryption flag for audio and video managers", ^{
+        __block SDLStreamingEncryptionFlag testEncryptionFlag = SDLStreamingEncryptionFlagNone;
+
+        it(@"should set the flag on both the audio and video managers", ^{
+            [testStreamingMediaManager setRequestedEncryptionType:testEncryptionFlag];
+
+            OCMVerify([mockAudioLifecycleManager setRequestedEncryptionType:testEncryptionFlag]);
+            OCMVerify([mockVideoLifecycleManager setRequestedEncryptionType:testEncryptionFlag]);
+        });
+    });
+
     context(@"streaming media manager getters", ^{
         it(@"should return true if only video is streaming", ^{
             testStreamingMediaManager.videoStarted = YES;

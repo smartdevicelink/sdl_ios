@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)destroyVideoProtocol {
+- (void)sdl_destroyVideoProtocol {
     [self.videoLifecycleManager destroyProtocol];
 }
 
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)destroyAudioProtocol {
+- (void)sdl_destroyAudioProtocol {
     [self.audioLifecycleManager destroyProtocol];
 }
 
@@ -141,8 +141,8 @@ NS_ASSUME_NONNULL_BEGIN
                 if (strongSelf.secondaryTransportDelegate != nil) {
                     [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
                 }
-                [strongSelf destroyAudioProtocol];
-                [strongSelf destroyVideoProtocol];
+                [strongSelf sdl_destroyAudioProtocol];
+                [strongSelf sdl_destroyVideoProtocol];
                 [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
             }];
         }];
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
             if (strongSelf.secondaryTransportDelegate != nil) {
                 [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
             }
-            [strongSelf destroyVideoProtocol];
+            [strongSelf sdl_destroyVideoProtocol];
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else if (oldAudioProtocol != nil) {
@@ -165,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
             if (strongSelf.secondaryTransportDelegate != nil) {
                 [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
             }
-            [strongSelf destroyAudioProtocol];
+            [strongSelf sdl_destroyAudioProtocol];
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else {
