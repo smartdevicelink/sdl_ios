@@ -210,6 +210,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)endVideoServiceWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Ending video service");
+    [self disposeDisplayLink];
     self.videoServiceEndedCompletionHandler = completionHandler;
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
@@ -344,10 +345,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)disposeDisplayLink {
-    if (self.displayLink != nil) {
-        [self.displayLink invalidate];
-        self.displayLink = nil;
-    }
+    if (self.displayLink == nil) { return; }
+    [self.displayLink invalidate];
+    self.displayLink = nil;
 }
 
 - (void)didEnterStateVideoStreamStopped {
