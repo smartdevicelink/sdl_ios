@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
     _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
     _connectedVehicleMake = nil;
-    [_audioManager stop];
+    [self.audioManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Ending audio service");
     self.audioServiceEndedCompletionHandler = completionHandler;
 
-    [_audioManager stop];
+    [self.audioManager stop];
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 

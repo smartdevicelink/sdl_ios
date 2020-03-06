@@ -1395,6 +1395,7 @@
 		888DBAF022D528DE002A0AE2 /* SDLCloseApplicationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBAEE22D528DE002A0AE2 /* SDLCloseApplicationResponse.m */; };
 		888F86FE221DEE200052FE4C /* SDLAsynchronousRPCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */; };
 		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
+		88A118272412ACAD00B45FB5 /* SDLStreamingMediaManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */; };
 		88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */; };
@@ -8104,6 +8105,7 @@
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
 				162E82DF1A9BDE8B00906325 /* SDLGlobalProperySpec.m in Sources */,
 				88DF998F22035D1700477AC1 /* SDLIAPSessionSpec.m in Sources */,
+				88A118272412ACAD00B45FB5 /* SDLStreamingMediaManagerSpec.m in Sources */,
 				5DD8406520FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m in Sources */,
 				162E82F61A9BDE8B00906325 /* SDLRequestTypeSpec.m in Sources */,
 				5DE35E4520CAFC5D0034BE5A /* SDLChoiceCellSpec.m in Sources */,
