@@ -453,7 +453,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
     }
     
-    // If the secondary transport manager is used, the streaming media manager will be started through `onAudioServiceProtocolUpdated` and `onVideoServiceProtocolUpdated`
+    // If the secondary transport manager is used, the streaming media manager will be started through `streamingServiceProtocolDidUpdateFromOldVideoProtocol:toNewVideoProtocol:fromOldAudioProtocol:toNewAudioProtocol:`
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
         [self.streamManager startSecondaryTransportOnProtocol:self.proxy.protocol];
     }
