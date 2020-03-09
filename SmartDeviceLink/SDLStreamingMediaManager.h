@@ -24,9 +24,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Manager to help control streaming video and audio media services.
- */
+
+/// Manager to help control streaming video and audio media services.
 @interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
@@ -87,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
 /**
- *  This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
+ This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
  */
 @property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
 
@@ -112,13 +111,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
 
 /**
- *  When YES, the StreamingMediaManager will send a black screen with "Video Backgrounded String". Defaults to YES.
+ When YES, the StreamingMediaManager will send a black screen with "Video Backgrounded String". Defaults to YES.
  */
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
-/**
- *  A delegate callback that notifies when the secondary transport state should change.
- */
+/// A delegate callback that notifies when the secondary transport state should change.
 @property (weak, nonatomic, nullable) id<SDLSecondaryTransportDelegate> secondaryTransportDelegate;
 
 #pragma mark - Lifecycle
@@ -189,6 +186,21 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param protocol The protocol to use for the audio/video services
  */
 - (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol;
+
+/**
+ *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
+
+ /**
+  *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+  */
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
+
+ /**
+  *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+  */
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
 
 
 @end

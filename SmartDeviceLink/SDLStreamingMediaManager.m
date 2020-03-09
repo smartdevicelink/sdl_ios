@@ -187,6 +187,21 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)startWithProtocol:(SDLProtocol *)protocol {
+    [self startAudioWithProtocol:protocol];
+    [self startVideoWithProtocol:protocol];
+}
+
+ - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
+    [self.audioLifecycleManager startWithProtocol:protocol];
+    self.audioStarted = YES;
+}
+
+ - (void)startVideoWithProtocol:(SDLProtocol *)protocol {
+    [self.videoLifecycleManager startWithProtocol:protocol];
+    self.videoStarted = YES;
+}
+
 #pragma mark - Getters
 
 - (SDLTouchManager *)touchManager {
