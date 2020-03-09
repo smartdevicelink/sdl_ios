@@ -1284,6 +1284,7 @@
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		8803DCEF22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */; };
 		8803DCF022C2B84B00FBB7CE /* SDLBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */; };
+		8805CDBD24166F1A00D645BF /* SDLSecondaryTransportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8805CDBB24166F1A00D645BF /* SDLSecondaryTransportDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */; };
 		880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };
@@ -3034,6 +3035,7 @@
 		880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfiguration.m; sourceTree = "<group>"; };
 		8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLBackgroundTaskManager.h; sourceTree = "<group>"; };
 		8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLBackgroundTaskManager.m; sourceTree = "<group>"; };
+		8805CDBB24166F1A00D645BF /* SDLSecondaryTransportDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSecondaryTransportDelegate.h; sourceTree = "<group>"; };
 		880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLockScreenRootViewController.h; sourceTree = "<group>"; };
 		880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenRootViewController.m; sourceTree = "<group>"; };
 		880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceDataSpec.m; sourceTree = "<group>"; };
@@ -6516,6 +6518,7 @@
 				EE798CA520561217008EDE8E /* SDLSecondaryTransportManager.m */,
 				EE38C0C1211C43E100E170AD /* SDLSecondaryTransportPrimaryProtocolHandler.h */,
 				EE38C0C2211C440400E170AD /* SDLSecondaryTransportPrimaryProtocolHandler.m */,
+				8805CDBB24166F1A00D645BF /* SDLSecondaryTransportDelegate.h */,
 			);
 			name = "Secondary Transport";
 			sourceTree = "<group>";
@@ -7060,6 +7063,7 @@
 				888DBAEF22D528DE002A0AE2 /* SDLCloseApplicationResponse.h in Headers */,
 				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
+				8805CDBD24166F1A00D645BF /* SDLSecondaryTransportDelegate.h in Headers */,
 				5D9FC29E1FD8813900ACA5C2 /* SDLAudioStreamManager.h in Headers */,
 				5DD67CB01E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h in Headers */,
 				5D61FCBF1A84238C00846EE7 /* SDLHexUtility.h in Headers */,

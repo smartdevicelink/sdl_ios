@@ -417,6 +417,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 
+// Streaming - Secondary Transport
+#import "SDLSecondaryTransportDelegate.h"
+
 // Files
 #import "SDLArtwork.h"
 #import "SDLFile.h"

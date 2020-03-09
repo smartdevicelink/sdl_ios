@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLSecondaryTransportDelegate.h"
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
@@ -22,14 +23,6 @@
 @protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
-
-@protocol SDLSecondaryTransportDelegate <NSObject>
-
-- (void)destroySecondaryTransport;
-
-@end
-
-#pragma mark - Interface
 
 /**
  * Manager to help control streaming video and audio media services.
