@@ -22,7 +22,7 @@ typedef void (^SDLLockScreenDidFinishHandler)(void);
 @property (assign, nonatomic, readonly) BOOL shouldShowLockScreen;
 
 /// Dismisses and destroys the lock screen window
-- (void)stop;
+- (void)stopWithCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler;
 
 /// Shows or hides the lock screen with animation
 /// @param show True if the lock screen should be presented; false if dismissed.

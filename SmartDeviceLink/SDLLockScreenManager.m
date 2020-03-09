@@ -73,8 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
         if (self.presenter.lockViewController != nil) {
-            [self.presenter updateLockScreenToShow:NO withCompletionHandler:^{
-                [self.presenter stop];
+            [self.presenter stopWithCompletionHandler:^{
                 [self sdl_start];
             }];
         } else {
@@ -106,12 +105,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.canPresent = YES;
+
+    [self sdl_checkLockScreen];
 }
 
 - (void)stop {
     // Don't allow the lockscreen to present again until we start
     self.canPresent = NO;
-    [self.presenter stop];
+    [self.presenter stopWithCompletionHandler:nil];
 }
 
 - (nullable UIViewController *)lockScreenViewController {
