@@ -19,7 +19,6 @@
 #import "SDLTouchManager.h"
 
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager () <SDLStreamingProtocolDelegate>
@@ -259,7 +258,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)showVideoBackgroundDisplay {
-    // both audio and video managers should have same type
     return self.videoLifecycleManager.showVideoBackgroundDisplay;
 }
 
