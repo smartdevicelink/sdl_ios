@@ -12,6 +12,7 @@
 #import "SDLStreamingMediaManager.h"
 #import "SDLStreamingProtocolDelegate.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "TestConnectionManager.h"
 
 @interface SDLStreamingMediaManager()
@@ -31,8 +32,8 @@ describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaManager *testStreamingMediaManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLConfiguration *testConfiguration = nil;
-    __block id mockVideoLifecycleManager = nil;
-    __block id mockAudioLifecycleManager = nil;
+    __block SDLStreamingVideoLifecycleManager *mockVideoLifecycleManager = nil;
+    __block SDLStreamingAudioLifecycleManager *mockAudioLifecycleManager = nil;
     __block id<SDLSecondaryTransportDelegate> mockSecondaryTransportDelegate = nil;
 
     beforeEach(^{
@@ -76,10 +77,11 @@ describe(@"the streaming media manager", ^{
         beforeEach(^{
             testStreamingMediaManager.audioStarted = YES;
             testStreamingMediaManager.videoStarted = YES;
+
+            [testStreamingMediaManager stopAudio];
         });
 
         it(@"should stop the audio stream manager", ^{
-            [testStreamingMediaManager stopAudio];
             OCMVerify([mockAudioLifecycleManager stop]);
             expect(testStreamingMediaManager.audioStarted).to(beFalse());
 
@@ -88,51 +90,183 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"when setting the encryption flag for audio and video managers", ^{
-        __block SDLStreamingEncryptionFlag testEncryptionFlag = SDLStreamingEncryptionFlagNone;
+    context(@"when sending audio data", ^{
+        __block NSData *testAudioData = nil;
 
-        it(@"should set the flag on both the audio and video managers", ^{
+        beforeEach(^{
+            testAudioData = [[NSData alloc] initWithBase64EncodedString:@"test data" options:kNilOptions];
+            [testStreamingMediaManager sendAudioData:testAudioData];
+        });
+
+        it(@"should pass the audio data to the audio streaming manager", ^{
+            OCMVerify([mockAudioLifecycleManager sendAudioData:testAudioData]);
+        });
+    });
+
+    context(@"when sending video data", ^{
+        __block CVPixelBufferRef testPixelBuffer = nil;
+
+        beforeEach(^{
+             CVPixelBufferCreate(kCFAllocatorDefault, 100, 50, kCVPixelFormatType_14Bayer_GRBG, nil, &testPixelBuffer);
+        });
+
+        describe(@"without a timestamp", ^{
+            beforeEach(^{
+                [testStreamingMediaManager sendVideoData:testPixelBuffer];
+            });
+
+            it(@"should pass the video data to the video streaming manager", ^{
+                OCMVerify([mockVideoLifecycleManager sendVideoData:testPixelBuffer]);
+            });
+        });
+
+        describe(@"with a timestamp", ^{
+            __block CMTime testTimestamp = CMTimeMake(1, NSEC_PER_SEC);
+
+            beforeEach(^{
+                [testStreamingMediaManager sendVideoData:testPixelBuffer presentationTimestamp:testTimestamp];
+            });
+
+            it(@"should pass the video data to the video streaming manager", ^{
+                OCMVerify([mockVideoLifecycleManager sendVideoData:testPixelBuffer presentationTimestamp:testTimestamp]);
+            });
+       });
+    });
+
+    describe(@"getters", ^{
+        it(@"should return the video lifecycle manager's touch manager for touchManager", ^{
+            [testStreamingMediaManager touchManager];
+            OCMVerify([mockVideoLifecycleManager touchManager]);
+        });
+
+        it(@"should return the audio lifecycle manager's audio manager for audioManager", ^{
+            [testStreamingMediaManager audioManager];
+            OCMVerify([mockAudioLifecycleManager audioManager]);
+        });
+
+        it(@"should return the video lifecycle manager's rootViewController for rootViewController", ^{
+            [testStreamingMediaManager rootViewController];
+            OCMVerify([mockVideoLifecycleManager rootViewController]);
+        });
+
+        it(@"should return the video lifecycle manager's focusableItemManager for focusableItemManager", ^{
+            [testStreamingMediaManager focusableItemManager];
+            OCMVerify([mockVideoLifecycleManager focusableItemManager]);
+        });
+
+        context(@"isStreamingSupported", ^{
+            it(@"should return true if only video is streaming", ^{
+                testStreamingMediaManager.videoStarted = YES;
+                testStreamingMediaManager.audioStarted = NO;
+
+                OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
+                OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
+                expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
+            });
+
+            it(@"should return true if only audio is streaming", ^{
+                testStreamingMediaManager.videoStarted = NO;
+                testStreamingMediaManager.audioStarted = YES;
+
+                OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
+                OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
+                expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
+            });
+
+            it(@"should return true if both video and audio are streaming", ^{
+                testStreamingMediaManager.videoStarted = YES;
+                testStreamingMediaManager.audioStarted = YES;
+
+                OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
+                OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
+                expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
+            });
+
+            it(@"should return false if neither video or audio is streaming", ^{
+                testStreamingMediaManager.videoStarted = NO;
+                testStreamingMediaManager.audioStarted = NO;
+
+                OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
+                OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
+                expect(testStreamingMediaManager.isStreamingSupported).to(beFalse());
+            });
+        });
+
+        it(@"should return the audio lifecycle manager's isAudioConnected for isAudioConnected", ^{
+            [testStreamingMediaManager isAudioConnected];
+            OCMVerify([mockAudioLifecycleManager isAudioConnected]);
+        });
+
+        it(@"should return the video lifecycle manager's isVideoConnected for isVideoConnected", ^{
+            [testStreamingMediaManager isVideoConnected];
+            OCMVerify([mockVideoLifecycleManager isVideoConnected]);
+        });
+
+        it(@"should return the audio lifecycle manager's isAudioEncrypted for isAudioEncrypted", ^{
+            [testStreamingMediaManager isAudioEncrypted];
+            OCMVerify([mockAudioLifecycleManager isAudioEncrypted]);
+        });
+
+        it(@"should return the video lifecycle manager's isVideoEncrypted for isVideoEncrypted", ^{
+            [testStreamingMediaManager isVideoEncrypted];
+            OCMVerify([mockVideoLifecycleManager isVideoEncrypted]);
+        });
+
+        it(@"should return the video lifecycle manager's isVideoStreamingPaused for isVideoStreamingPaused", ^{
+            [testStreamingMediaManager isVideoStreamingPaused];
+            OCMVerify([mockVideoLifecycleManager isVideoStreamingPaused]);
+        });
+
+        it(@"should return the video lifecycle manager's screenSize for screenSize", ^{
+            [testStreamingMediaManager screenSize];
+            OCMVerify([mockVideoLifecycleManager.videoScaleManager displayViewportResolution]);
+        });
+
+        it(@"should return the video lifecycle manager's videoFormat for videoFormat", ^{
+            [testStreamingMediaManager videoFormat];
+            OCMVerify([mockVideoLifecycleManager videoFormat]);
+        });
+
+        it(@"should return the video lifecycle manager's supportedFormats for supportedFormats", ^{
+            [testStreamingMediaManager supportedFormats];
+            OCMVerify([mockVideoLifecycleManager supportedFormats]);
+        });
+
+        it(@"should return the video lifecycle manager's pixelBufferPool for pixelBufferPool", ^{
+            [testStreamingMediaManager pixelBufferPool];
+            OCMVerify([mockVideoLifecycleManager pixelBufferPool]);
+        });
+
+        it(@"should return the video lifecycle manager's requestedEncryptionType for requestedEncryptionType", ^{
+           [testStreamingMediaManager requestedEncryptionType];
+           OCMVerify([mockVideoLifecycleManager requestedEncryptionType]);
+       });
+
+        it(@"should return the video lifecycle manager's showVideoBackgroundDisplay for showVideoBackgroundDisplay", ^{
+            [testStreamingMediaManager showVideoBackgroundDisplay];
+            OCMVerify([mockVideoLifecycleManager showVideoBackgroundDisplay]);
+        });
+    });
+
+    describe(@"setters", ^{
+        it(@"should set the encryption flag on both the audio and video managers", ^{
+            SDLStreamingEncryptionFlag testEncryptionFlag = SDLStreamingEncryptionFlagNone;
             [testStreamingMediaManager setRequestedEncryptionType:testEncryptionFlag];
 
             OCMVerify([mockAudioLifecycleManager setRequestedEncryptionType:testEncryptionFlag]);
             OCMVerify([mockVideoLifecycleManager setRequestedEncryptionType:testEncryptionFlag]);
         });
-    });
 
-    context(@"streaming media manager getters", ^{
-        it(@"should return true if only video is streaming", ^{
-            testStreamingMediaManager.videoStarted = YES;
-            testStreamingMediaManager.audioStarted = NO;
+        it(@"should set the rootViewController on the video manager", ^{
+            UIViewController *testViewController = [[UIViewController alloc] init];
+            [testStreamingMediaManager setRootViewController:testViewController];
 
-            OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
-            OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
-            expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
+            OCMVerify([mockVideoLifecycleManager setRootViewController:testViewController]);
         });
 
-        it(@"should return true if only audio is streaming", ^{
-            testStreamingMediaManager.videoStarted = NO;
-            testStreamingMediaManager.audioStarted = YES;
-
-            OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
-            OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
-            expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
-        });
-
-        it(@"should return true if both video and audio are streaming", ^{
-            testStreamingMediaManager.videoStarted = YES;
-            testStreamingMediaManager.audioStarted = YES;
-
-            OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
-            OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
-            expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
-        });
-
-        it(@"should return false if neither video or audio is streaming", ^{            testStreamingMediaManager.videoStarted = NO;
-            testStreamingMediaManager.audioStarted = NO;
-
-            OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
-            OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
-            expect(testStreamingMediaManager.isStreamingSupported).to(beFalse());
+        it(@"should set showVideoBackgroundDisplay on the video manager", ^{
+            [testStreamingMediaManager setShowVideoBackgroundDisplay:NO];
+            OCMVerify([mockVideoLifecycleManager setShowVideoBackgroundDisplay:NO]);
         });
     });
 
