@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
 /**
- *  A delegate callback that notifies when the secondary transport state can change.
+ *  A delegate callback that notifies when the secondary transport state should change.
  */
 @property (weak, nonatomic, nullable) id<SDLSecondaryTransportDelegate> secondaryTransportDelegate;
 
