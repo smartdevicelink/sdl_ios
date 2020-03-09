@@ -188,19 +188,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol;
 
 /**
- *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  */
-- (void)startWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
+- (void)startWithProtocol:(SDLProtocol *)protocol;
 
  /**
   *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol;
 
  /**
   *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportOnProtocol: instead");
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol;
 
 
 @end
