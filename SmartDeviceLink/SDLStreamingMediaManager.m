@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Secondary Transport
 
-- (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol {
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol {
      [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
 }
 

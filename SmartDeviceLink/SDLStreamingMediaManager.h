@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Starts the video/audio services on the passed protocol. This method is used internally.
  *  @param protocol The protocol to use for the audio/video services
  */
-- (void)startSecondaryTransportOnProtocol:(SDLProtocol *)protocol;
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
 
 /**
  *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
@@ -195,12 +195,12 @@ NS_ASSUME_NONNULL_BEGIN
  /**
   *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol;
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
 
  /**
   *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol;
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
 
 
 @end

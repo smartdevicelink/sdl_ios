@@ -455,7 +455,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     
     // If the secondary transport manager is used, the streaming media manager will be started through `streamingServiceProtocolDidUpdateFromOldVideoProtocol:toNewVideoProtocol:fromOldAudioProtocol:toNewAudioProtocol:`
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self.streamManager startSecondaryTransportOnProtocol:self.proxy.protocol];
+        [self.streamManager startSecondaryTransportWithProtocol:self.proxy.protocol];
     }
 
     dispatch_group_enter(managerGroup);

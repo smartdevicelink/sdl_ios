@@ -279,7 +279,7 @@ describe(@"the streaming media manager", ^{
 
         describe(@"starting a service on a transport when none is running", ^{
             beforeEach(^{
-                [testStreamingMediaManager startSecondaryTransportOnProtocol:mockProtocol];
+                [testStreamingMediaManager startSecondaryTransportWithProtocol:mockProtocol];
             });
 
             it(@"should start both the audio and video stream managers with the protocol", ^{
