@@ -107,8 +107,10 @@ struct TransportProtocolUpdated {
 // TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
 
+/// The current hmi level of the SDL app.
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
+/// A background task used to close the secondary transport before the app is suspended.
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
 @end
