@@ -106,7 +106,7 @@
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {
-    return [SDLLogFileModule moduleWithName:@"Video Streaming/Video Transcoding" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer"]]];
+    return [SDLLogFileModule moduleWithName:@"Video Streaming/Transcoding" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer"]]];
 }
 
 + (SDLLogFileModule *)sdl_audioStreamingMediaManagerModule {
