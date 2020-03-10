@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 # pragma mark SDLStreamingProtocolDelegate
 
 - (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
-    BOOL videoProtocolUpdated = oldVideoProtocol != newVideoProtocol;
+    BOOL videoProtocolUpdated = (oldVideoProtocol != newVideoProtocol);
     BOOL audioProtocolUpdated = oldAudioProtocol != newAudioProtocol;
 
     if (!videoProtocolUpdated && !audioProtocolUpdated) {
