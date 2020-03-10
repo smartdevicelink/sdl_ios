@@ -25,7 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-/// Manager to help control streaming video and audio media services.
+/// Manager to help control streaming (video and audio) media services.
 @interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
