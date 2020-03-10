@@ -801,7 +801,7 @@ describe(@"the streaming video manager", ^{
 
     describe(@"stopping the manager", ^{
         beforeEach(^{
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make";
+            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
         context(@"when the manager is not stopped", ^{
@@ -812,9 +812,6 @@ describe(@"the streaming video manager", ^{
 
             it(@"should transition to the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
-            });
-
-            it(@"should reset the saved properties", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
@@ -832,9 +829,6 @@ describe(@"the streaming video manager", ^{
 
             it(@"should stay in the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
-            });
-
-            it(@"should reset the saved properties", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
