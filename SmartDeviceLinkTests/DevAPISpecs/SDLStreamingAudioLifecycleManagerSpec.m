@@ -35,7 +35,7 @@ describe(@"the streaming audio manager", ^{
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLEncryptionConfiguration *encryptionConfiguration = [SDLEncryptionConfiguration defaultConfiguration];
     __block TestConnectionManager *testConnectionManager = nil;
-    __block id mockAudioStreamManager = nil;
+    __block SDLAudioStreamManager *mockAudioStreamManager = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -421,15 +421,14 @@ describe(@"the streaming audio manager", ^{
                 [streamingLifecycleManager stop];
             });
 
-            it(@"should transition to the stopped state", ^{
+            it(@"should transition to the stopped state and reset the saved properties", ^{
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
-            });
 
-            it(@"should reset the saved properties", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMVerify([mockAudioStreamManager stop]);
+
             });
         });
 
@@ -439,11 +438,9 @@ describe(@"the streaming audio manager", ^{
                 [streamingLifecycleManager stop];
             });
 
-            it(@"should stay in the stopped state", ^{
+            it(@"should stay in the stopped state and reset the saved properties", ^{
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
-            });
 
-            it(@"should reset the saved properties", ^{
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
@@ -469,12 +466,10 @@ describe(@"the streaming audio manager", ^{
                 }];
             });
 
-            it(@"should reset the audio stream manger", ^{
+            it(@"should reset the audio stream manger and send an end audio service control frame", ^{
                 OCMVerify([mockAudioStreamManager stop]);
-            });
-
-            it(@"should send an end audio service control frame", ^{
                 OCMVerify([protocolMock endServiceWithType:SDLServiceTypeAudio]);
+
             });
 
             context(@"when the end audio service ACKs", ^{
@@ -492,7 +487,7 @@ describe(@"the streaming audio manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
                 });
 
-                it(@"should call the handler with a success result", ^{
+                it(@"should call the handler", ^{
                     expect(handlerCalled).to(beTrue());
                 });
             });
@@ -512,7 +507,7 @@ describe(@"the streaming audio manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
                 });
 
-                it(@"should call the handler with an unsuccessful result", ^{
+                it(@"should call the handler", ^{
                     expect(handlerCalled).to(beTrue());
                 });
             });
