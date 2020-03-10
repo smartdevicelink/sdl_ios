@@ -865,7 +865,7 @@ describe(@"the streaming video manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
                 });
 
-                it(@"should call the handler with a success result", ^{
+                it(@"should call the handler", ^{
                     expect(handlerCalled).to(beTrue());
                 });
             });
@@ -885,7 +885,7 @@ describe(@"the streaming video manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
                 });
 
-                it(@"should call the handler with an unsuccessful result", ^{
+                it(@"should call the handler", ^{
                     expect(handlerCalled).to(beTrue());
                 });
             });
