@@ -39,8 +39,8 @@
 #import "SDLVehicleType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingState.h"
-#import "TestConnectionManager.h"
 #import "SDLVersion.h"
+#import "TestConnectionManager.h"
 
 
 @interface SDLStreamingVideoLifecycleManager ()
@@ -177,11 +177,8 @@ describe(@"the streaming video manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
 
-                it(@"should not support streaming", ^{
+                it(@"should not support streaming or save the vehicle make", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
-                });
-
-                it(@"should not save the vehicle make", ^{
                     expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 });
             });
@@ -213,12 +210,9 @@ describe(@"the streaming video manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
 
-                it(@"should support streaming", ^{
+                it(@"should support streaming and save the vehicle make", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
-                });
-
-                it(@"should save the vehicle make", ^{
                     expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
                 });
             });
@@ -246,12 +240,9 @@ describe(@"the streaming video manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
 
-                it(@"should support streaming even though hmiCapabilities.videoStreaming is nil", ^{
+                it(@"should support streaming even though hmiCapabilities.videoStreaming is nil and it should save the vehicle make", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
-                });
-
-                it(@"should save the vehicle make", ^{
                     expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
                 });
             });
