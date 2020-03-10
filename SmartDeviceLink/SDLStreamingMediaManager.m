@@ -275,6 +275,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.videoLifecycleManager.showVideoBackgroundDisplay;
 }
 
+
 #pragma mark - Setters
 
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
