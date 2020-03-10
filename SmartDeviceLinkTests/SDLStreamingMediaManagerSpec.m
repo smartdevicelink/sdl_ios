@@ -287,9 +287,7 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
-            });
 
-            it(@"should should not attempt to stop a current video or audio session", ^{
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
             });
@@ -317,19 +315,13 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 expect(testStreamingMediaManager.audioStarted).to(beFalse());
                 expect(testStreamingMediaManager.videoStarted).to(beFalse());
-            });
 
-            it(@"should tell the audio and video stream managers to destroy the protocol", ^{
                 OCMVerify([mockAudioLifecycleManager destroyProtocol]);
                 OCMVerify([mockVideoLifecycleManager destroyProtocol]);
-            });
 
-            it(@"should not attempt to start a new audio and video session", ^{
                 OCMReject([mockAudioLifecycleManager startWithProtocol:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager startWithProtocol:[OCMArg any]]);
-            });
 
-            it(@"should notify the delegate object that the secondary transport can be destroyed", ^{
                 OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
             });
         });
@@ -357,21 +349,15 @@ describe(@"the streaming media manager", ^{
                 [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
             });
 
-            it(@"should stop both the audio and video stream managers", ^{
+            it(@"should stop both the audio and video stream managers and call the delegate then start a new session", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
-            });
 
-            it(@"should notify the delegate object that the secondary transport can be destroyed", ^{
                 OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
-            });
 
-            it(@"should tell the audio and video stream managers to destroy the protocol", ^{
                 OCMVerify([mockAudioLifecycleManager destroyProtocol]);
                 OCMVerify([mockVideoLifecycleManager destroyProtocol]);
-            });
 
-            it(@"should try to start a new audio and video session with the new protocol", ^{
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
 
@@ -400,18 +386,12 @@ describe(@"the streaming media manager", ^{
             it(@"should stop the video stream manager but not the audio stream manager", ^{
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
-            });
 
-            it(@"should notify the delegate object that the secondary transport can be destroyed", ^{
                 OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
-            });
 
-            it(@"should tell the video stream manager to destroy the protocol but not the audio stream manager", ^{
                 OCMVerify([mockVideoLifecycleManager destroyProtocol]);
                 OCMReject([mockAudioLifecycleManager destroyProtocol]);
-            });
 
-            it(@"should try to start a new audio session with the new protocol, but not a video session ", ^{
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
@@ -440,18 +420,12 @@ describe(@"the streaming media manager", ^{
             it(@"should stop the audio stream manager but not the video stream manager", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
-            });
 
-            it(@"should notify the delegate object that the secondary transport can be destroyed", ^{
                 OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
-            });
 
-            it(@"should tell the audio stream manager to destroy the protocol but not the video stream manager", ^{
                 OCMVerify([mockAudioLifecycleManager destroyProtocol]);
                 OCMReject([mockVideoLifecycleManager destroyProtocol]);
-            });
 
-            it(@"should try to start a new audio session with the new protocol, but not a video session ", ^{
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
 
