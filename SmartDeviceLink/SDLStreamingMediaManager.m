@@ -201,6 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.videoStarted = YES;
 }
 
+
 #pragma mark - Getters
 
 - (SDLTouchManager *)touchManager {
