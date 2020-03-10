@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
     BOOL videoProtocolUpdated = (oldVideoProtocol != newVideoProtocol);
-    BOOL audioProtocolUpdated = oldAudioProtocol != newAudioProtocol;
+    BOOL audioProtocolUpdated = (oldAudioProtocol != newAudioProtocol);
 
     if (!videoProtocolUpdated && !audioProtocolUpdated) {
         SDLLogV(@"The video and audio protocols did not update. Nothing will update.");
