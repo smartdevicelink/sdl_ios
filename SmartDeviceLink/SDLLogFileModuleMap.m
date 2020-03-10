@@ -114,7 +114,7 @@
 }
 
 + (SDLLogFileModule *)sdl_audioStreamingMediaTranscoderModule {
-    return [SDLLogFileModule moduleWithName:@"Audio Streaming/Audio Transcoding" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
+    return [SDLLogFileModule moduleWithName:@"Audio Streaming/Transcoding" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {
