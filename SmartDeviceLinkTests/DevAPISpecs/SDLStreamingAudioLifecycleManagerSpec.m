@@ -414,8 +414,8 @@ describe(@"the streaming audio manager", ^{
         });
     });
 
-    describe(@"when the manager is stopped", ^{
-        context(@"if audio not stopped", ^{
+    describe(@"attempting to stop the manager", ^{
+        context(@"when the manager is READY", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager stop];
@@ -433,7 +433,7 @@ describe(@"the streaming audio manager", ^{
             });
         });
 
-        context(@"if audio is already stopped", ^{
+        context(@"when the manager is STOPPED", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateStopped fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager stop];
@@ -452,7 +452,7 @@ describe(@"the streaming audio manager", ^{
         });
     });
 
-    describe(@"when audio is stopped", ^{
+    describe(@"starting the manager when it's STOPPED", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
         __block BOOL handlerCalled = nil;
 
@@ -461,7 +461,7 @@ describe(@"the streaming audio manager", ^{
             [streamingLifecycleManager startWithProtocol:protocolMock];
         });
 
-        context(@"if stopping audio on secondary transport", ^{
+        context(@"when stopping the audio service due to a secondary transport shutdown", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
@@ -477,7 +477,7 @@ describe(@"the streaming audio manager", ^{
                 OCMVerify([protocolMock endServiceWithType:SDLServiceTypeAudio]);
             });
 
-            context(@"If the end audio service ACKs", ^{
+            context(@"when the end audio service ACKs", ^{
                 __block SDLProtocolHeader *testAudioHeader = nil;
                 __block SDLProtocolMessage *testAudioMessage = nil;
 
@@ -497,7 +497,7 @@ describe(@"the streaming audio manager", ^{
                 });
             });
 
-            context(@"If the end audio service NAKs", ^{
+            context(@"when the end audio service NAKs", ^{
                 __block SDLProtocolHeader *testAudioHeader = nil;
                 __block SDLProtocolMessage *testAudioMessage = nil;
 
@@ -519,7 +519,7 @@ describe(@"the streaming audio manager", ^{
         });
     });
 
-    describe(@"when the protocol is destroyed", ^{
+    describe(@"destroying the protocol", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
 
         beforeEach(^{

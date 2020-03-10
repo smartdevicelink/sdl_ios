@@ -799,12 +799,12 @@ describe(@"the streaming video manager", ^{
         });
     });
 
-    describe(@"when the manager is stopped", ^{
+    describe(@"stopping the manager", ^{
         beforeEach(^{
             streamingLifecycleManager.connectedVehicleMake = @"OEM_make";
         });
 
-        context(@"if video is not stopped", ^{
+        context(@"when the manager is not stopped", ^{
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager stop];
@@ -824,7 +824,7 @@ describe(@"the streaming video manager", ^{
             });
         });
 
-        context(@"if video is already stopped", ^{
+        context(@"when the manager is already stopped", ^{
             beforeEach(^{
                 [streamingLifecycleManager.videoStreamStateMachine setToState:SDLAudioStreamManagerStateStopped fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager stop];
@@ -845,7 +845,7 @@ describe(@"the streaming video manager", ^{
         });
     });
 
-    describe(@"when video is stopped", ^{
+    describe(@"starting the manager", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
         __block BOOL handlerCalled = nil;
 
@@ -854,7 +854,7 @@ describe(@"the streaming video manager", ^{
             [streamingLifecycleManager startWithProtocol:protocolMock];
         });
 
-        context(@"if stopping video on secondary transport", ^{
+        describe(@"then ending the video service through the secondary transport", ^{
             beforeEach(^{
                 [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
                     handlerCalled = YES;
@@ -865,7 +865,7 @@ describe(@"the streaming video manager", ^{
                 OCMVerify([protocolMock endServiceWithType:SDLServiceTypeVideo]);
             });
 
-            context(@"If the end video service ACKs", ^{
+            context(@"when the end video service ACKs", ^{
                 __block SDLProtocolHeader *testVideoHeader = nil;
                 __block SDLProtocolMessage *testVideoMessage = nil;
 
@@ -885,7 +885,7 @@ describe(@"the streaming video manager", ^{
                 });
             });
 
-            context(@"If the end audio service NAKs", ^{
+            context(@"when the end audio service NAKs", ^{
                 __block SDLProtocolHeader *testVideoHeader = nil;
                 __block SDLProtocolMessage *testVideoMessage = nil;
 
@@ -907,7 +907,7 @@ describe(@"the streaming video manager", ^{
         });
     });
 
-    describe(@"when the protocol is destroyed", ^{
+    describe(@"destroying the protocol", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
 
         beforeEach(^{

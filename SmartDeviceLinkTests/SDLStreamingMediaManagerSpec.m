@@ -57,13 +57,13 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"when stop video is called", ^{
+    describe(@"when stop video is called", ^{
         beforeEach(^{
             testStreamingMediaManager.audioStarted = YES;
             testStreamingMediaManager.videoStarted = YES;
         });
 
-        it(@"should stop the video stream manager", ^{
+        it(@"should only stop the video stream manager", ^{
             [testStreamingMediaManager stopVideo];
             OCMVerify([mockVideoLifecycleManager stop]);
             expect(testStreamingMediaManager.videoStarted).to(beFalse());
@@ -73,7 +73,7 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"when stop audio is called", ^{
+    describe(@"when stop audio is called", ^{
         beforeEach(^{
             testStreamingMediaManager.audioStarted = YES;
             testStreamingMediaManager.videoStarted = YES;
@@ -81,7 +81,7 @@ describe(@"the streaming media manager", ^{
             [testStreamingMediaManager stopAudio];
         });
 
-        it(@"should stop the audio stream manager", ^{
+        it(@"should only stop the audio stream manager", ^{
             OCMVerify([mockAudioLifecycleManager stop]);
             expect(testStreamingMediaManager.audioStarted).to(beFalse());
 
@@ -90,7 +90,7 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"when sending audio data", ^{
+    describe(@"when sending audio data", ^{
         __block NSData *testAudioData = nil;
 
         beforeEach(^{
@@ -103,14 +103,14 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"when sending video data", ^{
+    describe(@"when sending video data", ^{
         __block CVPixelBufferRef testPixelBuffer = nil;
 
         beforeEach(^{
              CVPixelBufferCreate(kCFAllocatorDefault, 100, 50, kCVPixelFormatType_14Bayer_GRBG, nil, &testPixelBuffer);
         });
 
-        describe(@"without a timestamp", ^{
+        context(@"without a timestamp", ^{
             beforeEach(^{
                 [testStreamingMediaManager sendVideoData:testPixelBuffer];
             });
@@ -120,7 +120,7 @@ describe(@"the streaming media manager", ^{
             });
         });
 
-        describe(@"with a timestamp", ^{
+        context(@"with a timestamp", ^{
             __block CMTime testTimestamp = CMTimeMake(1, NSEC_PER_SEC);
 
             beforeEach(^{
@@ -154,7 +154,7 @@ describe(@"the streaming media manager", ^{
             OCMVerify([mockVideoLifecycleManager focusableItemManager]);
         });
 
-        context(@"isStreamingSupported", ^{
+        describe(@"when calling isStreamingSupported", ^{
             it(@"should return true if only video is streaming", ^{
                 testStreamingMediaManager.videoStarted = YES;
                 testStreamingMediaManager.audioStarted = NO;
@@ -270,7 +270,7 @@ describe(@"the streaming media manager", ^{
         });
     });
 
-    context(@"secondary transport", ^{
+    describe(@"when using the secondary transport", ^{
         __block SDLProtocol *mockProtocol = nil;
 
         beforeEach(^{
