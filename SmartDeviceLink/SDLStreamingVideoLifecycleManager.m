@@ -346,6 +346,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)disposeDisplayLink {
     if (self.displayLink == nil) { return; }
+    SDLLogD(@"Destroying display link");
     [self.displayLink invalidate];
     self.displayLink = nil;
 }
