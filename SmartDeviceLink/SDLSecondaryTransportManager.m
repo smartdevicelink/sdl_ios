@@ -137,7 +137,7 @@ struct TransportProtocolUpdated {
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
 
-    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName: BackgroundTaskSecondaryTransportName];
+    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskSecondaryTransportName];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
