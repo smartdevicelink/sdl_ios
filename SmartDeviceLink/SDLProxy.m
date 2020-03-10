@@ -40,6 +40,10 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
+#import "SDLFileManager.h"
+#import "SDLIconArchiveFile.h"
+#import "SDLLockScreenIconCache.h"
+#import "SDLCacheFileManager.h"
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
@@ -570,7 +574,7 @@ static float DefaultConnectionTimeout = 45.0;
     if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
-        [self sdl_handleSystemRequestLockScreenIconURL:systemRequest];
+        [self cacheIconFromSystemRequest:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeIconURL]) {
         [self sdl_handleSystemRequestIconURL:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
@@ -759,20 +763,72 @@ static float DefaultConnectionTimeout = 45.0;
                     }];
 }
 
+- (void)cacheIconFromSystemRequest:(SDLOnSystemRequest *)request {
+    
+    // Create Cache File Manager and use it to check for directory
+    
+    NSString *cacheDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+    NSURL *sdlCacheUrl = [NSURL URLWithString:[cacheDirectory stringByAppendingPathComponent:@"SDL"]];
+    
+    // check if directory exists, if not create it yourself
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[sdlCacheUrl path]]) {
+        [self downloadIconFromRequest:request];
+    } else {
+        // check if file exists in url
+    }
+    
+    
+    // if yes, save to directory and update files
+}
+
+- (void)cacheObjectsFromImage:(UIImage *)image andRequest:(SDLOnSystemRequest *)request {
+    
+    NSString *cacheDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+    NSURL *sdlCacheUrl = [NSURL URLWithString:[cacheDirectory stringByAppendingPathComponent:@"SDL"]];
+    
+    NSData *pngData = UIImagePNGRepresentation(image);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[sdlCacheUrl path]]) {
+        // file present
+    } else {
+        // file not present
+        [pngData writeToURL:sdlCacheUrl atomically:YES];
+        
+        // create lockscreen cache object
+        SDLLockScreenIconCache *lockScreenIconCache = [[SDLLockScreenIconCache alloc] init];
+        lockScreenIconCache.iconUrl = request.url;
+        lockScreenIconCache.lastModifiedDate = [NSDate date];
+        
+    }
+}
+
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-	__weak typeof(self) weakSelf = self;
+    // Initialize SDLCacheFileManager
+    SDLCacheFileManager *cacheFileManager = [[SDLCacheFileManager alloc] init];
+    if ([cacheFileManager sdlCacheDirectoryExists]) {
+        
+    } else {
+        [self downloadIconFromRequest:request];
+    }
+
+}
+
+- (void)downloadIconFromRequest:(SDLOnSystemRequest *)request {
+    // Download icon
+    __weak typeof(self) weakSelf = self;
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-					__strong typeof(weakSelf) strongSelf = weakSelf;
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
                     if (error != nil) {
                         SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
                         return;
                     }
-                    
+        
                     UIImage *icon = [UIImage imageWithData:data];
+                    // Save image using cache manager
                     [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
                 }];
 }
+
 
 - (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
     __weak typeof(self) weakSelf = self;

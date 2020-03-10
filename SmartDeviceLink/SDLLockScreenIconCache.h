@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSString *iconUrl;
 @property (nonatomic) NSString *iconFilePath;
-@property (nonatomic) NSString *lastModifiedDate;
+@property (nonatomic) NSDate *lastModifiedDate;
 
 @end
 

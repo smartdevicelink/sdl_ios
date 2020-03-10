@@ -18,7 +18,7 @@
     
     self.iconUrl = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconUrl"];
     self.iconFilePath = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconFilePath"];
-    self.lastModifiedDate = [decoder decodeObjectOfClass:[NSString self] forKey:@"lastmModifiedDate"];
+    self.lastModifiedDate = [decoder decodeObjectOfClass:[NSDate self] forKey:@"lastmModifiedDate"];
     
     return self;
 }
