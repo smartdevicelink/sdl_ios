@@ -226,7 +226,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
-    SDLLogE(@"Request to end audio service NAKed");
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
+    SDLLogE(@"Request to end audio service NAKed with playlod: %@", nakPayload);
     if (self.audioServiceEndedCompletionHandler != nil) {
         self.audioServiceEndedCompletionHandler();
         self.audioServiceEndedCompletionHandler = nil;

@@ -210,7 +210,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)endVideoServiceWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Ending video service");
-    [self disposeDisplayLink];
+    [self sdl_disposeDisplayLink];
     self.videoServiceEndedCompletionHandler = completionHandler;
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
@@ -344,7 +344,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
              };
 }
 
-- (void)disposeDisplayLink {
+- (void)sdl_disposeDisplayLink {
     if (self.displayLink == nil) { return; }
     SDLLogD(@"Destroying display link");
     [self.displayLink invalidate];
@@ -366,7 +366,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _preferredResolutionIndex = 0;
     _lastPresentationTimestamp = kCMTimeInvalid;
 
-    [self disposeDisplayLink];
+    [self sdl_disposeDisplayLink];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
 }
@@ -434,7 +434,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoEncoder = nil;
     }
 
-    [self disposeDisplayLink];
+    [self sdl_disposeDisplayLink];
 
     if (self.videoEncoder == nil) {
         NSError* error = nil;
@@ -489,7 +489,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateVideoStreamSuspended {
     SDLLogD(@"Video stream suspended");
-    [self disposeDisplayLink];
+    [self sdl_disposeDisplayLink];
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
 }
 
@@ -578,7 +578,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
-    SDLLogE(@"Request to end video service NAKed");
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
+    SDLLogE(@"Request to end video service NAKed with payload: %@", nakPayload);
     if (self.videoServiceEndedCompletionHandler != nil) {
         self.videoServiceEndedCompletionHandler();
         self.videoServiceEndedCompletionHandler = nil;
