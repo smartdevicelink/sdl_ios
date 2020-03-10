@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 /// This method is used internally to stop the manager when audio needs to be stopped on the secondary transport. The primary transport is still open.
-/// 1. Since the primary transport is still open, do will not reset the `hmiLevel` since we can still get notifications from the module with the updated hmi status on the primary transport.
+/// 1. Since the primary transport is still open, we will not reset the `hmiLevel` since we can still get notifications from the module with the updated HMI status on the primary transport.
 /// 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
 /// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 - (void)endAudioServiceWithCompletionHandler:(void (^)(void))audioEndedCompletionHandler;
