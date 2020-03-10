@@ -686,7 +686,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (self.protocol == nil) {
-        SDLLogV(@"No session established with head unit. Video start service request will not be sent.");
+        SDLLogV(@"No transport established with head unit. Video start service request will not be sent.");
         return;
     }
 
