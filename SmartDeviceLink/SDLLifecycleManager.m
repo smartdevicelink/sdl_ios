@@ -248,7 +248,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
            [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
            [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
             // We reuse our queue to run secondary transport manager's state machine
-            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id)self.streamManager serialQueue:self.lifecycleQueue];
+            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)self.streamManager serialQueue:self.lifecycleQueue];
             self.streamManager.secondaryTransportDelegate = self;
         }
 
