@@ -16,7 +16,7 @@ from re import findall
 
 from jinja2 import UndefinedError, TemplateNotFound, FileSystemLoader, Environment, ChoiceLoader, \
     TemplateAssertionError, TemplateSyntaxError, TemplateRuntimeError
-from pathlib2 import Path
+from pathlib import Path
 
 ROOT = Path(__file__).absolute().parents[0]
 
@@ -71,7 +71,7 @@ class Generator:
         if output_directory.startswith('/'):
             path = Path(output_directory).absolute().resolve()
         else:
-            path = ROOT.joinpath(output_directory).resolve()
+            path = Path('.').absolute().joinpath(output_directory).resolve()
         if not path.exists():
             self.logger.warning('Directory not found: %s, trying to create it', path)
             try:
@@ -202,7 +202,7 @@ class Generator:
             if not getattr(args, kind.name) and kind.path.exists():
                 while True:
                     try:
-                        confirm = input('Confirm default path {} for {} Y/Enter = yes, N = no'
+                        confirm = input('Confirm default path {} for {} [Y/n]:\t'
                                         .format(kind.path, kind.name))
                         if confirm.lower() == 'y' or not confirm:
                             print('{} set to {}'.format(kind.name, kind.path))
@@ -378,7 +378,7 @@ class Generator:
             else:
                 while True:
                     try:
-                        confirm = input('File already exists {}. Overwrite? Y/Enter = yes, N = no\n'
+                        confirm = input('File already exists {}. Overwrite? [Y/n]:\t'
                                         .format(file_with_suffix.name))
                         if confirm.lower() == 'y' or not confirm:
                             self.logger.info('Overriding %s', file_with_suffix.name)

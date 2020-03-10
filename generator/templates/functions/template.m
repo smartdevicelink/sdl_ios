@@ -8,8 +8,9 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if ((self = [super initWithName:SDLRPCFunctionName{{origin}}])) {
-    }
+    self = [super initWithName:SDLRPCFunctionName{{origin}}];
+    if (!self) { return nil; }
+
     return self;
 }
 #pragma clang diagnostic pop

@@ -104,9 +104,9 @@ Where the **xxx** is the correspondent item name.
 
 All files should begin with the license information.
 
-```
+```jinja2
 /*
- * Copyright (c) 2017 - [year], SmartDeviceLink Consortium, Inc.
+ * Copyright (c) {{year}}, SmartDeviceLink Consortium, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -141,11 +141,13 @@ All files should begin with the license information.
 Where `[year]` in the copyright line is the current (?) year.
 
 ### General rules for Objective-C classes
-1. Default initializer in every class 
+1. Default initializer applies only to Functions(Request / Response / Notification) classes
+
 ```objc
     - (instancetype)init {
-        if ((self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface])) {
-        }
+        self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface];
+        if (!self) { return nil; }
+
         return self;
     }
 ```
@@ -197,13 +199,8 @@ extern SDLTouchType const SDLTouchTypeBegin;
 If an item is deprecated then it will be declared as such:
 
 ```objc
-extern SDLTouchType const SDLTouchTypeBegin __deprecated;
-```
-
-or even:
-
-```objc
-extern SDLTouchType const SDLTouchTypeBegin __deprecated_msg(("this item is deprecated once and for all, please use SDLTouchTypeNewType instead"));
+__deprecated
+extern SDLTouchType const SDLTouchTypeBegin;
 ```
 
 Take for an instance the enum class KeypressMode
@@ -258,13 +255,10 @@ Structures in sdl_ios are implemented as classes derived from the parent class S
  </struct>
  ```
  
- *Please note that all params declared as mandatory="false" and there is one init method with all the params in the generated file. The method* ```+ (instancetype)currentDevice;``` *comes from the old manually made implementation*
-
 *Note: the file begins with the `NS_ASSUME_NONNULL_BEGIN` macro, which makes all properties / parameters mandatory. If a parameter is not mandatory, then the modifier `nullable` must be used*
 
 ```objc
 //  SDLDeviceInfo.h
-//
 
 #import "SDLRPCStruct.h"
 
@@ -277,18 +271,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLDeviceInfo : SDLRPCStruct
 
-/// Convenience init. Object will contain all information about the connected device automatically.
-///
-/// @return An SDLDeviceInfo object
-+ (instancetype)currentDevice;
-
 /**
- * @param hardware
- * @param firmwareRev
- * @param os
- * @param osVersion
- * @param carrier
- * @param @(maxNumberRFCOMMPorts)
+ * @param hardware - hardware
+ * @param firmwareRev - firmwareRev
+ * @param os - os
+ * @param osVersion - osVersion
+ * @param carrier - carrier
+ * @param maxNumberRFCOMMPorts - @(maxNumberRFCOMMPorts)
  * @return A SDLDeviceInfo object
  */
 - (instancetype)initWithHardware:(nullable NSString *)hardware firmwareRev:(nullable NSString *)firmwareRev os:(nullable NSString *)os osVersion:(nullable NSString *)osVersion carrier:(nullable NSString *)carrier maxNumberRFCOMMPorts:(UInt8)maxNumberRFCOMMPorts;
@@ -296,48 +285,36 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Device model
  * {"default_value": null, "max_length": 500, "min_length": 0}
- *
- * Optional, NSString *
  */
 @property (nullable, strong, nonatomic) NSString *hardware;
 
 /**
  * Device firmware revision
  * {"default_value": null, "max_length": 500, "min_length": 0}
- *
- * Optional, NSString *
  */
 @property (nullable, strong, nonatomic) NSString *firmwareRev;
 
 /**
  * Device OS
  * {"default_value": null, "max_length": 500, "min_length": 0}
- *
- * Optional, NSString *
  */
 @property (nullable, strong, nonatomic) NSString *os;
 
 /**
  * Device OS version
  * {"default_value": null, "max_length": 500, "min_length": 0}
- *
- * Optional, NSString *
  */
 @property (nullable, strong, nonatomic) NSString *osVersion;
 
 /**
  * Device mobile carrier (if applicable)
  * {"default_value": null, "max_length": 500, "min_length": 0}
- *
- * Optional, NSString *
  */
 @property (nullable, strong, nonatomic) NSString *carrier;
 
 /**
  * Omitted if connected not via BT.
  * {"default_value": null, "max_value": 100, "min_value": 0}
- *
- * Optional, UInt8
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *maxNumberRFCOMMPorts;
 
@@ -350,7 +327,6 @@ The implementation **SDLDeviceInfo.m** file:
 
 ```objc
 //  SDLDeviceInfo.m
-//
 
 #import "SDLDeviceInfo.h"
 #import "NSMutableDictionary+Store.h"
@@ -359,22 +335,6 @@ The implementation **SDLDeviceInfo.m** file:
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeviceInfo
-
-
-+ (instancetype)currentDevice {
-    static SDLDeviceInfo *deviceInfo = nil;
-    if (deviceInfo == nil) {
-        deviceInfo = [[SDLDeviceInfo alloc] init];
-        deviceInfo.hardware = [UIDevice currentDevice].model;
-        deviceInfo.os = [UIDevice currentDevice].systemName;
-        deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
-        CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
-        CTCarrier *carrier = netinfo.subscriberCellularProvider;
-        NSString *carrierName = carrier.carrierName;
-        deviceInfo.carrier = carrierName;
-    }
-    return deviceInfo;
-}
 
 - (instancetype)initWithHardware:(nullable NSString *)hardware firmwareRev:(nullable NSString *)firmwareRev os:(nullable NSString *)os osVersion:(nullable NSString *)osVersion carrier:(nullable NSString *)carrier maxNumberRFCOMMPorts:(UInt8)maxNumberRFCOMMPorts {
     self = [super init];
@@ -399,27 +359,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFirmwareRev:(nullable NSString *)firmwareRev {
-    [self.store sdl_setObject:firmwareRev forName:SDLRPCParameterNameFirmwareRevision];
+    [self.store sdl_setObject:firmwareRev forName:SDLRPCParameterNameFirmwareRev];
 }
 
 - (nullable NSString *)firmwareRev {
-    return [self.store sdl_objectForName:SDLRPCParameterNameFirmwareRevision ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameFirmwareRev ofClass:NSString.class error:nil];
 }
 
 - (void)setOs:(nullable NSString *)os {
-    [self.store sdl_setObject:os forName:SDLRPCParameterNameOS];
+    [self.store sdl_setObject:os forName:SDLRPCParameterNameOs];
 }
 
 - (nullable NSString *)os {
-    return [self.store sdl_objectForName:SDLRPCParameterNameOS ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOs ofClass:NSString.class error:nil];
 }
 
 - (void)setOsVersion:(nullable NSString *)osVersion {
-    [self.store sdl_setObject:osVersion forName:SDLRPCParameterNameOSVersion];
+    [self.store sdl_setObject:osVersion forName:SDLRPCParameterNameOsVersion];
 }
 
 - (nullable NSString *)osVersion {
-    return [self.store sdl_objectForName:SDLRPCParameterNameOSVersion ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOsVersion ofClass:NSString.class error:nil];
 }
 
 - (void)setCarrier:(nullable NSString *)carrier {
@@ -594,8 +554,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if ((self = [super initWithName:SDLRPCFunctionNameGetCloudAppProperties])) {
-    }
+    self = [super initWithName:SDLRPCFunctionNameGetCloudAppProperties];
+    if (!self) { return nil; }
+
     return self;
 }
 #pragma clang diagnostic pop
@@ -708,8 +669,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if ((self = [super initWithName:SDLRPCFunctionNameAlert])) {
-    }
+    self = [super initWithName:SDLRPCFunctionNameShowAppMenu];
+    if (!self) { return nil; }
+
     return self;
 }
 #pragma clang diagnostic pop
@@ -791,8 +753,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if ((self = [super initWithName:SDLRPCFunctionNameOnAppInterfaceUnregistered])) {
-    }
+    self = [super initWithName:SDLRPCFunctionNameOnAppInterfaceUnregistered];
+    if (!self) { return nil; }
+
     return self;
 }
 #pragma clang diagnostic pop
