@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
-@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioTranscodingManager;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLAudioStreamManagerState *currentAudioStreamState;

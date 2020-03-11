@@ -146,7 +146,7 @@ describe(@"the streaming media manager", ^{
 
         it(@"should return the audio lifecycle manager's audio manager for audioManager", ^{
             [testStreamingMediaManager audioManager];
-            OCMVerify([mockAudioLifecycleManager audioManager]);
+            OCMVerify([mockAudioLifecycleManager audioTranscodingManager]);
         });
 
         it(@"should return the video lifecycle manager's rootViewController for rootViewController", ^{
@@ -290,7 +290,7 @@ describe(@"the streaming media manager", ^{
             it(@"should start both the audio and video stream managers with the protocol", ^{
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockProtocol]);
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockProtocol]);
-                
+
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 

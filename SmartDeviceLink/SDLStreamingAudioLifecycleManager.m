@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager()
 
-@property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioManager;
+@property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 @property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _connectionManager = connectionManager;
-    _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
+    _audioTranscodingManager = [[SDLAudioStreamManager alloc] initWithManager:self];
     _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
     _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
     _connectedVehicleMake = nil;
-    [self.audioManager stop];
+    [self.audioTranscodingManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Ending audio service");
     self.audioServiceEndedCompletionHandler = completionHandler;
 
-    [self.audioManager stop];
+    [self.audioTranscodingManager stop];
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 

@@ -226,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioStreamManager *)audioManager {
-    return self.audioLifecycleManager.audioManager;
+    return self.audioLifecycleManager.audioTranscodingManager;
 }
 
 - (nullable UIViewController *)rootViewController {
