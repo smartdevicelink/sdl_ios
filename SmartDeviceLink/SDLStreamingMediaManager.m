@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop {
     [self stopAudio];
     [self stopVideo];
+    self.audioProtocol = nil;
+    self.videoProtocol = nil;
 }
 
 
