@@ -296,15 +296,15 @@ struct TransportProtocolUpdated {
 }
 
 - (void)willTransitionFromStateConnectingToStateConfigured {
-    [self sdl_disconnectSecondaryTransport];
+    [self disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateConnectingToStateReconnecting {
-    [self sdl_disconnectSecondaryTransport];
+    [self disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateConnectingToStateStopped {
-    [self sdl_disconnectSecondaryTransport];
+    [self disconnectSecondaryTransport];
 }
 
 - (void)didEnterStateRegistered {
@@ -325,7 +325,7 @@ struct TransportProtocolUpdated {
 
 - (void)willTransitionFromStateRegisteredToStateStopped {
     // sdl_handleTransportUpdateWithPrimaryAvailable is called in stop method
-    [self sdl_disconnectSecondaryTransport];
+    [self disconnectSecondaryTransport];
 }
 
 - (void)didEnterStateReconnecting {
@@ -425,10 +425,6 @@ struct TransportProtocolUpdated {
 }
 
 - (BOOL)disconnectSecondaryTransport {
-    return [self sdl_disconnectSecondaryTransport];
-}
-
-- (BOOL)sdl_disconnectSecondaryTransport {
     if (self.secondaryTransport == nil) {
         SDLLogW(@"Attempted to disconnect secondary transport, but it's already stopped.");
         return NO;
