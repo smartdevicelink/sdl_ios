@@ -106,6 +106,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     _nextCancelId = ChoiceCellCancelIdMin;
     _vrOptional = YES;
     _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
+    _currentHMILevel = SDLHMILevelNone;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
@@ -150,10 +151,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]
         || (self.currentWindowCapability.textFields != nil && ![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName])) {
-        SDLLogD(@"Suspending the choice set manager transaction queue. Current HMI level is NONE: %@, current system context is HMIObscured or Alert: %@, window capability has MenuName (choice primary text): %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), (([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) ? @"YES" : @"NO"), ([self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] ? @"YES" : @"NO"));
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@, current system context is HMIObscured or Alert: %@, window capability has MenuName (choice primary text): %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), (([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) ? @"YES" : @"NO"), ([self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] ? @"YES" : @"NO"));
         self.transactionQueue.suspended = YES;
     } else {
-        SDLLogD(@"Starting the choice set manager transaction queue");
+        SDLLogD(@"Starting the transaction queue");
         self.transactionQueue.suspended = NO;
     }
 }
