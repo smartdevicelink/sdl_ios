@@ -112,6 +112,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop {
     // Don't allow the lockscreen to present again until we start
     self.canPresent = NO;
+    self.lastLockNotification = nil;
+    self.lastDriverDistractionNotification = nil;
     [self.presenter stopWithCompletionHandler:nil];
 }
 
