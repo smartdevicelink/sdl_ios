@@ -11,6 +11,7 @@
 #import "SDLAudioStreamManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLStreamingAudioLifecycleManager.h"
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL videoStarted;
 @property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
 @property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
+
 @end
 
 
@@ -129,24 +131,31 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL audioProtocolUpdated = (oldAudioProtocol != newAudioProtocol);
 
     if (!videoProtocolUpdated && !audioProtocolUpdated) {
-        SDLLogV(@"The video and audio protocols did not update. Nothing will update.");
+        SDLLogV(@"The video and audio transports will not be updated since neither changed.");
         return;
     }
 
     if (oldVideoProtocol != nil && oldAudioProtocol != nil) {
         // Both an audio and video service are currently running. Make sure *BOTH* audio and video services have been stopped before destroying the secondary transport. Once the secondary transport has been destroyed, start the audio/video services using the new protocol.
-         __weak typeof(self) weakSelf = self;
-        [self sdl_stopAudioWithCompletionHandler:^ {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf sdl_stopVideoWithCompletionHandler:^ {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [strongSelf sdl_disconnectSecondaryTransport];
-                SDLLogV(@"Destroying the video and audio protocols");
-                self.videoProtocol = nil;
-                self.audioProtocol = nil;
-                [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
-            }];
-        }];
+         dispatch_group_t closeServicesTask = dispatch_group_create();
+         dispatch_group_enter(closeServicesTask);
+         dispatch_group_enter(closeServicesTask);
+         [self sdl_stopAudioWithCompletionHandler:^{
+             dispatch_group_leave(closeServicesTask);
+         }];
+         dispatch_group_enter(closeServicesTask);
+         [self sdl_stopVideoWithCompletionHandler:^{
+             dispatch_group_leave(closeServicesTask);
+         }];
+         dispatch_group_leave(closeServicesTask);
+
+         dispatch_group_notify(closeServicesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+             [self sdl_disconnectSecondaryTransport];
+             SDLLogV(@"Destroying the video and audio protocols");
+             self.videoProtocol = nil;
+             self.audioProtocol = nil;
+             [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
+         });
     } else if (oldVideoProtocol != nil) {
         // Only a video service is running. Make sure the video service has stopped before destroying the secondary transport and starting the new audio/video services using the new protocol.
          __weak typeof(self) weakSelf = self;
@@ -154,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf sdl_disconnectSecondaryTransport];
             SDLLogV(@"Destroying the video protocol");
-            self.videoProtocol = nil;
+            strongSelf.videoProtocol = nil;
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else if (oldAudioProtocol != nil) {
@@ -164,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf sdl_disconnectSecondaryTransport];
             SDLLogV(@"Destroying the audio protocol");
-            self.audioProtocol = nil;
+            strongSelf.audioProtocol = nil;
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else {
@@ -172,6 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
     }
 }
+
 
 /// Starts the audio and/or video services using the new protocol.
 /// @param newAudioProtocol The new audio protocol
