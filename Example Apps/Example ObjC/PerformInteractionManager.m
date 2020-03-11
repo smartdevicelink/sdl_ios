@@ -66,16 +66,19 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLChoiceSetDelegate
 
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source atRowIndex:(NSUInteger)rowIndex {
+    SDLLogD(@"User selected row: %lu, choice: %@", (unsigned long)rowIndex, choice);
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
 }
 
 - (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error {
+    SDLLogE(@"Error presenting choice set: %@", error);
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
 }
 
 #pragma mark - SDLKeyboardDelegate
 
 - (void)userDidSubmitInput:(NSString *)inputText withEvent:(SDLKeyboardEvent)source {
+    SDLLogD(@"User did submit keyboard input: %@, with event: %@", inputText, source);
     if ([source isEqualToEnum:SDLKeyboardEventSubmitted]) {
         [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
     } else if ([source isEqualToEnum:SDLKeyboardEventVoice]) {
@@ -84,6 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)keyboardDidAbortWithReason:(SDLKeyboardEvent)event {
+    SDLLogW(@"Keyboard aborted with reason: %@", event);
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
 }
 
