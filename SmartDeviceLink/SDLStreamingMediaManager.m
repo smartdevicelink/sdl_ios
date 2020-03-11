@@ -126,7 +126,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 # pragma mark SDLStreamingProtocolDelegate
 
-- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
+- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol
+                                           toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol
+                                         fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol
+                                           toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol {
     BOOL videoProtocolUpdated = (oldVideoProtocol != newVideoProtocol);
     BOOL audioProtocolUpdated = (oldAudioProtocol != newAudioProtocol);
 
@@ -202,8 +205,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     self.audioProtocol = protocol;
     self.videoProtocol = protocol;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self startAudioWithProtocol:protocol];
     [self startVideoWithProtocol:protocol];
+#pragma clang diagnostic pop
 }
 
  - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
@@ -263,7 +270,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isVideoEncrypted {
     return self.videoLifecycleManager.isVideoEncrypted;
 }
-    
+
 - (BOOL)isVideoStreamingPaused {
     return self.videoLifecycleManager.isVideoStreamingPaused;
 }
