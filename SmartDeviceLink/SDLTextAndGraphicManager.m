@@ -286,15 +286,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleShowText:(SDLShow *)show {
     [self sdl_setBlankTextFieldsWithShow:show];
 
-    BOOL canShowMediaField = (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMediaTrack] : YES;
-    if (self.mediaTrackTextField != nil && canShowMediaField) {
+    if (self.mediaTrackTextField != nil && [self sdl_shouldUpdateMediaTextField]) {
         show.mediaTrack = self.mediaTrackTextField;
     } else {
         show.mediaTrack = @"";
     }
 
-    BOOL canShowTitle = (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTemplateTitle] : YES;
-    if (self.title != nil && canShowTitle) {
+    if (self.title != nil && [self sdl_shouldUpdateTitleField]) {
         show.templateTitle = self.title;
     } else {
         show.templateTitle = @"";
@@ -530,6 +528,14 @@ NS_ASSUME_NONNULL_BEGIN
             && self.secondaryGraphic != nil);
 }
 
+- (BOOL)sdl_shouldUpdateMediaTextField {
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMediaTrack] : YES;
+}
+
+- (BOOL)sdl_shouldUpdateTitleField {
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTemplateTitle] : YES;
+}
+
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {
     NSMutableArray *array = [NSMutableArray array];
     self.textField1.length > 0 ? [array addObject:self.textField1] : nil;
@@ -551,7 +557,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_hasData {
-    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0);
+    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0) || (self.title.length > 0) || (self.mediaTrackTextField.length > 0);
     BOOL hasImageFields = (self.primaryGraphic != nil) || (self.secondaryGraphic != nil);
 
     return hasTextFields || hasImageFields;
