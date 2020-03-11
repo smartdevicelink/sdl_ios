@@ -179,7 +179,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
-    SDLLogD(@"Starting with protocol: %@", self.protocol);
+    SDLLogD(@"Starting with protocol: %@", protocol);
     _protocol = protocol;
 
     @synchronized(self.protocol.protocolDelegateTable) {
