@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param name The name identifying this text field
 /// @param characterSet The character set of this text field
 /// @param width The number of characters per row allowed in this text field
-/// @param rows The number of rows allowed in this text field, deliniated by a newline character "\n"
+/// @param rows The number of rows allowed in this text field
 - (instancetype)initWithName:(SDLTextFieldName)name characterSet:(SDLCharacterSet)characterSet width:(NSUInteger)width rows:(NSUInteger)rows;
 
 @end
