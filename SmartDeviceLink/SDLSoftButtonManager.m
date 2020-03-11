@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     // Only update if something changed. This prevents, for example, an empty array being reset
     if (_softButtonObjects == softButtonObjects) {
-        SDLLogD(@"Set soft button objects are equivalent to existing soft button objects, skipping...");
+        SDLLogD(@"New soft button objects are equivalent to existing soft button objects, skipping...");
         return;
     }
 
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _softButtonObjects = softButtonObjects;
 
-    // We assume that all soft button capabilities are the same, so we only need to send one
+    // We only need to pass the first `softButtonCapabilities` in the array due to the fact that all soft button capabilities are the same (i.e. there is no way to assign a `softButtonCapabilities` to a specific soft button).
     SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities[0] softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
