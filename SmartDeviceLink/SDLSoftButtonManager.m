@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
+@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonObjects = @[];
     _currentMainField1 = nil;
     _currentLevel = nil;
-    _windowCapability = nil;
+    _softButtonCapabilities = nil;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -100,12 +100,10 @@ NS_ASSUME_NONNULL_BEGIN
     return queue;
 }
 
-/// Suspend the queue if the soft button capabilities are nil or there are no capability objects in the array (we assume that soft buttons are not supported)
+/// Suspend the queue if the soft button capabilities are nil (we assume that soft buttons are not supported)
 /// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
-    if (self.windowCapability.softButtonCapabilities == nil
-        || self.windowCapability.softButtonCapabilities.count == 0
-        || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+    if (self.softButtonCapabilities == nil || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
         self.transactionQueue.suspended = YES;
     } else {
         self.transactionQueue.suspended = NO;
@@ -142,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonObjects = softButtonObjects;
 
     // We only need to pass the first `softButtonCapabilities` in the array due to the fact that all soft button capabilities are the same (i.e. there is no way to assign a `softButtonCapabilities` to a specific soft button).
-    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         [self.batchQueue removeAllObjects];
@@ -154,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
-    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtons:self.softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.softButtonCapabilities softButtons:self.softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         for (SDLAsynchronousOperation *sbOperation in self.batchQueue) {
@@ -211,24 +209,31 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Observers
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    SDLSoftButtonCapabilities *oldCapabilities = self.softButtonCapabilities;
+
+    // Extract and update the capabilities
     NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
     if (capabilities == nil || capabilities.count == 0) {
-        self.windowCapability = nil;
+        self.softButtonCapabilities = nil;
     } else {
         SDLDisplayCapability *mainDisplay = capabilities[0];
         for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
             NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
             if (currentWindowID == SDLPredefinedWindowsDefaultWindow) {
-                self.windowCapability = windowCapability;
+                self.softButtonCapabilities = windowCapability.softButtonCapabilities.firstObject;
+                break;
             }
         }
     }
 
+    // Update the queue's suspend state
     [self sdl_updateTransactionQueueSuspended];
 
-    // Auto-send an updated Show to account for changes to the capabilities
-    if (self.softButtonObjects.count > 0 && self.windowCapability.softButtonCapabilities != nil) {
-        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
+    // Auto-send an updated Show if we have new capabilities
+    if (self.softButtonObjects.count > 0
+        && self.softButtonCapabilities != nil
+        && ![self.softButtonCapabilities isEqual:oldCapabilities]) {
+        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
         [self.transactionQueue addOperation:op];
     }
 }
