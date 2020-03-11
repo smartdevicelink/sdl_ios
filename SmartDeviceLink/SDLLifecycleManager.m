@@ -144,10 +144,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager systemCapabilityManager:_systemCapabilityManager];
     
-    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
-        [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
-        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
-        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
+    if ([self.class isStreamingConfiguration:self.configuration]) {
         _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
@@ -243,11 +240,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
-        if([self.configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
-           [self.configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
-           [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
-           [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
-            // We reuse our queue to run secondary transport manager's state machine
+        if ([self.class isStreamingConfiguration:self.configuration]) {
+            // Reuse the queue to run the secondary transport manager's state machine
             self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)self.streamManager serialQueue:self.lifecycleQueue];
             self.streamManager.secondaryTransportManager = self.secondaryTransportManager;
         }
@@ -715,6 +709,18 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 #pragma mark Helper Methods
+
++ (BOOL)isStreamingConfiguration:(SDLConfiguration *)configuration {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
+    [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
+    [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
+    [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
+        return YES;
+    }
+
+    return NO;
+}
+
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == INT32_MAX) {
         self.lastCorrelationId = 0;
