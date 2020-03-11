@@ -430,6 +430,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [self sdl_disposeDisplayLink];
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
+
+    if (!self.isAppStateVideoStreamCapable) {
+        SDLLogD(@"App is in the background and can not stream video. Video will resume when app is foregrounded");
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
+        return;
+    }
+
     if (self.videoEncoder == nil) {
         NSError* error = nil;
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
@@ -454,14 +462,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             self.backgroundingPixelBuffer = backgroundingPixelBuffer;
         }
         self.lastPresentationTimestamp = kCMTimeInvalid;
-    }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
-
-    if (!self.isAppStateVideoStreamCapable) {
-        SDLLogD(@"App is in the background and can not stream video. Video will resume when app is foregrounded");
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
-        return;
     }
 
     if (self.useDisplayLink) {
