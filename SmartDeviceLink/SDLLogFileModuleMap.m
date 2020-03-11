@@ -54,7 +54,7 @@
 }
 
 + (SDLLogFileModule *)sdl_secondaryTransportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport/Secondary" files:[NSSet setWithArray:@[@"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport/Secondary" files:[NSSet setWithArray:@[@"SDLSecondaryTransportManager"]]];
 }
 
 #pragma mark Low-Level
