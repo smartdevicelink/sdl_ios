@@ -14,9 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCacheFileManager : NSObject
 
-- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request;
-
-- (BOOL)sdlCacheDirectoryExists;
+- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request
+              withCompletionHandler: (void (^)(UIImage * __nullable image, NSError * __nullable error))completion;
 
 @end
 

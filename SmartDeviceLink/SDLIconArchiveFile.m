@@ -10,13 +10,17 @@
 
 @implementation SDLIconArchiveFile
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    self.lockScreenIconCaches = [decoder decodeObjectOfClass:[NSMutableArray self] forKey:@"lockScreenIconCaches"];
+    self.lockScreenIconCaches = [decoder decodeObjectOfClass:[NSArray self] forKey:@"lockScreenIconCaches"];
     
     return self;
 }

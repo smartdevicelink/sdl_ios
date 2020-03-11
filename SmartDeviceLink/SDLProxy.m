@@ -40,7 +40,6 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
-#import "SDLFileManager.h"
 #import "SDLIconArchiveFile.h"
 #import "SDLLockScreenIconCache.h"
 #import "SDLCacheFileManager.h"
@@ -574,7 +573,7 @@ static float DefaultConnectionTimeout = 45.0;
     if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
-        [self cacheIconFromSystemRequest:systemRequest];
+        [self sdl_handleSystemRequestLockScreenIconURL:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeIconURL]) {
         [self sdl_handleSystemRequestIconURL:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
@@ -804,12 +803,15 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
     // Initialize SDLCacheFileManager
     SDLCacheFileManager *cacheFileManager = [[SDLCacheFileManager alloc] init];
-    if ([cacheFileManager sdlCacheDirectoryExists]) {
-        
-    } else {
-        [self downloadIconFromRequest:request];
-    }
-
+    [cacheFileManager handleLockScreenIconRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        if (image != nil) {
+            // use this image
+        } else {
+            // we error
+        }
+    }];
+    
+    [self downloadIconFromRequest:request];
 }
 
 - (void)downloadIconFromRequest:(SDLOnSystemRequest *)request {

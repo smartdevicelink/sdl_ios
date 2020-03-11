@@ -8,6 +8,7 @@
 
 #import "SDLCacheFileManager.h"
 #import "SDLLockScreenIconCache.h"
+#import "SDLIconArchiveFile.h"
 
 @implementation SDLCacheFileManager
 
@@ -20,41 +21,74 @@
     return self;
 }
 
-- (BOOL)sdlCacheDirectoryExists {
+- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request
+              withCompletionHandler: (void (^)(UIImage * __nullable image, NSError * __nullable error))completion {
+    // create and save archive file to path
+    BOOL archiveExists = NO;
+    if (!archiveExists) {
+        // download image
+        [self createAndSaveArchiveFileFromRequest:request];
+    }
+}
+
+- (void)createAndSaveArchiveFileFromRequest:(SDLOnSystemRequest *)request {
+    NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDirectory;
-    BOOL fileExists = [fileManager fileExistsAtPath:[self sdl_cacheFileDirectory] isDirectory:&isDirectory];
-    
-    if (fileExists && isDirectory) {
-        return YES;
+
+    if (![fileManager fileExistsAtPath:[self sdl_cacheFileDirectory]]) {
+        [fileManager createDirectoryAtPath:[self sdl_cacheFileDirectory] withIntermediateDirectories:YES attributes:nil error:&error];
     }
     
-    return NO;
-}
-
-- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request {
-
-}
-
-- (void)cacheIconFromImage:(UIImage *)image {
-    [NSKeyedArchiver archiveRootObject:image toFile:[self sdl_cacheFileDirectory]];
-    [self cacheLockScreenIconCacheWithImagePath];
-}
-
-- (void)cacheLockScreenIconCacheWithImagePath {
+    SDLLockScreenIconCache *lockScreenIconCache = [[SDLLockScreenIconCache alloc] init];
+    lockScreenIconCache.iconUrl = request.url;
+    lockScreenIconCache.iconFilePath = [[self sdl_cacheFileDirectory] stringByAppendingPathComponent:@"test.png"];
+    lockScreenIconCache.lastModifiedDate = [NSDate date];
     
+    SDLIconArchiveFile *iconArchiveFile = [[SDLIconArchiveFile alloc] init];
+    iconArchiveFile.lockScreenIconCaches = [NSArray arrayWithObject:lockScreenIconCache];
+
+    NSString *archiveFilePath = [[self sdl_cacheFileDirectory] stringByAppendingPathComponent:@"archiveCacheFile"];
+    
+    if (@available(iOS 11.0, *)) {
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:iconArchiveFile requiringSecureCoding:YES error:&error];
+        BOOL writeSuccess = [data writeToFile:archiveFilePath atomically:YES];
+        if (!writeSuccess) {
+            NSLog(@"Error writing to file: %@", [error localizedDescription]);
+        }
+        [self printFileNamesFromPath:[self sdl_cacheFileDirectory]];
+        [self retrieveArchiveFileFromPath:[self sdl_cacheFileDirectory]];
+    } else {
+        [NSKeyedArchiver archiveRootObject:iconArchiveFile toFile:archiveFilePath];
+    }
+}
+
+- (void)retrieveArchiveFileFromPath:(NSString *)path {
+    NSString *archiveObjectPath = [path stringByAppendingPathComponent:@"archiveCacheFile"];
+    SDLIconArchiveFile *iconArchiveFile = [NSKeyedUnarchiver unarchiveObjectWithFile:archiveObjectPath];
+    for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
+        NSLog(@"%@", iconCache.iconUrl);
+    }
+}
+
+- (void)printFileNamesFromPath:(NSString *)path {
+    NSError *error;
+
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+    if (files == nil) {
+        NSLog(@"FILES ARE NIL %@", [error localizedDescription]);
+    }
+    
+    for (id filename in files) {
+        NSLog(@"%@", filename);
+    }
 }
 
 #pragma mark - Cache Files
 
 - (NSString *)sdl_cacheFileDirectory {
     NSString *cacheDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
-    [cacheDirectory stringByAppendingPathExtension:@"SDL"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:cacheDirectory]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:cacheDirectory withIntermediateDirectories:NO attributes:nil error:nil];
-    }
     
-    return cacheDirectory;
+    return [cacheDirectory stringByAppendingPathComponent:@"/sdl/lockScreenIcon/"];
 }
 
 @end

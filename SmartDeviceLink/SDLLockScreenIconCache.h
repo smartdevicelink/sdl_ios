@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLLockScreenIconCache : NSObject <NSCoding>
+@interface SDLLockScreenIconCache : NSObject <NSSecureCoding>
 
 @property (nonatomic) NSString *iconUrl;
 @property (nonatomic) NSString *iconFilePath;

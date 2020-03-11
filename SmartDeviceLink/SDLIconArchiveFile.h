@@ -10,9 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIconArchiveFile : NSObject <NSCoding>
+@interface SDLIconArchiveFile : NSObject <NSSecureCoding>
 
-@property (nonatomic) NSMutableArray *lockScreenIconCaches;
+@property (nonatomic) NSArray *lockScreenIconCaches;
 
 @end
 
