@@ -326,7 +326,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSeatMemoryAction.h',
 'SmartDeviceLink/SDLSeatMemoryActionType.h',
 'SmartDeviceLink/SDLSupportedSeat.h',
-'SmartDeviceLink/SDLSecondaryTransportDelegate.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLSendHapticData.h',
 'SmartDeviceLink/SDLSendHapticDataResponse.h',

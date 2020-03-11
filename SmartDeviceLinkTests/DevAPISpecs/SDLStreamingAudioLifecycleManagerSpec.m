@@ -513,21 +513,6 @@ describe(@"the streaming audio manager", ^{
             });
         });
     });
-
-    describe(@"destroying the protocol", ^{
-        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-
-        beforeEach(^{
-            [streamingLifecycleManager startWithProtocol:protocolMock];
-            expect(streamingLifecycleManager.protocol).toNot(beNil());
-
-            [streamingLifecycleManager destroyProtocol];
-        });
-
-        it(@"should destroy the protocol", ^{
-            expect(streamingLifecycleManager.protocol).to(beNil());
-        });
-    });
 });
 
 QuickSpecEnd

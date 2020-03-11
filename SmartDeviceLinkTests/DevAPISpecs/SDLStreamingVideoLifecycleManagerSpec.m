@@ -892,21 +892,6 @@ describe(@"the streaming video manager", ^{
         });
     });
 
-    describe(@"destroying the protocol", ^{
-        __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-
-        beforeEach(^{
-            [streamingLifecycleManager startWithProtocol:protocolMock];
-            expect(streamingLifecycleManager.protocol).toNot(beNil());
-
-            [streamingLifecycleManager destroyProtocol];
-        });
-
-        it(@"should destroy the protocol", ^{
-            expect(streamingLifecycleManager.protocol).to(beNil());
-        });
-    });
-
     describe(@"Creating a background video stream string", ^{
         __block NSString *expectedVideoStreamBackgroundString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", testAppName];
 

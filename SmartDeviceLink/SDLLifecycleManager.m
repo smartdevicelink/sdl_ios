@@ -77,7 +77,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 #pragma mark - SDLManager Private Interface
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLSecondaryTransportDelegate>
+@interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -249,7 +249,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
            [self.configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
             // We reuse our queue to run secondary transport manager's state machine
             self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)self.streamManager serialQueue:self.lifecycleQueue];
-            self.streamManager.secondaryTransportDelegate = self;
+            self.streamManager.secondaryTransportManager = self.secondaryTransportManager;
         }
 
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
@@ -881,12 +881,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         [self sdl_transitionToState:SDLLifecycleStateReconnecting];
     }
-}
-
-#pragma mark - SDLSecondaryTransportDelegate
-
-- (void)destroySecondaryTransport {
-    [self.secondaryTransportManager disconnectSecondaryTransport];
 }
 
 @end

@@ -215,12 +215,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
-/// Used internally to destroy the protocol after the secondary transport is shut down.
-- (void)destroyProtocol {
-    SDLLogD(@"Destroying protocol: %@", self.protocol);
-    self.protocol = nil;
-}
-
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     return [self sendVideoData:imageBuffer presentationTimestamp:kCMTimeInvalid];
 }

@@ -113,12 +113,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
-/// Used internally to destroy the protocol after the secondary transport is shut down.
-- (void)destroyProtocol {
-    SDLLogD(@"Destroying protocol: %@", self.protocol);
-    self.protocol = nil;
-}
-
 - (BOOL)sendAudioData:(NSData*)audioData {
     if (!self.isAudioConnected) {
         return NO;

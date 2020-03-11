@@ -12,6 +12,7 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingProtocolDelegate.h"
 #import "SDLStreamingVideoLifecycleManager.h"
@@ -27,7 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
 @property (assign, nonatomic) BOOL audioStarted;
 @property (assign, nonatomic) BOOL videoStarted;
-
+@property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
+@property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 @end
 
 
@@ -51,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self stopAudio];
     [self stopVideo];
 }
+
 
 #pragma mark Audio
 
@@ -84,6 +87,15 @@ NS_ASSUME_NONNULL_BEGIN
      [self streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
 }
 
+- (void)sdl_disconnectSecondaryTransport {
+    if (self.secondaryTransportManager == nil) {
+        SDLLogV(@"Attempting to disconnect a non-existent secondary transport. Returning.");
+        return;
+    }
+
+    [self.secondaryTransportManager disconnectSecondaryTransport];
+}
+
 #pragma mark Video
 
 /// Stops the video feature of the manager on the secondary transport.
@@ -97,10 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdl_destroyVideoProtocol {
-    [self.videoLifecycleManager destroyProtocol];
-}
-
 #pragma mark Audio
 
 /// Stops the audio feature of the manager on the secondary transport.
@@ -112,10 +120,6 @@ NS_ASSUME_NONNULL_BEGIN
         strongSelf.audioStarted = NO;
         return completionHandler();
     }];
-}
-
-- (void)sdl_destroyAudioProtocol {
-    [self.audioLifecycleManager destroyProtocol];
 }
 
 # pragma mark SDLStreamingProtocolDelegate
@@ -136,11 +140,10 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf sdl_stopVideoWithCompletionHandler:^ {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                if (strongSelf.secondaryTransportDelegate != nil) {
-                    [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
-                }
-                [strongSelf sdl_destroyAudioProtocol];
-                [strongSelf sdl_destroyVideoProtocol];
+                [strongSelf sdl_disconnectSecondaryTransport];
+                SDLLogV(@"Destroying the video and audio protocols");
+                self.videoProtocol = nil;
+                self.audioProtocol = nil;
                 [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
             }];
         }];
@@ -149,10 +152,9 @@ NS_ASSUME_NONNULL_BEGIN
          __weak typeof(self) weakSelf = self;
         [self sdl_stopVideoWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf.secondaryTransportDelegate != nil) {
-                [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
-            }
-            [strongSelf sdl_destroyVideoProtocol];
+            [strongSelf sdl_disconnectSecondaryTransport];
+            SDLLogV(@"Destroying the video protocol");
+            self.videoProtocol = nil;
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else if (oldAudioProtocol != nil) {
@@ -160,10 +162,9 @@ NS_ASSUME_NONNULL_BEGIN
          __weak typeof(self) weakSelf = self;
         [self sdl_stopAudioWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf.secondaryTransportDelegate != nil) {
-                [strongSelf.secondaryTransportDelegate destroySecondaryTransport];
-            }
-            [strongSelf sdl_destroyAudioProtocol];
+            [strongSelf sdl_disconnectSecondaryTransport];
+            SDLLogV(@"Destroying the audio protocol");
+            self.audioProtocol = nil;
             [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }];
     } else {
@@ -177,26 +178,32 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newVideoProtocol The new video protocol
 - (void)sdl_startNewProtocolForAudio:(nullable SDLProtocol *)newAudioProtocol forVideo:(nullable SDLProtocol *)newVideoProtocol {
     if (newAudioProtocol != nil) {
+        self.audioProtocol = newAudioProtocol;
         [self.audioLifecycleManager startWithProtocol:newAudioProtocol];
         self.audioStarted = YES;
     }
     if (newVideoProtocol != nil) {
+        self.videoProtocol = newVideoProtocol;
         [self.videoLifecycleManager startWithProtocol:newVideoProtocol];
         self.videoStarted = YES;
     }
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    self.audioProtocol = protocol;
+    self.videoProtocol = protocol;
     [self startAudioWithProtocol:protocol];
     [self startVideoWithProtocol:protocol];
 }
 
  - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
+    self.audioProtocol = protocol;
     [self.audioLifecycleManager startWithProtocol:protocol];
     self.audioStarted = YES;
 }
 
  - (void)startVideoWithProtocol:(SDLProtocol *)protocol {
+    self.videoProtocol = protocol;
     [self.videoLifecycleManager startWithProtocol:protocol];
     self.videoStarted = YES;
 }

@@ -1284,7 +1284,7 @@
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		8803DCEF22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8803DCED22C2B84B00FBB7CE /* SDLBackgroundTaskManager.h */; };
 		8803DCF022C2B84B00FBB7CE /* SDLBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803DCEE22C2B84B00FBB7CE /* SDLBackgroundTaskManager.m */; };
-		8805CDBD24166F1A00D645BF /* SDLSecondaryTransportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8805CDBB24166F1A00D645BF /* SDLSecondaryTransportDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8805CDBD24166F1A00D645BF /* SDLSecondaryTransportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8805CDBB24166F1A00D645BF /* SDLSecondaryTransportDelegate.h */; };
 		880723EB23A2CFB4003D0489 /* SDLLockScreenRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 880723E923A2CFB4003D0489 /* SDLLockScreenRootViewController.h */; };
 		880723EC23A2CFB4003D0489 /* SDLLockScreenRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 880723EA23A2CFB4003D0489 /* SDLLockScreenRootViewController.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };

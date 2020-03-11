@@ -8,9 +8,9 @@
 
 #import "SDLConfiguration.h"
 #import "SDLProtocol.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLStreamingProtocolDelegate.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "TestConnectionManager.h"
@@ -21,6 +21,8 @@
 @property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
 @property (assign, nonatomic) BOOL audioStarted;
 @property (assign, nonatomic) BOOL videoStarted;
+@property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
+@property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 
 - (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
@@ -32,19 +34,22 @@ describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaManager *testStreamingMediaManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLConfiguration *testConfiguration = nil;
+    __block SDLSecondaryTransportManager *mockSecondaryTransportManager = nil;
     __block SDLStreamingVideoLifecycleManager *mockVideoLifecycleManager = nil;
     __block SDLStreamingAudioLifecycleManager *mockAudioLifecycleManager = nil;
-    __block id<SDLSecondaryTransportDelegate> mockSecondaryTransportDelegate = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testStreamingMediaManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+
         mockVideoLifecycleManager = OCMClassMock([SDLStreamingVideoLifecycleManager class]);
-        mockAudioLifecycleManager = OCMClassMock([SDLStreamingAudioLifecycleManager class]);
-        mockSecondaryTransportDelegate = OCMProtocolMock(@protocol(SDLSecondaryTransportDelegate));
-        testStreamingMediaManager.audioLifecycleManager = mockAudioLifecycleManager;
         testStreamingMediaManager.videoLifecycleManager = mockVideoLifecycleManager;
-        testStreamingMediaManager.secondaryTransportDelegate = mockSecondaryTransportDelegate;
+
+        mockAudioLifecycleManager = OCMClassMock([SDLStreamingAudioLifecycleManager class]);
+        testStreamingMediaManager.audioLifecycleManager = mockAudioLifecycleManager;
+
+        mockSecondaryTransportManager = OCMClassMock([SDLSecondaryTransportManager class]);
+        testStreamingMediaManager.secondaryTransportManager = mockSecondaryTransportManager;
     });
 
     context(@"when stop is called", ^{
@@ -285,6 +290,7 @@ describe(@"the streaming media manager", ^{
             it(@"should start both the audio and video stream managers with the protocol", ^{
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockProtocol]);
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockProtocol]);
+                
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
@@ -316,23 +322,28 @@ describe(@"the streaming media manager", ^{
                 expect(testStreamingMediaManager.audioStarted).to(beFalse());
                 expect(testStreamingMediaManager.videoStarted).to(beFalse());
 
-                OCMVerify([mockAudioLifecycleManager destroyProtocol]);
-                OCMVerify([mockVideoLifecycleManager destroyProtocol]);
-
                 OCMReject([mockAudioLifecycleManager startWithProtocol:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager startWithProtocol:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
+
+                expect(testStreamingMediaManager.audioProtocol).to(beNil());
+                expect(testStreamingMediaManager.videoProtocol).to(beNil());
             });
         });
 
-        describe(@"switching a service to a different transport", ^{
-            __block SDLProtocol *mockOldProtocol = nil;
-            __block SDLProtocol *mockNewProtocol = nil;
+        describe(@"switching both the video and audio services to a different transport", ^{
+            __block SDLProtocol *mockOldVideoProtocol = nil;
+            __block SDLProtocol *mockNewVideoProtocol = nil;
+            __block SDLProtocol *mockOldAudioProtocol = nil;
+            __block SDLProtocol *mockNewAudioProtocol = nil;
 
             beforeEach(^{
-                mockOldProtocol = OCMClassMock([SDLProtocol class]);
-                mockNewProtocol = OCMClassMock([SDLProtocol class]);
+                mockOldVideoProtocol = OCMClassMock([SDLProtocol class]);
+                mockNewVideoProtocol = OCMClassMock([SDLProtocol class]);
+                mockOldAudioProtocol = OCMClassMock([SDLProtocol class]);
+                mockNewAudioProtocol = OCMClassMock([SDLProtocol class]);
+
 
                 OCMStub([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
                     void (^handler)(void);
@@ -346,23 +357,23 @@ describe(@"the streaming media manager", ^{
                     handler();
                 });
 
-                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
+                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:mockOldVideoProtocol toNewVideoProtocol:mockNewVideoProtocol fromOldAudioProtocol:mockOldAudioProtocol toNewAudioProtocol:mockNewAudioProtocol];
             });
 
             it(@"should stop both the audio and video stream managers and call the delegate then start a new session", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
 
-                OCMVerify([mockAudioLifecycleManager destroyProtocol]);
-                OCMVerify([mockVideoLifecycleManager destroyProtocol]);
-
-                OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
-                OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
+                OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewAudioProtocol]);
+                OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewVideoProtocol]);
 
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
+
+                expect(testStreamingMediaManager.audioProtocol).to(equal(mockNewAudioProtocol));
+                expect(testStreamingMediaManager.videoProtocol).to(equal(mockNewVideoProtocol));
             });
         });
 
@@ -387,16 +398,16 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
-
-                OCMVerify([mockVideoLifecycleManager destroyProtocol]);
-                OCMReject([mockAudioLifecycleManager destroyProtocol]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
 
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
                 OCMReject([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beFalse());
+
+                expect(testStreamingMediaManager.audioProtocol).to(beNil());
+                expect(testStreamingMediaManager.videoProtocol).to(equal(mockNewProtocol));
             });
         });
 
@@ -421,16 +432,16 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportDelegate destroySecondaryTransport]);
-
-                OCMVerify([mockAudioLifecycleManager destroyProtocol]);
-                OCMReject([mockVideoLifecycleManager destroyProtocol]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
 
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
 
                 OCMReject([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beFalse());
+
+                expect(testStreamingMediaManager.audioProtocol).to(equal(mockNewProtocol));
+                expect(testStreamingMediaManager.videoProtocol).to(beNil());
             });
         });
     });

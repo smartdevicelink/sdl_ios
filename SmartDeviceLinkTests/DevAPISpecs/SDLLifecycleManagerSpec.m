@@ -29,7 +29,6 @@
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLSecondaryTransportDelegate.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
@@ -747,38 +746,9 @@ describe(@"a lifecycle manager", ^{
             });
 
             it(@"should create a secondary transport manager", ^{
+                expect(testManager.streamManager).toNot(beNil());
                 expect(testManager.secondaryTransportManager).toNot(beNil());
-                expect(testManager.streamManager.secondaryTransportDelegate).toNot(beNil());
             });
-        });
-    });
-
-    describe(@"shutting down the secondary transport", ^{
-        __block SDLLifecycleConfiguration *lifecycleConfig = nil;
-        __block SDLLifecycleManager *testManager = nil;
-        __block SDLSecondaryTransportManager *mockSecondaryTransportManager = nil;
-        __block SDLStreamingMediaManager *mockStreamingMediaManager = nil;
-
-        beforeEach(^{
-            lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test app" fullAppId:@"Test ID"];
-            lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsTCP;
-            lifecycleConfig.appType = SDLAppHMITypeProjection;
-            SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil streamingMedia:SDLStreamingMediaConfiguration.insecureConfiguration fileManager:nil];
-            testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
-
-            mockSecondaryTransportManager = OCMClassMock([SDLSecondaryTransportManager class]);
-            testManager.secondaryTransportManager = mockSecondaryTransportManager;
-
-            mockStreamingMediaManager = OCMClassMock([SDLStreamingMediaManager class]);
-            testManager.streamManager = mockStreamingMediaManager;
-
-            OCMStub([testManager.streamManager secondaryTransportDelegate]).andReturn(testManager);
-        });
-
-        it(@"it should shutdown the secondary transport when the delegate object is called", ^{
-            [[testManager.streamManager secondaryTransportDelegate] destroySecondaryTransport];
-
-            OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
         });
     });
 });

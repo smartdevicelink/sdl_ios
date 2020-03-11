@@ -9,18 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLSecondaryTransportDelegate.h"
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAudioStreamManager;
 @class SDLConfiguration;
 @class SDLProtocol;
+@class SDLSecondaryTransportManager;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
 @protocol SDLFocusableItemLocatorType;
 @protocol SDLConnectionManagerType;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -115,8 +116,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
-/// A delegate callback that notifies when the secondary transport state should change.
-@property (weak, nonatomic, nullable) id<SDLSecondaryTransportDelegate> secondaryTransportDelegate;
+/// The manager for handling streaming over a secondary transport
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 
 #pragma mark - Lifecycle
 
@@ -190,7 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  */
-- (void)startWithProtocol:(SDLProtocol *)protocol;
+- (void)startWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
 
  /**
   *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

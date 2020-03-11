@@ -326,7 +326,6 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSeatLocationCapability.h',
 'SmartDeviceLink/SDLSeatMemoryAction.h',
 'SmartDeviceLink/SDLSeatMemoryActionType.h',
-'SmartDeviceLink/SDLSecondaryTransportDelegate.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLSendHapticData.h',
 'SmartDeviceLink/SDLSendHapticDataResponse.h',
