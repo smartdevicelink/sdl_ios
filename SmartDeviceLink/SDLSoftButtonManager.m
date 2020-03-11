@@ -104,8 +104,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
     if (self.softButtonCapabilities == nil || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@, soft button capabilities are nil: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), (self.softButtonCapabilities == nil ? @"YES" : @"NO"));
         self.transactionQueue.suspended = YES;
     } else {
+        SDLLogD(@"Starting the transaction queue");
         self.transactionQueue.suspended = NO;
     }
 }
