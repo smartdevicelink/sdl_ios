@@ -40,7 +40,7 @@
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (strong, nonatomic, nullable, readwrite) SDLWindowCapability *windowCapability;
+@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
@@ -96,7 +96,7 @@ describe(@"a soft button manager", ^{
 
         SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
         windowCapability.softButtonCapabilities = @[softButtonCapabilities];
-        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[windowCapability]];
+        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
         [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
     });
 
@@ -108,7 +108,7 @@ describe(@"a soft button manager", ^{
         expect(testManager.currentMainField1).to(beNil());
         expect(testManager.transactionQueue).toNot(beNil());
         expect(testManager.transactionQueue.isSuspended).to(beFalse());
-        expect(testManager.windowCapability).toNot(beNil());
+        expect(testManager.softButtonCapabilities).toNot(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelFull));
 
         // These are set up earlier for future tests and therefore won't be nil
@@ -137,7 +137,7 @@ describe(@"a soft button manager", ^{
     context(@"when there are no soft button capabilities", ^{
         beforeEach(^{
             SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[windowCapability]];
+            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
             [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
         });
 
@@ -169,21 +169,6 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        describe(@"while batching", ^{
-            beforeEach(^{
-                testManager.batchUpdates = YES;
-
-                [testObject1 transitionToNextState];
-                [testObject2 transitionToNextState];
-                testManager.softButtonObjects = @[testObject2, testObject1];
-            });
-
-            it(@"should properly queue the batching updates", ^{
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.batchQueue).to(haveCount(1));
-            });
-        });
-
         it(@"should set soft buttons correctly", ^{
             expect(testManager.softButtonObjects).toNot(beNil());
             expect(testObject1.buttonId).to(equal(0));
@@ -191,6 +176,7 @@ describe(@"a soft button manager", ^{
             expect(testObject1.manager).to(equal(testManager));
             expect(testObject2.manager).to(equal(testManager));
 
+            // One replace operation
             expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
 
@@ -205,6 +191,21 @@ describe(@"a soft button manager", ^{
 
         it(@"should retrieve soft buttons correctly", ^{
             expect([testManager softButtonObjectNamed:object1Name].name).to(equal(object1Name));
+        });
+
+        describe(@"while batching", ^{
+            beforeEach(^{
+                testManager.batchUpdates = YES;
+
+                [testObject1 transitionToNextState];
+                [testObject2 transitionToNextState];
+                testManager.softButtonObjects = @[testObject2, testObject1];
+            });
+
+            it(@"should properly queue the batching updates", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+                expect(testManager.batchQueue).to(haveCount(1));
+            });
         });
 
         context(@"when the HMI level is now NONE", ^{
@@ -274,7 +275,7 @@ describe(@"a soft button manager", ^{
             expect(testManager.currentMainField1).to(beNil());
             expect(testManager.transactionQueue.operationCount).to(equal(0));
             expect(testManager.currentLevel).to(beNil());
-            expect(testManager.windowCapability).to(beNil());
+            expect(testManager.softButtonCapabilities).to(beNil());
         });
     });
 });

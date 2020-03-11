@@ -119,7 +119,6 @@ describe(@"choice set manager tests", ^{
             beforeEach(^{
                 testManager.transactionQueue.suspended = YES;
                 testManager.currentHMILevel = SDLHMILevelFull;
-                testManager.currentSystemContext = SDLSystemContextMain;
                 testManager.currentWindowCapability = enabledWindowCapability;
             });
 
@@ -133,20 +132,10 @@ describe(@"choice set manager tests", ^{
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
             });
 
-            it(@"should enable the queue when entering SystemContext Main", ^{
-                testManager.currentSystemContext = SDLSystemContextAlert;
-
-                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
-                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
-                [testManager sdl_hmiStatusNotification:notification];
-
-                expect(testManager.transactionQueue.isSuspended).to(beFalse());
-            });
-
             it(@"should enable the queue when receiving a good window capability", ^{
                 testManager.currentWindowCapability = disabledWindowCapability;
 
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[enabledWindowCapability]];
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[enabledWindowCapability] windowTypeSupported:nil];
                 [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
 
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
@@ -157,7 +146,6 @@ describe(@"choice set manager tests", ^{
             beforeEach(^{
                 testManager.transactionQueue.suspended = NO;
                 testManager.currentHMILevel = SDLHMILevelFull;
-                testManager.currentSystemContext = SDLSystemContextMain;
                 testManager.currentWindowCapability = enabledWindowCapability;
             });
 
@@ -169,31 +157,15 @@ describe(@"choice set manager tests", ^{
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
 
-            it(@"should suspend the queue when entering SystemContext Alert", ^{
-                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextAlert audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
-                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
-                [testManager sdl_hmiStatusNotification:notification];
-
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-            });
-
-            it(@"should suspend the queue when entering SystemContext HMIObscured", ^{
-                SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextHMIObscured audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:@0];
-                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
-                [testManager sdl_hmiStatusNotification:notification];
-
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-            });
-
             it(@"should suspend the queue when receiving a bad display capability", ^{
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[disabledWindowCapability]];
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[disabledWindowCapability] windowTypeSupported:nil];
                 [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
 
             it(@"should not suspend the queue when receiving an empty display capability", ^{
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowTypeSupported:nil windowCapabilities:@[blankWindowCapability]];
+                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[blankWindowCapability] windowTypeSupported:nil];
                 [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
