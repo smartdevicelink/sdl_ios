@@ -347,7 +347,7 @@ struct TransportProtocolUpdated {
 
     if (audioTransportUpdated.newProtocol == audioTransportUpdated.oldProtocol && videoTransportUpdated.newProtocol == videoTransportUpdated.oldProtocol) { return; }
 
-    [self.streamingProtocolDelegate streamingServiceProtocolDidUpdateFromOldVideoProtocol:videoTransportUpdated.oldProtocol toNewVideoProtocol:videoTransportUpdated.newProtocol fromOldAudioProtocol:audioTransportUpdated.oldProtocol toNewAudioProtocol:audioTransportUpdated.newProtocol];
+    [self.streamingProtocolDelegate didUpdateFromOldVideoProtocol:videoTransportUpdated.oldProtocol toNewVideoProtocol:videoTransportUpdated.newProtocol fromOldAudioProtocol:audioTransportUpdated.oldProtocol toNewAudioProtocol:audioTransportUpdated.newProtocol];
 }
 
 - (struct TransportProtocolUpdated)sdl_updateService:(UInt8)service allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList primaryAvailable:(BOOL)primaryTransportAvailable secondaryAvailable:(BOOL)secondaryTransportAvailable {

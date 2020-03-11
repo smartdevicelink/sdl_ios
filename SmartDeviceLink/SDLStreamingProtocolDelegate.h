@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newVideoProtocol protocol instance that will be used for video streaming
 /// @param oldAudioProtocol protocol instance that was being used for audio streaming
 /// @param newAudioProtocol protocol instance that will be used for audio streaming
-- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
+- (void)didUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
 @end
 

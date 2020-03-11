@@ -648,7 +648,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // if startWithProtocol has not been called yet, abort here
     if (self.protocol == nil) {
-        SDLLogV(@"No session established with head unit. HMI status is not relevant.");
+        SDLLogW(@"No session established with head unit. HMI status is not relevant.");
         return;
     }
 

@@ -24,7 +24,7 @@
 @property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
 @property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 
-- (void)streamingServiceProtocolDidUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
+- (void)didUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
 @end
 
@@ -313,7 +313,7 @@ describe(@"the streaming media manager", ^{
                     handler();
                 });
 
-                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:nil fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:nil];
+                [testStreamingMediaManager didUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:nil fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:nil];
             });
 
             it(@"should stop both the audio and video stream managers", ^{
@@ -357,7 +357,7 @@ describe(@"the streaming media manager", ^{
                     handler();
                 });
 
-                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:mockOldVideoProtocol toNewVideoProtocol:mockNewVideoProtocol fromOldAudioProtocol:mockOldAudioProtocol toNewAudioProtocol:mockNewAudioProtocol];
+                [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldVideoProtocol toNewVideoProtocol:mockNewVideoProtocol fromOldAudioProtocol:mockOldAudioProtocol toNewAudioProtocol:mockNewAudioProtocol];
             });
 
             it(@"should stop both the audio and video stream managers and call the delegate then start a new session", ^{
@@ -391,7 +391,7 @@ describe(@"the streaming media manager", ^{
                     handler();
                 });
 
-                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:nil toNewAudioProtocol:nil];
+                [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:nil toNewAudioProtocol:nil];
             });
 
             it(@"should stop the video stream manager but not the audio stream manager", ^{
@@ -425,7 +425,7 @@ describe(@"the streaming media manager", ^{
                     handler();
                 });
 
-                [testStreamingMediaManager streamingServiceProtocolDidUpdateFromOldVideoProtocol:nil toNewVideoProtocol:nil fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
+                [testStreamingMediaManager didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:nil fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
             });
 
             it(@"should stop the audio stream manager but not the video stream manager", ^{
