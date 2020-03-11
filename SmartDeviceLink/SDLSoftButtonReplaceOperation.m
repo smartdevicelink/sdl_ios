@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButtonReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(SDLSoftButtonCapabilities *)capabilities softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1 {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1 {
     self = [super init];
     if (!self) { return nil; }
 

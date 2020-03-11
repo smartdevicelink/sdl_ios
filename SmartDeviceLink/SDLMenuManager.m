@@ -208,8 +208,12 @@ UInt32 const MenuCellIdMin = 1;
     SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
 
     [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
+        if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
+            SDLLogW(@"Warning opening application menu: %@", error);
+        } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
             SDLLogE(@"Error opening application menu: %@", error);
+        } else {
+            SDLLogD(@"Successfully opened application main menu");
         }
     }];
 
@@ -231,8 +235,12 @@ UInt32 const MenuCellIdMin = 1;
     SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
 
     [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Error opening application to submenu cell: %@, with error: %@", cell, error);
+        if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
+            SDLLogW(@"Warning opening application menu to submenu cell %@, with error: %@", cell, error);
+        } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            SDLLogE(@"Error opening application menu to submenu cell %@, with error: %@", cell, error);
+        } else {
+            SDLLogD(@"Successfully opened application menu to submenu cell: %@", cell);
         }
     }];
 

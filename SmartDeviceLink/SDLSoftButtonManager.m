@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonObjects = softButtonObjects;
 
     // We assume that all soft button capabilities are the same, so we only need to send one
-    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities[0] softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.windowCapability.softButtonCapabilities.firstObject softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         [self.batchQueue removeAllObjects];
