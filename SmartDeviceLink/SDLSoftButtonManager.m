@@ -100,6 +100,8 @@ NS_ASSUME_NONNULL_BEGIN
     return queue;
 }
 
+/// Suspend the queue if the soft button capabilities are nil or there are no capability objects in the array (we assume that soft buttons are not supported)
+/// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
     if (self.windowCapability.softButtonCapabilities == nil
         || self.windowCapability.softButtonCapabilities.count == 0
