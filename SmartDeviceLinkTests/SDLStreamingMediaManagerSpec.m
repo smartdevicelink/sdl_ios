@@ -285,6 +285,9 @@ describe(@"the streaming media manager", ^{
         describe(@"starting a service on a transport when none is running", ^{
             beforeEach(^{
                 [testStreamingMediaManager startSecondaryTransportWithProtocol:mockProtocol];
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should start both the audio and video stream managers with the protocol", ^{
