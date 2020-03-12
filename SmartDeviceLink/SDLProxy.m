@@ -765,14 +765,17 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
     SDLCacheFileManager *cacheFileManager = [[SDLCacheFileManager alloc] init];
     __weak typeof(self) weakSelf = self;
+    
     [cacheFileManager handleLockScreenIconRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (image != nil) {
             [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:image];
-        } else {
+        } else if (error != nil) {
             // we error
+            
         }
     }];
+
 }
 
 - (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
