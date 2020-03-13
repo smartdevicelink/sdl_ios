@@ -41,14 +41,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.shouldShowLockScreen = NO;
 
     if (self.lockWindow == nil) {
+        if (completionHandler != nil) {
+            completionHandler();
+        }
         return;
     }
 
     // Dismiss and destroy the lockscreen window
+    __weak typeof(self) weakSelf = self;
     [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
         if (success) {
-            self.lockWindow = nil;
-            self.lockViewController = nil;
+            strongSelf.lockWindow = nil;
+            strongSelf.lockViewController = nil;
         }
 
         if (completionHandler != nil) {
@@ -63,27 +69,30 @@ NS_ASSUME_NONNULL_BEGIN
     // Store the expected state of the lockscreen
     self.shouldShowLockScreen = show;
 
+    __weak typeof(self) weakSelf = self;
     if (show) {
         [self sdl_presentWithCompletionHandler:^{
-            if (self.shouldShowLockScreen) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf.shouldShowLockScreen) {
                 if (completionHandler != nil) { completionHandler(); }
                 return;
             }
 
             SDLLogV(@"The lockscreen has been presented but needs to be dismissed");
-            [self sdl_dismissWithCompletionHandler:^(BOOL success) {
+            [strongSelf sdl_dismissWithCompletionHandler:^(BOOL success) {
                 if (completionHandler != nil) { completionHandler(); }
             }];
         }];
     } else {
         [self sdl_dismissWithCompletionHandler:^(BOOL success) {
-            if (!self.shouldShowLockScreen) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf.shouldShowLockScreen) {
                 if (completionHandler != nil) { completionHandler(); }
                 return;
             }
 
             SDLLogV(@"The lockscreen has been dismissed but needs to be presented");
-            [self sdl_presentWithCompletionHandler:completionHandler];
+            [strongSelf sdl_presentWithCompletionHandler:completionHandler];
         }];
     }
 }
