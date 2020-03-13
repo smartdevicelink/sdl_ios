@@ -13,7 +13,6 @@
 #import <CommonCrypto/CommonDigest.h>
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
-typedef void (^CacheImageReturnCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
 
 static float DefaultConnectionTimeout = 45.0;
 
@@ -39,48 +38,47 @@ static float DefaultConnectionTimeout = 45.0;
     return self;
 }
 
-- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
+- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request
+              withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
     
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    UIImage *icon;
     
+    // Edge Case 4: Directory Doesn't Exist, Create It
     if (![fileManager fileExistsAtPath:[self sdl_cacheFileBaseDirectory]]) {
         [fileManager createDirectoryAtPath:[self sdl_cacheFileBaseDirectory] withIntermediateDirectories:YES attributes:nil error:&error];
         
-        // Edge Case 4: Directory Doesn't Exist, Create It
         [self downloadIconAndSetPathFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
             if (error != nil) {
-                return;
+                return completion(nil, error);
             }
-            completion(icon, nil);
+            return completion(image, nil);
         }];
         
     } else {
-        // search for icon at path
-        [self printFileNamesFromPath:[self sdl_cacheFileBaseDirectory]];
-        
+        // Directory exists, attempt to grab icon
         [self getIconAtPath:[self sdl_cacheFileBaseDirectory] fromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-            if (image != nil) {
-                completion(image, nil);
-            } else {
-                completion(nil, error);
+            if (error != nil) {
+                return completion(nil, error);
             }
+            return completion(image, nil);
         }];
     }
 }
 
 #pragma mark - Cache Saving, Retrieving, Deletion Methods
 
-- (void)getIconAtPath:(NSString *)path fromRequest:(SDLOnSystemRequest *)request withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
-    UIImage *icon;
+- (void)getIconAtPath:(NSString *)path
+          fromRequest:(SDLOnSystemRequest *)request
+withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
     
-    SDLIconArchiveFile *iconArchiveFile = [self retrieveArchiveFileFromPath:path];
     // Edge Case 5: Check if no archive file exists
+    SDLIconArchiveFile *iconArchiveFile = [self retrieveArchiveFileFromPath:path];
     if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
-        [self clearIconDirectoryAndDownloadIconFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        // Clear directory and re-download icon
+        [self clearLockScreenDirectoryAndDownloadIconFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
             if (error != nil) {
-                return;
+                return completion(nil, error);
             }
             return completion(image, nil);
         }];
@@ -90,11 +88,12 @@ static float DefaultConnectionTimeout = 45.0;
         if ([iconCache.iconUrl isEqualToString:request.url] && [self.class numberOfDaysFromDateCreated:iconCache.lastModifiedDate] < 30) {
             // Edge Case 2: Icon exists and is not expired
             NSString *imageFilePath = [path stringByAppendingPathComponent:[self.class sdl_md5HashFromString:request.url]];
-            icon = [UIImage imageWithContentsOfFile:imageFilePath];
+            UIImage *icon = [UIImage imageWithContentsOfFile:imageFilePath];
             
             // Edge Case 6: Check if icon is nil at path
             if (icon == nil) {
-                [self clearIconDirectoryAndDownloadIconFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                // Clear directory and re-download icon
+                [self clearLockScreenDirectoryAndDownloadIconFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
                     if (error != nil) {
                         return;
                     }
@@ -106,98 +105,20 @@ static float DefaultConnectionTimeout = 45.0;
         } else if ([iconCache.iconUrl isEqualToString:request.url] && [self.class numberOfDaysFromDateCreated:iconCache.lastModifiedDate] >= 30)  {
             // Handle Expired Icon: Edge Case 1
             [self updateExpiredIconFromRequest:request archiveFile:iconArchiveFile withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                if (error != nil) {
+                    return completion(nil, error);
+                }
                 return completion(image, nil);
             }];
         } else {
             // Edge Case 3: Handle unique icon
             [self downloadNewIconFromRequest:request withArchiveFile:iconArchiveFile andCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-                
+                if (error != nil) {
+                    return completion(nil, error);
+                }
+                return completion(image, nil);
             }];
         }
-    }
-}
-
-- (void)downloadNewIconFromRequest:(SDLOnSystemRequest *)request
-                   withArchiveFile:(SDLIconArchiveFile *)archiveFile
-              andCompletionHandler:(CacheImageReturnCompletionHandler)completion {
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {
-            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
-            completion(nil, error);
-        }
-        
-        UIImage *icon = [UIImage imageWithData:data];
-        NSString *iconFilePath = [self setFilePathWithImage:icon andRequestUrl:request.url];
-        
-        // Edge Case 7/8: If we fail to set the icon file path, try to use downloaded icon anyways
-        if (iconFilePath == nil) {
-            completion(icon, nil);
-        }
-        
-        [self updateArchiveFile:archiveFile fromRequest:request andIconFilePath:iconFilePath withNewIcon:YES];
-        completion(icon, nil);
-    }];
-}
-
-#pragma mark - Handle Expired Icon
-
-- (void)updateExpiredIconFromRequest:(SDLOnSystemRequest *)request archiveFile:(SDLIconArchiveFile *)archiveFile withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
-                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {
-            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
-            completion(nil, error);
-        }
-        
-        UIImage *icon = [UIImage imageWithData:data];
-        NSString *iconFilePath = [self setFilePathWithImage:icon andRequestUrl:request.url];
-        
-        // Edge Case 7/8: If we fail to set the icon file path, try to use downloaded icon anyways
-        if (iconFilePath == nil) {
-            completion(icon, nil);
-        }
-        
-        [self updateArchiveFile:archiveFile fromRequest:request andIconFilePath:iconFilePath withNewIcon:NO];
-        completion(icon, nil);
-    }];
-}
-
-- (void)updateArchiveFile:(SDLIconArchiveFile *)archiveFile fromRequest:(SDLOnSystemRequest *)request andIconFilePath:(NSString *)filePath withNewIcon:(BOOL)isNewIcon {
-    NSError *error;
-    NSString *archiveFilePath = [self sdl_archiveFileDirectory];
-    NSMutableArray *archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
-    
-    if (isNewIcon == NO) {
-        // Update Archive File
-        for (SDLLockScreenIconCache *iconCacheCopy in archiveArray) {
-            if ([iconCacheCopy.iconUrl isEqualToString:request.url]) {
-                [archiveArray removeObject:iconCacheCopy];
-            }
-        }
-        
-        SDLLockScreenIconCache *updatedIconCache = [[SDLLockScreenIconCache alloc] init];
-        updatedIconCache.iconFilePath = filePath;
-        updatedIconCache.iconUrl = request.url;
-        updatedIconCache.lastModifiedDate = [NSDate date];
-        [archiveArray addObject:updatedIconCache];
-        
-        archiveFile.lockScreenIconCaches = archiveArray;
-    } else {
-        // Add Icon Cache to array
-        SDLLockScreenIconCache *newIconCache = [[SDLLockScreenIconCache alloc] init];
-        newIconCache.iconFilePath = filePath;
-        newIconCache.iconUrl = request.url;
-        newIconCache.lastModifiedDate = [NSDate date];
-        [archiveArray addObject:newIconCache];
-        
-        archiveFile.lockScreenIconCaches = archiveArray;
-    }
-    
-    if (@available(iOS 11.0, *)) {
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:archiveFile requiringSecureCoding:YES error:&error];
-        [data writeToFile:archiveFilePath atomically:YES];
-    } else {
-        [NSKeyedArchiver archiveRootObject:archiveFile toFile:archiveFilePath];
     }
 }
 
@@ -218,7 +139,7 @@ static float DefaultConnectionTimeout = 45.0;
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:iconArchiveFile requiringSecureCoding:YES error:&error];
         BOOL writeSuccess = [data writeToFile:archiveFilePath atomically:YES];
         if (!writeSuccess) {
-            // Error writing to file
+            NSLog(@"Could not write file to specified path: %@", error);
         }
     } else {
         [NSKeyedArchiver archiveRootObject:iconArchiveFile toFile:archiveFilePath];
@@ -232,7 +153,8 @@ static float DefaultConnectionTimeout = 45.0;
     return iconArchiveFile;
 }
 
-- (void)clearIconDirectoryAndDownloadIconFromRequest:(SDLOnSystemRequest *)request withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
+- (void)clearLockScreenDirectoryAndDownloadIconFromRequest:(SDLOnSystemRequest *)request
+                               withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *directory = [self sdl_cacheFileBaseDirectory];
     NSError *error;
@@ -244,26 +166,12 @@ static float DefaultConnectionTimeout = 45.0;
         }
     }
     
-    [self printFileNamesFromPath:directory];
-    
     [self downloadIconAndSetPathFromRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        if (image != nil) {
-            return completion(image, nil);
+        if (error != nil) {
+            return completion(nil, error);
         }
+        return completion(image, nil);
     }];
-}
-
-- (void)printFileNamesFromPath:(NSString *)path {
-    NSError *error;
-    
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
-    if (files == nil) {
-        NSLog(@"FILES ARE NIL %@", [error localizedDescription]);
-    }
-    
-    for (id filename in files) {
-        NSLog(@"File name: %@", filename);
-    }
 }
 
 - (nullable NSString *)setFilePathWithImage:(UIImage *)icon andRequestUrl:(NSString *)urlString {
@@ -274,6 +182,74 @@ static float DefaultConnectionTimeout = 45.0;
     [iconPngData writeToFile:imageFilePath atomically:YES];
     
     return imageFilePath;
+}
+
+#pragma mark - Handle Expired Icon
+
+- (void)updateExpiredIconFromRequest:(SDLOnSystemRequest *)request
+                         archiveFile:(SDLIconArchiveFile *)archiveFile
+               withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
+            completion(nil, error);
+        }
+        
+        UIImage *icon = [UIImage imageWithData:data];
+        NSString *iconFilePath = [self setFilePathWithImage:icon andRequestUrl:request.url];
+        
+        // Edge Case 7/8: If we fail to set the icon file path, try to use downloaded icon anyways
+        if (iconFilePath == nil) {
+            completion(icon, nil);
+        }
+        
+        [self updateArchiveFile:archiveFile fromRequest:request andIconFilePath:iconFilePath withNewIcon:NO];
+        completion(icon, nil);
+    }];
+}
+
+- (void)updateArchiveFile:(SDLIconArchiveFile *)archiveFile
+              fromRequest:(SDLOnSystemRequest *)request
+          andIconFilePath:(NSString *)filePath
+              withNewIcon:(BOOL)isNewIcon {
+    NSError *error;
+    NSString *archiveFilePath = [self sdl_archiveFileDirectory];
+    NSMutableArray *archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
+    
+    // Check if we are receiving a unique icon
+    if (isNewIcon == NO) {
+        // Update Icon Cache in Archive File
+        for (SDLLockScreenIconCache *iconCacheCopy in archiveArray) {
+            if ([iconCacheCopy.iconUrl isEqualToString:request.url]) {
+                [archiveArray removeObject:iconCacheCopy];
+            }
+        }
+        
+        SDLLockScreenIconCache *updatedIconCache = [[SDLLockScreenIconCache alloc] init];
+        updatedIconCache.iconFilePath = filePath;
+        updatedIconCache.iconUrl = request.url;
+        updatedIconCache.lastModifiedDate = [NSDate date];
+        [archiveArray addObject:updatedIconCache];
+        
+        archiveFile.lockScreenIconCaches = archiveArray;
+    } else {
+        // Add New Icon Cache to array
+        SDLLockScreenIconCache *newIconCache = [[SDLLockScreenIconCache alloc] init];
+        newIconCache.iconFilePath = filePath;
+        newIconCache.iconUrl = request.url;
+        newIconCache.lastModifiedDate = [NSDate date];
+        [archiveArray addObject:newIconCache];
+        
+        archiveFile.lockScreenIconCaches = archiveArray;
+    }
+    
+    if (@available(iOS 11.0, *)) {
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:archiveFile requiringSecureCoding:YES error:&error];
+        [data writeToFile:archiveFilePath atomically:YES];
+    } else {
+        [NSKeyedArchiver archiveRootObject:archiveFile toFile:archiveFilePath];
+    }
 }
 
 #pragma mark - Directories
@@ -290,6 +266,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark - Download Image
 
+// Called on first download or to re-download after cache is cleared
 - (void)downloadIconAndSetPathFromRequest:(SDLOnSystemRequest *)request withCompletionHandler:(CacheImageReturnCompletionHandler)completion {
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -307,6 +284,29 @@ static float DefaultConnectionTimeout = 45.0;
         }
         
         [self createAndSaveArchiveFileFromRequest:request andIconFilePath:iconFilePath];
+        completion(icon, nil);
+    }];
+}
+
+// Called when we recieve request for unique icon
+- (void)downloadNewIconFromRequest:(SDLOnSystemRequest *)request
+                   withArchiveFile:(SDLIconArchiveFile *)archiveFile
+              andCompletionHandler:(CacheImageReturnCompletionHandler)completion {
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
+            completion(nil, error);
+        }
+        
+        UIImage *icon = [UIImage imageWithData:data];
+        NSString *iconFilePath = [self setFilePathWithImage:icon andRequestUrl:request.url];
+        
+        // Edge Case 7/8: If we fail to set the icon file path, try to use downloaded icon anyways
+        if (iconFilePath == nil) {
+            completion(icon, nil);
+        }
+        
+        [self updateArchiveFile:archiveFile fromRequest:request andIconFilePath:iconFilePath withNewIcon:YES];
         completion(icon, nil);
     }];
 }

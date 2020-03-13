@@ -3489,6 +3489,19 @@
 			name = Encryption;
 			sourceTree = "<group>";
 		};
+		10415106241BBB8B00F163CC /* Lock Screen Icon Cache */ = {
+			isa = PBXGroup;
+			children = (
+				10893C102417D6F100BA347E /* SDLLockScreenIconCache.h */,
+				10893C112417D6F100BA347E /* SDLLockScreenIconCache.m */,
+				10893C142417D78300BA347E /* SDLIconArchiveFile.h */,
+				10893C152417D78300BA347E /* SDLIconArchiveFile.m */,
+				10893C182418188600BA347E /* SDLCacheFileManager.h */,
+				10893C192418188600BA347E /* SDLCacheFileManager.m */,
+			);
+			name = "Lock Screen Icon Cache";
+			sourceTree = "<group>";
+		};
 		162E81E01A9BDE8A00906325 /* RPCSpecs */ = {
 			isa = PBXGroup;
 			children = (
@@ -5145,12 +5158,7 @@
 				E9C32B8E1AB20BA200F283AF /* SDLTimer.h */,
 				E9C32B8F1AB20BA200F283AF /* SDLTimer.m */,
 				DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */,
-				10893C102417D6F100BA347E /* SDLLockScreenIconCache.h */,
-				10893C112417D6F100BA347E /* SDLLockScreenIconCache.m */,
-				10893C142417D78300BA347E /* SDLIconArchiveFile.h */,
-				10893C152417D78300BA347E /* SDLIconArchiveFile.m */,
-				10893C182418188600BA347E /* SDLCacheFileManager.h */,
-				10893C192418188600BA347E /* SDLCacheFileManager.m */,
+				10415106241BBB8B00F163CC /* Lock Screen Icon Cache */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";

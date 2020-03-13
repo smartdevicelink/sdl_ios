@@ -12,10 +12,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^CacheImageReturnCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
+
 @interface SDLCacheFileManager : NSObject
 
 - (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request
-              withCompletionHandler: (void (^)(UIImage * __nullable image, NSError * __nullable error))completion;
+              withCompletionHandler:(CacheImageReturnCompletionHandler)completion;
 
 @end
 
