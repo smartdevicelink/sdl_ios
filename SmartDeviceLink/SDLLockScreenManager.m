@@ -65,19 +65,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     self.canPresent = NO;
 
+    __weak typeof(self) weakSelf = self;
     [self sdl_runOnMainQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             SDLLogW(@"Attempted to start lock screen manager, but we are in the background. We will attempt to start again when we are in the foreground.");
             return;
         }
 
         // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
-        if (self.presenter.lockViewController != nil) {
-            [self.presenter stopWithCompletionHandler:^{
-                [self sdl_start];
+        if (strongSelf.presenter.lockViewController != nil) {
+            [strongSelf.presenter stopWithCompletionHandler:^{
+                __strong typeof(weakSelf) strongSelf2 = weakSelf;
+                [strongSelf2 sdl_start];
             }];
         } else {
-            [self sdl_start];
+            [strongSelf sdl_start];
         }
     }];
 }
@@ -153,12 +157,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     __weak typeof(self) weakSelf = self;
     [self sdl_runOnMainQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
-        if (!weakSelf.canPresent) {
-            [weakSelf start];
+        if (!strongSelf.canPresent) {
+            [strongSelf start];
         }
 
-        [self sdl_checkLockScreen];
+        [strongSelf sdl_checkLockScreen];
     }];
 }
 
@@ -230,9 +235,9 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     [self sdl_runOnMainQueue:^{
-        __strong typeof(self) strongSelf = weakself;
+        __strong typeof(self) strongSelf = weakSelf;
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
