@@ -593,6 +593,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (resolution != nil) {
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
                                  resolution.resolutionHeight.floatValue);
+        // workaround for older high resolution displays that don't support scaling
+        NSString *make = registerResponse.vehicleType.make;
+        CGSize resolution = self.videoScaleManager.displayViewportResolution;
+        if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (resolution.width > 800 || resolution.height > 800)) {
+            self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
+        }
     }
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
