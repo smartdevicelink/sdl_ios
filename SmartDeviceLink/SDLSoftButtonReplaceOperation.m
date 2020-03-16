@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSoftButtonReplaceOperation ()
 
-@property (strong, nonatomic) SDLSoftButtonCapabilities *softButtonCapabilities;
+@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 @property (strong, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
