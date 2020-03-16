@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLConfiguration.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
@@ -15,20 +16,25 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingAudioLifecycleManager.h"
-#import "SDLStreamingMediaConfiguration.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLVehicleType.h"
 #import "SDLVersion.h"
 #import "TestConnectionManager.h"
+
+@interface SDLStreamingAudioLifecycleManager()
+@property (copy, nonatomic) NSString *connectedVehicleMake;
+@end
 
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
 
 describe(@"the streaming audio manager", ^{
     __block SDLStreamingAudioLifecycleManager *streamingLifecycleManager = nil;
-    __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
-    __block SDLEncryptionConfiguration *encryptionConfiguration = [SDLEncryptionConfiguration defaultConfiguration];
+    __block SDLConfiguration *testConfig = nil;
     __block TestConnectionManager *testConnectionManager = nil;
+    __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -40,8 +46,10 @@ describe(@"the streaming audio manager", ^{
     };
 
     beforeEach(^{
+        testConfig = OCMClassMock([SDLConfiguration class]);
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration];
+        testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
     });
 
     it(@"should initialize properties", ^{
@@ -51,6 +59,18 @@ describe(@"the streaming audio manager", ^{
         expect(@(streamingLifecycleManager.isAudioEncrypted)).to(equal(@NO));
         expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+    });
+
+    describe(@"Getting isStreamingSupported", ^{
+        it(@"should get the value from the system capability manager", ^{
+            [streamingLifecycleManager isStreamingSupported];
+            OCMVerify([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]);
+        });
+
+        it(@"should return true by default if the system capability manager is nil", ^{
+            streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
+            expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
+        });
     });
 
     describe(@"when started", ^{
@@ -74,70 +94,22 @@ describe(@"the streaming audio manager", ^{
 
         describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
-            __block SDLHMICapabilities *someHMICapabilities = nil;
+            __block SDLVehicleType *testVehicleType = nil;
 
-            context(@"from a module supporting SDL-4.5+", ^{
-                beforeEach(^{
-                    SDLVersion *version = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                    OCMStub([globalMock rpcVersion]).andReturn(version);
-                });
+            beforeEach(^{
+                someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                testVehicleType = [[SDLVehicleType alloc] init];
+                testVehicleType.make = @"TestVehicleType";
+                someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
-                describe(@"that does not support video streaming", ^{
-                    beforeEach(^{
-                        someHMICapabilities = [[SDLHMICapabilities alloc] init];
-                        someHMICapabilities.videoStreaming = @NO;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
-                        someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                        someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
-
-                        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                        [[NSNotificationCenter defaultCenter] postNotification:notification];
-                        [NSThread sleepForTimeInterval:0.1];
-                    });
-
-                    it(@"should set isStreamingSupported to false", ^{
-                        expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
-                    });
-                });
-
-                describe(@"that supports video streaming", ^{
-                    beforeEach(^{
-                        someHMICapabilities = [[SDLHMICapabilities alloc] init];
-                        someHMICapabilities.videoStreaming = @YES;
-
-                        someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                        someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
-
-                        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                        [[NSNotificationCenter defaultCenter] postNotification:notification];
-                        [NSThread sleepForTimeInterval:0.1];
-                    });
-
-                    it(@"should set isStreamingSupported to true", ^{
-                        expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
-                    });
-                });
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                [NSThread sleepForTimeInterval:0.1];
             });
 
-            context(@"from a module supporting pre SDL-4.5", ^{
-                beforeEach(^{
-                    SDLVersion *version = [SDLVersion versionWithMajor:4 minor:0 patch:0];
-                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                    OCMStub([globalMock rpcVersion]).andReturn(version);
-
-                    someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
-                });
-
-                it(@"should set isStreamingSupported to true even though the hmiCapabilities in the RAI response is nil", ^{
-                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
-                });
+            it(@"should should save the connected vehicle make", ^{
+                expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
             });
         });
 
