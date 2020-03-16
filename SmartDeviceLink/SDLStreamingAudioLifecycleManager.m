@@ -28,8 +28,6 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
-#import "SDLVersion.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -14,6 +14,7 @@
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTouchManager.h"
 
 

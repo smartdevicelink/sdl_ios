@@ -11,11 +11,11 @@
 
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
-#import "SDLSystemCapabilityManager.h"
 
 @class SDLAudioStreamManager;
 @class SDLConfiguration;
 @class SDLProtocol;
+@class SDLSystemCapabilityManager;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 

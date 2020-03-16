@@ -18,7 +18,6 @@
 @class SDLAudioStreamManager;
 @class SDLProtocol;
 @class SDLStateMachine;
-@class SDLStreamingMediaConfiguration;
 @class SDLEncryptionConfiguration;
 
 @protocol SDLConnectionManagerType;
