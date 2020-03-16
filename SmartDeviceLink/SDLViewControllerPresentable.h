@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^SDLLockScreenDidFinishHandler)(void);
+
 /// A protocol used to tell a view controller to present another view controller. This makes testing of modal VCs' presentation easier.
 @protocol SDLViewControllerPresentable <NSObject>
 
@@ -20,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) BOOL shouldShowLockScreen;
 
 /// Dismisses and destroys the lock screen window
-- (void)stop;
+- (void)stopWithCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler;
 
 /// Shows or hides the lock screen with animation
 /// @param show True if the lock screen should be presented; false if dismissed.
-- (void)updateLockScreenToShow:(BOOL)show;
+- (void)updateLockScreenToShow:(BOOL)show withCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler;
 
 @end
 
