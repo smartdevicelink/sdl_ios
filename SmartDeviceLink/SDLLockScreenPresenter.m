@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.lockViewController.presentingViewController == nil) {
         SDLLogW(@"Attempted to dismiss lockscreen, but lockViewController is not presented");
         if (completionHandler == nil) { return; }
-        return completionHandler();
+        return completionHandler(NO);
     }
 
     // Let ourselves know that the lockscreen will dismiss so we can pause video streaming for a few milliseconds - otherwise the animation to dismiss the lockscreen will be very janky.
