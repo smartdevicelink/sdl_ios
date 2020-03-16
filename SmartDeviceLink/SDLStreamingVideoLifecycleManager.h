@@ -142,13 +142,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-/**
- Create a new streaming media manager for navigation and VPM apps with a specified configuration
-
- @param connectionManager The pass-through for RPCs
- @param configuration This session's configuration
- @return A new streaming manager
- */
+/// Create a new streaming video manager for navigation and projection apps with a specified configuration.
+/// @param connectionManager The pass-through for RPCs
+/// @param configuration This session's configuration
+/// @param systemCapabilityManager The system capability manager object for reading window capabilities
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
