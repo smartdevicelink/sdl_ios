@@ -6,7 +6,6 @@
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
-#import "SDLHMICapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
@@ -21,7 +20,6 @@
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLVehicleType.h"
-#import "SDLVersion.h"
 #import "TestConnectionManager.h"
 
 @interface SDLStreamingAudioLifecycleManager()

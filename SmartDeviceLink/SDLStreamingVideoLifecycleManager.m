@@ -23,7 +23,6 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
 #import "SDLH264VideoEncoder.h"
-#import "SDLHMICapabilities.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
@@ -46,7 +45,6 @@
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
-#import "SDLVersion.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
