@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isStreamingSupported {
-    // Since both the audio and video lifecycle managers check the same parameter in the `RegisterAppInterface` response, the flag is the same between the two managers
+    // The flag is the same between the video and audio managers so just one needs to be returned.
     return self.videoLifecycleManager.isStreamingSupported;
 }
 
