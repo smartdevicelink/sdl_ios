@@ -16,9 +16,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
     
     self.iconUrl = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconUrl"];
     self.iconFilePath = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconFilePath"];

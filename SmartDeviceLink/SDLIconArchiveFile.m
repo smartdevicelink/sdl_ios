@@ -16,9 +16,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
     
     self.lockScreenIconCaches = [decoder decodeObjectOfClass:[NSArray self] forKey:@"lockScreenIconCaches"];
     

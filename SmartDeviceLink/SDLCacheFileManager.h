@@ -6,18 +6,17 @@
 //  Copyright © 2020 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
 #import "SDLOnSystemRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^CacheImageReturnCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
+typedef void (^ImageRetrievalCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
 
 @interface SDLCacheFileManager : NSObject
 
-- (void)handleLockScreenIconRequest:(SDLOnSystemRequest *)request
-              withCompletionHandler:(CacheImageReturnCompletionHandler)completion;
+- (void)retrieveImageForRequest:(SDLOnSystemRequest *)request withCompletionHandler:(CacheImageReturnCompletionHandler)completion;
 
 @end
 
