@@ -202,6 +202,7 @@ describe(@"the streaming video manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
+                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
@@ -211,7 +212,7 @@ describe(@"the streaming video manager", ^{
 
                 it(@"should save the connected vehicle make and the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
+                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
         });
