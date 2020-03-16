@@ -41,6 +41,7 @@
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"

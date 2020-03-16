@@ -9,6 +9,7 @@
 #import "SDLStreamingAudioLifecycleManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -26,6 +27,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
 

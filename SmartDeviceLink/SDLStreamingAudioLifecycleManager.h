@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLConfiguration.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
-#import "SDLSystemCapabilityManager.h"
 
 @class SDLAudioStreamManager;
+@class SDLConfiguration;
 @class SDLProtocol;
 @class SDLStateMachine;
+@class SDLSystemCapabilityManager;
 @class SDLEncryptionConfiguration;
 
 @protocol SDLConnectionManagerType;
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly, getter=isAudioEncrypted) BOOL audioEncrypted;
 
-/// Whether or not vidoe/audio streaming is supported
+/// Whether or not video/audio streaming is supported
 /// @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `YES` is returned by default even though the module may NOT support video/audio streaming.
 @property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
