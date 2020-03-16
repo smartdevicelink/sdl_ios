@@ -47,11 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly, getter=isAudioEncrypted) BOOL audioEncrypted;
 
-/**
- *  Whether or not video streaming is supported
- *
- *  @see SDLRegisterAppInterface SDLDisplayCapabilities
- */
+/// Whether or not vidoe/audio streaming is supported
+/// @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `YES` is returned by default even though the module may NOT support video/audio streaming.
 @property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
