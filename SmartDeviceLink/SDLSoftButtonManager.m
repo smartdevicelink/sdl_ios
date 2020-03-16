@@ -221,10 +221,10 @@ NS_ASSUME_NONNULL_BEGIN
         SDLDisplayCapability *mainDisplay = capabilities[0];
         for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
             NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID == SDLPredefinedWindowsDefaultWindow) {
-                self.softButtonCapabilities = windowCapability.softButtonCapabilities.firstObject;
-                break;
-            }
+            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+            
+            self.softButtonCapabilities = windowCapability.softButtonCapabilities.firstObject;
+            break;
         }
     }
 

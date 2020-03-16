@@ -145,7 +145,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 /// Suspend the transaction queue if we are in HMI NONE
-/// OR if we don't know what text fields are allowed, or if the text field name "menu name" (this is the primary choice text) we assume we cannot present a PI.
+/// OR if the text field name "menu name" (i.e. is the primary choice text) cannot be used, we assume we cannot present a PI.
 - (void)sdl_updateTransactionQueueSuspended {
     if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName])) {
@@ -481,9 +481,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         SDLDisplayCapability *mainDisplay = capabilities[0];
         for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
             NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID == SDLPredefinedWindowsDefaultWindow) {
-                self.currentWindowCapability = windowCapability;
-            }
+            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+
+            self.currentWindowCapability = windowCapability;
+            break;
         }
     }
 
