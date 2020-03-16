@@ -160,7 +160,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark - State Management
 
 - (void)didEnterStateShutdown {
-    _currentHMILevel = nil;
+    _currentHMILevel = SDLHMILevelNone;
 
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -494,10 +494,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     // We can only present a choice set if we're in FULL
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) { return; }
 
     self.currentHMILevel = hmiStatus.hmiLevel;
 
