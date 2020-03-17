@@ -20,12 +20,6 @@ Please also make sure all git submodules are installed and up to date since the 
 $ git submodule update --init --recursive
 ```
 
-or
-
-```shell script
-$ git submodule update --recursive
-```
-
 ## Usage
 
 **Usage example**
