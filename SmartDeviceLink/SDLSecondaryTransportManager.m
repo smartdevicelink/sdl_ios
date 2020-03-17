@@ -438,7 +438,7 @@ struct TransportProtocolUpdated {
         return NO;
     }
 
-    SDLLogD(@"Disconnect secondary transport");
+    SDLLogD(@"Disconnecting secondary transport");
     [self.secondaryTransport disconnect];
     self.secondaryTransport = nil;
     self.secondaryProtocol = nil;
@@ -568,6 +568,11 @@ struct TransportProtocolUpdated {
     [self.registerTransportTimer start];
 
     [self.secondaryProtocol registerSecondaryTransport];
+}
+
+- (void)onTransportError:(NSError *)error {
+    SDLLogE(@"The transport errored. Disconnecting the transport");
+    [self disconnectSecondaryTransport];
 }
 
 // called on transport's thread, notifying that the transport is disconnected
