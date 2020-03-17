@@ -142,7 +142,7 @@ class InterfaceProducerCommon(ABC):
         :param mandatory:
         :return:
         """
-        if mandatory or re.match(r'\w*Int\d*|BOOL|float|double', type_native):
+        if mandatory or re.match(r'BOOL|float|double', type_native):
             return ''
         return 'nullable '
 
@@ -153,8 +153,6 @@ class InterfaceProducerCommon(ABC):
         :param item:
         :return:
         """
-        if getattr(item, 'constructor_argument_override', None) is not None:
-            return item.constructor_argument_override
         if re.match(r'\w*Int\d*|BOOL|float|double', item.type_native):
             return '@({})'.format(item.constructor_argument)
         return item.constructor_argument
@@ -167,7 +165,6 @@ class InterfaceProducerCommon(ABC):
         :return:
         """
         data = list(data)
-        # deprecated = any([m.deprecated for m in data if hasattr(m, 'deprecated')])
 
         first = data.pop(0)
         init = ['{}:({}{}){}'.format(self.title(first.constructor_prefix),
@@ -225,10 +222,11 @@ class InterfaceProducerCommon(ABC):
         return tuple(result)
 
     @staticmethod
-    def evaluate_type(instance) -> dict:
+    def evaluate_type(instance, mandatory) -> dict:
         """
 
         :param instance:
+        :param mandatory:
         :return:
         """
         data = OrderedDict()
@@ -264,6 +262,8 @@ class InterfaceProducerCommon(ABC):
                     data['type_sdl'] = 'SDLUInt'
             data['of_class'] = 'NSNumber.class'
             data['type_sdl'] = 'NSNumber<{}> *'.format(data['type_sdl'])
+            if not mandatory:
+                data['type_native'] = data['type_sdl']
         elif isinstance(instance, String):
             data['of_class'] = 'NSString.class'
             data['type_sdl'] = data['type_native'] = 'NSString *'
@@ -281,11 +281,11 @@ class InterfaceProducerCommon(ABC):
         """
 
         if isinstance(param.param_type, Array):
-            data = self.evaluate_type(param.param_type.element_type)
+            data = self.evaluate_type(param.param_type.element_type, param.is_mandatory)
             data['for_name'] = data['for_name'] + 's'
             data['type_sdl'] = data['type_native'] = 'NSArray<{}> *'.format(data['type_sdl'].strip())
             return data
-        return self.evaluate_type(param.param_type)
+        return self.evaluate_type(param.param_type, param.is_mandatory)
 
     @staticmethod
     def param_origin_change(name):
