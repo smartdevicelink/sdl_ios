@@ -270,6 +270,8 @@ describe(@"the streaming media manager", ^{
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
+                OCMReject([mockSecondaryTransportManager disconnectSecondaryTransport]);
+
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
             });
@@ -290,6 +292,9 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:nil fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:nil];
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop both the audio and video stream managers", ^{
@@ -334,6 +339,9 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldVideoProtocol toNewVideoProtocol:mockNewVideoProtocol fromOldAudioProtocol:mockOldAudioProtocol toNewAudioProtocol:mockNewAudioProtocol];
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop both the audio and video stream managers and call the delegate then start a new session", ^{
@@ -368,6 +376,9 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:nil toNewAudioProtocol:nil];
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop the video stream manager but not the audio stream manager", ^{
@@ -402,6 +413,9 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:nil fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop the audio stream manager but not the video stream manager", ^{
