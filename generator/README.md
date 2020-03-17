@@ -473,6 +473,40 @@ SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu = @"AddSubMenu";
 . . . and so on
 ```
 
+Each <function> from MOBILE_API.XML declares its parameter name in `SDLRPCParameterNames.h` and `SDLRPCParameterNames.m` files.
+
+```objc
+//  SDLRPCParameterNames.h
+
+#import <Foundation/Foundation.h>
+#import "SDLMacros.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
+
+extern SDLRPCParameterName const SDLRPCParameterNameAcEnable;
+extern SDLRPCParameterName const SDLRPCParameterNameAcEnableAvailable;
+
+. . . and so on
+```
+
+And the implementation file SDLRPCParameterNames.m :
+
+```objc
+//  SDLRPCParameterNames.h
+
+#import "NSMutableDictionary+Store.h"
+#import "SDLRPCParameterNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+SDLRPCParameterName const SDLRPCParameterNameAcEnable = @"acEnable";
+SDLRPCParameterName const SDLRPCParameterNameAcEnableAvailable = @"acEnableAvailable";
+
+. . . and so on
+```
+
 ##### Request Functions (SDLRPCRequest)
 
 
