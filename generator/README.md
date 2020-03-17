@@ -1,8 +1,6 @@
 # Proxy Library RPC Generator
 
-## Overview
-
-This script provides a possibility to auto-generate Objective-C code (header \*.h and implementation \*.m classes) based on the SDL MOBILE_API XML specification provided as a source of truth.
+This script provides the ability to auto-generate Objective-C RPC code (header \*.h and implementation \*.m classes) based on the SDL MOBILE_API XML specification.
 
 ## Requirements
 
@@ -85,7 +83,7 @@ If you are adding new RPCs entirely, you can generate those RPCs. Use the `--ski
 ### Overview
 These are the general transformation rules for SDL RPC classes Objective-C Library. For more information about the base classes for these RPCs, you can look in the app library.
 
-## Output Directory Structure and Package definitions
+### Output Directory Structure and Package definitions
 The script creates corresponding RPC classes of `<enum>`, `<struct>` and `<function>` elements following the `MOBILE_API.xml` rules. According to existing structure of sdl_ios library the output directory will contain the following files (plain structure, no subfolders).
 
 RPC requests, responses, structs, enums, and notifications file names all have the form:
@@ -100,7 +98,7 @@ Responses have the form:
 
 Where the **xxx** is the correspondent item name.
 
-## The License Header
+### The License Header
 
 All files should begin with the license information.
 
@@ -138,20 +136,19 @@ All files should begin with the license information.
  */
 ```
 
-Where `[year]` in the copyright line is the current (?) year.
+Where `{{year}}` in the copyright line is the current year.
 
 ### General rules for Objective-C classes
 1. Default initializer applies only to Functions(Request / Response / Notification) classes
 
 ```objc
-    - (instancetype)init {
-        self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface];
-        if (!self) { return nil; }
+- (instancetype)init {
+    self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface];
+    if (!self) { return nil; }
 
-        return self;
-    }
+    return self;
+}
 ```
-*Pease note the required double brackets in the if statement*
 
 2. Initializer for mandatory params if there is/are any in XML (skipped if no <mandatory = true> params)
 3. Initializer for all params if there is/are any which is not mandatory in XML (skipped if no <mandatory = false> params)
@@ -162,16 +159,15 @@ There are 4 type of scalar values declared in the SDL lib.  These are:
 0. **SDLUInt** - A declaration that this NSNumber contains an NSUInteger.
 0. **SDLBool** - A declaration that this NSNumber contains a BOOL.
 0. **SDLFloat** - A declaration that this NSNumber contains a float.
+
 *Note: These are syntactic sugar to help the developer know what type of value is held in the `NSNumber`.*
 
-```objc
-@interface NSNumber (NumberType) <SDLInt, SDLUInt, SDLBool, SDLFloat>
-```
 Usage example:
 ```objc
 @property (strong, nonatomic) NSNumber<SDLInt> *touchEventId;
 ```
-or an array:
+
+or in an array:
 ```objc
 @property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *timeStamp;
 ```
@@ -179,7 +175,7 @@ or an array:
 #### Enums
 RPC Enums in SDL are strings. sdl_ios uses `NSString` `typedef`ed with a proper enum type. In Swift projects, however, they become real enums by using the `NS_SWIFT_ENUM` compiler tag.
 
-*Base definition of `SDLEnum`:*
+Base definition of `SDLEnum`:
 
 ```objc
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;
@@ -405,21 +401,15 @@ NS_ASSUME_NONNULL_END
 
 #### Functions
 
-Functions in iOS are implemented as 3 different classes grouped by their respective type. All the 3 extend the common parent class `SDLRPCMessage`.
+Functions in iOS are implemented as 3 different classes (`SDLRPCRequest`, `SDLRPCResponse`, and `SDLRPCNotification`) grouped by their respective type. All the 3 extend the common parent class `SDLRPCMessage`.
 
-// This is the parent class for all the 3 function kinds
-SDLRPCMessage <NSCopying> : SDLRPCStruct <NSCopying> : NSObject
 
-SDLRPCNotification : SDLRPCMessage  /// An RPC sent from the head unit to the app about some data change, such as a button was pressed
-SDLRPCRequest : SDLRPCMessage   /// Superclass of RPC requests
-SDLRPCResponse : SDLRPCMessage  /// Superclass of RPC responses
-```
-
-First of all there is the `SDLFunctionID` class generated though it is not declared in the XML. This class maps all function IDs that are integers to function names as strings.
+##### Function ID, Function Name, and Parameter Name Special Case Class
+There is also the `SDLFunctionID` class generated though it is not declared in the XML. This class maps all function IDs that are integers to function names as strings.
 
 1. Uses of the `"name"` attribute should be normalized by the removal of the ID suffix, e.g. `RegisterAppInterfaceID -> RegisterAppInterface`. 
 2. The constant name should be camel case formatted.
-0. The constant has 2 fields the first is the `int` value of the `"value"` attribute and the second is the `String` value of normalized `"name"` attribute.
+3. The constant has 2 fields the first is the `int` value of the `"value"` attribute and the second is the `String` value of normalized `"name"` attribute.
 
 Internally it uses another file that lists all the function names `SDLRPCFunctionNames`.
 
@@ -454,7 +444,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-Each <function> from MOBILE_API.XML is declares its function name in `SDLRPCFunctionNames.h` and `SDLRPCFunctionNames.m` files.
+Each <function> from MOBILE_API.XML declares its function name in `SDLRPCFunctionNames.h` and `SDLRPCFunctionNames.m` files.
 
 ```objc
 SDLRPCFunctionNames.h
@@ -491,9 +481,6 @@ SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu = @"AddSubMenu";
 
 ##### Request Functions (SDLRPCRequest)
 
-##### Function with simple params
-
-This section depicts all functions which include one or a few parameters of the following types (integer|decimal|boolean|string). Such parameters are considered as simple.
 
 ```xml
     <function name="GetCloudAppProperties" functionID="GetCloudAppPropertiesID" messagetype="request" since="5.1">
@@ -538,7 +525,6 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-
 ```objc
 //  SDLGetCloudAppProperties.m
 //
@@ -577,7 +563,6 @@ NS_ASSUME_NONNULL_END
 
 ##### Response Functions (SDLRPCResponse)
 
-##### Response class with extra argument example (Alert Response):
 
 ```xml
 <function name="Alert" functionID="AlertID" messagetype="response" since="1.0">     
@@ -615,7 +600,6 @@ NS_ASSUME_NONNULL_END
 </function>
 ```
 
-As we can see it in the XML it requires an additional param `tryAgainTime` which is declared and implemented in the `SDLAlertResponse` class as follows:
 
 ```objc
 //  SDLAlertResponse.h
@@ -691,7 +675,6 @@ NS_ASSUME_NONNULL_END
 
 ##### Notification Functions (SDLRPCNotification)
 
-Another example is the class `SDLOnAppInterfaceUnregistered`. It is declared in the XML as follows:
 
 ```xml
 <function name="OnAppInterfaceUnregistered" functionID="OnAppInterfaceUnregisteredID" messagetype="notification" since="1.0">
@@ -700,8 +683,6 @@ Another example is the class `SDLOnAppInterfaceUnregistered`. It is declared in 
 	</param>
 </function>
 ```
-
-The corresponding Objective-C class `SDLOnAppInterfaceUnregistered` looks as following.
 
 ```objc
 //  SDLOnAppInterfaceUnregistered.h
@@ -734,8 +715,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 ```
-
-*Note: though the `SDLAppInterfaceUnregisteredReason reason` declared as a property but implemented as custom getter and setter*
 
 ```objc
 //  SDLOnAppInterfaceUnregistered.m
