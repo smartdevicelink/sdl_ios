@@ -12,11 +12,11 @@ from datetime import datetime, date
 from inspect import getfile
 from json import JSONDecodeError
 from os.path import basename, join
+from pathlib import Path
 from re import findall
 
 from jinja2 import UndefinedError, TemplateNotFound, FileSystemLoader, Environment, ChoiceLoader, \
     TemplateAssertionError, TemplateSyntaxError, TemplateRuntimeError
-from pathlib import Path
 
 ROOT = Path(__file__).absolute().parents[0]
 
@@ -317,6 +317,9 @@ class Generator:
         """
         tasks = []
         for item in items.values():
+            if item.name == 'FunctionID':
+                self.logger.warning('%s will be skipped', item.name)
+                continue
             render = transformer.transform(item)
             file = self.output_directory.joinpath(render.get('name', item.name))
             for extension in ('.h', '.m'):

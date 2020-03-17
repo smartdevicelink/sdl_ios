@@ -7,9 +7,9 @@
 {%- endblock -%}
 {%- block body %}
 {% include 'description.jinja' %}
-typedef SDLEnum {{ name }} SDL_SWIFT_ENUM{{ending}}{{ " __deprecated" if deprecated and deprecated is sameas true }};
+typedef SDLEnum {{ name }} SDL_SWIFT_ENUM{{ending}};
 {% for param in params %}
 {% include 'description_param.jinja' %}
-extern {{ name }} const {{ name }}{{param.name}}{{ ' %s%s%s'|format('NS_SWIFT_NAME(', param.name|lower, ')') if NS_SWIFT_NAME is defined}};
+extern {{ name }} const {{ name }}{{param.name}}{{ " __deprecated" if param.deprecated and param.deprecated is sameas true }};
 {% endfor -%}
 {% endblock -%}

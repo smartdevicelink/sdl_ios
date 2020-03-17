@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 {% include 'description.jinja' %}
-@interface {{name}} : {{extends_class}}{{ending}}{{ " __deprecated" if deprecated and deprecated is sameas true }}
+@interface {{name}} : {{extends_class}}{{ending}}
 {%- block constructors %}
 {% for c in constructors %}
 /**
