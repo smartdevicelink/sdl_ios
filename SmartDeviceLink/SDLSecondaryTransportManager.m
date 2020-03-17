@@ -294,37 +294,19 @@ struct TransportProtocolUpdated {
     self.registerTransportTimer = nil;
 }
 
-- (void)willTransitionFromStateConnectingToStateConfigured {
-    [self disconnectSecondaryTransport];
-}
-
-- (void)willTransitionFromStateConnectingToStateReconnecting {
-    [self disconnectSecondaryTransport];
-}
-
-- (void)willTransitionFromStateConnectingToStateStopped {
-    [self disconnectSecondaryTransport];
-}
-
 - (void)didEnterStateRegistered {
     SDLLogD(@"Secondary transport is registered");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:YES];
 }
 
 - (void)willTransitionFromStateRegisteredToStateConfigured {
-    // before disconnecting Secondary Transport, stop running services
-    SDLLogD(@"Stopping services on secondary transport");
+    SDLLogD(@"Configuring: stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
-    SDLLogD(@"Stopping services on secondary transport");
+    SDLLogD(@"Reconnecting: stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-}
-
-- (void)willTransitionFromStateRegisteredToStateStopped {
-    // sdl_handleTransportUpdateWithPrimaryAvailable is called in stop method
-    [self disconnectSecondaryTransport];
 }
 
 - (void)didEnterStateReconnecting {
@@ -578,6 +560,8 @@ struct TransportProtocolUpdated {
             if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
                 SDLLogD(@"Retry secondary transport connection after registration timeout");
                 [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            } else {
+                SDLLogD(@"Will not retry secondary transport connection because current state is: %@", strongSelf.stateMachine.currentState);
             }
         });
     };
