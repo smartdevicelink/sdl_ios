@@ -174,11 +174,11 @@ class Generator:
                             help='only elements matched with defined regex pattern will be parsed and generated')
         parser.add_argument('--verbose', action='store_true', help='display additional details like logs etc')
         parser.add_argument('-e', '--enums', required=False, action='store_true',
-                            help='only specified elements will be generated, if present')
+                            help='all enums will be generated, if present')
         parser.add_argument('-s', '--structs', required=False, action='store_true',
-                            help='only specified elements will be generated, if present')
+                            help='all structs will be generated, if present')
         parser.add_argument('-m', '-f', '--functions', required=False, action='store_true',
-                            help='only specified elements will be generated, if present')
+                            help='all functions will be generated, if present')
         parser.add_argument('-y', '--overwrite', action='store_true',
                             help='force overwriting of existing files in output directory, ignore confirmation message')
         parser.add_argument('-n', '--skip', action='store_true',

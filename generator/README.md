@@ -56,9 +56,9 @@ optional arguments:
                         only elements matched with defined regex pattern will
                         be parsed and generated
   --verbose             display additional details like logs etc
-  -e, --enums           only specified elements will be generated, if present
-  -s, --structs         only specified elements will be generated, if present
-  -m, -f, --functions   only specified elements will be generated, if present
+  -e, --enums           all enums will be generated, if present
+  -s, --structs         all structs will be generated, if present
+  -m, -f, --functions   all functions will be generated, if present
   -y, --overwrite       force overwriting of existing files in output
                         directory, ignore confirmation message
   -n, --skip            skip overwriting of existing files in output
