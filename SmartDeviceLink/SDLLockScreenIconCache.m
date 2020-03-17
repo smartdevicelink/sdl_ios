@@ -14,6 +14,17 @@
     return YES;
 }
 
+- (instancetype)initWithIconUrl:(NSString *)iconUrl iconFilePath:(NSString *)iconFilePath lastModifiedDate:(NSDate *)lastModifiedDate {
+    self = [super init];
+    if (!self) { return nil; }
+    
+    self.iconUrl = iconUrl;
+    self.iconFilePath = iconFilePath;
+    self.lastModifiedDate = lastModifiedDate;
+    
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }

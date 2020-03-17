@@ -765,7 +765,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
     SDLCacheFileManager *cacheFileManager = [[SDLCacheFileManager alloc] init];
     __weak typeof(self) weakSelf = self;
-    [cacheFileManager handleLockScreenIconRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+    [cacheFileManager retrieveImageForRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLLogW(@"Failed to retrieve lock screen icon: %@", error.localizedDescription);
