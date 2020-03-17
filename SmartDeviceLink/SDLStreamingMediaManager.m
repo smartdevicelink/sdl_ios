@@ -141,8 +141,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
-        [self sdl_disconnectSecondaryTransport];
-
         if (oldVideoProtocol != nil) {
             SDLLogV(@"Destroying the video protocol");
             self.videoProtocol = nil;
