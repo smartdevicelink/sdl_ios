@@ -22,13 +22,15 @@ class EnumsProducer(InterfaceProducerCommon):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.param_named = namedtuple('param_named', 'origin description name since value')
 
-    def transform(self, item: Enum, render=None) -> dict:
+    def transform(self, item: Enum, render: dict = None) -> dict:
         """
-
-        :param item:
-        :param render:
-        :return:
+        Main entry point for transforming each Enum into output dictionary,
+        which going to be applied to Jinja2 template
+        :param item: instance of Enum
+        :param render: empty dictionary, present in parameter for code consistency
+        :return: dictionary which going to be applied to Jinja2 template
         """
+        item.name = self.replace_sync(item.name)
         name = 'SDL{}{}'.format(item.name[:1].upper(), item.name[1:])
         tmp = {self.enum_class}
         imports = {'.h': tmp, '.m': tmp}
@@ -44,9 +46,9 @@ class EnumsProducer(InterfaceProducerCommon):
 
     def extract_param(self, param: EnumElement):
         """
-
-        :param param:
-        :return:
+        Preparing self.param_named with prepared params
+        :param param: EnumElement from initial Model
+        :return: self.param_named with prepared params
         """
         data = {'origin': param.name, 'description': self.extract_description(param.description, 113),
                 'since': param.since}
@@ -54,7 +56,7 @@ class EnumsProducer(InterfaceProducerCommon):
         if re.match(r'^[A-Z]{1,2}\d|\d[A-Z]{1,2}$', param.name):
             data['name'] = param.name
         elif re.match(r'(^[a-z\d]+$|^[A-Z\d]+$)', param.name):
-            data['name'] = param.name.title()  # .capitalize()
+            data['name'] = param.name.title()
         elif re.match(r'^(?=\w*[a-z])(?=\w*[A-Z])\w+$', param.name):
             if param.name.endswith('ID'):
                 data['name'] = param.name[:-2]

@@ -1,3 +1,4 @@
+{#- Content of this file include into every item (Enum/Struct/Function) between imports and typedef/@interface declaration -#}
 {% if description or since or history %}
 /**
  {%- if description %}
@@ -18,6 +19,6 @@
  {%- endif %}
  */
 {%- endif -%}
-{%- if deprecated and deprecated is sameas true %}
+{%- if deprecated %}
 __deprecated
 {%- endif -%}

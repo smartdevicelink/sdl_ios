@@ -21,13 +21,15 @@ class StructsProducer(InterfaceProducerCommon):
         self.struct_class = struct_class
         self.logger = logging.getLogger(self.__class__.__name__)
 
-    def transform(self, item: Struct, render=None) -> dict:
+    def transform(self, item: Struct, render: dict = None) -> dict:
         """
-
-        :param item:
-        :param render:
-        :return:
+        Main entry point for transforming each Enum/Function/Struct into output dictionary,
+        which going to be applied to Jinja2 template
+        :param item: instance of Enum/Function/Struct
+        :param render: dictionary with pre filled entries, which going to be filled/changed by reference
+        :return: dictionary which going to be applied to Jinja2 template
         """
+        item.name = self.replace_sync(item.name)
         name = 'SDL' + item.name
         imports = {'.h': {'enum': set(), 'struct': set()}, '.m': set()}
         imports['.h']['enum'].add(self.struct_class)

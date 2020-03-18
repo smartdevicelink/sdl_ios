@@ -1,3 +1,4 @@
+{#- String based enum. If the enum element doesn't have values it going to be string enum  -#}
 {% include 'copyright.txt' %}
 {% block imports -%}
 {%- for import in imports %}
@@ -8,7 +9,7 @@
 {% include 'description.jinja' %}
 typedef SDLEnum {{ name }} SDL_SWIFT_ENUM{{ending}};
 {% for param in params %}
-{% include 'description_param.jinja' %}
+{%- include 'description_param.jinja' %}
 extern {{ name }} const {{ name }}{{param.name}}{{ " __deprecated" if param.deprecated and param.deprecated is sameas true }};
 {% endfor -%}
 {% endblock -%}

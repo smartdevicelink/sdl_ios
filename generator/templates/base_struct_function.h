@@ -1,3 +1,5 @@
+{#- To avoid code duplication was crated this parent file, which contain common part used in:
+    "templates/functions/template.h" and "templates/structs/template.h". -#}
 {% include 'copyright.txt' %}
 {% block imports %}
 {%- for import in imports.enum %}

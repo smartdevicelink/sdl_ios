@@ -1,4 +1,4 @@
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 from unittest import TestCase
 
 from model.enum import Enum
@@ -7,6 +7,13 @@ from transformers.enums_producer import EnumsProducer
 
 
 class TestEnumsProducer(TestCase):
+    """
+    The structures of tests in this class was prepared to cover all possible combinations of code branching in tested
+    class EnumsProducer.
+    All names of Enums and nested elements doesn't reflating with real Enums
+    and could be replaces with some meaningless names.
+    """
+
     def setUp(self):
         self.maxDiff = None
 

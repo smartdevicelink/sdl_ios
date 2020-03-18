@@ -1,3 +1,5 @@
+{#- To avoid code duplication was crated this parent file, which contain common part used in:
+    "templates/functions/template.m" and "templates/structs/template.m". -#}
 {% include 'copyright.txt' %}
 {%- block imports %}
 #import "{{name}}.h"
@@ -17,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
-    self = [{{'self' if c.self else 'super'}} init{{'With'+c.self if c.self}}];
+    self = [{{ 'self' if c.self else 'super' }} init{{ 'With' + c.self if c.self and c.self is string }}];
 {%- if c.deprecated %}
     #pragma clang diagnostic pop
 {%- endif %}

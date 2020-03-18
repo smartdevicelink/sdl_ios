@@ -41,7 +41,7 @@ class Generator:
     This class contains only technical features, as follow:
     - parsing command-line arguments, or evaluating required container interactively;
     - calling parsers to get Model from xml;
-    - calling producers to transform initial Model to dict used in jinja2 templates
+    - calling producers to transform initial Model to dict used in Jinja2 templates
     Not required to be covered by unit tests cause contains only technical features.
     """
 
@@ -53,20 +53,30 @@ class Generator:
         self.paths_named = namedtuple('paths_named', 'enum_class struct_class request_class response_class '
                                                      'notification_class function_names parameter_names')
 
+    _version = '1.0.0'
+
+    @property
+    def get_version(self) -> str:
+        """
+        version of the entire generator
+        :return: current entire generator version
+        """
+        return self._version
+
     @property
     def output_directory(self) -> Path:
         """
-
-        :return:
+        Getter for output directory
+        :return: output directory Path
         """
         return self._output_directory
 
     @output_directory.setter
-    def output_directory(self, output_directory):
+    def output_directory(self, output_directory: str):
         """
-
-        :param output_directory:
-        :return:
+        Setting and validating output directory
+        :param output_directory: path to output directory
+        :return: None
         """
         if output_directory.startswith('/'):
             path = Path(output_directory).absolute().resolve()
@@ -84,17 +94,17 @@ class Generator:
     @property
     def env(self) -> Environment:
         """
-
-        :return:
+        Getter for Jinja2 instance
+        :return: initialized Jinja2 instance
         """
         return self._env
 
     @env.setter
-    def env(self, paths):
+    def env(self, paths: list):
         """
-
-        :param paths:
-        :return:
+        Initiating Jinja2 instance
+        :param paths: list with paths to all Jinja2 templates
+        :return: None
         """
         loaders = list(filter(lambda l: Path(l).exists(), paths))
         if not loaders:
@@ -107,27 +117,19 @@ class Generator:
         self._env.globals['year'] = date.today().year
 
     @staticmethod
-    def title(name):
+    def title(name: str):
         """
-
-        :param name:
-        :return:
+        Capitalizing only first character in string. Using for appropriate filter in Jinja2
+        :param name: string to be capitalized first character
+        :return: initial parameter with capitalized first character
         """
-        return name[:1].upper() + name[1:]
-
-    @property
-    def get_version(self):
-        """
-
-        :return:
-        """
-        return Common.version
+        return Common.title(name)
 
     def config_logging(self, verbose):
         """
-
-        :param verbose:
-        :return:
+        Configuring logging for all application
+        :param verbose: if True setting logging.DEBUG else logging.ERROR
+        :return: None
         """
         handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter(fmt='%(asctime)s.%(msecs)03d - %(levelname)s - %(message)s',
@@ -147,8 +149,8 @@ class Generator:
 
     def get_parser(self):
         """
-        Parsing command-line arguments, or evaluating required container interactively.
-        :return: an instance of argparse.ArgumentParser
+        Parsing and evaluating command-line arguments
+        :return: object with parsed and validated CLI arguments
         """
         if len(sys.argv) == 2 and sys.argv[1] in ('-v', '--version'):
             print(self.get_version)
@@ -174,11 +176,11 @@ class Generator:
                             help='only elements matched with defined regex pattern will be parsed and generated')
         parser.add_argument('--verbose', action='store_true', help='display additional details like logs etc')
         parser.add_argument('-e', '--enums', required=False, action='store_true',
-                            help='all enums will be generated, if present')
+                            help='if present, all enums will be generated')
         parser.add_argument('-s', '--structs', required=False, action='store_true',
-                            help='all structs will be generated, if present')
+                            help='if present, all structs will be generated')
         parser.add_argument('-m', '-f', '--functions', required=False, action='store_true',
-                            help='all functions will be generated, if present')
+                            help='if present, all functions will be generated')
         parser.add_argument('-y', '--overwrite', action='store_true',
                             help='force overwriting of existing files in output directory, ignore confirmation message')
         parser.add_argument('-n', '--skip', action='store_true',
@@ -220,11 +222,11 @@ class Generator:
         return args
 
     def versions_compatibility_validating(self):
-        """version of generator script requires the same or lesser version of parser script.
+        """
+        Version of generator script requires the same or lesser version of parser script.
         if the parser script needs to fix a bug (and becomes, e.g. 1.0.1) and the generator script stays at 1.0.0.
         As long as the generator script is the same or greater major version, it should be parsable.
         This requires some level of backward compatibility. E.g. they have to be the same major version.
-
         """
 
         regex = r'(\d+\.\d+).(\d)'
@@ -245,8 +247,9 @@ class Generator:
         self.logger.info('Parser type: %s, version %s,\tGenerator version %s',
                          basename(getfile(Parser().__class__)), parser_origin, generator_origin)
 
-    def get_paths(self, file_name=ROOT.joinpath('paths.ini')):
+    def get_paths(self, file_name: Path = ROOT.joinpath('paths.ini')):
         """
+        Getting and validating parent classes names
         :param file_name: path to file with container
         :return: namedtuple with container to key elements
         """
@@ -277,7 +280,7 @@ class Generator:
 
         return self.paths_named(**data)
 
-    async def get_mappings(self, file=ROOT.joinpath('mapping.json')):
+    async def get_mappings(self, file: Path = ROOT.joinpath('mapping.json')):
         """
         The key name in *.json is equal to property named in jinja2 templates
         :param file: path to file with manual mappings
@@ -291,13 +294,13 @@ class Generator:
             self.logger.error('Failure to get mappings %s', error1)
             return OrderedDict()
 
-    def write_file(self, file, templates, data):
+    def write_file(self, file: Path, templates: list, data: dict):
         """
         Calling producer/transformer instance to transform initial Model to dict used in jinja2 templates.
         Applying transformed dict to jinja2 templates and writing to appropriate file
-        :param file: output js file
-        :param templates: name of template
-        :param data: an instance of transformer for particular item
+        :param file: output file name
+        :param templates: list with templates
+        :param data: Dictionary with prepared output data, ready to be applied to Jinja2 template
         """
         try:
             render = self.env.get_or_select_template(templates).render(data)
@@ -307,7 +310,7 @@ class Generator:
                 as error1:
             self.logger.error('skipping %s, template not found %s', file.as_posix(), error1)
 
-    async def process_main(self, skip, overwrite, items, transformer):
+    async def process_main(self, skip: bool, overwrite: bool, items: dict, transformer):
         """
         Process each item from initial Model. According to provided arguments skipping, overriding or asking what to to.
         :param skip: if file exist skip it
@@ -333,14 +336,15 @@ class Generator:
 
         await asyncio.gather(*tasks)
 
-    async def process_function_name(self, skip, overwrite, functions, structs, transformer):
+    async def process_function_name(self, skip: bool, overwrite: bool, functions: dict, structs: dict,
+                                    transformer: FunctionsProducer):
         """
-
-        :param skip:
-        :param overwrite:
-        :param functions:
-        :param structs:
-        :param transformer:
+        Processing output for SDLRPCFunctionNames and SDLRPCParameterNames
+        :param skip: if target file exist it will be skipped
+        :param overwrite: if target file exist it will be overwritten
+        :param functions: Dictionary with all functions
+        :param structs: Dictionary with all structs
+        :param transformer: FunctionsProducer (transformer) instance
         :return:
         """
         tasks = []
@@ -360,15 +364,15 @@ class Generator:
 
         await asyncio.gather(*tasks)
 
-    async def process_common(self, skip, overwrite, file_with_suffix, data, templates):
+    async def process_common(self, skip: bool, overwrite: bool, file_with_suffix: Path, data: dict, templates: list):
         """
-
-        :param skip:
-        :param overwrite:
-        :param file_with_suffix:
-        :param data:
-        :param templates:
-        :return:
+        Processing output common
+        :param skip: if target file exist it will be skipped
+        :param overwrite: if target file exist it will be overwritten
+        :param file_with_suffix: output file name
+        :param data: Dictionary with prepared output data, ready to be applied to Jinja2 template
+        :param templates: list with paths to Jinja2 templates
+        :return: None
         """
         if file_with_suffix.is_file():
             if skip:
@@ -400,10 +404,10 @@ class Generator:
     @staticmethod
     def filter_pattern(interface, pattern):
         """
-
-        :param interface:
-        :param pattern:
-        :return:
+        Filtering Model to match with regex pattern
+        :param interface: Initial (original) Model, obtained from module 'rpc_spec/InterfaceParser'
+        :param pattern: regex pattern (string)
+        :return: Model with items which match with regex pattern
         """
         names = tuple(interface.enums.keys()) + tuple(interface.structs.keys())
 
@@ -419,10 +423,10 @@ class Generator:
 
     async def parser(self, source_xml, source_xsd):
         """
-
-        :param source_xml:
-        :param source_xsd:
-        :return:
+        Getting Model from source_xml, parsed and validated by module 'rpc_spec/InterfaceParser'
+        :param source_xml: path to xml file
+        :param source_xsd: path to xsd file
+        :return: Model, obtained from module 'rpc_spec/InterfaceParser'
         """
         try:
             start = datetime.now()

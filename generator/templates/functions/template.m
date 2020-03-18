@@ -1,3 +1,4 @@
+{#- This template creates RPC requests, responses, and notification .m files -#}
 {% extends "base_struct_function.m" %}
 {% block imports %}
 {{super()}}

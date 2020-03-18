@@ -1,5 +1,5 @@
 """
-Common transformer
+All Enums/Structs/Functions Producer are inherited from this class and using features of it
 """
 import json
 import logging
@@ -21,15 +21,13 @@ from model.struct import Struct
 
 class InterfaceProducerCommon(ABC):
     """
-    Common transformer
+    All Enums/Structs/Functions Producer are inherited from this class and using features of it
     """
-
-    version = '1.0.0'
 
     def __init__(self, container_name, names=()):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.container_name = container_name
-        self.names = names
+        self.names = list(map(lambda e: self.replace_sync(e), names))
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
                                       'method_suffix of_class type_native type_sdl modifier for_name description '
@@ -37,20 +35,13 @@ class InterfaceProducerCommon(ABC):
         self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
 
-    @property
-    def get_version(self):
-        """
-
-        :return:
-        """
-        return self.version
-
     def transform(self, item: (Enum, Function, Struct), render: dict) -> dict:
         """
-
-        :param item:
-        :param render:
-        :return:
+        Main entry point for transforming each Enum/Function/Struct into output dictionary,
+        which going to be applied to Jinja2 template
+        :param item: instance of Enum/Function/Struct
+        :param render: dictionary with pre filled entries, which going to be filled/changed by reference
+        :return: dictionary which going to be applied to Jinja2 template
         """
         if item.description:
             render['description'] = self.extract_description(item.description)
@@ -58,65 +49,77 @@ class InterfaceProducerCommon(ABC):
             render['since'] = item.since
         if item.history:
             render['history'] = item.history.pop().since
-        if item.deprecated and item.deprecated.lower() == 'true':
+        if item.deprecated and str(item.deprecated).lower() == 'true':
             render['deprecated'] = True
 
         render['params'] = OrderedDict()
 
         for param in getattr(item, self.container_name).values():
-            if param.name.lower() in ['id']:
+            param.name = self.replace_sync(param.name)
+            if param.name.lower() == 'id':
                 param.name = self.minimize_first(item.name) + self.title(param.name)
             render['params'][param.name] = self.extract_param(param)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
 
         if 'constructors' not in render and isinstance(item, (Struct, Function)):
-            designated_initializer = render['designated_initializer'] if 'designated_initializer' in render else False
-            render['constructors'] = self.extract_constructors(render['params'], designated_initializer)
+            render['constructors'] = self.extract_constructors(render['params'])
 
         render['params'] = tuple(render['params'].values())
         return render
 
-    def extract_imports(self, param: Param, imports):
+    @staticmethod
+    def replace_sync(name: str = '') -> str:
         """
-
-        :param param:
-        :param imports:
-        :return:
+        :param name: string with item name
+        :return: string with replaced 'sync' to 'sdl'
         """
+        return re.sub(r'^([sS])ync(.+)$', r'\1dl\2', name)
 
-        def evaluate(element):
-            if isinstance(element, (Struct, Enum)):
-                return element.name, type(element).__name__.lower()
-            return None, None
+    def extract_imports(self, param: Param, imports: dict):
+        """
+        Extracting appropriate imports and updating in render['imports'] by reference
+        :param param: instance of Param, which is sub element of Enum/Function/Struct
+        :param imports: dictionary from render['imports']
+        :return: dictionary with extracted imports
+        """
 
         if isinstance(param.param_type, Array):
-            type_origin, kind = evaluate(param.param_type.element_type)
+            type_origin, kind = self.evaluate_import(param.param_type.element_type)
         else:
-            type_origin, kind = evaluate(param.param_type)
+            type_origin, kind = self.evaluate_import(param.param_type)
 
-        if type_origin in self.names:
+        if type_origin and (type_origin in self.names or self.title(type_origin) in self.names):
             name = 'SDL' + type_origin
             imports['.h'][kind].add(name)
             imports['.m'].add(name)
 
         return imports
 
-    @staticmethod
-    def title(name):
+    def evaluate_import(self, element):
         """
+        :param element: instance of param.param_type
+        :return: tuple with element.name, type(element).__name__.lower()
+        """
+        if isinstance(element, (Struct, Enum)):
+            return self.replace_sync(element.name), type(element).__name__.lower()
+        return None, None
 
-        :param name:
-        :return:
+    @staticmethod
+    def title(name: str = '') -> str:
+        """
+        Capitalizing only first character in string.
+        :param name: string to be capitalized first character
+        :return: initial parameter with capitalized first character
         """
         return name[:1].upper() + name[1:]
 
     @staticmethod
-    def minimize_first(name):
+    def minimize_first(name: str = '') -> str:
         """
-
-        :param name:
-        :return:
+        Minimizing only first character in string.
+        :param name: string to be minimized first character
+        :return: initial parameter with minimized first character
         """
         return name[:1].lower() + name[1:]
 
@@ -125,7 +128,7 @@ class InterfaceProducerCommon(ABC):
         """
         Evaluate, align and delete @TODO
         :param data: list with description
-        :param length:
+        :param length: length of the string to be split
         :return: evaluated string
         """
         if not data:
@@ -135,12 +138,12 @@ class InterfaceProducerCommon(ABC):
         return textwrap.wrap(re.sub(r'(\s{2,}|\n|\[@TODO.+)', ' ', data).strip(), length)
 
     @staticmethod
-    def nullable(type_native, mandatory):
+    def nullable(type_native: str, mandatory: bool) -> str:
         """
-
-        :param type_native:
-        :param mandatory:
-        :return:
+        Used for adding nullable modificator into initiator (constructor) parameter
+        :param type_native: native type
+        :param mandatory: is parameter mandatory
+        :return: string with modificator
         """
         if mandatory or re.match(r'BOOL|float|double', type_native):
             return ''
@@ -149,9 +152,9 @@ class InterfaceProducerCommon(ABC):
     @staticmethod
     def wrap(item):
         """
-
-        :param item:
-        :return:
+        Used for wrapping appropriate initiator (constructor) parameter with '@({})'
+        :param item: named tup[le with initiator (constructor) parameter
+        :return: wrapped parameter
         """
         if re.match(r'\w*Int\d*|BOOL|float|double', item.type_native):
             return '@({})'.format(item.constructor_argument)
@@ -159,10 +162,10 @@ class InterfaceProducerCommon(ABC):
 
     def extract_constructor(self, data: list, mandatory: bool) -> dict:
         """
-
-        :param data:
-        :param mandatory:
-        :return:
+        Preparing dictionary with initial initiator (constructor)
+        :param data: list with prepared parameters
+        :param mandatory: is parameter mandatory
+        :return: dictionary with initial initiator (constructor)
         """
         data = list(data)
 
@@ -179,15 +182,14 @@ class InterfaceProducerCommon(ABC):
                                             self.nullable(param.type_native, mandatory),
                                             param.type_native.strip(), param.constructor_argument)
             init.append(init_str)
+        _self = True if 'functions' in self.__class__.__name__.lower() and mandatory else ''
+        return {'init': ' '.join(init), 'self': _self, 'arguments': arguments, 'all': arguments, 'deprecated': False}
 
-        return {'init': ' '.join(init), 'self': '', 'arguments': arguments, 'all': arguments, 'deprecated': False}
-
-    def extract_constructors(self, data: dict, designated_initializer: bool = None) -> tuple:
+    def extract_constructors(self, data: dict) -> tuple:
         """
-
-        :param data:
-        :param designated_initializer:
-        :return:
+        Preparing tuple with all initiators (constructors)
+        :param data: list with prepared parameters
+        :return: tuple with all initiators (constructors)
         """
         mandatory = []
         not_mandatory = []
@@ -210,25 +212,21 @@ class InterfaceProducerCommon(ABC):
                 not_mandatory['all'] = mandatory['arguments'] + not_mandatory['arguments']
                 not_mandatory['deprecated'] = any([m.deprecated for m in mandatory if hasattr(m, 'deprecated')])
                 not_mandatory['self'] = re.sub(r'([\w\d]+:)\([\w\d\s<>*]*\)([\w\d]+\s*)', r'\1\2', mandatory['init'])
-            if not mandatory and designated_initializer:
-                not_mandatory['init'] = not_mandatory['init'] + ' NS_DESIGNATED_INITIALIZER'
             result.append(self.constructor_named(**not_mandatory))
 
         if mandatory:
-            if designated_initializer:
-                mandatory['init'] = mandatory['init'] + ' NS_DESIGNATED_INITIALIZER'
             result.insert(0, self.constructor_named(**mandatory))
 
         return tuple(result)
 
-    @staticmethod
-    def evaluate_type(instance, mandatory) -> dict:
+    def evaluate_type(self, instance) -> dict:
         """
-
-        :param instance:
-        :param mandatory:
-        :return:
+        Extracting dictionary with evaluated output types
+        :param instance: param_type of Param
+        :return: dictionary with evaluated output types
         """
+        if hasattr(instance, 'name'):
+            instance.name = self.replace_sync(instance.name)
         data = OrderedDict()
         if isinstance(instance, Enum):
             data['for_name'] = 'enum'
@@ -262,8 +260,6 @@ class InterfaceProducerCommon(ABC):
                     data['type_sdl'] = 'SDLUInt'
             data['of_class'] = 'NSNumber.class'
             data['type_sdl'] = 'NSNumber<{}> *'.format(data['type_sdl'])
-            if not mandatory:
-                data['type_native'] = data['type_sdl']
         elif isinstance(instance, String):
             data['of_class'] = 'NSString.class'
             data['type_sdl'] = data['type_native'] = 'NSString *'
@@ -275,24 +271,29 @@ class InterfaceProducerCommon(ABC):
 
     def extract_type(self, param: Param) -> dict:
         """
-
-        :param param:
-        :return:
+        Preparing dictionary with output types information
+        :param param: sub element of Enum/Function/Struct
+        :return: dictionary with output types information
         """
 
         if isinstance(param.param_type, Array):
-            data = self.evaluate_type(param.param_type.element_type, param.is_mandatory)
+            data = self.evaluate_type(param.param_type.element_type)
             data['for_name'] = data['for_name'] + 's'
             data['type_sdl'] = data['type_native'] = 'NSArray<{}> *'.format(data['type_sdl'].strip())
-            return data
-        return self.evaluate_type(param.param_type, param.is_mandatory)
+        else:
+            data = self.evaluate_type(param.param_type)
+
+        if not param.is_mandatory and re.match(r'\w*Int\d*', data['type_native']):
+            data['type_native'] = data['type_sdl']
+
+        return data
 
     @staticmethod
-    def param_origin_change(name):
+    def param_origin_change(name) -> dict:
         """
-
-        :param name:
-        :return:
+        Based on name preparing common part of output types information
+        :param name: Param name
+        :return: dictionary with part of output types information
         """
         return {'origin': name,
                 'constructor_argument': name,
@@ -301,9 +302,9 @@ class InterfaceProducerCommon(ABC):
 
     def extract_param(self, param: Param):
         """
-
-        :param param:
-        :return:
+        Preparing self.param_named with prepared params
+        :param param: Param from initial Model
+        :return: self.param_named with prepared params
         """
         data = {'constructor_argument_override': None,
                 'description': self.extract_description(param.description),

@@ -23,7 +23,7 @@ except ImportError as error:
 
 def config_logging():
     """
-    :return: None
+    Configuring logging for all application
     """
     handler = logging.StreamHandler()
     handler.setFormatter(logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,7 +36,7 @@ def config_logging():
 
 def main():
     """
-    :return: None
+    Entry point for parser and generator
     """
     config_logging()
     suite = TestSuite()
