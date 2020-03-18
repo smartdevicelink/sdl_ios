@@ -40,8 +40,6 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
-#import "SDLIconArchiveFile.h"
-#import "SDLLockScreenIconCache.h"
 #import "SDLCacheFileManager.h"
 
 #import "SDLRPCParameterNames.h"
