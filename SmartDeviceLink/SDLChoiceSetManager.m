@@ -36,8 +36,10 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
-#import "SDLSystemContext.h"
+#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ShowManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,7 +66,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
+@property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
@@ -102,6 +104,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     _nextCancelId = ChoiceCellCancelIdMin;
     _vrOptional = YES;
     _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
+    _currentHMILevel = SDLHMILevelNone;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
@@ -109,6 +112,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)start {
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
         [self.stateMachine transitionToState:SDLChoiceManagerStateCheckingVoiceOptional];
     }
@@ -139,11 +144,23 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     return queue;
 }
 
+/// Suspend the transaction queue if we are in HMI NONE
+/// OR if the text field name "menu name" (i.e. is the primary choice text) cannot be used, we assume we cannot present a PI.
+- (void)sdl_updateTransactionQueueSuspended {
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        || (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName])) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is: %@, window capability has MenuName (choice primary text): %@", self.currentHMILevel, ([self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] ? @"YES" : @"NO"));
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
+}
+
 #pragma mark - State Management
 
 - (void)didEnterStateShutdown {
-    _currentHMILevel = nil;
-    _currentSystemContext = nil;
+    _currentHMILevel = SDLHMILevelNone;
 
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -163,9 +180,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __weak typeof(self) weakself = self;
     __weak typeof(checkOp) weakOp = checkOp;
     checkOp.completionBlock = ^{
-        if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            return;
-        }
+        if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) { return; }
 
         weakself.vrOptional = weakOp.isVROptional;
         if (weakOp.error != nil) {
@@ -187,9 +202,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark Upload / Delete
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
+    SDLLogV(@"Request to preload choices: %@", choices);
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+        NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
+        SDLLogE(@"Attempted to preload choices but the choice set manager is shut down: %@", error);
         if (handler != nil) {
-            NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
             handler(error);
         }
         return;
@@ -214,12 +231,15 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
+    SDLLogD(@"Preloading choices");
+    SDLLogV(@"Choices to be uploaded: %@", choicesToUpload);
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName defaultMainWindowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
 
     __weak typeof(self) weakSelf = self;
     __weak typeof(preloadOp) weakPreloadOp = preloadOp;
     preloadOp.completionBlock = ^{
+        SDLLogD(@"Choices finished preloading");
         [weakSelf.preloadedMutableChoices unionSet:choicesToUpload];
         [weakSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
 
@@ -231,7 +251,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+    SDLLogV(@"Request to delete choices: %@", choices);
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
+        SDLLogE(@"Attempted to delete choices in an incorrect state: %@, they will not be deleted", self.currentState);
+        return;
+    }
 
     // Find cells to be deleted that are already uploaded or are pending upload
     NSSet<SDLChoiceCell *> *cellsToBeDeleted = [self sdl_choicesToBeDeletedWithArray:choices];
@@ -272,6 +296,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
+        SDLLogD(@"Finished deleting choices");
         [weakself.preloadedMutableChoices minusSet:cellsToBeDeleted];
     };
     [self.transactionQueue addOperation:deleteOp];
@@ -280,7 +305,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark Present
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
+        SDLLogE(@"Attempted to present choices in an incorrect state: %@, it will not be presented", self.currentState);
+        return;
+    }
 
     if (choiceSet == nil) {
         SDLLogW(@"Attempted to present a nil choice set, ignoring.");
@@ -288,9 +316,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     if (self.pendingPresentationSet != nil) {
+        SDLLogW(@"A choice set is pending: %@. We will try to cancel it in favor of presenting a different choice set: %@. If it's already on screen it cannot be cancelled", self.pendingPresentationSet, choiceSet);
         [self.pendingPresentOperation cancel];
     }
 
+    SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
     self.pendingPresentationSet = choiceSet;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
@@ -316,6 +346,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     self.pendingPresentOperation.completionBlock = ^{
         __strong typeof(weakOp) strongOp = weakOp;
 
+        SDLLogD(@"Finished presenting choice set: %@", strongOp.choiceSet);
         if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
         } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {
@@ -325,17 +356,23 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         weakself.pendingPresentationSet = nil;
         weakself.pendingPresentOperation = nil;
     };
+
     [self.transactionQueue addOperation:presentOp];
 }
 
 - (nullable NSNumber<SDLInt> *)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return nil; }
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
+        SDLLogE(@"Attempted to present keyboard in an incorrect state: %@, it will not be presented", self.currentState);
+        return nil;
+    }
 
     if (self.pendingPresentationSet != nil) {
+        SDLLogW(@"There's already a pending presentation set, cancelling it in favor of a keyboard");
         [self.pendingPresentOperation cancel];
         self.pendingPresentationSet = nil;
     }
 
+    SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
     // Present a keyboard with the choice set that we used to test VR's optional state
     UInt16 keyboardCancelId = self.nextCancelId++;
     self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
@@ -350,6 +387,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         SDLPresentKeyboardOperation *keyboardOperation = (SDLPresentKeyboardOperation *)op;
         if (keyboardOperation.cancelId != cancelID.unsignedShortValue) { continue; }
 
+        SDLLogD(@"Dismissing keyboard with cancel ID: %@", cancelID);
         [keyboardOperation dismissKeyboard];
         break;
     }
@@ -403,8 +441,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
     if (keyboardConfiguration == nil) {
+        SDLLogD(@"Updating keyboard configuration to the default");
         _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
+        SDLLogD(@"Updating keyboard configuration to a new configuration: %@", keyboardConfiguration);
         _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText autoCompleteList:keyboardConfiguration.autoCompleteList];
 
         if (keyboardConfiguration.keypressMode != SDLKeypressModeResendCurrentEntry) {
@@ -433,35 +473,32 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - RPC Responses / Notifications
 
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
+    if (capabilities == nil || capabilities.count == 0) {
+        self.currentWindowCapability = nil;
+    } else {
+        SDLDisplayCapability *mainDisplay = capabilities[0];
+        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+
+            self.currentWindowCapability = windowCapability;
+            break;
+        }
+    }
+
+    [self sdl_updateTransactionQueueSuspended];
+}
+
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     // We can only present a choice set if we're in FULL
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
-    
-    SDLHMILevel oldHMILevel = self.currentHMILevel;
+    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) { return; }
+
     self.currentHMILevel = hmiStatus.hmiLevel;
 
-    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = YES;
-    }
-
-    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = NO;
-    }
-
-    // We need to check for this to make sure we can currently present the dialog. If the current context is HMI_OBSCURED or ALERT, we have to wait for MAIN to present
-    self.currentSystemContext = hmiStatus.systemContext;
-
-    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) {
-        self.transactionQueue.suspended = YES;
-    }
-
-    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextMain] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.transactionQueue.suspended = NO;
-    }
+    [self sdl_updateTransactionQueueSuspended];
 }
 
 @end
