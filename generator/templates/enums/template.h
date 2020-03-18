@@ -1,5 +1,4 @@
 {% include 'copyright.txt' %}
-//  {{ name }}.h
 {% block imports -%}
 {%- for import in imports %}
 #import "{{import}}.h"

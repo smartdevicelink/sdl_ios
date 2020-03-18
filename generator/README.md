@@ -2,11 +2,11 @@
 
 This script provides the ability to auto-generate Objective-C RPC code (header \*.h and implementation \*.m classes) based on the SDL MOBILE_API XML specification.
 
-## Requirements
+## Requirements and Dependencies
 
 The script requires **Python 3** pre-installed on the host system. The minimal supported Python 3 version is **3.7.6**. It may work on versions back to 3.5 (the minimal version that has not yet reached [the end-of-life](https://devguide.python.org/devcycle/#end-of-life-branches)), but this is not supported and may break in the future.
 
-Note: To install versions of Python 3, you must use the **pip3** command.
+Note: To install the dependencies for this script, you must use the **pip3** command.
 
 All required libraries are listed in `requirements.txt` and should be pre-installed on the system prior to using the sript. Please use the following command to install the libraries:
 
@@ -56,9 +56,9 @@ optional arguments:
                         only elements matched with defined regex pattern will
                         be parsed and generated
   --verbose             display additional details like logs etc
-  -e, --enums           all enums will be generated, if present
-  -s, --structs         all structs will be generated, if present
-  -m, -f, --functions   all functions will be generated, if present
+  -e, --enums           if present, all enums will be generated
+  -s, --structs         if present, all structs will be generated
+  -m, -f, --functions   if present, all functions will be generated
   -y, --overwrite       force overwriting of existing files in output
                         directory, ignore confirmation message
   -n, --skip            skip overwriting of existing files in output
@@ -193,7 +193,7 @@ __deprecated
 extern SDLTouchType const SDLTouchTypeBegin;
 ```
 
-Take for an instance the enum class KeypressMode
+Take, for instance, the enum class `KeypressMode`:
  
 ```xml
 <enum name="KeypressMode" since="3.0">

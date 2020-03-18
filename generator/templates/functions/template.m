@@ -1,8 +1,8 @@
 {% extends "base_struct_function.m" %}
 {% block imports %}
 {{super()}}
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 {%- endblock %}
 {% block constructors %}
 #pragma clang diagnostic push

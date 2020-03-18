@@ -1,5 +1,4 @@
 {% include 'copyright.txt' %}
-//  {{ name }}.m
 
 #import "{{name}}.h"
 {%- block body %}

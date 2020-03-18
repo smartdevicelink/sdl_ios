@@ -1,5 +1,4 @@
 {% include 'copyright.txt' %}
-//  {{name}}.m
 {%- block imports %}
 #import "{{name}}.h"
 #import "NSMutableDictionary+Store.h"
