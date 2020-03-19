@@ -66,10 +66,8 @@ static float DefaultConnectionTimeout = 45.0;
         // Check if new directory was just created, if no, clear lock screen cache directory and create empty archive file
         if (!isNewDirectory) {
             [self sdl_clearLockScreenDirectory];
-            iconArchiveFile = [[SDLIconArchiveFile alloc] init];
-        } else {
-            iconArchiveFile = [[SDLIconArchiveFile alloc] init];
         }
+        iconArchiveFile = [[SDLIconArchiveFile alloc] init];
     } else {
         for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
             // The icon exists and is not expired
@@ -98,7 +96,7 @@ static float DefaultConnectionTimeout = 45.0;
         
         // Save lock screen icon to file path
         NSString *iconFilePath = [self sdl_writeImage:image toFileFromURL:request.url];
-        
+
         if (iconFilePath == nil) {
             SDLLogE(@"Could not save lockscreen icon to path: %@", error);
         }
