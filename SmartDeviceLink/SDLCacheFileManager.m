@@ -47,6 +47,8 @@ static float DefaultConnectionTimeout = 45.0;
     NSError *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isNewDirectory = NO;
+//    request.url = @"https://image.shutterstock.com/image-vector/sun-vector-icon-isolated-on-260nw-1155022117.jpg";
+
     
     // Check if the directory already exists; if it does not, create it
     if (![fileManager fileExistsAtPath:self.sdl_cacheFileBaseDirectory]) {
@@ -60,7 +62,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
     
     // Attempt to retrieve archive file from directory cache
-    SDLIconArchiveFile *iconArchiveFile = [self sdl_retrieveArchiveFileFromPath:self.sdl_cacheFileBaseDirectory];
+    SDLIconArchiveFile *iconArchiveFile = [self sdl_retrieveArchiveFileFromPath:self.sdl_archiveFileDirectory];
     
     if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
         // Check if new directory was just created, if no, clear lock screen cache directory
@@ -94,6 +96,7 @@ static float DefaultConnectionTimeout = 45.0;
         
         // Save lock screen icon to file path
         NSString *iconFilePath = [self sdl_writeImage:image toFileFromURL:request.url];
+        
         if (iconFilePath == nil) {
             SDLLogE(@"Could not save lockscreen icon to path: %@", error);
         }
@@ -148,11 +151,11 @@ static float DefaultConnectionTimeout = 45.0;
  * @return A string representation of the directory the icon was saved to
 */
 - (nullable NSString *)sdl_writeImage:(UIImage *)icon toFileFromURL:(NSString *)urlString {
-    NSData *iconJPEGData = UIImageJPEGRepresentation(icon, 1.0);
+    NSData *iconPNGData = UIImagePNGRepresentation(icon);
     NSString *iconStorageName = [self.class sdl_md5HashFromString:urlString];
     
     NSString *imageFilePath = [self.sdl_cacheFileBaseDirectory stringByAppendingPathComponent:iconStorageName];
-    [iconJPEGData writeToFile:imageFilePath atomically:YES];
+    [iconPNGData writeToFile:imageFilePath atomically:YES];
     
     return imageFilePath;
 }
@@ -184,7 +187,7 @@ static float DefaultConnectionTimeout = 45.0;
         archiveFile.lockScreenIconCaches = archiveArray;
         
         // HAX: Update this when we are iOS 11.0+
-        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:iconFilePath];
+        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.sdl_archiveFileDirectory];
         if (!writeSuccess) {
             SDLLogE(@"Could not write file to specified path: %@", error);
         }
@@ -195,10 +198,8 @@ static float DefaultConnectionTimeout = 45.0;
         SDLIconArchiveFile *iconArchiveFile = [[SDLIconArchiveFile alloc] init];
         iconArchiveFile.lockScreenIconCaches = @[lockScreenIconCache];
         
-        NSString *archiveFilePath = self.sdl_archiveFileDirectory;
-        
         // HAX: Update this when we are iOS 11.0+
-        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:iconArchiveFile toFile:archiveFilePath];
+        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:iconArchiveFile toFile:self.sdl_archiveFileDirectory];
         if (!writeSuccess) {
             SDLLogE(@"Could not write file to specified path: %@", error);
         }
