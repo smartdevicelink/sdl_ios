@@ -52,21 +52,22 @@ static float DefaultConnectionTimeout = 45.0;
     if (![fileManager fileExistsAtPath:self.sdl_cacheFileBaseDirectory]) {
         // Create the directory including any intermediate directories if necessary
         [fileManager createDirectoryAtPath:self.sdl_cacheFileBaseDirectory withIntermediateDirectories:YES attributes:nil error:&error];
+        isNewDirectory = YES;
         
         if (error != nil) {
             SDLLogE(@"Could not create directory at specified path: %@", error);
-        } else {
-            isNewDirectory = YES;
         }
     }
     
     // Attempt to retrieve archive file from directory cache
     SDLIconArchiveFile *iconArchiveFile = [self sdl_retrieveArchiveFileFromPath:self.sdl_cacheFileBaseDirectory];
     
-    if (((iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) && !isNewDirectory)) {
-        // Archive file nil or lockScreenIconCaches empty, clear directory
-        [self sdl_clearLockScreenDirectory];
-    } else if (iconArchiveFile != nil && iconArchiveFile.lockScreenIconCaches.count > 0) {
+    if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
+        // Check if new directory was just created, if no, clear lock screen cache directory
+        if (!isNewDirectory) {
+            [self sdl_clearLockScreenDirectory];
+        }
+    } else {
         for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
             // The icon exists and is not expired
             if ([iconCache.iconUrl isEqualToString:request.url] && [self.class numberOfDaysFromDateCreated:iconCache.lastModifiedDate] < 30) {
@@ -97,6 +98,7 @@ static float DefaultConnectionTimeout = 45.0;
             SDLLogE(@"Could not save lockscreen icon to path: %@", error);
         }
         
+        // Update archive file with icon
         [self updateArchiveFileFromRequest:request icon:image iconFilePath:iconFilePath archiveFile:iconArchiveFile];
         
         return completion(image, nil);
@@ -104,7 +106,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 }
 
-#pragma mark - Cache Saving, Retrieving, Deletion Methods
+#pragma mark - Cache Helper Methods
 
 - (nullable SDLIconArchiveFile *)sdl_retrieveArchiveFileFromPath:(NSString *)path {
     NSString *archiveObjectPath = self.sdl_archiveFileDirectory;
@@ -139,8 +141,6 @@ static float DefaultConnectionTimeout = 45.0;
     
     return imageFilePath;
 }
-
-#pragma mark - Update Archive File
 
 - (void)updateArchiveFileFromRequest:(SDLOnSystemRequest *)request
                                 icon:(UIImage *)icon
