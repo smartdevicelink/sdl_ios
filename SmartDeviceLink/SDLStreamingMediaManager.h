@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Create a new streaming media manager for navigation and projection apps with a specified configuration.
 /// @param connectionManager The pass-through for RPCs
 /// @param configuration This session's configuration
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration __deprecated_msg("Use initWithConnectionManager:configuration:systemCapabilityManager: instead");
 
 /// Create a new streaming media manager for navigation and projection apps with a specified configuration.
 /// @param connectionManager The pass-through for RPCs
