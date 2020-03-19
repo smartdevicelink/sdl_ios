@@ -47,9 +47,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSError *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isNewDirectory = NO;
-//    request.url = @"https://image.shutterstock.com/image-vector/sun-vector-icon-isolated-on-260nw-1155022117.jpg";
 
-    
     // Check if the directory already exists; if it does not, create it
     if (![fileManager fileExistsAtPath:self.sdl_cacheFileBaseDirectory]) {
         // Create the directory including any intermediate directories if necessary
@@ -65,9 +63,12 @@ static float DefaultConnectionTimeout = 45.0;
     SDLIconArchiveFile *iconArchiveFile = [self sdl_retrieveArchiveFileFromPath:self.sdl_archiveFileDirectory];
     
     if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
-        // Check if new directory was just created, if no, clear lock screen cache directory
+        // Check if new directory was just created, if no, clear lock screen cache directory and create empty archive file
         if (!isNewDirectory) {
             [self sdl_clearLockScreenDirectory];
+            iconArchiveFile = [[SDLIconArchiveFile alloc] init];
+        } else {
+            iconArchiveFile = [[SDLIconArchiveFile alloc] init];
         }
     } else {
         for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
@@ -80,6 +81,7 @@ static float DefaultConnectionTimeout = 45.0;
                 // If we fail to get icon at path, break loop early to download new icon
                 if (icon == nil) {
                     [self sdl_clearLockScreenDirectory];
+                    iconArchiveFile = [[SDLIconArchiveFile alloc] init];
                     break;
                 }
                 
@@ -167,42 +169,31 @@ static float DefaultConnectionTimeout = 45.0;
  * @param iconFilePath The directory path where the icon file is held
  * @param archiveFile Current archive file to update
 */
-- (void)updateArchiveFileFromRequest:(SDLOnSystemRequest *)request iconFilePath:(NSString *)iconFilePath archiveFile:(SDLIconArchiveFile * _Nullable )archiveFile {
+- (void)updateArchiveFileFromRequest:(SDLOnSystemRequest *)request iconFilePath:(NSString *)iconFilePath archiveFile:(SDLIconArchiveFile *)archiveFile {
     NSError *error = nil;
-
-    if (archiveFile != nil) {
-        NSMutableArray *archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
-        
-        // Need to remove duplicate SDLLockScreenIconCache object if handling expired icon
-        for (SDLLockScreenIconCache *iconCacheCopy in archiveArray) {
-            if ([iconCacheCopy.iconUrl isEqualToString:request.url]) {
-                [archiveArray removeObject:iconCacheCopy];
-                break;
-            }
+    NSMutableArray *archiveArray = [NSMutableArray new];
+    
+    if (archiveFile.lockScreenIconCaches != nil) {
+        archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
+    }
+    
+    // Need to remove duplicate SDLLockScreenIconCache object if handling expired icon
+    for (SDLLockScreenIconCache *iconCacheCopy in archiveArray) {
+        if ([iconCacheCopy.iconUrl isEqualToString:request.url]) {
+            [archiveArray removeObject:iconCacheCopy];
+            break;
         }
-        
-        SDLLockScreenIconCache *newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:request.url iconFilePath:iconFilePath];
-        [archiveArray addObject:newIconCache];
-        
-        archiveFile.lockScreenIconCaches = archiveArray;
-        
-        // HAX: Update this when we are iOS 11.0+
-        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.sdl_archiveFileDirectory];
-        if (!writeSuccess) {
-            SDLLogE(@"Could not write file to specified path: %@", error);
-        }
-    } else {
-        // No archive file present, create one
-        SDLLockScreenIconCache *lockScreenIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:request.url iconFilePath:iconFilePath];
-        
-        SDLIconArchiveFile *iconArchiveFile = [[SDLIconArchiveFile alloc] init];
-        iconArchiveFile.lockScreenIconCaches = @[lockScreenIconCache];
-        
-        // HAX: Update this when we are iOS 11.0+
-        BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:iconArchiveFile toFile:self.sdl_archiveFileDirectory];
-        if (!writeSuccess) {
-            SDLLogE(@"Could not write file to specified path: %@", error);
-        }
+    }
+    
+    SDLLockScreenIconCache *newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:request.url iconFilePath:iconFilePath];
+    [archiveArray addObject:newIconCache];
+    
+    archiveFile.lockScreenIconCaches = archiveArray;
+    
+    // HAX: Update this when we are iOS 11.0+
+    BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.sdl_archiveFileDirectory];
+    if (!writeSuccess) {
+        SDLLogE(@"Could not write file to specified path: %@", error);
     }
 }
 
