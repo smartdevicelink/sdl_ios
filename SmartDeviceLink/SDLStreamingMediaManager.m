@@ -14,6 +14,7 @@
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -34,16 +35,20 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager streamingConfiguration: configuration.streamingMediaConfig encryptionConfiguration:configuration.encryptionConfig];
-    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration systemCapabilityManager:systemCapabilityManager];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration systemCapabilityManager:systemCapabilityManager];
 
     return self;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
+    return [self initWithConnectionManager:connectionManager configuration:configuration systemCapabilityManager:nil];
 }
 
 - (void)dealloc {
@@ -113,14 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isStreamingSupported {
-    // both audio and video lifecycle managers checks the param in Register App Interface response,
-    // hence the flag should be same between two managers if they are started
-    if (self.videoStarted) {
-        return self.videoLifecycleManager.isStreamingSupported;
-    } else if (self.audioStarted) {
-        return self.audioLifecycleManager.isStreamingSupported;
-    }
-    return NO;
+    // The flag is the same between the video and audio managers so just one needs to be returned.
+    return self.videoLifecycleManager.isStreamingSupported;
 }
 
 - (BOOL)isAudioConnected {

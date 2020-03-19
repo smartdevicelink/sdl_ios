@@ -23,7 +23,6 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
 #import "SDLH264VideoEncoder.h"
-#import "SDLHMICapabilities.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
@@ -42,11 +41,11 @@
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
-#import "SDLVersion.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
@@ -57,6 +56,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @interface SDLStreamingVideoLifecycleManager() <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
@@ -96,7 +96,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @implementation SDLStreamingVideoLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -106,6 +106,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _appName = configuration.lifecycleConfig.appName;
     _connectionManager = connectionManager;
+    _systemCapabilityManager = systemCapabilityManager;
     _videoEncoderSettings = [NSMutableDictionary dictionary];
     [_videoEncoderSettings addEntriesFromDictionary: SDLH264VideoEncoder.defaultVideoEncoderSettings];
     _customEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings;
@@ -571,24 +572,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogD(@"Received Register App Interface");
-    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)notification.response;
 
-    SDLLogV(@"Determining whether streaming is supported");
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    if ([SDLGlobals.sharedGlobals.rpcVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:4 minor:5 patch:0]]) {
-        _streamingSupported = registerResponse.hmiCapabilities.videoStreaming.boolValue;
-    } else {
-        _streamingSupported = YES;
-    }
-#pragma clang diagnostic pop
-    if (!self.isStreamingSupported) {
-        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
-        return;
-    }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    SDLImageResolution* resolution = registerResponse.displayCapabilities.screenParams.resolution;
+    SDLImageResolution *resolution = registerResponse.displayCapabilities.screenParams.resolution;
 #pragma clang diagnostic pop
     if (resolution != nil) {
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
@@ -836,6 +824,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (NSString *)videoStreamBackgroundString {
     return [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", self.appName];
+}
+
+- (BOOL)isStreamingSupported {
+    return (self.systemCapabilityManager != nil) ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
 }
 
 @end

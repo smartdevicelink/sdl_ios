@@ -15,6 +15,7 @@
 @class SDLAudioStreamManager;
 @class SDLConfiguration;
 @class SDLProtocol;
+@class SDLSystemCapabilityManager;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
@@ -118,14 +119,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
-/**
- Create a new streaming media manager for navigation and VPM apps with a specified configuration
+/// Create a new streaming media manager for navigation and projection apps with a specified configuration.
+/// @param connectionManager The pass-through for RPCs
+/// @param configuration This session's configuration
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration __deprecated_msg("Use initWithConnectionManager:configuration:systemCapabilityManager: instead");
 
- @param connectionManager The pass-through for RPCs
- @param configuration This session's configuration
- @return A new streaming manager
- */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+/// Create a new streaming media manager for navigation and projection apps with a specified configuration.
+/// @param connectionManager The pass-through for RPCs
+/// @param configuration This session's configuration
+/// @param systemCapabilityManager The system capability manager object for reading window capabilities
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
