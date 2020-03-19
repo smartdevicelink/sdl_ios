@@ -23,7 +23,9 @@
 #import "TestConnectionManager.h"
 
 @interface SDLStreamingAudioLifecycleManager()
+
 @property (copy, nonatomic) NSString *connectedVehicleMake;
+
 @end
 
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)

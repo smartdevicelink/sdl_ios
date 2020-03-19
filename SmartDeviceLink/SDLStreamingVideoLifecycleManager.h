@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, nullable) id<SDLStreamingMediaManagerDataSource> dataSource;
 
 /// Whether or not video/audio streaming is supported
-/// @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `YES` is returned by default even though the module may NOT support video/audio streaming.
+/// @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `YES` is returned by default even though the module may not support video/audio streaming.
 @property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
