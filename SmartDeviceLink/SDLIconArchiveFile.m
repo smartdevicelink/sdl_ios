@@ -14,8 +14,6 @@
     return YES;
 }
 
-
-
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
@@ -27,6 +25,42 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.lockScreenIconCaches forKey:@"lockScreenIconCaches"];
+}
+
+@end
+
+@implementation SDLLockScreenIconCache
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithIconUrl:(NSString *)iconUrl iconFilePath:(NSString *)iconFilePath {
+    self = [super init];
+    if (!self) { return nil; }
+    
+    self.iconUrl = iconUrl;
+    self.iconFilePath = iconFilePath;
+    self.lastModifiedDate = [NSDate date];
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+    if (!self) { return nil; }
+    
+    self.iconUrl = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconUrl"];
+    self.iconFilePath = [decoder decodeObjectOfClass:[NSString self] forKey:@"iconFilePath"];
+    self.lastModifiedDate = [decoder decodeObjectOfClass:[NSDate self] forKey:@"lastModifiedDate"];
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.iconUrl forKey:@"iconUrl"];
+    [encoder encodeObject:self.iconFilePath forKey:@"iconFilePath"];
+    [encoder encodeObject:self.lastModifiedDate forKey:@"lastModifiedDate"];
 }
 
 @end

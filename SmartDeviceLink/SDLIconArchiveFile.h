@@ -12,7 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIconArchiveFile : NSObject <NSSecureCoding>
 
-@property (nonatomic) NSArray *lockScreenIconCaches;
+@property (nonatomic, copy) NSArray *lockScreenIconCaches;
+
+@end
+
+@interface SDLLockScreenIconCache : NSObject <NSSecureCoding>
+
+@property (nonatomic, copy) NSString *iconUrl;
+@property (nonatomic, copy) NSString *iconFilePath;
+@property (nonatomic, copy) NSDate *lastModifiedDate;
+
+- (instancetype)initWithIconUrl:(NSString *)iconUrl iconFilePath:(NSString *)iconFilePath;
 
 @end
 
