@@ -51,6 +51,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLUInt> *windowID;
 
+/// Initialize an SDLOnHMIStatus RPC with initial parameters
+/// @param hmiLevel The HMI level
+/// @param systemContext The system context
+/// @param audioStreamingState The ability for an audio app to be heard
+/// @param videoStreamingState The ability for a video straming app to stream
+/// @param windowID Which window this status relates to
+- (instancetype)initWithHMILevel:(SDLHMILevel)hmiLevel systemContext:(SDLSystemContext)systemContext audioStreamingState:(SDLAudioStreamingState)audioStreamingState videoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState windowID:(nullable NSNumber<SDLUInt> *)windowID;
+
 @end
 
 NS_ASSUME_NONNULL_END

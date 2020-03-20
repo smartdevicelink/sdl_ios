@@ -149,7 +149,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
         [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration systemCapabilityManager:self.systemCapabilityManager];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }

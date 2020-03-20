@@ -779,7 +779,6 @@ typedef NSString * SDLServiceID;
     [self sdl_callObserversForUpdate:systemCapability error:nil handler:nil];
 }
 
-
 /**
  *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
  *

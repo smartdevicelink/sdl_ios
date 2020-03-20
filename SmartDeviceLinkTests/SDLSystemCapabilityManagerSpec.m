@@ -697,13 +697,12 @@ describe(@"System capability manager", ^{
                 expect(handlerTriggeredCount).toEventually(equal(1));
                 expect(observerTriggeredCount).toEventually(equal(1));
 
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(0));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
 
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
-
-                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
-                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
-                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
+                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(0));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beNil());
 
                 expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
@@ -727,11 +726,9 @@ describe(@"System capability manager", ^{
                     expect(handlerTriggeredCount).toEventually(equal(1));
                     expect(observerTriggeredCount).toEventually(equal(1));
 
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
-
-                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(0)); // No change from above
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
 
                     expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 });
@@ -764,13 +761,12 @@ describe(@"System capability manager", ^{
                 expect(handlerTriggeredCount).toEventually(equal(2));
                 expect(observerTriggeredCount).toEventually(equal(2));
 
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(2));
+                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
+                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
 
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
-
-                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
-                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(1));
-                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beFalse());
+                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
+                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(0));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beNil());
 
                 expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
@@ -790,10 +786,10 @@ describe(@"System capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(2)); // No change from above
+                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
                     expect(observerTriggeredCount).toEventually(equal(2));
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(1));
-                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
                     expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
                 });
             });

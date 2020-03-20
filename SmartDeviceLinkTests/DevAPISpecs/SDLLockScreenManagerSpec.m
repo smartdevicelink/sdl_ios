@@ -437,7 +437,7 @@ describe(@"a lock screen manager", ^{
 
                 // Since lock screen must be presented/dismissed on the main thread, force the test to execute manually on the main thread. If this is not done, the test case may fail.
                 [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-                OCMVerify([mockViewControllerPresenter updateLockScreenToShow:YES]);
+                OCMVerify([mockViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:nil]);
             });
         });
 
@@ -460,7 +460,7 @@ describe(@"a lock screen manager", ^{
 
                 // Since lock screen must be presented/dismissed on the main thread, force the test to execute manually on the main thread. If this is not done, the test case may fail.
                 [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-                OCMVerify([mockViewControllerPresenter updateLockScreenToShow:NO]);
+                OCMVerify([mockViewControllerPresenter updateLockScreenToShow:NO withCompletionHandler:nil]);
             });
         });
     });

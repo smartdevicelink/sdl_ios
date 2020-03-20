@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
 
 @property (assign, nonatomic) SDLPreloadChoicesOperationState currentState;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName defaultMainWindowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells;
 
 - (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices;
 
