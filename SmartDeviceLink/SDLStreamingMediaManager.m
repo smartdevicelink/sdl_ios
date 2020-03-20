@@ -116,43 +116,38 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_group_t endServiceTask = dispatch_group_create();
     dispatch_group_enter(endServiceTask);
-    dispatch_group_enter(endServiceTask);
 
     __weak typeof(self) weakSelf = self;
     if (oldVideoProtocol != nil) {
+        dispatch_group_enter(endServiceTask);
         [self.videoLifecycleManager endVideoServiceWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.videoStarted = NO;
             dispatch_group_leave(endServiceTask);
         }];
-    } else {
-        dispatch_group_leave(endServiceTask);
     }
 
     if (oldAudioProtocol != nil) {
+        dispatch_group_enter(endServiceTask);
         __weak typeof(self) weakSelf = self;
         [self.audioLifecycleManager endAudioServiceWithCompletionHandler:^ {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.audioStarted = NO;
             dispatch_group_leave(endServiceTask);
         }];
-    } else {
-        dispatch_group_leave(endServiceTask);
     }
 
+    dispatch_group_leave(endServiceTask);
+
+    // This will always run
     dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (oldVideoProtocol != nil || oldAudioProtocol != nil) {
-            [self sdl_disconnectSecondaryTransport];
             SDLLogV(@"Disconnecting the secondary transport");
-        }
+            [self sdl_disconnectSecondaryTransport];
 
-        if (oldVideoProtocol != nil) {
-            SDLLogV(@"Destroying the video protocol");
-            self.videoProtocol = nil;
-        }
-        if (oldAudioProtocol != nil) {
-            SDLLogV(@"Destroying the audio protocol");
+            SDLLogD(@"Destroying the audio and video protocol and starting new audio and video protocols");
             self.audioProtocol = nil;
+            self.videoProtocol = nil;
         }
 
         [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
