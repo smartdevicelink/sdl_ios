@@ -680,7 +680,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (self.protocol == nil) {
-        SDLLogV(@"No transport established with head unit. Video start service request will not be sent.");
+        SDLLogW(@"No transport established with head unit. Video start service request will not be sent.");
         return;
     }
 
@@ -707,7 +707,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_stopVideoSession {
     SDLLogV(@"Attempting to stop video session");
     if (!self.isStreamingSupported) {
-        SDLLogV(@"Head unit does not support video streaming. Will not send an end video service request");
+        SDLLogW(@"Head unit does not support video streaming. Will not send an end video service request");
         return;
     }
 
