@@ -74,7 +74,7 @@ struct TransportProtocolUpdated {
 @interface SDLSecondaryTransportManager ()
 
 /// State of this manager.
-@property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
+@property (strong, nonatomic) SDLStateMachine *stateMachine;
 // Dedicated queue that the state machine will run on.
 @property (copy, nonatomic) dispatch_queue_t stateMachineQueue;
 

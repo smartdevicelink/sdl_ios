@@ -36,9 +36,6 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  */
 @interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
 
-/// State of this manager
-@property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
-
 /// Create a new secondary transport manager.
 /// @param streamingProtocolDelegate a delegate to handle updates on protocol instances
 /// @param queue a serial dispatch queue that the internal state machine runs on

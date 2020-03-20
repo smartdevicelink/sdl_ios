@@ -50,6 +50,7 @@ static const int TCPPortUnspecified = -1;
 @interface SDLSecondaryTransportManager ()
 
 // we need to reach to private properties for the tests
+@property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
 @property (nullable, strong, nonatomic) SDLProtocol *primaryProtocol;
 @property (nullable, strong, nonatomic) id<SDLTransportType> secondaryTransport;
