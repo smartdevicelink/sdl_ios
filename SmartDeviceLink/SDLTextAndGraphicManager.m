@@ -286,13 +286,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleShowText:(SDLShow *)show {
     [self sdl_setBlankTextFieldsWithShow:show];
 
-    if (self.mediaTrackTextField != nil) {
+    if (self.mediaTrackTextField != nil && [self sdl_shouldUpdateMediaTextField]) {
         show.mediaTrack = self.mediaTrackTextField;
     } else {
         show.mediaTrack = @"";
     }
 
-    if (self.title != nil) {
+    if (self.title != nil && [self sdl_shouldUpdateTitleField]) {
         show.templateTitle = self.title;
     } else {
         show.templateTitle = @"";
@@ -301,7 +301,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = self.windowCapability ? self.windowCapability.maxNumberOfMainFieldLines : 4;
+    NSUInteger numberOfLines = (self.windowCapability.textFields != nil) ? self.windowCapability.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -512,7 +512,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL templateSupportsPrimaryArtwork = self.windowCapability ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
 
     return (templateSupportsPrimaryArtwork
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
@@ -520,12 +520,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL templateSupportsSecondaryArtwork = self.windowCapability ? ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
+    BOOL templateSupportsSecondaryArtwork = (self.windowCapability.imageFields != nil) ? ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
     return (templateSupportsSecondaryArtwork
             && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
             && self.secondaryGraphic != nil);
+}
+
+- (BOOL)sdl_shouldUpdateMediaTextField {
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMediaTrack] : YES;
+}
+
+- (BOOL)sdl_shouldUpdateTitleField {
+    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTemplateTitle] : YES;
 }
 
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {
@@ -549,7 +557,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_hasData {
-    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0);
+    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0) || (self.title.length > 0) || (self.mediaTrackTextField.length > 0);
     BOOL hasImageFields = (self.primaryGraphic != nil) || (self.secondaryGraphic != nil);
 
     return hasTextFields || hasImageFields;

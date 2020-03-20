@@ -22,6 +22,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 @class SDLStreamingVideoScaleManager;
+@class SDLSystemCapabilityManager;
 @class SDLTouchManager;
 
 @protocol SDLConnectionManagerType;
@@ -58,11 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (weak, nonatomic, nullable) id<SDLStreamingMediaManagerDataSource> dataSource;
 
-/**
- *  Whether or not video streaming is supported
- *
- *  @see SDLRegisterAppInterface SDLDisplayCapabilities
- */
+/// Whether or not video/audio streaming is supported
+/// @discussion If connected to a module pre-SDL v4.5 there is no way to check if streaming is supported so `YES` is returned by default even though the module may not support video/audio streaming.
 @property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
@@ -138,14 +136,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-/**
- Create a new streaming media manager for navigation and VPM apps with a specified configuration
-
- @param connectionManager The pass-through for RPCs
- @param configuration This session's configuration
- @return A new streaming manager
- */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration;
+/// Create a new streaming video manager for navigation and projection apps with a specified configuration.
+/// @param connectionManager The pass-through for RPCs
+/// @param configuration This session's configuration
+/// @param systemCapabilityManager The system capability manager object for reading window capabilities
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

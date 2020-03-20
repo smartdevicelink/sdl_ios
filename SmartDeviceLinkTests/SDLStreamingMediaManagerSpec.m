@@ -13,6 +13,7 @@
 #import "SDLStreamingMediaManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "TestConnectionManager.h"
 
 @interface SDLStreamingMediaManager()
@@ -37,10 +38,12 @@ describe(@"the streaming media manager", ^{
     __block SDLSecondaryTransportManager *mockSecondaryTransportManager = nil;
     __block SDLStreamingVideoLifecycleManager *mockVideoLifecycleManager = nil;
     __block SDLStreamingAudioLifecycleManager *mockAudioLifecycleManager = nil;
+    __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
 
     beforeEach(^{
+        mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         testConnectionManager = [[TestConnectionManager alloc] init];
-        testStreamingMediaManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+        testStreamingMediaManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration systemCapabilityManager:mockSystemCapabilityManager];
 
         mockVideoLifecycleManager = OCMClassMock([SDLStreamingVideoLifecycleManager class]);
         testStreamingMediaManager.videoLifecycleManager = mockVideoLifecycleManager;
@@ -186,46 +189,9 @@ describe(@"the streaming media manager", ^{
 
             [testStreamingMediaManager showVideoBackgroundDisplay];
             OCMVerify([mockVideoLifecycleManager showVideoBackgroundDisplay]);
-        });
 
-        describe(@"should return both the audio and vidoe lifecycle manager's properties correctly", ^{
-            describe(@"when calling isStreamingSupported", ^{
-                it(@"should return true if only video is streaming", ^{
-                    testStreamingMediaManager.videoStarted = YES;
-                    testStreamingMediaManager.audioStarted = NO;
-
-                    OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
-                    OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
-                    expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
-                });
-
-                it(@"should return true if only audio is streaming", ^{
-                    testStreamingMediaManager.videoStarted = NO;
-                    testStreamingMediaManager.audioStarted = YES;
-
-                    OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
-                    OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
-                    expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
-                });
-
-                it(@"should return true if both video and audio are streaming", ^{
-                    testStreamingMediaManager.videoStarted = YES;
-                    testStreamingMediaManager.audioStarted = YES;
-
-                    OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(YES);
-                    OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(YES);
-                    expect(testStreamingMediaManager.isStreamingSupported).to(beTrue());
-                });
-
-                it(@"should return false if neither video or audio is streaming", ^{
-                    testStreamingMediaManager.videoStarted = NO;
-                    testStreamingMediaManager.audioStarted = NO;
-
-                    OCMStub([mockVideoLifecycleManager isStreamingSupported]).andReturn(NO);
-                    OCMStub([mockAudioLifecycleManager isStreamingSupported]).andReturn(NO);
-                    expect(testStreamingMediaManager.isStreamingSupported).to(beFalse());
-                });
-            });
+            [testStreamingMediaManager isStreamingSupported];
+            OCMVerify([mockVideoLifecycleManager isStreamingSupported]);
         });
     });
 
@@ -324,7 +290,6 @@ describe(@"the streaming media manager", ^{
                 mockNewVideoProtocol = OCMClassMock([SDLProtocol class]);
                 mockOldAudioProtocol = OCMClassMock([SDLProtocol class]);
                 mockNewAudioProtocol = OCMClassMock([SDLProtocol class]);
-
 
                 OCMStub([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
                     void (^handler)(void);

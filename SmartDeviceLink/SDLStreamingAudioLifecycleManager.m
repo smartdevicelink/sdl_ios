@@ -9,6 +9,7 @@
 #import "SDLStreamingAudioLifecycleManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -26,9 +27,9 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
@@ -50,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingAudioLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -58,16 +60,17 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _audioTranscodingManager = [[SDLAudioStreamManager alloc] initWithManager:self];
-    _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
+    _systemCapabilityManager = systemCapabilityManager;
+    _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in streamingConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
 #pragma clang diagnostic pop
-    for (Class securityManagerClass in encryptionConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
     NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
@@ -238,19 +241,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogV(@"Received Register App Interface");
-    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    SDLLogV(@"Determining whether streaming is supported");
-    _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
-#pragma clang diagnostic pop
-
-    if (!self.isStreamingSupported) {
-        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
-        return;
-    }
+    SDLLogV(@"Received Register App Interface response");
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
@@ -311,6 +303,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isHmiStateAudioStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+}
+
+- (BOOL)isStreamingSupported {
+    return (self.systemCapabilityManager != nil) ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
 }
 
 @end

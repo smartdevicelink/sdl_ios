@@ -38,6 +38,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameImageResolution ofClass:SDLImageResolution.class error:nil];
 }
 
+- (instancetype)initWithName:(SDLImageFieldName)name imageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported imageResolution:(SDLImageResolution *)imageResolution {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.name = name;
+    self.imageTypeSupported = imageTypeSupported;
+    self.imageResolution = imageResolution;
+
+    return self;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

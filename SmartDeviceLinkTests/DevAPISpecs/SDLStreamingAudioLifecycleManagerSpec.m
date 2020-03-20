@@ -2,7 +2,9 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
@@ -15,27 +17,30 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingAudioLifecycleManager.h"
-#import "SDLStreamingMediaConfiguration.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLVehicleType.h"
 #import "TestConnectionManager.h"
 
 
 @interface SDLStreamingAudioLifecycleManager()
+
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
+
 @end
 
 QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
 
 describe(@"the streaming audio manager", ^{
     __block SDLStreamingAudioLifecycleManager *streamingLifecycleManager = nil;
-    __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
-    __block SDLEncryptionConfiguration *encryptionConfiguration = [SDLEncryptionConfiguration defaultConfiguration];
+    __block SDLConfiguration *testConfig = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLAudioStreamManager *mockAudioStreamManager = nil;
+    __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -47,8 +52,11 @@ describe(@"the streaming audio manager", ^{
     };
 
     beforeEach(^{
+        testConfig = OCMClassMock([SDLConfiguration class]);
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingConfiguration:testConfiguration encryptionConfiguration:encryptionConfiguration];
+
+        testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
         mockAudioStreamManager = OCMClassMock([SDLAudioStreamManager class]);
         streamingLifecycleManager.audioTranscodingManager = mockAudioStreamManager;
     });
@@ -62,10 +70,21 @@ describe(@"the streaming audio manager", ^{
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
     });
 
+    describe(@"Getting isStreamingSupported", ^{
+        it(@"should get the value from the system capability manager", ^{
+            [streamingLifecycleManager isStreamingSupported];
+            OCMVerify([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]);
+        });
+
+        it(@"should return true by default if the system capability manager is nil", ^{
+            streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
+            expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
+        });
+    });
+
     describe(@"when started", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
-
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
 
         beforeEach(^{
@@ -82,65 +101,24 @@ describe(@"the streaming audio manager", ^{
             expect(streamingLifecycleManager.currentAudioStreamState).to(match(SDLAudioStreamManagerStateStopped));
         });
 
-        describe(@"after receiving a register app interface notification", ^{
+        describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
-            __block SDLDisplayCapabilities *someDisplayCapabilities = nil;
-            __block SDLScreenParams *someScreenParams = nil;
-            __block SDLImageResolution *someImageResolution = nil;
+            __block SDLVehicleType *testVehicleType = nil;
 
             beforeEach(^{
-                someImageResolution = [[SDLImageResolution alloc] init];
-                someImageResolution.resolutionWidth = @(600);
-                someImageResolution.resolutionHeight = @(100);
+                someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                testVehicleType = [[SDLVehicleType alloc] init];
+                testVehicleType.make = @"TestVehicleType";
+                someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
-                someScreenParams = [[SDLScreenParams alloc] init];
-                someScreenParams.resolution = someImageResolution;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                [NSThread sleepForTimeInterval:0.1];
             });
 
-            context(@"that does not support graphics", ^{
-                beforeEach(^{
-                    someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    someDisplayCapabilities.graphicSupported = @NO;
-
-                    someDisplayCapabilities.screenParams = someScreenParams;
-
-                    someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                    someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
-#pragma clang diagnostic pop
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
-                });
-
-                it(@"should not support streaming", ^{
-                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
-                });
-            });
-
-            context(@"that supports graphics", ^{
-                beforeEach(^{
-                    someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    someDisplayCapabilities.graphicSupported = @YES;
-
-                    someDisplayCapabilities.screenParams = someScreenParams;
-
-                    someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                    someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
-#pragma clang diagnostic pop
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
-                });
-
-                it(@"should support streaming", ^{
-                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
-                });
+            it(@"should should save the connected vehicle make", ^{
+                expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
             });
         });
 
