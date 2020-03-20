@@ -401,7 +401,7 @@ struct TransportProtocolUpdated {
 
     SDLControlFramePayloadRPCStartServiceAck *payload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 
-    [self onStartServiceAckReceived:payload];
+    [self sdl_onStartServiceAckReceived:payload];
 }
 
 // called from protocol's _reeiveQueue of Primary Transport
@@ -409,7 +409,7 @@ struct TransportProtocolUpdated {
     SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
     SDLLogV(@"Recieved transport event update on primary transport: %@", payload);
 
-    [self onTransportEventUpdateReceived:payload];
+    [self sdl_onTransportEventUpdateReceived:payload];
 }
 
 #pragma mark Secondary transport
@@ -606,8 +606,9 @@ struct TransportProtocolUpdated {
     });
 }
 
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload {
+/// Called when a Start Service ACK control frame is received on the primary transport.
+/// @param payload The payload of Start Service ACK frame received on the primary transport.
+- (void)sdl_onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload {
     NSMutableArray<SDLSecondaryTransportTypeBox *> *secondaryTransports = nil;
     if (payload.secondaryTransports != nil) {
         secondaryTransports = [NSMutableArray array];
@@ -627,8 +628,9 @@ struct TransportProtocolUpdated {
     });
 }
 
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload {
+/// Called when a Transport Event Update control frame is received on the primary transport.
+/// @param payload the payload of Transport Event Update frame
+- (void)sdl_onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload {
     dispatch_async(_stateMachineQueue, ^{
         BOOL updated = NO;
 

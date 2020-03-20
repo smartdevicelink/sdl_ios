@@ -52,14 +52,6 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 /// Destroys the secondary transport.
 - (BOOL)disconnectSecondaryTransport;
 
-/// Call this method when a Start Service ACK control frame is received on primary transport.
-/// @param payload The payload of Start Service ACK frame received on the primary transport.
-- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload;
-
-/// Call this method when Transport Event Update control frame is received on primary transport.
-/// @param payload the payload of Transport Event Update frame received on the primary transport.
-- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload;
-
 @end
 
 NS_ASSUME_NONNULL_END
