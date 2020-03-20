@@ -14,7 +14,7 @@
     return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
+- (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
     

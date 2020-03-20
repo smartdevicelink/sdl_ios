@@ -21,9 +21,9 @@ static float DefaultConnectionTimeout = 45.0;
 @interface SDLCacheFileManager()
 
 @property (nonatomic, strong) NSURLSession *urlSession;
-@property (strong, nonatomic, readonly, nullable) NSString *sdl_cacheFileBaseDirectory;
-@property (strong, nonatomic, readonly, nullable) NSString *sdl_archiveFileDirectory;
-@property (weak, nonatomic) NSURLSessionDataTask *sdl_dataTask;
+@property (strong, nonatomic, readonly, nullable) NSString *cacheFileBaseDirectory;
+@property (strong, nonatomic, readonly, nullable) NSString *archiveFileDirectory;
+@property (weak, nonatomic, nullable) NSURLSessionDataTask *dataTask;
 
 @end
 
@@ -46,13 +46,11 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)retrieveImageForRequest:(SDLOnSystemRequest *)request withCompletionHandler:(ImageRetrievalCompletionHandler)completion {
     NSError *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isNewDirectory = NO;
 
     // Check if the directory already exists; if it does not, create it
     if (![fileManager fileExistsAtPath:self.sdl_cacheFileBaseDirectory]) {
         // Create the directory including any intermediate directories if necessary
         [fileManager createDirectoryAtPath:self.sdl_cacheFileBaseDirectory withIntermediateDirectories:YES attributes:nil error:&error];
-        isNewDirectory = YES;
         
         if (error != nil) {
             SDLLogE(@"Could not create directory at specified path: %@", error);
@@ -61,18 +59,17 @@ static float DefaultConnectionTimeout = 45.0;
     
     // Attempt to retrieve archive file from directory cache
     SDLIconArchiveFile *iconArchiveFile = [self sdl_retrieveArchiveFileFromPath:self.sdl_archiveFileDirectory];
-    
     if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
-        // Check if new directory was just created, if no, clear lock screen cache directory and create empty archive file
-        if (!isNewDirectory) {
-            [self sdl_clearLockScreenDirectory];
-        }
+        // If there's no archive file in the directory, clear it, just in case
+        [self sdl_clearLockScreenDirectory];
         iconArchiveFile = [[SDLIconArchiveFile alloc] init];
     } else {
+        // Loop through the icons in the cache file and check if its the file we're looking for
         for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
-            // The icon exists and is not expired
-            if ([iconCache.iconUrl isEqualToString:request.url] && [self.class numberOfDaysFromDateCreated:iconCache.lastModifiedDate] < 30) {
-                
+            // The icon isn't the one we're looking for
+            if ([[iconCache.iconUrl isEqualToString:request.url]) { continue; }
+            // The icon we're looking for has expired
+            if ([self.class numberOfDaysFromDateCreated:iconCache.lastModifiedDate] >= 30) { break; }
                 NSString *imageFilePath = [self.sdl_cacheFileBaseDirectory stringByAppendingPathComponent:[self.class sdl_md5HashFromString:request.url]];
                 UIImage *icon = [UIImage imageWithContentsOfFile:imageFilePath];
                 
@@ -84,19 +81,16 @@ static float DefaultConnectionTimeout = 45.0;
                 }
                 
                 return completion(icon, nil);
-            }
         }
     }
     
-    // Download Icon
     [self sdl_downloadIconFromRequestURL:request.url withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
         if (error != nil) {
-            return completion (nil, error);
+            return completion(nil, error);
         }
         
         // Save lock screen icon to file path
         NSString *iconFilePath = [self sdl_writeImage:image toFileFromURL:request.url];
-
         if (iconFilePath == nil) {
             SDLLogE(@"Could not save lockscreen icon to path: %@", error);
         }
@@ -108,7 +102,8 @@ static float DefaultConnectionTimeout = 45.0;
     }];
 }
 
-#pragma mark - Cache Helper Methods
+
+#pragma mark - Cache Directory and Files
 
 /**
  * Handles request to retrieve lock screen archive file from specified path.
@@ -126,7 +121,7 @@ static float DefaultConnectionTimeout = 45.0;
 /**
  * Handles the request to clear all files from lock screen icon directory in cache.
 */
-- (void)sdl_clearLockScreenDirectory {
++ (void)sdl_clearDirectoryWithPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *directory = self.sdl_cacheFileBaseDirectory;
     NSError *error = nil;
@@ -150,7 +145,7 @@ static float DefaultConnectionTimeout = 45.0;
  * @param urlString The url of the icon to be hashed and used as file name
  * @return A string representation of the directory the icon was saved to
 */
-- (nullable NSString *)sdl_writeImage:(UIImage *)icon toFileFromURL:(NSString *)urlString {
++ (nullable NSString *)sdl_writeImage:(UIImage *)icon toFileFromURL:(NSString *)urlString {
     NSData *iconPNGData = UIImagePNGRepresentation(icon);
     NSString *iconStorageName = [self.class sdl_md5HashFromString:urlString];
     
@@ -167,28 +162,24 @@ static float DefaultConnectionTimeout = 45.0;
  * @param iconFilePath The directory path where the icon file is held
  * @param archiveFile Current archive file to update
 */
-- (void)updateArchiveFileFromRequest:(SDLOnSystemRequest *)request iconFilePath:(NSString *)iconFilePath archiveFile:(SDLIconArchiveFile *)archiveFile {
+- (void)updateArchiveFileWithIconURL:(NSString *)iconURL iconFilePath:(NSString *)iconFilePath archiveFile:(SDLIconArchiveFile *)archiveFile {
     NSError *error = nil;
-    NSMutableArray *archiveArray = [NSMutableArray new];
-    
-    if (archiveFile.lockScreenIconCaches != nil) {
-        archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
-    }
+    NSMutableArray *archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
     
     // Need to remove duplicate SDLLockScreenIconCache object if handling expired icon
     for (SDLLockScreenIconCache *iconCacheCopy in archiveArray) {
-        if ([iconCacheCopy.iconUrl isEqualToString:request.url]) {
-            [archiveArray removeObject:iconCacheCopy];
-            break;
-        }
+        if (![iconCacheCopy.iconUrl isEqualToString:request.url]) { continue; }
+
+        [archiveArray removeObject:iconCacheCopy];
+        break;
     }
     
-    SDLLockScreenIconCache *newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:request.url iconFilePath:iconFilePath];
-    [archiveArray addObject:newIconCache];
-    
+    // Add the new file to the archive
+    [archiveArray addObject:[[SDLLockScreenIconCache alloc] initWithIconUrl:request.url iconFilePath:iconFilePath]];
     archiveFile.lockScreenIconCaches = archiveArray;
     
     // HAX: Update this when we are iOS 11.0+
+    // Write the new archive to disk
     BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.sdl_archiveFileDirectory];
     if (!writeSuccess) {
         SDLLogE(@"Could not write file to specified path: %@", error);
@@ -199,13 +190,13 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (nullable NSString *)sdl_cacheFileBaseDirectory {
     NSString *cacheDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
-    
     return [cacheDirectory stringByAppendingPathComponent:@"/sdl/lockScreenIcon/"];
 }
 
 - (nullable NSString *)sdl_archiveFileDirectory {
     return [self.sdl_cacheFileBaseDirectory stringByAppendingPathComponent:@"archiveCacheFile"];
 }
+
 
 #pragma mark - Download Image
 
@@ -218,12 +209,11 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)sdl_downloadIconFromRequestURL:(NSString *)requestURL withCompletionHandler:(ImageRetrievalCompletionHandler)completion {
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:requestURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
-            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
+            SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error);
             return completion(nil, error);
         }
         
         UIImage *icon = [UIImage imageWithData:data];
-        
         return completion(icon, nil);
     }];
 }
@@ -235,6 +225,7 @@ static float DefaultConnectionTimeout = 45.0;
  * @param completionHandler The completion handler is called when the data task succeeds or fails
 */
 - (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    // Due to iOS requirements, the connection has to be HTTPS. Upgrade the URL to HTTPS automatically. If it fails, then oh well.
     if ([url.scheme isEqualToString:@"http"]) {
         url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
@@ -242,6 +233,7 @@ static float DefaultConnectionTimeout = 45.0;
     self.sdl_dataTask = [self.urlSession dataTaskWithURL:url completionHandler:completionHandler];
     [self.sdl_dataTask resume];
 }
+
 
 #pragma mark - Helper Methods
 
@@ -272,8 +264,7 @@ static float DefaultConnectionTimeout = 45.0;
  * @return Integer representing number of days
  */
 + (NSInteger)numberOfDaysFromDateCreated:(NSDate *)date {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:date toDate:[NSDate date] options:kNilOptions];
-    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:date toDate:[NSDate date] options:kNilOptions];
     return components.day;
 }
 

@@ -104,7 +104,6 @@ static float DefaultConnectionTimeout = 45.0;
         configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
         
         _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-
         _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
 
@@ -140,7 +139,6 @@ static float DefaultConnectionTimeout = 45.0;
         configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
         
         _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-        
         _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
     
