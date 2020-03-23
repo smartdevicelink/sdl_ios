@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class SDLOnSystemRequest
+@class SDLOnSystemRequest;
 
 NS_ASSUME_NONNULL_BEGIN
 

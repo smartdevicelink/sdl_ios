@@ -10,10 +10,6 @@
 
 @implementation SDLIconArchiveFile
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
@@ -21,6 +17,10 @@
     self.lockScreenIconCaches = [decoder decodeObjectOfClass:[NSArray self] forKey:@"lockScreenIconCaches"];
     
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
@@ -31,10 +31,6 @@
 
 @implementation SDLLockScreenIconCache
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
 - (instancetype)initWithIconUrl:(NSString *)iconUrl iconFilePath:(NSString *)iconFilePath {
     self = [super init];
     if (!self) { return nil; }
@@ -44,6 +40,10 @@
     self.lastModifiedDate = [NSDate date];
     
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {

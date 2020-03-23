@@ -770,9 +770,10 @@ static float DefaultConnectionTimeout = 45.0;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLLogW(@"Failed to retrieve lock screen icon: %@", error.localizedDescription);
+            return;
         }
         
-        [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:image];
+        [strongSelf sdl_invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:image];
     }];
 }
 
