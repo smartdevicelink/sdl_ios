@@ -710,6 +710,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 #pragma mark Helper Methods
 
+/// Returns true if the app type set in the configuration is `NAVIGATION` or `PROJECTION`; false for any other app type.
+/// @param configuration This session's configuration
 + (BOOL)sdl_isStreamingConfiguration:(SDLConfiguration *)configuration {
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
     [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
