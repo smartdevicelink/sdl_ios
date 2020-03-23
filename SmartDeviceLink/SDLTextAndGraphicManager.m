@@ -712,7 +712,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
-        [self sdl_updateWithCompletionHandler:nil];
+        [self updateWithCompletionHandler:nil];
     }
 }
 
