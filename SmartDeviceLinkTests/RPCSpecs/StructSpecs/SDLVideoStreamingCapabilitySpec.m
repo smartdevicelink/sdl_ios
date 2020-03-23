@@ -108,7 +108,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.diagonalScreenSize).to(beNil());
         expect(testStruct.pixelPerInch).to(beNil());
         expect(testStruct.scale).to(beNil());
-        expect(testStruct.preferredFPS).to(beNil());
+        expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
     });
 });
 
