@@ -95,6 +95,12 @@ Convenience init for creating a video streaming capability.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
+/**
+ *  Preferred frame rate (assuming the case where resolution is the same as preferredResolution)
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *preferredFPS;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.diagonalScreenSize = diagonalScreenSize;
     self.pixelPerInch = pixelPerInch;
     self.scale = scale;
+    self.preferredFPS = @(15);
 
     return self;
 }
@@ -96,6 +97,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLFloat> *)scale {
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+}
+
+- (void)setPreferredFPS:(nullable NSNumber<SDLInt> *)preferredFPS {
+    [self.store sdl_setObject:preferredFPS forName:SDLRPCParameterNamePreferredFPS];
+}
+
+- (nullable NSNumber<SDLInt> *)preferredFPS {
+    return [self.store sdl_objectForName:SDLRPCParameterNamePreferredFPS ofClass:NSNumber.class error:nil];
 }
 
 @end
