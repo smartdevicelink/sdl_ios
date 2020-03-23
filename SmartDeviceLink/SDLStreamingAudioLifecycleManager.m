@@ -230,6 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.audioServiceEndedCompletionHandler = nil;
     }
 
+    /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
