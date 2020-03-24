@@ -676,22 +676,28 @@ struct TransportProtocolUpdated {
 #pragma mark - App state handling
 
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
-    dispatch_async(_stateMachineQueue, ^{
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.stateMachineQueue, ^{
+        __strong typeof(self) strongSelf = weakSelf;
         if (notification.name == UIApplicationWillResignActiveNotification) {
-            if ([self sdl_isTransportOpened] && self.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
+            if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
                 SDLLogD(@"Disconnecting TCP transport since the app will go to background");
                 // Start a background task so we can tear down the TCP socket successfully before the app is suspended
-                [self.backgroundTaskManager startBackgroundTask];
-                [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                [strongSelf.backgroundTaskManager startBackgroundTask];
+                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            } else {
+                SDLLogD(@"App will go to background. TCP transport already disconnected: %@", strongSelf.stateMachine.currentState);
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
-                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP
-                && [self sdl_isTCPReady]
-                && [self sdl_isHMILevelNonNone]) {
-                SDLLogD(@"Resuming TCP transport since the app came into the foreground");
-                [self.backgroundTaskManager endBackgroundTask];
-                [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
+                && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
+                && [strongSelf sdl_isTCPReady]
+                && [strongSelf sdl_isHMILevelNonNone]) {
+                SDLLogD(@"Resuming TCP transport because the app came into the foreground");
+                [strongSelf.backgroundTaskManager endBackgroundTask];
+                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+            } else {
+                SDLLogD(@"App returning to foreground. TCP transport not ready to connect: %@", strongSelf.stateMachine.currentState);
             }
         }
     });
