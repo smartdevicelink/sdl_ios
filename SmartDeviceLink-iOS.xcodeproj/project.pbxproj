@@ -42,6 +42,7 @@
 		10893C172417D78300BA347E /* SDLIconArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C152417D78300BA347E /* SDLIconArchiveFile.m */; };
 		10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C182418188600BA347E /* SDLCacheFileManager.h */; };
 		10893C1B2418188600BA347E /* SDLCacheFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C192418188600BA347E /* SDLCacheFileManager.m */; };
+		109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
 		162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */; };
 		162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */; };
@@ -1752,6 +1753,7 @@
 		10893C152417D78300BA347E /* SDLIconArchiveFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIconArchiveFile.m; sourceTree = "<group>"; };
 		10893C182418188600BA347E /* SDLCacheFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCacheFileManager.h; sourceTree = "<group>"; };
 		10893C192418188600BA347E /* SDLCacheFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManager.m; sourceTree = "<group>"; };
+		109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManagerSpec.m; sourceTree = "<group>"; };
 		162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAmbientLightStatusSpec.m; sourceTree = "<group>"; };
 		162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppHMITypeSpec.m; sourceTree = "<group>"; };
 		162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInterfaceUnregisteredReasonSpec.m; sourceTree = "<group>"; };
@@ -3492,6 +3494,14 @@
 				10893C152417D78300BA347E /* SDLIconArchiveFile.m */,
 				10893C182418188600BA347E /* SDLCacheFileManager.h */,
 				10893C192418188600BA347E /* SDLCacheFileManager.m */,
+			);
+			name = "Lock Screen Icon Cache";
+			sourceTree = "<group>";
+		};
+		109566F42429865500E24F66 /* Lock Screen Icon Cache */ = {
+			isa = PBXGroup;
+			children = (
+				109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */,
 			);
 			name = "Lock Screen Icon Cache";
 			sourceTree = "<group>";
@@ -5416,6 +5426,7 @@
 		5D6EB4C61BF274F400693731 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				109566F42429865500E24F66 /* Lock Screen Icon Cache */,
 				5DB1BCE41D245629002FFC37 /* State Machine */,
 				5D6EB4C71BF28D6800693731 /* Categories */,
 				5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */,
@@ -8077,6 +8088,7 @@
 				88B848C31F45E1A600DED768 /* TestResponse.m in Sources */,
 				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
+				109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */,
 				5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */,

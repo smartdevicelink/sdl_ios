@@ -10,6 +10,15 @@
 
 @implementation SDLIconArchiveFile
 
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
+    self.lockScreenIconCaches = [NSArray new];
+    
+    return self;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
