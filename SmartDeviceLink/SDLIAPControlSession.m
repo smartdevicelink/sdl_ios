@@ -63,7 +63,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
                 if (strongSelf.delegate == nil) { return; }
                 [strongSelf.delegate controlSessionShouldRetry];
             } else {
-                SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
+                SDLLogD(@"Waiting for the protocol string from Core, setting timeout timer for %d seconds", ProtocolIndexTimeoutSeconds);
                 strongSelf.protocolIndexTimer = [strongSelf sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
             }
         }];
