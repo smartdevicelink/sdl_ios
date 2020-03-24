@@ -19,8 +19,12 @@ class TestFunctionsProducer(TestCase):
     """
     The structures of tests in this class was prepared to cover all possible combinations of code branching in tested
     class FunctionsProducer.
-    All names of Functions and nested elements doesn't reflating with real Enums
+    All names of Functions and nested elements doesn't reflating with real Functions
     and could be replaces with some meaningless names.
+
+    After performing Tests there are following initial test code coverage:
+    generator/transformers/common_producer.py		99%
+    generator/transformers/functions_producer.py	100%
     """
 
     def setUp(self):
@@ -37,6 +41,10 @@ class TestFunctionsProducer(TestCase):
         self.producer = FunctionsProducer(paths, names)
 
     def test_process_function_name(self):
+        """
+        generator/transformers/common_producer.py		29%
+        generator/transformers/functions_producer.py	61%
+        """
         functions = {
             'RegisterAppInterface': Function(name='RegisterAppInterface',
                                              function_id=EnumElement(name='RegisterAppInterfaceID'), since='3.0.0',
@@ -84,6 +92,10 @@ class TestFunctionsProducer(TestCase):
         self.assertCountEqual(expected, actual['params'])
 
     def test_RegisterAppInterfaceRequest(self):
+        """
+        generator/transformers/common_producer.py		85%
+        generator/transformers/functions_producer.py	63%
+        """
         params = OrderedDict()
         params['syncMsgVersion'] = Param(
             name='syncMsgVersion', param_type=Struct(name='SyncMsgVersion', description=['Specifies the'], members={
@@ -177,6 +189,10 @@ class TestFunctionsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_RegisterAppInterfaceResponse(self):
+        """
+        generator/transformers/common_producer.py		82%
+        generator/transformers/functions_producer.py	63%
+        """
         params = OrderedDict()
         params['success'] = Param(name='success', param_type=Boolean(), description=[' True if '], is_mandatory=False)
         params['language'] = Param(name='language', is_mandatory=False, param_type=Enum(name='Language', elements={
@@ -238,6 +254,10 @@ class TestFunctionsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_OnHMIStatus(self):
+        """
+        generator/transformers/common_producer.py		66%
+        generator/transformers/functions_producer.py	65%
+        """
         item = Function(name='OnHMIStatus', function_id=EnumElement(name='OnHMIStatusID'),
                         message_type=EnumElement(name='notification'), params={
                 'hmiLevel': Param(name='hmiLevel', param_type=Enum(name='HMILevel'))
@@ -267,6 +287,10 @@ class TestFunctionsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_CreateWindow(self):
+        """
+        generator/transformers/common_producer.py		82%
+        generator/transformers/functions_producer.py	63%
+        """
         params = OrderedDict()
         params['windowID'] = Param(name='windowID', param_type=Integer())
         params['cmdID'] = Param(name='cmdID', param_type=Integer(max_value=2000000000, min_value=0))
@@ -350,6 +374,10 @@ class TestFunctionsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_CreateInteractionChoiceSet(self):
+        """
+        generator/transformers/common_producer.py		67%
+        generator/transformers/functions_producer.py	63%
+        """
         params = OrderedDict()
         params['choiceSet'] = Param(name='choiceSet', param_type=Array(element_type=Struct(name='Choice')))
         item = Function(name='CreateInteractionChoiceSet', function_id=EnumElement(name='CreateInteractionChoiceSetID'),
@@ -379,6 +407,10 @@ class TestFunctionsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_SetDisplayLayout(self):
+        """
+        generator/transformers/common_producer.py		66%
+        generator/transformers/functions_producer.py	63%
+        """
         params = OrderedDict()
         params['displayLayout'] = Param(name='displayLayout', param_type=String(max_length=500, min_length=1))
         item = Function(name='SetDisplayLayout', function_id=EnumElement(name='SetDisplayLayoutID'),

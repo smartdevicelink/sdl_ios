@@ -1,4 +1,4 @@
-{#- String based enum. If the enum element doesn't have values it going to be string enum  -#}
+{#- String based enum -#}
 {% include 'copyright.txt' %}
 {% block imports -%}
 {%- for import in imports %}

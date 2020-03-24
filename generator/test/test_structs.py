@@ -12,8 +12,12 @@ class TestStructsProducer(TestCase):
     """
     The structures of tests in this class was prepared to cover all possible combinations of code branching in tested
     class StructsProducer.
-    All names of Structs and nested elements doesn't reflating with real Enums
+    All names of Structs and nested elements doesn't reflating with real Structs
     and could be replaces with some meaningless names.
+
+    After performing Tests there are following initial test code coverage:
+    generator/transformers/common_producer.py	72%
+    generator/transformers/structs_producer.py	100%
     """
 
     def setUp(self):
@@ -22,6 +26,10 @@ class TestStructsProducer(TestCase):
         self.producer = StructsProducer('SDLRPCStruct', ['Image'])
 
     def test_CloudAppProperties(self):
+        """
+        generator/transformers/common_producer.py	64%
+        generator/transformers/structs_producer.py	100%
+        """
         item = Struct(name='CloudAppProperties', members={
             'appID': Param(name='appID', param_type=String())
         })
@@ -49,6 +57,10 @@ class TestStructsProducer(TestCase):
         self.assertDictEqual(expected, actual)
 
     def test_TouchEvent(self):
+        """
+        generator/transformers/common_producer.py	69%
+        generator/transformers/structs_producer.py	100%
+        """
         item = Struct(name='TouchEvent', members={
             'id': Param(name='id', param_type=Integer(max_value=9, min_value=0))
         })

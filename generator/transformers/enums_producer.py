@@ -20,7 +20,7 @@ class EnumsProducer(InterfaceProducerCommon):
             container_name='elements')
         self.enum_class = enum_class
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.param_named = namedtuple('param_named', 'origin description name since value')
+        self.param_named = namedtuple('param_named', 'origin description name since')
 
     def transform(self, item: Enum, render: dict = None) -> dict:
         """
@@ -40,8 +40,6 @@ class EnumsProducer(InterfaceProducerCommon):
             render['name'] = name
             render['imports'] = imports
         super(EnumsProducer, self).transform(item, render)
-        if any(map(lambda p: p.value, render['params'])):
-            render['template'] = 'enums/template_numeric'
         return render
 
     def extract_param(self, param: EnumElement):
@@ -68,7 +66,5 @@ class EnumsProducer(InterfaceProducerCommon):
                 if re.match(r'^[A-Z\d]+$', item):
                     name.append(item.title())
             data['name'] = ''.join(name)
-
-        data['value'] = param.value
 
         return self.param_named(**data)

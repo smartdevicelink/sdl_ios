@@ -36,7 +36,17 @@ def config_logging():
 
 def main():
     """
-    Entry point for parser and generator
+    Without performing Tests (simple instances initialization) there are following initial test code coverage:
+    generator/transformers/common_producer.py		21%
+    generator/transformers/enums_producer.py		24%
+    generator/transformers/functions_producer.py	18%
+    generator/transformers/structs_producer.py		32%
+
+    After performing Tests there are following initial test code coverage:
+    generator/transformers/common_producer.py		100%
+    generator/transformers/enums_producer.py		100%
+    generator/transformers/functions_producer.py	100%
+    generator/transformers/structs_producer.py		100%
     """
     config_logging()
     suite = TestSuite()
@@ -51,4 +61,7 @@ def main():
 
 
 if __name__ == '__main__':
+    """
+    Entry point for parser and generator.
+    """
     main()

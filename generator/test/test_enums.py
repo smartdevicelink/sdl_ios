@@ -12,6 +12,10 @@ class TestEnumsProducer(TestCase):
     class EnumsProducer.
     All names of Enums and nested elements doesn't reflating with real Enums
     and could be replaces with some meaningless names.
+
+    After performing Tests there are following initial test code coverage:
+    generator/transformers/common_producer.py	34%
+    generator/transformers/enums_producer.py	100%
     """
 
     def setUp(self):
@@ -20,6 +24,10 @@ class TestEnumsProducer(TestCase):
         self.producer = EnumsProducer('SDLEnum')
 
     def test_FunctionID(self):
+        """
+        generator/transformers/common_producer.py	34%
+        generator/transformers/enums_producer.py	80%
+        """
         elements = OrderedDict()
         elements['RESERVED'] = EnumElement(name='RESERVED', value=0)
         elements['RegisterAppInterfaceID'] = EnumElement(name='RegisterAppInterfaceID', hex_value=1)
@@ -31,16 +39,20 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLFunctionID'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='Reserved', origin='RESERVED', since=None, value=0),
+            self.producer.param_named(description=[], name='Reserved', origin='RESERVED', since=None),
             self.producer.param_named(description=[], name='RegisterAppInterface', origin='RegisterAppInterfaceID',
-                                      since=None, value=None),
+                                      since=None),
             self.producer.param_named(description=[], name='PerformAudioPassThru', origin='PerformAudioPassThruID',
-                                      since=None, value=None),)
+                                      since=None),)
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)
 
     def test_TextFieldName(self):
+        """
+        generator/transformers/common_producer.py	34%
+        generator/transformers/enums_producer.py	98%
+        """
         elements = OrderedDict()
         elements['SUCCESS'] = EnumElement(name='SUCCESS')
         elements['mainField1'] = EnumElement(name='mainField1')
@@ -53,11 +65,11 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLTextFieldName'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='Success', origin='SUCCESS', since=None, value=None),
-            self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None, value=None),
-            self.producer.param_named(description=[], name='H264', origin='H264', since=None, value=None),
+            self.producer.param_named(description=[], name='Success', origin='SUCCESS', since=None),
+            self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None),
+            self.producer.param_named(description=[], name='H264', origin='H264', since=None),
             self.producer.param_named(description=[], name='UnsupportedRequest', origin='UNSUPPORTED_REQUEST',
-                                      since=None, value=None))
+                                      since=None))
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)
