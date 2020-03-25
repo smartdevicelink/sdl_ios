@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  DEPRECATED
  */
+__deprecated
 @interface SDLOnSyncPData : SDLRPCNotification
 
 /// The url
