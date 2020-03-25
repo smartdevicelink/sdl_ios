@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
     configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
     
     _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+    _fileManager = [NSFileManager defaultManager];
 
     return self;
 }
@@ -99,7 +100,10 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
             SDLLogE(@"Could not save lockscreen icon to path: %@; we will attempt to download and return image anyway", error);
         } else {
             // Update archive file with icon
-            BOOL writeSuccess = [self updateArchiveFileWithIconURL:request.url iconFilePath:iconFilePath archiveFile:iconArchiveFile error:&error];
+            BOOL writeSuccess = [self updateArchiveFileWithIconURL:request.url
+                                                      iconFilePath:iconFilePath
+                                                       archiveFile:iconArchiveFile
+                                                             error:&error];
             if (error || !writeSuccess) {
                 SDLLogE(@"Could not update archive file: %@", error);
             }
@@ -161,7 +165,10 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
  * @param iconFilePath The directory path where the icon file is held
  * @param archiveFile Current archive file to update
 */
-- (BOOL)updateArchiveFileWithIconURL:(NSString *)iconURL iconFilePath:(NSString *)iconFilePath archiveFile:(SDLIconArchiveFile *)archiveFile error:(NSError **)error {
+- (BOOL)updateArchiveFileWithIconURL:(NSString *)iconURL
+                        iconFilePath:(NSString *)iconFilePath
+                         archiveFile:(SDLIconArchiveFile *)archiveFile
+                               error:(NSError **)error {
     NSMutableArray *archiveArray = [archiveFile.lockScreenIconCaches mutableCopy];
     
     // Need to remove duplicate SDLLockScreenIconCache object if handling expired icon
