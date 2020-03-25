@@ -8,7 +8,8 @@
  */
 typedef SDLEnum SDLRPCFunctionName SDL_SWIFT_ENUM;
 {% for param in params %}
-# Create inline documentation for the parameter if there's a `since` variable and / or a description
+{#- description if exist in source xml, will be putted here
+    since if exist in source xml, will be putted here -#}
 {%- if param.description or param.since %}
 /**
  {%- if param.description %}

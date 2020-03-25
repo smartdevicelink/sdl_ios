@@ -109,5 +109,5 @@ class FunctionsProducer(InterfaceProducerCommon):
             render.update(self.evaluate(struct))
             for param in struct.members.values():
                 render.update(self.evaluate(param))
-
-        return {'params': sorted(render.values(), key=lambda a: a.name)}
+        unique = dict(zip(list(map(lambda l: l.name, render.values())), render.values()))
+        return {'params': sorted(unique.values(), key=lambda a: a.name)}

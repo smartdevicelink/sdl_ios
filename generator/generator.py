@@ -2,7 +2,6 @@
 Generator
 """
 import asyncio
-import json
 import logging
 import re
 import sys
@@ -10,7 +9,6 @@ from argparse import ArgumentParser
 from collections import namedtuple, OrderedDict
 from datetime import datetime, date
 from inspect import getfile
-from json import JSONDecodeError
 from os.path import basename, join
 from pathlib import Path
 from re import findall
@@ -32,7 +30,6 @@ try:
     from transformers.structs_producer import StructsProducer
 except ImportError as error:
     print('%s.\nprobably you did not initialize submodule', error)
-    ParseError = Parser = Interface = Common = EnumsProducer = FunctionsProducer = StructsProducer = None
     sys.exit(1)
 
 
@@ -279,20 +276,6 @@ class Generator:
             sys.exit(1)
 
         return self.paths_named(**data)
-
-    async def get_mappings(self, file: Path = ROOT.joinpath('mapping.json')):
-        """
-        The key name in *.json is equal to property named in jinja2 templates
-        :param file: path to file with manual mappings
-        :return: dictionary with custom manual mappings
-        """
-        try:
-            with file.open('r') as handler:
-                content = handler.readlines()
-            return json.loads(''.join(content))
-        except (FileNotFoundError, JSONDecodeError) as error1:
-            self.logger.error('Failure to get mappings %s', error1)
-            return OrderedDict()
 
     def write_file(self, file: Path, templates: list, data: dict):
         """
