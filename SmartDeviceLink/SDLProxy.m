@@ -1010,7 +1010,10 @@ static float DefaultConnectionTimeout = 45.0;
     NSError *JSONConversionError = nil;
     NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
     if (!JSONConversionError) {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
+        #pragma clang diagnostic pop
         request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 

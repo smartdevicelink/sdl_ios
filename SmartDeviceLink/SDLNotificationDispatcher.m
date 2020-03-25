@@ -159,9 +159,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveDialNumberResponse response:response];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCResponseNotification:SDLDidReceiveEncodedSyncPDataResponse response:response];
+#pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveEndAudioPassThruResponse response:response];
@@ -315,9 +321,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveSubscribeWaypointsResponse response:response];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCResponseNotification:SDLDidReceiveSyncPDataResponse response:response];
+#pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUpdateTurnListResponse response:response];
@@ -414,7 +426,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCRequestNotification:SDLDidReceiveEncodedSyncPDataRequest request:request];
+#pragma clang diagnostic pop
 }
 
 - (void)onEndAudioPassThru:(SDLEndAudioPassThru *)request {
@@ -566,7 +581,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onSyncPData:(SDLSyncPData *)request {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
+#pragma clang diagnostic pop
 }
 
 -(void)onSystemRequest:(SDLSystemRequest *)request {
@@ -623,9 +641,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidReceiveCommandNotification notification:notification];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCNotificationNotification:SDLDidReceiveEncodedDataNotification notification:notification];
+#pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveNewHashNotification notification:notification];
@@ -655,9 +679,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidReceiveRemoteControlStatusNotification notification:notification];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-    [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self postRPCNotificationNotification:SDLDidReceiveSyncPDataNotification notification:notification];
+#pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onOnSystemCapabilityUpdated:(SDLOnSystemCapabilityUpdated *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSystemCapabilityUpdatedNotification notification:notification];

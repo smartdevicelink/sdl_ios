@@ -187,7 +187,7 @@ extern SDLNotificationName const SDLDidReceiveDiagnosticMessageResponse;
 extern SDLNotificationName const SDLDidReceiveDialNumberResponse;
 
 /// Name for an EncodedSyncPData response RPC
-extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
+extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse __deprecated;
 
 /// Name for an EndAudioPassThru response RPC
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
@@ -304,7 +304,7 @@ extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
 
 /// Name for a SyncPData response RPC
-extern SDLNotificationName const SDLDidReceiveSyncPDataResponse;
+extern SDLNotificationName const SDLDidReceiveSyncPDataResponse __deprecated;
 
 /// Name for an UpdateTurnList response RPC
 extern SDLNotificationName const SDLDidReceiveUpdateTurnListResponse;
@@ -381,7 +381,7 @@ extern SDLNotificationName const SDLDidReceiveDiagnosticMessageRequest;
 extern SDLNotificationName const SDLDidReceiveDialNumberRequest;
 
 /// Name for an EncodedSyncPData request RPC
-extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest;
+extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest __deprecated;
 
 /// Name for a EndAudioPass request RPC
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruRequest;
@@ -495,7 +495,7 @@ extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest;
 extern SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest;
 
 /// Name for a SyncPData request RPC
-extern SDLNotificationName const SDLDidReceiveSyncPDataRequest;
+extern SDLNotificationName const SDLDidReceiveSyncPDataRequest __deprecated;
 
 /// Name for a SystemRequest request RPC
 extern SDLNotificationName const SDLDidReceiveSystemRequestRequest;
@@ -548,7 +548,7 @@ extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
 
 /// Name for a EncodedData notification RPC
-extern SDLNotificationName const SDLDidReceiveEncodedDataNotification;
+extern SDLNotificationName const SDLDidReceiveEncodedDataNotification __deprecated;
 
 /// Name for a InteriorVehicleData notification RPC
 extern SDLNotificationName const SDLDidReceiveInteriorVehicleDataNotification;
@@ -573,6 +573,9 @@ extern SDLNotificationName const SDLDidChangePermissionsNotification;
 
 /// Name for a RemoteControlStatus notification RPC
 extern SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification;
+
+/// Name for an OnSyncPData notification RPC
+extern SDLNotificationName const SDLDidReceiveSyncPDataNotification __deprecated;
 
 /// Name for a SystemCapability notification RPC
 extern SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification;
