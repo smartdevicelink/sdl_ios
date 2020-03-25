@@ -169,17 +169,15 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)didEnterStateShutdown {
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
+    _vrOptional = YES;
 
-    __weak typeof(self) weakself = self;
     [self sdl_runSyncOnQueue:^{
-        __strong typeof(weakself) strongself = weakself;
-        strongself->_currentHMILevel = SDLHMILevelNone;
-        strongself->_preloadedMutableChoices = [NSMutableSet set];
-        strongself->_pendingMutablePreloadChoices = [NSMutableSet set];
-        strongself->_nextChoiceId = ChoiceCellIdMin;
-        strongself->_nextCancelId = ChoiceCellCancelIdMin;
-        strongself->_pendingPresentationSet = nil;
-        strongself->_vrOptional = YES;
+        self->_currentHMILevel = SDLHMILevelNone;
+        self->_preloadedMutableChoices = [NSMutableSet set];
+        self->_pendingMutablePreloadChoices = [NSMutableSet set];
+        self->_nextChoiceId = ChoiceCellIdMin;
+        self->_nextCancelId = ChoiceCellCancelIdMin;
+        self->_pendingPresentationSet = nil;
     }];
 }
 
@@ -187,16 +185,16 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
     SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
 
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     __weak typeof(checkOp) weakOp = checkOp;
     checkOp.completionBlock = ^{
         if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) { return; }
 
-        weakself.vrOptional = weakOp.isVROptional;
+        weakSelf.vrOptional = weakOp.isVROptional;
         if (weakOp.error != nil) {
-            [weakself.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         } else {
-            [weakself.stateMachine transitionToState:SDLChoiceManagerStateReady];
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
         }
     };
 
@@ -237,7 +235,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
-    [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+
+    [self sdl_runSyncOnQueue:^{
+        [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+    }];
 
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
@@ -249,9 +250,14 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __weak typeof(self) weakSelf = self;
     __weak typeof(preloadOp) weakPreloadOp = preloadOp;
     preloadOp.completionBlock = ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Choices finished preloading");
-        [weakSelf.preloadedMutableChoices unionSet:choicesToUpload];
-        [weakSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+
+        [strongSelf sdl_runSyncOnQueue:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
+            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+        }];
 
         if (handler != nil) {
             handler(weakPreloadOp.error);
@@ -280,11 +286,16 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
         }
 
-        self.pendingPresentationSet = nil;
+        [self sdl_runSyncOnQueue:^{
+            self.pendingPresentationSet = nil;
+        }];
     }
 
     // Remove the cells from pending and delete choices
-    [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+    [self sdl_runSyncOnQueue:^{
+        [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+    }];
+
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if (![op isMemberOfClass:[SDLPreloadChoicesOperation class]]) { continue; }
 
@@ -298,16 +309,20 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self sdl_findIdsOnChoices:cellsToBeDeleted];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     __weak typeof(deleteOp) weakOp = deleteOp;
     deleteOp.completionBlock = ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (weakOp.error != nil) {
             SDLLogE(@"Failed to delete choices: %@", weakOp.error);
             return;
         }
 
         SDLLogD(@"Finished deleting choices");
-        [weakself.preloadedMutableChoices minusSet:cellsToBeDeleted];
+        [strongSelf sdl_runSyncOnQueue:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
+        }];
     };
     [self.transactionQueue addOperation:deleteOp];
 }
@@ -331,7 +346,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-    self.pendingPresentationSet = choiceSet;
+    [self sdl_runSyncOnQueue:^{
+        self.pendingPresentationSet = choiceSet;
+    }];
+
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
@@ -351,9 +369,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
     self.pendingPresentOperation = presentOp;
 
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     __weak typeof(presentOp) weakOp = presentOp;
     self.pendingPresentOperation.completionBlock = ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         __strong typeof(weakOp) strongOp = weakOp;
 
         SDLLogD(@"Finished presenting choice set: %@", strongOp.choiceSet);
@@ -363,8 +382,12 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource atRowIndex:strongOp.selectedCellRow];
         }
 
-        weakself.pendingPresentationSet = nil;
-        weakself.pendingPresentOperation = nil;
+        [strongSelf sdl_runSyncOnQueue:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.pendingPresentationSet = nil;
+        }];
+
+        strongSelf.pendingPresentOperation = nil;
     };
 
     [self.transactionQueue addOperation:presentOp];
@@ -379,7 +402,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     if (self.pendingPresentationSet != nil) {
         SDLLogW(@"There's already a pending presentation set, cancelling it in favor of a keyboard");
         [self.pendingPresentOperation cancel];
-        self.pendingPresentationSet = nil;
+
+        [self sdl_runSyncOnQueue:^{
+            self.pendingPresentationSet = nil;
+        }];
     }
 
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
@@ -405,7 +431,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - Choice Management Helpers
 
-/// Check if any of the choices already exist on the module and remove them from being preloaded.
+/// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
@@ -414,7 +440,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     return [choicesSet copy];
 }
 
-/// Checks if any of the choices have not yet been uploaded to the module and removes them from being deleted.
+/// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
 /// @param choices The choices to be deleted
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
@@ -423,6 +449,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     return [choicesSet copy];
 }
 
+/// Checks the passed list of choices to be deleted and returns the items that are waiting to be uploaded to the module.
+/// @param choices The choices to be deleted
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
     [choicesSet intersectSet:self.pendingPreloadChoices];
@@ -430,16 +458,22 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     return [choicesSet copy];
 }
 
+/// Assigns a unique id to each choice item.
+/// @param choices An array of choices
 - (void)sdl_updateIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
     }
 }
 
+/// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
+/// @param choiceSet A set of choice items
 - (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    return [self sdl_findIdsOnChoices:[NSSet setWithArray:choiceSet.choices]];
+    [self sdl_findIdsOnChoices:[NSSet setWithArray:choiceSet.choices]];
 }
 
+/// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
+/// @param choices An array of choice items
 - (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
@@ -542,6 +576,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark Utilities
 
+/// Checks if we are already on a serial queue. If so, the block is added to the queue; if not, the block is dipatched to the serial `readWrite` queue.
+/// @discussion Used to synchronize access to class properties.
+/// @param block The block to be executed.
 - (void)sdl_runSyncOnQueue:(void (^)(void))block {
     if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
         block();
