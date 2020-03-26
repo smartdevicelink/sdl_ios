@@ -172,13 +172,13 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     self.transactionQueue = [self sdl_newTransactionQueue];
     _vrOptional = YES;
     _currentHMILevel = SDLHMILevelNone;
+    _pendingPresentationSet = nil;
 
     [self sdl_runSyncOnQueue:^{
         self->_preloadedMutableChoices = [NSMutableSet set];
         self->_pendingMutablePreloadChoices = [NSMutableSet set];
         self->_nextChoiceId = ChoiceCellIdMin;
         self->_nextCancelId = ChoiceCellCancelIdMin;
-        self->_pendingPresentationSet = nil;
     }];
 }
 
@@ -292,10 +292,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         if (self.pendingPresentationSet.delegate != nil) {
             [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
         }
-
-        [self sdl_runSyncOnQueue:^{
-            self.pendingPresentationSet = nil;
-        }];
+        self.pendingPresentationSet = nil;
     }
 
     // Remove the cells from pending and delete choices
@@ -360,9 +357,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-    [self sdl_runSyncOnQueue:^{
-        self.pendingPresentationSet = choiceSet;
-    }];
+    self.pendingPresentationSet = choiceSet;
 
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
@@ -404,10 +399,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
-        [strongSelf sdl_runSyncOnQueue:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf.pendingPresentationSet = nil;
-        }];
+        strongSelf.pendingPresentationSet = nil;
     };
 
     [self.transactionQueue addOperation:presentOp];
@@ -422,10 +414,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     if (self.pendingPresentationSet != nil) {
         SDLLogW(@"There's already a pending presentation set, cancelling it in favor of a keyboard");
         [self.pendingPresentOperation cancel];
-
-        [self sdl_runSyncOnQueue:^{
-            self.pendingPresentationSet = nil;
-        }];
+        self.pendingPresentationSet = nil;
     }
 
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
@@ -558,15 +547,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }];
 
     return set;
-}
-
-- (nullable SDLChoiceSet *)pendingPresentationSet {
-    __block SDLChoiceSet *choiceSet = nil;
-    [self sdl_runSyncOnQueue:^{
-        choiceSet = self->_pendingPresentationSet;
-    }];
-
-    return choiceSet;
 }
 
 - (UInt16)nextChoiceId {
