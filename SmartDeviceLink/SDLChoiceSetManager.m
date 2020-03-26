@@ -171,9 +171,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
     _vrOptional = YES;
+    _currentHMILevel = SDLHMILevelNone;
 
     [self sdl_runSyncOnQueue:^{
-        self->_currentHMILevel = SDLHMILevelNone;
         self->_preloadedMutableChoices = [NSMutableSet set];
         self->_pendingMutablePreloadChoices = [NSMutableSet set];
         self->_nextChoiceId = ChoiceCellIdMin;
@@ -497,7 +497,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
-        if (uploadCell == nil) { return; }
+        if (uploadCell == nil) { continue; }
         cell.choiceId = uploadCell.choiceId;
     }
 }
@@ -595,7 +595,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark Utilities
 
-/// Checks if we are already on a serial queue. If so, the block is added to the queue; if not, the block is dipatched to the serial `readWrite` queue.
+/// Checks if we are already on a serial queue. If so, the block is added to the queue; if not, the block is dispatched to the serial `readWrite` queue.
 /// @discussion Used to synchronize access to class properties.
 /// @param block The block to be executed.
 - (void)sdl_runSyncOnQueue:(void (^)(void))block {
