@@ -216,6 +216,11 @@ describe(@"choice set manager tests", ^{
 
             it(@"should shutdown", ^{
                 expect(testManager.currentState).to(equal(SDLChoiceManagerStateShutdown));
+                expect(testManager.vrOptional).to(beTrue());
+                expect(testManager.currentHMILevel).to(equal(SDLHMILevelNone));
+                expect(testManager.pendingPresentationSet).to(beNil());
+                expect(testManager.preloadedMutableChoices).to(beEmpty());
+                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
             });
         });
     });
@@ -273,6 +278,34 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.pendingPreloadChoices).to(haveCount(1));
                 });
             });
+
+            context(@"when the manager shuts down during preloading", ^{
+                beforeEach(^{
+                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithArray:@[testCell1]];
+
+                    [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
+                    }];
+                });
+
+                it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
+                    expect(testManager.pendingPreloadChoices).to(contain(testCell1));
+                    expect(testManager.pendingPreloadChoices).to(contain(testCell2));
+                    expect(testManager.pendingPreloadChoices).to(contain(testCell3));
+                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
+
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
+                    testManager.preloadedMutableChoices = [NSMutableSet set];
+
+                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                    testOp.completionBlock();
+
+                    expect(testManager.preloadedMutableChoices).to(beEmpty());
+                    expect(testManager.preloadedChoices).to(beEmpty());
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                    expect(testManager.pendingPreloadChoices).to(beEmpty());
+                });
+            });
         });
 
         describe(@"deleting choices", ^{
@@ -319,6 +352,40 @@ describe(@"choice set manager tests", ^{
                 it(@"should properly start the deletion", ^{
                     expect(testManager.pendingPreloadChoices).to(beEmpty());
                     expect(testManager.transactionQueue.operationCount).to(equal(1)); // No delete operation
+                });
+            });
+
+            context(@"when the manager shuts down during deletion", ^{
+                __block SDLPresentChoiceSetOperation *pendingPresentOp = nil;
+                __block id<SDLChoiceSetDelegate> choiceDelegate = nil;
+
+                beforeEach(^{
+                    choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
+                    pendingPresentOp = OCMClassMock([SDLPresentChoiceSetOperation class]);
+                    OCMStub(pendingPresentOp.choiceSet.choices).andReturn([NSSet setWithArray:@[testCell1]]);
+                    testManager.pendingPresentOperation = pendingPresentOp;
+                    testManager.pendingPresentationSet = [[SDLChoiceSet alloc] initWithTitle:@"Test" delegate:choiceDelegate choices:@[testCell1]];
+                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
+
+                    [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
+                });
+
+                it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
+                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLDeleteChoicesOperation class]));
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    OCMVerify([pendingPresentOp cancel]);
+                    OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
+
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
+                    testManager.preloadedMutableChoices = [NSMutableSet set];
+
+                    testManager.transactionQueue.operations.lastObject.completionBlock();
+
+                    expect(testManager.preloadedMutableChoices).to(beEmpty());
+                    expect(testManager.preloadedChoices).to(beEmpty());
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                    expect(testManager.pendingPreloadChoices).to(beEmpty());
                 });
             });
         });
@@ -398,6 +465,30 @@ describe(@"choice set manager tests", ^{
                             expect(testManager.pendingPresentOperation).to(beNil());
                         });
                     });
+                });
+            });
+
+            describe(@"when the manager shuts down during presentation", ^{
+                beforeEach(^{
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+                });
+
+                it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
+                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                    expect(testManager.transactionQueue.operations).to(haveCount(2));
+                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
+                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
+                    testManager.preloadedMutableChoices = [NSMutableSet set];
+
+                    testManager.transactionQueue.operations.lastObject.completionBlock();
+
+                    expect(testManager.preloadedMutableChoices).to(beEmpty());
+                    expect(testManager.preloadedChoices).to(beEmpty());
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                    expect(testManager.pendingPreloadChoices).to(beEmpty());
                 });
             });
         });
