@@ -167,6 +167,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark - State Management
 
 - (void)didEnterStateShutdown {
+    SDLLogV(@"Manager shutting down");
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
     _vrOptional = YES;
@@ -225,6 +226,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
 
     if (choicesToUpload.count == 0) {
+        SDLLogD(@"All choices already preloaded. No need to perform a preload");
         if (handler != nil) {
             handler(nil);
         }
@@ -235,7 +237,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
-
     [self sdl_runSyncOnQueue:^{
         [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
     }];
@@ -253,15 +254,21 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Choices finished preloading");
 
+        if (handler != nil) {
+            handler(weakPreloadOp.error);
+        }
+
+        // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"The manager has shutdown");
+            return;
+        }
+
         [strongSelf sdl_runSyncOnQueue:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
             [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
         }];
-
-        if (handler != nil) {
-            handler(weakPreloadOp.error);
-        }
     };
     [self.transactionQueue addOperation:preloadOp];
 }
@@ -312,13 +319,20 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __weak typeof(self) weakSelf = self;
     __weak typeof(deleteOp) weakOp = deleteOp;
     deleteOp.completionBlock = ^{
+        SDLLogD(@"Finished deleting choices");
+
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (weakOp.error != nil) {
             SDLLogE(@"Failed to delete choices: %@", weakOp.error);
             return;
         }
 
-        SDLLogD(@"Finished deleting choices");
+        // Check if the manager has shutdown because the list of uploaded choices should not be updated
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"The manager has shutdown");
+            return;
+        }
+
         [strongSelf sdl_runSyncOnQueue:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
@@ -340,7 +354,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         return;
     }
 
-    if (self.pendingPresentationSet != nil) {
+    if (self.pendingPresentationSet != nil && self.pendingPresentOperation.isFinished == NO) {
         SDLLogW(@"A choice set is pending: %@. We will try to cancel it in favor of presenting a different choice set: %@. If it's already on screen it cannot be cancelled", self.pendingPresentationSet, choiceSet);
         [self.pendingPresentOperation cancel];
     }
@@ -382,12 +396,18 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource atRowIndex:strongOp.selectedCellRow];
         }
 
+        strongSelf.pendingPresentOperation = nil;
+
+        // Check if the manager has shutdown because the list of pending choices should not be updated
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"The manager has shutdown");
+            return;
+        }
+
         [strongSelf sdl_runSyncOnQueue:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.pendingPresentationSet = nil;
         }];
-
-        strongSelf.pendingPresentOperation = nil;
     };
 
     [self.transactionQueue addOperation:presentOp];
@@ -477,9 +497,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
-        if (uploadCell != nil) {
-            cell.choiceId = uploadCell.choiceId;
-        }
+        if (uploadCell == nil) { return; }
+        cell.choiceId = uploadCell.choiceId;
     }
 }
 
