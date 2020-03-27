@@ -47,7 +47,6 @@ describe(@"a cache file manager", ^{
     __block NSString *testURL = nil;
     __block SDLOnSystemRequest *expiredTestRequest = nil;
     __block NSString *testFilePath = nil;
-    __block NSString *testHashName = nil;
     __block NSString *expiredTestURL = nil;
     __block UIImage *testImage = nil;
     __block SDLIconArchiveFile *testArchiveFile = nil;
@@ -62,26 +61,9 @@ describe(@"a cache file manager", ^{
         testFilePath = [[NSBundle bundleForClass:self.class] pathForResource:@"testImagePNG" ofType:@"png"];
         testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
 
-        testURL = @"testURL";
-        testRequest = [[SDLOnSystemRequest alloc] init];
-        testRequest.url = testURL;
-        testIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:testURL iconFilePath:testFilePath];
-
-        expiredTestURL = @"expiredTestURL";
-        expiredTestRequest = [[SDLOnSystemRequest alloc] init];
-        expiredTestRequest.url = expiredTestURL;
-        testExpiredIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:expiredTestURL iconFilePath:testFilePath];
-        testExpiredIconCache.lastModifiedDate = [[NSDate date] dateByAddingTimeInterval:-31*24*60*60];
-
-        testArchiveFileLockScreenCacheArray = @[testIconCache,testExpiredIconCache];
-
-        testArchiveFile = [[SDLIconArchiveFile alloc] init];
-        testArchiveFile.lockScreenIconCaches = testArchiveFileLockScreenCacheArray;
-
         mockFileManager = OCMStrictClassMock([NSFileManager class]);
         testManager.fileManager = mockFileManager;
         mockUnarchiver = OCMClassMock([NSKeyedUnarchiver class]);
-        OCMStub(ClassMethod([mockUnarchiver unarchiveObjectWithFile:[OCMArg any]])).andReturn(testArchiveFile);
 
         mockUIImage = OCMClassMock([UIImage class]);
         mockDataTask = OCMClassMock([NSURLSession class]);
@@ -96,6 +78,24 @@ describe(@"a cache file manager", ^{
 
     describe(@"request with existing icon", ^{
         beforeEach(^{
+            testURL = @"testURL";
+            testRequest = [[SDLOnSystemRequest alloc] init];
+            testRequest.url = testURL;
+            testIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:testURL iconFilePath:testFilePath];
+
+            expiredTestURL = @"expiredTestURL";
+            expiredTestRequest = [[SDLOnSystemRequest alloc] init];
+            expiredTestRequest.url = expiredTestURL;
+            testExpiredIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:expiredTestURL iconFilePath:testFilePath];
+            testExpiredIconCache.lastModifiedDate = [[NSDate date] dateByAddingTimeInterval:-31*24*60*60];
+
+            testArchiveFileLockScreenCacheArray = @[testIconCache,testExpiredIconCache];
+
+            testArchiveFile = [[SDLIconArchiveFile alloc] init];
+            testArchiveFile.lockScreenIconCaches = testArchiveFileLockScreenCacheArray;
+
+            OCMStub(ClassMethod([mockUnarchiver unarchiveObjectWithFile:[OCMArg any]])).andReturn(testArchiveFile);
+
             OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(YES);
         });
 
@@ -138,7 +138,7 @@ describe(@"a cache file manager", ^{
                 }];
             });
 
-            it(@"it should return downloaded image", ^{
+            it(@"it should return downloaded image and no error", ^{
                 expect(resultImage).to(equal(testImage));
                 expect(resultError).to(beNil());
             });
@@ -147,15 +147,108 @@ describe(@"a cache file manager", ^{
     });
 
     describe(@"Receiving a new icon", ^{
-        context(@"When no directory is created", ^{
+        __block SDLOnSystemRequest *newIconRequest = nil;
+        __block NSString *newIconURL = nil;
+        __block SDLLockScreenIconCache *newIconCache = nil;
+
+        beforeEach(^{
+            newIconURL = @"newURL";
+            newIconRequest = [[SDLOnSystemRequest alloc] init];
+            newIconRequest.url = newIconURL;
+        });
+
+        context(@"When no directory is present", ^{
+            __block UIImage *resultImage = nil;
+            __block NSError *resultError = nil;
+
+            beforeEach(^{
+                newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:newIconURL iconFilePath:testFilePath];
+
+                OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(YES);
+
+                OCMStub(ClassMethod([testManagerMock sdl_writeImage:[OCMArg any] toFileFromURL:[OCMArg any] atFilePath:[OCMArg any]])).andReturn(testFilePath);
+
+                OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
+
+                OCMStub([mockFileManager contentsOfDirectoryAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]);
+
+                OCMStub([mockFileManager createDirectoryAtPath:[OCMArg any] withIntermediateDirectories:[OCMArg any] attributes:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(YES);
+
+                OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(NO);
+
+                [testManager retrieveImageForRequest:newIconRequest withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                    resultImage = image;
+                    resultError = error;
+                }];
+            });
+
+            it(@"it should return downloaded image and no error", ^{
+                expect(resultImage).to(equal(testImage));
+                expect(resultError).to(beNil());
+            });
 
         });
 
-        context(@"When directory is created", ^{
+        context(@"When directory is present", ^{
+            __block UIImage *resultImage = nil;
+            __block NSError *resultError = nil;
+
+            beforeEach(^{
+                OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(YES);
+
+                newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:newIconURL iconFilePath:testFilePath];
+                testArchiveFileLockScreenCacheArray = @[newIconCache];
+
+                OCMStub(ClassMethod([testManagerMock sdl_writeImage:[OCMArg any] toFileFromURL:[OCMArg any] atFilePath:[OCMArg any]])).andReturn(testFilePath);
+
+                OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
+
+                testArchiveFile = [[SDLIconArchiveFile alloc] init];
+                testArchiveFile.lockScreenIconCaches = testArchiveFileLockScreenCacheArray;
+            });
+
+            context(@"no archive file present", ^{
+
+                beforeEach(^{
+                    OCMStub([mockFileManager contentsOfDirectoryAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(nil);
+
+                    OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(YES);
+
+                    [testManager retrieveImageForRequest:newIconRequest withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                        resultImage = image;
+                        resultError = error;
+                    }];
+                });
+
+                it(@"it should return downloaded image and no error", ^{
+                    expect(resultImage).to(equal(testImage));
+                    expect(resultError).to(beNil());
+                });
+            });
+
+            context(@"archive file present", ^{
+
+                beforeEach(^{
+                    OCMStub([mockFileManager removeItemAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(YES);
+
+                    OCMStub([mockFileManager contentsOfDirectoryAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(@[@"iconArchiveFile"]);
+
+                    OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(YES);
+
+                    [testManager retrieveImageForRequest:newIconRequest withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                        resultImage = image;
+                        resultError = error;
+                    }];
+                });
+
+                it(@"it should return downloaded image and no error", ^{
+                    expect(resultImage).to(equal(testImage));
+                    expect(resultError).to(beNil());
+                });
+            });
 
         });
     });
-
 });
 
 QuickSpecEnd

@@ -52,7 +52,6 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
 
 - (void)retrieveImageForRequest:(SDLOnSystemRequest *)request withCompletionHandler:(ImageRetrievalCompletionHandler)completion {
     NSError *error = nil;
-//    self.class.fileManager = [NSFileManager defaultManager];
     UIImage *icon = nil;
 
     // Check if the directory already exists; if it does not, create it
