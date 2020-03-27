@@ -116,10 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
                          @32785: SDLRPCFunctionNameOnRCStatus,
                          @32786: SDLRPCFunctionNameOnAppServiceData,
                          @32787: SDLRPCFunctionNameOnSystemCapabilityUpdated,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                          @65536: SDLRPCFunctionNameEncodedSyncPData,
                          @65537: SDLRPCFunctionNameSyncPData,
                          @98304: SDLRPCFunctionNameOnEncodedSyncPData,
                          @98305: SDLRPCFunctionNameOnSyncPData
+#pragma clang diagnostic pop
                          };
     return self;
 }

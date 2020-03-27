@@ -8,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Callback including encoded data of any SyncP packets that SYNC needs to send back to the mobile device. Legacy / v1 Protocol implementation; responds to EncodedSyncPData. *** DEPRECATED ***
  */
+__deprecated
 @interface SDLOnEncodedSyncPData : SDLRPCNotification
 
 /**
