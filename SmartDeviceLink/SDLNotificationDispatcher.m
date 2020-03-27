@@ -425,12 +425,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveDialNumberRequest request:request];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCRequestNotification:SDLDidReceiveEncodedSyncPDataRequest request:request];
 #pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onEndAudioPassThru:(SDLEndAudioPassThru *)request {
     [self postRPCRequestNotification:SDLDidReceiveEndAudioPassThruRequest request:request];
@@ -580,12 +583,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveSubscribeWayPointsRequest request:request];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onSyncPData:(SDLSyncPData *)request {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
 #pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 -(void)onSystemRequest:(SDLSystemRequest *)request {
     [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];

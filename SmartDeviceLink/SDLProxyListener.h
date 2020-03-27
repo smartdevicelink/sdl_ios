@@ -767,7 +767,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request;
+- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request __deprecated;
 #pragma clang diagnostic pop
 
 /**
@@ -1036,7 +1036,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)onSyncPData:(SDLSyncPData *)request;
+- (void)onSyncPData:(SDLSyncPData *)request __deprecated;
 #pragma clang diagnostic pop
 
 /**
