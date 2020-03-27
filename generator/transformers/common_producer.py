@@ -5,7 +5,7 @@ import json
 import logging
 import re
 import textwrap
-from abc import ABC
+from abc import ABC, abstractmethod
 from collections import OrderedDict, namedtuple
 
 from model.array import Array
@@ -24,16 +24,21 @@ class InterfaceProducerCommon(ABC):
     All Enums/Structs/Functions Producer are inherited from this class and using features of it
     """
 
-    def __init__(self, container_name, names=()):
+    def __init__(self, names=(), key_words=()):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.container_name = container_name
         self.names = list(map(lambda e: self.replace_sync(e), names))
+        self.key_words = key_words
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
                                       'method_suffix of_class type_native type_sdl modifier for_name description '
                                       'constructor_argument_override')
         self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
+
+    @property
+    @abstractmethod
+    def container_name(self):
+        pass
 
     def transform(self, item: (Enum, Function, Struct), render: dict) -> dict:
         """
@@ -55,9 +60,9 @@ class InterfaceProducerCommon(ABC):
         render['params'] = OrderedDict()
 
         for param in getattr(item, self.container_name).values():
-            param.name = self.replace_sync(param.name)
-            if param.name.lower() == 'id':
-                param.name = self.minimize_first(item.name) + self.title(param.name)
+            # if param.name.lower() == 'id':
+            #     param.name = self.minimize_first(item.name) + self.title(param.name)
+            param.name = self.replace_keywords(param.name)
             render['params'][param.name] = self.extract_param(param)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
@@ -68,13 +73,29 @@ class InterfaceProducerCommon(ABC):
         render['params'] = tuple(render['params'].values())
         return render
 
+    def replace_keywords(self, name: str = '') -> str:
+        """
+        if :param name in self.key_words, :return: name += 'Param'
+        :param name: string with item name
+        """
+        if name.casefold() in self.key_words:
+            origin = name
+            if name.isupper():
+                name += '_PARAM'
+            else:
+                name += 'Param'
+            self.logger.debug('Replacing %s with %s', origin, name)
+        return self.replace_sync(name)
+
     @staticmethod
-    def replace_sync(name: str = '') -> str:
+    def replace_sync(name):
         """
         :param name: string with item name
-        :return: string with replaced 'sync' to 'sdl'
+        :return: string with replaced 'sync' to 'Sdl'
         """
-        return re.sub(r'^([sS])ync(.+)$', r'\1dl\2', name)
+        if name:
+            name = re.sub(r'^([sS])ync(.+)$', r'\1dl\2', name)
+        return name
 
     def extract_imports(self, param: Param, imports: dict):
         """
@@ -226,7 +247,7 @@ class InterfaceProducerCommon(ABC):
         :return: dictionary with evaluated output types
         """
         if hasattr(instance, 'name'):
-            instance.name = self.replace_sync(instance.name)
+            instance.name = self.replace_keywords(instance.name)
         data = OrderedDict()
         if isinstance(instance, Enum):
             data['for_name'] = 'enum'

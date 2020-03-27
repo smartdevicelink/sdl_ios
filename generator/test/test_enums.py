@@ -1,6 +1,11 @@
 from collections import OrderedDict
 from unittest import TestCase
 
+try:
+    from generator import Generator
+except ImportError as error:
+    from generator.generator import Generator
+
 from model.enum import Enum
 from model.enum_element import EnumElement
 from transformers.enums_producer import EnumsProducer
@@ -20,8 +25,9 @@ class TestEnumsProducer(TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        key_words = Generator().get_key_words()
 
-        self.producer = EnumsProducer('SDLEnum')
+        self.producer = EnumsProducer('SDLEnum', key_words)
 
     def test_FunctionID(self):
         """
@@ -65,7 +71,7 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLTextFieldName'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='Success', origin='SUCCESS', since=None),
+            self.producer.param_named(description=[], name='SuccessParam', origin='SUCCESS_PARAM', since=None),
             self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None),
             self.producer.param_named(description=[], name='H264', origin='H264', since=None),
             self.producer.param_named(description=[], name='UnsupportedRequest', origin='UNSUPPORTED_REQUEST',

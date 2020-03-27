@@ -14,12 +14,15 @@ class StructsProducer(InterfaceProducerCommon):
     Structs transformer
     """
 
-    def __init__(self, struct_class, enum_names):
-        super(StructsProducer, self).__init__(
-            container_name='members',
-            names=enum_names)
+    def __init__(self, struct_class, enum_names, key_words):
+        super(StructsProducer, self).__init__(names=enum_names, key_words=key_words)
+        self._container_name = 'members'
         self.struct_class = struct_class
         self.logger = logging.getLogger(self.__class__.__name__)
+
+    @property
+    def container_name(self):
+        return self._container_name
 
     def transform(self, item: Struct, render: dict = None) -> dict:
         """

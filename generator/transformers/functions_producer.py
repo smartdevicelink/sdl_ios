@@ -14,10 +14,9 @@ class FunctionsProducer(InterfaceProducerCommon):
     Functions transformer
     """
 
-    def __init__(self, paths, names):
-        super(FunctionsProducer, self).__init__(
-            container_name='params',
-            names=names)
+    def __init__(self, paths, names, key_words):
+        super(FunctionsProducer, self).__init__(names=names, key_words=key_words)
+        self._container_name = 'params'
         self.request_class = paths.request_class
         self.response_class = paths.response_class
         self.notification_class = paths.notification_class
@@ -25,6 +24,10 @@ class FunctionsProducer(InterfaceProducerCommon):
         self.parameter_names = paths.parameter_names
         self.logger = logging.getLogger(self.__class__.__name__)
         self.common_names = namedtuple('common_names', 'name origin description since')
+
+    @property
+    def container_name(self):
+        return self._container_name
 
     def transform(self, item: Function, render: dict = None) -> dict:
         """
@@ -68,7 +71,7 @@ class FunctionsProducer(InterfaceProducerCommon):
         """
         render = OrderedDict()
         for item in items.values():
-            tmp = {'name': self.title(self.replace_sync(item.name)),
+            tmp = {'name': self.title(self.replace_keywords(item.name)),
                    'origin': item.name,
                    'description': self.extract_description(item.description),
                    'since': item.since}

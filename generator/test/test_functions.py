@@ -2,6 +2,11 @@ import re
 from collections import namedtuple, OrderedDict
 from unittest import TestCase
 
+try:
+    from generator import Generator
+except ImportError as error:
+    from generator.generator import Generator
+
 from model.array import Array
 from model.boolean import Boolean
 from model.enum import Enum
@@ -29,6 +34,7 @@ class TestFunctionsProducer(TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        key_words = Generator().get_key_words()
 
         Paths = namedtuple('Paths', 'request_class response_class notification_class function_names parameter_names')
         paths = Paths(request_class='SDLRPCRequest',
@@ -38,7 +44,7 @@ class TestFunctionsProducer(TestCase):
                       parameter_names='SDLRPCParameterNames')
 
         names = ('FileType', 'Language', 'SyncMsgVersion', 'TemplateColorScheme', 'TTSChunk', 'Choice')
-        self.producer = FunctionsProducer(paths, names)
+        self.producer = FunctionsProducer(paths, names, key_words)
 
     def test_process_function_name(self):
         """

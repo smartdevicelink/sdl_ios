@@ -15,12 +15,16 @@ class EnumsProducer(InterfaceProducerCommon):
     Enums transformer
     """
 
-    def __init__(self, enum_class):
-        super(EnumsProducer, self).__init__(
-            container_name='elements')
+    def __init__(self, enum_class, key_words):
+        super(EnumsProducer, self).__init__(key_words=key_words)
+        self._container_name = 'elements'
         self.enum_class = enum_class
         self.logger = logging.getLogger(self.__class__.__name__)
         self.param_named = namedtuple('param_named', 'origin description name since')
+
+    @property
+    def container_name(self):
+        return self._container_name
 
     def transform(self, item: Enum, render: dict = None) -> dict:
         """

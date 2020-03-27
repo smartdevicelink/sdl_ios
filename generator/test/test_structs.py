@@ -1,6 +1,11 @@
 from collections import OrderedDict
 from unittest import TestCase
 
+try:
+    from generator import Generator
+except ImportError as error:
+    from generator.generator import Generator
+
 from model.integer import Integer
 from model.param import Param
 from model.string import String
@@ -22,8 +27,9 @@ class TestStructsProducer(TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        key_words = Generator().get_key_words()
 
-        self.producer = StructsProducer('SDLRPCStruct', ['Image'])
+        self.producer = StructsProducer('SDLRPCStruct', ['Image'], key_words)
 
     def test_CloudAppProperties(self):
         """
@@ -71,19 +77,19 @@ class TestStructsProducer(TestCase):
         expected['imports'] = {'.h': {'enum': {'SDLRPCStruct'}, 'struct': set()}, '.m': set()}
         expected['params'] = (
             self.producer.param_named(
-                constructor_argument='touchEventId', constructor_argument_override=None,
-                constructor_prefix='TouchEventId', deprecated=False,
+                constructor_argument='idParam', constructor_argument_override=None,
+                constructor_prefix='IdParam', deprecated=False,
                 description=['{"default_value": null, "max_value": 9, "min_value": 0}'], for_name='object',
-                mandatory=True, method_suffix='TouchEventId', modifier='strong', of_class='NSNumber.class',
-                origin='touchEventId', since=None, type_native='UInt8', type_sdl='NSNumber<SDLUInt> *'),)
+                mandatory=True, method_suffix='IdParam', modifier='strong', of_class='NSNumber.class',
+                origin='idParam', since=None, type_native='UInt8', type_sdl='NSNumber<SDLUInt> *'),)
 
         argument = [
-            self.producer.argument_named(variable='touchEventId', deprecated=False,
-                                         constructor_argument='@(touchEventId)', origin='touchEventId')]
+            self.producer.argument_named(variable='idParam', deprecated=False,
+                                         constructor_argument='@(idParam)', origin='idParam')]
 
         expected['constructors'] = (self.producer.constructor_named(
             all=argument, arguments=argument, deprecated=False, self='',
-            init='TouchEventId:(UInt8)touchEventId'),)
+            init='IdParam:(UInt8)idParam'),)
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)

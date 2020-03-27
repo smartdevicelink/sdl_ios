@@ -244,35 +244,66 @@ class Generator:
         self.logger.info('Parser type: %s, version %s,\tGenerator version %s',
                          basename(getfile(Parser().__class__)), parser_origin, generator_origin)
 
+    def get_file_content(self, file_name: Path) -> list:
+        """
+
+        :param file_name:
+        :return:
+        """
+        try:
+            with file_name.open('r') as file:
+                content = file.readlines()
+            return content
+        except FileNotFoundError as message1:
+            self.logger.error(message1)
+            return []
+
+    def get_key_words(self, file_name=ROOT.joinpath('rpc_spec/RpcParser/RESERVED_KEYWORDS')):
+        """
+        :param file_name:
+        :return:
+        """
+        content = self.get_file_content(file_name)
+        content = tuple(map(lambda e: re.sub(r'\n', r'', e).strip().casefold(), content))
+        try:
+            start_index = content.index('# ios library')
+            content = content[start_index + 1:len(content)]
+            content = tuple(filter(lambda e: not re.search(r'^#+\s+.+|^$', e), content))
+            self.logger.debug('key_words: %s', ', '.join(content))
+            return content
+        except (IndexError, ValueError, StopIteration) as error1:
+            self.logger.error('Error while getting key_words, %s %s', type(error1).__name__, error1)
+            return []
+
     def get_paths(self, file_name: Path = ROOT.joinpath('paths.ini')):
         """
         Getting and validating parent classes names
         :param file_name: path to file with container
         :return: namedtuple with container to key elements
         """
-        data = OrderedDict()
-        try:
-            with file_name.open('r') as file:
-                for line in file:
-                    if line.startswith('#'):
-                        self.logger.warning('commented property %s, which will be skipped', line.strip())
-                        continue
-                    if re.match(r'^(\w+)\s?=\s?(.+)', line):
-                        if len(line.split('=')) > 2:
-                            self.logger.critical('can not evaluate value, too many separators %s', str(line))
-                            sys.exit(1)
-                        name, var = line.partition('=')[::2]
-                        if name.strip() in data:
-                            self.logger.critical('duplicate key %s', name)
-                            sys.exit(1)
-                        data[name.strip().lower()] = var.strip()
-        except FileNotFoundError as message1:
-            self.logger.critical(message1)
+        content = self.get_file_content(file_name)
+        if not content:
+            self.logger.critical('%s not found', file_name)
             sys.exit(1)
+        data = OrderedDict()
+
+        for line in content:
+            if line.startswith('#'):
+                self.logger.warning('commented property %s, which will be skipped', line.strip())
+                continue
+            if re.match(r'^(\w+)\s?=\s?(.+)', line):
+                if len(line.split('=')) > 2:
+                    self.logger.critical('can not evaluate value, too many separators %s', str(line))
+                    sys.exit(1)
+                name, var = line.partition('=')[::2]
+                if name.strip() in data:
+                    self.logger.critical('duplicate key %s', name)
+                    sys.exit(1)
+                data[name.strip().lower()] = var.strip()
 
         missed = list(set(self.paths_named._fields) - set(data.keys()))
         if missed:
-            self.logger.critical('in %s missed fields: %s ', file, str(missed))
+            self.logger.critical('in %s missed fields: %s ', content, str(missed))
             sys.exit(1)
 
         return self.paths_named(**data)
@@ -439,13 +470,15 @@ class Generator:
         filtered, names = self.filter_pattern(interface, args.regex_pattern)
 
         tasks = []
-        functions_transformer = FunctionsProducer(paths, names)
+        key_words = self.get_key_words()
+
+        functions_transformer = FunctionsProducer(paths, names, key_words)
         if args.enums and filtered.enums:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.enums,
-                                           EnumsProducer(paths.enum_class)))
+                                           EnumsProducer(paths.enum_class, key_words)))
         if args.structs and filtered.structs:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.structs,
-                                           StructsProducer(paths.struct_class, names)))
+                                           StructsProducer(paths.struct_class, names, key_words)))
         if args.functions and filtered.functions:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.functions, functions_transformer))
             tasks.append(self.process_function_name(args.skip, args.overwrite, interface.functions,
