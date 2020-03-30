@@ -75,8 +75,10 @@ describe(@"a lock screen manager", ^{
 #pragma clang diagnostic pop
 
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     [testNotificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
+#pragma clang diagnostic pop
                 });
                 
                 it(@"should not have presented the lock screen", ^{
@@ -120,8 +122,10 @@ describe(@"a lock screen manager", ^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
 #pragma clang diagnostic pop
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
+#pragma clang diagnostic pop
                     [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                 });
                 
@@ -221,8 +225,10 @@ describe(@"a lock screen manager", ^{
                         testOffStatus = [[SDLOnLockScreenStatus alloc] init];
 #pragma clang diagnostic pop
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
-                        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOffStatus];
+#pragma clang diagnostic pop
                         [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                     });
                     
@@ -377,7 +383,10 @@ describe(@"a lock screen manager", ^{
         context(@"receiving a lock screen status of required", ^{
             beforeEach(^{
                 testStatus.lockScreenStatus = SDLLockScreenStatusRequired;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+#pragma clang diagnostic pop
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
             });
@@ -390,7 +399,10 @@ describe(@"a lock screen manager", ^{
         context(@"receiving a lock screen status of off", ^{
             beforeEach(^{
                 testStatus.lockScreenStatus = SDLLockScreenStatusOff;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+#pragma clang diagnostic pop
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
             });
@@ -414,7 +426,10 @@ describe(@"a lock screen manager", ^{
             SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
 #pragma clang diagnostic pop
             testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
+#pragma clang diagnostic pop
             testLockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
         });
 
