@@ -560,7 +560,7 @@ extern SDLNotificationName const SDLDidReceiveKeyboardInputNotification;
 extern SDLNotificationName const SDLDidChangeLanguageNotification;
 
 /// Name for a LockScreenStatus notification RPC
-extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;
+extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification __deprecated;
 
 /// Name for a NewHash notification RPC
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;

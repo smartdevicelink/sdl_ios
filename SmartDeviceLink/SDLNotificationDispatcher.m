@@ -673,9 +673,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangeLanguageNotification notification:notification];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self postRPCNotificationNotification:SDLDidChangeLockScreenStatusNotification notification:notification];
+#pragma clang diagnostic pop
 }
+#pragma clang diagnostic pop
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
