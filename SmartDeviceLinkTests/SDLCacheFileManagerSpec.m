@@ -14,7 +14,6 @@
 #import "SDLIconArchiveFile.h"
 #import "SDLOnSystemRequest.h"
 
-
 @interface SDLCacheFileManager ()
 
 + (nullable NSString *)sdl_writeImage:(UIImage *)icon toFileFromURL:(NSString *)urlString atFilePath:(NSString *)filePath;
@@ -122,7 +121,7 @@ describe(@"a cache file manager", ^{
                     }];
                 });
 
-                it(@"should return image and no error", ^{
+                it(@"should return retrieved image and no error", ^{
                     expect(resultImage).to(equal(testImage));
                     expect(resultError).to(beNil());
                 });
@@ -133,7 +132,7 @@ describe(@"a cache file manager", ^{
             __block UIImage *resultImage = nil;
             __block NSError *resultError = nil;
 
-            context(@"download succeeds", ^{
+            context(@"image download succeeds", ^{
                 context(@"Failed to update archive object", ^{
                     beforeEach(^{
                         OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(NO);
@@ -156,7 +155,6 @@ describe(@"a cache file manager", ^{
                     beforeEach(^{
                         OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(YES);
                         OCMStub(ClassMethod([testManagerMock sdl_writeImage:[OCMArg any] toFileFromURL:[OCMArg any] atFilePath:[OCMArg any]])).andReturn(testFilePath);
-
                         OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
 
                         [testManager retrieveImageForRequest:expiredTestRequest withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
@@ -189,7 +187,7 @@ describe(@"a cache file manager", ^{
                 });
             });
 
-            context(@"download fails", ^{
+            context(@"image download fails", ^{
                 beforeEach(^{
                     OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [OCMArg any], nil])]);
 
@@ -210,7 +208,6 @@ describe(@"a cache file manager", ^{
     describe(@"Receiving a new icon", ^{
         __block SDLOnSystemRequest *newIconRequest = nil;
         __block NSString *newIconURL = nil;
-        __block SDLLockScreenIconCache *newIconCache = nil;
 
         beforeEach(^{
             newIconURL = @"newURL";
@@ -223,8 +220,6 @@ describe(@"a cache file manager", ^{
             __block NSError *resultError = nil;
 
             beforeEach(^{
-                newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:newIconURL iconFilePath:testFilePath];
-
                 OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(YES);
                 OCMStub(ClassMethod([testManagerMock sdl_writeImage:[OCMArg any] toFileFromURL:[OCMArg any] atFilePath:[OCMArg any]])).andReturn(testFilePath);
                 OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
@@ -250,10 +245,6 @@ describe(@"a cache file manager", ^{
 
             beforeEach(^{
                 OCMStub(ClassMethod([mockArchiver archiveRootObject:[OCMArg any] toFile:[OCMArg any]])).andReturn(YES);
-
-                newIconCache = [[SDLLockScreenIconCache alloc] initWithIconUrl:newIconURL iconFilePath:testFilePath];
-                testArchiveFileLockScreenCacheArray = @[newIconCache];
-
                 OCMStub(ClassMethod([testManagerMock sdl_writeImage:[OCMArg any] toFileFromURL:[OCMArg any] atFilePath:[OCMArg any]])).andReturn(testFilePath);
                 OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
 
