@@ -5426,7 +5426,6 @@
 		5D6EB4C61BF274F400693731 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				109566F42429865500E24F66 /* Lock Screen Icon Cache */,
 				5DB1BCE41D245629002FFC37 /* State Machine */,
 				5D6EB4C71BF28D6800693731 /* Categories */,
 				5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */,
@@ -5929,6 +5928,7 @@
 			children = (
 				5DEE55BE1B8509A5004F0D0F /* HTTP Connection */,
 				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
+				109566F42429865500E24F66 /* Lock Screen Icon Cache */,
 				5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */,
 				5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */,
 			);
