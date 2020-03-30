@@ -91,11 +91,14 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:32787]).to(equal(SDLRPCFunctionNameOnSystemCapabilityUpdated));
 
         //Not listed in Spec
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect([functionID functionNameForId:65536]).to(equal(SDLRPCFunctionNameEncodedSyncPData));
         expect([functionID functionNameForId:65537]).to(equal(SDLRPCFunctionNameSyncPData));
         
         expect([functionID functionNameForId:98304]).to(equal(SDLRPCFunctionNameOnEncodedSyncPData));
         expect([functionID functionNameForId:98305]).to(equal(SDLRPCFunctionNameOnSyncPData));
+#pragma clang diagnostic pop
     });
 });
 
@@ -152,6 +155,8 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLRPCFunctionNameGetAppServiceData]).to(equal(@53));
         expect([functionID functionIdForName:SDLRPCFunctionNameGetFile]).to(equal(@54));
         expect([functionID functionIdForName:SDLRPCFunctionNamePerformAppServiceInteraction]).to(equal(@55));
+        expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@60));
+        expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@61));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnHMIStatus]).to(equal(@32768));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnButtonEvent]).to(equal(@32770));
@@ -173,13 +178,14 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLRPCFunctionNameOnSystemCapabilityUpdated]).to(equal(@32787));
 
         //Not listed in Spec
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect([functionID functionIdForName:SDLRPCFunctionNameEncodedSyncPData]).to(equal(@65536));
         expect([functionID functionIdForName:SDLRPCFunctionNameSyncPData]).to(equal(@65537));
         
         expect([functionID functionIdForName:SDLRPCFunctionNameOnEncodedSyncPData]).to(equal(@98304));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnSyncPData]).to(equal(@98305));
-        expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@60));
-        expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@61));
+#pragma clang diagnostic pop
     });
 });
 

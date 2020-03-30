@@ -29,7 +29,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameDeleteSubMenu).to(equal(@"DeleteSubMenu"));
         expect(SDLRPCFunctionNameDiagnosticMessage).to(equal(@"DiagnosticMessage"));
         expect(SDLRPCFunctionNameDialNumber).to(equal(@"DialNumber"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLRPCFunctionNameEncodedSyncPData).to(equal(@"EncodedSyncPData"));
+#pragma clang diagnostic pop
         expect(SDLRPCFunctionNameEndAudioPassThru).to(equal(@"EndAudioPassThru"));
         expect(SDLRPCFunctionNameGenericResponse).to(equal(@"GenericResponse"));
         expect(SDLRPCFunctionNameGetAppServiceData).to(equal(@"GetAppServiceData"));
@@ -47,7 +50,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameOnButtonPress).to(equal(@"OnButtonPress"));
         expect(SDLRPCFunctionNameOnCommand).to(equal(@"OnCommand"));
         expect(SDLRPCFunctionNameOnDriverDistraction).to(equal(@"OnDriverDistraction"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLRPCFunctionNameOnEncodedSyncPData).to(equal(@"OnEncodedSyncPData"));
+#pragma clang diagnostic pop
         expect(SDLRPCFunctionNameOnHashChange).to(equal(@"OnHashChange"));
         expect(SDLRPCFunctionNameOnHMIStatus).to(equal(@"OnHMIStatus"));
         expect(SDLRPCFunctionNameOnInteriorVehicleData).to(equal(@"OnInteriorVehicleData"));
@@ -55,7 +61,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameOnLanguageChange).to(equal(@"OnLanguageChange"));
         expect(SDLRPCFunctionNameOnPermissionsChange).to(equal(@"OnPermissionsChange"));
         expect(SDLRPCFunctionNameOnRCStatus).to(equal(@"OnRCStatus"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLRPCFunctionNameOnSyncPData).to(equal(@"OnSyncPData"));
+#pragma clang diagnostic pop
         expect(SDLRPCFunctionNameOnSystemCapabilityUpdated).to(equal(@"OnSystemCapabilityUpdated"));
         expect(SDLRPCFunctionNameOnSystemRequest).to(equal(@"OnSystemRequest"));
         expect(SDLRPCFunctionNameOnTBTClientState).to(equal(@"OnTBTClientState"));
@@ -86,7 +95,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameSubscribeButton).to(equal(@"SubscribeButton"));
         expect(SDLRPCFunctionNameSubscribeVehicleData).to(equal(@"SubscribeVehicleData"));
         expect(SDLRPCFunctionNameSubscribeWayPoints).to(equal(@"SubscribeWayPoints"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLRPCFunctionNameSyncPData).to(equal(@"SyncPData"));
+#pragma clang diagnostic pop
         expect(SDLRPCFunctionNameSystemRequest).to(equal(@"SystemRequest"));
         expect(SDLRPCFunctionNameUnpublishAppService).to(equal(@"UnpublishAppService"));
         expect(SDLRPCFunctionNameUnregisterAppInterface).to(equal(@"UnregisterAppInterface"));
