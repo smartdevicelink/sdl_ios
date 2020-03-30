@@ -29,7 +29,7 @@ class TestStructsProducer(TestCase):
         self.maxDiff = None
         key_words = Generator().get_key_words()
 
-        self.producer = StructsProducer('SDLRPCStruct', ['Image'], key_words)
+        self.producer = StructsProducer('SDLRPCStruct', enum_names=(), struct_names=['Image'], key_words=key_words)
 
     def test_CloudAppProperties(self):
         """

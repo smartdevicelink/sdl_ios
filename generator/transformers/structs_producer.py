@@ -14,8 +14,8 @@ class StructsProducer(InterfaceProducerCommon):
     Structs transformer
     """
 
-    def __init__(self, struct_class, enum_names, key_words):
-        super(StructsProducer, self).__init__(names=enum_names, key_words=key_words)
+    def __init__(self, struct_class, enum_names, struct_names, key_words):
+        super(StructsProducer, self).__init__(enum_names=enum_names, struct_names=struct_names, key_words=key_words)
         self._container_name = 'members'
         self.struct_class = struct_class
         self.logger = logging.getLogger(self.__class__.__name__)

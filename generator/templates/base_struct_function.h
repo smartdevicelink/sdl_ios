@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
  {%- endfor %}
  * @return A {{name}} object
  */
-{%- if c.deprecated %}
+{%- if deprecated or c.deprecated %}
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
 - (instancetype)initWith{{c.init}};
-{%- if c.deprecated %}
+{%- if deprecated or c.deprecated %}
 #pragma clang diagnostic pop
 {%- endif %}
 {% endfor -%}
@@ -42,8 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 {%- block methods %}
 {%- for param in params %}
 {%- include 'description_param.jinja' %}
+{%- if deprecated or param.deprecated %}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+{%- endif %}
 @property ({{'nullable, ' if not param.mandatory}}{{param.modifier}}, nonatomic) {{param.type_sdl}}{{param.origin}}{{' __deprecated' if param.deprecated and param.deprecated is sameas true }};
-{% endfor -%}
+{%- if deprecated or param.deprecated %}
+#pragma clang diagnostic pop
+{%- endif %}
+{% endfor %}
 {%- endblock %}
 @end
 

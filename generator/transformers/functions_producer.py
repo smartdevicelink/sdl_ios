@@ -14,8 +14,8 @@ class FunctionsProducer(InterfaceProducerCommon):
     Functions transformer
     """
 
-    def __init__(self, paths, names, key_words):
-        super(FunctionsProducer, self).__init__(names=names, key_words=key_words)
+    def __init__(self, paths, enum_names, struct_names, key_words):
+        super(FunctionsProducer, self).__init__(enum_names=enum_names, struct_names=struct_names, key_words=key_words)
         self._container_name = 'params'
         self.request_class = paths.request_class
         self.response_class = paths.response_class

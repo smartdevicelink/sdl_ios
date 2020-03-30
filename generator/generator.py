@@ -423,7 +423,8 @@ class Generator:
         :param pattern: regex pattern (string)
         :return: Model with items which match with regex pattern
         """
-        names = tuple(interface.enums.keys()) + tuple(interface.structs.keys())
+        enum_names = tuple(interface.enums.keys())
+        struct_names = tuple(interface.structs.keys())
 
         if pattern:
             match = {key: OrderedDict() for key in vars(interface).keys()}
@@ -432,8 +433,8 @@ class Generator:
                 if key == 'params':
                     continue
                 match[key].update({name: item for name, item in value.items() if re.match(pattern, item.name)})
-            return Interface(**match), names
-        return interface, names
+            return Interface(**match), enum_names, struct_names
+        return interface, enum_names, struct_names
 
     async def parser(self, source_xml, source_xsd):
         """
@@ -467,18 +468,18 @@ class Generator:
 
         self.env = [args.templates_directory] + [join(args.templates_directory, k) for k in vars(interface).keys()]
 
-        filtered, names = self.filter_pattern(interface, args.regex_pattern)
+        filtered, enum_names, struct_names = self.filter_pattern(interface, args.regex_pattern)
 
         tasks = []
         key_words = self.get_key_words()
 
-        functions_transformer = FunctionsProducer(paths, names, key_words)
+        functions_transformer = FunctionsProducer(paths, enum_names, struct_names, key_words)
         if args.enums and filtered.enums:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.enums,
                                            EnumsProducer(paths.enum_class, key_words)))
         if args.structs and filtered.structs:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.structs,
-                                           StructsProducer(paths.struct_class, names, key_words)))
+                                           StructsProducer(paths.struct_class, enum_names, struct_names, key_words)))
         if args.functions and filtered.functions:
             tasks.append(self.process_main(args.skip, args.overwrite, filtered.functions, functions_transformer))
             tasks.append(self.process_function_name(args.skip, args.overwrite, interface.functions,

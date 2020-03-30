@@ -43,8 +43,10 @@ class TestFunctionsProducer(TestCase):
                       function_names='SDLRPCFunctionNames',
                       parameter_names='SDLRPCParameterNames')
 
-        names = ('FileType', 'Language', 'SyncMsgVersion', 'TemplateColorScheme', 'TTSChunk', 'Choice')
-        self.producer = FunctionsProducer(paths, names, key_words)
+        enum_names = ('FileType', 'Language',)
+        struct_names = ('SyncMsgVersion', 'TemplateColorScheme', 'TTSChunk', 'Choice')
+
+        self.producer = FunctionsProducer(paths, enum_names, struct_names, key_words)
 
     def test_process_function_name(self):
         """

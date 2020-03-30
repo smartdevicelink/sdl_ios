@@ -24,9 +24,9 @@ class InterfaceProducerCommon(ABC):
     All Enums/Structs/Functions Producer are inherited from this class and using features of it
     """
 
-    def __init__(self, names=(), key_words=()):
+    def __init__(self, enum_names=(), struct_names=(), key_words=()):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.names = list(map(lambda e: self.replace_sync(e), names))
+        self.struct_names = tuple(map(lambda e: self.replace_sync(e), struct_names))
         self.key_words = key_words
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
@@ -34,6 +34,7 @@ class InterfaceProducerCommon(ABC):
                                       'constructor_argument_override')
         self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
+        self.names = self.struct_names + tuple(map(lambda e: self.replace_sync(e), enum_names))
 
     @property
     @abstractmethod
@@ -110,7 +111,7 @@ class InterfaceProducerCommon(ABC):
         else:
             type_origin, kind = self.evaluate_import(param.param_type)
 
-        if type_origin and (type_origin in self.names or self.title(type_origin) in self.names):
+        if type_origin and any(map(lambda n: type_origin.lower() in n.lower(), self.names)):
             name = 'SDL' + type_origin
             imports['.h'][kind].add(name)
             imports['.m'].add(name)
@@ -170,14 +171,14 @@ class InterfaceProducerCommon(ABC):
             return ''
         return 'nullable '
 
-    @staticmethod
-    def wrap(item):
+    def wrap(self, item):
         """
         Used for wrapping appropriate initiator (constructor) parameter with '@({})'
         :param item: named tup[le with initiator (constructor) parameter
         :return: wrapped parameter
         """
-        if re.match(r'\w*Int\d*|BOOL|float|double', item.type_native):
+        if re.match(r'\w*Int\d+|BOOL|float|double', item.type_native) or \
+                any(map(lambda n: item.type_native.lower() in n.lower(), self.struct_names)):
             return '@({})'.format(item.constructor_argument)
         return item.constructor_argument
 
@@ -204,7 +205,7 @@ class InterfaceProducerCommon(ABC):
                                             param.type_native.strip(), param.constructor_argument)
             init.append(init_str)
         _self = True if 'functions' in self.__class__.__name__.lower() and mandatory else ''
-        return {'init': ' '.join(init), 'self': _self, 'arguments': arguments, 'all': arguments, 'deprecated': False}
+        return {'init': ' '.join(init), 'self': _self, 'arguments': arguments, 'all': arguments}
 
     def extract_constructors(self, data: dict) -> tuple:
         """
@@ -214,6 +215,7 @@ class InterfaceProducerCommon(ABC):
         """
         mandatory = []
         not_mandatory = []
+        deprecated = any([m.deprecated for m in data.values() if getattr(m, 'deprecated', False)])
         for param in data.values():
             if param.mandatory:
                 mandatory.append(param)
@@ -223,15 +225,16 @@ class InterfaceProducerCommon(ABC):
         result = []
         if mandatory:
             mandatory = self.extract_constructor(mandatory, True)
+            mandatory['deprecated'] = deprecated
         else:
             mandatory = OrderedDict()
 
         if not_mandatory:
             not_mandatory = self.extract_constructor(not_mandatory, False)
+            not_mandatory['deprecated'] = deprecated
             if mandatory:
                 not_mandatory['init'] = '{} {}'.format(mandatory['init'], self.minimize_first(not_mandatory['init']))
                 not_mandatory['all'] = mandatory['arguments'] + not_mandatory['arguments']
-                not_mandatory['deprecated'] = any([m.deprecated for m in mandatory if hasattr(m, 'deprecated')])
                 not_mandatory['self'] = re.sub(r'([\w\d]+:)\([\w\d\s<>*]*\)([\w\d]+\s*)', r'\1\2', mandatory['init'])
             result.append(self.constructor_named(**not_mandatory))
 
