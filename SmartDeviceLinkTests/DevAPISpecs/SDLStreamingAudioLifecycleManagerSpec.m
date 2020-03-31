@@ -2,7 +2,6 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-
 #import "SDLAudioStreamManager.h"
 #import "SDLConfiguration.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
