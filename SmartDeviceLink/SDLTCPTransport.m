@@ -104,31 +104,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams.
     [self sdl_cancelIOThread];
-
-    // The `ioThread` could not be woken up to be cancelled. Switch to the `ioThread` and perform the cleanup of the input/output streams
-    [self performSelector:@selector(sdl_disconnect) onThread:self.ioThread withObject:nil waitUntilDone:NO];
-}
-
-/// Closes the the input/output streams on the `ioThread`
-- (void)sdl_disconnect {
-    /// We must close the input/output streams from the same thread that owns the streams' run loop, otherwise if the streams are closed from another thread a random crash may occur.
-    NSAssert([NSThread.currentThread.name isEqualToString:TCPIOThreadName], @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
-
-    SDLLogD(@"Disconnecting TCP transport");
-
-    if (self.inputStream != nil) {
-        [self sdl_teardownStream:self.inputStream];
-        self.inputStream = nil;
-    }
-
-    if (self.outputStream != nil) {
-        [self sdl_teardownStream:self.outputStream];
-        self.outputStream = nil;
-    }
-
-    [self sdl_cancelConnectionTimer];
-
-    self.ioThread = nil;
 }
 
 #pragma mark - Data Transmission
