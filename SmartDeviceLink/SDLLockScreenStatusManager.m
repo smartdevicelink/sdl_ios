@@ -68,36 +68,60 @@ NS_ASSUME_NONNULL_BEGIN
     return notification;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (SDLLockScreenStatus)lockScreenStatus {
+#pragma clang diagnostic pop
     if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
         // App is not active on the car
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         return SDLLockScreenStatusOff;
+#pragma clang diagnostic pop
     } else if ([self.hmiLevel isEqualToEnum:SDLHMILevelBackground]) {
         // App is in the background on the car
         if (self.userSelected) {
             // It was user selected
             if (self.haveDriverDistractionStatus && !self.driverDistracted) {
                 // We have the distraction status, and the driver is not distracted
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 return SDLLockScreenStatusOptional;
+#pragma clang diagnostic pop
             } else {
                 // We don't have the distraction status, and/or the driver is distracted
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 return SDLLockScreenStatusRequired;
+#pragma clang diagnostic pop
             }
         } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             return SDLLockScreenStatusOff;
+#pragma clang diagnostic pop
         }
     } else if ([self.hmiLevel isEqualToEnum:SDLHMILevelFull] || [self.hmiLevel isEqualToEnum:SDLHMILevelLimited]) {
         // App is in the foreground on the car in some manner
         if (self.haveDriverDistractionStatus && !self.driverDistracted) {
             // We have the distraction status, and the driver is not distracted
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             return SDLLockScreenStatusOptional;
+#pragma clang diagnostic pop
         } else {
             // We don't have the distraction status, and/or the driver is distracted
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             return SDLLockScreenStatusRequired;
+#pragma clang diagnostic pop
         }
     } else {
         // This shouldn't be possible.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         return SDLLockScreenStatusOff;
+#pragma clang diagnostic pop
     }
 }
 
