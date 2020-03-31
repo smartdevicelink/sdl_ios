@@ -11,19 +11,19 @@
 
  Used in OnLockScreenStatus
  */
-typedef SDLEnum SDLLockScreenStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLLockScreenStatus SDL_SWIFT_ENUM __deprecated;
 
 /**
  * LockScreen is Not Required
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusOff;
+extern SDLLockScreenStatus const SDLLockScreenStatusOff __deprecated;
 
 /**
  * LockScreen is Optional
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusOptional;
+extern SDLLockScreenStatus const SDLLockScreenStatusOptional __deprecated;
 
 /**
  * LockScreen is Required
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusRequired;
+extern SDLLockScreenStatus const SDLLockScreenStatusRequired __deprecated;

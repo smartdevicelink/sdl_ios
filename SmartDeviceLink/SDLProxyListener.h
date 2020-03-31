@@ -1178,7 +1178,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification __deprecated;
 #pragma clang diagnostic pop
 
 /**

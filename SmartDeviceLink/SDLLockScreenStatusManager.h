@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL userSelected;
 @property (assign, nonatomic) BOOL driverDistracted;
 @property (nullable, strong, nonatomic) SDLHMILevel hmiLevel;
-@property (strong, nonatomic, readonly) SDLLockScreenStatus lockScreenStatus;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (strong, nonatomic, readonly) SDLLockScreenStatus lockScreenStatus;
 @property (strong, nonatomic, readonly) SDLOnLockScreenStatus *lockScreenStatusNotification;
 #pragma clang diagnostic pop
 

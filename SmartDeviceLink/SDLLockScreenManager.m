@@ -54,7 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
+#pragma clang diagnostic pop
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
@@ -194,17 +197,26 @@ NS_ASSUME_NONNULL_BEGIN
         if (self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
+#pragma clang diagnostic pop
         if (self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
+#pragma clang diagnostic pop
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
             [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
+#pragma clang diagnostic pop
         [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
     }
 }
