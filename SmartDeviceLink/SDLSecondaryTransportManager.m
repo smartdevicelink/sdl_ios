@@ -675,6 +675,8 @@ struct TransportProtocolUpdated {
 
 #pragma mark - App state handling
 
+/// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
+/// @param notification Notification from the OS that the app's life-cycle state has changed
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.stateMachineQueue, ^{
