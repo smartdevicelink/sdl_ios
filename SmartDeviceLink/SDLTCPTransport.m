@@ -52,8 +52,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)dealloc {
-    SDLLogD(@"SDLTCPTransport dealloc");
-    [self disconnect];
+    SDLLogV(@"dealloc");
 }
 
 #pragma mark - Stream Lifecycle
@@ -99,13 +98,12 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         return;
     }
 
-    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, the thread will cleanup the input/output streams.
-    [self sdl_cancelIOThread];
+    [self.sendDataQueue removeAllObjects];
+    self.transportErrorNotified = NO;
+    self.transportConnected = NO;
 
-    if (self.ioThread == nil) {
-        SDLLogV(@"TCP transport successfully disconnected");
-        return;
-    }
+    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams.
+    [self sdl_cancelIOThread];
 
     // The `ioThread` could not be woken up to be cancelled. Switch to the `ioThread` and perform the cleanup of the input/output streams
     [self performSelector:@selector(sdl_disconnect) onThread:self.ioThread withObject:nil waitUntilDone:NO];
@@ -118,21 +116,19 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     SDLLogD(@"Disconnecting TCP transport");
 
-    if (self.ioThread != nil) {
+    if (self.inputStream != nil) {
         [self sdl_teardownStream:self.inputStream];
-        [self sdl_teardownStream:self.outputStream];
-
-        [self.connectionTimer invalidate];
+        self.inputStream = nil;
     }
 
+    if (self.outputStream != nil) {
+        [self sdl_teardownStream:self.outputStream];
+        self.outputStream = nil;
+    }
+
+    [self sdl_cancelConnectionTimer];
+
     self.ioThread = nil;
-
-    self.inputStream = nil;
-    self.outputStream = nil;
-
-    [self.sendDataQueue removeAllObjects];
-    self.transportErrorNotified = NO;
-    self.transportConnected = NO;
 }
 
 #pragma mark - Data Transmission
@@ -170,7 +166,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
 
-        [self.connectionTimer invalidate];
+        [self sdl_cancelConnectionTimer];
     }
 }
 
@@ -195,6 +191,13 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 
+/// Cancels the connection timer for establishing a TCP socket with the accessory.
+- (void)sdl_cancelConnectionTimer {
+    if (self.connectionTimer == nil) { return; }
+    [self.connectionTimer invalidate];
+    self.connectionTimer = nil;
+}
+
 #pragma mark - NSStreamDelegate
 // this method runs only on the I/O thread (i.e. invoked from the run loop)
 
@@ -207,7 +210,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
             // We will get two NSStreamEventOpenCompleted events (for both input and output streams) and we don't need both. Let's use the one of output stream since we need to make sure that output stream is ready before Proxy sending Start Service frame.
             if (aStream == self.outputStream) {
                 SDLLogD(@"TCP transport connected");
-                [self.connectionTimer invalidate];
+                [self sdl_cancelConnectionTimer];
                 self.transportConnected = YES;
                 [self.delegate onTransportConnected];
             }
