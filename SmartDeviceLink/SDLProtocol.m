@@ -418,7 +418,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
-    if (message.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]) {
+    if (message.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]) {
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
