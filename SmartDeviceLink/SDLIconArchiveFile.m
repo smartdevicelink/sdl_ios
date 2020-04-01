@@ -14,7 +14,7 @@
     self = [super init];
     if (!self) { return nil; }
 
-    self.lockScreenIconCaches = [NSArray new];
+    self.lockScreenIconCaches = [[NSArray alloc] init];
     
     return self;
 }
@@ -55,7 +55,7 @@
     return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
+- (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
     

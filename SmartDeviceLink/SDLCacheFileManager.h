@@ -19,7 +19,7 @@ typedef void (^ImageRetrievalCompletionHandler)(UIImage * _Nullable image, NSErr
 /**
  * Handles a system request from the head unit to use a lock screen icon from a URL.
  *
- * @param request The System request used to retrieve the icon
+ * @param request The system request from the head unit for the icon specified in its URL.
  * @param completion The handler called when the manager retrieves the icon or fails to do so with an error.
 */
 - (void)retrieveImageForRequest:(SDLOnSystemRequest *)request withCompletionHandler:(ImageRetrievalCompletionHandler)completion;
