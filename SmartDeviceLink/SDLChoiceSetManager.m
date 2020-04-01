@@ -129,7 +129,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)stop {
-    [self.stateMachine transitionToState:SDLChoiceManagerStateShutdown];
+    [self sdl_runSyncOnQueue:^{
+        [self.stateMachine transitionToState:SDLChoiceManagerStateShutdown];
+    }];
 }
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
@@ -168,18 +170,17 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (void)didEnterStateShutdown {
     SDLLogV(@"Manager shutting down");
+    _currentHMILevel = SDLHMILevelNone;
+
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
-    _vrOptional = YES;
-    _currentHMILevel = SDLHMILevelNone;
+    _preloadedMutableChoices = [NSMutableSet set];
+    _pendingMutablePreloadChoices = [NSMutableSet set];
     _pendingPresentationSet = nil;
 
-    [self sdl_runSyncOnQueue:^{
-        self->_preloadedMutableChoices = [NSMutableSet set];
-        self->_pendingMutablePreloadChoices = [NSMutableSet set];
-        self->_nextChoiceId = ChoiceCellIdMin;
-        self->_nextCancelId = ChoiceCellCancelIdMin;
-    }];
+    _vrOptional = YES;
+    _nextChoiceId = ChoiceCellIdMin;
+    _nextCancelId = ChoiceCellCancelIdMin;
 }
 
 - (void)didEnterStateCheckingVoiceOptional {
