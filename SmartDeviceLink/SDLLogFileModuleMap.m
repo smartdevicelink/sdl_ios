@@ -27,7 +27,10 @@
                                  [self sdl_systemCapabilityModule],
                                  [self sdl_lockscreenManagerModule],
                                  [self sdl_streamingMediaManagerModule],
-                                 [self sdl_streamingMediaAudioTranscoderModule],
+                                 [self sdl_videoStreamingMediaManagerModule],
+                                 [self sdl_videoStreamingMediaTranscoderModule],
+                                 [self sdl_audioStreamingMediaManagerModule],
+                                 [self sdl_audioStreamingMediaTranscoderModule],
                                  [self sdl_screenManagerModule],
                                  [self sdl_screenManagerTextAndGraphicModule],
                                  [self sdl_screenManagerSoftButtonModule],
@@ -51,7 +54,7 @@
 }
 
 + (SDLLogFileModule *)sdl_secondaryTransportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport/Secondary" files:[NSSet setWithArray:@[@"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport/Secondary" files:[NSSet setWithArray:@[@"SDLSecondaryTransportManager"]]];
 }
 
 #pragma mark Low-Level
@@ -61,7 +64,7 @@
 }
 
 + (SDLLogFileModule *)sdl_protocolModule {
-    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader"]]];
+    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader", @"SDLGlobals"]]];
 }
 
 + (SDLLogFileModule *)sdl_rpcModule {
@@ -95,11 +98,23 @@
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer", @"SDLStreamingMediaManager", @"SDLStreamingAudioLifecycleManager", @"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+    return [SDLLogFileModule moduleWithName:@"Audio and Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingMediaManager"]]];
 }
 
-+ (SDLLogFileModule *)sdl_streamingMediaAudioTranscoderModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming/Audio Transcode" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
++ (SDLLogFileModule *)sdl_videoStreamingMediaManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator"]]];
+}
+
++ (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {
+    return [SDLLogFileModule moduleWithName:@"Video Streaming/Transcoding" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer"]]];
+}
+
++ (SDLLogFileModule *)sdl_audioStreamingMediaManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Audio Streaming" files:[NSSet setWithArray:@[@"SDLStreamingAudioLifecycleManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_audioStreamingMediaTranscoderModule {
+    return [SDLLogFileModule moduleWithName:@"Audio Streaming/Transcoding" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {

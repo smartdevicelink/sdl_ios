@@ -29,6 +29,7 @@
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -291,7 +292,7 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     if (testConfig.lifecycleConfig.tcpDebugMode) {
-                        OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
+                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:proxyMock]);
                     }
 
                     // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
@@ -306,7 +307,7 @@ describe(@"a lifecycle manager", ^{
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
                     if (testManager.configuration.lifecycleConfig.tcpDebugMode) {
-                        OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any]]);
+                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:[OCMArg any]]);
                     }
                 });
                 
@@ -698,26 +699,56 @@ describe(@"a lifecycle manager", ^{
             });
          });
     });
-});
 
-describe(@"configuring the lifecycle manager", ^{
-    __block SDLLifecycleConfiguration *lifecycleConfig = nil;
-    __block SDLLifecycleManager *testManager = nil;
+    describe(@"configuring the lifecycle manager", ^{
+        __block SDLLifecycleConfiguration *lifecycleConfig = nil;
+        __block SDLLifecycleManager *testManager = nil;
 
-    beforeEach(^{
-        lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test app" fullAppId:@"Test ID"];
-    });
-
-    context(@"if no secondary transport is allowed", ^{
         beforeEach(^{
-            lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsNone;
-
-            SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
-            testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+            lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test app" fullAppId:@"Test ID"];
         });
 
-        it(@"should not create a secondary transport manager", ^{
-            expect(testManager.secondaryTransportManager).to(beNil());
+        context(@"if secondary transport is not allowed", ^{
+            beforeEach(^{
+                lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsNone;
+                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+                testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should not create a secondary transport manager", ^{
+                expect(testManager.secondaryTransportManager).to(beNil());
+            });
+        });
+
+        context(@"if a secondary transport is allowed but app is NOT a navigation or projection app", ^{
+            beforeEach(^{
+                 lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsTCP;
+                 lifecycleConfig.appType = SDLAppHMITypeSocial;
+                 SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+                 testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
+            });
+
+             it(@"should not create a secondary transport manager", ^{
+                 expect(testManager.secondaryTransportManager).to(beNil());
+             });
+        });
+
+        context(@"if a secondary transport is allowed and app is a navigation or projection app", ^{
+            beforeEach(^{
+                lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsTCP;
+                lifecycleConfig.appType = SDLAppHMITypeProjection;
+                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil streamingMedia:SDLStreamingMediaConfiguration.insecureConfiguration fileManager:nil];
+                testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
+
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should create a secondary transport manager", ^{
+                expect(testManager.streamManager).toNot(beNil());
+                expect(testManager.secondaryTransportManager).toNot(beNil());
+            });
         });
     });
 });

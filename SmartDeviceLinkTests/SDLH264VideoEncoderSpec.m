@@ -18,6 +18,12 @@
 #import "SDLRTPH264Packetizer.h"
 #import "SDLVideoStreamingProtocol.h"
 
+@interface SDLH264VideoEncoder ()
+@property (assign, nonatomic) NSUInteger currentFrameNumber;
+@property (assign, nonatomic) double timestampOffset;
+@property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
+@end
+
 QuickSpecBegin(SDLH264VideoEncoderSpec)
 
 describe(@"a video encoder", ^{
@@ -55,9 +61,11 @@ describe(@"a video encoder", ^{
             beforeEach(^{
                 [testVideoEncoder stop];
             });
-            
-            it(@"should have a nil pixel buffer pool", ^{
-                expect(@(testVideoEncoder.pixelBufferPool == NULL)).to(equal(@YES));
+
+            it(@"should reset the saved properties", ^{
+               expect(testVideoEncoder.currentFrameNumber).to(equal(0));
+               expect(testVideoEncoder.timestampOffset).to(equal(0.0));
+               expect((id)testVideoEncoder.compressionSession).to(beNil());
             });
         });
     });

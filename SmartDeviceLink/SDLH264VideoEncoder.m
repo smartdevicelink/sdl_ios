@@ -26,6 +26,11 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 @property (assign, nonatomic) double timestampOffset;
 
+@property (assign, nonatomic, readwrite) CVPixelBufferPoolRef CV_NULLABLE pixelBufferPool;
+
+/// Width and height of the video frame.
+@property (assign, nonatomic) CGSize dimensions;
+
 @end
 
 
@@ -54,6 +59,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _compressionSession = NULL;
     _currentFrameNumber = 0;
     _videoEncoderSettings = properties;
+    _dimensions = dimensions;
     
     _delegate = delegate;
     
@@ -63,9 +69,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     status = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
-        if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
-            SDLLogE(@"Error attempting to create video compression session: %@", *error);
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:@"Compression session could not be created"}];
         }
         
         return nil;
@@ -78,8 +83,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     CFDictionaryRef supportedProperties;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
         }
         
         return nil;
@@ -88,9 +93,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
     for (NSString *key in videoEncoderKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
-            if (!*error) {
-                NSString *description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" is not a supported key.", key]}];
             }
             CFRelease(supportedProperties);
             return nil;
@@ -104,9 +108,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
-            if (!*error) {
-                NSString *description = [NSString stringWithFormat:@"Setting key failed \"%@\"", key];
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description, @"OSStatus": @(status)}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Setting key failed \"%@\"", key]}];
             }
             return nil;
         }
@@ -117,8 +120,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     } else if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRTP]) {
         _packetizer = [[SDLRTPH264Packetizer alloc] initWithSSRC:ssrc];
     } else {
-        if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{ @"encoder": protocol}];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{@"encoder": protocol}];
         }
         return nil;
     }
@@ -129,6 +132,9 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (void)stop {
+    _currentFrameNumber = 0;
+    _timestampOffset = 0.0;
+
     if (self.compressionSession != NULL) {
         VTCompressionSessionInvalidate(self.compressionSession);
         CFRelease(self.compressionSession);
@@ -176,11 +182,28 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
-    return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+    // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool and/or the compression session to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
+    if (_pixelBufferPool == NULL) {
+        BOOL success = [self sdl_resetCompressionSession];
+        if (!success) {
+            return NULL;
+        }
+
+        _pixelBufferPool = VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+    }
+
+    return _pixelBufferPool;
 }
 
 #pragma mark - Private
 #pragma mark Callback
+
+/// Callback function that VideoToolbox calls when encoding is complete.
+/// @param outputCallbackRefCon The callback's reference value
+/// @param sourceFrameRefCon The frame's reference value
+/// @param status Returns `noErr` if compression was successful, or an error if not successful
+/// @param infoFlags Information about the encode operation (frame dropped or if encode ran asynchronously)
+/// @param sampleBuffer Contains the compressed frame if compression was successful and the frame was not dropped; null otherwise
 void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
@@ -310,6 +333,19 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     
     
     return nalUnits;
+}
+
+/// Attempts to create a new VTCompressionSession using the dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
+- (BOOL)sdl_resetCompressionSession {
+    // Destroy the current compression session before attempting to create a new one. Otherwise the attempt to create a new compression session sometimes fails.
+    if (self.compressionSession != NULL) {
+        VTCompressionSessionInvalidate(self.compressionSession);
+        CFRelease(self.compressionSession);
+        self.compressionSession = NULL;
+    }
+
+    OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    return (status == noErr);
 }
 
 @end

@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager()
 
+@property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 @property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
@@ -43,8 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic) NSString *connectedVehicleMake;
+@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
 
+@property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
 @end
 
 @implementation SDLStreamingAudioLifecycleManager
@@ -55,10 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    SDLLogV(@"Creating AudioStreamingLifecycleManager");
-
     _connectionManager = connectionManager;
-    _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
+    _audioTranscodingManager = [[SDLAudioStreamManager alloc] initWithManager:self];
     _systemCapabilityManager = systemCapabilityManager;
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
@@ -84,6 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    SDLLogD(@"Starting with protocol: %@", protocol);
     _protocol = protocol;
 
     @synchronized(self.protocol.protocolDelegateTable) {
@@ -98,11 +100,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
-    [self sdl_stopAudioSession];
-
-    self.hmiLevel = SDLHMILevelNone;
+    _protocol = nil;
+    _hmiLevel = SDLHMILevelNone;
+    _connectedVehicleMake = nil;
+    [self.audioTranscodingManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
+}
+
+- (void)endAudioServiceWithCompletionHandler:(void (^)(void))completionHandler {
+    SDLLogD(@"Ending audio service");
+    self.audioServiceEndedCompletionHandler = completionHandler;
+
+    [self.audioTranscodingManager stop];
+    [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -171,23 +182,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Video / Audio Start Service ACK
+#pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    switch (startServiceACK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceAck:startServiceACK];
-        } break;
-        default: break;
-    }
-}
+    if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
-- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartServiceAck {
-    SDLLogD(@"Audio service started");
-    _audioEncrypted = audioStartServiceAck.header.encrypted;
+    self.audioEncrypted = startServiceACK.header.encrypted;
 
-    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartServiceAck.payload];
-    SDLLogV(@"ACK: %@", audioAckPayload);
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
+    SDLLogD(@"Request to start audio service ACKed with payload: %@", audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
@@ -196,32 +199,39 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-#pragma mark Video / Audio Start Service NAK
-
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    switch (startServiceNAK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceNak:startServiceNAK];
-        } break;
-        default: break;
-    }
+    if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+    SDLLogE(@"Request to start audio service NAKed");
+
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
-    SDLLogW(@"Audio service failed to start due to NAK");
-    [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
-}
-
-#pragma mark Video / Audio End Service
+#pragma mark End Service ACK/NAK
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
-    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+    if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
+
+    SDLLogD(@"Request to end audio service ACKed");
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
+    }
+
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
-    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
+    if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
+    SDLLogE(@"Request to end audio service NAKed with playlod: %@", nakPayload);
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
+    }
+
+    /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -232,8 +242,9 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogD(@"Received Register App Interface response");
+    SDLLogV(@"Received Register App Interface response");
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
+
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
 
@@ -286,15 +297,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.isAudioConnected) {
         [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
-    }
-}
-
-- (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
-    switch (serviceType) {
-        case SDLServiceTypeAudio:
-            [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
-            break;
-        default: break;
     }
 }
 

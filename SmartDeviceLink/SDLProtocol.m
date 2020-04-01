@@ -684,7 +684,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
                 NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
                 if (rejectedParams.count > 0) {
-                    SDLLogE(@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams);
+                    SDLLogE(@"%@ service NAK'd, service type: %@, rejectedParams: %@", (nakMessage.header.frameData == SDLFrameInfoStartServiceNACK) ? @"Start" : @"End", @(nakMessage.header.serviceType), rejectedParams);
                 }
             }
         } break;

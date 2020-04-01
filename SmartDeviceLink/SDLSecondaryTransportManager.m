@@ -11,6 +11,7 @@
 
 #import "SDLSecondaryTransportManager.h"
 
+#import "SDLBackgroundTaskManager.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
@@ -19,9 +20,9 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLProtocolMessage.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
 #import "SDLTimer.h"
@@ -52,6 +53,9 @@ SDLSecondaryTransportState *const SDLSecondaryTransportStateConnecting = @"Conne
 SDLSecondaryTransportState *const SDLSecondaryTransportStateRegistered = @"Registered";
 SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting = @"Reconnecting";
 
+/// Name for the background task started when the device app is backgrounded.
+NSString *const BackgroundTaskSecondaryTransportName = @"com.sdl.transport.secondaryTransportBackgroundTask";
+
 // Timeout for receiving Register Secondary Transport ACK frame
 static const float RegisterTransportTime = 10.0;
 
@@ -61,18 +65,23 @@ static const float RetryConnectionDelay = 5.0;
 // Indicates that a TCP port is not specified (unconfigured).
 static const int TCPPortUnspecified = -1;
 
+/// The old and new protocols being used when the transport switches. If the old protocol is `nil`, the transport is not yet started; newProtocol is `nil` the transport will be stopped.
+struct TransportProtocolUpdated {
+   SDLProtocol * _Nullable oldProtocol;
+   SDLProtocol * _Nullable newProtocol;
+} transportUpdated;
 
 @interface SDLSecondaryTransportManager ()
 
-// State of this manager.
-@property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
+/// State of this manager.
+@property (strong, nonatomic) SDLStateMachine *stateMachine;
 // Dedicated queue that the state machine will run on.
 @property (copy, nonatomic) dispatch_queue_t stateMachineQueue;
 
 // Instance of the protocol that runs on primary transport.
 @property (strong, nonatomic) SDLProtocol *primaryProtocol;
-// A class to catch Start Service ACK and Transport Config Update frames.
-@property (strong, nonatomic) SDLSecondaryTransportPrimaryProtocolHandler *primaryProtocolHandler;
+/// The header of the Start Service ACK frame received on primary transport
+@property (copy, nonatomic) SDLProtocolHeader *primaryRPCHeader;
 
 // Selected type of secondary transport. If 'SDLSecondaryTransportTypeDisabled' then secondary transport is disabled.
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
@@ -98,7 +107,11 @@ static const int TCPPortUnspecified = -1;
 // TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
 
+/// The current hmi level of the SDL app.
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
+
+/// A background task used to close the secondary transport before the app is suspended.
+@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
 @end
 
@@ -124,6 +137,8 @@ static const int TCPPortUnspecified = -1;
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
 
+    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskSecondaryTransportName];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
@@ -143,13 +158,16 @@ static const int TCPPortUnspecified = -1;
     }
 
     self.primaryProtocol = primaryProtocol;
-    self.primaryProtocolHandler = [[SDLSecondaryTransportPrimaryProtocolHandler alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
+
+    @synchronized(self.primaryProtocol.protocolDelegateTable) {
+        [self.primaryProtocol.protocolDelegateTable addObject:self];
+    }
 
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
 }
 
 - (void)stop {
-    SDLLogD(@"SDLSecondaryTransportManager stop");
+    SDLLogD(@"Stopping manager");
 
     // this method must be called in SDLLifecycleManager's state machine queue
     if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.stateMachineQueue)) != 0) {
@@ -168,8 +186,6 @@ static const int TCPPortUnspecified = -1;
 - (void)sdl_startManager {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
-
-    [self.primaryProtocolHandler start];
 }
 
 - (void)sdl_stopManager {
@@ -177,8 +193,6 @@ static const int TCPPortUnspecified = -1;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-
-    [self.primaryProtocolHandler stop];
 
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                 @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
@@ -280,41 +294,19 @@ static const int TCPPortUnspecified = -1;
     self.registerTransportTimer = nil;
 }
 
-- (void)willTransitionFromStateConnectingToStateConfigured {
-    [self sdl_disconnectSecondaryTransport];
-}
-
-- (void)willTransitionFromStateConnectingToStateReconnecting {
-    [self sdl_disconnectSecondaryTransport];
-}
-
-- (void)willTransitionFromStateConnectingToStateStopped {
-    [self sdl_disconnectSecondaryTransport];
-}
-
 - (void)didEnterStateRegistered {
     SDLLogD(@"Secondary transport is registered");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:YES];
 }
 
 - (void)willTransitionFromStateRegisteredToStateConfigured {
-    // before disconnecting Secondary Transport, stop running services
-    SDLLogD(@"Stopping services on secondary transport");
+    SDLLogD(@"Configuring: stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-
-    [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
-    SDLLogD(@"Stopping services on secondary transport");
+    SDLLogD(@"Reconnecting: stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-
-    [self sdl_disconnectSecondaryTransport];
-}
-
-- (void)willTransitionFromStateRegisteredToStateStopped {
-    // sdl_handleTransportUpdateWithPrimaryAvailable is called in stop method
-    [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)didEnterStateReconnecting {
@@ -328,33 +320,19 @@ static const int TCPPortUnspecified = -1;
     });
 }
 
+
 #pragma mark - Starting / Stopping / Restarting services
 
 - (void)sdl_handleTransportUpdateWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
-    // update audio service
-    [self sdl_updateService:SDLServiceTypeAudio
-          allowedTransports:self.transportsForAudioService
-           primaryAvailable:primaryAvailable
-         secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolDelegate audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
-    }];
+    struct TransportProtocolUpdated audioTransportUpdated = [self sdl_updateService:SDLServiceTypeAudio allowedTransports:self.transportsForAudioService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
+    struct TransportProtocolUpdated videoTransportUpdated = [self sdl_updateService:SDLServiceTypeVideo allowedTransports:self.transportsForVideoService primaryAvailable:primaryAvailable secondaryAvailable:secondaryAvailable];
 
-    // update video service
-    [self sdl_updateService:SDLServiceTypeVideo
-          allowedTransports:self.transportsForVideoService
-           primaryAvailable:primaryAvailable
-         secondaryAvailable:secondaryAvailable
-      transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolDelegate videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
-    }];
+    if (audioTransportUpdated.newProtocol == audioTransportUpdated.oldProtocol && videoTransportUpdated.newProtocol == videoTransportUpdated.oldProtocol) { return; }
+
+    [self.streamingProtocolDelegate didUpdateFromOldVideoProtocol:videoTransportUpdated.oldProtocol toNewVideoProtocol:videoTransportUpdated.newProtocol fromOldAudioProtocol:audioTransportUpdated.oldProtocol toNewAudioProtocol:audioTransportUpdated.newProtocol];
 }
 
-- (void)sdl_updateService:(UInt8)service
-        allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList
-         primaryAvailable:(BOOL)primaryTransportAvailable
-       secondaryAvailable:(BOOL)secondaryTransportAvailable
-    transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol))transportUpdatedBlock {
+- (struct TransportProtocolUpdated)sdl_updateService:(SDLServiceType)service allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList primaryAvailable:(BOOL)primaryTransportAvailable secondaryAvailable:(BOOL)secondaryTransportAvailable {
     SDLTransportClass newTransport = SDLTransportClassInvalid;
     // the list is in preferred order, so take a look from the beginning
     for (SDLTransportClassBox *transport in transportList) {
@@ -380,10 +358,14 @@ static const int TCPPortUnspecified = -1;
         } else if (newTransport != SDLTransportClassInvalid) {
             SDLLogD(@"Starting service 0x%X on %@ transport", service, [self sdl_getTransportClassName:newTransport]);
         }
-
-        transportUpdatedBlock([self sdl_getProtocolFromTransportClass:oldTransport],
-                              [self sdl_getProtocolFromTransportClass:newTransport]);
+    } else {
+        SDLLogV(@"Transport was not updated");
     }
+
+    struct TransportProtocolUpdated transportUpdated;
+    transportUpdated.oldProtocol = [self sdl_getProtocolFromTransportClass:oldTransport];
+    transportUpdated.newProtocol = [self sdl_getProtocolFromTransportClass:newTransport];
+    return transportUpdated;
 }
 
 - (nullable SDLProtocol *)sdl_getProtocolFromTransportClass:(SDLTransportClass)transportClass {
@@ -405,6 +387,28 @@ static const int TCPPortUnspecified = -1;
 
 #pragma mark - Transport management
 
+#pragma mark Primary transport
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    if (startServiceACK.header.serviceType != SDLServiceTypeRPC) { return; }
+    SDLLogV(@"Received Start Service ACK header of RPC service on primary transport");
+
+    // Keep header to acquire Session ID
+    self.primaryRPCHeader = startServiceACK.header;
+
+    SDLControlFramePayloadRPCStartServiceAck *payload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+
+    [self sdl_onStartServiceAckReceived:payload];
+}
+
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+    SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
+    SDLLogV(@"Recieved transport event update on primary transport: %@", payload);
+
+    [self sdl_onTransportEventUpdateReceived:payload];
+}
+
+#pragma mark Secondary transport
+
 // try establishing secondary transport. Returns NO if failed
 - (BOOL)sdl_connectSecondaryTransport {
     if (self.secondaryTransport != nil) {
@@ -423,15 +427,18 @@ static const int TCPPortUnspecified = -1;
     }
 }
 
-- (BOOL)sdl_disconnectSecondaryTransport {
+- (BOOL)disconnectSecondaryTransport {
     if (self.secondaryTransport == nil) {
-        SDLLogW(@"Attempted to disconnect secondary transport, but it's already stopped.");
+        SDLLogW(@"Attempted to disconnect secondary transport but it's already stopped.");
         return NO;
     }
 
-    SDLLogD(@"Disconnect secondary transport");
+    SDLLogD(@"Disconnecting secondary transport");
     [self.secondaryTransport disconnect];
     self.secondaryTransport = nil;
+    self.secondaryProtocol = nil;
+
+    [self.backgroundTaskManager endBackgroundTask];
 
     return YES;
 }
@@ -450,17 +457,19 @@ static const int TCPPortUnspecified = -1;
     SDLProtocol *protocol = [[SDLProtocol alloc] init];
     transport.delegate = protocol;
     protocol.transport = transport;
-    [protocol.protocolDelegateTable addObject:self];
     protocol.securityManager = self.primaryProtocol.securityManager;
-
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
 
+    @synchronized(self.secondaryProtocol.protocolDelegateTable) {
+        [self.secondaryProtocol.protocolDelegateTable addObject:self];
+    }
+
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;
@@ -473,17 +482,19 @@ static const int TCPPortUnspecified = -1;
     SDLProtocol *protocol = [[SDLProtocol alloc] init];
     transport.delegate = protocol;
     protocol.transport = transport;
-    [protocol.protocolDelegateTable addObject:self];
     protocol.securityManager = self.primaryProtocol.securityManager;
-
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
 
+    @synchronized(self.secondaryProtocol.protocolDelegateTable) {
+        [self.secondaryProtocol.protocolDelegateTable addObject:self];
+    }
+
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;
@@ -544,12 +555,19 @@ static const int TCPPortUnspecified = -1;
             if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
                 SDLLogD(@"Retry secondary transport connection after registration timeout");
                 [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            } else {
+                SDLLogD(@"Will not retry secondary transport connection because current state is: %@", strongSelf.stateMachine.currentState);
             }
         });
     };
     [self.registerTransportTimer start];
 
     [self.secondaryProtocol registerSecondaryTransport];
+}
+
+- (void)onTransportError:(NSError *)error {
+    SDLLogE(@"The transport errored. Disconnecting the transport");
+    [self disconnectSecondaryTransport];
 }
 
 // called on transport's thread, notifying that the transport is disconnected
@@ -583,8 +601,9 @@ static const int TCPPortUnspecified = -1;
     });
 }
 
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload {
+/// Called when a Start Service ACK control frame is received on the primary transport.
+/// @param payload The payload of Start Service ACK frame received on the primary transport.
+- (void)sdl_onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload {
     NSMutableArray<SDLSecondaryTransportTypeBox *> *secondaryTransports = nil;
     if (payload.secondaryTransports != nil) {
         secondaryTransports = [NSMutableArray array];
@@ -604,8 +623,9 @@ static const int TCPPortUnspecified = -1;
     });
 }
 
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload {
+/// Called when a Transport Event Update control frame is received on the primary transport.
+/// @param payload the payload of Transport Event Update frame
+- (void)sdl_onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload {
     dispatch_async(_stateMachineQueue, ^{
         BOOL updated = NO;
 
@@ -655,20 +675,31 @@ static const int TCPPortUnspecified = -1;
 
 #pragma mark - App state handling
 
+/// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
+/// @param notification Notification from the OS that the app's life-cycle state has changed
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
-    dispatch_async(_stateMachineQueue, ^{
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.stateMachineQueue, ^{
+        __strong typeof(self) strongSelf = weakSelf;
         if (notification.name == UIApplicationWillResignActiveNotification) {
-            if ([self sdl_isTransportOpened] && self.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
+            if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
                 SDLLogD(@"Disconnecting TCP transport since the app will go to background");
-                [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                // Start a background task so we can tear down the TCP socket successfully before the app is suspended
+                [strongSelf.backgroundTaskManager startBackgroundTask];
+                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            } else {
+                SDLLogD(@"App will go to background. TCP transport already disconnected: %@", strongSelf.stateMachine.currentState);
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
-                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP
-                && [self sdl_isTCPReady]
-                && [self sdl_isHMILevelNonNone]) {
-                SDLLogD(@"Resuming TCP transport since the app came into the foreground");
-                [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
+                && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
+                && [strongSelf sdl_isTCPReady]
+                && [strongSelf sdl_isHMILevelNonNone]) {
+                SDLLogD(@"Resuming TCP transport because the app came into the foreground");
+                [strongSelf.backgroundTaskManager endBackgroundTask];
+                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+            } else {
+                SDLLogD(@"App returning to foreground. TCP transport not ready to connect: %@", strongSelf.stateMachine.currentState);
             }
         }
     });

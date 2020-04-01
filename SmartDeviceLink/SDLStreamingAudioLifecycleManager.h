@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
-@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioTranscodingManager;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLAudioStreamManagerState *currentAudioStreamState;
@@ -70,10 +70,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startWithProtocol:(SDLProtocol *)protocol;
 
-/**
- *  Stop the manager. This method is used internally.
- */
+/// This method is used internally to stop the manager when the device disconnects from the module. Since there is no connection between the device and the module there is no point in sending an end audio service control frame as the module will never receive the request.
 - (void)stop;
+
+/// This method is used internally to stop the manager when audio needs to be stopped on the secondary transport. The primary transport is still open.
+/// 1. Since the primary transport is still open, we will not reset the `hmiLevel` since we can still get notifications from the module with the updated HMI status on the primary transport.
+/// 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
+/// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
+- (void)endAudioServiceWithCompletionHandler:(void (^)(void))audioEndedCompletionHandler;
 
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback

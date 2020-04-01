@@ -30,7 +30,6 @@
 @protocol SDLStreamingMediaManagerDataSource;
 
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
@@ -148,10 +147,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startWithProtocol:(SDLProtocol *)protocol;
 
-/**
- *  Stop the manager. This method is used internally.
- */
+/// This method is used internally to stop the manager when the device disconnects from the module.
 - (void)stop;
+
+/// This method is used internally to stop the manager when video needs to be stopped on the secondary transport. The primary transport is still open.
+/// 1. Since the primary transport is still open, do will not reset the `hmiLevel` and `videoStreamingState` because we can still get notifications from the module with the updated hmi status on the primary transport.
+/// 2. We need to send an end video service control frame to the module to ensure that the video session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end video service request.
+/// 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
+/// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
+- (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
