@@ -64,6 +64,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         return;
     }
 
+    SDLLogD(@"Attempting to connect");
+
     unsigned int port;
     int num = [self.portNumber intValue];
     if (0 <= num && num <= 65535) {
@@ -97,6 +99,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         SDLLogV(@"TCP transport thread already disconnected");
         return;
     }
+
+    SDLLogD(@"Disconnecting");
 
     [self.sendDataQueue removeAllObjects];
     self.transportErrorNotified = NO;
