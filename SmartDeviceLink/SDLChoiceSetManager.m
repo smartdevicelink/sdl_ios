@@ -170,6 +170,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (void)didEnterStateShutdown {
     SDLLogV(@"Manager shutting down");
+
+    NSAssert(dispatch_get_specific(SDLProcessingQueueName) != nil, @"%@ must only be called on a serial queue", NSStringFromSelector(_cmd));
+
     _currentHMILevel = SDLHMILevelNone;
 
     [self.transactionQueue cancelAllOperations];
@@ -223,8 +226,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
-    [choicesToUpload minusSet:self.preloadedMutableChoices];
-    [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+
+    [self sdl_runSyncOnQueue:^{
+        [choicesToUpload minusSet:self.preloadedMutableChoices];
+        [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+    }];
 
     if (choicesToUpload.count == 0) {
         SDLLogD(@"All choices already preloaded. No need to perform a preload");
@@ -393,13 +399,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         }
 
         strongSelf.pendingPresentOperation = nil;
-
-        // Check if the manager has shutdown because the list of pending choices should not be updated
-        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"The manager has shutdown");
-            return;
-        }
-
         strongSelf.pendingPresentationSet = nil;
     };
 
@@ -516,24 +515,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 #pragma mark - Getters
-
-- (NSMutableSet<SDLChoiceCell *> *)preloadedMutableChoices {
-    __block NSMutableSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
-        set = self->_preloadedMutableChoices;
-    }];
-
-    return set;
-}
-
-- (NSMutableSet<SDLChoiceCell *> *)pendingMutablePreloadChoices {
-    __block NSMutableSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
-        set = self->_pendingMutablePreloadChoices;
-    }];
-
-    return set;
-}
 
 - (NSSet<SDLChoiceCell *> *)preloadedChoices {
     __block NSSet<SDLChoiceCell *> *set = nil;
