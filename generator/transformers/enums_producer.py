@@ -1,6 +1,7 @@
 """
 Enums transformer
 """
+import json
 import logging
 import re
 from collections import namedtuple, OrderedDict
@@ -20,7 +21,8 @@ class EnumsProducer(InterfaceProducerCommon):
         self._container_name = 'elements'
         self.enum_class = enum_class
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.param_named = namedtuple('param_named', 'origin description name since')
+        self.param_named = namedtuple('param_named', 'origin description name since deprecated')
+        self._item_name = None
 
     @property
     def container_name(self):
@@ -34,7 +36,7 @@ class EnumsProducer(InterfaceProducerCommon):
         :param render: empty dictionary, present in parameter for code consistency
         :return: dictionary which going to be applied to Jinja2 template
         """
-        item.name = self.replace_sync(item.name)
+        item.name = self._replace_sync(item.name)
         name = 'SDL{}{}'.format(item.name[:1].upper(), item.name[1:])
         tmp = {self.enum_class}
         imports = {'.h': tmp, '.m': tmp}
@@ -46,29 +48,34 @@ class EnumsProducer(InterfaceProducerCommon):
         super(EnumsProducer, self).transform(item, render)
         return render
 
-    def extract_param(self, param: EnumElement):
+    def extract_param(self, param: EnumElement, item_name: str):
         """
         Preparing self.param_named with prepared params
         :param param: EnumElement from initial Model
+        :param item_name:
         :return: self.param_named with prepared params
         """
-        data = {'origin': param.name, 'description': self.extract_description(param.description, 113),
-                'since': param.since}
-
+        data = {'origin': param.name,
+                'description': self.extract_description(param.description),
+                'since': param.since,
+                'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False}
+        name = None
         if re.match(r'^[A-Z]{1,2}\d|\d[A-Z]{1,2}$', param.name):
-            data['name'] = param.name
+            name = param.name
         elif re.match(r'(^[a-z\d]+$|^[A-Z\d]+$)', param.name):
-            data['name'] = param.name.title()
+            name = param.name.title()
         elif re.match(r'^(?=\w*[a-z])(?=\w*[A-Z])\w+$', param.name):
             if param.name.endswith('ID'):
-                data['name'] = param.name[:-2]
+                name = param.name[:-2]
             else:
-                data['name'] = param.name[:1].upper() + param.name[1:]
+                name = param.name[:1].upper() + param.name[1:]
         elif re.match(r'^(?=\w*?[a-zA-Z])(?=\w*?[_-])(?=[0-9])?.*$', param.name):
             name = []
             for item in re.split('[_-]', param.name):
                 if re.match(r'^[A-Z\d]+$', item):
                     name.append(item.title())
-            data['name'] = ''.join(name)
-
+            name = ''.join(name)
+        if any(re.search(r'^(sdl)?({})?{}$'.format(item_name.casefold(), name.casefold()), k) for k in self.key_words):
+            name = self._replace_keywords(name)
+        data['name'] = name
         return self.param_named(**data)

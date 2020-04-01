@@ -45,11 +45,11 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLFunctionID'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='Reserved', origin='RESERVED', since=None),
+            self.producer.param_named(description=[], name='Reserved', origin='RESERVED', since=None, deprecated=False),
             self.producer.param_named(description=[], name='RegisterAppInterface', origin='RegisterAppInterfaceID',
-                                      since=None),
+                                      since=None, deprecated=False),
             self.producer.param_named(description=[], name='PerformAudioPassThru', origin='PerformAudioPassThruID',
-                                      since=None),)
+                                      since=None, deprecated=False),)
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)
@@ -71,11 +71,13 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLTextFieldName'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='SuccessParam', origin='SUCCESS_PARAM', since=None),
-            self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None),
-            self.producer.param_named(description=[], name='H264', origin='H264', since=None),
+            self.producer.param_named(description=[], name='SuccessParam', origin='SUCCESS', since=None,
+                                      deprecated=False),
+            self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None,
+                                      deprecated=False),
+            self.producer.param_named(description=[], name='H264', origin='H264', since=None, deprecated=False),
             self.producer.param_named(description=[], name='UnsupportedRequest', origin='UNSUPPORTED_REQUEST',
-                                      since=None))
+                                      since=None, deprecated=False))
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)

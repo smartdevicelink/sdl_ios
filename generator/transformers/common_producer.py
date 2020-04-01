@@ -26,7 +26,7 @@ class InterfaceProducerCommon(ABC):
 
     def __init__(self, enum_names=(), struct_names=(), key_words=()):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.struct_names = tuple(map(lambda e: self.replace_sync(e), struct_names))
+        self.struct_names = tuple(map(lambda e: self._replace_sync(e), struct_names))
         self.key_words = key_words
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
@@ -34,7 +34,7 @@ class InterfaceProducerCommon(ABC):
                                       'constructor_argument_override')
         self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
-        self.names = self.struct_names + tuple(map(lambda e: self.replace_sync(e), enum_names))
+        self.names = self.struct_names + tuple(map(lambda e: self._replace_sync(e), enum_names))
 
     @property
     @abstractmethod
@@ -61,10 +61,7 @@ class InterfaceProducerCommon(ABC):
         render['params'] = OrderedDict()
 
         for param in getattr(item, self.container_name).values():
-            # if param.name.lower() == 'id':
-            #     param.name = self.minimize_first(item.name) + self.title(param.name)
-            param.name = self.replace_keywords(param.name)
-            render['params'][param.name] = self.extract_param(param)
+            render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
 
@@ -74,22 +71,26 @@ class InterfaceProducerCommon(ABC):
         render['params'] = tuple(render['params'].values())
         return render
 
-    def replace_keywords(self, name: str = '') -> str:
+    def _replace_keywords(self, name: str) -> str:
+        origin = name
+        if name.isupper():
+            name += '_PARAM'
+        else:
+            name += 'Param'
+        self.logger.debug('Replacing %s with %s', origin, name)
+        return name
+
+    def replace_keywords(self, name: str) -> str:
         """
         if :param name in self.key_words, :return: name += 'Param'
         :param name: string with item name
         """
         if name.casefold() in self.key_words:
-            origin = name
-            if name.isupper():
-                name += '_PARAM'
-            else:
-                name += 'Param'
-            self.logger.debug('Replacing %s with %s', origin, name)
-        return self.replace_sync(name)
+            name = self._replace_keywords(name)
+        return self._replace_sync(name)
 
     @staticmethod
-    def replace_sync(name):
+    def _replace_sync(name):
         """
         :param name: string with item name
         :return: string with replaced 'sync' to 'Sdl'
@@ -124,7 +125,7 @@ class InterfaceProducerCommon(ABC):
         :return: tuple with element.name, type(element).__name__.lower()
         """
         if isinstance(element, (Struct, Enum)):
-            return self.replace_sync(element.name), type(element).__name__.lower()
+            return self._replace_sync(element.name), type(element).__name__.lower()
         return None, None
 
     @staticmethod
@@ -324,12 +325,13 @@ class InterfaceProducerCommon(ABC):
                 'constructor_prefix': InterfaceProducerCommon.title(name),
                 'method_suffix': InterfaceProducerCommon.title(name)}
 
-    def extract_param(self, param: Param):
+    def extract_param(self, param: Param, item_name: str):
         """
         Preparing self.param_named with prepared params
         :param param: Param from initial Model
         :return: self.param_named with prepared params
         """
+        param.name = self.replace_keywords(param.name)
         data = {'constructor_argument_override': None,
                 'description': self.extract_description(param.description),
                 'since': param.since,

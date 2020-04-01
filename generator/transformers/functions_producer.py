@@ -38,7 +38,7 @@ class FunctionsProducer(InterfaceProducerCommon):
         :return: dictionary which going to be applied to Jinja2 template
         """
         list(map(item.params.__delitem__, filter(item.params.__contains__, ['success', 'resultCode', 'info'])))
-        item.name = self.replace_sync(item.name)
+        item.name = self._replace_sync(item.name)
         name = 'SDL' + item.name
         imports = {'.h': {'enum': set(), 'struct': set()}, '.m': set()}
         extends_class = None
@@ -86,7 +86,7 @@ class FunctionsProducer(InterfaceProducerCommon):
         :return: dictionary with evaluated part of output collection
         """
         origin = element.name
-        name = self.replace_sync(element.name)
+        name = self._replace_sync(element.name)
         # if isinstance(element.param_type, (Integer, Float, Boolean, String)):
         return {name: self.common_names(**{
             'name': self.title(name),

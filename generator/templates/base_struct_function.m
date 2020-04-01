@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 {% if deprecated %}
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 {%- endif %}
 @implementation {{name}}
 {%- if deprecated %}
@@ -25,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
 - (instancetype)initWith{{c.init}} {
-{%- if deprecated or c.deprecated %}
-#pragma clang diagnostic pop
-{%- endif %}
     self = [{{ 'self' if c.self else 'super' }} init{{ 'With' + c.self if c.self and c.self is string }}];
     if (!self) {
         return nil;
@@ -37,32 +34,35 @@ NS_ASSUME_NONNULL_BEGIN
     {%- endfor %}
     return self;
 }
+{%- if deprecated or c.deprecated %}
+#pragma clang diagnostic pop
+{%- endif %}
 {% endfor -%}
 {% endblock -%}
 {%- block methods %}
-{%- for p in params %}
-{%- if deprecated or p.deprecated %}
+{%- for param in params %}
+{%- if deprecated or param.deprecated %}
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
-- (void)set{{p.origin|title}}:({{'nullable ' if not p.mandatory}}{{p.type_generic}}{{p.type_sdl|trim}}){{p.origin}} {
-{%- if deprecated or p.deprecated %}
+- (void)set{{param.origin|title}}:({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
+{%- if deprecated or param.deprecated %}
 #pragma clang diagnostic pop
 {%- endif %}
-    [self.{{parameters_store}} sdl_setObject:{{p.origin}} forName:SDLRPCParameterName{{p.method_suffix}}];
+    [self.{{parameters_store}} sdl_setObject:{{param.origin}} forName:SDLRPCParameterName{{param.method_suffix}}];
 }
-{% if deprecated or p.deprecated %}
+{% if deprecated or param.deprecated %}
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
-- ({{'nullable ' if not p.mandatory}}{{p.type_generic}}{{p.type_sdl|trim}}){{p.origin}} {
-{%- if deprecated or p.deprecated %}
+- ({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
+{%- if deprecated or param.deprecated %}
 #pragma clang diagnostic pop
 {%- endif %}
-    {% if p.mandatory -%}
+    {% if param.mandatory -%}
     NSError *error = nil;
     {% endif -%}
-    return [self.{{parameters_store}} sdl_{{p.for_name}}ForName:SDLRPCParameterName{{p.method_suffix}}{{' ofClass:'+p.of_class if p.of_class}} error:{{'&error' if p.mandatory else 'nil'}}];
+    return [self.{{parameters_store}} sdl_{{param.for_name}}ForName:SDLRPCParameterName{{param.method_suffix}}{{' ofClass:'+param.of_class if param.of_class}} error:{{'&error' if param.mandatory else 'nil'}}];
 }
 {% endfor %}
 {%- endblock %}

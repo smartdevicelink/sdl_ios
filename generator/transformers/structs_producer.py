@@ -32,7 +32,7 @@ class StructsProducer(InterfaceProducerCommon):
         :param render: dictionary with pre filled entries, which going to be filled/changed by reference
         :return: dictionary which going to be applied to Jinja2 template
         """
-        item.name = self.replace_sync(item.name)
+        item.name = self._replace_sync(item.name)
         name = 'SDL' + item.name
         imports = {'.h': {'enum': set(), 'struct': set()}, '.m': set()}
         imports['.h']['enum'].add(self.struct_class)
