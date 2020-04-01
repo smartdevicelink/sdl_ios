@@ -260,7 +260,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
         if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"The manager has shutdown");
+            SDLLogD(@"Cancelling preloading choices because the manager is shut down");
             return;
         }
 
@@ -326,7 +326,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         // Check if the manager has shutdown because the list of uploaded choices should not be updated
         if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"The manager has shutdown");
+            SDLLogD(@"Cancelling deleting choices because manager is shut down");
             return;
         }
 
@@ -351,7 +351,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         return;
     }
 
-    if (self.pendingPresentationSet != nil && self.pendingPresentOperation.isFinished == NO) {
+    if (self.pendingPresentationSet != nil && !self.pendingPresentOperation.isFinished) {
         SDLLogW(@"A choice set is pending: %@. We will try to cancel it in favor of presenting a different choice set: %@. If it's already on screen it cannot be cancelled", self.pendingPresentationSet, choiceSet);
         [self.pendingPresentOperation cancel];
     }
