@@ -472,7 +472,7 @@ describe(@"a lifecycle manager", ^{
                     expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
                     expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
 
-                    OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
+                    OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]);
                 });
             });
         });
