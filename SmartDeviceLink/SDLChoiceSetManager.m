@@ -442,6 +442,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 /// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
+/// @return The choices that have not yet been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
     [choicesSet minusSet:self.preloadedChoices];
@@ -451,6 +452,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
 /// @param choices The choices to be deleted
+/// @return The choices that have been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
     [choicesSet intersectSet:self.preloadedChoices];
@@ -460,6 +462,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 /// Checks the passed list of choices to be deleted and returns the items that are waiting to be uploaded to the module.
 /// @param choices The choices to be deleted
+/// @return The choices that are waiting to be uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
     [choicesSet intersectSet:self.pendingPreloadChoices];
