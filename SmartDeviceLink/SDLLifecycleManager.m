@@ -262,6 +262,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
+    [self.proxy disconnectSession];
     self.proxy = nil;
 
     [self.fileManager stop];
