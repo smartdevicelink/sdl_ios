@@ -71,7 +71,7 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLTextFieldName'
         expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
         expected['params'] = (
-            self.producer.param_named(description=[], name='SuccessParam', origin='SUCCESS', since=None,
+            self.producer.param_named(description=[], name='Success', origin='SUCCESS', since=None,
                                       deprecated=False),
             self.producer.param_named(description=[], name='MainField1', origin='mainField1', since=None,
                                       deprecated=False),
