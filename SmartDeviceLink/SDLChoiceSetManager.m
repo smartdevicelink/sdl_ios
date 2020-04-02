@@ -171,7 +171,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)didEnterStateShutdown {
     SDLLogV(@"Manager shutting down");
 
-    NSAssert(dispatch_get_specific(SDLProcessingQueueName) != nil, @"%@ must only be called on a serial queue", NSStringFromSelector(_cmd));
+    NSAssert(dispatch_get_specific(SDLProcessingQueueName) != nil, @"%@ must only be called on the SDL serial queue", NSStringFromSelector(_cmd));
 
     _currentHMILevel = SDLHMILevelNone;
 
