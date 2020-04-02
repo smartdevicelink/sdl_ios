@@ -226,6 +226,7 @@ describe(@"RegisterAppInterface Tests", ^{
             testLifecyleConfiguration.appType = SDLAppHMITypeSocial;
             testLifecyleConfiguration.additionalAppTypes = appTypes;
             testLifecyleConfiguration.language = language;
+            testLifecyleConfiguration.hmiLanguage = hmiDisplayLanguage;
             testLifecyleConfiguration.shortAppName = shortAppName;
             testLifecyleConfiguration.ttsName = @[chunk];
             testLifecyleConfiguration.voiceRecognitionCommandNames = @[vrSynonyms];
