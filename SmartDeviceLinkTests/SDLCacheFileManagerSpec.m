@@ -189,9 +189,11 @@ describe(@"a cache file manager", ^{
             });
 
             context(@"image download fails", ^{
+                __block NSError *imageDownloadError = [NSError errorWithDomain:@"test" code:0 userInfo:nil];
+
                 beforeEach(^{
-                    OCMStub([mockURLSession dataTaskWithURL:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], [OCMArg any], nil])]);
-                    OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg isNotNil] withCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [OCMArg any], nil])]);
+                    OCMStub([mockURLSession dataTaskWithURL:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], imageDownloadError, nil])]);
+                    OCMStub([testManagerMock sdl_downloadIconFromRequestURL:[OCMArg isNotNil] withCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], imageDownloadError, nil])]);
 
                     [testManager retrieveImageForRequest:expiredTestRequest withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
                         resultImage = image;
@@ -274,7 +276,7 @@ describe(@"a cache file manager", ^{
             context(@"archive file present", ^{
                 context(@"remove item success", ^{
                     beforeEach(^{
-                        OCMStub([mockFileManager removeItemAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(YES);
+                        OCMStub([mockFileManager removeItemAtPath:[OCMArg isNotNil] error:[OCMArg anyObjectRef]]).andReturn(YES);
                         OCMStub([mockFileManager contentsOfDirectoryAtPath:[OCMArg isNotNil] error:[OCMArg anyObjectRef]]).andReturn(@[@"iconArchiveFile"]);
                         OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(YES);
 
@@ -292,7 +294,7 @@ describe(@"a cache file manager", ^{
 
                 context(@"remove item fails", ^{
                     beforeEach(^{
-                        OCMStub([mockFileManager removeItemAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]).andReturn(NO);
+                        OCMStub([mockFileManager removeItemAtPath:[OCMArg isNotNil] error:[OCMArg anyObjectRef]]).andReturn(NO);
                         OCMStub([mockFileManager contentsOfDirectoryAtPath:[OCMArg isNotNil] error:[OCMArg anyObjectRef]]).andReturn(@[@"iconArchiveFile"]);
                         OCMStub([mockFileManager fileExistsAtPath:[OCMArg any]]).andReturn(YES);
 
