@@ -26,6 +26,7 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
+extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 
 @interface NSError (SDLErrors)
 
@@ -93,6 +94,10 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark Store
 
 + (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
+
+#pragma mark Cache File Manager
+
++ (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed;
 
 @end
 

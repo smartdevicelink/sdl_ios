@@ -9,26 +9,22 @@
 #import <CommonCrypto/CommonDigest.h>
 
 #import "SDLCacheFileManager.h"
+#import "SDLError.h"
 #import "SDLIconArchiveFile.h"
 #import "SDLLogMacros.h"
 #import "SDLOnSystemRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 static float DefaultConnectionTimeout = 45.0;
 NSString *const SDLErrorDomainCacheManager = @"com.sdl.cacheManager";
-
-typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
-    SDLCacheManagerErrorUpdateArchiveFileFailure = 0
-};
 
 @interface SDLCacheFileManager()
 
 @property (nonatomic, strong) NSURLSession *urlSession;
-@property (strong, nonatomic, readonly, nullable) NSString *cacheFileBaseDirectory;
-@property (strong, nonatomic, readonly, nullable) NSString *archiveFileDirectory;
-@property (weak, nonatomic, nullable) NSURLSessionDataTask *dataTask;
+@property (strong, nonatomic, readonly) NSString *cacheFileBaseDirectory;
+@property (strong, nonatomic, readonly) NSString *archiveFilePath;
+@property (strong, nonatomic, nullable) NSURLSessionDataTask *dataTask;
 @property (strong, nonatomic) NSFileManager *fileManager;
 
 @end
@@ -64,10 +60,22 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
     }
     
     // Attempt to retrieve archive file from directory cache
-    SDLIconArchiveFile *iconArchiveFile = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFileDirectory];
+    SDLIconArchiveFile *iconArchiveFile = nil;
+    @try {
+        iconArchiveFile = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
+    } @catch (NSException *exception) {
+        SDLLogE(@"Unable to retrieve archive file from file path: %@", exception);
+    }
 
-    // Loop through the icons in the cache file and check if it's the file we're looking for
-    for (SDLLockScreenIconCache *iconCache in iconArchiveFile.lockScreenIconCaches) {
+    // Check if there's no archive file in the directory. If there isn't clear the entire directory
+    if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
+        [self.class sdl_clearDirectoryWithPath:self.cacheFileBaseDirectory fileManager:self.fileManager];
+        iconArchiveFile = [[SDLIconArchiveFile alloc] init];
+    }
+
+    // Loop through the icons in the cache file copy and check if it's the file we're looking for
+    NSArray *iconCachesCopy = [iconArchiveFile.lockScreenIconCaches copy];
+    for (SDLLockScreenIconCache *iconCache in iconCachesCopy) {
         // The icon isn't the one we're looking for
         if (![iconCache.iconUrl isEqualToString:request.url]) { continue; }
 
@@ -81,38 +89,33 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
         // If we fail to get icon at path, break loop early to download new icon
         if (icon == nil) {
             SDLLogW(@"No icon was found at the path, we need to download a new icon");
+            [self.class sdl_clearDirectoryWithPath:self.cacheFileBaseDirectory fileManager:self.fileManager];
+            iconArchiveFile = [[SDLIconArchiveFile alloc] init];
             break;
         }
         
         return completion(icon, nil);
     }
-
-    // Check if there's no archive file in the directory. If there isn't clear the entire directory
-    if (iconArchiveFile == nil || iconArchiveFile.lockScreenIconCaches.count == 0) {
-        [self.class sdl_clearDirectoryWithPath:self.cacheFileBaseDirectory fileManager:self.fileManager];
-        iconArchiveFile = [[SDLIconArchiveFile alloc] init];
-    }
     
     // If we got to this point, retrieving the icon failed for some reason. We will download the image and try to store it instead.
     [self sdl_downloadIconFromRequestURL:request.url withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE("Downloading the lock screen icon failed with error: %@", error);
+            SDLLogE(@"Downloading the lock screen icon failed with error: %@", error);
             return completion(nil, error);
         }
         
         // Save lock screen icon to file path
-        NSString *iconFilePath = [self.class sdl_writeImage:image toFileFromURL:request.url atFilePath:self.cacheFileBaseDirectory];
+        NSString *iconFilePath = [self.class sdl_writeImage:image toFilePath:self.cacheFileBaseDirectory imageURL:request.url];
         if (iconFilePath == nil) {
             SDLLogE(@"Could not save lock screen icon to path with error: %@; we will return the image anyway", error);
             return completion(image, nil);
-            // Update archive file with icon
-            BOOL writeSuccess = [self updateArchiveFileWithIconURL:request.url
-                                                      iconFilePath:iconFilePath
-                                                       archiveFile:iconArchiveFile
-                                                             error:&error];
-            if (error != nil || !writeSuccess) {
-                SDLLogE(@"Could not update archive file with error: %@; we will return the image anyway", error);
-            }
+        }
+
+        // Update archive file with icon
+        BOOL writeSuccess = [self updateArchiveFileWithIconURL:request.url iconFilePath:iconFilePath archiveFile:iconArchiveFile error:&error];
+        if (error != nil || !writeSuccess) {
+            SDLLogE(@"Could not update archive file with error: %@; we will return the image anyway", error);
+        }
         
         return completion(image, nil);
     }];
@@ -144,6 +147,7 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
  * Handles request to save icon image to cache.
  *
  * @param icon The icon to be saved to the cache
+ * @param filePath The directory location to save the icon at
  * @param urlString The url of the icon to be hashed and used as file name
  * @return A string representation of the directory the icon was saved to
 */
@@ -152,7 +156,7 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
 
     NSData *iconPNGData = UIImagePNGRepresentation(icon);
     NSString *iconStorageName = [self.class sdl_md5HashFromString:urlString];
-    NSString *imageFilePath = [filePath stringByAppendingPathComponent:iconStorageName];
+    NSString *imageFilePath = [filePath stringByAppendingPathComponent:[iconStorageName stringByAppendingString:@".png"]];
 
     BOOL writeSuccess = [iconPNGData writeToFile:imageFilePath atomically:YES];
     if (!writeSuccess) {
@@ -169,6 +173,7 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
  * @param iconURL The System request URL used to retrieve the icon
  * @param iconFilePath The directory path where the icon file is held
  * @param archiveFile Current archive file to update
+ * @param error An error that occurs if the archiver fails to archive the object to file
 */
 - (BOOL)updateArchiveFileWithIconURL:(NSString *)iconURL
                         iconFilePath:(NSString *)iconFilePath
@@ -188,12 +193,12 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
     [archiveArray addObject:[[SDLLockScreenIconCache alloc] initWithIconUrl:iconURL iconFilePath:iconFilePath]];
     archiveFile.lockScreenIconCaches = archiveArray;
     
-    // HAX: Update this when we are iOS 11.0+
+    // HAX: Update this when we are iOS 11.0+. You will need to create a data object using 'archivedDataWithRootObject:requiringSecureCoding:error:', and write it to file using 'writeToFile:options:error:'
     // Write the new archive to disk
-    BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.archiveFileDirectory];
+    BOOL writeSuccess = [NSKeyedArchiver archiveRootObject:archiveFile toFile:self.archiveFilePath];
     if (!writeSuccess) {
         if (!*error) {
-            *error = [NSError errorWithDomain:SDLErrorDomainCacheManager code:SDLCacheManagerErrorUpdateArchiveFileFailure userInfo:nil];
+            *error = [NSError errorWithDomain:SDLErrorDomainCacheFileManager code:SDLCacheManagerErrorUpdateIconArchiveFileFailure userInfo:nil];
             SDLLogE(@"Error attempting to write archive file to cache: %@", *error);
         }
 
@@ -206,14 +211,15 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
 
 #pragma mark - Directory Getters
 
-- (nullable NSString *)cacheFileBaseDirectory {
+- (NSString *)cacheFileBaseDirectory {
     NSString *cacheDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
     return [cacheDirectory stringByAppendingPathComponent:@"/sdl/lockScreenIcon/"];
 }
 
-- (nullable NSString *)archiveFileDirectory {
-    return [self.cacheFileBaseDirectory stringByAppendingPathComponent:@"archiveCacheFile"];
+- (NSString *)archiveFilePath {
+    return [self.cacheFileBaseDirectory stringByAppendingPathComponent:@"archiveCacheFile.plist"];
 }
+
 
 #pragma mark - Download Image
 
@@ -224,30 +230,26 @@ typedef NS_ENUM(NSInteger, SDLCacheManagerError) {
  * @param completion The completion handler is called when the icon download succeeds or fails with error
 */
 - (void)sdl_downloadIconFromRequestURL:(NSString *)requestURL withCompletionHandler:(ImageRetrievalCompletionHandler)completion {
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:requestURL] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURL *url = [NSURL URLWithString:requestURL];
+    if ([url.scheme isEqualToString:@"http"]) {
+        url = [NSURL URLWithString:[requestURL stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    }
+
+    self.dataTask = [self.urlSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Lock screen icon download task failed: %@", error);
             return completion(nil, error);
         }
-        
+
         UIImage *icon = [UIImage imageWithData:data];
+        if (icon == nil) {
+            SDLLogW(@"Returned data conversion to image failed: %@", error);
+            return completion(nil, error);
+        }
+
         return completion(icon, nil);
     }];
-}
 
-/**
- * Sends data task to retrieve icon at specified URL.
- *
- * @param url The URL to retrieve data from
- * @param completionHandler The completion handler is called when the data task succeeds or fails
-*/
-- (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    // Due to iOS requirements, the connection has to be HTTPS. Upgrade the URL to HTTPS automatically. If it fails, then oh well.
-    if ([url.scheme isEqualToString:@"http"]) {
-        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
-    }
-    
-    self.dataTask = [self.urlSession dataTaskWithURL:url completionHandler:completionHandler];
     [self.dataTask resume];
 }
 

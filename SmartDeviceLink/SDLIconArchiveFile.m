@@ -51,10 +51,6 @@
     return self;
 }
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (!self) { return nil; }
@@ -64,6 +60,10 @@
     self.lastModifiedDate = [decoder decodeObjectOfClass:[NSDate self] forKey:@"lastModifiedDate"];
     
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {

@@ -57,7 +57,7 @@
 #pragma mark Low-Level
 
 + (SDLLogFileModule *)sdl_proxyModule {
-    return [SDLLogFileModule moduleWithName:@"Proxy" files:[NSSet setWithArray:@[@"SDLProxy", @"SDLPolicyDataParser"]]];
+    return [SDLLogFileModule moduleWithName:@"Proxy" files:[NSSet setWithArray:@[@"SDLProxy", @"SDLPolicyDataParser", @"SDLCacheFileManager"]]];
 }
 
 + (SDLLogFileModule *)sdl_protocolModule {
