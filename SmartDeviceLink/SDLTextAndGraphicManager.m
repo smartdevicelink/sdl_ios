@@ -87,10 +87,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    SDLLogD(@"Starting manager");
+
+    // Make sure none of the properties were set after the manager was shut down
+    [self sdl_reset];
+
     [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)stop {
+    SDLLogD(@"Stopping manager");
+    [self sdl_reset];
+
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
+}
+
+- (void)sdl_reset {
+    SDLLogV(@"Resetting properties");
     _textField1 = nil;
     _textField2 = nil;
     _textField3 = nil;
@@ -115,8 +128,6 @@ NS_ASSUME_NONNULL_BEGIN
     _blankArtwork = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
-
-    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
 #pragma mark - Upload / Send
