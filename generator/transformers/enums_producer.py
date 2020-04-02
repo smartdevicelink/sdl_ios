@@ -75,7 +75,7 @@ class EnumsProducer(InterfaceProducerCommon):
                 if re.match(r'^[A-Z\d]+$', item):
                     name.append(item.title())
             name = ''.join(name)
-        if any(re.search(r'^(sdl)?({})?{}$'.format(item_name.casefold(), name.casefold()), k) for k in self.key_words):
+        if any(re.search(r'^(sdl)?({}){}$'.format(item_name.casefold(), name.casefold()), k) for k in self.key_words):
             name = self._replace_keywords(name)
         data['name'] = name
         return self.param_named(**data)
