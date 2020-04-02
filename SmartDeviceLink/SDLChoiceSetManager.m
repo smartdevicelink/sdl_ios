@@ -119,6 +119,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)start {
+    SDLLogD(@"Starting manager");
+
     [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
@@ -129,6 +131,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (void)stop {
+    SDLLogD(@"Stopping manager");
+    
     [self sdl_runSyncOnQueue:^{
         [self.stateMachine transitionToState:SDLChoiceManagerStateShutdown];
     }];
