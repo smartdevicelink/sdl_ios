@@ -441,7 +441,10 @@ describe(@"a lifecycle manager", ^{
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
-
+                    SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:registerAppInterfaceResponse.language hmiDisplayLanguage:registerAppInterfaceResponse.hmiDisplayLanguage];
+                    OCMReject([testManager sendConnectionManagerRequest:changeRegistration withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                        expect(error).to(equal([NSError sdl_lifecycle_notReadyError]));
+                    }];
                     expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
                     expect(testManager.configuration.lifecycleConfig.hmiLanguage).toEventually(equal(SDLLanguageEnGb));
                     expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
