@@ -87,12 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]
-            && [self sdl_artworkNeedsUpload:cell.artwork]) {
+        if ([self sdl_shouldSendChoicePrimaryImage] && [self sdl_artworkNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
-            && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+        if ([self sdl_shouldSendChoiceSecondaryImage] && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
