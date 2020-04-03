@@ -111,7 +111,7 @@ struct TransportProtocolUpdated {
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 /// A background task used to close the secondary transport before the app is suspended.
-@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+@property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
 @end
 
