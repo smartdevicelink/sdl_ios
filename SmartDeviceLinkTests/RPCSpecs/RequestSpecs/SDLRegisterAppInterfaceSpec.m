@@ -276,7 +276,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(@NO));
             expect(testRegisterAppInterface.hashID).to(beNil());
             expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(hmiDisplayLanguage));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(language));
             expect(testRegisterAppInterface.vrSynonyms).to(beNil());
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
@@ -305,7 +305,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
             expect(testRegisterAppInterface.hashID).to(beNil());
             expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(hmiDisplayLanguage));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(language));
             expect(testRegisterAppInterface.vrSynonyms).to(beNil());
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
