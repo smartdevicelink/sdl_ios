@@ -683,23 +683,37 @@ struct TransportProtocolUpdated {
         __strong typeof(self) strongSelf = weakSelf;
         if (notification.name == UIApplicationWillResignActiveNotification) {
             if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
-                SDLLogD(@"Disconnecting TCP transport since the app will go to background");
+                SDLLogD(@"App will enter the background");
                 // Start a background task so we can tear down the TCP socket successfully before the app is suspended
+                [strongSelf.backgroundTaskManager setTaskEndedHandler:^{
+                    __strong typeof(self) strongSelf = weakSelf;
+                    if (self.sdl_getAppState == UIApplicationStateActive) {
+                        SDLLogD(@"App has been foregrounded. Ignoring notification that the background task ended.");
+                    } else {
+                        SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
+                        [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                    }
+                }];
+
+                SDLLogD(@"Starting background task to keep TCP transport alive: %@", self.backgroundTaskManager);
                 [strongSelf.backgroundTaskManager startBackgroundTask];
-                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             } else {
-                SDLLogD(@"App will go to background. TCP transport already disconnected: %@", strongSelf.stateMachine.currentState);
+                SDLLogD(@"TCP transport already disconnected");
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
+            SDLLogD(@"App entered the foreground");
+            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
+                SDLLogD(@"TCP transport has not yet been shutdown");
+                [strongSelf.backgroundTaskManager endBackgroundTask];
+            } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
                 && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
                 && [strongSelf sdl_isTCPReady]
                 && [strongSelf sdl_isHMILevelNonNone]) {
-                SDLLogD(@"Resuming TCP transport because the app came into the foreground");
+                SDLLogD(@"Restarting the TCP transport");
                 [strongSelf.backgroundTaskManager endBackgroundTask];
                 [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             } else {
-                SDLLogD(@"App returning to foreground. TCP transport not ready to connect: %@", strongSelf.stateMachine.currentState);
+                SDLLogD(@"TCP transport not ready to start");
             }
         }
     });

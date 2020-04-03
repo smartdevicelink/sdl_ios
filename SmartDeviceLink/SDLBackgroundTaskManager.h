@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLBackgroundTaskManager : NSObject
 
+/// Handler called when the background task has ended.
+@property (copy, nonatomic, nullable) void (^taskEndedHandler)(void);
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
