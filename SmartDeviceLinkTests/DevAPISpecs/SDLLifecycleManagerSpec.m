@@ -457,7 +457,7 @@ describe(@"a lifecycle manager", ^{
                     registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
                     registerAppInterfaceResponse.info = @"Language mismatch";
                     registerAppInterfaceResponse.language = SDLLanguageDeDe;
-                    registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageEnGb;
+                    registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageDeDe;
                     testManager.registerResponse = registerAppInterfaceResponse;
 
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]).andReturn(nil);

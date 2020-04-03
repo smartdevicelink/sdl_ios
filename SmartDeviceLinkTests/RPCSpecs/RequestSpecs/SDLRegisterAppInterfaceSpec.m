@@ -251,7 +251,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(@YES));
             expect(testRegisterAppInterface.hashID).to(match(resumeHash));
             expect(testRegisterAppInterface.languageDesired).to(match(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(match(language));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(match(hmiDisplayLanguage));
             expect(testRegisterAppInterface.vrSynonyms).to(contain(vrSynonyms));
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
@@ -276,7 +276,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(@NO));
             expect(testRegisterAppInterface.hashID).to(beNil());
             expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(language));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(hmiDisplayLanguage));
             expect(testRegisterAppInterface.vrSynonyms).to(beNil());
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
@@ -305,7 +305,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
             expect(testRegisterAppInterface.hashID).to(beNil());
             expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(language));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(hmiDisplayLanguage));
             expect(testRegisterAppInterface.vrSynonyms).to(beNil());
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
