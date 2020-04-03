@@ -39,7 +39,7 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
 #import "SDLVersion.h"
-
+#import "SDLChangeRegistration.h"
 
 // Ignore the deprecated proxy methods
 #pragma clang diagnostic push
