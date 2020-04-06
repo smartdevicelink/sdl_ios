@@ -682,20 +682,10 @@ struct TransportProtocolUpdated {
     dispatch_async(self.stateMachineQueue, ^{
         __strong typeof(self) strongSelf = weakSelf;
         if (notification.name == UIApplicationWillResignActiveNotification) {
+            SDLLogD(@"App will enter the background");
             if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
-                SDLLogD(@"App will enter the background");
-                // Start a background task so we can tear down the TCP socket successfully before the app is suspended
-                [strongSelf.backgroundTaskManager setTaskEndedHandler:^{
-                    __strong typeof(self) strongSelf = weakSelf;
-                    if (self.sdl_getAppState == UIApplicationStateActive) {
-                        SDLLogD(@"App has been foregrounded. Ignoring notification that the background task ended.");
-                    } else {
-                        SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
-                        [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
-                    }
-                }];
-
-                SDLLogD(@"Starting background task to keep TCP transport alive: %@", self.backgroundTaskManager);
+                SDLLogD(@"Starting background task to keep TCP transport alive");
+                strongSelf.backgroundTaskManager.taskEndedHandler = [strongSelf sdl_backgroundTaskEndedHandler];
                 [strongSelf.backgroundTaskManager startBackgroundTask];
             } else {
                 SDLLogD(@"TCP transport already disconnected");
@@ -717,6 +707,23 @@ struct TransportProtocolUpdated {
             }
         }
     });
+}
+
+/// Handles a notification that the background task has ended. If the app is still in the background, the TCP transport disconnects. If the app has re-entered the foreground or the manager has shutdown then the notification is ignored.
+/// @return A background task ended handler
+- (nullable void (^)(void))sdl_backgroundTaskEndedHandler {
+    __weak typeof(self) weakSelf = self;
+    return ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        if (strongSelf.sdl_getAppState == UIApplicationStateActive) {
+            SDLLogD(@"App has been foregrounded. Ignoring notification that the background task ended.");
+        } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+            SDLLogD(@"Manager has been stopped. Ignoring notification that the background task ended.");
+        } else {
+            SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
+            [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+        }
+    };
 }
 
 #pragma mark - Utility methods
