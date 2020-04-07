@@ -440,7 +440,7 @@ describe(@"a lifecycle manager", ^{
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
-                    OCMStub([testManager sendConnectionManagerRequest:[OCMArg any] withResponseHandler:[OCMArg invokeBlock]]);
+                    OCMReject([testManager sendConnectionManagerRequest:[OCMArg any] withResponseHandler:[OCMArg invokeBlock]]);
                     expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
                     expect(testManager.configuration.lifecycleConfig.hmiLanguage).toEventually(equal(SDLLanguageEnGb));
                     expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
