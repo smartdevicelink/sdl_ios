@@ -397,6 +397,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHmiLanguage];
     if (configUpdate) {
+        self.configuration.lifecycleConfig.language = actualLanguage;
+        self.configuration.lifecycleConfig.hmiLanguage = actualHmiLanguage;
         if (configUpdate.appName) {
             self.configuration.lifecycleConfig.appName = configUpdate.appName;
         }
@@ -415,14 +417,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
         changeRegistration.ttsName = configUpdate.ttsName;
         changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
-        __weak typeof (self) weakSelf = self;
         [self sendConnectionManagerRequest:changeRegistration withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 SDLLogW(@"Failed to update language with change registration. Request: %@, Response: %@, error: %@", request, response, error);
                 return;
             }
-            weakSelf.configuration.lifecycleConfig.language = actualLanguage;
-            weakSelf.configuration.lifecycleConfig.hmiLanguage = actualHmiLanguage;
             SDLLogD(@"Successfully updated language with change registration. Request sent: %@", request);
         }];
     }
