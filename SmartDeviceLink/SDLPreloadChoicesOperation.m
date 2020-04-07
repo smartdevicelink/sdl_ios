@@ -183,6 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID.unsignedIntValue choiceSet:@[choice]];
 }
 
+/// Determine if we should send primary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceText {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -194,18 +195,22 @@ NS_ASSUME_NONNULL_BEGIN
     return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
 }
 
+/// Determine if we should send secondary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryText {
     return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
 }
 
+/// Determine if we should send teriary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceTertiaryText {
     return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
 }
 
+/// Determine if we should send the primary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoicePrimaryImage {
     return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
 }
 
+/// Determine if we should send the secondary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryImage {
     return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
 }
