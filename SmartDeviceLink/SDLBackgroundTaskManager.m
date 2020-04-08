@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLBackgroundTaskManager
 
 - (instancetype)initWithBackgroundTaskName:(NSString *)backgroundTaskName {
-    SDLLogV(@"Creating manager with name %@", backgroundTaskName);
+    SDLLogV(@"Creating background task manager with name %@", backgroundTaskName);
     self = [super init];
     if (!self) {
         return nil;
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     self.currentBackgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:self.backgroundTaskName expirationHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"The %@ background task expired", strongSelf.backgroundTaskName);
+        SDLLogD(@"The background task %@ expired", strongSelf.backgroundTaskName);
         [strongSelf endBackgroundTask];
     }];
 

@@ -688,22 +688,22 @@ struct TransportProtocolUpdated {
                 strongSelf.backgroundTaskManager.taskEndedHandler = [strongSelf sdl_backgroundTaskEndedHandler];
                 [strongSelf.backgroundTaskManager startBackgroundTask];
             } else {
-                SDLLogD(@"TCP transport already disconnected");
+                SDLLogD(@"TCP transport already disconnected, will not start a background task.");
             }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
             SDLLogD(@"App entered the foreground");
             if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
-                SDLLogD(@"TCP transport has not yet been shutdown");
+                SDLLogD(@"In the registered state; TCP transport has not yet been shutdown. Ending the background task.");
                 [strongSelf.backgroundTaskManager endBackgroundTask];
             } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
                 && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
                 && [strongSelf sdl_isTCPReady]
                 && [strongSelf sdl_isHMILevelNonNone]) {
-                SDLLogD(@"Restarting the TCP transport");
+                SDLLogD(@"In the configured state; restarting the TCP transport. Ending the background task.");
                 [strongSelf.backgroundTaskManager endBackgroundTask];
                 [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             } else {
-                SDLLogD(@"TCP transport not ready to start");
+                SDLLogD(@"TCP transport not ready to start, our current state is: %@, strongSelf.stateMachine.currentState");
             }
         }
     });
