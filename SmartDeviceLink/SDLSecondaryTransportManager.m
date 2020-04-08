@@ -703,7 +703,7 @@ struct TransportProtocolUpdated {
                 [strongSelf.backgroundTaskManager endBackgroundTask];
                 [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
             } else {
-                SDLLogD(@"TCP transport not ready to start, our current state is: %@, strongSelf.stateMachine.currentState");
+                SDLLogD(@"TCP transport not ready to start, our current state is: %@", strongSelf.stateMachine.currentState);
             }
         }
     });

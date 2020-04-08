@@ -364,6 +364,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_disposeDisplayLink];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
+
+    if (self.videoServiceEndedCompletionHandler != nil) {
+        self.videoServiceEndedCompletionHandler();
+        self.videoServiceEndedCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateVideoStreamStarting {
@@ -560,12 +565,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-
     SDLLogD(@"Request to end video service ACKed");
-    if (self.videoServiceEndedCompletionHandler != nil) {
-        self.videoServiceEndedCompletionHandler();
-        self.videoServiceEndedCompletionHandler = nil;
-    }
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
@@ -575,10 +575,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
     SDLLogE(@"Request to end video service NAKed with payload: %@", nakPayload);
-    if (self.videoServiceEndedCompletionHandler != nil) {
-        self.videoServiceEndedCompletionHandler();
-        self.videoServiceEndedCompletionHandler = nil;
-    }
 
     /// Core will NAK the video end service control frame if video is not streaming or if video is streaming but the HMI does not recognize that video is streaming.
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
