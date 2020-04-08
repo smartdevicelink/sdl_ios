@@ -64,6 +64,8 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
+- (nullable void (^)(void))sdl_backgroundTaskEndedHandler;
+
 @end
 
 @interface SDLSecondaryTransportManager (ForTest)
@@ -1164,58 +1166,6 @@ describe(@"the secondary transport manager ", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
                 });
             });
-
-            describe(@"when the background task ends", ^{
-                context(@"If the app is still in the background", ^{
-                    beforeEach(^{
-                        [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
-                    });
-
-                    it(@"should stop the TCP transport if the app is still in the background", ^{
-                        [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-
-                        // Wait for the notification to propagate
-                        [NSThread sleepForTimeInterval:0.1];
-
-                        [manager.backgroundTaskManager endBackgroundTask];
-
-                        expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
-                    });
-
-                    it(@"should ignore the notification if the manager has stopped before the background task ended", ^{
-                        [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-
-                        // Wait for the notification to propagate
-                        [NSThread sleepForTimeInterval:0.1];
-
-                        [manager.stateMachine setToState:SDLSecondaryTransportStateStopped fromOldState:nil callEnterTransition:NO];
-
-                        [manager.backgroundTaskManager endBackgroundTask];
-
-                        expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
-                    });
-
-                    afterEach(^{
-                        [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
-                    });
-                });
-
-                context(@"If the app is has entered the foreground", ^{
-                    it(@"should ignore the notification if the app has returned to the foreground", ^{
-                        [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
-
-                        // Wait for the notification to propagate
-                        [NSThread sleepForTimeInterval:0.1];
-
-                        [manager.backgroundTaskManager endBackgroundTask];
-
-                        expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
-                    });
-                });
-            });
         });
 
         context(@"app enters the foreground", ^{
@@ -1269,6 +1219,44 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should ignore the state change notification", ^{
                     OCMReject([mockBackgroundTaskManager endBackgroundTask]);
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                });
+            });
+        });
+
+        describe(@"When the background task expires", ^{
+            context(@"If the app is still in the background", ^{
+                beforeEach(^{
+                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                });
+                
+                it(@"should stop the TCP transport if the app is still in the background", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+                    
+                    manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
+                });
+                
+                it(@"should ignore the notification if the manager has stopped before the background task ended", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateStopped fromOldState:nil callEnterTransition:NO];
+                    
+                    manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
+                });
+                
+                afterEach(^{
+                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                });
+            });
+            
+            context(@"If the app is has entered the foreground", ^{
+                it(@"should ignore the notification if the app has returned to the foreground", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+                    
+                    manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
                 });
             });
         });

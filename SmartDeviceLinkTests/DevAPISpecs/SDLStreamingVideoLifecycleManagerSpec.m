@@ -766,7 +766,13 @@ describe(@"the streaming video manager", ^{
     });
 
     describe(@"stopping the manager", ^{
+        __block BOOL handlerCalled = nil;
+
         beforeEach(^{
+            handlerCalled = NO;
+            [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
+                handlerCalled = YES;
+            }];
             streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
@@ -784,6 +790,7 @@ describe(@"the streaming video manager", ^{
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
                 expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+                expect(handlerCalled).to(beTrue());
             });
         });
 
@@ -801,24 +808,21 @@ describe(@"the streaming video manager", ^{
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
                 expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+                expect(handlerCalled).to(beFalse());
             });
         });
     });
 
     describe(@"starting the manager", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-        __block BOOL handlerCalled = nil;
 
         beforeEach(^{
-            handlerCalled = NO;
             [streamingLifecycleManager startWithProtocol:protocolMock];
         });
 
         describe(@"then ending the video service through the secondary transport", ^{
             beforeEach(^{
-                [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
-                    handlerCalled = YES;
-                }];
+                [streamingLifecycleManager endVideoServiceWithCompletionHandler:^{}];
             });
 
             it(@"should send an end video service control frame", ^{
@@ -840,8 +844,8 @@ describe(@"the streaming video manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
                 });
 
-                it(@"should call the handler", ^{
-                    expect(handlerCalled).to(beTrue());
+                it(@"should transistion to the stopped state", ^{
+                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 });
             });
 
@@ -860,8 +864,8 @@ describe(@"the streaming video manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
                 });
 
-                it(@"should call the handler", ^{
-                    expect(handlerCalled).to(beTrue());
+                it(@"should transistion to the stopped state", ^{
+                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 });
             });
         });
