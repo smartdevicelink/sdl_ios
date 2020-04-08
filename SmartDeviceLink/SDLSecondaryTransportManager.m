@@ -716,9 +716,9 @@ struct TransportProtocolUpdated {
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
         if (strongSelf.sdl_getAppState == UIApplicationStateActive) {
-            SDLLogD(@"App has been foregrounded. Ignoring notification that the background task ended.");
+            SDLLogV(@"App has been foregrounded. Ignoring notification that the background task ended.");
         } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
-            SDLLogD(@"Manager has been stopped. Ignoring notification that the background task ended.");
+            SDLLogV(@"Manager has been stopped. Ignoring notification that the background task ended.");
         } else {
             SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
