@@ -133,6 +133,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
+/// Disconnects the current app session, including the security manager and primary transport.
+- (void)disconnectSession;
+
 @end
 
 NS_ASSUME_NONNULL_END

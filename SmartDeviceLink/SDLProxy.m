@@ -174,7 +174,8 @@ static float DefaultConnectionTimeout = 45.0;
     return ret;
 }
 
-- (void)dealloc {
+- (void)disconnectSession {
+    SDLLogD(@"Disconnecting the proxy; stopping security manager and primary transport.");
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
@@ -186,6 +187,9 @@ static float DefaultConnectionTimeout = 45.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [_urlSession invalidateAndCancel];
+}
+
+- (void)dealloc {
     SDLLogV(@"Proxy dealloc");
 }
 
