@@ -438,7 +438,7 @@ struct TransportProtocolUpdated {
     self.secondaryTransport = nil;
     self.secondaryProtocol = nil;
 
-    [self.backgroundTaskManager endBackgroundTask];
+    [self.backgroundTaskManager expiredTaskCleanupFinished];
 
     return YES;
 }
@@ -685,7 +685,7 @@ struct TransportProtocolUpdated {
             SDLLogD(@"App will enter the background");
             if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
                 SDLLogD(@"Starting background task to keep TCP transport alive");
-                strongSelf.backgroundTaskManager.taskEndedHandler = [strongSelf sdl_backgroundTaskEndedHandler];
+                strongSelf.backgroundTaskManager.taskExpiringHandler = [strongSelf sdl_backgroundTaskEndedHandler];
                 [strongSelf.backgroundTaskManager startBackgroundTask];
             } else {
                 SDLLogD(@"TCP transport already disconnected, will not start a background task.");
@@ -711,17 +711,20 @@ struct TransportProtocolUpdated {
 
 /// Handles a notification that the background task has ended. If the app is still in the background, the TCP transport disconnects. If the app has re-entered the foreground or the manager has shutdown then the notification is ignored.
 /// @return A background task ended handler
-- (nullable void (^)(void))sdl_backgroundTaskEndedHandler {
+- (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler {
     __weak typeof(self) weakSelf = self;
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
         if (strongSelf.sdl_getAppState == UIApplicationStateActive) {
             SDLLogV(@"App has been foregrounded. Ignoring notification that the background task ended.");
+            return NO;
         } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
             SDLLogV(@"Manager has been stopped. Ignoring notification that the background task ended.");
+            return NO;
         } else {
             SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            return YES;
         }
     };
 }

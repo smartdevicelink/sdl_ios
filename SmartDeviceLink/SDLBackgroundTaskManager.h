@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLBackgroundTaskManager : NSObject
 
 /// Handler called when the background task is about to expire. Use this handler to perform some cleanup before the background task is destroyed. When you have finished cleanup, you must call the `endBackgroundTask` function so the background task can be destroyed. If you do not call `endBackgroundTask`, the system may kill the app.
-@property (copy, nonatomic, nullable) void (^taskEndedHandler)(void);
+@property (copy, nonatomic, nullable) BOOL (^taskExpiringHandler)(void);
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -34,6 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Destroys the background task.
 - (void)endBackgroundTask;
+
+/// Destroys the background task after cleanup has finished. This should only be called if you have subscribed to the `taskExpiringHandler` in order to do some cleanup before the background task is destroyed.
+- (void)expiredTaskCleanupFinished;
 
 @end
 
