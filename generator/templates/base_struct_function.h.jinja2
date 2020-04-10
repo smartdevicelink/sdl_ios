@@ -1,6 +1,6 @@
 {#- To avoid code duplication was crated this parent file, which contain common part used in:
     "templates/functions/template.h" and "templates/structs/template.h". -#}
-{% include 'copyright.txt' %}
+{% include 'copyright.jinja2' %}
 {% block imports %}
 {%- for import in imports.enum %}
 #import "{{import}}.h"
@@ -13,7 +13,7 @@
 {%- endblock %}
 
 NS_ASSUME_NONNULL_BEGIN
-{% include 'description.jinja' %}
+{% include 'description.jinja2' %}
 @interface {{name}} : {{extends_class}}{{ending}}
 {%- block constructors %}
 {% for c in constructors %}
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 {%- endblock -%}
 {%- block methods %}
 {%- for param in params %}
-{%- include 'description_param.jinja' %}
+{%- include 'description_param.jinja2' %}
 {%- if deprecated or param.deprecated %}
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

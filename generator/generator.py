@@ -343,7 +343,7 @@ class Generator:
                 data = render.copy()
                 data['imports'] = data['imports'][extension]
                 file_with_suffix = file.with_suffix(extension)
-                templates = ['{}s/template{}'.format(type(item).__name__.lower(), extension)]
+                templates = ['{}s/template{}.jinja2'.format(type(item).__name__.lower(), extension)]
                 if 'template' in data:
                     templates.insert(0, data['template'] + extension)
                 tasks.append(self.process_common(skip, overwrite, file_with_suffix, data, templates))
@@ -372,7 +372,7 @@ class Generator:
                 self.logger.error('No "data" for %s', name)
                 continue
             for extension in ('.h', '.m'):
-                templates = [name + extension]
+                templates = ['{}{}.jinja2'.format(name, extension)]
                 file_with_suffix = file.with_suffix(extension)
                 tasks.append(self.process_common(skip, overwrite, file_with_suffix, data, templates))
 

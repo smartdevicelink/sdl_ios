@@ -1,5 +1,5 @@
 {#- This template creates RPC requests, responses, and notification .m files -#}
-{% extends "base_struct_function.m" %}
+{% extends "base_struct_function.m.jinja2" %}
 {% block imports %}
 {{super()}}
 #import "SDLRPCFunctionNames.h"

@@ -172,7 +172,7 @@ class InterfaceProducerCommon(ABC):
             return ''
         return 'nullable '
 
-    def wrap(self, item):
+    def parentheses(self, item):
         """
         Used for wrapping appropriate initiator (constructor) parameter with '@({})'
         :param item: named tup[le with initiator (constructor) parameter
@@ -196,15 +196,14 @@ class InterfaceProducerCommon(ABC):
         init = ['{}:({}{}){}'.format(self.title(first.constructor_prefix),
                                      self.nullable(first.type_native, mandatory),
                                      first.type_native.strip(), first.constructor_argument)]
-        arguments = [self.argument_named(origin=first.origin, constructor_argument=self.wrap(first),
+        arguments = [self.argument_named(origin=first.origin, constructor_argument=self.parentheses(first),
                                          variable=first.constructor_argument, deprecated=first.deprecated)]
         for param in data:
-            arguments.append(self.argument_named(origin=param.origin, constructor_argument=self.wrap(param),
+            arguments.append(self.argument_named(origin=param.origin, constructor_argument=self.parentheses(param),
                                                  variable=param.constructor_argument, deprecated=param.deprecated))
-            init_str = '{}:({}{}){}'.format(self.minimize_first(param.constructor_prefix),
-                                            self.nullable(param.type_native, mandatory),
-                                            param.type_native.strip(), param.constructor_argument)
-            init.append(init_str)
+            init.append('{}:({}{}){}'.format(self.minimize_first(param.constructor_prefix),
+                                             self.nullable(param.type_native, mandatory),
+                                             param.type_native.strip(), param.constructor_argument))
         _self = True if 'functions' in self.__class__.__name__.lower() and mandatory else ''
         return {'init': ' '.join(init), 'self': _self, 'arguments': arguments, 'all': arguments}
 
@@ -308,7 +307,7 @@ class InterfaceProducerCommon(ABC):
         else:
             data = self.evaluate_type(param.param_type)
 
-        if not param.is_mandatory and re.match(r'\w*Int\d*', data['type_native']):
+        if not param.is_mandatory and re.match(r'\w*Int\d*|BOOL', data['type_native']):
             data['type_native'] = data['type_sdl']
 
         return data

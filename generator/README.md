@@ -790,6 +790,33 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
+## Unit tests of Generator
+
+After you made any changes in python RPC generator to avoid affecting code logic you should run Unit tests as follow:
+
+```shell script
+$ cd sdl_ios
+$ python3 generator/test/runner.py
+```
+
+In case of successful execution of all Unit tests in output you will see the results as follow:
+
+```shell script
+Ran 12 tests in 0.464s
+
+OK
+```
+
+As well you can check coverage by Unit tests of python RPC generator as follow:
+
+```shell script
+coverage run generator/test/runner.py
+coverage html
+```
+
+after the you can check the report in `htmlcov/index.html`
+
+
 ## Other Utilities
 
 ### Generator
