@@ -192,3 +192,10 @@ typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
      */
     SDLRPCStoreErrorGetInvalidObject = -1,
 };
+
+typedef NS_ENUM(NSInteger, SDLCacheFileManagerError) {
+    /**
+     *  Failed to update archive file
+     */
+    SDLCacheManagerErrorUpdateIconArchiveFileFailure = -1,
+};

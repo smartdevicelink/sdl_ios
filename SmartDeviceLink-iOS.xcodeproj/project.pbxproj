@@ -38,6 +38,11 @@
 		00E22CED22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
+		10893C162417D78300BA347E /* SDLIconArchiveFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C142417D78300BA347E /* SDLIconArchiveFile.h */; };
+		10893C172417D78300BA347E /* SDLIconArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C152417D78300BA347E /* SDLIconArchiveFile.m */; };
+		10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C182418188600BA347E /* SDLCacheFileManager.h */; };
+		10893C1B2418188600BA347E /* SDLCacheFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C192418188600BA347E /* SDLCacheFileManager.m */; };
+		109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
 		162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */; };
 		162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */; };
@@ -1744,6 +1749,11 @@
 		00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionConfiguration.h; sourceTree = "<group>"; };
 		00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfigurationSpec.m; sourceTree = "<group>"; };
+		10893C142417D78300BA347E /* SDLIconArchiveFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIconArchiveFile.h; sourceTree = "<group>"; };
+		10893C152417D78300BA347E /* SDLIconArchiveFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIconArchiveFile.m; sourceTree = "<group>"; };
+		10893C182418188600BA347E /* SDLCacheFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCacheFileManager.h; sourceTree = "<group>"; };
+		10893C192418188600BA347E /* SDLCacheFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManager.m; sourceTree = "<group>"; };
+		109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManagerSpec.m; sourceTree = "<group>"; };
 		162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAmbientLightStatusSpec.m; sourceTree = "<group>"; };
 		162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppHMITypeSpec.m; sourceTree = "<group>"; };
 		162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInterfaceUnregisteredReasonSpec.m; sourceTree = "<group>"; };
@@ -3475,6 +3485,25 @@
 			name = Encryption;
 			sourceTree = "<group>";
 		};
+		10415106241BBB8B00F163CC /* Lock Screen Icon Cache */ = {
+			isa = PBXGroup;
+			children = (
+				10893C142417D78300BA347E /* SDLIconArchiveFile.h */,
+				10893C152417D78300BA347E /* SDLIconArchiveFile.m */,
+				10893C182418188600BA347E /* SDLCacheFileManager.h */,
+				10893C192418188600BA347E /* SDLCacheFileManager.m */,
+			);
+			name = "Lock Screen Icon Cache";
+			sourceTree = "<group>";
+		};
+		109566F42429865500E24F66 /* Lock Screen Icon Cache */ = {
+			isa = PBXGroup;
+			children = (
+				109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */,
+			);
+			name = "Lock Screen Icon Cache";
+			sourceTree = "<group>";
+		};
 		162E81E01A9BDE8A00906325 /* RPCSpecs */ = {
 			isa = PBXGroup;
 			children = (
@@ -5131,6 +5160,7 @@
 				E9C32B8E1AB20BA200F283AF /* SDLTimer.h */,
 				E9C32B8F1AB20BA200F283AF /* SDLTimer.m */,
 				DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */,
+				10415106241BBB8B00F163CC /* Lock Screen Icon Cache */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5896,6 +5926,7 @@
 			children = (
 				5DEE55BE1B8509A5004F0D0F /* HTTP Connection */,
 				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
+				109566F42429865500E24F66 /* Lock Screen Icon Cache */,
 				5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */,
 				5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */,
 			);
@@ -6623,6 +6654,7 @@
 				5DB9965C1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h in Headers */,
 				5D1665C81CF8CA3D00CC4CA1 /* SDLPermissionFilter.h in Headers */,
 				E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */,
+				10893C162417D78300BA347E /* SDLIconArchiveFile.h in Headers */,
 				5D61FCD71A84238C00846EE7 /* SDLInteractionMode.h in Headers */,
 				8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */,
 				880FE6272267AE5300723732 /* SDLIAPConstants.h in Headers */,
@@ -6638,6 +6670,7 @@
 				5D61FE111A84238C00846EE7 /* SDLWarningLightStatus.h in Headers */,
 				008DB36922EA8261003F458C /* SDLReleaseInteriorVehicleDataModule.h in Headers */,
 				5D61FC7A1A84238C00846EE7 /* SDLDeleteInteractionChoiceSet.h in Headers */,
+				10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */,
 				5D61FC3B1A84238C00846EE7 /* SDLAlertManeuverResponse.h in Headers */,
 				5DB9964E1F26886C002D8795 /* SDLControlFramePayloadEndService.h in Headers */,
 				5D9FDA991F2A7D3F00A495C8 /* emhashmap.h in Headers */,
@@ -7189,7 +7222,6 @@
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = NCVC2MHU7M;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -7209,6 +7241,7 @@
 					};
 					8829567D207CF68800EF056C = {
 						LastSwiftMigration = 0930;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -7532,6 +7565,7 @@
 				5D07C02E2044AC9100D1ECDC /* SDLSequentialRPCRequestOperation.m in Sources */,
 				5DD67CB91E661C4A009CD394 /* SDLLogTargetFile.m in Sources */,
 				5D61FCBE1A84238C00846EE7 /* SDLHeadLampStatus.m in Sources */,
+				10893C1B2418188600BA347E /* SDLCacheFileManager.m in Sources */,
 				5D61FD921A84238C00846EE7 /* SDLShowConstantTBT.m in Sources */,
 				008DB36A22EA8261003F458C /* SDLReleaseInteriorVehicleDataModule.m in Sources */,
 				88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */,
@@ -7681,6 +7715,7 @@
 				88EED83F1F33C5A400E6C42E /* SDLSendHapticData.m in Sources */,
 				5D16545B1D3E7A1600554D93 /* SDLLifecycleManager.m in Sources */,
 				E9C32B971AB20BA200F283AF /* SDLTimer.m in Sources */,
+				10893C172417D78300BA347E /* SDLIconArchiveFile.m in Sources */,
 				5D61FCB61A84238C00846EE7 /* SDLGetVehicleData.m in Sources */,
 				5DAB5F572098E5D100A020C8 /* SDLProtocolConstants.m in Sources */,
 				5D61FC9F1A84238C00846EE7 /* SDLEncodedSyncPData.m in Sources */,
@@ -8048,6 +8083,7 @@
 				88B848C31F45E1A600DED768 /* TestResponse.m in Sources */,
 				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
+				109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */,
 				5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */,
@@ -8758,7 +8794,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -8766,6 +8803,7 @@
 				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -8778,7 +8816,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -8786,6 +8825,7 @@
 				MARKETING_VERSION = 6.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};

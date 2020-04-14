@@ -24,6 +24,7 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
 SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
+SDLErrorDomain *const SDLErrorDomainCacheFileManager = @"com.sdl.cachefilemanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -361,6 +362,17 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the object type returned from the head unit system", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainRPCStore code:SDLRPCStoreErrorGetInvalidObject userInfo:userInfo];
+}
+
+#pragma mark Cache File Manager
+
++ (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Cache File Manager error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to archive icon archive file to file path", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that file path is valid", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainCacheFileManager code:SDLCacheManagerErrorUpdateIconArchiveFileFailure userInfo:userInfo];
 }
 
 @end

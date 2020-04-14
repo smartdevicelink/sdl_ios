@@ -40,6 +40,7 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 #import "SDLVersion.h"
+#import "SDLCacheFileManager.h"
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
@@ -66,6 +67,7 @@ static float DefaultConnectionTimeout = 45.0;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 @property (nonatomic, strong) NSURLSession *urlSession;
+@property (nonatomic, strong) SDLCacheFileManager *cacheFileManager;
 
 @end
 
@@ -102,7 +104,7 @@ static float DefaultConnectionTimeout = 45.0;
         configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
         
         _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-
+        _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
 
     return self;
@@ -137,7 +139,7 @@ static float DefaultConnectionTimeout = 45.0;
         configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
         
         _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-        
+        _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
     
     return self;
@@ -767,18 +769,16 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-	__weak typeof(self) weakSelf = self;
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
-                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-					__strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (error != nil) {
-                        SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
-                        return;
-                    }
-                    
-                    UIImage *icon = [UIImage imageWithData:data];
-                    [strongSelf sdl_invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
-                }];
+    __weak typeof(self) weakSelf = self;
+    [self.cacheFileManager retrieveImageForRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error != nil) {
+            SDLLogW(@"Failed to retrieve lock screen icon: %@", error.localizedDescription);
+            return;
+        }
+        
+        [strongSelf sdl_invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:image];
+    }];
 }
 
 - (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
