@@ -65,7 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)expiredTaskCleanupFinished {
-    if (self.taskExpiringHandler == nil) { return; }
     SDLLogD(@"Ending background task %@ because clean up has finished.", self.backgroundTaskName);
     [self endBackgroundTask];
 }

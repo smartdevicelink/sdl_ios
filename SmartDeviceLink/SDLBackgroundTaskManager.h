@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Destroys the background task.
 - (void)endBackgroundTask;
 
-/// Destroys the background task after cleanup has finished. This should only be called if you have subscribed to the `taskExpiringHandler` in order to do some cleanup before the background task is destroyed.
+/// Destroys the background task after cleanup has finished.
 - (void)expiredTaskCleanupFinished;
 
 @end
