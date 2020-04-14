@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"Checking if subscriber wants to to perform some cleanup before ending the background task %@", strongSelf.backgroundTaskName);
             BOOL waitForCleanupToFinish = strongSelf.taskExpiringHandler();
             if (waitForCleanupToFinish) {
-                SDLLogD(@"Subscriber wants to clean up before ending the background task %@. Waiting...", self.backgroundTaskName);
+                SDLLogD(@"The subscriber will end background task itself %@. Waiting...", self.backgroundTaskName);
             } else {
                 SDLLogV(@"Subscriber does not want to perform cleanup. Ending the background task %@", strongSelf.backgroundTaskName);
                 [strongSelf endBackgroundTask];
