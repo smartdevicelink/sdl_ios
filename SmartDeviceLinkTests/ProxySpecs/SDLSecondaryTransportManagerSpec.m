@@ -64,7 +64,7 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
-- (nullable void (^)(void))sdl_backgroundTaskEndedHandler;
+- (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler;
 
 @end
 
@@ -1229,20 +1229,22 @@ describe(@"the secondary transport manager ", ^{
                     [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
                 });
                 
-                it(@"should stop the TCP transport if the app is still in the background", ^{
+                it(@"should stop the TCP transport if the app is still in the background and perform cleanup before ending the background task", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
                     
-                    manager.sdl_backgroundTaskEndedHandler();
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
                     
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
+                    expect(waitForCleanupToFinish).to(beTrue());
                 });
                 
-                it(@"should ignore the notification if the manager has stopped before the background task ended", ^{
+                it(@"should ignore the notification if the manager has stopped before the background task ended and immediately end the background task", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateStopped fromOldState:nil callEnterTransition:NO];
                     
-                    manager.sdl_backgroundTaskEndedHandler();
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
                     
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
+                    expect(waitForCleanupToFinish).to(beFalse());
                 });
                 
                 afterEach(^{
@@ -1251,12 +1253,13 @@ describe(@"the secondary transport manager ", ^{
             });
             
             context(@"If the app is has entered the foreground", ^{
-                it(@"should ignore the notification if the app has returned to the foreground", ^{
+                it(@"should ignore the notification if the app has returned to the foreground and immediately end the background task", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
                     
-                    manager.sdl_backgroundTaskEndedHandler();
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
                     
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
+                    expect(waitForCleanupToFinish).to(beFalse());
                 });
             });
         });
