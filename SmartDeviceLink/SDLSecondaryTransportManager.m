@@ -300,12 +300,12 @@ struct TransportProtocolUpdated {
 }
 
 - (void)willTransitionFromStateRegisteredToStateConfigured {
-    SDLLogD(@"Configuring: stopping services on secondary transport");
+    SDLLogD(@"Manger is closing transport but is configured to resume the secondary transport. Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
-    SDLLogD(@"Reconnecting: stopping services on secondary transport");
+    SDLLogD(@"Manger is closing transport but will try to reconnect if configured correctly. Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 }
 
@@ -715,14 +715,14 @@ struct TransportProtocolUpdated {
     __weak typeof(self) weakSelf = self;
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
-        if (strongSelf.sdl_getAppState == UIApplicationStateActive) {
-            SDLLogV(@"App has been foregrounded. Ignoring notification that the background task ended.");
+        if (strongSelf.sdl_getAppState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+            SDLLogV(@"No cleanup needed since app has been foregrounded.");
             return NO;
         } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
-            SDLLogV(@"Manager has been stopped. Ignoring notification that the background task ended.");
+            SDLLogV(@"No cleanup needed since manager has been stopped.");
             return NO;
         } else {
-            SDLLogD(@"Disconnecting TCP transport due to the background task ending.");
+            SDLLogD(@"Performing cleanup due to the background task expiring: disconnecting the TCP transport.");
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             return YES;
         }
