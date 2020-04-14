@@ -722,6 +722,7 @@ struct TransportProtocolUpdated {
             SDLLogV(@"No cleanup needed since manager has been stopped.");
             return NO;
         } else {
+            // `endBackgroundTask` will be called when the secondary transport disconnects.
             SDLLogD(@"Performing cleanup due to the background task expiring: disconnecting the TCP transport.");
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             return YES;
