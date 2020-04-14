@@ -54,27 +54,39 @@ int const ProtocolIndexTimeoutSeconds = 10;
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
 
-        if (![self sdl_startStreams]) {
-            SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", self.accessory);
-            [self destroySession];
-            if (self.delegate == nil) { return; }
-            [self.delegate controlSessionShouldRetry];
-        } else {
-            SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
-            self.protocolIndexTimer = [self sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
-        }
+        __weak typeof(self) weakSelf = self;
+        [self sdl_startStreamsWithCompletionHandler:^(BOOL success) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!success) {
+                SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", strongSelf.accessory);
+                [strongSelf destroySession];
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate controlSessionShouldRetry];
+            } else {
+                SDLLogD(@"Waiting for the protocol string from Core, setting timeout timer for %d seconds", ProtocolIndexTimeoutSeconds);
+                strongSelf.protocolIndexTimer = [strongSelf sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
+            }
+        }];
     }
 }
 
-- (BOOL)sdl_startStreams {
-    if (![super createSession]) { return NO; }
+/// Opens the input and output streams for the session on the main thread.
+/// @discussion We must close the input/output streams from the same thread that owns the streams' run loop, otherwise if the streams are closed from another thread a random crash may occur. Since only a small amount of data will be transmitted on this stream before it is closed, we will open and close the streams on the main thread instead of creating a separate thread.
+- (void)sdl_startStreamsWithCompletionHandler:(void (^)(BOOL success))completionHandler {
+    if (![super createSession]) {
+        return completionHandler(NO);
+    }
 
-    // No need for its own thread as only a small amount of data will be transmitted before control session is destroyed
-    SDLLogD(@"Created the control session successfully");
-    [super startStream:self.eaSession.outputStream];
-    [super startStream:self.eaSession.inputStream];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
-    return YES;
+        SDLLogD(@"Created the control session successfully");
+        [super startStream:strongSelf.eaSession.outputStream];
+        [super startStream:strongSelf.eaSession.inputStream];
+
+        return completionHandler(YES);
+    });
 }
 
 #pragma mark Stop
