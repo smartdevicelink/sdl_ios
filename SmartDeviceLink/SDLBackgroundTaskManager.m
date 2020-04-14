@@ -64,11 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"The %@ background task started with id: %lu", self.backgroundTaskName, (unsigned long)self.currentBackgroundTaskId);
 }
 
-- (void)expiredTaskCleanupFinished {
-    SDLLogD(@"Ending background task %@ because clean up has finished.", self.backgroundTaskName);
-    [self endBackgroundTask];
-}
-
 - (void)endBackgroundTask {
     SDLLogV(@"Attempting to end background task %@", self.backgroundTaskName);
     self.taskExpiringHandler = nil;

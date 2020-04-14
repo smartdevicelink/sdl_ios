@@ -438,7 +438,7 @@ struct TransportProtocolUpdated {
     self.secondaryTransport = nil;
     self.secondaryProtocol = nil;
 
-    [self.backgroundTaskManager expiredTaskCleanupFinished];
+    [self.backgroundTaskManager endBackgroundTask];
 
     return YES;
 }
