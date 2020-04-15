@@ -709,20 +709,22 @@ struct TransportProtocolUpdated {
     });
 }
 
-/// Handles a notification that the background task has ended. If the app is still in the background, the TCP transport disconnects. If the app has re-entered the foreground or the manager has shutdown then the notification is ignored.
+/// Handles a notification that the background task is about to expire. If the app is still backgrounded we must close the TCP socket, which can take a few moments to complete. When this manager transitons to the Configured state, the `SDLStreamingMediaManager` is notified that the secondary transport wants to shutdown via the `streamingProtocolDelegate`. The `SDLStreamingMediaManager` sends an end video service control frame and an end audio service control frame and waits for responses to both requests from the module. Once the module has responded to both end service requests, the `SDLStreamingMediaManager` notifies us that the TCP socket can be shutdown by calling the `disconnectSecondaryTransport` method. Finally, once we know the socket has shutdown, we can end the background task. To ensure that all the shutdown steps are performed, we must delay shutting down the background task, otherwise some of the steps might not complete due to the app being suspended. Improper shutdown can cause trouble when establishing a new streaming session as either the new TCP connection will fail (due to the TCP socket's I/O streams not shutting down) or restarting the video and audio streams can fail (due to Core not receiving the end service requests). On the other hand, we can end the background task immediately if the app has re-entered the foreground or the manager has shutdown as no cleanup needs to be performed.
 /// @return A background task ended handler
 - (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler {
     __weak typeof(self) weakSelf = self;
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
         if (strongSelf.sdl_getAppState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+            // Return NO as we do not need to perform any cleanup and can end the background task immediately
             SDLLogV(@"No cleanup needed since app has been foregrounded.");
             return NO;
         } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+            // Return NO as we do not need to perform any cleanup and can end the background task immediately
             SDLLogV(@"No cleanup needed since manager has been stopped.");
             return NO;
         } else {
-            // `endBackgroundTask` will be called when the secondary transport disconnects.
+            //  Return YES as we want to delay ending the background task until shutdown of the secondary transport has finished. Transitoning to the Configured state starts the process of shutting down the streaming services and the TCP socket which can take a few moments to complete. Once the streaming services have shutdown, the `SDLStreamingMediaManager` calls the `disconnectSecondaryTransport` method. The `disconnectSecondaryTransport` takes care of destroying the background task after disconnecting the TCP transport.
             SDLLogD(@"Performing cleanup due to the background task expiring: disconnecting the TCP transport.");
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             return YES;
