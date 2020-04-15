@@ -27,7 +27,7 @@ class TestStructsProducer(TestCase):
 
     def setUp(self):
         self.maxDiff = None
-        key_words = Generator().get_key_words()
+        key_words = ('value', 'id')
 
         self.producer = StructsProducer('SDLRPCStruct', enum_names=(), struct_names=['Image'], key_words=key_words)
 
@@ -36,9 +36,10 @@ class TestStructsProducer(TestCase):
         generator/transformers/common_producer.py	64%
         generator/transformers/structs_producer.py	100%
         """
-        item = Struct(name='CloudAppProperties', members={
-            'appID': Param(name='appID', param_type=String())
-        })
+        members = OrderedDict()
+        members['appID'] = Param(name='appID', param_type=String())
+        members['value'] = Param(name='value', param_type=String())
+        item = Struct(name='CloudAppProperties', members=members)
         expected = OrderedDict()
         expected['origin'] = 'CloudAppProperties'
         expected['name'] = 'SDLCloudAppProperties'
@@ -49,15 +50,25 @@ class TestStructsProducer(TestCase):
                 constructor_argument='appID', constructor_argument_override=None, constructor_prefix='AppID',
                 deprecated=False, description=['{"default_value": null, "max_length": null, "min_length": null}'],
                 for_name='object', mandatory=True, method_suffix='AppID', modifier='strong', of_class='NSString.class',
-                origin='appID', since=None, type_native='NSString *', type_sdl='NSString *'),)
+                origin='appID', since=None, type_native='NSString *', type_sdl='NSString *'),
+            self.producer.param_named(
+                constructor_argument='valueParam', constructor_argument_override=None, constructor_prefix='ValueParam',
+                deprecated=False, description=['{"default_value": null, "max_length": null, "min_length": null}'],
+                for_name='object', mandatory=True, method_suffix='ValueParam', modifier='strong',
+                of_class='NSString.class', origin='valueParam', since=None, type_native='NSString *',
+                type_sdl='NSString *')
+        )
 
         argument = [
-            self.producer.argument_named(variable='appID', deprecated=False, constructor_argument='appID',
-                                         origin='appID')]
+            self.producer.argument_named(
+                variable='appID', deprecated=False, constructor_argument='appID', origin='appID'),
+            self.producer.argument_named(
+                variable='valueParam', deprecated=False, constructor_argument='valueParam', origin='valueParam')
+        ]
 
         expected['constructors'] = (self.producer.constructor_named(
             all=argument, arguments=argument, deprecated=False, self='',
-            init='AppID:(NSString *)appID'),)
+            init='AppID:(NSString *)appID valueParam:(NSString *)valueParam'),)
 
         actual = self.producer.transform(item)
         self.assertDictEqual(expected, actual)

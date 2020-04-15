@@ -265,15 +265,8 @@ class Generator:
         """
         content = self.get_file_content(file_name)
         content = tuple(map(lambda e: re.sub(r'\n', r'', e).strip().casefold(), content))
-        try:
-            start_index = content.index('# ios library')
-            content = content[start_index + 1:len(content)]
-            content = tuple(filter(lambda e: not re.search(r'^#+\s+.+|^$', e), content))
-            self.logger.debug('key_words: %s', ', '.join(content))
-            return content
-        except (IndexError, ValueError, StopIteration) as error1:
-            self.logger.error('Error while getting key_words, %s %s', type(error1).__name__, error1)
-            return []
+        content = tuple(filter(lambda e: not re.search(r'^#+\s+.+|^$', e), content))
+        return content
 
     def get_paths(self, file_name: Path = ROOT.joinpath('paths.ini')):
         """
