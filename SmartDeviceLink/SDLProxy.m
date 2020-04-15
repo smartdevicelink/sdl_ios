@@ -52,7 +52,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"6.5.0";
+NSString *const SDLProxyVersion = @"6.6.0-rc.1";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
