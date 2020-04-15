@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLBackgroundTaskManager
 
 - (instancetype)initWithBackgroundTaskName:(NSString *)backgroundTaskName {
-    SDLLogV(@"SDLBackgroundTaskManager init with name %@", backgroundTaskName);
+    SDLLogV(@"Creating background task manager with name %@", backgroundTaskName);
     self = [super init];
     if (!self) {
         return nil;
@@ -39,27 +39,47 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     self.currentBackgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:self.backgroundTaskName expirationHandler:^{
-        SDLLogD(@"The %@ background task expired", self.backgroundTaskName);
-        [weakself endBackgroundTask];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogD(@"The background task %@ is expiring.", strongSelf.backgroundTaskName);
+
+        // We have ~1 second to do cleanup before ending the background task. If we take too long, the system will kill the app.
+        if (strongSelf.taskExpiringHandler != nil) {
+            SDLLogD(@"Checking if subscriber wants to to perform some cleanup before ending the background task %@", strongSelf.backgroundTaskName);
+            BOOL waitForCleanupToFinish = strongSelf.taskExpiringHandler();
+            if (waitForCleanupToFinish) {
+                SDLLogD(@"The subscriber will end background task itself %@. Waiting...", self.backgroundTaskName);
+            } else {
+                SDLLogV(@"Subscriber does not want to perform cleanup. Ending the background task %@", strongSelf.backgroundTaskName);
+                [strongSelf endBackgroundTask];
+            }
+        } else {
+            // No subscriber. Just end the background task.
+            SDLLogV(@"Ending background task %@", strongSelf.backgroundTaskName);
+            [strongSelf endBackgroundTask];
+        }
     }];
 
     SDLLogD(@"The %@ background task started with id: %lu", self.backgroundTaskName, (unsigned long)self.currentBackgroundTaskId);
 }
 
 - (void)endBackgroundTask {
+    SDLLogV(@"Attempting to end background task %@", self.backgroundTaskName);
+    self.taskExpiringHandler = nil;
+
     if (self.currentBackgroundTaskId == UIBackgroundTaskInvalid) {
-        SDLLogV(@"Background task already ended. Returning...");
+        SDLLogV(@"Background task %@ with id %lu already ended. Returning...", self.backgroundTaskName, (unsigned long)self.currentBackgroundTaskId);
         return;
     }
 
-    SDLLogD(@"Ending background task with id: %lu",  (unsigned long)self.currentBackgroundTaskId);
+    SDLLogD(@"Ending background task %@ with id: %lu", self.backgroundTaskName, (unsigned long)self.currentBackgroundTaskId);
     [[UIApplication sharedApplication] endBackgroundTask:self.currentBackgroundTaskId];
     self.currentBackgroundTaskId = UIBackgroundTaskInvalid;
 }
 
 - (void)dealloc {
+    SDLLogV(@"Destroying the manager");
     [self endBackgroundTask];
 }
 

@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLBackgroundTaskManager.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
@@ -61,27 +62,45 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+
+- (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler;
 
 @end
 
 @interface SDLSecondaryTransportManager (ForTest)
 // Swap sdl_getAppState method to dummy implementation.
-// Since the test runs on the main thread, dispatch_sync()-ing to the main thread doesn't work.
-+ (void)swapGetAppStateMethod;
+// Since the test runs on the main thread, dispatch_sync()-ing to the main thread freezes the tests.
++ (void)swapGetActiveAppStateMethod;
++ (void)swapGetInactiveAppStateMethod;
 @end
 
 @implementation SDLSecondaryTransportManager (ForTest)
-- (UIApplicationState)dummyGetAppState {
-    NSLog(@"Testing: app state for secondary transport manager is always ACTIVE");
+
+- (UIApplicationState)dummyGetActiveAppState {
+    NSLog(@"Testing: app state for secondary transport manager is ACTIVE");
     return UIApplicationStateActive;
 }
 
-+ (void)swapGetAppStateMethod {
++ (void)swapGetActiveAppStateMethod {
     SEL selector = NSSelectorFromString(@"sdl_getAppState");
     Method from = class_getInstanceMethod(self, selector);
-    Method to = class_getInstanceMethod(self, @selector(dummyGetAppState));
+    Method to = class_getInstanceMethod(self, @selector(dummyGetActiveAppState));
     method_exchangeImplementations(from, to);
 }
+
+- (UIApplicationState)dummyGetInactiveAppState {
+    NSLog(@"Testing: app state for secondary transport manager is INACTIVE");
+    return UIApplicationStateBackground;
+}
+
++ (void)swapGetInactiveAppStateMethod {
+    SEL selector = NSSelectorFromString(@"sdl_getAppState");
+    Method from = class_getInstanceMethod(self, selector);
+    Method to = class_getInstanceMethod(self, @selector(dummyGetInactiveAppState));
+    method_exchangeImplementations(from, to);
+}
+
 @end
 
 @interface SDLTCPTransport (ConnectionDisabled)
@@ -152,7 +171,7 @@ describe(@"the secondary transport manager ", ^{
     };
 
     beforeEach(^{
-        [SDLSecondaryTransportManager swapGetAppStateMethod];
+        [SDLSecondaryTransportManager swapGetActiveAppStateMethod];
         [SDLTCPTransport swapConnectionMethods];
         [SDLIAPTransport swapConnectionMethods];
 
@@ -174,7 +193,7 @@ describe(@"the secondary transport manager ", ^{
 
         [SDLIAPTransport swapConnectionMethods];
         [SDLTCPTransport swapConnectionMethods];
-        [SDLSecondaryTransportManager swapGetAppStateMethod];
+        [SDLSecondaryTransportManager swapGetActiveAppStateMethod];
     });
 
 
@@ -1090,6 +1109,158 @@ describe(@"the secondary transport manager ", ^{
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
                 OCMVerifyAll(testStreamingProtocolDelegate);
+            });
+        });
+    });
+
+    describe(@"app lifecycle state change", ^{
+        __block SDLBackgroundTaskManager *mockBackgroundTaskManager = nil;
+
+        beforeEach(^{
+            // In the tests, we assume primary transport is iAP
+            testPrimaryProtocol = [[SDLProtocol alloc] init];
+            testPrimaryTransport = [[SDLIAPTransport alloc] init];
+            testPrimaryProtocol.transport = testPrimaryTransport;
+
+            dispatch_sync(testStateMachineQueue, ^{
+                [manager startWithPrimaryProtocol:testPrimaryProtocol];
+            });
+
+            mockBackgroundTaskManager = OCMPartialMock([[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:@"com.test.backgroundTask"]);
+            manager.backgroundTaskManager = mockBackgroundTaskManager;
+        });
+
+        context(@"app enters the background", ^{
+            beforeEach(^{
+                manager.secondaryTransportType = SDLTransportSelectionTCP;
+            });
+
+            describe(@"if the secondary transport is connected", ^{
+                beforeEach(^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+
+                    // Wait for the notification to propagate
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should start a background task and stay connected", ^{
+                    OCMVerify([mockBackgroundTaskManager startBackgroundTask]);
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
+                });
+            });
+
+            describe(@"if the secondary transport has not yet connected", ^{
+                beforeEach(^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+
+                    // Wait for the notification to propagate
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should ignore the state change notification", ^{
+                    OCMReject([mockBackgroundTaskManager startBackgroundTask]);
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
+                });
+            });
+        });
+
+        context(@"app enters the foreground", ^{
+            describe(@"if the secondary transport is still connected", ^{
+                beforeEach(^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
+                    // Wait for the notification to propagate
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should end the background task and stay in the connected state", ^{
+                    OCMVerify([mockBackgroundTaskManager endBackgroundTask]);
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
+                });
+            });
+
+            describe(@"if the secondary transport is not connected but is configured", ^{
+                beforeEach(^{
+                    manager.ipAddress = @"192.555.23.1";
+                    manager.tcpPort = 54321;
+                    manager.currentHMILevel = SDLHMILevelFull;
+
+                    manager.secondaryTransportType = SDLTransportSelectionTCP;
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
+                    // Wait for the notification to propagate
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should end the background task and try to restart the TCP transport", ^{
+                    OCMVerify([mockBackgroundTaskManager endBackgroundTask]);
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                });
+            });
+
+            describe(@"if the secondary transport not connected and is not configured", ^{
+                beforeEach(^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateConnecting fromOldState:nil callEnterTransition:NO];
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
+                    // Wait for the notification to propagate
+                    [NSThread sleepForTimeInterval:0.1];
+                });
+
+                it(@"should ignore the state change notification", ^{
+                    OCMReject([mockBackgroundTaskManager endBackgroundTask]);
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
+                });
+            });
+        });
+
+        describe(@"When the background task expires", ^{
+            context(@"If the app is still in the background", ^{
+                beforeEach(^{
+                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                });
+                
+                it(@"should stop the TCP transport if the app is still in the background and perform cleanup before ending the background task", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+                    
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
+                    expect(waitForCleanupToFinish).to(beTrue());
+                });
+                
+                it(@"should ignore the notification if the manager has stopped before the background task ended and immediately end the background task", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateStopped fromOldState:nil callEnterTransition:NO];
+                    
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
+                    expect(waitForCleanupToFinish).to(beFalse());
+                });
+                
+                afterEach(^{
+                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                });
+            });
+            
+            context(@"If the app is has entered the foreground", ^{
+                it(@"should ignore the notification if the app has returned to the foreground and immediately end the background task", ^{
+                    [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
+                    
+                    BOOL waitForCleanupToFinish = manager.sdl_backgroundTaskEndedHandler();
+                    
+                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
+                    expect(waitForCleanupToFinish).to(beFalse());
+                });
             });
         });
     });

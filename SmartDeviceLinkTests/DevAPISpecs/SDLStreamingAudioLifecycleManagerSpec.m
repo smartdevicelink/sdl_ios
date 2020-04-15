@@ -392,6 +392,16 @@ describe(@"the streaming audio manager", ^{
     });
 
     describe(@"attempting to stop the manager", ^{
+        __block BOOL handlerCalled = nil;
+
+        beforeEach(^{
+            handlerCalled = NO;
+            [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
+                handlerCalled = YES;
+            }];
+            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
+        });
+
         context(@"when the manager is READY", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
@@ -405,48 +415,44 @@ describe(@"the streaming audio manager", ^{
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMVerify([mockAudioStreamManager stop]);
-
+                expect(handlerCalled).to(beTrue());
             });
         });
 
-        context(@"when the manager is STOPPED", ^{
+        context(@"when the manager is already stopped", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateStopped fromOldState:nil callEnterTransition:NO];
                 [streamingLifecycleManager stop];
             });
 
-            it(@"should stay in the stopped state and reset the saved properties", ^{
+            it(@"should stay in the stopped state", ^{
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
 
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
-                OCMVerify([mockAudioStreamManager stop]);
+                OCMReject([mockAudioStreamManager stop]);
+                expect(handlerCalled).to(beFalse());
             });
         });
     });
 
     describe(@"starting the manager when it's STOPPED", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-        __block BOOL handlerCalled = nil;
 
         beforeEach(^{
-            handlerCalled = NO;
             [streamingLifecycleManager startWithProtocol:protocolMock];
+            [streamingLifecycleManager endAudioServiceWithCompletionHandler:^{}];
         });
 
         context(@"when stopping the audio service due to a secondary transport shutdown", ^{
             beforeEach(^{
                 [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
-                [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
-                    handlerCalled = YES;
-                }];
             });
 
             it(@"should reset the audio stream manger and send an end audio service control frame", ^{
                 OCMVerify([mockAudioStreamManager stop]);
                 OCMVerify([protocolMock endServiceWithType:SDLServiceTypeAudio]);
-
             });
 
             context(@"when the end audio service ACKs", ^{
@@ -464,8 +470,8 @@ describe(@"the streaming audio manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
                 });
 
-                it(@"should call the handler", ^{
-                    expect(handlerCalled).to(beTrue());
+                it(@"should transistion to the stopped state", ^{
+                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
                 });
             });
 
@@ -484,8 +490,8 @@ describe(@"the streaming audio manager", ^{
                     [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
                 });
 
-                it(@"should call the handler", ^{
-                    expect(handlerCalled).to(beTrue());
+                it(@"should transistion to the stopped state", ^{
+                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
                 });
             });
         });

@@ -155,6 +155,11 @@ NS_ASSUME_NONNULL_BEGIN
     _audioEncrypted = NO;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLAudioStreamDidStopNotification object:nil];
+
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateAudioStreamStarting {
@@ -210,12 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
-
     SDLLogD(@"Request to end audio service ACKed");
-    if (self.audioServiceEndedCompletionHandler != nil) {
-        self.audioServiceEndedCompletionHandler();
-        self.audioServiceEndedCompletionHandler = nil;
-    }
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
@@ -225,10 +225,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
     SDLLogE(@"Request to end audio service NAKed with playlod: %@", nakPayload);
-    if (self.audioServiceEndedCompletionHandler != nil) {
-        self.audioServiceEndedCompletionHandler();
-        self.audioServiceEndedCompletionHandler = nil;
-    }
 
     /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
