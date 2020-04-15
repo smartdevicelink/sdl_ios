@@ -1,3 +1,7 @@
 [submodule "bson_c_lib"]
 	path = bson_c_lib
 	url = https://github.com/smartdevicelink/bson_c_lib.git
+[submodule "generator/rpc_spec"]
+	path = generator/rpc_spec
+	url = https://github.com/smartdevicelink/rpc_spec.git
+	branch = develop

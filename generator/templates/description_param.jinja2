@@ -1,0 +1,21 @@
+{#- Content of this file include into every Param/sub-element of (Enum/Struct/Function) -#}
+{% if param.description or param.since or param.history %}
+/**
+ {%- if param.description %}
+ {%- for d in param.description %}
+ * {{d}}
+ {%- endfor %}{% endif -%}
+ {%- if param.description and ( param.since or param.history ) %}
+ *
+ {%- endif %}
+ {%- if param.deprecated %}
+ * @deprecated
+ {%- endif %}
+ {%- if param.history %}
+ * @history SDL {{ param.history }}
+ {%- endif %}
+ {%- if param.since %}
+ * @since SDL {{ param.since }}
+ {%- endif %}
+ */
+{%- endif %}
