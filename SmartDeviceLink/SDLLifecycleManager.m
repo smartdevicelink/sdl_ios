@@ -75,7 +75,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask";
 
-#pragma mark - SDLManager Private Interface
+#pragma mark - Protected Class Interfaces
+@interface SDLStreamingMediaManager ()
+
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
+
+@end
+
+#pragma mark - SDLLifecycleManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 

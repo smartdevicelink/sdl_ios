@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
 @property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+
 @end
 
 
