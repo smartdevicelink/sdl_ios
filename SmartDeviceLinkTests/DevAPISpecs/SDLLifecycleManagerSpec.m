@@ -47,6 +47,13 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
+@interface SDLStreamingMediaManager ()
+
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
+
+@end
+
 @interface SDLLifecycleManager ()
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
