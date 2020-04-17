@@ -117,8 +117,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
-/// The manager for handling streaming over a secondary transport
-@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 
 #pragma mark - Lifecycle
 
@@ -184,12 +182,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sendAudioData:(NSData *)audioData;
 
 #pragma mark - Secondary Transport Specific
-
-/**
- *  Starts the video/audio services on the passed protocol. This method is used internally.
- *  @param protocol The protocol to use for the audio/video services
- */
-- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
 
 /**
  *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

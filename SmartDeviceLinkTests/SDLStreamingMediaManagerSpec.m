@@ -25,6 +25,9 @@
 @property (strong, nonatomic, nullable) SDLProtocol *audioProtocol;
 @property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
 - (void)didUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
 @end
