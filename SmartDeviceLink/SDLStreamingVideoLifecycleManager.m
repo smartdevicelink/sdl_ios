@@ -342,8 +342,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_disposeDisplayLink {
     if (self.displayLink == nil) { return; }
     SDLLogD(@"Destroying display link");
-    [self.displayLink invalidate];
-    self.displayLink = nil;
+    __weak typeof(self) weakSelf = self;
+    // Since the display link is started on the main thread, make sure we destroy on the main thread also. Even though `invalidate` is thread safe, calling `invalidate` from another thread sometimes hangs.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.displayLink invalidate];
+        strongSelf.displayLink = nil;
+    });
 }
 
 - (void)didEnterStateVideoStreamStopped {
@@ -471,16 +476,18 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     if (self.useDisplayLink) {
+        __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            NSInteger targetFramerate = ((NSNumber *)strongSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
-            self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
+            strongSelf.displayLink = [CADisplayLink displayLinkWithTarget:strongSelf selector:@selector(sdl_displayLinkFired:)];
             if (@available(iOS 10, *)) {
-                self.displayLink.preferredFramesPerSecond = targetFramerate;
+                strongSelf.displayLink.preferredFramesPerSecond = targetFramerate;
             } else {
-                self.displayLink.frameInterval = (60 / targetFramerate);
+                strongSelf.displayLink.frameInterval = (60 / targetFramerate);
             }
-            [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            [strongSelf.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         });
     } else {
         self.touchManager.enableSyncedPanning = NO;
