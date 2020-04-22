@@ -172,10 +172,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
-    // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    [self sdl_runAsyncOnConcurrentQueue:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
         if (!strongSelf.canPresent) {
             [strongSelf start];
         }
