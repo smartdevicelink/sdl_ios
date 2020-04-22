@@ -173,12 +173,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
-    if (!self.canPresent) {
-        [self start];
-    }
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runOnMainQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf.canPresent) {
+            [strongSelf start];
+        }
 
-    // Notifications are always sent on the main thread so we do not need to dispatch tasks to the concurrent queue.
-    [self sdl_checkLockScreen];
+        [strongSelf sdl_checkLockScreen];
+    }];
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
