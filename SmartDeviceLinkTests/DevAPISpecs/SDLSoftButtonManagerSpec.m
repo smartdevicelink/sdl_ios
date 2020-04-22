@@ -167,6 +167,9 @@ describe(@"a soft button manager", ^{
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
+
+            // Wait a little bit to allow blocks dispatched to another queue to finish
+            [NSThread sleepForTimeInterval:0.1];
         });
 
         it(@"should set soft buttons correctly", ^{

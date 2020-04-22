@@ -94,6 +94,9 @@ describe(@"a lock screen manager", ^{
         describe(@"after it's started", ^{
             beforeEach(^{
                 [testManager start];
+
+                // Wait a little bit to allow blocks dispatched to another queue to finish
+                [NSThread sleepForTimeInterval:0.1];
             });
             
             it(@"should set up the view controller correctly", ^{
@@ -133,6 +136,9 @@ describe(@"a lock screen manager", ^{
                     beforeEach(^{
                         testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
                         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
+
+                        // Wait a little bit to allow the notification to propagate
+                        [NSThread sleepForTimeInterval:0.1];
                     });
                     
                     it(@"should have a vehicle icon", ^{
@@ -267,6 +273,9 @@ describe(@"a lock screen manager", ^{
         describe(@"after it's started", ^{
             beforeEach(^{
                 [testManager start];
+
+                // Wait a little bit to allow blocks dispatched to another queue to finish
+                [NSThread sleepForTimeInterval:0.1];
             });
             
             it(@"should set up the view controller correctly", ^{
@@ -424,6 +433,9 @@ describe(@"a lock screen manager", ^{
                 testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
 
                 [testLockScreenManager start]; // Sets `canPresent` to `true`
+
+                // Wait a little bit to allow blocks dispatched to another queue to finish
+                [NSThread sleepForTimeInterval:0.1];
             });
 
             it(@"should present the lock screen if not already presented", ^{
