@@ -150,7 +150,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.lastLockNotification = notification.notification;
 
-    // Don't allow the lockscreen to present again until we start
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncOnConcurrentQueue:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
