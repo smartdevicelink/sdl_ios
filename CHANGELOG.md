@@ -1,6 +1,8 @@
 # Changelog
 ## 6.6.0
 ### Versions
+* Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
 ### Enhancements
 * The secondary transport now starts only when the app has been brought to HMI Full (https://www.github.com/smartdevicelink/sdl_ios/issues/1145).
 * Added RPC generator script – though it is not currently used (https://www.github.com/smartdevicelink/sdl_ios/issues/1298).
