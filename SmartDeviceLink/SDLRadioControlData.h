@@ -41,6 +41,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable;
 
+/// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+///
+/// @param frequencyInteger Must be between 0 and 1710
+/// @param frequencyFraction Must be between 0 and 9
+/// @param hdChannel Must be between 0 and 7
+/// @return An instance of the SDLRadioControlData class
+- (instancetype)initFMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction hdChannel:(nullable NSNumber<SDLInt> *)hdChannel;
+
+/// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+///
+/// @param frequencyInteger Must be between 0 and 1710
+/// @param hdChannel Must be between 0 and 7
+/// @return An instance of the SDLRadioControlData class
+- (instancetype)initAMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger hdChannel:(nullable NSNumber<SDLInt> *)hdChannel;
+
+/// Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+///
+/// @param frequencyInteger Must be between 1 and 1710
+/// @return An instance of the SDLRadioControlData class
+- (instancetype)initXMWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger;
+
 /**
  * The integer part of the frequency ie for 101.7 this value should be 101
  *

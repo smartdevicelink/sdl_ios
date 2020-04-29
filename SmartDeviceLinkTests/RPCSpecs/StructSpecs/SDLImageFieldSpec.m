@@ -17,33 +17,41 @@
 
 QuickSpecBegin(SDLImageFieldSpec)
 
-SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
-
 describe(@"Getter/Setter Tests", ^ {
+     __block SDLImageFieldName testName = nil;
+     __block NSArray<SDLFileType> *testFileTypes = nil;
+     __block SDLImageResolution *testResolution = nil;
+
+    beforeEach(^{
+        testName = SDLImageFieldNameAppIcon;
+        testFileTypes = @[SDLFileTypePNG, SDLFileTypeJPEG];
+        testResolution = [[SDLImageResolution alloc] initWithWidth:800 height:800];
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLImageField* testStruct = [[SDLImageField alloc] init];
         
-        testStruct.name = SDLImageFieldNameTurnIcon;
-        testStruct.imageTypeSupported = [@[SDLFileTypePNG, SDLFileTypeJPEG] copy];
-        testStruct.imageResolution = resolution;
+        testStruct.name = testName;
+        testStruct.imageTypeSupported = testFileTypes;
+        testStruct.imageResolution = testResolution;
         
-        expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
-        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypePNG, SDLFileTypeJPEG] copy]));
-        expect(testStruct.imageResolution).to(equal(resolution));
+        expect(testStruct.name).to(equal(testName));
+        expect(testStruct.imageTypeSupported).to(equal(testFileTypes));
+        expect(testStruct.imageResolution).to(equal(testResolution));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLImageFieldNameTurnIcon,
-                                       SDLRPCParameterNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
-                                       SDLRPCParameterNameImageResolution:resolution} mutableCopy];
+        NSDictionary *dict = @{SDLRPCParameterNameName: testName,
+                               SDLRPCParameterNameImageTypeSupported: testFileTypes,
+                               SDLRPCParameterNameImageResolution: testResolution};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
         
-        expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
-        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypePNG, SDLFileTypeJPEG] copy]));
-        expect(testStruct.imageResolution).to(equal(resolution));
+        expect(testStruct.name).to(equal(testName));
+        expect(testStruct.imageTypeSupported).to(equal(testFileTypes));
+        expect(testStruct.imageResolution).to(equal(testResolution));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -52,6 +60,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.name).to(beNil());
         expect(testStruct.imageTypeSupported).to(beNil());
         expect(testStruct.imageResolution).to(beNil());
+    });
+
+    it(@"should initialize correctly with initWithName:imageTypeSupported:imageResolution:", ^{
+        SDLImageField *testStruct = [[SDLImageField alloc] initWithName:testName imageTypeSupported:testFileTypes imageResolution:testResolution];
+
+        expect(testStruct.name).to(equal(testName));
+        expect(testStruct.imageTypeSupported).to(equal(testFileTypes));
+        expect(testStruct.imageResolution).to(equal(testResolution));
     });
 });
 

@@ -9,6 +9,7 @@
 #import "SDLStreamingAudioLifecycleManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -26,49 +27,50 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingAudioLifecycleManager()
 
+@property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 @property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic) NSString *connectedVehicleMake;
+@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
 
+@property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
 @end
 
 @implementation SDLStreamingAudioLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingConfiguration:(SDLStreamingMediaConfiguration *)streamingConfiguration encryptionConfiguration:(SDLEncryptionConfiguration *)encryptionConfiguration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    SDLLogV(@"Creating AudioStreamingLifecycleManager");
-
     _connectionManager = connectionManager;
-
-    _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
-
-    _requestedEncryptionType = streamingConfiguration.maximumDesiredEncryption;
+    _audioTranscodingManager = [[SDLAudioStreamManager alloc] initWithManager:self];
+    _systemCapabilityManager = systemCapabilityManager;
+    _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in streamingConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
 #pragma clang diagnostic pop
-    for (Class securityManagerClass in encryptionConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
     NSOrderedSet *tempMakeSet = [NSOrderedSet orderedSetWithArray:tempMakeArray];
@@ -83,6 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    SDLLogD(@"Starting with protocol: %@", protocol);
     _protocol = protocol;
 
     @synchronized(self.protocol.protocolDelegateTable) {
@@ -97,11 +100,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
-    [self sdl_stopAudioSession];
-
-    self.hmiLevel = SDLHMILevelNone;
+    _protocol = nil;
+    _hmiLevel = SDLHMILevelNone;
+    _connectedVehicleMake = nil;
+    [self.audioTranscodingManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
+}
+
+- (void)endAudioServiceWithCompletionHandler:(void (^)(void))completionHandler {
+    SDLLogD(@"Ending audio service");
+    self.audioServiceEndedCompletionHandler = completionHandler;
+
+    [self.audioTranscodingManager stop];
+    [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -143,6 +155,11 @@ NS_ASSUME_NONNULL_BEGIN
     _audioEncrypted = NO;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLAudioStreamDidStopNotification object:nil];
+
+    if (self.audioServiceEndedCompletionHandler != nil) {
+        self.audioServiceEndedCompletionHandler();
+        self.audioServiceEndedCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateAudioStreamStarting {
@@ -170,23 +187,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Video / Audio Start Service ACK
+#pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    switch (startServiceACK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceAck:startServiceACK];
-        } break;
-        default: break;
-    }
-}
+    if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
-- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartServiceAck {
-    SDLLogD(@"Audio service started");
-    _audioEncrypted = audioStartServiceAck.header.encrypted;
+    self.audioEncrypted = startServiceACK.header.encrypted;
 
-    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartServiceAck.payload];
-    SDLLogV(@"ACK: %@", audioAckPayload);
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
+    SDLLogD(@"Request to start audio service ACKed with payload: %@", audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
@@ -195,32 +204,30 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-#pragma mark Video / Audio Start Service NAK
-
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    switch (startServiceNAK.header.serviceType) {
-        case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceNak:startServiceNAK];
-        } break;
-        default: break;
-    }
+    if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+    SDLLogE(@"Request to start audio service NAKed");
+
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
-    SDLLogW(@"Audio service failed to start due to NAK");
-    [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
-}
-
-#pragma mark Video / Audio End Service
+#pragma mark End Service ACK/NAK
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
-    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
+    if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
+    SDLLogD(@"Request to end audio service ACKed");
+
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
-    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
+    if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
+
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
+    SDLLogE(@"Request to end audio service NAKed with playlod: %@", nakPayload);
+
+    /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -231,19 +238,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLLogD(@"Received Register App Interface");
-    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    SDLLogV(@"Determining whether streaming is supported");
-    _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
-#pragma clang diagnostic pop
-
-    if (!self.isStreamingSupported) {
-        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable and exiting.");
-        return;
-    }
+    SDLLogV(@"Received Register App Interface response");
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
@@ -300,19 +296,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
-    switch (serviceType) {
-        case SDLServiceTypeAudio:
-            [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
-            break;
-        default: break;
-    }
-}
-
 #pragma mark Setters / Getters
 
 - (BOOL)isHmiStateAudioStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+}
+
+- (BOOL)isStreamingSupported {
+    return (self.systemCapabilityManager != nil) ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
 }
 
 @end

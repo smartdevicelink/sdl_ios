@@ -23,8 +23,10 @@ extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
+extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 
 @interface NSError (SDLErrors)
 
@@ -75,6 +77,13 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
 
+
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE;
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS;
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError;
@@ -85,6 +94,10 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 #pragma mark Store
 
 + (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
+
+#pragma mark Cache File Manager
+
++ (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed;
 
 @end
 

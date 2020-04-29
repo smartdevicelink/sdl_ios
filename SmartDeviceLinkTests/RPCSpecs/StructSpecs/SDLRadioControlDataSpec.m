@@ -155,6 +155,32 @@ describe(@"Initialization tests", ^{
         expect(testStruct.hdRadioEnable).to(equal(@YES));
     });
 
+    it(@"Should get correctly when initialized FM radio control capabilities parameters", ^ {
+        SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initFMWithFrequencyInteger:@101 frequencyFraction:@7 hdChannel:@2];
+
+        expect(testStruct.frequencyInteger).to(equal(@101));
+        expect(testStruct.frequencyFraction).to(equal(@7));
+        expect(testStruct.band).to(equal(SDLRadioBandFM));
+        expect(testStruct.hdChannel).to(equal(@2));
+    });
+
+    it(@"Should get correctly when initialized AM radio control capabilities parameters", ^ {
+        SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initAMWithFrequencyInteger:@101 hdChannel:@2];
+
+        expect(testStruct.frequencyInteger).to(equal(@101));
+        expect(testStruct.band).to(equal(SDLRadioBandAM));
+        expect(testStruct.hdChannel).to(equal(@2));
+    });
+
+    it(@"Should get correctly when initialized XM radio control capabilities parameters", ^ {
+        SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initXMWithFrequencyInteger:@101];
+
+        expect(testStruct.frequencyInteger).to(equal(@101));
+        expect(testStruct.band).to(equal(SDLRadioBandXM));
+    });
+
+
+
 });
 
 QuickSpecEnd

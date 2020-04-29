@@ -21,8 +21,10 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
 SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
+SDLErrorDomain *const SDLErrorDomainCacheFileManager = @"com.sdl.cachefilemanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -69,8 +71,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
@@ -80,8 +81,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_notConnectedError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil)
                                                        };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
@@ -92,8 +92,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_notReadyError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil)
                                                        };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
@@ -104,8 +103,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
@@ -288,6 +286,35 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
+#pragma mark System Capability Manager
+
++ (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Module does not understand system capabilities", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The connected module does not support system capabilities", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Use isCapabilitySupported to find out if the feature is supported on the head unit, but no more information about the feature is available on this module", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capabilities cannot be updated in HMI NONE.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to subscribe or update a system capability in HMI NONE, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Wait until you are in HMI BACKGROUND, LIMITED, OR FULL before subscribing or updating a capability.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorHMINone userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"System capability type DISPLAYS cannot be updated.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The system capability manager attempted to update system capability type DISPLAYS, which is not allowed.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Subscribe to DISPLAYS to automatically receive updates or retrieve a cached display capability value directly from the SystemCapabilityManager.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays userInfo:userInfo];
+}
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError {
@@ -337,6 +364,17 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainRPCStore code:SDLRPCStoreErrorGetInvalidObject userInfo:userInfo];
 }
 
+#pragma mark Cache File Manager
+
++ (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Cache File Manager error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to archive icon archive file to file path", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that file path is valid", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainCacheFileManager code:SDLCacheManagerErrorUpdateIconArchiveFileFailure userInfo:userInfo];
+}
+
 @end
 
 
@@ -381,7 +419,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
     return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
-                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have either 0 or 1 parameters", NSStringFromSelector(selector)]
+                                   reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have between 0 and 3 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
                                  userInfo:nil];
 }
 

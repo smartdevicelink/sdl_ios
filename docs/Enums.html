@@ -13,8 +13,10 @@
   <li><a href="#section-SDLSoftButtonManagerError">SDLSoftButtonManagerError</a></li>
   <li><a href="#section-SDLMenuManagerError">SDLMenuManagerError</a></li>
   <li><a href="#section-SDLChoiceSetManagerError">SDLChoiceSetManagerError</a></li>
+  <li><a href="#section-SDLSystemCapabilityManagerError">SDLSystemCapabilityManagerError</a></li>
   <li><a href="#section-SDLTransportError">SDLTransportError</a></li>
   <li><a href="#section-SDLRPCStoreError">SDLRPCStoreError</a></li>
+  <li><a href="#section-SDLCacheFileManagerError">SDLCacheFileManagerError</a></li>
   <li><a href="#section-SDLSecondaryTransports">SDLSecondaryTransports</a></li>
   <li><a href="#section-SDLLockScreenConfigurationDisplayMode">SDLLockScreenConfigurationDisplayMode</a></li>
   <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
@@ -230,6 +232,29 @@
   
   
   
+  <h3 id="section-SDLSystemCapabilityManagerError">
+      SDLSystemCapabilityManagerError
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/SDLSystemCapabilityManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLSystemCapabilityManagerError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">SDLSystemCapabilityManagerErrorHMINone</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLSystemCapabilityManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLTransportError">
       SDLTransportError
   </h3>
@@ -264,6 +289,30 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLRPCStoreError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCacheFileManagerError">
+      SDLCacheFileManagerError
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/SDLCacheFileManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLCacheFileManagerError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/**
+     *  Failed to update archive file
+     */</span>
+    <span class="n">SDLCacheManagerErrorUpdateIconArchiveFileFailure</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLCacheFileManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   

@@ -3,7 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section-supportsSubscriptions">supportsSubscriptions</a></li>
   <li><a href="#section-displays">displays</a></li>
   <li><a href="#section-displayCapabilities">displayCapabilities</a></li>
   <li><a href="#section-hmiCapabilities">hmiCapabilities</a></li>
@@ -23,15 +22,18 @@
   <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
   <li><a href="#section-seatLocationCapability">seatLocationCapability</a></li>
   <li><a href="#section-defaultMainWindowCapability">defaultMainWindowCapability</a></li>
+  <li><a href="#section-supportsSubscriptions">supportsSubscriptions</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:">-initWithConnectionManager:</a></li>
   <li><a href="#section--start">-start</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--windowCapabilityWithWindowID:">-windowCapabilityWithWindowID:</a></li>
+  <li><a href="#section--isCapabilitySupported:">-isCapabilitySupported:</a></li>
   <li><a href="#section--updateCapabilityType:completionHandler:">-updateCapabilityType:completionHandler:</a></li>
   <li><a href="#section--subscribeToCapabilityType:withBlock:">-subscribeToCapabilityType:withBlock:</a></li>
+  <li><a href="#section--subscribeToCapabilityType:withUpdateHandler:">-subscribeToCapabilityType:withUpdateHandler:</a></li>
   <li><a href="#section--subscribeToCapabilityType:withObserver:selector:">-subscribeToCapabilityType:withObserver:selector:</a></li>
   <li><a href="#section--unsubscribeFromCapabilityType:withObserver:">-unsubscribeFromCapabilityType:withObserver:</a></li>
-  <li><a href="#section--windowCapabilityWithWindowID:">-windowCapabilityWithWindowID:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -40,24 +42,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section-supportsSubscriptions">
-      supportsSubscriptions
-  </h3>
-  
-  <p>YES if subscriptions are available on the connected head unit. If NO, calls to <code>subscribeToCapabilityType:withBlock</code> and <code>subscribeToCapabilityType:withObserver:selector</code> will fail.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">supportsSubscriptions</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportsSubscriptions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-  
-  
-  
   <h3 id="section-displays">
       displays
   </h3>
@@ -74,8 +58,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">displays</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDisplayCapability.html">SDLDisplayCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">displays</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -99,8 +82,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span> <span class="o">*</span><span class="n">displayCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span> <span class="o">*</span><span class="n">displayCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -124,8 +106,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span> <span class="o">*</span><span class="n">hmiCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span> <span class="o">*</span><span class="n">hmiCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -150,8 +131,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonCapabilities.html">SDLSoftButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonCapabilities.html">SDLSoftButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -175,8 +155,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">buttonCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">buttonCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -201,8 +180,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span> <span class="o">*</span><span class="n">presetBankCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span> <span class="o">*</span><span class="n">presetBankCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -226,8 +204,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hmiZoneCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hmiZoneCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -251,8 +228,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">speechCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">speechCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -276,8 +252,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLPrerecordedSpeech.h@T@SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">prerecordedSpeechCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLPrerecordedSpeech.h@T@SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">prerecordedSpeechCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -301,7 +276,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">vrCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">vrCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -325,8 +300,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioPassThruCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioPassThruCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -350,8 +324,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*</span><span class="n">pcmStreamCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*</span><span class="n">pcmStreamCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -376,8 +349,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span> <span class="o">*</span><span class="n">appServicesCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span> <span class="o">*</span><span class="n">appServicesCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -402,8 +374,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -428,8 +399,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -454,8 +424,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -480,8 +449,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -506,8 +474,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span> <span class="o">*</span><span class="n">seatLocationCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span> <span class="o">*</span><span class="n">seatLocationCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -527,12 +494,29 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="n">defaultMainWindowCapability</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="n">defaultMainWindowCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">defaultMainWindowCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-supportsSubscriptions">
+      supportsSubscriptions
+  </h3>
+  
+  <p>YES if subscriptions are available on the connected module and you will automatically be notified if the value changes on the module. If NO, calls to <code>subscribe</code> methods will subscribe to updates, but the module will not automatically notify you. You will need to call <code>updateWithCapabilityType:completionHandler:</code> to force an update if you need one (though this should be rare). This does not apply to the <code>DISPLAYS</code> capability type which you can always subscribe to.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">supportsSubscriptions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportsSubscriptions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -617,11 +601,65 @@
   
   
   
+  <h3 id="section--windowCapabilityWithWindowID:">
+      -windowCapabilityWithWindowID:
+  </h3>
+  
+  <p>Returns the window capability of one of your app&rsquo;s windows with the specified window ID that is on the primary display (i.e. the head unit itself). This is a convenience method to easily access capabilities of windows such as your apps&rsquo; widget windows.</p>
+
+<p>To get the capabilities of the main window on the main display (i.e. your app&rsquo;s primary app screen on the head unit itself).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">windowCapabilityWithWindowID</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">windowID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">windowCapability</span><span class="p">(</span><span class="n">withWindowID</span> <span class="nv">windowID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>windowID</dt>
+      <dd><p>The ID of the window from which to get capabilities
+@returns The window window capabilities of the window with the specified windowID, or nil if the window is not known or no window capabilities exist.</p></dd>
+  </dl>
+  
+  <h3 id="section--isCapabilitySupported:">
+      -isCapabilitySupported:
+  </h3>
+  
+  <p>Returns whether or not the capability type is supported on the module. You can use this to check if subscribing to the capability will work. If this returns NO, then the feature is not supported by the head unit. If YES, the feature is supported by the head unit. You can subscribe to the capability type to get more information about the capability&rsquo;s support and features on the connected module.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isCapabilitySupported</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isCapabilitySupported</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The SystemCapabilityType that will be checked.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Whether or not <code>type</code> is supported by the connected head unit.</p>
+  </div>
+  
   <h3 id="section--updateCapabilityType:completionHandler:">
       -updateCapabilityType:completionHandler:
   </h3>
   
-  <p>Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)navigationCapability">navigationCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)phoneCapability">phoneCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)videoStreamingCapability">videoStreamingCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)remoteControlCapability">remoteControlCapability</a></code>, and <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)appServicesCapabilities">appServicesCapabilities</a></code>. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.</p>
+  <p>This method has been superseded by the <code>subscribeToCapabilityType:</code> methods. You should use one of those methods instead unless you only want a value once (you don&rsquo;t want to keep a long-lasting observer) and it must be current (most capabilities do not need to be updated). If you have a separate subscription observer and are connected to a head unit that does not support subscriptions, when this method returns, it will also call all subscription callbacks that you&rsquo;ve set up with the new value if there is one. Therefore, you can use this method to force an update to all subscriptions of that particular type on head units that don&rsquo;t support subscriptions (<code>supportsSubscriptions == NO</code>).</p>
 
   
   
@@ -647,7 +685,13 @@
       -subscribeToCapabilityType:withBlock:
   </h3>
   
-  <p>Subscribe to a particular capability type using a block callback</p>
+  <p>Subscribe to a particular capability type using a block callback.</p>
+
+<p>On v5.1.0+ systems (where <code>supportsSubscriptions == YES</code>):
+This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.</p>
+
+<p>On sub-v5.1.0 systems (where <code>supportsSubscriptions == NO</code>):
+The method will be called immediately with the current value and will <em>not</em> be automatically called every time the value is updated, unless the <code>type</code> is <code>DISPLAYS</code> which is supported on every version. If <code>updateCapabilityType:completionHandler</code> is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this <code><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></code>, then the value will be retrieved and returned.</p>
 
   
   
@@ -671,21 +715,69 @@
   </dl>
   <div>
     <h4>Return Value</h4>
-    <p>An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if subscriptions aren&rsquo;t available on this head unit</p>
+    <p>An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can&rsquo;t attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).</p>
+  </div>
+  
+  <h3 id="section--subscribeToCapabilityType:withUpdateHandler:">
+      -subscribeToCapabilityType:withUpdateHandler:
+  </h3>
+  
+  <p>Subscribe to a particular capability type using a handler callback.</p>
+
+<p>On v5.1.0+ systems (where <code>supportsSubscriptions == YES</code>):
+This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.</p>
+
+<p>Note that when the cached value is returned, the <code>subscribed</code> flag on the handler will be false until the subscription completes successfully and a new value is retrieved.</p>
+
+<p>On sub-v5.1.0 systems (where <code>supportsSubscriptions == NO</code>):
+The method will be called immediately with the current value and will <em>not</em> be automatically called every time the value is updated, unless the <code>type</code> is <code>DISPLAYS</code> which is supported on every version. If <code>updateCapabilityType:completionHandler</code> is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this <code><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></code>, then the value will be retrieved and returned.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span>
+    <span class="nf">subscribeToCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
+            <span class="nf">withUpdateHandler</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateWithErrorHandler">SDLCapabilityUpdateWithErrorHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">capabilityType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="n">updateHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateWithErrorHandler">SDLCapabilityUpdateWithErrorHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSObjectProtocol</span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>The type of capability to subscribe to</p></dd>
+      <dt>handler</dt>
+      <dd><p>The block to be called when the capability is updated with an error if one occurs</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can&rsquo;t attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).</p>
   </div>
   
   <h3 id="section--subscribeToCapabilityType:withObserver:selector:">
       -subscribeToCapabilityType:withObserver:selector:
   </h3>
   
-  <p>Subscribe to a particular capability type with a selector callback. The selector supports the following parameters:</p>
+  <p>Subscribe to a particular capability type with a selector callback.</p>
+
+<p>The selector supports the following parameters:</p>
 
 <ol>
-<li>No parameters e.g. <code>- (void)phoneCapabilityUpdated;</code></li>
-<li>One <code>SDLSystemCapability *</code> parameter e.g. <code>- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability</code></li>
+<li><p>No parameters e.g. <code>- (void)phoneCapabilityUpdated;</code></p></li>
+<li><p>One <code>SDLSystemCapability *</code> parameter, e.g. <code>- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability</code></p></li>
+<li><p>Two parameters, one <code>SDLSystemCapability *</code> parameter, and one <code>NSError</code> parameter, e.g. <code>- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error</code></p></li>
+<li><p>Three parameters, one <code>SDLSystemCapability *</code> parameter, one <code>NSError</code> parameter, and one <code>BOOL</code> parameter e.g. <code>- (void)phoneCapabilityUpdated:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed</code></p></li>
 </ol>
 
-<p>This method will be called immediately with the current value and called every time the value is updated on RPC v5.1.0+ systems (<code>supportsSubscriptions == YES</code>). If this method is called on a sub-v5.1.0 system (<code>supportsSubscriptions == NO</code>), the method will return <code>NO</code> and the selector will never be called.</p>
+<p>On v5.1.0+ systems (where <code>supportsSubscriptions == YES</code>):
+This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.</p>
+
+<p>On sub-v5.1.0 systems (where <code>supportsSubscriptions == NO</code>):
+The method will be called immediately with the current value and will <em>not</em> be automatically called every time the value is updated, unless the <code>type</code> is <code>DISPLAYS</code> which is supported on every version. If <code>updateCapabilityType:completionHandler</code> is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this <code><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></code>, then the value will be retrieved and returned.</p>
 
   
   
@@ -711,14 +803,14 @@
   </dl>
   <div>
     <h4>Return Value</h4>
-    <p>Whether or not the subscription succeeded. <code>NO</code> if the connected system doesn&rsquo;t support capability subscriptions, or if the <code>selector</code> doesn&rsquo;t support the correct parameters (see above)</p>
+    <p>YES if the manager is attempting the subscription, or NO if the manager can&rsquo;t attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS), or the selector doesn&rsquo;t contain the correct number of parameters.</p>
   </div>
   
   <h3 id="section--unsubscribeFromCapabilityType:withObserver:">
       -unsubscribeFromCapabilityType:withObserver:
   </h3>
   
-  <p>Unsubscribe from a particular capability type. If it was subscribed with a block, the return value should be passed to the <code>observer</code> to unsubscribe the block. If it was subscribed with a selector, the <code>observer</code> object should be passed to unsubscribe the object selector.</p>
+  <p>Unsubscribe from a particular capability type. If it was subscribed with a block / handler, the return value should be passed to the <code>observer</code> to unsubscribe the block. If it was subscribed with a selector, the <code>observer</code> object (on which the selector exists and is called) should be passed to unsubscribe the object selector.</p>
 
   
   
@@ -738,31 +830,6 @@
       <dd><p>The type of the system capability to unsubscribe from</p></dd>
       <dt>observer</dt>
       <dd><p>The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed.</p></dd>
-  </dl>
-  
-  <h3 id="section--windowCapabilityWithWindowID:">
-      -windowCapabilityWithWindowID:
-  </h3>
-  
-  <p>Returns the window capability object of the primary display with the specified window ID. This is a convenient method to easily access capabilities of windows for instance widget windows of the main display.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">windowCapabilityWithWindowID</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">windowID</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">windowCapability</span><span class="p">(</span><span class="n">withWindowID</span> <span class="nv">windowID</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">?</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>windowID</dt>
-      <dd><p>The ID of the window to get capabilities
-@returns The window capability object representing the window capabilities of the window with the specified window ID or nil if the window is not known or no window capabilities exist.</p></dd>
   </dl>
   
 </section>

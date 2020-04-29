@@ -152,6 +152,12 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorInvalidState = -5
 };
 
+typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
+    SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1,
+    SDLSystemCapabilityManagerErrorHMINone = -2,
+    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
+};
+
 /**
  *  Errors associated with transport.
  */
@@ -185,4 +191,11 @@ typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
      *  In dictionary stored value with unexpected type
      */
     SDLRPCStoreErrorGetInvalidObject = -1,
+};
+
+typedef NS_ENUM(NSInteger, SDLCacheFileManagerError) {
+    /**
+     *  Failed to update archive file
+     */
+    SDLCacheManagerErrorUpdateIconArchiveFileFailure = -1,
 };

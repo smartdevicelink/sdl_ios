@@ -54,7 +54,6 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
@@ -76,9 +75,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask";
 
-#pragma mark - SDLManager Private Interface
+#pragma mark - Protected Class Interfaces
+@interface SDLStreamingMediaManager ()
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
+
+@end
+
+#pragma mark - SDLLifecycleManager Private Interface
+
+@interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -144,12 +151,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager systemCapabilityManager:_systemCapabilityManager];
-    
-    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
-        [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
-        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
-        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration];
+
+    if ([self.class sdl_isStreamingConfiguration:self.configuration]) {
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration systemCapabilityManager:self.systemCapabilityManager];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
@@ -244,8 +248,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
     } else {
-        // We reuse our queue to run secondary transport manager's state machine
-        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self serialQueue:self.lifecycleQueue];
+        if ([self.class sdl_isStreamingConfiguration:self.configuration]) {
+            // Reuse the queue to run the secondary transport manager's state machine
+            self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)self.streamManager serialQueue:self.lifecycleQueue];
+            self.streamManager.secondaryTransportManager = self.secondaryTransportManager;
+        }
+
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
     }
 #pragma clang diagnostic pop
@@ -262,6 +270,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
+    [self.proxy disconnectSession];
     self.proxy = nil;
 
     [self.fileManager stop];
@@ -269,12 +278,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.lockScreenManager stop];
     [self.screenManager stop];
     [self.encryptionLifecycleManager stop];
-    if (self.secondaryTransportManager != nil) {
-        [self.secondaryTransportManager stop];
-    } else {
-        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
-        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
-    }
+    [self.streamManager stop];
+    [self.secondaryTransportManager stop];
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
@@ -284,6 +289,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
     self.audioStreamingState = nil;
+    self.videoStreamingState = nil;
     self.systemContext = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
@@ -335,7 +341,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendRequest:regRequest
+    [self sendConnectionManagerRequest:regRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
         if (error != nil || ![response.success boolValue]) {
@@ -450,10 +456,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
     }
     
-    // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
+    // Starts the streaming media manager if only using the primary transport (i.e. secondary transports has been disabled in the lifecyle configuration). If using a secondary transport, setup is handled by the stream manager.
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self.streamManager startSecondaryTransportWithProtocol:self.proxy.protocol];
     }
 
     dispatch_group_enter(managerGroup);
@@ -529,6 +534,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
     }
 
+    if ([self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
+        [self.delegate videoStreamingState:SDLVideoStreamingStateNotStreamable didChangetoState:self.videoStreamingState];
+    }
+
     // Stop the background task now that setup has completed
     [self.backgroundTaskManager endBackgroundTask];
 }
@@ -576,7 +585,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
         setAppIcon.syncFileName = appIcon.name;
 
-        [self sdl_sendRequest:setAppIcon
+        [self sendConnectionManagerRequest:setAppIcon
           withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil) {
                 SDLLogW(@"Error setting up app icon: %@", error);
@@ -640,7 +649,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    [self sdl_sendRequest:rpc withResponseHandler:nil];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
+    }];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -665,13 +676,17 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         
         return;
     }
-    
-    [self sdl_sendRequest:request withResponseHandler:handler];
+
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sdl_sendRequest:request withResponseHandler:handler];
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    }];
 }
 
 - (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -703,6 +718,20 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 #pragma mark Helper Methods
+
+/// Returns true if the app type set in the configuration is `NAVIGATION` or `PROJECTION`; false for any other app type.
+/// @param configuration This session's configuration
++ (BOOL)sdl_isStreamingConfiguration:(SDLConfiguration *)configuration {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
+    [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
+    [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
+    [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
+        return YES;
+    }
+
+    return NO;
+}
+
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == INT32_MAX) {
         self.lastCorrelationId = 0;
@@ -722,8 +751,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // this is to make sure that the transition happens on the dedicated queue
 - (void)sdl_runOnProcessingQueue:(void (^)(void))block {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
         block();
     } else {
         dispatch_sync(self.lifecycleQueue, block);
@@ -731,15 +759,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)sdl_transitionToState:(SDLState *)state {
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0
-        || strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label([SDLGlobals sharedGlobals].sdlProcessingQueue)) == 0) {
+    [self sdl_runOnProcessingQueue:^{
         [self.lifecycleStateMachine transitionToState:state];
-    } else {
-        // once this method returns, the transition is completed
-        dispatch_sync(self.lifecycleQueue, ^{
-            [self.lifecycleStateMachine transitionToState:state];
-        });
-    }
+    }];
 }
 
 /**
@@ -795,8 +817,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 
-    SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
+    SDLAudioStreamingState oldAudioStreamingState = self.audioStreamingState;
     self.audioStreamingState = hmiStatusNotification.audioStreamingState;
+
+    SDLVideoStreamingState oldVideoStreamingState = self.videoStreamingState;
+    self.videoStreamingState = hmiStatusNotification.videoStreamingState;
 
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
@@ -805,8 +830,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
     }
 
-    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]) {
-        SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
+    if (![oldAudioStreamingState isEqualToEnum:self.audioStreamingState]) {
+        SDLLogD(@"Audio streaming state changed from %@ to %@", oldAudioStreamingState, self.audioStreamingState);
+    }
+
+    if (![oldVideoStreamingState isEqualToEnum:self.videoStreamingState]) {
+        SDLLogD(@"Video streaming state changed from %@ to %@", oldVideoStreamingState, self.videoStreamingState);
     }
 
     if (![oldSystemContext isEqualToEnum:self.systemContext]) {
@@ -826,10 +855,16 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
 
-    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
-        && !(oldStreamingState == nil && self.audioStreamingState == nil)
+    if (![oldAudioStreamingState isEqualToEnum:self.audioStreamingState]
+        && !(oldAudioStreamingState == nil && self.audioStreamingState == nil)
         && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
-        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+        [self.delegate audioStreamingState:oldAudioStreamingState didChangeToState:self.audioStreamingState];
+    }
+
+    if (![oldVideoStreamingState isEqualToEnum:self.videoStreamingState]
+        && !(oldVideoStreamingState == nil && self.videoStreamingState == nil)
+        && [self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
+        [self.delegate videoStreamingState:oldVideoStreamingState didChangetoState:self.videoStreamingState];
     }
 
     if (![oldSystemContext isEqualToEnum:self.systemContext]
@@ -862,34 +897,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {
         [self sdl_transitionToState:SDLLifecycleStateReconnecting];
-    }
-}
-
-#pragma mark Streaming protocol listener
-
-- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
-    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
-        return;
-    }
-
-    if (oldProtocol != nil) {
-        [self.streamManager stopAudio];
-    }
-    if (newProtocol != nil) {
-        [self.streamManager startAudioWithProtocol:newProtocol];
-    }
-}
-
-- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
-    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
-        return;
-    }
-
-    if (oldProtocol != nil) {
-        [self.streamManager stopVideo];
-    }
-    if (newProtocol != nil) {
-        [self.streamManager startVideoWithProtocol:newProtocol];
     }
 }
 

@@ -16,7 +16,10 @@ QuickSpecBegin(SDLOnEncodedSyncPDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] init];
+#pragma clang diagnostic pop
         
         testNotification.data = [@[@"0"] mutableCopy];
         testNotification.URL = @"www.zombo.com";
@@ -28,12 +31,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
-                                                           @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameData:[@[@"0"] mutableCopy],
-                                                                   SDLRPCParameterNameURLUppercase:@"www.zombo.com",
-                                                                   SDLRPCParameterNameTimeoutCapitalized:@564},
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameNotification:
+                                                   @{SDLRPCParameterNameParameters:
+                                                         @{SDLRPCParameterNameData:@[@"0"],
+                                                           SDLRPCParameterNameURLUppercase:@"www.zombo.com",
+                                                           SDLRPCParameterNameTimeoutCapitalized:@564},
+                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}};
+#pragma clang diagnostic pop
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
@@ -45,7 +52,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] init];
+#pragma clang diagnostic pop
         
         expect(testNotification.data).to(beNil());
         expect(testNotification.URL).to(beNil());

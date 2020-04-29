@@ -8,16 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLSystemCapabilityManager;
+@class SDLSystemCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestSystemCapabilityObserver : NSObject
 
 @property (assign, nonatomic) NSUInteger selectorCalledCount;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSystemCapability *> *capabilitiesReceived;
+@property (strong, nonatomic, nullable) NSMutableArray<NSError *> *errorsReceived;
+@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *subscribedValuesReceived;
 
 - (void)capabilityUpdated;
-- (void)capabilityUpdatedWithNotification:(SDLSystemCapabilityManager *)capabilityManager;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error;
+- (void)capabilityUpdatedWithCapability:(SDLSystemCapability *)capability error:(NSError *)error subscribed:(BOOL)subscribed;
 
 @end
 

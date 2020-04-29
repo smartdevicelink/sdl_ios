@@ -37,7 +37,7 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANG
 
 You can install this library using [Accio/SwiftPM](https://github.com/JamitLabs/Accio) documentation page.  Please follow the steps to install and initialization Accio into a current or new application. 
 
-In your Package.swift file , you want to add `.package(url: "https://github.com/smartdevicelink/sdl_ios.git", .from: "6.5.0"),`  to the dependencies array.  Then add  `SmartDeviceLink` to the targets dependencies array.
+In your Package.swift file , you want to add `.package(url: "https://github.com/smartdevicelink/sdl_ios.git", .from: "6.6.0"),`  to the dependencies array.  Then add  `SmartDeviceLink` to the targets dependencies array.
 
 Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
 
@@ -49,10 +49,10 @@ If you are building a Swift app, then add this instead `SmartDeviceLinkSwift` to
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink', '~> 6.5'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 6.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
 
 ###### Swift
-If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 6.5'`. Then run `pod install` in your terminal.
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 6.6'`. Then run `pod install` in your terminal.
 
 ##### Carthage
 

@@ -14,27 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLStreamingProtocolDelegate <NSObject>
 
-/**
- *  Called when protocol instance for audio service has been updated.
- *
- *  If `newProtocol` is nil, it indicates that underlying transport
- *  becomes unavailable.
- *
- *  @param oldProtocol protocol instance that has been used for audio streaming.
- *  @param newProtocol protocol instance that will be used for audio streaming.
- */
-- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol;
-
-/**
- *  Called when protocol instance for video service has been updated.
- *
- *  If `newProtocol` is nil, it indicates that underlying transport
- *  becomes unavailable.
- *
- *  @param oldProtocol protocol instance that has been used for video streaming.
- *  @param newProtocol protocol instance that will be used for video streaming.
- */
-- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol;
+/// Called when protocol instance for audio and/or video service has been updated.
+///
+/// If `newVideoProtocol` or `newAudioProtocol` is nil it indicates that underlying transport has become unavailable.
+///
+/// @param oldVideoProtocol protocol instance that was being used for video streaming
+/// @param newVideoProtocol protocol instance that will be used for video streaming
+/// @param oldAudioProtocol protocol instance that was being used for audio streaming
+/// @param newAudioProtocol protocol instance that will be used for audio streaming
+- (void)didUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
 @end
 

@@ -27,14 +27,22 @@
     return self;
 }
 
-- (void)stop {
+- (void)stopWithCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     if (!self.lockViewController) { return; }
 
     _shouldShowLockScreen = NO;
+
+    if (completionHandler != nil) {
+        completionHandler();
+    }
 }
 
-- (void)updateLockScreenToShow:(BOOL)show {
+- (void)updateLockScreenToShow:(BOOL)show withCompletionHandler:(nullable SDLLockScreenDidFinishHandler)completionHandler {
     _shouldShowLockScreen = show;
+
+    if (completionHandler != nil) {
+        completionHandler();
+    }
 }
 
 

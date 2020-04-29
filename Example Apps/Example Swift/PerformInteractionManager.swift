@@ -56,16 +56,19 @@ private extension PerformInteractionManager {
 
 extension PerformInteractionManager: SDLChoiceSetDelegate {
     func choiceSet(_ choiceSet: SDLChoiceSet, didSelectChoice choice: SDLChoiceCell, withSource source: SDLTriggerSource, atRowIndex rowIndex: UInt) {
+        SDLLog.d("User selected row: \(rowIndex), choice: \(choice)")
         manager.send(SDLSpeak(tts: TTSGoodJob))
     }
 
     func choiceSet(_ choiceSet: SDLChoiceSet, didReceiveError error: Error) {
+        SDLLog.e("Error presenting choice set: \(error)")
         manager.send(SDLSpeak(tts: TTSYouMissed))
     }
 }
 
 extension PerformInteractionManager: SDLKeyboardDelegate {
     func keyboardDidAbort(withReason event: SDLKeyboardEvent) {
+        SDLLog.w("Keyboard aborted with reason: \(event)")
         switch event {
         case SDLKeyboardEvent.cancelled:
             manager.send(SDLSpeak(tts: TTSYouMissed))
@@ -76,6 +79,7 @@ extension PerformInteractionManager: SDLKeyboardDelegate {
     }
 
     func userDidSubmitInput(_ inputText: String, withEvent source: SDLKeyboardEvent) {
+        SDLLog.d("User did submit keyboard input: \(inputText), with event: \(source)")
         switch source {
         case SDLKeyboardEvent.voice: break
             // Start Voice search

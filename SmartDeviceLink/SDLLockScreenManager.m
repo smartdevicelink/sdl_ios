@@ -54,7 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
+#pragma clang diagnostic pop
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
@@ -65,6 +68,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     self.canPresent = NO;
 
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runOnMainQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
+            SDLLogW(@"Attempted to start lock screen manager, but we are in the background. We will attempt to start again when we are in the foreground.");
+            return;
+        }
+
+        // This usually means that we disconnected and connected with the device in the background. We will need to check and dismiss the view controller if it's presented before setting up a new one.
+        if (strongSelf.presenter.lockViewController != nil) {
+            [strongSelf.presenter stopWithCompletionHandler:^{
+                __strong typeof(weakSelf) strongSelf2 = weakSelf;
+                [strongSelf2 sdl_start];
+            }];
+        } else {
+            [strongSelf sdl_start];
+        }
+    }];
+}
+
+- (void)sdl_start {
     // Create and initialize the lock screen controller depending on the configuration
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeNever) {
         self.presenter.lockViewController = nil;
@@ -87,12 +112,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.canPresent = YES;
+
+    [self sdl_checkLockScreen];
 }
 
 - (void)stop {
     // Don't allow the lockscreen to present again until we start
     self.canPresent = NO;
-    [self.presenter stop];
+    self.lastLockNotification = nil;
+    self.lastDriverDistractionNotification = nil;
+    [self.presenter stopWithCompletionHandler:nil];
 }
 
 - (nullable UIViewController *)lockScreenViewController {
@@ -130,14 +159,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Dismiss the lock screen if the app was disconnected in the background
-        if (!weakSelf.canPresent) {
-            [weakSelf.presenter updateLockScreenToShow:NO];
+    [self sdl_runOnMainQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
+        if (!strongSelf.canPresent) {
+            [strongSelf start];
         }
-    });
 
-    [self sdl_checkLockScreen];
+        [strongSelf sdl_checkLockScreen];
+    }];
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
@@ -157,28 +187,37 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self sdl_runOnMainQueue:^{
         [weakSelf sdl_updatePresentation];
-    });
+    }];
 }
 
 - (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (self.canPresent) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
+#pragma clang diagnostic pop
         if (self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
+#pragma clang diagnostic pop
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
-            [self.presenter updateLockScreenToShow:YES];
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
-            [self.presenter updateLockScreenToShow:NO];
+            [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
         }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
-        [self.presenter updateLockScreenToShow:NO];
+#pragma clang diagnostic pop
+        [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
     }
 }
 
@@ -208,13 +247,13 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __strong typeof(self) strongSelf = weakself;
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runOnMainQueue:^{
+        __strong typeof(self) strongSelf = weakSelf;
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
             [lockscreenViewController addDismissGestureWithCallback:^{
-                [strongSelf.presenter updateLockScreenToShow:NO];
+                [strongSelf.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
                 strongSelf.lockScreenDismissedByUser = YES;
             }];
             lockscreenViewController.lockedLabelText = strongSelf.lastDriverDistractionNotification.lockScreenDismissalWarning;
@@ -222,7 +261,17 @@ NS_ASSUME_NONNULL_BEGIN
             [lockscreenViewController removeDismissGesture];
             lockscreenViewController.lockedLabelText = nil;
         }
-    });
+    }];
+}
+
+#pragma mark - Threading Utilities
+
+- (void)sdl_runOnMainQueue:(void (^)(void))block {
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
 }
 
 @end
