@@ -6,6 +6,7 @@
   <li><a href="#section--managerDidDisconnect">-managerDidDisconnect</a></li>
   <li><a href="#section--hmiLevel:didChangeToLevel:">-hmiLevel:didChangeToLevel:</a></li>
   <li><a href="#section--audioStreamingState:didChangeToState:">-audioStreamingState:didChangeToState:</a></li>
+  <li><a href="#section--videoStreamingState:didChangetoState:">-videoStreamingState:didChangetoState:</a></li>
   <li><a href="#section--systemContext:didChangeToContext:">-systemContext:didChangeToContext:</a></li>
   <li><a href="#section--managerShouldUpdateLifecycleToLanguage:">-managerShouldUpdateLifecycleToLanguage:</a></li>
 </ul>
@@ -84,6 +85,34 @@
       <dd><p>The previous state which has now been left.</p></dd>
       <dt>newState</dt>
       <dd><p>The current state.</p></dd>
+  </dl>
+  
+  <h3 id="section--videoStreamingState:didChangetoState:">
+      -videoStreamingState:didChangetoState:
+  </h3>
+  
+  <p>Called when the video streaming state of this application changes. This refers to streaming video for navigation purposes. If you are &ldquo;autostreaming&rdquo; via CarWindow, you should not do anything with this method. Everything should be handled for you automatically.</p>
+
+<p>Only supported on RPC v5.0+ connections.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">videoStreamingState</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span><span class="p">)</span><span class="nv">oldState</span>
+           <span class="nf">didChangetoState</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span><span class="p">)</span><span class="nv">newState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">videoStreamingState</span><span class="p">(</span><span class="n">_</span> <span class="nv">oldState</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span><span class="p">?,</span> <span class="n">didChangetoState</span> <span class="nv">newState</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLVideoStreamingState.h@T@SDLVideoStreamingState">SDLVideoStreamingState</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>oldState</dt>
+      <dd><p>The previous state</p></dd>
+      <dt>newState</dt>
+      <dd><p>The current state</p></dd>
   </dl>
   
   <h3 id="section--systemContext:didChangeToContext:">

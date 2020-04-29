@@ -1,4 +1,41 @@
 # Changelog
+## 6.6.0
+### Versions
+### Enhancements
+* The secondary transport now starts only when the app has been brought to HMI Full (https://www.github.com/smartdevicelink/sdl_ios/issues/1145).
+* Added RPC generator script – though it is not currently used (https://www.github.com/smartdevicelink/sdl_ios/issues/1298).
+* Added helpful convenience initializers to `SDLRadioControlData` (https://www.github.com/smartdevicelink/sdl_ios/issues/1206).
+* `SDLSystemCapabilityManager` enhancements and alignment with Java Suite ((https://www.github.com/smartdevicelink/sdl_ios/issues/1535).
+* The `SDLManagerDelegate` now has a `videoStreamingState` callback (https://www.github.com/smartdevicelink/sdl_ios/issues/1546).
+* The secondary transport will no longer be immediately shut down when the app goes to the background (https://www.github.com/smartdevicelink/sdl_ios/issues/1560).
+* Deprecated `SyncPData` and `EncodedSyncPData` RPCs (https://www.github.com/smartdevicelink/sdl_ios/issues/1599).
+* Deprecated `OnLockScreenStatus` and `LockScreenStatus` fake RPCs (https://www.github.com/smartdevicelink/sdl_ios/issues/1601).
+
+### Bug Fixes
+* Fix video streaming timeout when app goes from background to foreground (https://www.github.com/smartdevicelink/sdl_ios/issues/1471).
+* Many lock screen fixes (https://www.github.com/smartdevicelink/sdl_ios/issues/1504, https://www.github.com/smartdevicelink/sdl_ios/issues/1523, https://www.github.com/smartdevicelink/sdl_ios/issues/1545, https://www.github.com/smartdevicelink/sdl_ios/issues/1565).
+* Threading fixes around the response handler map (https://www.github.com/smartdevicelink/sdl_ios/issues/1515).
+* Fixed some warnings emitted from the lock screen storyboard (https://www.github.com/smartdevicelink/sdl_ios/issues/1521).
+* Fix potential race condition in shutting down and starting up `SDLProxy` (https://www.github.com/smartdevicelink/sdl_ios/issues/1532).
+* Fix `SDLTouch` to better handle `NSNull` (https://www.github.com/smartdevicelink/sdl_ios/issues/1534).
+* Fix empty `SetDisplayLayout.displayCapabilities` breaks the screen manager (https://www.github.com/smartdevicelink/sdl_ios/issues/1536).
+* Many secondary transport fixes (https://www.github.com/smartdevicelink/sdl_ios/issues/1551, https://www.github.com/smartdevicelink/sdl_ios/issues/1561).
+* Revert deprecations in RPCs relating to `NSDictionary` (https://www.github.com/smartdevicelink/sdl_ios/issues/1557).
+* Change how the audio pass thru handler is called to allow sending a new one in the response handler (https://www.github.com/smartdevicelink/sdl_ios/issues/1559).
+* Threading fixes around the lifecycle manager `correlationId` (https://www.github.com/smartdevicelink/sdl_ios/issues/1564).
+* Fix `SDLStreamingMediaManager` returning an incorrect value for `isStreamingSupported` (https://www.github.com/smartdevicelink/sdl_ios/issues/1569).
+* Fix using incorrect MTU sizes for non-RPC services (https://www.github.com/smartdevicelink/sdl_ios/issues/1577).
+* Fix IAP crash when the output stream closes (https://www.github.com/smartdevicelink/sdl_ios/issues/1583).
+* Fix potential threading crash in `SDLChoiceSetManager` (https://www.github.com/smartdevicelink/sdl_ios/issues/1584).
+* Adding some documentation (https://www.github.com/smartdevicelink/sdl_ios/issues/1587).
+* Fix a potential race condition crash in the text and graphic manager (https://www.github.com/smartdevicelink/sdl_ios/issues/1595).
+* Fix `SDLImageField` initializer (https://www.github.com/smartdevicelink/sdl_ios/issues/1625).
+
+### Example Apps
+* They now show a warning message if the slider or scrollable message time out (https://www.github.com/smartdevicelink/sdl_ios/issues/1526).
+* Remove example app logic for checking first HMI FULL (https://www.github.com/smartdevicelink/sdl_ios/issues/1554).
+* Example app no longer uses deprecated `SDLConfiguration` (https://www.github.com/smartdevicelink/sdl_ios/issues/1607).
+
 ## 6.5.0 (Since RC 1)
 ### Bug Fixes
 * Update testing dependencies and fix a few tests that fail after updating OCMock to 3.5.0 due to mocks not being used properly in a test (https://www.github.com/smartdevicelink/sdl_ios/issues/1517).

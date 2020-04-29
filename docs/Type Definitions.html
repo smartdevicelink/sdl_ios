@@ -121,6 +121,7 @@
   <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
   <li><a href="#section-SDLUpdateCapabilityHandler">SDLUpdateCapabilityHandler</a></li>
   <li><a href="#section-SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></li>
+  <li><a href="#section-SDLCapabilityUpdateWithErrorHandler">SDLCapabilityUpdateWithErrorHandler</a></li>
   <li><a href="#section-SDLSystemCapabilityType">SDLSystemCapabilityType</a></li>
   <li><a href="#section-SDLSystemContext">SDLSystemContext</a></li>
   <li><a href="#section-SDLTBTState">SDLTBTState</a></li>
@@ -2645,6 +2646,34 @@ c = character <br></p>
   <dl>
       <dt>capability</dt>
       <dd><p>The capability that was updated.</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLCapabilityUpdateWithErrorHandler">
+      SDLCapabilityUpdateWithErrorHandler
+  </h3>
+  
+  <p>An observer block for whenever a subscription or value is retrieved.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLCapabilityUpdateWithErrorHandler</span><span class="p">)(</span>
+    <span class="n"><a href="Classes/SDLSystemCapability.html">SDLSystemCapability</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="n">BOOL</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLCapabilityUpdateWithErrorHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLSystemCapability.html">SDLSystemCapability</a></span><span class="p">?,</span> <span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>capability</dt>
+      <dd><p>The capability that was updated.</p></dd>
+      <dt>subscribed</dt>
+      <dd><p>Whether or not the capability was subscribed or if the capability will only be pulled once.</p></dd>
+      <dt>error</dt>
+      <dd><p>An error that occurred.</p></dd>
   </dl>
   
   <h3 id="section-SDLSystemCapabilityType">
