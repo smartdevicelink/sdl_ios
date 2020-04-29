@@ -714,11 +714,6 @@ describe(@"a response dispatcher", ^{
                 [testDispatcher storeRequest:testPerformAudioPassThru handler:nil];
             });
             
-            it(@"should store the handler" ,^{
-//                expect(testDispatcher.audioPassThruHandler).toNot(beNil());
-//                expect(testDispatcher.audioPassThruHandler).to(equal(testPerformAudioPassThru.audioDataHandler));
-            });
-            
             describe(@"when an on audio data notification arrives", ^{
                 beforeEach(^{
                     SDLOnAudioPassThru *testOnAudioPassThru = [[SDLOnAudioPassThru alloc] init];
@@ -728,21 +723,7 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should run the handler", ^{
-                    expect(@(numTimesHandlerCalled)).to(equal(@1));
-                });
-            });
-            
-            describe(@"when an on audio data response arrives", ^{
-                beforeEach(^{
-                    SDLPerformAudioPassThruResponse *performAudioPassThruResponse = [[SDLPerformAudioPassThruResponse alloc] init];
-                    performAudioPassThruResponse.success = @YES;
-                    
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceivePerformAudioPassThruResponse object:nil rpcResponse:performAudioPassThruResponse];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                });
-                
-                it(@"should clear the handler", ^{
-//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
+                    expect(@(numTimesHandlerCalled)).to(equal(1));
                 });
             });
         });

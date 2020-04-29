@@ -51,9 +51,9 @@ describe(@"Sending sequential requests", ^{
                 testOperation = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                     TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
 
-                    expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
-                    expect(response).toNot(beNil());
-                    expect(error).to(beNil());
+                    expect(progressResponse.percentComplete).toEventually(beCloseTo(percentComplete));
+                    expect(response).toEventuallyNot(beNil());
+                    expect(error).toEventually(beNil());
 
                     [resultResponses addObject:response];
 
