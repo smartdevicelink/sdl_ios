@@ -27,6 +27,8 @@ extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
+extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
+
 
 @interface NSError (SDLErrors)
 
@@ -98,6 +100,10 @@ extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 #pragma mark Cache File Manager
 
 + (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed;
+
+#pragma mark Audio Stream Manager
+
++ (NSError *)sdl_audioStreamManager_notConnected;
 
 @end
 

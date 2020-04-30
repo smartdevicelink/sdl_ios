@@ -9,17 +9,16 @@
 #import "SDLAudioStreamManager.h"
 
 #import "SDLAudioFile.h"
+#import "SDLAudioStreamManagerDelegate.h"
+#import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLManager.h"
 #import "SDLPCMAudioConverter.h"
-#import "SDLAudioStreamManagerDelegate.h"
 #import "SDLStreamingAudioManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
 
 @interface SDLAudioStreamManager ()
 
@@ -126,7 +125,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
 
     if (!self.streamManager.isAudioConnected) {
         if (self.delegate != nil) {
-            NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLAudioStreamManagerErrorNotConnected userInfo:nil];
+            NSError *error = [NSError sdl_audioStreamManager_notConnected];
             [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject.inputFileURL error:error];
         }
         return;

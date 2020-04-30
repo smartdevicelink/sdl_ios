@@ -199,3 +199,11 @@ typedef NS_ENUM(NSInteger, SDLCacheFileManagerError) {
      */
     SDLCacheManagerErrorUpdateIconArchiveFileFailure = -1,
 };
+
+typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
+    /// The audio stream is not currently connected
+    SDLAudioStreamManagerErrorNotConnected = -1,
+
+    /// Attempted to play but there's no audio in the queue
+    SDLAudioStreamManagerErrorNoQueuedAudio = -2
+};
