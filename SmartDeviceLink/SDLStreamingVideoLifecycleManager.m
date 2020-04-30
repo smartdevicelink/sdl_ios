@@ -706,6 +706,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     } else {
         SDLLogW(@"No video is currently streaming. Will not send an end video service request.");
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
     }
 }
 
