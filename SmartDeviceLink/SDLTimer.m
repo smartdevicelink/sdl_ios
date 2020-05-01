@@ -55,11 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithDuration:(float)duration {
+- (instancetype)initWithDuration:(NSTimeInterval)duration {
     return [self initWithDuration:duration repeat:NO];
 }
 
-- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat {
+- (instancetype)initWithDuration:(NSTimeInterval)duration repeat:(BOOL)repeat {
     self = [super init];
     if (self) {
         _duration = duration;
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self stopAndDestroyTimer];
         
         SDLTimerTarget *timerTarget = [[SDLTimerTarget alloc] initWithDelegate:self];
-        self.timer = [NSTimer timerWithTimeInterval:_duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
+        self.timer = [NSTimer timerWithTimeInterval:self.duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         self.timerRunning = YES;
     }

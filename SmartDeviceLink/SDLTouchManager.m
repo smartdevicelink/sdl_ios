@@ -18,6 +18,7 @@
 #import "SDLProxyListener.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLTimer.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
@@ -74,7 +75,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @abstract
  *      Timer used for distinguishing between single & double taps.
  */
-@property (nonatomic, strong, nullable) NSTimer *singleTapTimer;
+@property (nonatomic, strong, nullable) SDLTimer *singleTapTimer;
 
 /*!
  *  @abstract
@@ -447,8 +448,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         [self sdl_cancelSingleTapTimer];
     }
 
-    self.singleTapTimer = [NSTimer timerWithTimeInterval:self.tapTimeThreshold target:self selector:@selector(sdl_singleTapTimerCallback:) userInfo:@{@"point": [NSValue valueWithCGPoint:point]} repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:self.singleTapTimer forMode:NSRunLoopCommonModes];
+    __weak typeof(self) weakSelf = self;
+    self.singleTapTimer = [[SDLTimer alloc] initWithDuration:self.tapTimeThreshold];
+    self.singleTapTimer.elapsedBlock = ^{
+        [weakSelf sdl_singleTapTimerCallbackWithPoint:point];
+    };
+    [self.singleTapTimer start];
 }
 
 /**
@@ -456,10 +461,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
  This is called on the main thread based on `sdl_initializeSingleTapTimerAtPoint:`
 
- @param timer The timer that was fired
+ @param point The point where the tap occurred
  */
-- (void)sdl_singleTapTimerCallback:(NSTimer *)timer {
-    CGPoint point = ((NSValue *)timer.userInfo[@"point"]).CGPointValue;
+- (void)sdl_singleTapTimerCallbackWithPoint:(CGPoint)point {
     self.singleTapTouch = nil;
     [self sdl_cancelSingleTapTimer];
     if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
@@ -476,8 +480,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *
  *  Checks if a single tap is inside a view. As the single tap timer is run on a background thread, the check is done on a main thread and then the result is returned on a background thread.
  *
- *  @param point            Screen coordinates of the tap gesture
- *  @param hitViewHandler   A handler that returns the view the point is inside of; nil if the point does not lie inside of a view
+ *  @param point Screen coordinates of the tap gesture
+ *  @param hitViewHandler A handler that returns the view the point is inside of; nil if the point does not lie inside of a view
  */
 - (void)sdl_getSingleTapHitView:(CGPoint)point hitViewHandler:(nullable void (^)(UIView * __nullable hitView))hitViewHandler {
     if (!self.hitTester) {
@@ -499,7 +503,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    [self.singleTapTimer invalidate];
+    [self.singleTapTimer cancel];
     self.singleTapTimer = nil;
 }
 

@@ -10,11 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) void (^elapsedBlock)(void);
 @property (copy, nonatomic, nullable) void (^canceledBlock)(void);
-@property (assign, nonatomic) float duration;
+@property (assign, nonatomic) NSTimeInterval duration;
 
 - (instancetype)init;
-- (instancetype)initWithDuration:(float)duration;
-- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat;
+- (instancetype)initWithDuration:(NSTimeInterval)duration;
+- (instancetype)initWithDuration:(NSTimeInterval)duration repeat:(BOOL)repeat;
 - (void)start;
 - (void)cancel;
 

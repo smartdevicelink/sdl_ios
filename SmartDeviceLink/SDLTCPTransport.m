@@ -10,6 +10,7 @@
 #import "SDLMutableDataQueue.h"
 #import "SDLError.h"
 #import "SDLLogMacros.h"
+#import "SDLTimer.h"
 #import <errno.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,7 +27,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @property (nullable, nonatomic, strong) NSInputStream *inputStream;
 @property (nullable, nonatomic, strong) NSOutputStream *outputStream;
 @property (nonatomic, assign) BOOL outputStreamHasSpace;
-@property (nullable, nonatomic, strong) NSTimer *connectionTimer;
+@property (nullable, nonatomic, strong) SDLTimer *connectionTimer;
 @property (nonatomic, assign) BOOL transportConnected;
 @property (nonatomic, assign) BOOL transportErrorNotified;
 @end
@@ -126,7 +127,12 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_setupStream:self.outputStream];
 
         // JFYI: NSStream itself has a connection timeout (about 1 minute). If you specify a large timeout value, you may get the NSStream's timeout event first.
-        self.connectionTimer = [NSTimer scheduledTimerWithTimeInterval:ConnectionTimeoutSecs target:self selector:@selector(sdl_onConnectionTimedOut:) userInfo:nil repeats:NO];
+        __weak typeof(self) weakSelf = self;
+        self.connectionTimer = [[SDLTimer alloc] initWithDuration:ConnectionTimeoutSecs];
+        self.connectionTimer.elapsedBlock = ^{
+            [weakSelf sdl_onConnectionTimedOut];
+        };
+        [self.connectionTimer start];
 
         // these will initiate a connection to remote server
         SDLLogD(@"Connecting to %@:%@ ...", self.hostName, self.portNumber);
@@ -145,7 +151,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
 
-        [self sdl_cancelConnectionTimer];
+        [self.connectionTimer cancel];
     }
 }
 
@@ -170,13 +176,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 
-/// Cancels the connection timer for establishing a TCP socket with the accessory.
-- (void)sdl_cancelConnectionTimer {
-    if (self.connectionTimer == nil) { return; }
-    [self.connectionTimer invalidate];
-    self.connectionTimer = nil;
-}
-
 #pragma mark - NSStreamDelegate
 // this method runs only on the I/O thread (i.e. invoked from the run loop)
 
@@ -189,7 +188,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
             // We will get two NSStreamEventOpenCompleted events (for both input and output streams) and we don't need both. Let's use the one of output stream since we need to make sure that output stream is ready before Proxy sending Start Service frame.
             if (aStream == self.outputStream) {
                 SDLLogD(@"TCP transport connected");
-                [self sdl_cancelConnectionTimer];
+                [self.connectionTimer cancel];
                 self.transportConnected = YES;
                 [self.delegate onTransportConnected];
             }
@@ -268,7 +267,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     self.outputStreamHasSpace = NO;
 }
 
-- (void)sdl_onConnectionTimedOut:(NSTimer *)timer {
+- (void)sdl_onConnectionTimedOut {
     NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onConnectionTimedOut is called on a wrong thread!");
 
     SDLLogW(@"TCP connection timed out");
