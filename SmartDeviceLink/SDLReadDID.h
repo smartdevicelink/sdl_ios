@@ -44,8 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Minvalue:0; Maxvalue:65535</li>
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
+ *
+ * Mandatory, contains an integer
  */
-@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *didLocation;
+@property (strong, nonatomic) NSArray<NSNumber *> *didLocation;
 
 @end
 
