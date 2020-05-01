@@ -74,12 +74,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    [self startOnRunLoop:[NSRunLoop mainRunLoop]];
+}
+
+- (void)startOnRunLoop:(NSRunLoop *)runLoop {
     if (self.duration > 0) {
         [self stopAndDestroyTimer];
-        
+
         SDLTimerTarget *timerTarget = [[SDLTimerTarget alloc] initWithDelegate:self];
         self.timer = [NSTimer timerWithTimeInterval:self.duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
-        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
         self.timerRunning = YES;
     }
 }

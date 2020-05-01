@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDuration:(NSTimeInterval)duration;
 - (instancetype)initWithDuration:(NSTimeInterval)duration repeat:(BOOL)repeat;
 - (void)start;
+- (void)startOnRunLoop:(NSRunLoop *)runLoop;
 - (void)cancel;
 
 @end

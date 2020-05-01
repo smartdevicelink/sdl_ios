@@ -132,7 +132,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         self.connectionTimer.elapsedBlock = ^{
             [weakSelf sdl_onConnectionTimedOut];
         };
-        [self.connectionTimer start];
+        [self.connectionTimer startOnRunLoop:[NSRunLoop currentRunLoop]];
 
         // these will initiate a connection to remote server
         SDLLogD(@"Connecting to %@:%@ ...", self.hostName, self.portNumber);
