@@ -69,10 +69,12 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
 
 #pragma mark - SDLManager
 
-+ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
++ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason {
+    NSString *descriptionString = description ?: @"";
+    NSString *reasonString = reason ?: @"";
     NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: description,
-                                                       NSLocalizedFailureReasonErrorKey: reason
+                                                       NSLocalizedDescriptionKey: descriptionString,
+                                                       NSLocalizedFailureReasonErrorKey: reasonString
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
@@ -101,10 +103,12 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
++ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason {
+    NSString *descriptionString = description ?: @"";
+    NSString *reasonString = reason ?: @"";
     NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: description,
-                                                       NSLocalizedFailureReasonErrorKey: reason
+                                                       NSLocalizedDescriptionKey: descriptionString,
+                                                       NSLocalizedFailureReasonErrorKey: reasonString
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
@@ -117,30 +121,36 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
                            userInfo:nil];
 }
 
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info {
++ (NSError *)sdl_lifecycle_startedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info {
+    NSString *resultString = result ?: @"";
+    NSString *infoString = info ?: @"";
     NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: result,
-                                                       NSLocalizedFailureReasonErrorKey: info
+                                                       NSLocalizedDescriptionKey: resultString,
+                                                       NSLocalizedFailureReasonErrorKey: infoString
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_lifecycle_startedWithWarning:(SDLResult)result info:(NSString *)info {
++ (NSError *)sdl_lifecycle_startedWithWarning:(nullable SDLResult)result info:(nullable NSString *)info {
+    NSString *resultString = result ?: @"";
+    NSString *infoString = info ?: @"";
     NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: result,
-                                                       NSLocalizedFailureReasonErrorKey: info
+                                                       NSLocalizedDescriptionKey: resultString,
+                                                       NSLocalizedFailureReasonErrorKey: infoString
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationSuccessWithWarning
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info {
++ (NSError *)sdl_lifecycle_failedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info {
+    NSString *resultString = result ?: @"";
+    NSString *infoString = info ?: @"";
     NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: result,
-                                                       NSLocalizedFailureReasonErrorKey: info
+                                                       NSLocalizedDescriptionKey: resultString,
+                                                       NSLocalizedFailureReasonErrorKey: infoString
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
