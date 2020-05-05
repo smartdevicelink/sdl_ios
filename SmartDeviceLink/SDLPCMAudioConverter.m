@@ -132,7 +132,7 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
         err = ExtAudioFileRead(infile, &numFrames, &fillBufList);
         if (err != noErr) {
             if (*error != nil) {
-                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileRead"}];
             }
             return nil;
         }
@@ -143,7 +143,7 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
         err = ExtAudioFileWrite(outfile, numFrames, &fillBufList);
         if (err != noErr) {
             if (*error != nil) {
-                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileWrite"}];
             }
             return nil;
         }

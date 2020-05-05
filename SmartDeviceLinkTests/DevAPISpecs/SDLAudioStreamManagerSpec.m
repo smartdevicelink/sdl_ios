@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAudioStreamManager.h"
+#import "SDLError.h"
 #import "SDLStreamingAudioManagerMock.h"
 
 QuickSpecBegin(SDLAudioStreamManagerSpec)

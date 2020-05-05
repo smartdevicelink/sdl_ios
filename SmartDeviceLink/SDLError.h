@@ -27,6 +27,8 @@ extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
+extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
+
 
 @interface NSError (SDLErrors)
 
@@ -37,14 +39,14 @@ extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 
 #pragma mark SDLManager
 
-+ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason;
 + (NSError *)sdl_lifecycle_notConnectedError;
 + (NSError *)sdl_lifecycle_notReadyError;
-+ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason;
 + (NSError *)sdl_lifecycle_managersFailedToStart;
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_startedWithWarning:(SDLResult)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithWarning:(nullable SDLResult)result info:(nullable NSString *)info;
++ (NSError *)sdl_lifecycle_failedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info;
 + (NSError *)sdl_lifecycle_multipleRequestsCancelled;
 
 #pragma mark SDLFileManager
@@ -98,6 +100,10 @@ extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 #pragma mark Cache File Manager
 
 + (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed;
+
+#pragma mark Audio Stream Manager
+
++ (NSError *)sdl_audioStreamManager_notConnected;
 
 @end
 
