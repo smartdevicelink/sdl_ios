@@ -704,7 +704,7 @@ describe(@"a response dispatcher", ^{
         __block SDLPerformAudioPassThru *testPerformAudioPassThru = nil;
         __block NSUInteger numTimesHandlerCalled = 0;
         
-        fcontext(@"with a handler", ^{
+        context(@"with a handler", ^{
             beforeEach(^{
                 testPerformAudioPassThru = [[SDLPerformAudioPassThru alloc] initWithSamplingRate:SDLSamplingRate8KHZ bitsPerSample:SDLBitsPerSample8Bit audioType:SDLAudioTypePCM maxDuration:1000 audioDataHandler:^(NSData * _Nullable audioData) {
                     numTimesHandlerCalled++;
