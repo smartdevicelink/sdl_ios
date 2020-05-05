@@ -24,7 +24,7 @@ Constructs a newly allocated SDLButtonPress object with the given parameters
 
 @return An instance of the SDLButtonPress class.
 */
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType __deprecated_msg(("Use initWithButtonName:moduleType:moduleId: instead"));;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType __deprecated_msg(("Use initWithButtonName:moduleType:moduleId:buttonPressMode: instead"));;
 
 /**
 Constructs a newly allocated SDLButtonPress object with the given parameters
@@ -32,10 +32,11 @@ Constructs a newly allocated SDLButtonPress object with the given parameters
 @param buttonName the name of the button
 @param moduleType the module where the button should be pressed
 @param moduleId the id of the module
+@param buttonPressMode indicates LONG or SHORT button press event
 
 @return An instance of the SDLButtonPress class.
 */
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId buttonPressMode:(SDLButtonPressMode)buttonPressMode;
 
 /**
  * The module where the button should be pressed.
