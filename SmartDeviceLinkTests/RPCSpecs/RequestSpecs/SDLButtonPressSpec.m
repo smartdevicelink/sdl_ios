@@ -53,7 +53,25 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
     });
 
-    it(@"Should get correctly using initializer", ^ {
+    it(@"Should get correctly when initialized with initWithButtonName:moduleType:", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate];
+#pragma clang diagnostic pop
+        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
+    });
+
+    it(@"Should get correctly when initialized with initWithButtonName:moduleType:moduleId:", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate moduleId:@"123"];
+#pragma clang diagnostic pop
+        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
+    });
+
+    it(@"Should get correctly when initialized with initWithButtonName:moduleType:moduleId:buttonPressMode:", ^ {
         SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate moduleId:@"123" buttonPressMode:SDLButtonPressModeShort];
 
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
