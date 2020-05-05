@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Optional
  */
-@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageDataResult;
+@property (nullable, strong, nonatomic) NSArray<NSNumber *> *messageDataResult;
 
 @end
 

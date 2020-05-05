@@ -42,11 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
 }
 
-- (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
+- (void)setDidLocation:(NSArray<NSNumber *> *)didLocation {
     [self.parameters sdl_setObject:didLocation forName:SDLRPCParameterNameDIDLocation];
 }
 
-- (NSArray<NSNumber<SDLInt> *> *)didLocation {
+- (NSArray<NSNumber *> *)didLocation {
     NSError *error = nil;
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameDIDLocation ofClass:NSNumber.class error:&error];
 }

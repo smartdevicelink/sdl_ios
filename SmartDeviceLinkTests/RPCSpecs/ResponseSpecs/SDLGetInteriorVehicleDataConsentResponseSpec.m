@@ -19,7 +19,7 @@
 QuickSpecBegin(SDLGetInteriorVehicleDataConsentResponseSpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    __block NSArray<NSNumber<SDLBool> *> *allowed = nil;
+    __block NSArray<NSNumber *> *allowed = nil;
     
     beforeEach(^{
         allowed = @[@YES, @NO];
