@@ -69,6 +69,7 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic pop
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
+        expect(testRequest.moduleId).to(equal(@"123"));
     });
 
     it(@"Should get correctly when initialized with initWithButtonName:moduleType:moduleId:buttonPressMode:", ^ {
