@@ -189,6 +189,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
     }
 
+    [self.focusableItemManager start];
+
     // attempt to start streaming since we may already have necessary conditions met
     [self sdl_startVideoSession];
 }
@@ -204,6 +206,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     _protocol = nil;
     [self.videoScaleManager stop];
+    [self.focusableItemManager stop];
     _connectedVehicleMake = nil;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

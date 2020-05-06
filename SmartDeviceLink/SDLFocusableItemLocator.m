@@ -47,9 +47,17 @@ NS_ASSUME_NONNULL_BEGIN
     _focusableViews = [NSMutableArray array];
 
     _enableHapticDataRequests = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
 
     return self;
+}
+
+- (void)start {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
+}
+
+- (void)stop {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.focusableViews removeAllObjects];
 }
 
 - (void)updateInterfaceLayout {
