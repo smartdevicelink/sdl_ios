@@ -52,10 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    SDLLogD(@"Starting");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
 }
 
 - (void)stop {
+    SDLLogD(@"Stopping");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.focusableViews removeAllObjects];
 }
@@ -71,7 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
             [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
         }
 
+        SDLLogD(@"Updated VC layout, sending new haptic rects");
+        SDLLogV(@"For focusable views: %@", self.focusableViews);
         [self sdl_sendHapticRPC];
+    } else {
+        SDLLogE(@"Attempted to update user interface layout, but it only works on iOS 9.0+");
     }
 }
 
@@ -86,10 +92,14 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    SDLLogD(@"Parsing UIView heirarchy");
+    SDLLogV(@"UIView: %@", currentView);
     if (@available(iOS 9.0, *)) {
+        // Finding focusable subviews
         NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
             return (evaluatedObject.canBecomeFocused || [evaluatedObject isKindOfClass:[UIButton class]]);
         }]];
+        SDLLogV(@"Found focusable subviews: %@", focusableSubviews);
 
         BOOL isButton = [currentView isKindOfClass:[UIButton class]];
         if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
@@ -137,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLLogV(@"Sending haptic data: %@", hapticRects);
-    SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
+    SDLSendHapticData *hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
@@ -159,6 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
+    SDLLogD(@"Found a focusable view: %@, for point: %@", selectedView, NSStringFromCGPoint(point));
     return selectedView;
 }
 
