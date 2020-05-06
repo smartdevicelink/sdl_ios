@@ -2,6 +2,7 @@
 //  SDLTimer.m
 //
 
+#import "SDLLogMacros.h"
 #import "SDLTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,18 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSTimer *timer;
 @property (assign, nonatomic) BOOL timerRunning;
 @property (assign, nonatomic) BOOL repeat;
+
 @end
 
 
 @implementation SDLTimer
-
-- (instancetype)init {
-    if (self = [super init]) {
-        _duration = 0;
-        _timerRunning = NO;
-    }
-    return self;
-}
 
 - (instancetype)initWithDuration:(NSTimeInterval)duration {
     return [self initWithDuration:duration repeat:NO];
@@ -61,11 +55,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDuration:(NSTimeInterval)duration repeat:(BOOL)repeat {
     self = [super init];
-    if (self) {
-        _duration = duration;
-        _repeat = repeat;
-        _timerRunning = NO;
-    }
+    if (!self) { return nil; }
+
+    NSAssert(duration > 0, @"Cannot create a timer with a 0 duration");
+
+    _duration = duration;
+    _repeat = repeat;
+    _timerRunning = NO;
+
     return self;
 }
 
