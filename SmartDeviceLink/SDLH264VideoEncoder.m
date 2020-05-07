@@ -105,7 +105,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     }
 
     // background
-    backgroundStatus = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
+    backgroundStatus = VTSessionCopySupportedPropertyDictionary(self.backgroundFrameSession, &supportedProperties);
     if (backgroundStatus != noErr) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(backgroundStatus), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
