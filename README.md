@@ -160,3 +160,21 @@ xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -s
 ```
 
 You can optionally pipe the result to [xcpretty](https://github.com/supermarin/xcpretty).
+
+#### Lock Screen Screenshot Tests
+We run some additional tests using [FBSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 / iPhone XR simulator. If you run unit tests against those simulators, the tests should pass.
+
+##### Re-Generating Lock Screen Screenshots
+If you need to change which simulator is used to generate the screenshots, or if you need to re-generate the screenshots for another reason, you can. Go to `SDLLockScreenViewControllerSnapshotTests.m` and take the following steps:
+
+1. Uncomment the following line:
+
+```objc
+//    self.recordMode = YES;
+```
+
+2. Run unit tests on the simulator that you want to use to generate the screenshots. Tests should fail because record mode is on.
+
+3. Re-comment out the line.
+
+4. Run unit tests again; they should pass this time.
