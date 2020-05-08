@@ -2,6 +2,7 @@
 //  SDLTimer.m
 //
 
+#import "SDLLogMacros.h"
 #import "SDLTimer.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,30 +43,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSTimer *timer;
 @property (assign, nonatomic) BOOL timerRunning;
 @property (assign, nonatomic) BOOL repeat;
+
 @end
 
 
 @implementation SDLTimer
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _duration = 0;
-        _timerRunning = NO;
-    }
-    return self;
-}
-
-- (instancetype)initWithDuration:(float)duration {
+- (instancetype)initWithDuration:(NSTimeInterval)duration {
     return [self initWithDuration:duration repeat:NO];
 }
 
-- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat {
+- (instancetype)initWithDuration:(NSTimeInterval)duration repeat:(BOOL)repeat {
     self = [super init];
-    if (self) {
-        _duration = duration;
-        _repeat = repeat;
-        _timerRunning = NO;
-    }
+    if (!self) { return nil; }
+
+    NSAssert(duration > 0, @"Cannot create a timer with a 0 duration");
+
+    _duration = duration;
+    _repeat = repeat;
+    _timerRunning = NO;
+
     return self;
 }
 
@@ -74,12 +71,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    [self startOnRunLoop:[NSRunLoop mainRunLoop]];
+}
+
+- (void)startOnRunLoop:(NSRunLoop *)runLoop {
     if (self.duration > 0) {
         [self stopAndDestroyTimer];
-        
+
         SDLTimerTarget *timerTarget = [[SDLTimerTarget alloc] initWithDelegate:self];
-        self.timer = [NSTimer timerWithTimeInterval:_duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
-        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        self.timer = [NSTimer timerWithTimeInterval:self.duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
+        [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
         self.timerRunning = YES;
     }
 }
