@@ -521,6 +521,7 @@ describe(@"the secondary transport manager ", ^{
                 testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLTCPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
+                testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
 
                 dispatch_sync(testStateMachineQueue, ^{
                     [manager startWithPrimaryProtocol:testPrimaryProtocol];
@@ -537,6 +538,7 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should stay in state Configured", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
                     expect(manager.currentHMILevel).to(beNil());
+                    expect(manager.secondaryProtocol.securityManager).to(beNil());
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -550,6 +552,7 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should transition to Connecting state", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
                     expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
+                    expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -601,6 +604,7 @@ describe(@"the secondary transport manager ", ^{
                     testTransportEventUpdatePayload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithTcpIpAddress:testTcpIpAddress tcpPort:testTcpPort];
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
 
+                    testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
                     [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
@@ -610,6 +614,7 @@ describe(@"the secondary transport manager ", ^{
                     it(@"should stay in Configured state", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
                         expect(manager.currentHMILevel).to(beNil());
+                        expect(manager.secondaryProtocol.securityManager).to(beNil());
 
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
@@ -623,6 +628,7 @@ describe(@"the secondary transport manager ", ^{
                     it(@"should transition to Connecting", ^{
                         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
                         expect(manager.currentHMILevel).to(equal(SDLHMILevelFull));
+                        expect(manager.secondaryProtocol.securityManager).to(equal(testPrimaryProtocol.securityManager));
 
                         OCMVerifyAll(testStreamingProtocolDelegate);
                     });
