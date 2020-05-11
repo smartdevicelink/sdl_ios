@@ -470,6 +470,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             }
 
             self.backgroundingPixelBuffer = backgroundingPixelBuffer;
+            [self sdl_sendBackgroundFrames];
         }
         self.lastPresentationTimestamp = kCMTimeInvalid;
     }

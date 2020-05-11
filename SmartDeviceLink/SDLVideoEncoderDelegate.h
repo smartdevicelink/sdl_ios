@@ -14,7 +14,6 @@
 
 - (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
 
-@optional
 - (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFramesToBeSaved:(NSArray *)encodedVideoFrames;
 
 @end

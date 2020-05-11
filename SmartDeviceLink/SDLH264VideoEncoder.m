@@ -187,7 +187,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 - (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer {
     return [self encodeSavedFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
-
 }
 
 - (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
