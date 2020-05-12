@@ -22,7 +22,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @interface SDLH264VideoEncoder ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
-@property (assign, nonatomic, nullable) VTCompressionSessionRef backgroundFrameSession;
 @property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 @property (assign, nonatomic) double timestampOffset;
@@ -58,24 +57,11 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     }
     
     _compressionSession = NULL;
-    _backgroundFrameSession = NULL;
     _currentFrameNumber = 0;
     _videoEncoderSettings = properties;
     _dimensions = dimensions;
     
     _delegate = delegate;
-
-    OSStatus backgroundStatus;
-
-    backgroundStatus = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_backgroundVideoEncoderOutputCallback, (__bridge void *)self, &_backgroundFrameSession);
-    if (backgroundStatus != noErr) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus":@(backgroundStatus), NSLocalizedDescriptionKey:@"Compression session could not be created"}];
-        }
-
-        return nil;
-    }
-
     
     OSStatus status;
     
@@ -103,16 +89,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         
         return nil;
     }
-
-    // background
-    backgroundStatus = VTSessionCopySupportedPropertyDictionary(self.backgroundFrameSession, &supportedProperties);
-    if (backgroundStatus != noErr) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(backgroundStatus), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
-        }
-
-        return nil;
-    }
     
     NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
     for (NSString *key in videoEncoderKeys) {
@@ -125,19 +101,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         }
     }
     CFRelease(supportedProperties);
-
-    // background
-    for (NSString *key in videoEncoderKeys) {
-        id value = self.videoEncoderSettings[key];
-
-        backgroundStatus = VTSessionSetProperty(self.backgroundFrameSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
-        if (backgroundStatus != noErr) {
-            if (error != NULL) {
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(backgroundStatus), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Setting key failed \"%@\"", key]}];
-            }
-            return nil;
-        }
-    }
     
     // Populate the video encoder settings from provided dictionary.
     for (NSString *key in videoEncoderKeys) {
@@ -177,19 +140,13 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         CFRelease(self.compressionSession);
         self.compressionSession = NULL;
     }
-
-    if (self.backgroundFrameSession != NULL) {
-        VTCompressionSessionInvalidate(self.backgroundFrameSession);
-        CFRelease(self.backgroundFrameSession);
-        self.backgroundFrameSession = NULL;
-    }
 }
 
-- (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer {
-    return [self encodeSavedFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
+- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer {
+    [self encodeSavedFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
 }
 
-- (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
+- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
     if (!CMTIME_IS_VALID(presentationTimestamp)) {
         int32_t timeRate = 30;
         if (self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] != nil) {
@@ -200,9 +157,35 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     }
     self.currentFrameNumber++;
 
-    OSStatus status = VTCompressionSessionEncodeFrame(_backgroundFrameSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
+    VTCompressionSessionEncodeFrameWithOutputHandler(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, NULL, ^(OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef  _Nullable sampleBuffer) {
+        if (status != noErr) {
+            SDLLogW(@"Error encoding video frame: %d", (int)status);
+            return;
+        }
 
-    return (status == noErr);
+        if (sampleBuffer == NULL) {
+            return;
+        }
+
+        NSArray *nalUnits = [self.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
+
+        const CMTime presentationTimestampInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+        double presentationTimestamp = 0.0;
+        if (CMTIME_IS_VALID(presentationTimestampInCMTime)) {
+            presentationTimestamp = CMTimeGetSeconds(presentationTimestampInCMTime);
+        }
+        if (self.timestampOffset == 0.0) {
+            // remember this first timestamp as the offset
+            self.timestampOffset = presentationTimestamp;
+        }
+
+        NSArray *packets = [self.packetizer createPackets:nalUnits
+                                       presentationTimestamp:(presentationTimestamp - self.timestampOffset)];
+
+        if ([self.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFramesToBeSaved:)]) {
+            [self.delegate videoEncoder:self hasEncodedFramesToBeSaved:packets];
+        }
+    });
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
@@ -260,38 +243,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 #pragma mark - Private
 #pragma mark Callback
-
-void sdl_backgroundVideoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
-    // If there was an error in the encoding, drop the frame
-    if (status != noErr) {
-        SDLLogW(@"Error encoding video frame: %d", (int)status);
-        return;
-    }
-
-    if (outputCallbackRefCon == NULL || sourceFrameRefCon == NULL || sampleBuffer == NULL) {
-        return;
-    }
-
-    SDLH264VideoEncoder *encoder = (__bridge SDLH264VideoEncoder *)sourceFrameRefCon;
-    NSArray *nalUnits = [encoder.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
-
-    const CMTime presentationTimestampInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    double presentationTimestamp = 0.0;
-    if (CMTIME_IS_VALID(presentationTimestampInCMTime)) {
-        presentationTimestamp = CMTimeGetSeconds(presentationTimestampInCMTime);
-    }
-    if (encoder.timestampOffset == 0.0) {
-        // remember this first timestamp as the offset
-        encoder.timestampOffset = presentationTimestamp;
-    }
-
-    NSArray *packets = [encoder.packetizer createPackets:nalUnits
-                                   presentationTimestamp:(presentationTimestamp - encoder.timestampOffset)];
-
-    if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFramesToBeSaved:)]) {
-        [encoder.delegate videoEncoder:encoder hasEncodedFramesToBeSaved:packets];
-    }
-}
 
 /// Callback function that VideoToolbox calls when encoding is complete.
 /// @param outputCallbackRefCon The callback's reference value

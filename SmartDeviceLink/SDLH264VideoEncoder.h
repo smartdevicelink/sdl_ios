@@ -66,9 +66,9 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
-- (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer;
+- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer;
 
-- (BOOL)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
+- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
 /**
  *  Creates a new pixel buffer using the pixelBufferPool property.
