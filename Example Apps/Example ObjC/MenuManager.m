@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray *submenuItems = [[NSMutableArray alloc] init];
     NSArray<NSString *> *allVehicleDataTypes = [self sdlex_allVehicleDataTypes];
     for (NSString *vehicleDataType in allVehicleDataTypes) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameSettings] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
             [VehicleDataManager getAllVehicleDataWithManager:manager triggerSource:triggerSource vehicleDataType:vehicleDataType];
         }];
         [submenuItems addObject:cell];
