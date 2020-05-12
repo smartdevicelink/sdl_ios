@@ -158,7 +158,11 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     self.currentFrameNumber++;
 
     OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
-    VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
+
+    if (status == kVTInvalidSessionErr) {
+        VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
+        [self sdl_resetCompressionSession];
+    }
 
     return (status == noErr);
 }
