@@ -81,8 +81,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic, readwrite, getter=isVideoEncrypted) BOOL videoEncrypted;
 
-@property (nonatomic, copy) NSArray *savedBackgroundFrames;
-
 /**
  * SSRC of RTP header field.
  *
@@ -303,9 +301,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     if (_showVideoBackgroundDisplay) {
-        for (NSData *packet in _savedBackgroundFrames) {
-            [self.videoEncoder.delegate videoEncoder:self.videoEncoder hasEncodedFrame:packet];
-        }
+        [self sdl_sendBackgroundFrames];
     }
     [self.touchManager cancelPendingTouches];
 
@@ -470,7 +466,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             }
 
             self.backgroundingPixelBuffer = backgroundingPixelBuffer;
-            [self sdl_sendBackgroundFrames];
         }
         self.lastPresentationTimestamp = kCMTimeInvalid;
     }
@@ -671,10 +666,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFramesToBeSaved:(NSArray *)encodedVideoFrames {
-    _savedBackgroundFrames = encodedVideoFrames;
-}
-
 #pragma mark - Streaming session helpers
 
 - (void)sdl_startVideoSession {
@@ -746,9 +737,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     for (int frameCount = 0; frameCount < FramesToSendOnBackground; frameCount++) {
         if (CMTIME_IS_VALID(self.lastPresentationTimestamp)) {
             self.lastPresentationTimestamp = CMTimeAdd(self.lastPresentationTimestamp, interval);
-            [self.videoEncoder encodeSavedFrame:self.backgroundingPixelBuffer presentationTimestamp:self.lastPresentationTimestamp];
+            [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer presentationTimestamp:self.lastPresentationTimestamp];
         } else {
-            [self.videoEncoder encodeSavedFrame:self.backgroundingPixelBuffer];
+            [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
         }
     }
 }

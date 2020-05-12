@@ -142,52 +142,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     }
 }
 
-- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer {
-    [self encodeSavedFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
-}
-
-- (void)encodeSavedFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
-    if (!CMTIME_IS_VALID(presentationTimestamp)) {
-        int32_t timeRate = 30;
-        if (self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] != nil) {
-            timeRate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).intValue;
-        }
-
-        presentationTimestamp = CMTimeMake((int64_t)self.currentFrameNumber, timeRate);
-    }
-    self.currentFrameNumber++;
-
-    VTCompressionSessionEncodeFrameWithOutputHandler(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, NULL, ^(OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef  _Nullable sampleBuffer) {
-        if (status != noErr) {
-            SDLLogW(@"Error encoding video frame: %d", (int)status);
-            return;
-        }
-
-        if (sampleBuffer == NULL) {
-            return;
-        }
-
-        NSArray *nalUnits = [self.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
-
-        const CMTime presentationTimestampInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-        double presentationTimestamp = 0.0;
-        if (CMTIME_IS_VALID(presentationTimestampInCMTime)) {
-            presentationTimestamp = CMTimeGetSeconds(presentationTimestampInCMTime);
-        }
-        if (self.timestampOffset == 0.0) {
-            // remember this first timestamp as the offset
-            self.timestampOffset = presentationTimestamp;
-        }
-
-        NSArray *packets = [self.packetizer createPackets:nalUnits
-                                       presentationTimestamp:(presentationTimestamp - self.timestampOffset)];
-
-        if ([self.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFramesToBeSaved:)]) {
-            [self.delegate videoEncoder:self hasEncodedFramesToBeSaved:packets];
-        }
-    });
-}
-
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
     return [self encodeFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
 }
@@ -204,6 +158,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     self.currentFrameNumber++;
 
     OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
+    VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
 
     return (status == noErr);
 }
