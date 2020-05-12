@@ -212,10 +212,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
-- (void)endVideoServiceWithCompletionHandler:(void (^)(void))completionHandler {
+- (void)stopVideoStreaming {
+    SDLLogD(@"Stopping video");
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+}
+
+- (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler {
     SDLLogD(@"Ending video service");
     [self sdl_disposeDisplayLink];
-    self.videoServiceEndedCompletionHandler = completionHandler;
+    self.videoServiceEndedCompletionHandler = videoEndedCompletionHandler;
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 

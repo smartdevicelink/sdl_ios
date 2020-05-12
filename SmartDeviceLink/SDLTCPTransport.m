@@ -30,6 +30,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @property (nullable, nonatomic, strong) SDLTimer *connectionTimer;
 @property (nonatomic, assign) BOOL transportConnected;
 @property (nonatomic, assign) BOOL transportErrorNotified;
+@property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 @end
 
 @implementation SDLTCPTransport
@@ -95,17 +96,18 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self.ioThread start];
 }
 
-- (void)disconnect {
-    if (self.ioThread == nil) {
-        SDLLogV(@"TCP transport thread already disconnected");
-        return;
-    }
-
+- (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    self.disconnectCompletionHandler = disconnectCompletionHandler;
     SDLLogD(@"Disconnecting");
 
     [self.sendDataQueue removeAllObjects];
     self.transportErrorNotified = NO;
     self.transportConnected = NO;
+
+    if (self.ioThread == nil || self.ioThread.isCancelled) {
+        SDLLogV(@"TCP transport thread already cancelled");
+        return disconnectCompletionHandler();
+    }
 
     // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams.
     [self sdl_cancelIOThread];
@@ -152,6 +154,10 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_teardownStream:self.outputStream];
 
         [self.connectionTimer cancel];
+
+        if (self.disconnectCompletionHandler != nil) {
+            self.disconnectCompletionHandler();
+        }
     }
 }
 

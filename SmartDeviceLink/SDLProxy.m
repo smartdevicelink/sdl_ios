@@ -182,13 +182,14 @@ static float DefaultConnectionTimeout = 45.0;
         [self.protocol.securityManager stop];
     }
 
+    __weak typeof(self) weakSelf = self;
     if (self.transport != nil) {
-        [self.transport disconnect];
+        [self.transport disconnectWithCompletionHandler:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
+            [strongSelf.urlSession invalidateAndCancel];
+        }];
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [_urlSession invalidateAndCancel];
 }
 
 - (void)dealloc {

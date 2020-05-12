@@ -50,7 +50,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 - (void)stop;
 
 /// Destroys the secondary transport.
-- (BOOL)disconnectSecondaryTransport;
+- (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler;
 
 @end
 

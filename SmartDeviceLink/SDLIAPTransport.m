@@ -181,8 +181,12 @@ int const CreateSessionRetries = 3;
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
-    [self disconnect];
-    [self.delegate onTransportDisconnected];
+    __weak typeof(self) weakSelf = self;
+    [self disconnectWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.delegate onTransportDisconnected];
+    }];
+
 }
 
 #pragma mark - Stream Lifecycle
@@ -212,7 +216,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Cleans up after a disconnected accessory by closing any open I/O streams.
  */
-- (void)disconnect {
+- (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
     [self sdl_stopEventListening];
 
@@ -222,6 +226,9 @@ int const CreateSessionRetries = 3;
 
     [self.controlSession destroySession];
     [self.dataSession destroySession];
+
+    // FIXME - `dataSession destroySession` needs a handler
+    return disconnectCompletionHandler();
 }
 
 
@@ -524,12 +531,13 @@ int const CreateSessionRetries = 3;
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPTransport dealloc");
-    [self disconnect];
-    self.controlSession = nil;
-    self.dataSession = nil;
-    self.delegate = nil;
-    self.sessionSetupInProgress = NO;
-    self.accessoryConnectDuringActiveSession = NO;
+    [self disconnectWithCompletionHandler:^{
+        self.controlSession = nil;
+        self.dataSession = nil;
+        self.delegate = nil;
+        self.sessionSetupInProgress = NO;
+        self.accessoryConnectDuringActiveSession = NO;
+    }];
 }
 
 @end

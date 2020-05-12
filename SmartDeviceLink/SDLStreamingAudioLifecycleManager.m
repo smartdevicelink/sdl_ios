@@ -108,6 +108,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
+- (void)stopAudioStreaming {
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
+}
+
 - (void)endAudioServiceWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Ending audio service");
     self.audioServiceEndedCompletionHandler = completionHandler;

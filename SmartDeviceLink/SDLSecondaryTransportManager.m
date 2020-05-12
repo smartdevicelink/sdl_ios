@@ -280,6 +280,8 @@ struct TransportProtocolUpdated {
          || self.secondaryTransportType == SDLSecondaryTransportTypeIAP)
         && self.sdl_isHMILevelNonNone) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+    } else {
+        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state. Transport type: %ld, isTCPReady: %d, is hmi level non-NONE %d", (long)self.secondaryTransportType, self.sdl_isTCPReady, self.sdl_isHMILevelNonNone);
     }
 }
 
@@ -305,16 +307,17 @@ struct TransportProtocolUpdated {
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
-    SDLLogD(@"Manger is closing transport but will try to reconnect if configured correctly. Stopping services on secondary transport");
-    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
+    //SDLLogD(@"Manger is closing transport but will try to reconnect if configured correctly. Stopping services on secondary transport");
+    //[self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
+
 }
 
 - (void)didEnterStateReconnecting {
-    SDLLogD(@"Secondary transport is reconnecting");
+    SDLLogD(@"The secondary transport manager will try another connection attempt in %f seconds", RetryConnectionDelay);
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
-            SDLLogD(@"Attempting reconnection");
+            SDLLogD(@"Attempting to establish a connection");
             [weakSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
         }
     });
@@ -427,20 +430,24 @@ struct TransportProtocolUpdated {
     }
 }
 
-- (BOOL)disconnectSecondaryTransport {
+- (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler {
     if (self.secondaryTransport == nil) {
         SDLLogW(@"Attempted to disconnect secondary transport but it's already stopped.");
-        return NO;
+        return completionHandler();
     }
 
-    SDLLogD(@"Disconnecting secondary transport");
-    [self.secondaryTransport disconnect];
-    self.secondaryTransport = nil;
-    self.secondaryProtocol = nil;
+    __weak typeof(self) weakSelf = self;
+    [self.secondaryTransport disconnectWithCompletionHandler:^{
+        SDLLogD(@"Disconnecting secondary transport manager");
 
-    [self.backgroundTaskManager endBackgroundTask];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.secondaryTransport = nil;
+        strongSelf.secondaryProtocol = nil;
+        [strongSelf.streamingServiceTransportMap removeAllObjects];
 
-    return YES;
+        [strongSelf.backgroundTaskManager endBackgroundTask];
+        return completionHandler();
+    }];
 }
 
 - (BOOL)sdl_startTCPSecondaryTransport {
@@ -565,22 +572,55 @@ struct TransportProtocolUpdated {
     [self.secondaryProtocol registerSecondaryTransport];
 }
 
+/// Called on the transport's thread, notifying that the transport has errored before a connection was established
+/// @param error The error
 - (void)onTransportError:(NSError *)error {
-    SDLLogE(@"The transport errored. Disconnecting the transport");
-    [self disconnectSecondaryTransport];
-}
-
-// called on transport's thread, notifying that the transport is disconnected
-// (Note: when transport's disconnect method is called, this method will not be called)
-- (void)onProtocolClosed {
-    SDLLogD(@"secondary transport disconnected");
-
     dispatch_async(self.stateMachineQueue, ^{
         if ([self sdl_isTransportOpened]) {
+            SDLLogE(@"The secondary transport errored. Attempting to reconnect the secondary transport");
+            if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
+                 [self.streamingProtocolDelegate didDestroyOldVideoProtocol:self.secondaryProtocol oldAudioProtocol:self.secondaryProtocol];
+            }
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
+        } else {
+            SDLLogE(@"The secondary transport errored. Will not attempt to reconnect the secondary transport.");
         }
     });
 }
+
+// Called on transport's thread, notifying that the transport is disconnected
+// (Note: when transport's disconnect method is called, this method will not be called)
+- (void)onProtocolClosed {
+    dispatch_async(self.stateMachineQueue, ^{
+        if ([self sdl_isTransportOpened]) {
+            SDLLogD(@"Secondary transport disconnected. No point in sending video and audio end services");
+            // FIXME: - Not sure if we can default to using the secondary protocol
+            if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
+                 [self.streamingProtocolDelegate didDestroyOldVideoProtocol:self.secondaryProtocol oldAudioProtocol:self.secondaryProtocol];
+            }
+            [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
+        } else {
+            SDLLogD(@"Secondary transport disconnected. Will not attempt to reconnect the secondary transport");
+        }
+    });
+}
+
+//- (void)onTransportError:(NSError *)error {
+//    SDLLogE(@"The transport errored. Disconnecting the transport");
+//    [self disconnectSecondaryTransport];
+//}
+//
+//// called on transport's thread, notifying that the transport is disconnected
+//// (Note: when transport's disconnect method is called, this method will not be called)
+//- (void)onProtocolClosed {
+//    SDLLogD(@"secondary transport disconnected");
+//
+//    dispatch_async(self.stateMachineQueue, ^{
+//        if ([self sdl_isTransportOpened]) {
+//            [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
+//        }
+//    });
+//}
 
 // called from SDLProtocol's _receiveQueue of secondary transport
 - (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
@@ -597,6 +637,9 @@ struct TransportProtocolUpdated {
     SDLLogW(@"Received Register Secondary Transport NAK frame");
 
     dispatch_async(self.stateMachineQueue, ^{
+        if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered]) {
+            [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
+        }
         [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
     });
 }

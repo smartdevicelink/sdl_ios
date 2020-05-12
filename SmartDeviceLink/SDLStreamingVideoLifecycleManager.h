@@ -157,6 +157,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
 - (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler;
 
+- (void)stopVideoStreaming;
+
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *

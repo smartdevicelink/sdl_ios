@@ -79,6 +79,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 - (void)endAudioServiceWithCompletionHandler:(void (^)(void))audioEndedCompletionHandler;
 
+- (void)stopAudioStreaming;
+
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
