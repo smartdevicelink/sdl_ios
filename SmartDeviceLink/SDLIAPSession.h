@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Stops the current session.
  */
-- (void)destroySession;
+- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler;
 
 /**
  *  Creates a session with the accessory.
