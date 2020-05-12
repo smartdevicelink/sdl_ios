@@ -58,9 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (![super createSession]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
-            [self destroySession];
-            if (self.delegate == nil) { return; }
-            [self.delegate dataSessionShouldRetry];
+            __weak typeof(self) weakself = self;
+            [self destroySessionWithCompletionHandler:^{
+                __strong typeof(weakself) strongSelf = weakself;
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate dataSessionShouldRetry];
+            }];
         }
 
         if (self.eaSession != nil) {
@@ -73,21 +76,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Stop
 
-- (void)destroySession {
+- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
-    [self sdl_destroySession];
-    [self.sendDataQueue removeAllObjects];
+    __weak typeof(self) weakself = self;
+    [self sdl_destroySessionWithCompletionHandler:^{
+        __strong typeof(weakself) strongSelf = weakself;
+        [strongSelf.sendDataQueue removeAllObjects];
+    }];
 }
 
 /**
  *  Makes sure the session is closed and destroyed on the main thread.
  */
-- (void)sdl_destroySession {
+- (void)sdl_destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     if ([NSThread isMainThread]) {
-        [self sdl_stopAndDestroySession];
+        [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
     } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySession];
+            [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
         });
     }
 }
@@ -95,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Waits for the session streams to close on the I/O Thread and then destroys the session.
  */
-- (void)sdl_stopAndDestroySession {
+- (void)sdl_stopAndDestroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.ioStreamThread == nil) {
@@ -256,10 +262,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self destroySession];
-
-        if (self.delegate == nil) { return; }
-        [self.delegate dataSessionShouldRetry];
+        __weak typeof(self) weakself = self;
+        [self destroySessionWithCompletionHandler:^{
+            __strong typeof(weakself) strongSelf = weakself;
+            if (strongSelf.delegate == nil) { return; }
+            [strongSelf.delegate dataSessionShouldRetry];
+        }];
     });
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
@@ -308,11 +316,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self destroySession];
-        if (![self.protocolString isEqualToString:LegacyProtocolString]) {
-            if (self.delegate == nil) { return; }
-            [self.delegate dataSessionShouldRetry];
-        }
+        __weak typeof(self) weakself = self;
+        [self destroySessionWithCompletionHandler:^{
+            __strong typeof(weakself) strongSelf = weakself;
+            if (![strongSelf.protocolString isEqualToString:LegacyProtocolString]) {
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate dataSessionShouldRetry];
+            }
+        }];
     });
 }
 
@@ -371,7 +382,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPDataSession dealloc");
-    [self destroySession];
+//    [self destroySessionWithCompletionHandler:^{
+//        // Do nothing
+//    }];
 }
 
 @end
