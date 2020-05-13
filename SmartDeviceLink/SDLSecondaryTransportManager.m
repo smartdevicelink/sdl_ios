@@ -113,6 +113,8 @@ struct TransportProtocolUpdated {
 /// A background task used to close the secondary transport before the app is suspended.
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
+@property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
+
 @end
 
 @implementation SDLSecondaryTransportManager
@@ -166,7 +168,7 @@ struct TransportProtocolUpdated {
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
 }
 
-- (void)stop {
+- (void)stopWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Stopping manager");
 
     // this method must be called in SDLLifecycleManager's state machine queue
@@ -178,32 +180,15 @@ struct TransportProtocolUpdated {
     SDLLogD(@"Stopping audio / video services on both transports");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
 
+    if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateStopped]) {
+        return completionHandler();
+    }
+
+    self.disconnectCompletionHandler = completionHandler;
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
 }
 
 #pragma mark - Manager Lifecycle
-
-- (void)sdl_startManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
-}
-
-- (void)sdl_stopManager {
-    SDLLogD(@"SDLSecondaryTransportManager stop");
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-
-    self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
-                                @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
-    self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    self.transportsForAudioService = @[];
-    self.transportsForVideoService = @[];
-
-    self.ipAddress = nil;
-    self.tcpPort = TCPPortUnspecified;
-    self.currentHMILevel = nil;
-}
 
 - (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)availableSecondaryTransports
           availableTransportsForAudio:(nullable NSArray<SDLTransportClassBox *> *)availableTransportsForAudio
@@ -264,12 +249,30 @@ struct TransportProtocolUpdated {
 
 - (void)didEnterStateStopped {
     SDLLogD(@"Secondary transport manager stopped");
-    [self sdl_stopManager];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+
+    self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
+                                @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
+    self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
+    self.transportsForAudioService = @[];
+    self.transportsForVideoService = @[];
+
+    self.ipAddress = nil;
+    self.tcpPort = TCPPortUnspecified;
+    self.currentHMILevel = nil;
+
+    if (self.disconnectCompletionHandler != nil) {
+        self.disconnectCompletionHandler();
+        self.disconnectCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateStarted {
     SDLLogD(@"Secondary transport manager started");
-    [self sdl_startManager];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)didEnterStateConfigured {

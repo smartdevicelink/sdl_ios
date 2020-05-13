@@ -270,7 +270,33 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
-    [self.proxy disconnectSession];
+    dispatch_group_t stopManagersTask = dispatch_group_create();
+    dispatch_group_enter(stopManagersTask);
+
+    if (self.proxy != nil) {
+        dispatch_group_enter(stopManagersTask);
+        [self.proxy disconnectSessionWithCompletionHandler:^{
+            dispatch_group_leave(stopManagersTask);
+        }];
+    }
+    if (self.secondaryTransportManager != nil) {
+        dispatch_group_enter(stopManagersTask);
+        [self.secondaryTransportManager stopWithCompletionHandler:^{
+            dispatch_group_leave(stopManagersTask);
+        }];
+    }
+
+    dispatch_group_leave(stopManagersTask);
+
+    // This will always run
+    __weak typeof(self) weakSelf = self;
+    dispatch_group_notify(stopManagersTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf sdl_continueShutdown:shouldRestart];
+    });
+}
+
+- (void)sdl_continueShutdown:(BOOL)shouldRestart {
     self.proxy = nil;
 
     [self.fileManager stop];
@@ -279,7 +305,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.screenManager stop];
     [self.encryptionLifecycleManager stop];
     [self.streamManager stop];
-    [self.secondaryTransportManager stop];
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 

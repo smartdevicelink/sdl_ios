@@ -187,7 +187,7 @@ describe(@"the secondary transport manager ", ^{
         OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:OCMOCK_ANY toNewVideoProtocol:nil fromOldAudioProtocol:OCMOCK_ANY toNewAudioProtocol:nil]);
 
         dispatch_sync(testStateMachineQueue, ^{
-            [manager stop];
+            [manager stopWithCompletionHandler:^{}];
         });
         manager = nil;
 
@@ -505,7 +505,7 @@ describe(@"the secondary transport manager ", ^{
         describe(@"when stopped", ^{
             it(@"should transition to Stopped state", ^{
                 dispatch_sync(testStateMachineQueue, ^{
-                    [manager stop];
+                    [manager stopWithCompletionHandler:^{}];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
@@ -650,7 +650,7 @@ describe(@"the secondary transport manager ", ^{
 
             it(@"should transition to Stopped state", ^{
                 dispatch_sync(testStateMachineQueue, ^{
-                    [manager stop];
+                    [manager stopWithCompletionHandler:^{}];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
@@ -841,7 +841,7 @@ describe(@"the secondary transport manager ", ^{
         describe(@"when stopped", ^{
             it(@"should transition to Stopped state", ^{
                 dispatch_sync(testStateMachineQueue, ^{
-                    [manager stop];
+                    [manager stopWithCompletionHandler:^{}];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
@@ -992,7 +992,7 @@ describe(@"the secondary transport manager ", ^{
                 OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:secondaryProtocol toNewVideoProtocol:nil fromOldAudioProtocol:secondaryProtocol toNewAudioProtocol:nil]);
 
                 dispatch_sync(testStateMachineQueue, ^{
-                    [manager stop];
+                    [manager stopWithCompletionHandler:^{}];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
@@ -1113,7 +1113,7 @@ describe(@"the secondary transport manager ", ^{
         describe(@"when stopped", ^{
             it(@"should transition to Stopped state", ^{
                 dispatch_sync(testStateMachineQueue, ^{
-                    [manager stop];
+                    [manager stopWithCompletionHandler:^{}];
                 });
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));

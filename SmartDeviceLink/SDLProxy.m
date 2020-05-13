@@ -176,7 +176,7 @@ static float DefaultConnectionTimeout = 45.0;
     return ret;
 }
 
-- (void)disconnectSession {
+- (void)disconnectSessionWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Disconnecting the proxy; stopping security manager and primary transport.");
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
@@ -188,6 +188,7 @@ static float DefaultConnectionTimeout = 45.0;
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [[NSNotificationCenter defaultCenter] removeObserver:self];
             [strongSelf.urlSession invalidateAndCancel];
+            return completionHandler();
         }];
     }
 }

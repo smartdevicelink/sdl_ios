@@ -234,15 +234,29 @@ int const CreateSessionRetries = 3;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
 
-    [self.controlSession destroySessionWithCompletionHandler:^{
-        // TODO
-    }];
-    [self.dataSession destroySessionWithCompletionHandler:^{
-        // TODO
-    }];
+    dispatch_group_t endServiceTask = dispatch_group_create();
+    dispatch_group_enter(endServiceTask);
 
-    // FIXME - `dataSession destroySession` needs a handler
-    return disconnectCompletionHandler();
+    if (self.controlSession != nil) {
+        dispatch_group_enter(endServiceTask);
+        [self.controlSession destroySessionWithCompletionHandler:^{
+            dispatch_group_leave(endServiceTask);
+        }];
+    }
+
+    if (self.dataSession != nil) {
+        dispatch_group_enter(endServiceTask);
+        [self.dataSession destroySessionWithCompletionHandler:^{
+            dispatch_group_leave(endServiceTask);
+        }];
+    }
+
+    dispatch_group_leave(endServiceTask);
+
+     // This will always run
+    dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        return disconnectCompletionHandler();
+    });
 }
 
 

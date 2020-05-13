@@ -47,7 +47,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 - (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol;
 
 /// Stop the manager.
-- (void)stop;
+- (void)stopWithCompletionHandler:(void (^)(void))completionHandler;
 
 /// Destroys the secondary transport.
 - (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler;
