@@ -239,7 +239,9 @@ describe(@"the streaming media manager", ^{
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
-                OCMReject([mockSecondaryTransportManager disconnectSecondaryTransport]);
+                OCMReject([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
+                    // FIXME
+                }]);
 
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
@@ -275,7 +277,9 @@ describe(@"the streaming media manager", ^{
                 OCMReject([mockAudioLifecycleManager startWithProtocol:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager startWithProtocol:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
+                    // FIXME
+                }]);
 
                 expect(testStreamingMediaManager.audioProtocol).to(beNil());
                 expect(testStreamingMediaManager.videoProtocol).to(beNil());
@@ -316,7 +320,9 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
+                    // FIXME
+                }]);
 
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewAudioProtocol]);
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewVideoProtocol]);
@@ -353,7 +359,9 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
+                    // FIXME
+                }]);
 
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
@@ -390,7 +398,9 @@ describe(@"the streaming media manager", ^{
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransport]);
+                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
+                    // FIXME
+                }]);
 
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());

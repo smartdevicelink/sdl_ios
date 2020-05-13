@@ -48,7 +48,10 @@ describe(@"SDLTCPTransport", ^ {
         transport.delegate = nil;
         server.delegate = nil;
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
+
         transport = nil;
         transportDelegateMock = nil;
 
@@ -73,7 +76,9 @@ describe(@"SDLTCPTransport", ^ {
         expect(transport.inputStream != nil);
         expect(transport.outputStream != nil);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
 
         expect(transport.ioThread == nil);
         expect(transport.inputStream == nil);
@@ -101,7 +106,9 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
 
         expect(transport.ioThread == nil);
         expect(transport.inputStream == nil);
@@ -123,7 +130,9 @@ describe(@"SDLTCPTransport", ^ {
         // timeout value should be longer than 'ConnectionTimeoutSecs' in SDLTCPTransport
         OCMVerifyAllWithDelay(transportDelegateMock, 60.0);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
 
         expect(transport.ioThread == nil);
         expect(transport.inputStream == nil);
@@ -144,7 +153,9 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
 
         expect(transport.ioThread == nil);
         expect(transport.inputStream == nil);
@@ -179,7 +190,9 @@ describe(@"SDLTCPTransport", ^ {
         [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:testData]);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
     });
 
     it(@"Should send out data even if send is called some time after", ^ {
@@ -222,7 +235,9 @@ describe(@"SDLTCPTransport", ^ {
         // don't receive further delegate events
         server.delegate = nil;
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
     });
 
     it(@"Should invoke onDataReceived delegate when received some data", ^ {
@@ -261,7 +276,9 @@ describe(@"SDLTCPTransport", ^ {
         [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:expectedData]);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
     });
 
     it(@"Should generate disconnected event after peer closed connection", ^ {
@@ -284,7 +301,9 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        [transport disconnectWithCompletionHandler:^{
+
+        }];
     });
 });
 

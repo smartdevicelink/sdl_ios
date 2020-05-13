@@ -158,7 +158,9 @@ describe(@"SDLIAPTransport", ^{
             });
 
             it(@"It should close and destroy data session", ^{
-                OCMVerify([mockDataSession destroySession]);
+                OCMVerify([mockDataSession destroySessionWithCompletionHandler:^{
+                    // FIXME
+                }]);
             });
 
             it(@"It should notify the lifecycle manager that the transport disconnected ", ^{
@@ -186,7 +188,9 @@ describe(@"SDLIAPTransport", ^{
             });
 
             it(@"It should close and destroy data session", ^{
-                OCMVerify([mockControlSession destroySession]);
+                OCMVerify([mockControlSession destroySessionWithCompletionHandler:^{
+                    // FIXME
+                }]);
             });
 
             it(@"Should not tell the delegate that the transport closed", ^{
