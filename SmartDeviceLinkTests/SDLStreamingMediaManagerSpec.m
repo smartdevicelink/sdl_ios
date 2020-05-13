@@ -54,7 +54,7 @@ describe(@"the streaming media manager", ^{
         mockAudioLifecycleManager = OCMClassMock([SDLStreamingAudioLifecycleManager class]);
         testStreamingMediaManager.audioLifecycleManager = mockAudioLifecycleManager;
 
-        mockSecondaryTransportManager = OCMClassMock([SDLSecondaryTransportManager class]);
+        mockSecondaryTransportManager = OCMStrictClassMock([SDLSecondaryTransportManager class]);
         testStreamingMediaManager.secondaryTransportManager = mockSecondaryTransportManager;
     });
 
@@ -263,12 +263,14 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:nil fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:nil];
-
-                // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop both the audio and video stream managers", ^{
+                OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.1];
+
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 expect(testStreamingMediaManager.audioStarted).to(beFalse());
@@ -276,10 +278,6 @@ describe(@"the streaming media manager", ^{
 
                 OCMReject([mockAudioLifecycleManager startWithProtocol:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager startWithProtocol:[OCMArg any]]);
-
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
-                    // FIXME
-                }]);
 
                 expect(testStreamingMediaManager.audioProtocol).to(beNil());
                 expect(testStreamingMediaManager.videoProtocol).to(beNil());
@@ -311,18 +309,16 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldVideoProtocol toNewVideoProtocol:mockNewVideoProtocol fromOldAudioProtocol:mockOldAudioProtocol toNewAudioProtocol:mockNewAudioProtocol];
-
-                // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop both the audio and video stream managers and call the delegate then start a new session", ^{
+                OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.1];
+
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
-
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
-                    // FIXME
-                }]);
 
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewAudioProtocol]);
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewVideoProtocol]);
@@ -350,18 +346,16 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:mockOldProtocol toNewVideoProtocol:mockNewProtocol fromOldAudioProtocol:nil toNewAudioProtocol:nil];
-
-                // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop the video stream manager but not the audio stream manager", ^{
+                OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.1];
+
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
-
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
-                    // FIXME
-                }]);
 
                 OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
@@ -389,18 +383,16 @@ describe(@"the streaming media manager", ^{
                 });
 
                 [testStreamingMediaManager didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:nil fromOldAudioProtocol:mockOldProtocol toNewAudioProtocol:mockNewProtocol];
-
-                // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should stop the audio stream manager but not the video stream manager", ^{
+                OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                // Make sure the dispatch_group tasks finish before performing checks
+                [NSThread sleepForTimeInterval:0.1];
+
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
-
-                OCMVerify([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
-                    // FIXME
-                }]);
 
                 OCMVerify([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
