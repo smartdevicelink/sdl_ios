@@ -135,11 +135,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _currentFrameNumber = 0;
     _timestampOffset = 0.0;
 
-    if (self.compressionSession != NULL) {
-        VTCompressionSessionInvalidate(self.compressionSession);
-        CFRelease(self.compressionSession);
-        self.compressionSession = NULL;
-    }
+    [self sdl_invalidateCompressionSession];
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
@@ -341,14 +337,20 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     return nalUnits;
 }
 
+/// Forces the completion of any pending frames and invalidates the current VTCompressionSession
+- (void)sdl_invalidateCompressionSession {
+    if (self.compressionSession == NULL) { return; }
+
+    VTCompressionSessionCompleteFrames(self.compressionSession, kCMTimeInvalid);
+    VTCompressionSessionInvalidate(self.compressionSession);
+    CFRelease(self.compressionSession);
+    self.compressionSession = NULL;
+}
+
 /// Attempts to create a new VTCompressionSession using the dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
 - (BOOL)sdl_resetCompressionSession {
     // Destroy the current compression session before attempting to create a new one. Otherwise the attempt to create a new compression session sometimes fails.
-    if (self.compressionSession != NULL) {
-        VTCompressionSessionInvalidate(self.compressionSession);
-        CFRelease(self.compressionSession);
-        self.compressionSession = NULL;
-    }
+    [self sdl_invalidateCompressionSession];
 
     OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     return (status == noErr);
