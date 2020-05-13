@@ -552,13 +552,6 @@ int const CreateSessionRetries = 3;
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPTransport dealloc");
-    [self disconnectWithCompletionHandler:^{
-        self.controlSession = nil;
-        self.dataSession = nil;
-        self.delegate = nil;
-        self.sessionSetupInProgress = NO;
-        self.accessoryConnectDuringActiveSession = NO;
-    }];
 }
 
 @end

@@ -82,6 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_destroySessionWithCompletionHandler:^{
         __strong typeof(weakself) strongSelf = weakself;
         [strongSelf.sendDataQueue removeAllObjects];
+        return disconnectCompletionHandler();
     }];
 }
 
