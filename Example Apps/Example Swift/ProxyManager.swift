@@ -301,3 +301,33 @@ private extension ProxyManager {
         return sdlManager.systemCapabilityManager.defaultMainWindowCapability?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }
 }
+
+extension ProxyManager {
+func isDialNumberSupported(handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
+    // Check if the module has phone capabilities
+    guard (sdlManager.systemCapabilityManager.isCapabilitySupported(type: .phoneCall)) else {
+        return handler(false, nil)
+    }
+
+    // Legacy modules (pre-RPC Spec v4.5) do not support checking capabilities, so for versions less than 4.5 we will assume `DialNumber` is supported
+    guard let sdlMsgVersion = sdlManager.registerResponse?.sdlMsgVersion, SDLVersion(sdlMsgVersion: sdlMsgVersion).isGreaterThanOrEqual(to: SDLVersion(major: 4, minor: 5, patch: 0)) else {
+        return handler(true, nil)
+    }
+
+    // Check if the phone capability has already been retreived from the module
+    if let phoneCapability = sdlManager.systemCapabilityManager.phoneCapability {
+        // Check if the module supports the `DialNumber` request
+        return handler(phoneCapability.dialNumberEnabled?.boolValue ?? false, nil)
+    }
+
+    // Retreive the phone capability from the module
+    sdlManager.systemCapabilityManager.updateCapabilityType(.phoneCall) { (error, systemCapabilityManager) in
+        if (error != nil) {
+            return handler(false, error)
+        }
+
+        // Check if the module supports the `DialNumber` request
+        return handler(systemCapabilityManager.phoneCapability?.dialNumberEnabled?.boolValue ?? false, nil)
+    }
+}
+}
