@@ -42,7 +42,7 @@ describe(@"SDLIAPTransport", ^{
     __block EAAccessory *mockAccessory = nil;
 
     beforeEach(^{
-        transport = [SDLIAPTransport new];
+        transport = [[SDLIAPTransport alloc] init];
         mockTransportDelegate = OCMProtocolMock(@protocol(SDLTransportDelegate));
         transport.delegate = mockTransportDelegate;
         mockAccessory = [EAAccessory.class sdlCoreMock];
@@ -142,28 +142,23 @@ describe(@"SDLIAPTransport", ^{
             __block SDLIAPDataSession *mockDataSession = nil;
 
             beforeEach(^{
-                mockDataSession = OCMClassMock([SDLIAPDataSession class]);
+                mockDataSession = OCMStrictClassMock([SDLIAPDataSession class]);
                 OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
                 OCMStub([mockDataSession connectionID]).andReturn(mockAccessory.connectionID);
                 transport.dataSession = mockDataSession;
                 transport.controlSession = nil;
-
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
             });
 
-            it(@"It should cleanup on disconnect", ^{
+            it(@"It should cleanup on disconnect, close and destroy data session, and notify the lifecycle manager that the transport disconnected", ^{
+                OCMExpect([mockDataSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
+                [NSThread sleepForTimeInterval:0.1];
+
                 expect(transport.retryCounter).to(equal(0));
                 expect(transport.sessionSetupInProgress).to(beFalse());
                 expect(transport.transportDestroyed).to(beTrue());
-            });
 
-            it(@"It should close and destroy data session", ^{
-                OCMVerify([mockDataSession destroySessionWithCompletionHandler:^{
-                    // FIXME
-                }]);
-            });
-
-            it(@"It should notify the lifecycle manager that the transport disconnected ", ^{
                 OCMVerify([mockTransportDelegate onTransportDisconnected]);
             });
         });
@@ -172,28 +167,23 @@ describe(@"SDLIAPTransport", ^{
             __block SDLIAPControlSession *mockControlSession = nil;
 
             beforeEach(^{
-                mockControlSession = OCMClassMock([SDLIAPControlSession class]);
+                mockControlSession = OCMStrictClassMock([SDLIAPControlSession class]);
                 OCMStub([mockControlSession isSessionInProgress]).andReturn(YES);
                 OCMStub([mockControlSession connectionID]).andReturn(mockAccessory.connectionID);
                 transport.controlSession = mockControlSession;
                 transport.dataSession = nil;
-
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
             });
 
-            it(@"It should cleanup on disconnect", ^{
+            it(@"It should cleanup on disconnect, close and destroy data session, and should not tell the delegate that the transport closed", ^{
+                OCMExpect([mockControlSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
+
+                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
+                [NSThread sleepForTimeInterval:0.1];
+
                 expect(transport.retryCounter).to(equal(0));
                 expect(transport.sessionSetupInProgress).to(beFalse());
                 expect(transport.transportDestroyed).to(beFalse());
-            });
 
-            it(@"It should close and destroy data session", ^{
-                OCMVerify([mockControlSession destroySessionWithCompletionHandler:^{
-                    // FIXME
-                }]);
-            });
-
-            it(@"Should not tell the delegate that the transport closed", ^{
                 OCMReject([mockTransportDelegate onTransportDisconnected]);
             });
         });
