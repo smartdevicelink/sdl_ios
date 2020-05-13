@@ -159,6 +159,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
     OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
 
+    // HAX: [#1620](https://github.com/smartdevicelink/sdl_ios/issues/1620) On some older iPhones VTCompressionSessionEncodeFrame fails with a kVTInvalidSessionErr when the device is locked. Attempt to fix this by recreating the compression session.
     if (status == kVTInvalidSessionErr) {
         VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
         [self sdl_resetCompressionSession];
