@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
                     shortAppName:lifecycleConfiguration.shortAppName
                          ttsName:lifecycleConfiguration.ttsName
                       vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames
-       hmiDisplayLanguageDesired:lifecycleConfiguration.hmiLanguage
+       hmiDisplayLanguageDesired:lifecycleConfiguration.language
                       resumeHash:lifecycleConfiguration.resumeHash
                   dayColorScheme:lifecycleConfiguration.dayColorScheme
                 nightColorScheme:lifecycleConfiguration.nightColorScheme];

@@ -94,7 +94,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
-
+/// The default vr language to use
+@property (strong, nonatomic) SDLLanguage vrLanguage;
 @end
 
 
@@ -137,7 +138,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         _lifecycleQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     }
-
+    
+    // vr default language
+    _vrLanguage = SDLLanguageEnUs;
+    
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
     _permissionManager = [[SDLPermissionManager alloc] init];
@@ -366,8 +370,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     // the language represents hmi language
-    SDLLanguage desiredHmiLanguage = self.configuration.lifecycleConfig.hmiLanguage;
-    SDLLanguage desiredVrLanguage = self.configuration.lifecycleConfig.language;
+    SDLLanguage desiredHmiLanguage = self.configuration.lifecycleConfig.language;
+    SDLLanguage desiredVrLanguage = self.vrLanguage;;
 
     SDLLanguage actualHmiLanguage = self.registerResponse.hmiDisplayLanguage;
     SDLLanguage actualVrLanguage = self.registerResponse.language;
@@ -398,7 +402,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHmiLanguage];
     if (configUpdate) {
         self.configuration.lifecycleConfig.language = actualLanguage;
-        self.configuration.lifecycleConfig.hmiLanguage = actualHmiLanguage;
+        self.vrLanguage = actualHmiLanguage;
         if (configUpdate.appName) {
             self.configuration.lifecycleConfig.appName = configUpdate.appName;
         }

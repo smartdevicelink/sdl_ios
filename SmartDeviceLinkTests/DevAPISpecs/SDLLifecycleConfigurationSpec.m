@@ -67,7 +67,6 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.additionalAppTypes).to(beNil());
                 expect(testConfig.isMedia).to(beFalse());
                 expect(testConfig.language).to(match(SDLLanguageEnUs));
-                expect(testConfig.hmiLanguage).to(match(SDLLanguageEnUs));
                 expect(testConfig.languagesSupported.firstObject).to(match(SDLLanguageEnUs));
                 expect(testConfig.shortAppName).to(beNil());
                 expect(testConfig.ttsName).to(beNil());
@@ -99,7 +98,6 @@ describe(@"A lifecycle configuration", ^{
                 testConfig.appType = SDLAppHMITypeMedia;
                 testConfig.additionalAppTypes = @[SDLAppHMITypeProjection];
                 testConfig.language = SDLLanguageArSa;
-                testConfig.hmiLanguage = SDLLanguageArSa;
                 testConfig.languagesSupported = @[SDLLanguageArSa, SDLLanguageEnAu, SDLLanguageEnUs];
                 testConfig.shortAppName = testShortAppName;
                 testConfig.ttsName = testTTSName;
@@ -121,7 +119,6 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.additionalAppTypes.firstObject).to(match(SDLAppHMITypeProjection));
                 expect(testConfig.isMedia).to(beTrue());
                 expect(testConfig.language).to(match(SDLLanguageArSa));
-                expect(testConfig.hmiLanguage).to(match(SDLLanguageArSa));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.ttsName).to(contain(testTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
@@ -168,7 +165,6 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.appType).to(match(SDLAppHMITypeDefault));
                 expect(testConfig.additionalAppTypes).to(beNil());
                 expect(testConfig.language).to(match(SDLLanguageEnUs));
-                expect(testConfig.hmiLanguage).to(match(SDLLanguageEnUs));
                 expect(testConfig.languagesSupported.firstObject).to(match(SDLLanguageEnUs));
                 expect(testConfig.shortAppName).to(beNil());
                 expect(testConfig.ttsName).to(beNil());
@@ -202,7 +198,6 @@ describe(@"A lifecycle configuration", ^{
                 testConfig.appType = SDLAppHMITypeInformation;
                 testConfig.additionalAppTypes = @[SDLAppHMITypeProjection];
                 testConfig.language = SDLLanguageArSa;
-                testConfig.hmiLanguage = SDLLanguageArSa;
                 testConfig.languagesSupported = @[SDLLanguageArSa, SDLLanguageEnAu, SDLLanguageEnUs];
                 testConfig.shortAppName = testShortAppName;
                 testConfig.ttsName = testTTSName;
@@ -224,7 +219,6 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.additionalAppTypes.firstObject).to(match(SDLAppHMITypeProjection));
                 expect(testConfig.isMedia).to(beFalse());
                 expect(testConfig.language).to(match(SDLLanguageArSa));
-                expect(testConfig.hmiLanguage).to(match(SDLLanguageArSa));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.ttsName).to(contain(testTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));

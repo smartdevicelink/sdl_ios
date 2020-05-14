@@ -226,7 +226,6 @@ describe(@"RegisterAppInterface Tests", ^{
             testLifecyleConfiguration.appType = SDLAppHMITypeSocial;
             testLifecyleConfiguration.additionalAppTypes = appTypes;
             testLifecyleConfiguration.language = language;
-            testLifecyleConfiguration.hmiLanguage = hmiDisplayLanguage;
             testLifecyleConfiguration.shortAppName = shortAppName;
             testLifecyleConfiguration.ttsName = @[chunk];
             testLifecyleConfiguration.voiceRecognitionCommandNames = @[vrSynonyms];
@@ -251,7 +250,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.isMediaApplication).to(equal(@YES));
             expect(testRegisterAppInterface.hashID).to(match(resumeHash));
             expect(testRegisterAppInterface.languageDesired).to(match(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(match(hmiDisplayLanguage));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(match(language));
             expect(testRegisterAppInterface.vrSynonyms).to(contain(vrSynonyms));
             expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
             expect(testRegisterAppInterface.appInfo).toNot(beNil());

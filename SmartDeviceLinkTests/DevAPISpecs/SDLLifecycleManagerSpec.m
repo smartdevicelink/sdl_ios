@@ -111,7 +111,6 @@ describe(@"a lifecycle manager", ^{
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
-        testConfig.lifecycleConfig.hmiLanguage = SDLLanguageEnUs;
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:OCMProtocolMock(@protocol(SDLManagerDelegate))];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
@@ -421,7 +420,6 @@ describe(@"a lifecycle manager", ^{
                      expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(testConfig.lifecycleConfig.shortAppName));
                      expect(testManager.configuration.lifecycleConfig.ttsName).to(beNil());
                      expect(testManager.configuration.lifecycleConfig.language).to(equal(testConfig.lifecycleConfig.language));
-                     expect(testManager.configuration.lifecycleConfig.hmiLanguage).to(equal(testConfig.lifecycleConfig.hmiLanguage));
                      expect(testManager.configuration.lifecycleConfig.languagesSupported).to(equal(testConfig.lifecycleConfig.languagesSupported));
                  });
 
@@ -441,7 +439,6 @@ describe(@"a lifecycle manager", ^{
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
                     expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
-                    expect(testManager.configuration.lifecycleConfig.hmiLanguage).toEventually(equal(SDLLanguageEnGb));
                     expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
                     expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
                     expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
@@ -465,7 +462,6 @@ describe(@"a lifecycle manager", ^{
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
                     expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
-                    expect(testManager.configuration.lifecycleConfig.hmiLanguage).toEventually(equal(SDLLanguageEnUs));
                     expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
                     expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
                     expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());

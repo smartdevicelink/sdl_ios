@@ -139,12 +139,7 @@ typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
 @property (copy, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalAppTypes;
 
 /**
- *  The default hmi language to use
- */
-@property (strong, nonatomic) SDLLanguage hmiLanguage;
-
-/**
- *  The default vr language to use
+ *  The default language to use
  */
 @property (strong, nonatomic) SDLLanguage language;
 
