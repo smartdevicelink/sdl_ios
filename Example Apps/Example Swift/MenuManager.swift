@@ -62,7 +62,7 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
         let submenuItems = allVehicleDataTypes.map { submenuName in
-            SDLMenuCell(title: submenuName, icon: nil, voiceCommands: nil, handler: { triggerSource in
+            SDLMenuCell(title: submenuName, icon: SDLArtwork(staticIcon: .settings), voiceCommands: nil, handler: { triggerSource in
                 VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
             })
         }
