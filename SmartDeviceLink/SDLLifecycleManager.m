@@ -140,7 +140,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
     
     // vr default language
-    _vrLanguage = SDLLanguageEnUs;
+    _vrLanguage = self.configuration.lifecycleConfig.language;
     
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
