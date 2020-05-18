@@ -157,6 +157,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
         if (self.disconnectCompletionHandler != nil) {
             self.disconnectCompletionHandler();
+            self.disconnectCompletionHandler = nil;
         }
     }
 }
