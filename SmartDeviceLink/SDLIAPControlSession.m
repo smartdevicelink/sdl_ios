@@ -218,10 +218,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [self destroySessionWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (self.accessory.isConnected) {
+            [strongSelf.protocolIndexTimer cancel];
+
             if (strongSelf.delegate != nil) {
                 [strongSelf.delegate controlSession:strongSelf didReceiveProtocolString:indexedProtocolString];
             }
-            [strongSelf.protocolIndexTimer cancel];
         }
     }];
 }

@@ -573,52 +573,31 @@ struct TransportProtocolUpdated {
 /// Called on the transport's thread, notifying that the transport has errored before a connection was established
 /// @param error The error
 - (void)onTransportError:(NSError *)error {
-    dispatch_async(self.stateMachineQueue, ^{
-        if ([self sdl_isTransportOpened]) {
-            SDLLogE(@"The secondary transport errored. Attempting to reconnect the secondary transport");
-            if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
-                 [self.streamingProtocolDelegate destroyVideoProtocol:self.secondaryProtocol audioProtocol:self.secondaryProtocol];
-            }
-            [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
-        } else {
-            SDLLogE(@"The secondary transport errored. Will not attempt to reconnect the secondary transport.");
-        }
-    });
+    SDLLogE(@"The secondary transport errored.");
+    [self sdl_transportClosed];
 }
 
 // Called on transport's thread, notifying that the transport is disconnected
 // (Note: when transport's disconnect method is called, this method will not be called)
 - (void)onProtocolClosed {
+    SDLLogE(@"The secondary transport disconnected.");
+    [self sdl_transportClosed];
+}
+
+/// Try to reconnect the secondary transport if the transport errored during the connection attempt or closed unexpectedly.
+- (void)sdl_transportClosed {
     dispatch_async(self.stateMachineQueue, ^{
         if ([self sdl_isTransportOpened]) {
-            SDLLogD(@"Secondary transport disconnected. No point in sending video and audio end services");
-            // FIXME: - Not sure if we can default to using the secondary protocol
             if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
                  [self.streamingProtocolDelegate destroyVideoProtocol:self.secondaryProtocol audioProtocol:self.secondaryProtocol];
             }
+            SDLLogV(@"Secondary transport is ready to reconnect. Attempting to reconnect the secondary transport");
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
         } else {
-            SDLLogD(@"Secondary transport disconnected. Will not attempt to reconnect the secondary transport");
+            SDLLogD(@"Secondary transport is not ready to reconnect. Will not attempt to reconnect the secondary transport");
         }
     });
 }
-
-//- (void)onTransportError:(NSError *)error {
-//    SDLLogE(@"The transport errored. Disconnecting the transport");
-//    [self disconnectSecondaryTransport];
-//}
-//
-//// called on transport's thread, notifying that the transport is disconnected
-//// (Note: when transport's disconnect method is called, this method will not be called)
-//- (void)onProtocolClosed {
-//    SDLLogD(@"secondary transport disconnected");
-//
-//    dispatch_async(self.stateMachineQueue, ^{
-//        if ([self sdl_isTransportOpened]) {
-//            [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
-//        }
-//    });
-//}
 
 // called from SDLProtocol's _receiveQueue of secondary transport
 - (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
