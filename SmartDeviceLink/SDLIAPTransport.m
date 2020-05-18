@@ -335,7 +335,6 @@ int const CreateSessionRetries = 3;
 }
 
 
-
 #pragma mark - Session Delegates
 
 #pragma mark Control Session

@@ -46,10 +46,12 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 /// @param primaryProtocol The protocol that runs on the main (primary) transport
 - (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol;
 
-/// Stop the manager.
+/// Stop the manager
+/// @param completionHandler Handler called when the manager has shutdown
 - (void)stopWithCompletionHandler:(void (^)(void))completionHandler;
 
 /// Destroys the secondary transport.
+/// @param completionHandler Handler called when the session has been destroyed
 - (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler;
 
 @end
