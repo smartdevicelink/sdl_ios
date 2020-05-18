@@ -97,7 +97,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
-    self.disconnectCompletionHandler = disconnectCompletionHandler;
     SDLLogD(@"Disconnecting");
 
     [self.sendDataQueue removeAllObjects];
@@ -108,6 +107,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         SDLLogV(@"TCP transport thread already cancelled");
         return disconnectCompletionHandler();
     }
+
+    self.disconnectCompletionHandler = disconnectCompletionHandler;
 
     // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams.
     [self sdl_cancelIOThread];
