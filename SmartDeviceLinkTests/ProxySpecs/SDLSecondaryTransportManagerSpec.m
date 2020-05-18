@@ -969,7 +969,6 @@ describe(@"the secondary transport manager ", ^{
 
             it(@"should transition to Reconnecting state", ^{
                 OCMExpect([testStreamingProtocolDelegate destroyVideoProtocol:secondaryProtocol audioProtocol:secondaryProtocol]);
-//                OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:secondaryProtocol toNewVideoProtocol:nil fromOldAudioProtocol:secondaryProtocol toNewAudioProtocol:nil]);
 
                 [testSecondaryProtocolMock onProtocolClosed];
                 [NSThread sleepForTimeInterval:0.1];
