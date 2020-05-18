@@ -165,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-- (void)didDestroyOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol oldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol {
+- (void)destroyVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol audioProtocol:(nullable SDLProtocol *)oldAudioProtocol {
     if (oldVideoProtocol == nil && oldAudioProtocol == nil) { return; }
 
     SDLLogV(@"Disconnecting the secondary transport");

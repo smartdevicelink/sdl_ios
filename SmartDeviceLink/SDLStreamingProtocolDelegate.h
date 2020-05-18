@@ -24,7 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newAudioProtocol protocol instance that will be used for audio streaming
 - (void)didUpdateFromOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol toNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol fromOldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol toNewAudioProtocol:(nullable SDLProtocol *)newAudioProtocol;
 
-- (void)didDestroyOldVideoProtocol:(nullable SDLProtocol *)oldVideoProtocol oldAudioProtocol:(nullable SDLProtocol *)oldAudioProtocol;
+/// Called when the audio and/or video must be stopped because the transport has been destroyed or errored out.
+/// @param videoProtocol protocol instance that was being used for video streaming
+/// @param audioProtocol protocol instance that was being used for audio streaming
+- (void)destroyVideoProtocol:(nullable SDLProtocol *)videoProtocol audioProtocol:(nullable SDLProtocol *)audioProtocol;
 
 @end
 

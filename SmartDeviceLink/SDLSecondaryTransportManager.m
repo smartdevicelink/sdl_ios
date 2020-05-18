@@ -113,6 +113,7 @@ struct TransportProtocolUpdated {
 /// A background task used to close the secondary transport before the app is suspended.
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
+/// A handler called when the secondary transport has been shutdown
 @property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 
 @end
@@ -307,12 +308,6 @@ struct TransportProtocolUpdated {
 - (void)willTransitionFromStateRegisteredToStateConfigured {
     SDLLogD(@"Manger is closing transport but is configured to resume the secondary transport. Stopping services on secondary transport");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-}
-
-- (void)willTransitionFromStateRegisteredToStateReconnecting {
-    //SDLLogD(@"Manger is closing transport but will try to reconnect if configured correctly. Stopping services on secondary transport");
-    //[self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-
 }
 
 - (void)didEnterStateReconnecting {
@@ -582,7 +577,7 @@ struct TransportProtocolUpdated {
         if ([self sdl_isTransportOpened]) {
             SDLLogE(@"The secondary transport errored. Attempting to reconnect the secondary transport");
             if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
-                 [self.streamingProtocolDelegate didDestroyOldVideoProtocol:self.secondaryProtocol oldAudioProtocol:self.secondaryProtocol];
+                 [self.streamingProtocolDelegate destroyVideoProtocol:self.secondaryProtocol audioProtocol:self.secondaryProtocol];
             }
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
         } else {
@@ -599,7 +594,7 @@ struct TransportProtocolUpdated {
             SDLLogD(@"Secondary transport disconnected. No point in sending video and audio end services");
             // FIXME: - Not sure if we can default to using the secondary protocol
             if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
-                 [self.streamingProtocolDelegate didDestroyOldVideoProtocol:self.secondaryProtocol oldAudioProtocol:self.secondaryProtocol];
+                 [self.streamingProtocolDelegate destroyVideoProtocol:self.secondaryProtocol audioProtocol:self.secondaryProtocol];
             }
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
         } else {

@@ -157,6 +157,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
 - (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler;
 
+/// This method is used internally to stop video streaming when the secondary transport has been closed due to an connection error. The primary transport is still open.
+/// 1. Since the transport has been closed, we can not send an end video service control frame to the module.
+/// 2. Since the primary transport is still open, we will not reset the `hmiLevel`, `videoStreamingState` or the video scale manager. This lets us resume video streaming if the secondary transport can be re-established during the same app session.
 - (void)stopVideoStreaming;
 
 /**
