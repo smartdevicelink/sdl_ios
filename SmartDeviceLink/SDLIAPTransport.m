@@ -142,7 +142,7 @@ int const CreateSessionRetries = 3;
     if (!self.controlSession.isSessionInProgress && !self.dataSession.isSessionInProgress) {
         SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
         [self sdl_closeSessionsWithCompletionHandler:^{
-            // TODO;
+            SDLLogV(@"Session closed");
         }];
     } else if (self.dataSession.isSessionInProgress) {
         if (self.dataSession.connectionID != accessory.connectionID) {
@@ -151,7 +151,9 @@ int const CreateSessionRetries = 3;
         }
         // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
-        [self sdl_destroyTransport];
+        [self sdl_destroyTransportWithCompletionHandler:^{
+            SDLLogV(@"Closed data session");
+        }];
     } else if (self.controlSession.isSessionInProgress) {
         if (self.controlSession.connectionID != accessory.connectionID) {
             SDLLogD(@"Accessory's connectionID, %lu, does not match the connectionID of the current control session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.controlSession.connectionID);
@@ -160,12 +162,12 @@ int const CreateSessionRetries = 3;
         // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
         [self sdl_closeSessionsWithCompletionHandler:^{
-            // TODO
+            SDLLogV(@"Control session closed");
         }];
     } else {
         SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
         [self sdl_closeSessionsWithCompletionHandler:^{
-            // TODO
+            SDLLogV(@"Closed unknown session");
         }];
     }
 }
@@ -176,18 +178,14 @@ int const CreateSessionRetries = 3;
 - (void)sdl_closeSessionsWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    [self.controlSession destroySessionWithCompletionHandler:^{
-        // TODO
-    }];
-    [self.dataSession destroySessionWithCompletionHandler:^{
-        // TODO
-    }];
+
+    [self sdl_closeDataAndControlSessionsWithCompletionHandler:disconnectCompletionHandler];
 }
 
 /**
  *  Tells the lifecycle manager that the data session has been closed. The lifecycle manager will destroy it's `SDLIAPTransport` object and then create a new one to listen for a new connection to the accessory.
  */
-- (void)sdl_destroyTransport {
+- (void)sdl_destroyTransportWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
@@ -195,8 +193,8 @@ int const CreateSessionRetries = 3;
     [self disconnectWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf.delegate onTransportDisconnected];
+        disconnectCompletionHandler();
     }];
-
 }
 
 #pragma mark - Stream Lifecycle
@@ -234,29 +232,7 @@ int const CreateSessionRetries = 3;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
 
-    dispatch_group_t endServiceTask = dispatch_group_create();
-    dispatch_group_enter(endServiceTask);
-
-    if (self.controlSession != nil) {
-        dispatch_group_enter(endServiceTask);
-        [self.controlSession destroySessionWithCompletionHandler:^{
-            dispatch_group_leave(endServiceTask);
-        }];
-    }
-
-    if (self.dataSession != nil) {
-        dispatch_group_enter(endServiceTask);
-        [self.dataSession destroySessionWithCompletionHandler:^{
-            dispatch_group_leave(endServiceTask);
-        }];
-    }
-
-    dispatch_group_leave(endServiceTask);
-
-     // This will always run
-    dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
-        return disconnectCompletionHandler();
-    });
+    [self sdl_closeDataAndControlSessionsWithCompletionHandler:disconnectCompletionHandler];
 }
 
 
@@ -320,19 +296,44 @@ int const CreateSessionRetries = 3;
 - (void)sdl_retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
-    [self.controlSession destroySessionWithCompletionHandler:^{
-        // TODO
+
+    __weak typeof(self) weakSelf = self;
+    [self sdl_closeDataAndControlSessionsWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Search connected accessories
+        [strongSelf sdl_connect:nil];
     }];
-    [self.dataSession destroySessionWithCompletionHandler:^{
-        // TODO
-    }];
-
-    // FIXME: wait for both completion handlers to wait;
-
-
-    // Search connected accessories
-    [self sdl_connect:nil];
 }
+
+- (void)sdl_closeDataAndControlSessionsWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    dispatch_group_t endSessionsTask = dispatch_group_create();
+    dispatch_group_enter(endSessionsTask);
+
+    if (self.controlSession != nil) {
+        dispatch_group_enter(endSessionsTask);
+        [self.controlSession destroySessionWithCompletionHandler:^{
+            SDLLogV(@"Control session destroyed");
+            dispatch_group_leave(endSessionsTask);
+        }];
+    }
+
+    if (self.dataSession != nil) {
+        dispatch_group_enter(endSessionsTask);
+        [self.dataSession destroySessionWithCompletionHandler:^{
+            SDLLogV(@"Data session destroyed");
+            dispatch_group_leave(endSessionsTask);
+        }];
+    }
+
+    dispatch_group_leave(endSessionsTask);
+
+     // This will always run
+    dispatch_group_notify(endSessionsTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        SDLLogV(@"Both the data and control sessions are closed");
+        disconnectCompletionHandler();
+    });
+}
+
 
 
 #pragma mark - Session Delegates
@@ -565,7 +566,7 @@ int const CreateSessionRetries = 3;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPTransport dealloc");
+    SDLLogV(@"iAP transport dealloc");
 }
 
 @end
