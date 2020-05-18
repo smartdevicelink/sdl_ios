@@ -103,7 +103,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     self.transportErrorNotified = NO;
     self.transportConnected = NO;
 
-    if (self.ioThread == nil || self.ioThread.isCancelled) {
+    if (self.ioThread == nil) {
         SDLLogV(@"TCP transport thread already cancelled");
         return disconnectCompletionHandler();
     }
@@ -153,6 +153,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
+        self.inputStream = nil;
+        self.outputStream = nil;
 
         [self.connectionTimer cancel];
 
@@ -279,8 +281,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onConnectionTimedOut is called on a wrong thread!");
 
     SDLLogW(@"TCP connection timed out");
-    [self sdl_cancelIOThread];
-
     if (!self.transportErrorNotified) {
         NSAssert(!self.transportConnected, @"transport should not be connected in this case");
         [self.delegate onError:[NSError sdl_transport_connectionTimedOutError]];
@@ -290,9 +290,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
 - (void)sdl_onStreamError:(NSStream *)stream {
     NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onStreamError is called on a wrong thread!");
-
-    // stop I/O thread
-    [self sdl_cancelIOThread];
 
     // avoid notifying multiple error events
     if (self.transportErrorNotified) {
@@ -340,8 +337,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 - (void)sdl_onStreamEnd:(NSStream *)stream {
     SDLLogD(@"Stream ended");
     NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onStreamEnd is called on a wrong thread!");
-
-    [self sdl_cancelIOThread];
 
     if (!self.transportErrorNotified) {
         [self.delegate onTransportDisconnected];
