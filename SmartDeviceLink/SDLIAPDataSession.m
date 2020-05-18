@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (![super createSession]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
-            __weak typeof(self) weakself = self;
+            __weak typeof(self) weakSelf = self;
             [self destroySessionWithCompletionHandler:^{
-                __strong typeof(weakself) strongSelf = weakself;
+                __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (strongSelf.delegate == nil) { return; }
                 [strongSelf.delegate dataSessionShouldRetry];
             }];
@@ -78,9 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     [self sdl_destroySessionWithCompletionHandler:^{
-        __strong typeof(weakself) strongSelf = weakself;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf.sendDataQueue removeAllObjects];
         return disconnectCompletionHandler();
     }];
@@ -263,9 +263,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        __weak typeof(self) weakself = self;
+        __weak typeof(self) weakSelf = self;
         [self destroySessionWithCompletionHandler:^{
-            __strong typeof(weakself) strongSelf = weakself;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate dataSessionShouldRetry];
         }];
@@ -317,9 +317,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        __weak typeof(self) weakself = self;
+        __weak typeof(self) weakSelf = self;
         [self destroySessionWithCompletionHandler:^{
-            __strong typeof(weakself) strongSelf = weakself;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (![strongSelf.protocolString isEqualToString:LegacyProtocolString]) {
                 if (strongSelf.delegate == nil) { return; }
                 [strongSelf.delegate dataSessionShouldRetry];
@@ -382,10 +382,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPDataSession dealloc");
-//    [self destroySessionWithCompletionHandler:^{
-//        // Do nothing
-//    }];
+    SDLLogV(@"iAP data session dealloc");
 }
 
 @end

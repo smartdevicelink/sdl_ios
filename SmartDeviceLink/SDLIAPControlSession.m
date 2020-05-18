@@ -277,9 +277,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPControlSession dealloc");
-//    [self destroySession];
-//    _protocolIndexTimer = nil;
+    SDLLogV(@"iAP control session dealloc");
 }
 
 @end
