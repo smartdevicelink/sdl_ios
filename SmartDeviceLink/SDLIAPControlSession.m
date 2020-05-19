@@ -120,6 +120,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [super stopStream:self.eaSession.outputStream];
     [super stopStream:self.eaSession.inputStream];
     [super cleanupClosedSession];
+
+    disconnectCompletionHandler();
 }
 
 

@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.ioStreamThread == nil) {
         SDLLogV(@"Stopping data session but no thread established.");
         [super cleanupClosedSession];
-        return;
+        return disconnectCompletionHandler();
     }
 
     [self.ioStreamThread cancel];
@@ -118,8 +118,9 @@ NS_ASSUME_NONNULL_BEGIN
         if (success == NO) {
             SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
         }
-        self.ioStreamThread = nil;
         [super cleanupClosedSession];
+
+        return disconnectCompletionHandler();
     }];
 }
 

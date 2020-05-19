@@ -214,6 +214,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)stopVideoStreaming {
     SDLLogD(@"Stopping video manager");
+    [self.focusableItemManager stop];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
