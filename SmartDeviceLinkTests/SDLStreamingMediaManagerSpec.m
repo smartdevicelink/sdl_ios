@@ -229,7 +229,7 @@ describe(@"the streaming media manager", ^{
                 [testStreamingMediaManager startSecondaryTransportWithProtocol:mockProtocol];
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.5];
+                [NSThread sleepForTimeInterval:1.0];
             });
 
             it(@"should start both the audio and video stream managers with the protocol", ^{
@@ -239,9 +239,7 @@ describe(@"the streaming media manager", ^{
                 expect(testStreamingMediaManager.audioStarted).to(beTrue());
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
-                OCMReject([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:^{
-                    // FIXME
-                }]);
+                OCMReject([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
@@ -352,12 +350,12 @@ describe(@"the streaming media manager", ^{
                 OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:1.0];
 
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
 
-                OCMVerify([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
+                OCMExpect([mockVideoLifecycleManager startWithProtocol:mockNewProtocol]);
                 expect(testStreamingMediaManager.videoStarted).to(beTrue());
 
                 OCMReject([mockAudioLifecycleManager startWithProtocol:mockNewProtocol]);
@@ -389,7 +387,7 @@ describe(@"the streaming media manager", ^{
                 OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:1.0];
 
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
