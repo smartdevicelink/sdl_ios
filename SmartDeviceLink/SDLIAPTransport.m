@@ -296,6 +296,8 @@ int const CreateSessionRetries = 3;
     }];
 }
 
+/// Helper method for closing both the data and control sessions.
+/// @param disconnectCompletionHandler Handler called when both the data and control sessions have been disconnected successfully
 - (void)sdl_closeSessionsWithCompletionHandler:(nullable void (^)(void))disconnectCompletionHandler {
     dispatch_group_t endSessionsTask = dispatch_group_create();
     dispatch_group_enter(endSessionsTask);
