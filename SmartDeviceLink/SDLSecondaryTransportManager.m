@@ -285,7 +285,7 @@ struct TransportProtocolUpdated {
         && self.sdl_isHMILevelNonNone) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     } else {
-        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state. Transport type: %ld, isTCPReady: %d, is hmi level non-NONE %d", (long)self.secondaryTransportType, self.sdl_isTCPReady, self.sdl_isHMILevelNonNone);
+        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state");
     }
 }
 
@@ -315,7 +315,7 @@ struct TransportProtocolUpdated {
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
-            SDLLogD(@"Attempting to establish a connection");
+            SDLLogD(@"Attempting to establish a re-connection");
             [weakSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
         }
     });
