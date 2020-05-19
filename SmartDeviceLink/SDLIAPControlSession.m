@@ -219,7 +219,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     __weak typeof(self) weakSelf = self;
     [self destroySessionWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (self.accessory.isConnected) {
+        if (strongSelf.accessory.isConnected) {
             [strongSelf.protocolIndexTimer cancel];
 
             if (strongSelf.delegate != nil) {
