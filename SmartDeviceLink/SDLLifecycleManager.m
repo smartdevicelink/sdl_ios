@@ -267,6 +267,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self sdl_stopManager:YES];
 }
 
+/// Shuts down the all the managers used to manage the lifecycle of the SDL app after the connection between the phone and SDL enabled accessory has closed. If a restart is desired, attempt to start looking for another SDL enabled accessory. If no restart is desired, another connection will not be made with a SDL enabled accessory during the current app session
+/// @param shouldRestart Whether or not to start looking for another SDL enabled accessory.
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
@@ -292,11 +294,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(stopManagersTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf sdl_continueShutdown:shouldRestart];
+        [strongSelf sdl_stopManagersAndRestart:shouldRestart];
     });
 }
 
-- (void)sdl_continueShutdown:(BOOL)shouldRestart {
+/// Helper method for shutting down the remaining managers that do not need extra time to shutdown. Once all the managers have been shutdown, attempt to start looking for another SDL enabled accessory.
+/// @param shouldRestart Whether or not to start looking for another SDL enabled accessory.
+- (void)sdl_stopManagersAndRestart:(BOOL)shouldRestart {
     self.proxy = nil;
 
     [self.fileManager stop];
@@ -330,7 +334,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
         } else {
             // End the background task because a session will not be established
-            [self.backgroundTaskManager endBackgroundTask];
+            [strongSelf.backgroundTaskManager endBackgroundTask];
         }
     });
 }
