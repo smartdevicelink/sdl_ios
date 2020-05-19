@@ -93,6 +93,59 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDL Configuration
 
+- (void)startProxyTCP:(SDLTCPConfig*)tcpConfig {
+    assert(nil != tcpConfig);
+    if (self.sdlManager) {
+        [self.sdlManager stop];
+        self.sdlManager = nil;
+    }
+
+    SDLLifecycleConfiguration *lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:tcpConfig.ipAddress port:tcpConfig.port];
+
+    UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:appLogo asImageFormat:SDLArtworkImageFormatPNG];
+
+    lifecycleConfiguration.shortAppName = ExampleAppNameShort;
+    lifecycleConfiguration.appIcon = appIconArt;
+    lifecycleConfiguration.voiceRecognitionCommandNames = @[ExampleAppNameTTS];
+    lifecycleConfiguration.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
+    lifecycleConfiguration.language = SDLLanguageEnUs;
+    lifecycleConfiguration.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
+    lifecycleConfiguration.appType = SDLAppHMITypeDefault;
+
+    SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
+    SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
+    SDLRGBColor *darkGrey = [[SDLRGBColor alloc] initWithRed:57 green:78 blue:96];
+    SDLRGBColor *grey = [[SDLRGBColor alloc] initWithRed:186 green:198 blue:210];
+    lifecycleConfiguration.dayColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:white];
+    lifecycleConfiguration.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
+
+    SDLLockScreenConfiguration *lockScreenConfiguration = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil];
+    SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
+
+
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+//    [self sdlex_startManager];
+    __weak typeof (self) weakSelf = self;
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            NSLog(@"SDL start error: %@", error);
+            [weakSelf sdlex_updateProxyState:ProxyStateStopped];
+            return;
+        }
+
+        weakSelf.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:weakSelf.sdlManager refreshUIHandler:weakSelf.refreshUIHandler];
+        weakSelf.performManager = [[PerformInteractionManager alloc] initWithManager:weakSelf.sdlManager];
+        weakSelf.buttonManager = [[ButtonManager alloc] initWithManager:weakSelf.sdlManager refreshUIHandler:weakSelf.refreshUIHandler];
+
+        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
+        [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
+        [weakSelf sdlex_showInitialData];
+
+        NSLog(@"SDL started, file manager storage: %lu mb", weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
+    }];
+}
+
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
 
@@ -111,6 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     if (self.sdlManager != nil) {
         // Manager already created, just start it again.
+        //TODO: the ip might change but we still start it with the old config
         [self sdlex_startManager];
         return;
     }
@@ -234,6 +288,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+    NSLog(@"hmiLevel:changed:[%@-->%@]", oldLevel, newLevel);
+
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
@@ -264,6 +320,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
+    NSLog(@"systemContext:changed:[%@-->%@]", oldContext, newContext);
+
     if ([newContext isEqualToEnum:SDLSystemContextAlert]) {
         SDLLogD(@"The System Context is Alert");
     } else if ([newContext isEqualToEnum:SDLSystemContextHMIObscured]) {
@@ -278,6 +336,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
+    NSLog(@"audioStreamingState:changed:[%@-->%@]", oldState, newState);
+
     if ([newState isEqualToEnum:SDLAudioStreamingStateAudible]) {
         // The SDL app's audio can be heard
         SDLLogD(@"The Audio Streaming State is Audible");
@@ -289,6 +349,11 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"The Audio Streaming State is Not Attenuated");
     }
 }
+
+- (void)videoStreamingState:(nullable SDLVideoStreamingState)oldState didChangetoState:(SDLVideoStreamingState)newState {
+    NSLog(@"videoStreamingState:changed:[%@-->%@]", oldState, newState);
+}
+
 
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];

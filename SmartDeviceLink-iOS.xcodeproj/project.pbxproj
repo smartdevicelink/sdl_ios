@@ -1537,6 +1537,7 @@
 		9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471322D77AD500F8D2FC /* SDLWindowType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -2263,7 +2264,7 @@
 		5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotificationNotification.m; sourceTree = "<group>"; };
 		5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SDLBundle.h"; sourceTree = "<group>"; };
 		5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
-		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL0296_VidStr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogFileModuleSpec.m; path = LoggingSpecs/SDLLogFileModuleSpec.m; sourceTree = "<group>"; };
 		5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogConfigurationSpec.m; path = LoggingSpecs/SDLLogConfigurationSpec.m; sourceTree = "<group>"; };
 		5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLinkSwift.h; sourceTree = "<group>"; };
@@ -3285,6 +3286,8 @@
 		9FE2471322D77AD500F8D2FC /* SDLWindowType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWindowType.h; sourceTree = "<group>"; };
 		9FE2471422D77AD500F8D2FC /* SDLWindowType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowType.m; sourceTree = "<group>"; };
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
+		B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
+		B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -4201,7 +4204,7 @@
 		5D4019B01A76EC350006B0C2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
+				5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
 				88295697207CF68800EF056C /* SDL Example Swift.app */,
@@ -6242,6 +6245,7 @@
 		88295677207CF46C00EF056C /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
+				B3476E0D24741C490025DC99 /* Models */,
 				5D48329E1A92865900252386 /* SDL */,
 				5D48329A1A8EA31500252386 /* Utilities */,
 				5D0218EB1A8E795700D1BF62 /* UI */,
@@ -6419,6 +6423,16 @@
 			);
 			path = Notifications;
 			sourceTree = "<group>";
+		};
+		B3476E0D24741C490025DC99 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */,
+				B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */,
+			);
+			name = Models;
+			path = "Example Apps/Example ObjC/Models";
+			sourceTree = SOURCE_ROOT;
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
@@ -7129,7 +7143,7 @@
 			);
 			name = "SmartDeviceLink-Example-ObjC";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 5D4019AF1A76EC350006B0C2 /* SDL Example.app */;
+			productReference = 5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5D61FA1B1A84237100846EE7 /* SmartDeviceLink */ = {
@@ -7222,6 +7236,7 @@
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
 						CreatedOnToolsVersion = 6.1.1;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -7345,6 +7360,7 @@
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
 				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
+				B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */,
 				5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */,
 				5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */,
 				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
@@ -8601,13 +8617,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = NCVC2MHU7M;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = G99VP5HXV7;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_NAME = SDL0296_VidStr;
+				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -8617,13 +8635,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = NCVC2MHU7M;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = G99VP5HXV7;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_NAME = SDL0296_VidStr;
+				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

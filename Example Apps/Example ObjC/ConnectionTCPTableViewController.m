@@ -52,11 +52,14 @@
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
     [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
     [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
+
+    [self.view endEditing:YES]; // hide keyboard
     
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeTCP];
+            SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
+            [[ProxyManager sharedManager] startProxyTCP:tcpConfig];
         } break;
         case ProxyStateSearchingForConnection: {
             [[ProxyManager sharedManager] stopConnection];
