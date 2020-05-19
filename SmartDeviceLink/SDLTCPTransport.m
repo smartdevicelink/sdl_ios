@@ -30,6 +30,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @property (nullable, nonatomic, strong) SDLTimer *connectionTimer;
 @property (nonatomic, assign) BOOL transportConnected;
 @property (nonatomic, assign) BOOL transportErrorNotified;
+
+/// A handler called when the tcp transport has been shutdown
 @property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 @end
 
