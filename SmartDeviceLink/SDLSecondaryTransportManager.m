@@ -315,7 +315,7 @@ struct TransportProtocolUpdated {
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
-            SDLLogD(@"Attempting to establish a re-connection");
+            SDLLogD(@"Attempting to establish a reconnection");
             [weakSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
         }
     });
