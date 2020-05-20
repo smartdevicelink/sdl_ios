@@ -8,11 +8,11 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 #import "SDLImageField.h"
 #import "SDLTextField.h"
 
-@implementation SDLWindowCapability (ShowManagerExtension)
+@implementation SDLWindowCapability (ScreenManagerExtensions)
 
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name {
     for (SDLTextField *textField in self.textFields) {

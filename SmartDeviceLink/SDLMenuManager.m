@@ -38,7 +38,7 @@
 #import "SDLShowAppMenu.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 #import "SDLVersion.h"
 #import "SDLVoiceCommand.h"
 
@@ -65,6 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
@@ -119,7 +120,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Setters
 
 - (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
-    NSArray<SDLMenuLayout> *layoutsAvailable = self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable;
+    NSArray<SDLMenuLayout> *layoutsAvailable = self.windowCapability.menuLayoutsAvailable;
 
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
@@ -466,7 +467,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.systemCapabilityManager.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -528,7 +529,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark Artworks
 
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
-    if (![self.systemCapabilityManager.defaultMainWindowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         return @[];
     }
 
@@ -686,6 +687,11 @@ UInt32 const MenuCellIdMin = 1;
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
 
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
+}
+
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    // We won't use the object in the parameter but the convenience method of the system capability manager
+    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
