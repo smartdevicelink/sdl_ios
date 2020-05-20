@@ -159,6 +159,7 @@ UInt32 const MenuCellIdMin = 1;
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        SDLLogD(@"Waiting for HMI update to send menu cells");
         self.waitingOnHMIUpdate = YES;
         self.waitingUpdateMenuCells = menuCells;
         return;
