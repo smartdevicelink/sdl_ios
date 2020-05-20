@@ -94,8 +94,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
-/// The default vr language to use
-@property (strong, nonatomic) SDLLanguage vrLanguage;
+@property (strong, nonatomic) SDLLanguage currentVRLanguage;
+
 @end
 
 
@@ -138,9 +138,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         _lifecycleQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     }
-    
-    // vr default language
-    _vrLanguage = _configuration.lifecycleConfig.language;
+
+    _currentVRLanguage = _configuration.lifecycleConfig.language;
     
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
@@ -368,41 +367,48 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         return;
     }
+
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     // the language represents hmi language
-    SDLLanguage desiredHmiLanguage = self.configuration.lifecycleConfig.language;
-    SDLLanguage desiredVrLanguage = self.vrLanguage;;
+    SDLLanguage desiredHMILanguage = self.configuration.lifecycleConfig.language;
+    SDLLanguage desiredVRLanguage = self.currentVRLanguage;;
 
-    SDLLanguage actualHmiLanguage = self.registerResponse.hmiDisplayLanguage;
-    SDLLanguage actualVrLanguage = self.registerResponse.language;
+    SDLLanguage actualHMILanguage = self.registerResponse.hmiDisplayLanguage;
+    SDLLanguage actualVRLanguage = self.registerResponse.language;
 
+    BOOL oldDelegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
-    SDLLogD(@"SDLLifecycleManager sdl_checkLanguageUpdating delegateCanUpdateLifecycle: %d", delegateCanUpdateLifecycle);
+
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if (delegateCanUpdateLifecycle && [supportedLanguages containsObject:actualHmiLanguage] && [supportedLanguages containsObject:actualVrLanguage]) {
-        if (![actualHmiLanguage isEqualToEnum:desiredHmiLanguage]
-            || ![actualVrLanguage isEqualToEnum:desiredVrLanguage]) {
+    if ((oldDelegateCanUpdateLifecycle || delegateCanUpdateLifecycle) && [supportedLanguages containsObject:actualHMILanguage] && [supportedLanguages containsObject:actualVRLanguage]) {
+        if (![actualHMILanguage isEqualToEnum:desiredHMILanguage]
+            || ![actualVRLanguage isEqualToEnum:desiredVRLanguage]) {
             [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
-        }
-        else {
+        } else {
             [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
         }
-    }
-    else {
+    } else {
         [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
     }
 }
 
 - (void)didEnterStateUpdatingConfiguration {
     // We can expect that the delegate has implemented the update method and the actual language is a supported language
-    SDLLanguage actualHmiLanguage = self.registerResponse.hmiDisplayLanguage;
+    SDLLanguage actualHMILanguage = self.registerResponse.hmiDisplayLanguage;
     SDLLanguage actualLanguage = self.registerResponse.language;
-    SDLLogD(@"Updating configuration due to language mismatch. New langugage: %@, hmiLanguage: %@", actualLanguage, actualHmiLanguage);
+    SDLLogD(@"Updating configuration due to language mismatch. New language: %@, new hmiLanguage: %@", actualLanguage, actualHMILanguage);
 
-    SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHmiLanguage];
+    SDLLifecycleConfigurationUpdate *configUpdate = nil;
+    BOOL oldDelegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
+    if (oldDelegateCanUpdateLifecycle) {
+        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
+    } else {
+        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
+    }
+
     if (configUpdate) {
         self.configuration.lifecycleConfig.language = actualLanguage;
-        self.vrLanguage = actualHmiLanguage;
+        self.currentVRLanguage = actualHMILanguage;
         if (configUpdate.appName) {
             self.configuration.lifecycleConfig.appName = configUpdate.appName;
         }
@@ -416,16 +422,18 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
             self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
         }
 
-        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualHmiLanguage];
+        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualHMILanguage];
         changeRegistration.appName = configUpdate.appName;
         changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
         changeRegistration.ttsName = configUpdate.ttsName;
         changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
+
         [self sendConnectionManagerRequest:changeRegistration withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 SDLLogW(@"Failed to update language with change registration. Request: %@, Response: %@, error: %@", request, response, error);
                 return;
             }
+
             SDLLogD(@"Successfully updated language with change registration. Request sent: %@", request);
         }];
     }

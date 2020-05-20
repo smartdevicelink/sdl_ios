@@ -216,11 +216,12 @@ extension ProxyManager: SDLManagerDelegate {
 
     /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
     ///
-    /// - Parameter language: The head unit's current language
+    /// - Parameter language: The head unit's current VR+TTS language
+    /// - Parameter hmiLanguage: The head unit's current HMI language
     /// - Returns: A SDLLifecycleConfigurationUpdate object
-    func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
+    func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage, hmiLanguage: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
         var appName = ""
-        switch language {
+        switch hmiLanguage {
         case .enUs:
             appName = ExampleAppName
         case .esMx:
@@ -230,8 +231,20 @@ extension ProxyManager: SDLManagerDelegate {
         default:
             return nil
         }
-
-        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: appName, type: .text)], voiceRecognitionCommandNames: nil)
+        
+        var ttsName = ""
+        switch language {
+        case .enUs:
+            ttsName = ExampleAppName
+        case .esMx:
+            ttsName = ExampleAppNameSpanish
+        case .frCa:
+            ttsName = ExampleAppNameFrench
+        default:
+            return nil
+        }
+        
+        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: ttsName, type: .text)], voiceRecognitionCommandNames: nil)
     }
 }
 
