@@ -104,6 +104,10 @@ UInt32 const MenuCellIdMin = 1;
     return self;
 }
 
+- (void)start {
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+}
+
 - (void)stop {
     _lastMenuId = MenuCellIdMin;
     _menuCells = @[];

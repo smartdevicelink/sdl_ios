@@ -375,7 +375,7 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability = [[SDLWindowCapability alloc] init];
             });
 
-            fit(@"should send nothing", ^{
+            it(@"should send nothing", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
                 testManager.title = textTitle;
                 testManager.textField1 = textLine1;
