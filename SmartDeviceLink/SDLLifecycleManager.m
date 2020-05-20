@@ -399,11 +399,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLogD(@"Updating configuration due to language mismatch. New language: %@, new hmiLanguage: %@", actualLanguage, actualHMILanguage);
 
     SDLLifecycleConfigurationUpdate *configUpdate = nil;
-    BOOL oldDelegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
-    if (oldDelegateCanUpdateLifecycle) {
-        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
-    } else {
+    BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
+    if (delegateCanUpdateLifecycle) {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
+    } else {
+        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
     }
 
     if (configUpdate) {
