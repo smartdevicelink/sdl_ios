@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@:%p> {%@ x %@}", NSStringFromClass(self.class), self, self.resolutionWidth, self.resolutionHeight];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
