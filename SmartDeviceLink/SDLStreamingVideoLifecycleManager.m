@@ -46,6 +46,7 @@
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLOnSystemCapabilityUpdated.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
@@ -95,6 +96,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 @property (nonatomic, copy, nullable) void (^videoServiceEndedCompletionHandler)(void);
 
+@property (strong, nonatomic, nullable) NSNotificationCenter *subscriptionCenter;
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
@@ -173,10 +175,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
 
+    //NOTE: the notification center should not be default & dont forget to unsubscribe
+    [self subscribeForNotifications:[NSNotificationCenter defaultCenter]];
+
     _ssrc = arc4random_uniform(UINT32_MAX);
     _lastPresentationTimestamp = kCMTimeInvalid;
 
     return self;
+}
+
+- (void)dealloc {
+    [self unsubscribeFromAllNotifications];
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
@@ -379,8 +388,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     __weak typeof(self) weakSelf = self;
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-        SDLLogD(@"Received video capability response");
-        SDLLogV(@"Capability: %@", capability);
+        SDLLogD(@"Received video capability response, Capability: %@", capability);
 
         if (capability != nil) {
             // If we got a response, get the head unit's preferred formats and resolutions
@@ -425,6 +433,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             SDLLogD(@"Got specialized video resolutions: %@", weakSelf.preferredResolutions);
         }
 
+        [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
         [self sdl_sendVideoStartService];
     }];
 }
@@ -653,6 +662,38 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
+- (void)subscribeForNotifications:(NSNotificationCenter*)notificationCenter {
+    if (!self.subscriptionCenter) {
+        self.subscriptionCenter = notificationCenter;
+        [notificationCenter addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
+    }
+}
+
+- (void)unsubscribeFromAllNotifications {
+//    if (self.subscriptionCenter)
+    {
+        [self.subscriptionCenter removeObserver:self];
+        self.subscriptionCenter = nil;
+    }
+}
+
+- (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnSystemCapabilityUpdated *sysCap = [notification notification];
+    SDLVideoStreamingCapability *vidCap = sysCap.systemCapability.videoStreamingCapability;
+    if (vidCap) {
+        NSLog(@">>>VIDEO-CAP: %@", vidCap.preferredResolution);
+    } else {
+        NSLog(@">>>VIDEO-CAP: <null>");
+    }
+}
+
+#pragma mark - Subscribed notifications
+
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+    SDLVideoStreamingCapability *videoStreamingCapability = systemCapability.videoStreamingCapability;
+    NSLog(@"NOTIF:VIDEO: %@", videoStreamingCapability);
+}
+
 #pragma mark - SDLVideoEncoderDelegate
 
 - (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
@@ -749,7 +790,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_requestVideoCapabilities:(SDLVideoCapabilityResponseHandler)responseHandler {
     SDLLogD(@"Requesting video capabilities");
-    SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
+    SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming subscribe:YES];
 
     [self.connectionManager sendConnectionManagerRequest:getVideoCapabilityRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (!response.success || [response isMemberOfClass:SDLGenericResponse.class]) {
@@ -761,7 +802,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
         SDLLogD(@"Video capabilities response received: %@", videoCapability);
 
-        self.videoScaleManager.scale = (videoCapability != nil && videoCapability.scale != nil) ? videoCapability.scale.floatValue : (float)0.0;
+        self.videoScaleManager.scale = videoCapability.scale.floatValue;
 
         responseHandler(videoCapability);
     }];

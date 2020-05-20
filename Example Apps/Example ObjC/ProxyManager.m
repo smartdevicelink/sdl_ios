@@ -168,12 +168,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (void)_subscribeForNotifications {
-//    if (!self.subscribedForVideoNotifications) {
-//        self.subscribedForVideoNotifications = YES;
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStartNotification:) name:SDLVideoStreamDidStartNotification object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStopNotification:) name:SDLVideoStreamDidStopNotification object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamSuspendedNotification:) name:SDLVideoStreamSuspendedNotification object:nil];
-//    }
+    return;
+
+    if (!self.subscribedForVideoNotifications) {
+        self.subscribedForVideoNotifications = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStartNotification:) name:SDLVideoStreamDidStartNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStopNotification:) name:SDLVideoStreamDidStopNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamSuspendedNotification:) name:SDLVideoStreamSuspendedNotification object:nil];
+    }
 }
 
 - (void)_videoStreamDidStartNotification:(NSNotification*)notification {
