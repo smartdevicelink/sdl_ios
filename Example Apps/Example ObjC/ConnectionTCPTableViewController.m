@@ -4,12 +4,13 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 #import "ConnectionTCPTableViewController.h"
-
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
+#import "VideoTestViewController.h"
 
 @interface ConnectionTCPTableViewController ()
 
@@ -18,6 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
+
+@property (strong, nonatomic, nullable) AVPlayer *player;
 
 @end
 
@@ -54,11 +57,16 @@
     [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
 
     [self.view endEditing:YES]; // hide keyboard
-    
+
+
+
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
             SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
+//            UIViewController *videoVC = [self createVideoVC];
+            [ProxyManager sharedManager].videoVC = [self createDebugVideoVC];
+
             [[ProxyManager sharedManager] startProxyTCP:tcpConfig];
         } break;
         case ProxyStateSearchingForConnection: {
@@ -70,6 +78,51 @@
         default: break;
     }
 }
+
+- (IBAction)playVideoActionStart:(id)sender {
+    NSLog(@"Play");
+    if (self.player) { [self.player play]; }
+    else { NSLog(@"no player, skip play");}
+}
+
+- (IBAction)playVideoActionStop:(id)sender {
+    NSLog(@"Play-stop");
+    if (self.player) { [self.player pause]; }
+    else { NSLog(@"no player, skip pause");}
+}
+
+- (UIViewController*)createVideoVC {
+    NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"sdl_video" withExtension:@"mp4"];
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[videoURL path]]) {
+        NSLog(@"no video at: %@", videoURL);
+        return nil;
+    }
+
+    if (self.player) {
+        [self.player pause];
+        self.player = nil;
+    }
+    self.player = [AVPlayer playerWithURL:videoURL];
+    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+    playerViewController.player = self.player;
+    return playerViewController;
+
+
+    [self presentViewController:playerViewController animated:YES completion:^{
+      [playerViewController.player play];
+    }];
+    return playerViewController;
+}
+
+- (UIViewController*)createDebugVideoVC {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"VideoWindow" bundle:nil];
+    VideoTestViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"idVideoWindow"];
+    [vc subscribeForNotifications];
+    return vc;
+}
+
+
 
 
 #pragma mark - Table view delegate

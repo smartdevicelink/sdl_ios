@@ -12,6 +12,7 @@
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "VehicleDataManager.h"
+#import "SDLCarWindow.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
+
+@property (nonatomic, assign) BOOL subscribedForVideoNotifications;
 @end
 
 
@@ -100,6 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
         self.sdlManager = nil;
     }
 
+    [self _subscribeForNotifications];
+
     SDLLifecycleConfiguration *lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:tcpConfig.ipAddress port:tcpConfig.port];
 
     UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -111,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
     lifecycleConfiguration.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     lifecycleConfiguration.language = SDLLanguageEnUs;
     lifecycleConfiguration.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
-    lifecycleConfiguration.appType = SDLAppHMITypeDefault;
+    lifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
@@ -124,7 +129,22 @@ NS_ASSUME_NONNULL_BEGIN
     SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 
 
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+
+
+    SDLEncryptionConfiguration *encryptionConfig = [SDLEncryptionConfiguration defaultConfiguration];//[[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[OEMSecurityManager.self] delegate:self];
+    SDLStreamingMediaConfiguration *streamingConfig = nil;
+//    SDLStreamingMediaConfiguration *streamingConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
+
+    if (self.videoVC) {
+        streamingConfig = [SDLStreamingMediaConfiguration autostreamingInsecureConfigurationWithInitialViewController:self.videoVC];
+    } else {
+        streamingConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
+    }
+
+    SDLConfiguration *config2 = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] streamingMedia:streamingConfig fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:encryptionConfig];
+
+
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config2 delegate:self];
 //    [self sdlex_startManager];
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
@@ -145,6 +165,30 @@ NS_ASSUME_NONNULL_BEGIN
         NSLog(@"SDL started, file manager storage: %lu mb", weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
+
+
+- (void)_subscribeForNotifications {
+//    if (!self.subscribedForVideoNotifications) {
+//        self.subscribedForVideoNotifications = YES;
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStartNotification:) name:SDLVideoStreamDidStartNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStopNotification:) name:SDLVideoStreamDidStopNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamSuspendedNotification:) name:SDLVideoStreamSuspendedNotification object:nil];
+//    }
+}
+
+- (void)_videoStreamDidStartNotification:(NSNotification*)notification {
+    NSLog(@"**V-START");
+}
+
+- (void)_videoStreamDidStopNotification:(NSNotification*)notification {
+    NSLog(@"**V-STOP");
+}
+
+- (void)_videoStreamSuspendedNotification:(NSNotification*)notification {
+    NSLog(@"**V-SUSPEND");
+}
+
+
 
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
@@ -204,6 +248,9 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelDebug;
 
+    //TODO: fix it when done
+//    logConfig.globalLogLevel = SDLLogLevelVerbose;
+    
     return logConfig;
 }
 
@@ -288,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
-    NSLog(@"hmiLevel:changed:[%@-->%@]", oldLevel, newLevel);
+    NSLog(@"hmiLevel:changed:HMI[%@-->%@]", oldLevel, newLevel);
 
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
@@ -317,6 +364,11 @@ NS_ASSUME_NONNULL_BEGIN
         // We're always going to try to show the initial state. because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
     }
+
+    // Preventing Device Sleep
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].idleTimerDisabled = ![newLevel isEqualToEnum:SDLHMILevelNone];
+    });
 }
 
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {

@@ -2,7 +2,7 @@
 //  ProxyManager.h
 //  SmartDeviceLink-iOS
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "SDLTCPConfig.h"
 
 @class SDLManager;
@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly) ProxyState state;
 @property (strong, nonatomic, nullable) SDLManager *sdlManager;
+
+@property (strong, nonatomic, nullable) UIViewController *videoVC;
 
 + (instancetype)sharedManager;
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType;

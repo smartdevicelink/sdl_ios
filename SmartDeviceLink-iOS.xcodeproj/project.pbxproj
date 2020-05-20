@@ -1538,6 +1538,12 @@
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */; };
+		B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
+		B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
+		B3476E17247436580025DC99 /* VideoWindow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3476E15247436580025DC99 /* VideoWindow.storyboard */; };
+		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
+		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
+		B3476E202474717C0025DC99 /* VideoTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E1F2474717C0025DC99 /* VideoTestViewController.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3288,6 +3294,12 @@
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
 		B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
 		B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
+		B3476E122474356C0025DC99 /* sdl_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sdl_video.mp4; sourceTree = "<group>"; };
+		B3476E16247436580025DC99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/VideoWindow.storyboard"; sourceTree = SOURCE_ROOT; };
+		B3476E19247437470025DC99 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B3476E1E2474717C0025DC99 /* VideoTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoTestViewController.h; sourceTree = "<group>"; };
+		B3476E1F2474717C0025DC99 /* VideoTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoTestViewController.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -3392,6 +3404,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */,
+				B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */,
 				5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3983,6 +3997,7 @@
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B3476E1D247471580025DC99 /* VideoTest */,
 				5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */,
 				5D0218EC1A8E796100D1BF62 /* Connection */,
 			);
@@ -4198,6 +4213,7 @@
 				5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */,
 				5D4346621E6F38E600B639C6 /* SmartDeviceLinkSwift */,
 				5D4019B01A76EC350006B0C2 /* Products */,
+				B3476E18247437460025DC99 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4308,6 +4324,7 @@
 				5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
 				5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
 				5D1FF2AB21304567000EB9B4 /* Main.storyboard */,
+				B3476E15247436580025DC99 /* VideoWindow.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -6316,6 +6333,7 @@
 		88295699207CFBD900EF056C /* Shared Assets */ = {
 			isa = PBXGroup;
 			children = (
+				B3476E112474356C0025DC99 /* resources */,
 				5D1FF2C5213045F1000EB9B4 /* Images.xcassets */,
 				5D1FF2C1213045EB000EB9B4 /* AppConstants.h */,
 				5D1FF2C2213045EB000EB9B4 /* AppConstants.m */,
@@ -6432,6 +6450,34 @@
 			);
 			name = Models;
 			path = "Example Apps/Example ObjC/Models";
+			sourceTree = SOURCE_ROOT;
+		};
+		B3476E112474356C0025DC99 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				B3476E122474356C0025DC99 /* sdl_video.mp4 */,
+			);
+			name = resources;
+			path = "Example Apps/Shared/resources";
+			sourceTree = SOURCE_ROOT;
+		};
+		B3476E18247437460025DC99 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B3476E1B2474374F0025DC99 /* AVFoundation.framework */,
+				B3476E19247437470025DC99 /* AVKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B3476E1D247471580025DC99 /* VideoTest */ = {
+			isa = PBXGroup;
+			children = (
+				B3476E1E2474717C0025DC99 /* VideoTestViewController.h */,
+				B3476E1F2474717C0025DC99 /* VideoTestViewController.m */,
+			);
+			name = VideoTest;
+			path = "Example Apps/Example ObjC/UI/VideoTest";
 			sourceTree = SOURCE_ROOT;
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -7295,7 +7341,9 @@
 				5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
 				5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
+				B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
+				B3476E17247436580025DC99 /* VideoWindow.storyboard in Resources */,
 				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7334,6 +7382,7 @@
 				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
+				B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
 				5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
@@ -7358,6 +7407,7 @@
 			files = (
 				5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */,
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
+				B3476E202474717C0025DC99 /* VideoTestViewController.m in Sources */,
 				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
 				B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */,
@@ -8503,6 +8553,14 @@
 			);
 			name = SDLLockScreen.storyboard;
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		B3476E15247436580025DC99 /* VideoWindow.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B3476E16247436580025DC99 /* Base */,
+			);
+			name = VideoWindow.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
