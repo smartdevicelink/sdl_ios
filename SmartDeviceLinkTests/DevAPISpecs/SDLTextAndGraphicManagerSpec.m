@@ -375,7 +375,7 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability = [[SDLWindowCapability alloc] init];
             });
 
-            it(@"should send everything", ^{
+            fit(@"should send nothing", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
                 testManager.title = textTitle;
                 testManager.textField1 = textLine1;
@@ -386,12 +386,12 @@ describe(@"text and graphic manager", ^{
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
+                expect(testManager.inProgressUpdate.mainField1).toNot(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).toNot(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).toNot(equal(textLine3));
+                expect(testManager.inProgressUpdate.mainField4).toNot(equal(textLine4));
             });
         });
 
