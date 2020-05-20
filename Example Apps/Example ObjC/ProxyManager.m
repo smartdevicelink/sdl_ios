@@ -308,10 +308,10 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([language isEqualToEnum:SDLLanguageFrCa]) {
         update.ttsName = [SDLTTSChunk textChunksFromString:SDLLanguageFrCa];
     } else {
-        update.appName = nil;
+        update.ttsName = nil;
     }
 
-    if (update.ttsName == nil || update.appName == nil) {
+    if (update.appName == nil || update.ttsName == nil) {
         return nil;
     } else {
         return update;
