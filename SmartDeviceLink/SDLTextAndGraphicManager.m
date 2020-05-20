@@ -312,7 +312,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = (self.windowCapability.textFields != nil) ? self.windowCapability.maxNumberOfMainFieldLines : 4;
+    NSUInteger numberOfLines = self.windowCapability.maxNumberOfMainFieldLines;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
