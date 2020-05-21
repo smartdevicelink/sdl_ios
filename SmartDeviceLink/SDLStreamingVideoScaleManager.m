@@ -17,19 +17,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingVideoScaleManager ()
-
-@property (assign, nonatomic, readwrite) CGRect appViewportFrame;
-
-@end
-
 @implementation SDLStreamingVideoScaleManager
 
 const float SDLDefaultScaleValue = 1.0;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
-    return [[self.class alloc] initWithScale:SDLDefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
+    return [self initWithScale:SDLDefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
 }
 
 - (void)stop {

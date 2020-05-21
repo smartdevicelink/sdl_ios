@@ -30,13 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, nullable) SDLStreamingVideoLifecycleManager *streamManager;
 
 @property (assign, nonatomic) SDLCarWindowRenderingType renderingType;
-@property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
 @property (assign, nonatomic) BOOL allowMultipleOrientations;
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
 @property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
 
 @property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
+@property (assign, nonatomic) CGRect viewportFrame;
+@property (assign, nonatomic) BOOL isViewportFrameValid;
 
 @end
 
@@ -50,14 +51,17 @@ NS_ASSUME_NONNULL_BEGIN
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
+    //Note: the notification center can or should be local, not default
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamSuspended:) name:SDLVideoStreamSuspendedNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didPresentLockScreenViewController:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didDismissLockScreenViewController:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_didPresentLockScreenViewController:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+    [notificationCenter addObserver:self selector:@selector(sdl_didDismissLockScreenViewController:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
     return self;
 }
@@ -90,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsEndImageContext();
 
     CGImageRef imageRef = screenshot.CGImage;
-    CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+    CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     if (pixelBuffer != nil) {
         BOOL success = [self.streamManager sendVideoData:pixelBuffer];
         if (!success) {
@@ -101,6 +105,17 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
     }
+}
+
+- (void)dealloc {
+    [self unsubscribeFromNotifications];
+}
+
+#pragma mark - Notifications
+
+- (void)unsubscribeFromNotifications {
+    //Note: use a proper center
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - SDLNavigationLockScreenManager Notifications
@@ -127,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Video stream started");
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
+        [self sdl_applyDisplayDimensionsToViewController:self.rootViewController];
     });
 }
 
@@ -156,15 +171,17 @@ NS_ASSUME_NONNULL_BEGIN
                 @throw [NSException sdl_carWindowOrientationException];
             }
 
-        [self sdl_applyDisplayDimensionsToRootViewController:rootViewController];
+        [self sdl_applyDisplayDimensionsToViewController:rootViewController];
         self->_rootViewController = rootViewController;
     });
 }
 
 #pragma mark - Private Helpers
-+ (nullable CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
+// memory management 'create': release the result object when done
++ (nullable CVPixelBufferRef)sdl_createPixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
+    NSLog(@"RENDER:[%dx%d]", (int)imageWidth, (int)imageHeight);
 
     CVPixelBufferRef pixelBuffer;
     CVReturn result = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pixelBuffer);
@@ -185,81 +202,29 @@ NS_ASSUME_NONNULL_BEGIN
 
     return pixelBuffer;
 }
-/**
- Sets the rootViewController's frame to the display's viewport dimensions.
 
- @param rootViewController The view controller to resize
+/**
+ Sets the viewController frame to the display viewport dimensions.
+
+ @param viewController (aka rootViewController) The view controller to resize
  */
-- (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
-    if (self.streamManager.videoScaleManager.appViewportFrame.size.width == 0) {
+- (void)sdl_applyDisplayDimensionsToViewController:(UIViewController *)viewController {
+    const CGRect frame = self.streamManager.videoScaleManager.appViewportFrame;
+    if (1 > CGRectGetWidth(frame)) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
         return;
     }
 
-    if (CGRectEqualToRect(rootViewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
-        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(rootViewController.view.frame));
+    if (CGRectEqualToRect(viewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
+        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(viewController.view.frame));
         return;
     }
 
-    rootViewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-    rootViewController.view.bounds = rootViewController.view.frame;
+    viewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
+    viewController.view.bounds = viewController.view.frame;
 
-    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(rootViewController.view.frame));
-}
-
-#pragma mark Backgrounded Screen / Text
-
-+ (UIImage*)sdl_imageWithText:(NSString*)text size:(CGSize)size {
-    CGRect frame = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContextWithOptions(frame.size, NO, 1.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
-    CGContextFillRect(context, frame);
-    CGContextSaveGState(context);
-
-    NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-    textStyle.alignment = NSTextAlignmentCenter;
-
-    NSDictionary* textAttributes = @{
-                                     NSFontAttributeName: [self sdl_fontFittingSize:frame.size forText:text],
-                                     NSForegroundColorAttributeName: [UIColor whiteColor],
-                                     NSParagraphStyleAttributeName: textStyle
-                                     };
-    CGRect textFrame = [text boundingRectWithSize:size
-                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                       attributes:textAttributes
-                                          context:nil];
-
-    CGRect textInset = CGRectMake(0,
-                                  (frame.size.height - CGRectGetHeight(textFrame)) / 2.0,
-                                  frame.size.width,
-                                  frame.size.height);
-
-    [text drawInRect:textInset
-      withAttributes:textAttributes];
-
-    CGContextRestoreGState(context);
-    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
-
-    return image;
-}
-
-+ (UIFont*)sdl_fontFittingSize:(CGSize)size forText:(NSString*)text {
-    CGFloat fontSize = 100;
-    while (fontSize > 0.0) {
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
-                                             context:nil].size;
-
-        if (textSize.height <= size.height) { break; }
-
-        fontSize -= 10.0;
-    }
-
-    return [UIFont boldSystemFontOfSize:fontSize];
+    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(viewController.view.frame));
 }
 
 @end

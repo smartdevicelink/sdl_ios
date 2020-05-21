@@ -407,7 +407,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
                 weakSelf.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
             }
 
-            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics enabled %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
+            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"enabled" : @"disabled"));
         } else {
             // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
@@ -423,8 +423,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
 
         // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
-        for (id key in self.customEncoderSettings.keyEnumerator) {
-            self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+        for (id key in weakSelf.customEncoderSettings.keyEnumerator) {
+            weakSelf.videoEncoderSettings[key] = [weakSelf.customEncoderSettings valueForKey:key];
         }
 
         if (weakSelf.dataSource != nil) {
@@ -433,8 +433,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             SDLLogD(@"Got specialized video resolutions: %@", weakSelf.preferredResolutions);
         }
 
-        [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
-        [self sdl_sendVideoStartService];
+        [weakSelf.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:weakSelf selector:@selector(sdl_displayCapabilityDidUpdate:)];
+        [weakSelf sdl_sendVideoStartService];
     }];
 }
 
@@ -532,17 +532,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     } else if (self.preferredResolutions.count > 0) {
         // If a preferred resolution was set, use the first option to set the screen size
         SDLImageResolution *preferredResolution = self.preferredResolutions.firstObject;
-        CGSize newScreenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+        const CGSize newScreenSize = preferredResolution.makeSize;
         if (!CGSizeEqualToSize(self.videoScaleManager.displayViewportResolution, newScreenSize)) {
             SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
-            self.videoScaleManager.displayViewportResolution = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+            self.videoScaleManager.displayViewportResolution = newScreenSize;
         }
-    } // else we are using the screen size we got from the RAIR earlier
+    } // else we are using the screen size we got from the RAI earlier
 
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
-    self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
-    self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
-    self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
+    self.videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264 protocol:videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW];
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
@@ -852,22 +850,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 #pragma mark Setters / Getters
 
-- (void)setRootViewController:(nullable UIViewController *)rootViewController {
-    if (self.focusableItemManager != nil) {
-        self.focusableItemManager.viewController = rootViewController;
-    }
-
-    if (self.carWindow != nil) {
-        self.carWindow.rootViewController = rootViewController;
-    }
+- (void)setRootViewController:(nullable UIViewController *)viewController {
+    self.focusableItemManager.viewController = viewController;
+    self.carWindow.rootViewController = viewController;
 }
 
 - (nullable UIViewController *)rootViewController {
-    if (self.carWindow != nil) {
         return self.carWindow.rootViewController;
-    } else {
-        return nil;
-    }
 }
 
 - (BOOL)isAppStateVideoStreamCapable {

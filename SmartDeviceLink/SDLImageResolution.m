@@ -39,6 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
+- (CGSize)makeSize {
+    return CGSizeMake(self.resolutionWidth.floatValue, self.resolutionHeight.floatValue);
+}
+
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@:%p> {%@ x %@}", NSStringFromClass(self.class), self, self.resolutionWidth, self.resolutionHeight];
 }
