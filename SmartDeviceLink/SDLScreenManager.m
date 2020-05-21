@@ -65,10 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager stop];
 }
 
-- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
-    return [self.softButtonManager softButtonObjectNamed:name];
-}
-
 #pragma mark - Setters
 
 - (void)setTextField1:(nullable NSString *)textField1 {
@@ -218,6 +214,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
+}
+
+- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
+    return [self.softButtonManager softButtonObjectNamed:name];
 }
 
 - (SDLMenuConfiguration *)menuConfiguration {

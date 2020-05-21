@@ -15,12 +15,15 @@
 #import "SDLMenuManagerConstants.h"
 
 @class SDLArtwork;
+@class SDLButtonName;
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLFileManager;
 @class SDLKeyboardProperties;
 @class SDLMenuCell;
 @class SDLMenuConfiguration;
+@class SDLOnButtonEvent;
+@class SDLOnButtonPress;
 @class SDLSoftButtonObject;
 @class SDLSystemCapabilityManager;
 @class SDLVoiceCommand;
@@ -44,6 +47,13 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
  @param error The error if one occurred
  */
 typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
+
+/// A handler run when the subscribe button has been selected
+///
+/// @param buttonPress Indicates whether this is a long or short button press event
+/// @param buttonEvent Indicates that the button has been depressed or released
+/// @param error The error if one occurred
+typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
 /// The SDLScreenManager is a manager to control SDL UI features. Use the screen manager for setting up the UI of the template, creating a menu for your users, creating softbuttons, setting textfields, etc..
 @interface SDLScreenManager : NSObject
@@ -241,11 +251,17 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)endUpdatesWithCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
-#pragma mark Soft Button
+#pragma mark Soft Buttons
 
 /// Retrieve a SoftButtonObject based on its name.
 /// @param name The name of the button
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name;
+
+#pragma mark Subscribe Buttons
+
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName *)buttonName withBlock:(nullable SDLSubscribeButtonHandler)block;
+- (void)subscribeButton:(SDLButtonName *)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
 
 #pragma mark Choice Sets
 
