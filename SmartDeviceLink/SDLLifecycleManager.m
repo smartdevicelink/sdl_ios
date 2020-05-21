@@ -380,7 +380,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
 
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if ((oldDelegateCanUpdateLifecycle || delegateCanUpdateLifecycle) && [supportedLanguages containsObject:actualHMILanguage] && [supportedLanguages containsObject:actualVRLanguage]) {
+    if ((delegateCanUpdateLifecycle || oldDelegateCanUpdateLifecycle)
+        && ([supportedLanguages containsObject:actualHMILanguage] || [supportedLanguages containsObject:actualVRLanguage])) {
         if (![actualHMILanguage isEqualToEnum:desiredHMILanguage]
             || ![actualVRLanguage isEqualToEnum:desiredVRLanguage]) {
             [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
