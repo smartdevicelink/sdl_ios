@@ -30,11 +30,10 @@
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
-
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
 
 @end
 
@@ -81,13 +80,7 @@ describe(@"menu manager", ^{
         windowCapability.imageFields = @[commandIconField];
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
-
-        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:SDLDisplayTypeGeneric];
-        displayCapability.windowCapabilities = @[windowCapability];
-
-        OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
-        OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
-        [testManager sdl_displayCapabilityDidUpdate:nil];
+        testManager.windowCapability = windowCapability;
     });
 
     it(@"should instantiate correctly", ^{

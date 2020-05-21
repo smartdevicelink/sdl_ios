@@ -6,6 +6,7 @@
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImage.h"
+#import "SDLImageField.h"
 #import "SDLMetadataTags.h"
 #import "SDLPutFileResponse.h"
 #import "SDLShow.h"
@@ -36,6 +37,8 @@
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic) BOOL isDirty;
+
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
 
 @end
 
@@ -859,10 +862,21 @@ describe(@"text and graphic manager", ^{
             });
         });
 
-        context(@"updating images", ^{
+        fcontext(@"updating images", ^{
             __block NSString *testTextFieldText = @"mainFieldText";
 
             beforeEach(^{
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
+                SDLImageField *primaryImageField = [[SDLImageField alloc] init];
+                primaryImageField.name = SDLImageFieldNameGraphic;
+                SDLImageField *secondaryImageField = [[SDLImageField alloc] init];
+                secondaryImageField.name = SDLImageFieldNameSecondaryGraphic;
+                testManager.windowCapability.imageFields = @[primaryImageField, secondaryImageField];
+
+                SDLTextField *lineOneField = [[SDLTextField alloc] init];
+                lineOneField.name = SDLTextFieldNameMainField1;
+                testManager.windowCapability.textFields = @[lineOneField];
+
                 testManager.batchUpdates = YES;
                 testManager.textField1 = testTextFieldText;
             });
@@ -888,7 +902,7 @@ describe(@"text and graphic manager", ^{
                         testManager.windowCapability = [[SDLWindowCapability alloc] init];
                     });
 
-                    it(@"should send everything", ^{
+                    it(@"should send nothing", ^{
                         testManager.primaryGraphic = testArtwork;
                         testManager.secondaryGraphic = testArtwork;
                         testManager.batchUpdates = NO;
