@@ -6,10 +6,8 @@
 //  Copyright © 2020 smartdevicelink. All rights reserved.
 //
 
+#import "SDLButtonName.h"
 #import "SDLNotificationConstants.h"
-
-@class SDLButtonName;
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,9 +23,9 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 
 @interface SDLSDLSubscribeButtonManager : NSObject
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName *)buttonName withBlock:(nullable SDLSubscribeButtonUpdateHandler)block;
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonUpdateHandler)block;
 
-- (void)subscribeButton:(SDLButtonName *)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 
 - (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)block;
 

@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import "NSNumber+NumberType.h"
+#import "SDLButtonName.h"
 #import "SDLInteractionMode.h"
-#import "SDLMetadataType.h"
-#import "SDLTextAlignment.h"
 #import "SDLMenuManagerConstants.h"
+#import "SDLMetadataType.h"
+#import "SDLNotificationConstants.h"
+#import "SDLTextAlignment.h"
 
 @class SDLArtwork;
-@class SDLButtonName;
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLFileManager;
@@ -259,8 +260,8 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark Subscribe Buttons
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName *)buttonName withBlock:(nullable SDLSubscribeButtonHandler)block;
-- (void)subscribeButton:(SDLButtonName *)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonHandler)block;
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 - (void)unsubscribeButtonWithObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
 
 #pragma mark Choice Sets
