@@ -34,6 +34,8 @@
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+
 @end
 
 QuickSpecBegin(SDLMenuManagerSpec)
@@ -85,6 +87,7 @@ describe(@"menu manager", ^{
 
         OCMStub(mockSystemCapabilityManager.defaultMainWindowCapability).andReturn(windowCapability);
         OCMStub(mockSystemCapabilityManager.displays).andReturn(@[displayCapability]);
+        [testManager sdl_displayCapabilityDidUpdate:nil];
     });
 
     it(@"should instantiate correctly", ^{
