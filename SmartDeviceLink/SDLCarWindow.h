@@ -9,6 +9,7 @@
 
 @class SDLStreamingMediaConfiguration;
 @class SDLStreamingVideoLifecycleManager;
+@class SDLVideoStreamingCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
   Called by SDLStreamingMediaManager in sync with the streaming framerate. Captures a screenshot of the view controller and sends the data to Core.
  */
 - (void)syncFrame;
+
+- (void)updateVdeoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
 
 @end
 

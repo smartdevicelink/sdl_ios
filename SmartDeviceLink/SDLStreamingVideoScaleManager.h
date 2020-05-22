@@ -73,6 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stop;
 
++ (CGSize)scale:(float)scale size:(CGSize)size;
+
 @end
 
 NS_ASSUME_NONNULL_END

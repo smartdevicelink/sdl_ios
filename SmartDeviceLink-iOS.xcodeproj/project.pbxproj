@@ -1544,6 +1544,7 @@
 		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
 		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
 		B3476E202474717C0025DC99 /* VideoTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E1F2474717C0025DC99 /* VideoTestViewController.m */; };
+		B35AF8242476759700D42599 /* SDLCarWindowViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3300,6 +3301,7 @@
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B3476E1E2474717C0025DC99 /* VideoTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoTestViewController.h; sourceTree = "<group>"; };
 		B3476E1F2474717C0025DC99 /* VideoTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoTestViewController.m; sourceTree = "<group>"; };
+		B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewControllerProtocol.h; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -6118,6 +6120,7 @@
 				5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */,
 				5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */,
 				5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */,
+				B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */,
 			);
 			name = CarWindow;
 			sourceTree = "<group>";
@@ -7113,6 +7116,7 @@
 				5D61FD711A84238C00846EE7 /* SDLRPCRequest.h in Headers */,
 				5D61FD6D1A84238C00846EE7 /* SDLRPCNotification.h in Headers */,
 				5D0A7374203F0C730001595D /* SDLTextAndGraphicManager.h in Headers */,
+				B35AF8242476759700D42599 /* SDLCarWindowViewControllerProtocol.h in Headers */,
 				5D61FD691A84238C00846EE7 /* SDLRPCMessage.h in Headers */,
 				5D61FCA71A84238C00846EE7 /* SDLEnum.h in Headers */,
 				5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */,

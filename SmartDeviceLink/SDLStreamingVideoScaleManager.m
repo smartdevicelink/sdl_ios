@@ -92,6 +92,11 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
     return simd_clamp(scale, SDLMinScaleValue, SDLMaxScaleValue);
 }
 
++ (CGSize)scale:(float)scale size:(CGSize)size {
+    const float validScale = [self validateScale:scale];
+    return CGSizeMake(roundf((float)size.width * validScale), roundf((float)size.height * validScale));
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

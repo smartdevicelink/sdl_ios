@@ -22,6 +22,8 @@
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLCarWindowViewControllerProtocol.h"
+#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,7 +78,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    CGRect bounds = self.rootViewController.view.bounds;
+    if (!self.isViewportFrameValid) {
+        NSLog(@"CarWindow: Invalid frame");
+        return;
+    }
+
+    const CGRect bounds = self.viewportFrame;//self.rootViewController.view.bounds;
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
         case SDLCarWindowRenderingTypeLayer: {
@@ -96,15 +103,18 @@ NS_ASSUME_NONNULL_BEGIN
     CGImageRef imageRef = screenshot.CGImage;
     CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     if (pixelBuffer != nil) {
-        BOOL success = [self.streamManager sendVideoData:pixelBuffer];
+        const BOOL success = [self.streamManager sendVideoData:pixelBuffer];
         if (!success) {
             SDLLogE(@"Video frame will not be sent because the video frame encoding failed");
-            return;
         }
         CVPixelBufferRelease(pixelBuffer);
     } else {
         SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
     }
+}
+
+- (void)updateVdeoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+    [self sdl_applyDisplayDimensionsToViewController:self.rootViewController];
 }
 
 - (void)dealloc {
@@ -151,9 +161,24 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // And also reset the streamingViewController's frame, because we are about to show it.
-        self.rootViewController.view.frame = [UIScreen mainScreen].bounds;
+        self.viewportFrame = [UIScreen mainScreen].bounds;
+        self.isViewportFrameValid = YES;
+
+        UIViewController *viewController = self.rootViewController;
+        if ([viewController conformsToProtocol:@protocol(SDLCarWindowViewControllerProtocol)]) {
+            UIViewController<SDLCarWindowViewControllerProtocol>* sdlViewController = (UIViewController<SDLCarWindowViewControllerProtocol>*) viewController;
+            [sdlViewController resetViewportFrame];
+        } else {
+            viewController.view.frame = self.viewportFrame;
+            viewController.view.bounds = self.viewportFrame;
+        }
+
         SDLLogD(@"Video stream ended, setting view controller frame back: %@", NSStringFromCGRect(self.rootViewController.view.frame));
     });
+}
+
+- (void)sdl_didReceiveVideoStreamSuspended:(NSNotification *)notification {
+    NSLog(@"#VIDEO: suspended");
 }
 
 #pragma mark - Custom Accessors
@@ -209,22 +234,34 @@ NS_ASSUME_NONNULL_BEGIN
  @param viewController (aka rootViewController) The view controller to resize
  */
 - (void)sdl_applyDisplayDimensionsToViewController:(UIViewController *)viewController {
+
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+
     const CGRect frame = self.streamManager.videoScaleManager.appViewportFrame;
     if (1 > CGRectGetWidth(frame)) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
+        self.viewportFrame = CGRectZero;
+        self.isViewportFrameValid = NO;
         return;
     }
 
-    if (CGRectEqualToRect(viewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
-        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(viewController.view.frame));
+    if (CGRectEqualToRect(viewController.view.frame, frame)) {
+        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(frame));
         return;
     }
 
-    viewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-    viewController.view.bounds = viewController.view.frame;
+    self.viewportFrame = frame;
+    self.isViewportFrameValid = YES;
+    if ([viewController conformsToProtocol:@protocol(SDLCarWindowViewControllerProtocol)]) {
+        UIViewController<SDLCarWindowViewControllerProtocol>* sdlViewController = (UIViewController<SDLCarWindowViewControllerProtocol>*)viewController;
+        sdlViewController.viewportFrame = frame;
+    } else {
+        viewController.view.frame = frame;
+        viewController.view.bounds = frame;
+    }
 
-    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(viewController.view.frame));
+    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(frame));
 }
 
 @end

@@ -22,6 +22,7 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLStreamingMediaManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -164,6 +165,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)unsubscribeFromRPC:(SDLNotificationName)rpcName withObserver:(id)observer {
     [[NSNotificationCenter defaultCenter] removeObserver:observer name:rpcName object:nil];
+}
+
+// start stop video/audio streaming
+- (void)resumeStreaming {
+    [self.lifecycleManager resumeStreaming];
+}
+
+- (void)suspendStreaming {
+    [self.lifecycleManager suspendStreaming];
 }
 
 @end

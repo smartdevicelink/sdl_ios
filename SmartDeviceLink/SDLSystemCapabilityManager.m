@@ -605,6 +605,14 @@ typedef NSString * SDLServiceID;
     return YES;
 }
 
+- (void)unsubscribeObserver:(id)observer {
+    if (observer) {
+        for (SDLSystemCapabilityType type in self.capabilityObservers.allKeys) {
+            [self unsubscribeFromCapabilityType:type withObserver:observer];
+        }
+    }
+}
+
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
     SDLLogD(@"Unsubscribing from capability type: %@", type);
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
