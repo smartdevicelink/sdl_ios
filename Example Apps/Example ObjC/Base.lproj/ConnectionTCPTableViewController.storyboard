@@ -86,9 +86,9 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="" id="rgl-Lm-uDH">
+                            <tableViewSection headerTitle="Connection Control" id="rgl-Lm-uDH" userLabel="Connect Section">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ybX-Eh-Hbx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="ybX-Eh-Hbx" userLabel="Connect Cell">
                                         <rect key="frame" x="0.0" y="239.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ybX-Eh-Hbx" id="uI9-fK-205">
@@ -114,38 +114,77 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="4i3-dA-uKw">
-                                        <rect key="frame" x="0.0" y="283.5" width="375" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Debug" id="SCg-7v-ALc" userLabel="Debug Section">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="rRr-06-tc4" userLabel="play start/stop cell">
+                                        <rect key="frame" x="0.0" y="347.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4i3-dA-uKw" id="mLW-cs-SAB">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rRr-06-tc4" id="LHy-uH-6VK">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QhV-mb-MqK">
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="YBb-Zi-gST">
                                                     <rect key="frame" x="16" y="0.0" width="343" height="44"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XbX-fD-Uxu">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0X-t3-nVs">
                                                             <rect key="frame" x="0.0" y="7" width="167.5" height="30"/>
-                                                            <state key="normal" title="Play Start"/>
+                                                            <state key="normal" title="Show View"/>
                                                             <connections>
-                                                                <action selector="playVideoActionStart:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="SDg-U1-8YQ"/>
+                                                                <action selector="playVideoActionStart:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="0Ga-09-c5A"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0yV-2p-Dmk">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PFB-90-nIA">
                                                             <rect key="frame" x="175.5" y="7" width="167.5" height="30"/>
-                                                            <state key="normal" title="Play Stop"/>
+                                                            <state key="normal" title="Stop Anime"/>
                                                             <connections>
-                                                                <action selector="playVideoActionStop:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="1YA-mA-XRJ"/>
+                                                                <action selector="playVideoActionStop:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="LfE-SK-Nke"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="QhV-mb-MqK" secondAttribute="bottom" id="Aav-or-SzD"/>
-                                                <constraint firstItem="QhV-mb-MqK" firstAttribute="leading" secondItem="mLW-cs-SAB" secondAttribute="leading" constant="16" id="MUK-py-ILq"/>
-                                                <constraint firstItem="QhV-mb-MqK" firstAttribute="top" secondItem="mLW-cs-SAB" secondAttribute="top" id="cJD-U7-fg6"/>
-                                                <constraint firstAttribute="trailing" secondItem="QhV-mb-MqK" secondAttribute="trailing" constant="16" id="yF0-OL-FID"/>
+                                                <constraint firstItem="YBb-Zi-gST" firstAttribute="leading" secondItem="LHy-uH-6VK" secondAttribute="leading" constant="16" id="cRK-QE-sK0"/>
+                                                <constraint firstItem="YBb-Zi-gST" firstAttribute="top" secondItem="LHy-uH-6VK" secondAttribute="top" id="eld-Fn-gJe"/>
+                                                <constraint firstAttribute="trailing" secondItem="YBb-Zi-gST" secondAttribute="trailing" constant="16" id="i4e-db-91O"/>
+                                                <constraint firstAttribute="bottom" secondItem="YBb-Zi-gST" secondAttribute="bottom" id="sjt-1R-Zjr"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="oV6-pZ-3T9" userLabel="stream start/stop cell">
+                                        <rect key="frame" x="0.0" y="391.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oV6-pZ-3T9" id="XLW-as-OC4">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="s2O-hP-ryG">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="44"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFa-UK-3PR">
+                                                            <rect key="frame" x="0.0" y="7" width="167.5" height="30"/>
+                                                            <state key="normal" title="Stream Start"/>
+                                                            <connections>
+                                                                <action selector="resumeStreaming:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="3bv-Au-bpx"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKE-ZY-EWJ">
+                                                            <rect key="frame" x="175.5" y="7" width="167.5" height="30"/>
+                                                            <state key="normal" title="Stream Stop"/>
+                                                            <connections>
+                                                                <action selector="suspendStreaming:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="NtH-6y-PkW"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="s2O-hP-ryG" secondAttribute="trailing" constant="16" id="26W-jb-RrE"/>
+                                                <constraint firstAttribute="bottom" secondItem="s2O-hP-ryG" secondAttribute="bottom" id="C0Q-td-Y8M"/>
+                                                <constraint firstItem="s2O-hP-ryG" firstAttribute="leading" secondItem="XLW-as-OC4" secondAttribute="leading" constant="16" id="Vuy-FZ-l8e"/>
+                                                <constraint firstItem="s2O-hP-ryG" firstAttribute="top" secondItem="XLW-as-OC4" secondAttribute="top" id="dCK-8c-Yhm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

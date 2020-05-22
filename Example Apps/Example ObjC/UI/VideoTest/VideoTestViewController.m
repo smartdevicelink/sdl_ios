@@ -10,15 +10,42 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @interface VideoTestViewController ()
+@property (strong, nonatomic) IBOutlet UIView *displayView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *displayConstraintX;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *displayConstraintY;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *displayConstraintW;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *displayConstraintH;
+
 @property (strong, nonatomic) IBOutlet UIView *subview1;
 @property (strong, nonatomic) IBOutlet UIView *subview2;
 @property (strong, nonatomic) IBOutlet UIView *subview3;
 @property (strong, nonatomic) IBOutlet UIView *subview4;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (assign, nonatomic) BOOL subscribedForVideoNotifications;
+@property (strong, nonatomic) NSTimer * animeTimer;
+@property (strong, nonatomic) NSArray * animeColorViews;
+@property (assign, nonatomic) int animeIndex;
 @end
 
 
 @implementation VideoTestViewController
+{
+    CGRect _viewportFrame;
+}
+@dynamic viewportFrame;
+
++ (VideoTestViewController*)createViewController {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"VideoWindow" bundle:nil];
+    VideoTestViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"idVideoWindow"];
+    [vc subscribeForNotifications];
+    return vc;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.animeColorViews = @[self.subview1, self.subview2, self.subview3, self.subview4];
+    self.animeIndex = 0;
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -27,7 +54,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self stopAnime];
+//    [self stopAnime];
 }
 
 - (void)startAnime {
@@ -35,6 +62,10 @@
     [self animateView:self.subview2];
     [self animateView:self.subview3];
     [self animateView:self.subview4];
+    [self.spinner startAnimating];
+
+    [self.animeTimer invalidate];
+    self.animeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(animeTickTimer:) userInfo:nil repeats:YES];
 }
 
 - (void)stopAnime {
@@ -42,6 +73,10 @@
     [self stopAnimateView:self.subview2];
     [self stopAnimateView:self.subview3];
     [self stopAnimateView:self.subview4];
+    [self.spinner stopAnimating];
+
+    [self.animeTimer invalidate];
+    self.animeTimer = nil;
 }
 
 - (void)animateView:(UIView*)view {
@@ -57,6 +92,21 @@
 
 - (void)stopAnimateView:(UIView*)view {
     [view.layer removeAllAnimations];
+}
+
+- (void)animeTickTimer:(NSTimer*)timer {
+    const NSUInteger viewCount = self.animeColorViews.count;
+    if (1 < viewCount) {
+        UIView *view0 = self.animeColorViews[0];
+        UIView *prevView = view0;
+        UIColor * color0 = prevView.backgroundColor;
+        for (int i=1; i < viewCount; ++i) {
+            UIView * nextView = self.animeColorViews[i];
+            prevView.backgroundColor = nextView.backgroundColor;
+            prevView = nextView;
+        }
+        prevView.backgroundColor = color0;
+    }
 }
 
 - (void)subscribeForNotifications {
@@ -89,5 +139,27 @@
     });
 }
 
+//
+
+- (void)setViewportFrame:(CGRect)frame {
+    NSLog(@"setViewportFrame: %@", NSStringFromCGSize(frame.size));
+    _viewportFrame = frame;
+    frame.origin = CGPointZero; // just in case
+
+    self.displayConstraintX.constant = frame.origin.x;
+    self.displayConstraintY.constant = frame.origin.y;
+    self.displayConstraintW.constant = frame.size.width;
+    self.displayConstraintH.constant = frame.size.height;
+//    self.displayView.frame = frame;
+//    self.displayView.bounds = frame;
+}
+
+- (CGRect)viewportFrame {
+    return _viewportFrame;
+}
+
+- (void)resetViewportFrame {
+    [self setViewportFrame:self.view.bounds];
+}
 
 @end

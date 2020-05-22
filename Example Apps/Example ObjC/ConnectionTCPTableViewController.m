@@ -11,6 +11,7 @@
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
 #import "VideoTestViewController.h"
+#import "SDLManager.h"
 
 @interface ConnectionTCPTableViewController ()
 
@@ -21,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
 @property (strong, nonatomic, nullable) AVPlayer *player;
+
+@property (strong, nonatomic, nullable) VideoTestViewController * testPlayViewController;
 
 @end
 
@@ -65,7 +68,13 @@
         case ProxyStateStopped: {
             SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
 //            UIViewController *videoVC = [self createVideoVC];
-            [ProxyManager sharedManager].videoVC = [self createDebugVideoVC];
+
+            if (self.testPlayViewController) {
+                [self.navigationController popToViewController:self.parentViewController animated:YES];
+                self.testPlayViewController = nil;
+            }
+            self.testPlayViewController = [VideoTestViewController createViewController];
+            [ProxyManager sharedManager].videoVC = self.testPlayViewController;
 
             [[ProxyManager sharedManager] startProxyTCP:tcpConfig];
         } break;
@@ -83,12 +92,31 @@
     NSLog(@"Play");
     if (self.player) { [self.player play]; }
     else { NSLog(@"no player, skip play");}
+
+    if (!self.testPlayViewController) {
+        self.testPlayViewController = [VideoTestViewController createViewController];
+    }
+    [self.navigationController pushViewController:self.testPlayViewController animated:YES];
+    [self.testPlayViewController startAnime];
 }
 
 - (IBAction)playVideoActionStop:(id)sender {
     NSLog(@"Play-stop");
     if (self.player) { [self.player pause]; }
     else { NSLog(@"no player, skip pause");}
+
+    if (self.testPlayViewController) {
+        [self.navigationController popToViewController:self.parentViewController animated:YES];
+//        self.testPlayViewController = nil;
+    }
+}
+
+- (IBAction)resumeStreaming:(id)sender {
+    [[ProxyManager sharedManager].sdlManager resumeStreaming];
+}
+
+- (IBAction)suspendStreaming:(id)sender {
+    [[ProxyManager sharedManager].sdlManager suspendStreaming];
 }
 
 - (UIViewController*)createVideoVC {
@@ -114,14 +142,6 @@
     }];
     return playerViewController;
 }
-
-- (UIViewController*)createDebugVideoVC {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"VideoWindow" bundle:nil];
-    VideoTestViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"idVideoWindow"];
-    [vc subscribeForNotifications];
-    return vc;
-}
-
 
 
 

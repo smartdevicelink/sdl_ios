@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SDLCarWindowViewControllerProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VideoTestViewController : UIViewController
+@interface VideoTestViewController : UIViewController <SDLCarWindowViewControllerProtocol>
+
++ (VideoTestViewController*)createViewController;
 
 - (void)startAnime;
 - (void)stopAnime;
