@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.textAndGraphicManager start];
     [self.softButtonManager start];
     [self.choiceSetManager start];
+    [self.subscribeButtonManager start];
 
     handler(nil);
 }
@@ -66,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.menuManager stop];
     [self.voiceCommandMenuManager stop];
     [self.choiceSetManager stop];
+    [self.subscribeButtonManager stop];
 }
 
 #pragma mark - Setters
