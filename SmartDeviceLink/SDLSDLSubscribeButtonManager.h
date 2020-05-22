@@ -21,7 +21,7 @@ typedef void (^SDLSubscribeButtonUpdateHandler)(SDLOnButtonPress *_Nullable butt
 /// @param error An error if the update failed and an error occurred
 typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable error);
 
-@interface SDLSDLSubscribeButtonManager : NSObject
+@interface SDLSubscribeButtonManager : NSObject
 
 - (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonUpdateHandler)block;
 

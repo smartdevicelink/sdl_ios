@@ -11,6 +11,7 @@
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
 #import "SDLSoftButtonManager.h"
+#import "SDLSubscribeButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
 
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLMenuManager *menuManager;
 @property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 @property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
+@property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -42,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _subscribeButtonManager = [[SDLSubscribeButtonManager alloc] initWithConnectionManager:connectionManager systemCapabilityManager:systemCapabilityManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
     _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
@@ -256,6 +259,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = NO;
 
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
+}
+
+#pragma mark Subscribe Buttons
+
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonHandler)block {
+    return [self.subscribeButtonManager subscribeButton:buttonName withBlock:block];
+}
+
+- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector {
+    return [self.subscribeButtonManager subscribeButton:buttonName withObserver:observer selector:selector];
+}
+
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block {
+    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:block];
 }
 
 #pragma mark - Choice Sets
