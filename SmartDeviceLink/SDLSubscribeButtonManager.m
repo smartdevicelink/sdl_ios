@@ -78,10 +78,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer selector:selector];
-    [self.subscribeButtonObservers[buttonName] addObject:observerObject];
-
-    if (self.subscribeButtonObservers[buttonName] != nil) {
-        // This button was already subscribed
+    if (self.subscribeButtonObservers[buttonName] == nil) {
+        self.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithArray:@[observerObject]];
+    } else {
+        [self.subscribeButtonObservers[buttonName] addObject:observerObject];
+        SDLLogD(@"Subscribe button with name, %@, is already subscribed", buttonName);
         return YES;
     }
 
@@ -141,12 +142,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Subscriptions
 
-- (void)sdl_invokeObserver:(SDLSubscribeButtonObserver *)observer withButtonName:(SDLButtonName)buttonName buttonPress:(nullable SDLOnButtonPress *)buttonPress buttonEvent:(nullable SDLOnButtonEvent *)buttonEvent  error:(nullable NSError *)error {
+- (void)sdl_invokeObserver:(SDLSubscribeButtonObserver *)observer withButtonName:(SDLButtonName)buttonName buttonPress:(nullable SDLOnButtonPress *)buttonPress buttonEvent:(nullable SDLOnButtonEvent *)buttonEvent error:(nullable NSError *)error {
 
     if (observer.updateBlock != nil) {
         observer.updateBlock(buttonPress, buttonEvent, error);
     } else {
-        if ([observer.observer respondsToSelector:observer.selector]) {
+        if (![observer.observer respondsToSelector:observer.selector]) {
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
         }
 
