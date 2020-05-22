@@ -6,4 +6,16 @@
 //  Copyright © 2020 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
+#import "SDLSubscribeButtonManager.h"
+
+QuickSpecBegin(SDLSubscribeButtonManagerSpec)
+
+describe(@"subscribe button manager", ^{
+
+});
+
+QuickSpecEnd
+
