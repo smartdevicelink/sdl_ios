@@ -34,6 +34,7 @@
                                  [self sdl_screenManagerModule],
                                  [self sdl_screenManagerTextAndGraphicModule],
                                  [self sdl_screenManagerSoftButtonModule],
+                                 [self sdl_screenManagerSubscribeButtonModule],
                                  [self sdl_screenManagerMenuModule],
                                  [self sdl_screenManagerChoiceSetModule],
                                  [self sdl_utilitiesModule]]];
@@ -127,6 +128,10 @@
 
 + (SDLLogFileModule *)sdl_screenManagerSoftButtonModule {
     return [SDLLogFileModule moduleWithName:@"Screen/SoftButton" files:[NSSet setWithArray:@[@"SDLSoftButtonManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLSoftButtonTransitionOperation", @"SDLSoftButtonReplaceOperation"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerSubscribeButtonModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/SubscribeButton" files:[NSSet setWithArray:@[@"SDLSubscribeButtonManager", @"SDLSubscribeButtonObserver"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {
