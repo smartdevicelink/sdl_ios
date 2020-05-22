@@ -64,6 +64,7 @@
     [self animateView:self.subview4];
     [self.spinner startAnimating];
 
+    // note: CA animation does not work offscreen that is why the timer
     [self.animeTimer invalidate];
     self.animeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(animeTickTimer:) userInfo:nil repeats:YES];
 }
@@ -139,8 +140,6 @@
     });
 }
 
-//
-
 - (void)setViewportFrame:(CGRect)frame {
     NSLog(@"setViewportFrame: %@", NSStringFromCGSize(frame.size));
     _viewportFrame = frame;
@@ -150,11 +149,13 @@
     self.displayConstraintY.constant = frame.origin.y;
     self.displayConstraintW.constant = frame.size.width;
     self.displayConstraintH.constant = frame.size.height;
+    // note: constraints do not work offscreen
+    [self.view layoutSubviews];
 //    self.displayView.frame = frame;
-//    self.displayView.bounds = frame;
 }
 
 - (CGRect)viewportFrame {
+    // note: one can inherit it from constraints, no need to duplicate
     return _viewportFrame;
 }
 

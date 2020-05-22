@@ -72,8 +72,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (CGRect)appViewportFrame {
     // Screen capture in the CarWindow API only works if the width and height are integer values
-    return CGRectMake(0, 0, roundf((float)self.displayViewportResolution.width * self.scale),
-                      roundf((float)self.displayViewportResolution.height * self.scale));
+    return (CGRect){CGPointZero, [self.class scale:self.scale size:self.displayViewportResolution]};
 }
 
 - (void)setScale:(float)scale {
@@ -83,7 +82,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 #pragma mark - Helpers
 
 /**
- Validates the scale value. Returns the default scale value for 1.0 if the scale value is less than 1.0
+ Validates the scale value. Returns a clamped scale value in the range [SDLMinScaleValue...SDLMaxScaleValue]
 
  @param scale The scale value to be validated.
  @return The validated scale value
@@ -94,7 +93,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 + (CGSize)scale:(float)scale size:(CGSize)size {
     const float validScale = [self validateScale:scale];
-    return CGSizeMake(roundf((float)size.width * validScale), roundf((float)size.height * validScale));
+    return CGSizeMake(roundf((float)size.width / validScale), roundf((float)size.height / validScale));
 }
 
 @end
