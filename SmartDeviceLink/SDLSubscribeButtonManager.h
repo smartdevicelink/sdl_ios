@@ -53,7 +53,7 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 /// Unsubscribes to a subscribed subscribe button.
 /// @param buttonName The name of the subscribe button
 /// @param observer The object that will be unsubscribed. If a block was subscribed, the value returned by the subscription method should be passed. If a selector was subscribed, the observer object should be passed.
-/// @param block The block run when the subscribe button is unsubscribed
+/// @param completionHandler The block run when the subscribe button is unsubscribed
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler;
 
 @end
