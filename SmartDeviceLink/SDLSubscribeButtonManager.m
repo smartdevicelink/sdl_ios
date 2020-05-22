@@ -15,6 +15,8 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeButtonObserver.h"
+#import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeButtonResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Subscriptions
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonUpdateHandler)block {
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)block {
     return nil;
 }
 
@@ -76,8 +78,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer selector:selector];
-
     [self.subscribeButtonObservers[buttonName] addObject:observerObject];
+
+    if (self.subscribeButtonObservers[buttonName] != nil) {
+        // This button was already subscribed
+        return YES;
+    }
 
     SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
@@ -94,8 +100,25 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)block {
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
 
+    if (self.subscribeButtonObservers[buttonName] == nil) {
+        SDLLogE(@"Attempting to unsubscribe to subscribe button, %@, that is not currently subscribed", buttonName);
+        // TODO return custom error in the completion handler
+        return;
+    }
+
+    SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
+    [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        SDLUnsubscribeButtonResponse *unsubscribeButtonResponse = (SDLUnsubscribeButtonResponse *)response;
+        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success == false) {
+            SDLLogE(@"Attempt to unsubscribe to subscribe button, %@, failed", buttonName);
+            return completionHandler(error);
+        }
+
+        SDLLogD(@"Successfully unsubscribed to subscribe button: %@", buttonName);
+        self.subscribeButtonObservers[buttonName] = nil;
+    }];
 }
 
 #pragma mark - Notifications

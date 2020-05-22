@@ -260,9 +260,9 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark Subscribe Buttons
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonHandler)block;
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler;
 - (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler;
 
 #pragma mark Choice Sets
 

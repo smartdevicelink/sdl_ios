@@ -42,7 +42,7 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 /// @param buttonName The name of the subscribe button
 /// @param block The block run when the subscribe button is selected
 /// @return An object that can be used to unsubscribe the block using `unsubscribeButtonWithObserver:withCompletionHandler:`. If `nil` the manager was not able attempt the subscription for some reason (such as the app being in HMI_NONE).
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withBlock:(nullable SDLSubscribeButtonUpdateHandler)block;
+- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)block;
 
 /// Subscribes to a subscribe button with the button name.
 /// @param buttonName The name of the subscribe button
@@ -54,7 +54,7 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 /// @param buttonName The name of the subscribe button
 /// @param observer The object that will be unsubscribed. If a block was subscribed, the value returned by the subscription method should be passed. If a selector was subscribed, the observer object should be passed.
 /// @param block The block run when the subscribe button is unsubscribed
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)block;
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler;
 
 @end
 
