@@ -173,12 +173,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
     _videoStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLVideoStreamManagerStateStopped states:[self.class sdl_videoStreamStateTransitionDictionary]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
-
     //NOTE: the notification center should not be default & dont forget to unsubscribe
     [self subscribeForNotifications:[NSNotificationCenter defaultCenter]];
 
@@ -678,26 +672,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)subscribeForNotifications:(NSNotificationCenter*)notificationCenter {
     if (!self.subscriptionCenter) {
         self.subscriptionCenter = notificationCenter;
-        [notificationCenter addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
+        [notificationCenter addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
+        [notificationCenter addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+        [notificationCenter addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [notificationCenter addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
+//        [notificationCenter addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
     }
 }
 
 - (void)unsubscribeFromAllNotifications {
-//    if (self.subscriptionCenter)
-    {
-        [self.subscriptionCenter removeObserver:self];
-        self.subscriptionCenter = nil;
-    }
-}
-
-- (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
-    SDLOnSystemCapabilityUpdated *sysCap = [notification notification];
-    SDLVideoStreamingCapability *vidCap = sysCap.systemCapability.videoStreamingCapability;
-    if (vidCap) {
-        NSLog(@">>>VIDEO-CAP: %@", vidCap.preferredResolution);
-    } else {
-        NSLog(@">>>VIDEO-CAP: <null>");
-    }
+    [self.subscriptionCenter removeObserver:self];
+    self.subscriptionCenter = nil;
 }
 
 #pragma mark - Subscribed notifications
