@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     [_subscribeButtonObservers removeAllObjects];
-
     _currentHMILevel = nil;
 }
 
@@ -78,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer selector:selector];
-    if (self.subscribeButtonObservers[buttonName] == nil) {
+    if (self.subscribeButtonObservers[buttonName].count == 0) {
         self.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithArray:@[observerObject]];
     } else {
         [self.subscribeButtonObservers[buttonName] addObject:observerObject];
@@ -104,21 +103,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
 
     if (self.subscribeButtonObservers[buttonName] == nil) {
-        SDLLogE(@"Attempting to unsubscribe to subscribe button, %@, that is not currently subscribed", buttonName);
-        // TODO return custom error in the completion handler
-        return;
+        SDLLogE(@"Attempting to unsubscribe to the %@ subscribe button which is not currently subscribed", buttonName);
+        return completionHandler(nil);
+    }
+
+    [self.subscribeButtonObservers[buttonName] removeObject:observer];
+    if (self.subscribeButtonObservers[buttonName].count > 0) {
+        return completionHandler(nil);
     }
 
     SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
     [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         SDLUnsubscribeButtonResponse *unsubscribeButtonResponse = (SDLUnsubscribeButtonResponse *)response;
-        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success == false) {
-            SDLLogE(@"Attempt to unsubscribe to subscribe button, %@, failed", buttonName);
-            return completionHandler(error);
+        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success == NO) {
+            SDLLogE(@"Attempt to unsubscribe to subscribe button named %@ failed", buttonName);
         }
 
         SDLLogD(@"Successfully unsubscribed to subscribe button: %@", buttonName);
-        self.subscribeButtonObservers[buttonName] = nil;
+        return completionHandler(error);
     }];
 }
 
