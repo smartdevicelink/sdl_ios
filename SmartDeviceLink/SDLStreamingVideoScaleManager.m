@@ -7,6 +7,7 @@
 //
 
 #import "SDLStreamingVideoScaleManager.h"
+#import <simd/simd.h>
 
 #import "SDLOnTouchEvent.h"
 #import "SDLRectangle.h"
@@ -19,7 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingVideoScaleManager
 
-const float SDLDefaultScaleValue = 1.0;
+//TODO: use CGFloat instead
+const float SDLDefaultScaleValue = 1.0f;
+const float SDLMaxScaleValue = 10.0f;
+const float SDLMinScaleValue = 1.0f/SDLMaxScaleValue;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
@@ -68,7 +72,8 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (CGRect)appViewportFrame {
     // Screen capture in the CarWindow API only works if the width and height are integer values
-    return CGRectMake(0, 0, roundf((float)self.displayViewportResolution.width / self.scale), roundf((float)self.displayViewportResolution.height / self.scale));
+    return CGRectMake(0, 0, roundf((float)self.displayViewportResolution.width * self.scale),
+                      roundf((float)self.displayViewportResolution.height * self.scale));
 }
 
 - (void)setScale:(float)scale {
@@ -84,7 +89,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
  @return The validated scale value
  */
 + (float)validateScale:(float)scale {
-    return (scale > SDLDefaultScaleValue) ? scale : SDLDefaultScaleValue;
+    return simd_clamp(scale, SDLMinScaleValue, SDLMaxScaleValue);
 }
 
 @end
