@@ -10,8 +10,18 @@
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
-#import "VideoTestViewController.h"
 #import "SDLManager.h"
+#import "TestUIAppViewController.h"
+#import "SimpleAppViewController.h"
+#import "GameViewController.h"
+
+
+typedef NS_ENUM(NSInteger, AppKind) {
+    AppKindUIApp,
+    AppKindSimple,
+    AppKind3DApp,
+    AppKindVideoApp,
+};
 
 @interface ConnectionTCPTableViewController ()
 
@@ -20,13 +30,12 @@
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *appSelector;
 
-@property (strong, nonatomic, nullable) AVPlayer *player;
-
-@property (strong, nonatomic, nullable) VideoTestViewController * testPlayViewController;
+@property (strong, nonatomic, nullable) UIViewController *testAppViewController;
+@property (assign, nonatomic) AppKind appKind;
 
 @end
-
 
 
 @implementation ConnectionTCPTableViewController
@@ -61,20 +70,14 @@
 
     [self.view endEditing:YES]; // hide keyboard
 
-
-
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
             SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
-//            UIViewController *videoVC = [self createVideoVC];
 
-            if (self.testPlayViewController) {
-                [self.navigationController popToViewController:self.parentViewController animated:YES];
-                self.testPlayViewController = nil;
-            }
-            self.testPlayViewController = [VideoTestViewController createViewController];
-            [ProxyManager sharedManager].videoVC = self.testPlayViewController;
+            self.appKind = (!self.appSelector || self.appSelector.hidden) ? AppKindSimple : self.appSelector.selectedSegmentIndex;
+            self.testAppViewController = [self createTestViewControllerOfType:self.appKind];
+            [ProxyManager sharedManager].videoVC = self.testAppViewController;
 
             [[ProxyManager sharedManager] startProxyTCP:tcpConfig];
         } break;
@@ -88,38 +91,9 @@
     }
 }
 
-- (IBAction)playVideoActionStart:(id)sender {
-    NSLog(@"Play");
-    if (self.player) { [self.player play]; }
-    else { NSLog(@"no player, skip play");}
-
-    if (!self.testPlayViewController) {
-        self.testPlayViewController = [VideoTestViewController createViewController];
-    }
-    [self.navigationController pushViewController:self.testPlayViewController animated:YES];
-    [self.testPlayViewController startAnime];
-}
-
-- (IBAction)playVideoActionStop:(id)sender {
-    NSLog(@"Play-stop");
-    if (self.player) { [self.player pause]; }
-    else { NSLog(@"no player, skip pause");}
-
-    if (self.testPlayViewController) {
-        [self.navigationController popToViewController:self.parentViewController animated:YES];
-//        self.testPlayViewController = nil;
-    }
-}
-
-- (IBAction)resumeStreaming:(id)sender {
-    [[ProxyManager sharedManager].sdlManager resumeStreaming];
-}
-
-- (IBAction)suspendStreaming:(id)sender {
-    [[ProxyManager sharedManager].sdlManager suspendStreaming];
-}
-
 - (UIViewController*)createVideoVC {
+    NSLog(@"%s: thread: %@", __PRETTY_FUNCTION__, [NSThread isMainThread]?@"main":@"bg thread");
+
     NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"sdl_video" withExtension:@"mp4"];
 
     if (![[NSFileManager defaultManager] fileExistsAtPath:[videoURL path]]) {
@@ -127,23 +101,26 @@
         return nil;
     }
 
-    if (self.player) {
-        [self.player pause];
-        self.player = nil;
-    }
-    self.player = [AVPlayer playerWithURL:videoURL];
-    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-    playerViewController.player = self.player;
-    return playerViewController;
-
-
-    [self presentViewController:playerViewController animated:YES completion:^{
-      [playerViewController.player play];
-    }];
-    return playerViewController;
+    return nil;
 }
 
+- (UIViewController*)createTestViewControllerOfType:(AppKind)appKind {
+    switch (appKind) {
+        case AppKindVideoApp:
+            return nil;
 
+        case AppKindSimple: // Video Player
+            return [SimpleAppViewController createViewController];
+            return nil;
+
+        case AppKind3DApp: // 3D app
+            return [GameViewController createViewController];
+
+        default:
+        case AppKindUIApp: // UI app
+            return [TestUIAppViewController createViewController];
+    }
+}
 
 #pragma mark - Table view delegate
 
@@ -169,7 +146,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
         ProxyState newState = [change[NSKeyValueChangeNewKey] unsignedIntegerValue];
-        [self proxyManagerDidChangeState:newState];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self proxyManagerDidChangeState:newState];
+        });
     }
 }
 
@@ -181,6 +160,7 @@
         case ProxyStateStopped: {
             newColor = [UIColor redColor];
             newTitle = @"Connect";
+            [self finishApp];
         } break;
         case ProxyStateSearchingForConnection: {
             newColor = [UIColor blueColor];
@@ -189,6 +169,7 @@
         case ProxyStateConnected: {
             newColor = [UIColor greenColor];
             newTitle = @"Disconnect";
+            [self startAppOfKind:self.appKind];
         } break;
         default: break;
     }
@@ -198,6 +179,28 @@
             [self.connectTableViewCell setBackgroundColor:newColor];
             [self.connectButton setTitle:newTitle forState:UIControlStateNormal];
         });
+    }
+}
+
+// start / stop client app
+
+- (void)startAppOfKind:(AppKind)kind {
+    NSLog(@"start AppKind:%d", (int)kind);
+    if (self.testAppViewController) {
+        if ([self.testAppViewController isKindOfClass:[SimpleAppViewController class]]) {
+            NSLog(@"%@ : is not supposed to be in the view stack", NSStringFromClass(self.testAppViewController.class));
+        } else {
+            [self.navigationController pushViewController:self.testAppViewController animated:YES];
+        }
+    } else {
+        NSLog(@"wrong app kind: %d", (int)kind);
+    }
+}
+
+- (void)finishApp {
+    if (self.testAppViewController) {
+        [self.navigationController popToViewController:self.parentViewController animated:YES];
+        self.testAppViewController = nil;
     }
 }
 

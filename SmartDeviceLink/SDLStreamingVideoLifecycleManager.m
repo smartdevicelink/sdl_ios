@@ -461,7 +461,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.appViewportFrame.size ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.displayViewportResolution ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -486,6 +486,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         dispatch_async(dispatch_get_main_queue(), ^{
             NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
+            if (self.displayLink) {
+                NSLog(@"WARNING: the display link was not disposed in good time");
+            }
             self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
             if (@available(iOS 10, *)) {
                 self.displayLink.preferredFramesPerSecond = targetFramerate;
@@ -691,20 +694,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLVideoStreamingCapability *videoCapability = systemCapability.videoStreamingCapability;
     SDLLogD(@"Video capabilities notification received: %@", videoCapability);
 
-    const float scale = videoCapability.scale.floatValue;
-    const CGSize size = videoCapability.preferredResolution.makeSize;
-    const CGSize scaledSize = [self.videoScaleManager.class scale:scale size:size];
-    const CGSize currentSize = self.videoScaleManager.appViewportFrame.size;
-    if (CGSizeEqualToSize(scaledSize, currentSize)) {
-        SDLLogW(@"Ignore new video capabilities since the size has not changed.");
-    } else {
-        self.videoStreamingCapability = videoCapability;
-        self.shouldAutoResume = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self suspendVideo];
-            // videoStreamingCapability will be applied later when video resumes
-        });
-    }
+    self.videoStreamingCapability = videoCapability;
+    self.shouldAutoResume = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self suspendVideo];
+        // videoStreamingCapability will be applied later when video resumes
+    });
 }
 
 #pragma mark - SDLVideoEncoderDelegate

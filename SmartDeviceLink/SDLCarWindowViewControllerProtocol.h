@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLDisplaySizeParams.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLCarWindowViewControllerProtocol <NSObject>
 
-@property (assign, nonatomic) CGRect viewportFrame;
-- (void)resetViewportFrame;
+@property (assign, nonatomic, nullable) SDLDisplaySizeParams *displaySizeParams;
+
+// returns the view image
+- (UIImage *)snapshot;
 
 @end
 

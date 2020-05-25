@@ -24,6 +24,7 @@
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLCarWindowViewControllerProtocol.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLDisplaySizeParams.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,8 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
 
 @property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
-@property (assign, nonatomic) CGRect viewportFrame;
-@property (assign, nonatomic) BOOL isViewportFrameValid;
+
+@property (strong, nonatomic, nullable) SDLDisplaySizeParams *displaySizeParams;
 
 @end
 
@@ -78,30 +79,39 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (!self.isViewportFrameValid) {
-        NSLog(@"CarWindow: Invalid frame");
+    if (!self.displaySizeParams) {
+        NSLog(@"CarWindow: Invalid display params");
         return;
     }
 
-    const CGRect bounds = self.viewportFrame;//self.rootViewController.view.bounds;
-    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
-    switch (self.renderingType) {
-        case SDLCarWindowRenderingTypeLayer: {
-            [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-        } break;
-        case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
-        } break;
-        case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
-        } break;
+    UIImage *screenshot = nil;
+    if ([self.rootViewController conformsToProtocol:@protocol(SDLCarWindowViewControllerProtocol)]) {
+        id<SDLCarWindowViewControllerProtocol> sdlViewController = (id<SDLCarWindowViewControllerProtocol>)self.rootViewController;
+        screenshot = sdlViewController.snapshot;
+    } else {
+        const CGRect bounds = [self.displaySizeParams makeDisplayRect];
+        UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        const CGFloat scale = self.displaySizeParams.scale;
+        CGContextScaleCTM(context, scale, scale);
+        switch (self.renderingType) {
+            case SDLCarWindowRenderingTypeLayer: {
+                [self.rootViewController.view.layer renderInContext:context];
+            } break;
+            case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
+                [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+            } break;
+            case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
+                [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
+            } break;
+        }
+
+        screenshot = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
     }
 
-    UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
     CGImageRef imageRef = screenshot.CGImage;
-    CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+    CVPixelBufferRef pixelBuffer = imageRef ? [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool] : nil;
     if (pixelBuffer != nil) {
         const BOOL success = [self.streamManager sendVideoData:pixelBuffer];
         if (!success) {
@@ -161,16 +171,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // And also reset the streamingViewController's frame, because we are about to show it.
-        self.viewportFrame = [UIScreen mainScreen].bounds;
-        self.isViewportFrameValid = YES;
+        self.displaySizeParams = [SDLDisplaySizeParams displaySizeParamsWithSize:[UIScreen mainScreen].bounds.size scale:1];
 
         UIViewController *viewController = self.rootViewController;
         if ([viewController conformsToProtocol:@protocol(SDLCarWindowViewControllerProtocol)]) {
-            UIViewController<SDLCarWindowViewControllerProtocol>* sdlViewController = (UIViewController<SDLCarWindowViewControllerProtocol>*) viewController;
-            [sdlViewController resetViewportFrame];
+            id<SDLCarWindowViewControllerProtocol> sdlViewController = (id<SDLCarWindowViewControllerProtocol>) viewController;
+            sdlViewController.displaySizeParams = nil;
         } else {
-            viewController.view.frame = self.viewportFrame;
-            viewController.view.bounds = self.viewportFrame;
+            const CGRect frame = [self.displaySizeParams makeDisplayRect];
+            viewController.view.frame = frame;
+            viewController.view.bounds = frame;
         }
 
         SDLLogD(@"Video stream ended, setting view controller frame back: %@", NSStringFromCGRect(self.rootViewController.view.frame));
@@ -206,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable CVPixelBufferRef)sdl_createPixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
-    NSLog(@"RENDER:[%dx%d]", (int)imageWidth, (int)imageHeight);
+//    NSLog(@"RENDER:[%dx%d]", (int)imageWidth, (int)imageHeight);
 
     CVPixelBufferRef pixelBuffer;
     CVReturn result = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pixelBuffer);
@@ -234,34 +244,27 @@ NS_ASSUME_NONNULL_BEGIN
  @param viewController (aka rootViewController) The view controller to resize
  */
 - (void)sdl_applyDisplayDimensionsToViewController:(UIViewController *)viewController {
-
     NSLog(@"%s", __PRETTY_FUNCTION__);
 
-    const CGRect frame = self.streamManager.videoScaleManager.appViewportFrame;
-    if (1 > CGRectGetWidth(frame)) {
+    const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
+    const CGRect appFrame = self.streamManager.videoScaleManager.appViewportFrame;
+    if (1 > CGRectGetWidth(appFrame)) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
-        SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
-        self.viewportFrame = CGRectZero;
-        self.isViewportFrameValid = NO;
+        SDLLogW(@"The the display screen dimensions are unknown. The CarWindow will not resize.");
+        self.displaySizeParams = nil;
         return;
     }
 
-    if (CGRectEqualToRect(viewController.view.frame, frame)) {
-        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(frame));
-        return;
-    }
-
-    self.viewportFrame = frame;
-    self.isViewportFrameValid = YES;
+    self.displaySizeParams = [SDLDisplaySizeParams displaySizeParamsWithSize:displSize scale:self.streamManager.videoScaleManager.scale];
     if ([viewController conformsToProtocol:@protocol(SDLCarWindowViewControllerProtocol)]) {
         UIViewController<SDLCarWindowViewControllerProtocol>* sdlViewController = (UIViewController<SDLCarWindowViewControllerProtocol>*)viewController;
-        sdlViewController.viewportFrame = frame;
+        sdlViewController.displaySizeParams = self.displaySizeParams;
     } else {
-        viewController.view.frame = frame;
-        viewController.view.bounds = frame;
+        viewController.view.frame = appFrame;
+        viewController.view.bounds = appFrame;
     }
 
-    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(frame));
+    SDLLogD(@"Setting CarWindow frame to: %@ (display size: %@)", NSStringFromCGSize(appFrame.size), NSStringFromCGSize(displSize));
 }
 
 @end

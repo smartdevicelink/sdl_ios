@@ -1540,11 +1540,17 @@
 		B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */; };
 		B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
 		B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
-		B3476E17247436580025DC99 /* VideoWindow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3476E15247436580025DC99 /* VideoWindow.storyboard */; };
 		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
 		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
-		B3476E202474717C0025DC99 /* VideoTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E1F2474717C0025DC99 /* VideoTestViewController.m */; };
 		B35AF8242476759700D42599 /* SDLCarWindowViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */; };
+		B3AC2200247C0305008D372A /* SDLDisplaySizeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = B3AC21FE247C0305008D372A /* SDLDisplaySizeParams.h */; };
+		B3AC2201247C0305008D372A /* SDLDisplaySizeParams.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC21FF247C0305008D372A /* SDLDisplaySizeParams.m */; };
+		B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC220B247C05C8008D372A /* TestUIAppViewController.m */; };
+		B3AC220F247C0677008D372A /* ExampleApps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3AC220E247C0676008D372A /* ExampleApps.storyboard */; };
+		B3AC2210247C0677008D372A /* ExampleApps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3AC220E247C0676008D372A /* ExampleApps.storyboard */; };
+		B3AC2214247C28F3008D372A /* SimpleAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2213247C28F3008D372A /* SimpleAppViewController.m */; };
+		B3AC2218247C3224008D372A /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2217247C3224008D372A /* GameViewController.m */; };
+		B3AC221A247C3236008D372A /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B3AC2219247C3236008D372A /* art.scnassets */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3296,12 +3302,19 @@
 		B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
 		B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
 		B3476E122474356C0025DC99 /* sdl_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sdl_video.mp4; sourceTree = "<group>"; };
-		B3476E16247436580025DC99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/VideoWindow.storyboard"; sourceTree = SOURCE_ROOT; };
 		B3476E19247437470025DC99 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B3476E1E2474717C0025DC99 /* VideoTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoTestViewController.h; sourceTree = "<group>"; };
-		B3476E1F2474717C0025DC99 /* VideoTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoTestViewController.m; sourceTree = "<group>"; };
 		B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewControllerProtocol.h; sourceTree = "<group>"; };
+		B3AC21FE247C0305008D372A /* SDLDisplaySizeParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDisplaySizeParams.h; sourceTree = "<group>"; };
+		B3AC21FF247C0305008D372A /* SDLDisplaySizeParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDisplaySizeParams.m; sourceTree = "<group>"; };
+		B3AC220A247C05C8008D372A /* TestUIAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUIAppViewController.h; sourceTree = "<group>"; };
+		B3AC220B247C05C8008D372A /* TestUIAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestUIAppViewController.m; sourceTree = "<group>"; };
+		B3AC220E247C0676008D372A /* ExampleApps.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleApps.storyboard; sourceTree = "<group>"; };
+		B3AC2212247C28F3008D372A /* SimpleAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAppViewController.h; sourceTree = "<group>"; };
+		B3AC2213247C28F3008D372A /* SimpleAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAppViewController.m; sourceTree = "<group>"; };
+		B3AC2216247C3224008D372A /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		B3AC2217247C3224008D372A /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		B3AC2219247C3236008D372A /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -4326,7 +4339,6 @@
 				5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
 				5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
 				5D1FF2AB21304567000EB9B4 /* Main.storyboard */,
-				B3476E15247436580025DC99 /* VideoWindow.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -6265,6 +6277,7 @@
 		88295677207CF46C00EF056C /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
+				B3AC2203247C035C008D372A /* ExampleApps */,
 				B3476E0D24741C490025DC99 /* Models */,
 				5D48329E1A92865900252386 /* SDL */,
 				5D48329A1A8EA31500252386 /* Utilities */,
@@ -6448,6 +6461,8 @@
 		B3476E0D24741C490025DC99 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B3AC21FE247C0305008D372A /* SDLDisplaySizeParams.h */,
+				B3AC21FF247C0305008D372A /* SDLDisplaySizeParams.m */,
 				B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */,
 				B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */,
 			);
@@ -6476,12 +6491,66 @@
 		B3476E1D247471580025DC99 /* VideoTest */ = {
 			isa = PBXGroup;
 			children = (
-				B3476E1E2474717C0025DC99 /* VideoTestViewController.h */,
-				B3476E1F2474717C0025DC99 /* VideoTestViewController.m */,
 			);
 			name = VideoTest;
 			path = "Example Apps/Example ObjC/UI/VideoTest";
 			sourceTree = SOURCE_ROOT;
+		};
+		B3AC2203247C035C008D372A /* ExampleApps */ = {
+			isa = PBXGroup;
+			children = (
+				B3AC2211247C28C2008D372A /* OldStyleApp */,
+				B3AC220D247C0676008D372A /* Resources */,
+				B3AC2204247C035C008D372A /* SC3DApp */,
+				B3AC2205247C035C008D372A /* UIApp */,
+				B3AC2206247C035C008D372A /* VideoPlayerApp */,
+			);
+			name = ExampleApps;
+			path = "Example Apps/Example ObjC/ExampleApps";
+			sourceTree = SOURCE_ROOT;
+		};
+		B3AC2204247C035C008D372A /* SC3DApp */ = {
+			isa = PBXGroup;
+			children = (
+				B3AC2216247C3224008D372A /* GameViewController.h */,
+				B3AC2217247C3224008D372A /* GameViewController.m */,
+			);
+			path = SC3DApp;
+			sourceTree = "<group>";
+		};
+		B3AC2205247C035C008D372A /* UIApp */ = {
+			isa = PBXGroup;
+			children = (
+				B3AC220A247C05C8008D372A /* TestUIAppViewController.h */,
+				B3AC220B247C05C8008D372A /* TestUIAppViewController.m */,
+			);
+			path = UIApp;
+			sourceTree = "<group>";
+		};
+		B3AC2206247C035C008D372A /* VideoPlayerApp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = VideoPlayerApp;
+			sourceTree = "<group>";
+		};
+		B3AC220D247C0676008D372A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B3AC2219247C3236008D372A /* art.scnassets */,
+				B3AC220E247C0676008D372A /* ExampleApps.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B3AC2211247C28C2008D372A /* OldStyleApp */ = {
+			isa = PBXGroup;
+			children = (
+				B3AC2212247C28F3008D372A /* SimpleAppViewController.h */,
+				B3AC2213247C28F3008D372A /* SimpleAppViewController.m */,
+			);
+			path = OldStyleApp;
+			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
@@ -6848,6 +6917,7 @@
 				5D61FDF11A84238C00846EE7 /* SDLUpdateTurnList.h in Headers */,
 				5DB996571F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.h in Headers */,
 				5D61FD671A84238C00846EE7 /* SDLResult.h in Headers */,
+				B3AC2200247C0305008D372A /* SDLDisplaySizeParams.h in Headers */,
 				755F176222A00B7C0041B9CB /* SDLMenuManagerConstants.h in Headers */,
 				5D61FD351A84238C00846EE7 /* SDLPowerModeStatus.h in Headers */,
 				5D61FD971A84238C00846EE7 /* SDLSingleTireStatus.h in Headers */,
@@ -7343,11 +7413,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
+				B3AC221A247C3236008D372A /* art.scnassets in Resources */,
 				5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				B3AC220F247C0677008D372A /* ExampleApps.storyboard in Resources */,
 				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
 				B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
-				B3476E17247436580025DC99 /* VideoWindow.storyboard in Resources */,
 				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7385,6 +7456,7 @@
 			files = (
 				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				B3AC2210247C0677008D372A /* ExampleApps.storyboard in Resources */,
 				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
 				B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
@@ -7411,7 +7483,7 @@
 			files = (
 				5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */,
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
-				B3476E202474717C0025DC99 /* VideoTestViewController.m in Sources */,
+				B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */,
 				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
 				B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */,
@@ -7421,12 +7493,14 @@
 				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
 				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
 				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
+				B3AC2218247C3224008D372A /* GameViewController.m in Sources */,
 				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
 				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
 				5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */,
 				5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */,
 				5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */,
 				5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */,
+				B3AC2214247C28F3008D372A /* SimpleAppViewController.m in Sources */,
 				5D1FF2A821304531000EB9B4 /* TextValidator.m in Sources */,
 				5D1FF28D213044F9000EB9B4 /* AlertManager.m in Sources */,
 			);
@@ -7797,6 +7871,7 @@
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
 				752ECDB7228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m in Sources */,
+				B3AC2201247C0305008D372A /* SDLDisplaySizeParams.m in Sources */,
 				1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */,
 				EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */,
 				9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */,
@@ -8557,14 +8632,6 @@
 			);
 			name = SDLLockScreen.storyboard;
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		B3476E15247436580025DC99 /* VideoWindow.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B3476E16247436580025DC99 /* Base */,
-			);
-			name = VideoWindow.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
