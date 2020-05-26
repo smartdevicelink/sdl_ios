@@ -1451,6 +1451,7 @@
 		88C37F632204EBF000901DC6 /* SDLAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88C37F612204EBF000901DC6 /* SDLAppServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88C37F642204EBF000901DC6 /* SDLAppServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C37F622204EBF000901DC6 /* SDLAppServiceData.m */; };
 		88D0E5D624786580009469AB /* SDLSubscribeButtonManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D0E5D524786580009469AB /* SDLSubscribeButtonManagerSpec.m */; };
+		88D0E5D824786770009469AB /* SDLSubscribeButtonObserverSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D0E5D724786770009469AB /* SDLSubscribeButtonObserverSpec.m */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D3EBC92267949D00493C38 /* SDLIAPDataSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */; };
 		88D3EBCA2267949D00493C38 /* SDLIAPDataSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */; };
@@ -3202,6 +3203,7 @@
 		88C37F612204EBF000901DC6 /* SDLAppServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceData.h; sourceTree = "<group>"; };
 		88C37F622204EBF000901DC6 /* SDLAppServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceData.m; sourceTree = "<group>"; };
 		88D0E5D524786580009469AB /* SDLSubscribeButtonManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeButtonManagerSpec.m; sourceTree = "<group>"; };
+		88D0E5D724786770009469AB /* SDLSubscribeButtonObserverSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeButtonObserverSpec.m; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
 		88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIAPDataSession.h; sourceTree = "<group>"; };
 		88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPDataSession.m; sourceTree = "<group>"; };
@@ -6417,6 +6419,7 @@
 			isa = PBXGroup;
 			children = (
 				88D0E5D524786580009469AB /* SDLSubscribeButtonManagerSpec.m */,
+				88D0E5D724786770009469AB /* SDLSubscribeButtonObserverSpec.m */,
 			);
 			name = "Subscribe Button";
 			sourceTree = "<group>";
@@ -8236,6 +8239,7 @@
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */,
 				5D64FE6D20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m in Sources */,
+				88D0E5D824786770009469AB /* SDLSubscribeButtonObserverSpec.m in Sources */,
 				88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,

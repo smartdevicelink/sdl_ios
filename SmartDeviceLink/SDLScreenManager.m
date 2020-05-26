@@ -273,8 +273,8 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.subscribeButtonManager subscribeButton:buttonName withObserver:observer selector:selector];
 }
 
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)completionHandler {
-    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:completionHandler];
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block {
+    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:block];
 }
 
 #pragma mark - Choice Sets

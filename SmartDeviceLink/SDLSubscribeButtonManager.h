@@ -48,6 +48,7 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 /// @param buttonName The name of the subscribe button
 /// @param observer The object that will have `selector` called whenever the subscribe button is selected
 /// @param selector The selector on `observer` that will be called whenever the subscribe button is selected
+/// @return YES if the manager is attempting the subscription, or NO if the manager can't attempt the subscription for some reason (i.e. the app does not have the correct permissions to send the subscribe button), or the selector doesn't contain the correct number of parameters.
 - (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 
 /// Unsubscribes to a subscribed subscribe button.
