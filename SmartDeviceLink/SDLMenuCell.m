@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _title = title;
     _icon = icon;
-    _voiceCommands = voiceCommands;
+    _voiceCommands = ([voiceCommands count] == 0) ? nil : voiceCommands;
     _handler = handler;
 
     _cellId = UINT32_MAX;
