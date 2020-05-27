@@ -463,14 +463,6 @@ static float DefaultConnectionTimeout = 45.0;
     // Log the RPC message
     SDLLogV(@"Message received: %@", newMessage);
 
-    if (YES) {
-        NSLog(@"handleRPCDictionary: name:%@; type:%@;", functionName, messageType);
-        NSString * key = SDLRPCFunctionNameOnSystemCapabilityUpdated;
-        if ([functionName isEqualToString:key]) {
-            NSLog(@">>>GOT-it: %@", key);
-        }
-    }
-
     // Intercept and handle several messages ourselves
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
