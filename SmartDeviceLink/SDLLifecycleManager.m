@@ -371,7 +371,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     // the language represents hmi language
     SDLLanguage desiredHMILanguage = self.configuration.lifecycleConfig.language;
-    SDLLanguage desiredVRLanguage = self.currentVRLanguage;;
+    SDLLanguage desiredVRLanguage = self.currentVRLanguage;
 
     SDLLanguage actualHMILanguage = self.registerResponse.hmiDisplayLanguage;
     SDLLanguage actualVRLanguage = self.registerResponse.language;
