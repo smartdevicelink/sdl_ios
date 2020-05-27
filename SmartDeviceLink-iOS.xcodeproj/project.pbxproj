@@ -1542,7 +1542,6 @@
 		B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
 		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
 		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
-		B35AF8242476759700D42599 /* SDLCarWindowViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */; };
 		B3AC2200247C0305008D372A /* SDLDisplaySizeParams.h in Headers */ = {isa = PBXBuildFile; fileRef = B3AC21FE247C0305008D372A /* SDLDisplaySizeParams.h */; };
 		B3AC2201247C0305008D372A /* SDLDisplaySizeParams.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC21FF247C0305008D372A /* SDLDisplaySizeParams.m */; };
 		B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC220B247C05C8008D372A /* TestUIAppViewController.m */; };
@@ -3304,7 +3303,6 @@
 		B3476E122474356C0025DC99 /* sdl_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sdl_video.mp4; sourceTree = "<group>"; };
 		B3476E19247437470025DC99 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewControllerProtocol.h; sourceTree = "<group>"; };
 		B3AC21FE247C0305008D372A /* SDLDisplaySizeParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDisplaySizeParams.h; sourceTree = "<group>"; };
 		B3AC21FF247C0305008D372A /* SDLDisplaySizeParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDisplaySizeParams.m; sourceTree = "<group>"; };
 		B3AC220A247C05C8008D372A /* TestUIAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUIAppViewController.h; sourceTree = "<group>"; };
@@ -6132,7 +6130,6 @@
 				5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */,
 				5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */,
 				5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */,
-				B35AF8222476759700D42599 /* SDLCarWindowViewControllerProtocol.h */,
 			);
 			name = CarWindow;
 			sourceTree = "<group>";
@@ -7186,7 +7183,6 @@
 				5D61FD711A84238C00846EE7 /* SDLRPCRequest.h in Headers */,
 				5D61FD6D1A84238C00846EE7 /* SDLRPCNotification.h in Headers */,
 				5D0A7374203F0C730001595D /* SDLTextAndGraphicManager.h in Headers */,
-				B35AF8242476759700D42599 /* SDLCarWindowViewControllerProtocol.h in Headers */,
 				5D61FD691A84238C00846EE7 /* SDLRPCMessage.h in Headers */,
 				5D61FCA71A84238C00846EE7 /* SDLEnum.h in Headers */,
 				5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */,

@@ -26,8 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
-
-@property (nonatomic, assign) BOOL subscribedForVideoNotifications;
 @end
 
 
@@ -103,8 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
         self.sdlManager = nil;
     }
 
-    [self _subscribeForNotifications];
-
     SDLLifecycleConfiguration *lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:tcpConfig.ipAddress port:tcpConfig.port];
 
     UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -162,35 +158,9 @@ NS_ASSUME_NONNULL_BEGIN
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
         [weakSelf sdlex_showInitialData];
 
-        NSLog(@"SDL started, file manager storage: %lu mb", weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
+        NSLog(@"SDL started, file manager storage: %lu mb", (long)weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
-
-
-- (void)_subscribeForNotifications {
-    return;
-
-    if (!self.subscribedForVideoNotifications) {
-        self.subscribedForVideoNotifications = YES;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStartNotification:) name:SDLVideoStreamDidStartNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamDidStopNotification:) name:SDLVideoStreamDidStopNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_videoStreamSuspendedNotification:) name:SDLVideoStreamSuspendedNotification object:nil];
-    }
-}
-
-- (void)_videoStreamDidStartNotification:(NSNotification*)notification {
-    NSLog(@"**V-START");
-}
-
-- (void)_videoStreamDidStopNotification:(NSNotification*)notification {
-    NSLog(@"**V-STOP");
-}
-
-- (void)_videoStreamSuspendedNotification:(NSNotification*)notification {
-    NSLog(@"**V-SUSPEND");
-}
-
-
 
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];

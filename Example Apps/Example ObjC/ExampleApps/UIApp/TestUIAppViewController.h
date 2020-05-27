@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SDLCarWindowViewControllerProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TestUIAppViewController : UIViewController <SDLCarWindowViewControllerProtocol>
+@interface TestUIAppViewController : UIViewController
 
 + (TestUIAppViewController*)createViewController;
 

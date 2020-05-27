@@ -8,6 +8,7 @@
 
 #import "TestUIAppViewController.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLDisplaySizeParams.h"
 
 @interface TestUIAppViewController ()
 @property (strong, nonatomic) IBOutlet UIView *displayView;
@@ -140,8 +141,6 @@
         prevView.backgroundColor = color0;
     }
 }
-
-#pragma mark - SDLCarWindowViewControllerProtocol
 
 - (SDLDisplaySizeParams*)displaySizeParams {
     return _displaySizeParams;
