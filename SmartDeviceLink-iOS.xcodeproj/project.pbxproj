@@ -1550,6 +1550,8 @@
 		B3AC2214247C28F3008D372A /* SimpleAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2213247C28F3008D372A /* SimpleAppViewController.m */; };
 		B3AC2218247C3224008D372A /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2217247C3224008D372A /* GameViewController.m */; };
 		B3AC221A247C3236008D372A /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B3AC2219247C3236008D372A /* art.scnassets */; };
+		B3AC221D247EBB1F008D372A /* SimpleRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC221C247EBB1F008D372A /* SimpleRootView.m */; };
+		B3AC2220247EBB59008D372A /* TouchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC221F247EBB59008D372A /* TouchModel.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3313,6 +3315,10 @@
 		B3AC2216247C3224008D372A /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		B3AC2217247C3224008D372A /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		B3AC2219247C3236008D372A /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		B3AC221B247EBB1F008D372A /* SimpleRootView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleRootView.h; sourceTree = "<group>"; };
+		B3AC221C247EBB1F008D372A /* SimpleRootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleRootView.m; sourceTree = "<group>"; };
+		B3AC221E247EBB59008D372A /* TouchModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TouchModel.h; sourceTree = "<group>"; };
+		B3AC221F247EBB59008D372A /* TouchModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TouchModel.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -6545,6 +6551,10 @@
 			children = (
 				B3AC2212247C28F3008D372A /* SimpleAppViewController.h */,
 				B3AC2213247C28F3008D372A /* SimpleAppViewController.m */,
+				B3AC221B247EBB1F008D372A /* SimpleRootView.h */,
+				B3AC221C247EBB1F008D372A /* SimpleRootView.m */,
+				B3AC221E247EBB59008D372A /* TouchModel.h */,
+				B3AC221F247EBB59008D372A /* TouchModel.m */,
 			);
 			path = OldStyleApp;
 			sourceTree = "<group>";
@@ -7481,12 +7491,14 @@
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
 				B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */,
 				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
+				B3AC221D247EBB1F008D372A /* SimpleRootView.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
 				B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */,
 				5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */,
 				5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */,
 				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
 				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
+				B3AC2220247EBB59008D372A /* TouchModel.m in Sources */,
 				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
 				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
 				B3AC2218247C3224008D372A /* GameViewController.m in Sources */,

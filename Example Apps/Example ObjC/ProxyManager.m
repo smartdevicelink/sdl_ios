@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
 
+//#Touch_Input:
+@interface ProxyManager (SDLTouchManagerDelegate) <SDLTouchManagerDelegate>
+- (void)touchEventAvailable:(SDLRPCNotificationNotification *)notification;
+@end
+
 
 @implementation ProxyManager
 
@@ -52,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
 
+    //#Touch_Input: Pre sdl_ios v6.3
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchEventAvailable:) name:SDLDidReceiveTouchEventNotification object:nil];
+
+
     return self;
 }
 
@@ -72,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
         [weakSelf sdlex_showInitialData];
 
-        SDLLogD(@"SDL file manager storage: %lu mb", self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
+        SDLLogD(@"SDL file manager storage: %lu mb", (long)self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
 
@@ -141,6 +150,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config2 delegate:self];
+
+
 //    [self sdlex_startManager];
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
@@ -157,6 +168,15 @@ NS_ASSUME_NONNULL_BEGIN
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
         [weakSelf sdlex_showInitialData];
+
+        //#Touch_Input, decide who is the delegate
+        if ([weakSelf.videoVC conformsToProtocol:@protocol(SDLTouchManagerDelegate)]) {
+            weakSelf.sdlManager.streamManager.touchManager.touchEventDelegate = (id<SDLTouchManagerDelegate>) weakSelf.videoVC;
+        } else {
+            weakSelf.sdlManager.streamManager.touchManager.touchEventDelegate = self;
+        }
+
+
 
         NSLog(@"SDL started, file manager storage: %lu mb", (long)weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
@@ -397,5 +417,69 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @end
+
+//#Touch_Input:
+@implementation ProxyManager (SDLTouchManagerDelegate)
+
+- (void)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@:%@ > %@", __PRETTY_FUNCTION__, NSStringFromClass(view.class), NSStringFromCGRect(view.frame), NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceiveDoubleTapForView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+// panning
+- (void)touchManager:(SDLTouchManager *)manager panningDidStartInView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePanningFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint {
+    NSLog(@"%s: %@-->%@", __PRETTY_FUNCTION__, NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager panningDidEndInView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager panningCanceledAtPoint:(CGPoint)point {
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGPoint(point));
+}
+
+// pinch
+- (void)touchManager:(SDLTouchManager *)manager pinchDidStartInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchAtCenterPoint:(CGPoint)point withScale:(CGFloat)scale {
+    NSLog(@"%s: %@ : %2.2f", __PRETTY_FUNCTION__, NSStringFromCGPoint(point), scale);
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point withScale:(CGFloat)scale {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager pinchDidEndInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager pinchCanceledAtCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGPoint(point));
+}
+
+/// touch notification
+- (void)touchEventAvailable:(SDLRPCNotificationNotification *)notification {
+    if (![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
+      return;
+    }
+//    SDLOnTouchEvent *touchEvent = (SDLOnTouchEvent *)notification.notification;
+//
+//    // Grab something like type
+//    SDLTouchType type = touchEvent.type;
+//    NSLog(@"%s > %@ : %@", __PRETTY_FUNCTION__, type, touchEvent);
+}
+
+@end
+
 
 NS_ASSUME_NONNULL_END

@@ -132,86 +132,146 @@ There are different components to SDL that make everything work. The following d
         <scene sceneID="sXf-8T-TkQ">
             <objects>
                 <viewController storyboardIdentifier="idSimpleAppViewController" title="Simple VC" id="afi-yv-teE" customClass="SimpleAppViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ro5-P9-ro3">
+                    <view key="view" contentMode="scaleToFill" id="ro5-P9-ro3" customClass="SimpleRootView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ey4-1z-FIR" userLabel="display view">
                                 <rect key="frame" x="10" y="10" width="300" height="548"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PoP-RH-8RE" userLabel="Sub-1 (LT)">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJT-oW-v24" userLabel="All text area">
+                                        <rect key="frame" x="9" y="9" width="282" height="530"/>
+                                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <mutableString key="text">In the United States of America, there is a popular saying that "there are few things as American as apple pie".[9] In the United States, pie and especially apple pie, became "bound up in American mythology" to the point that in 1902, The New York Times asserted that "Pie is the food of the heroic" and stated that "No pie-eating people can ever be permanently vanquished".[2]
+
+The slang expression "to eat humble pie" comes from the umble pie, which was made with "chopped or minced innards of an animal", a "cheap offal filling...eaten by the poor".[27] The slang expression "it's a piece of pie", meaning that something is easy, dates from 1889.[28] The slang expression "pie-eyed", meaning drunk, dates from 1904.[29] The expression "pie in the sky", to refer to an unlikely proposal or idea, dates from a 1911 Wobbly song by Joe Hill.[30]The Pilgrim fathers and early settlers brought their pie recipes with them to America, adapting to the ingredients and techniques available to them in the New World. Settlers' recipes were for English-style meat pies.[9] The newcomers used the fruits and berries that they were familiar with from Europe, but also began incorporating North American vegetables and game that they were not familiar with, with guidance from Indigenous people.[21] Settlers favoured pies over bread because pies required less flour and did not require a brick bread oven, and because any mixture of ingredients could be added to pies to "stretch" their "meager provisions".[22] The apple pie made with American apples became popular, because apples were easy to dry and store in barrels over the winter.[22] Early American pies had thick, heavy crusts made with rough flour and suet.[22] As pioneers spread westward, pies continued to be an important supply of food; while apple pies made from dried apples were popular, cooks often had to use fillers or substitutes to stretch out their barrels of apples, such as crushed crackers, vinegar-soaked potatoes, sour green tomatoes and soft-shelled river turtle meat.[22]
+
+The first Thanksgiving feast included fowl and venison, which may have been included in pies.[9] Colonists appreciated the food preservation aspect of crusty-topped pies, which were often seasoned with "dried fruit, cinnamon, pepper and nutmeg".[9] Their first pies included pies that were based on berries and fruits pointed out to them by the Native North Americans.[1] Pies allowed colonial cooks to use round shallow pans to literally "cut corners" and to create a regional variation of shallow pie.[23] By the late 1700s, cookbooks show a wide range of newly developed sweet pies.[9]
+
+Pies became more refined with subsequent waves of immigrants; the Pennsylvania Dutch contributed a more aromatic, spiced, and less-sweet style of pie-making; the French brought the approach of making pie with butter and a range of tart, galette and pâté (forcemeat of meat and fish in dough) recipes.[22] Swedish immigrants in the plains states brought recipes for fish pie and berry pie; Finnish immigrants brought their recipes for pasties and meat pies.[22] In the northern states, pumpkin pie was popular, as pumpkins were plentiful.[22] Once the British had established Caribbean colonies, sugar became less expensive and more widely available, which meant that sweet pies could be readily made.[2] Molasses was popular in American pies due to the rum and slave trade with the Caribbean Islands, although maple syrup was an important sweetener in Northern states, after Indigenous people taught settlers how to tap maple trees and boil down the sap.[22] In the Midwest, cheese and cream pies were popular, due to the availability of big dairy farms.[22] In the US south, African-Americans enjoyed sweet potato pies, due to the widespread availability of this type of potato.[22]
+
+By the 1870s, the new science of nutrition led to criticism of pies, notably by Sarah Tyson Rorer, a cooking teacher and food editor who warned the public about how much energy pies take to digest.[22] Rorer stated that all pie crusts "...are to be condemned" and her cookbook only included an apple tart, jelly and meringue-covered crackers, pâté, and a "hygienic pie" which had "apple slices or a pumpkin custard baked in biscuit dough".[3] In 1866, Harper's Magazine included an article by C.W. Gesner that stated that although we "...cry for pie when we are infants", "Pie kills us finally", as the "heavy crust" cannot be digested.[3]
+
+Another factor that decreased the popularity of pies was industrialization and increasing movement of women into the labour market, which changed pie making from a weekly ritual to an "occasional undertaking" on special occasions.[22] In the 1950s, after WWII, the popularity of pies rebounded in the US, especially with commercial food inventions such as instant pudding mixes, Cool Whip topping, and Jello gelatin (which could be used as fillings) ready-made crusts, which were sold frozen, and alternative crusts made with crushed potato chips.[22] There was a pie renaissance in the 1980s, when old-fashioned pie recipes were rediscovered and a wide range of cross-cultural pies were explored.[22]</mutableString>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKZ-ch-9wl">
                                         <rect key="frame" x="5" y="5" width="50" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="9S9-BV-tHJ"/>
-                                            <constraint firstAttribute="width" constant="50" id="RAA-Lq-etg"/>
+                                            <constraint firstAttribute="height" constant="50" id="A3G-al-rLJ"/>
+                                            <constraint firstAttribute="width" constant="50" id="Gaf-Hr-4es"/>
                                         </constraints>
-                                        <string key="text">This is an overview of how SmartDeviceLink (SDL) works. It will go through higher level discussions about certain aspects of SDL to give an intro level of understanding. For more general information on SmartDeviceLink (SDL) as a technology, there is a white-paper available here.
-SmartDeviceLink is a connectivity protocol and set of associated libraries that allow third-party applications to communicate with cars. This allows drivers to safely access the content they want through their vehicle.
-There are different components to SDL that make everything work. The following diagram shows how some of those pieces are connected.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyM-hX-Ojt" userLabel="Sub-2 (RT)">
-                                        <rect key="frame" x="245" y="5" width="50" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="5gB-bU-GUp"/>
-                                            <constraint firstAttribute="width" constant="50" id="VT2-Lx-M2i"/>
-                                        </constraints>
-                                        <string key="text">This is an overview of how SmartDeviceLink (SDL) works. It will go through higher level discussions about certain aspects of SDL to give an intro level of understanding. For more general information on SmartDeviceLink (SDL) as a technology, there is a white-paper available here.
-SmartDeviceLink is a connectivity protocol and set of associated libraries that allow third-party applications to communicate with cars. This allows drivers to safely access the content they want through their vehicle.
-There are different components to SDL that make everything work. The following diagram shows how some of those pieces are connected.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAq-zs-Y3H" userLabel="Lab-3 (RB)">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Click">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qxE-TV-gZz">
                                         <rect key="frame" x="245" y="493" width="50" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBrownColor" red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="hVc-Xd-2ef"/>
-                                            <constraint firstAttribute="width" constant="50" id="k0A-ki-Z5Q"/>
+                                            <constraint firstAttribute="width" constant="50" id="Fa8-g9-ocy"/>
+                                            <constraint firstAttribute="height" constant="50" id="zup-kM-vrH"/>
                                         </constraints>
-                                        <string key="text">This is an overview of how SmartDeviceLink (SDL) works. It will go through higher level discussions about certain aspects of SDL to give an intro level of understanding. For more general information on SmartDeviceLink (SDL) as a technology, there is a white-paper available here.
-SmartDeviceLink is a connectivity protocol and set of associated libraries that allow third-party applications to communicate with cars. This allows drivers to safely access the content they want through their vehicle.
-There are different components to SDL that make everything work. The following diagram shows how some of those pieces are connected.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yRC-lQ-cfA" userLabel="Lab-4 (LB)">
-                                        <rect key="frame" x="5" y="493" width="50" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Click">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4JX-Pj-iKW">
+                                        <rect key="frame" x="245" y="5" width="50" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Y8U-uD-FVq"/>
-                                            <constraint firstAttribute="height" constant="50" id="hJu-Bz-1x0"/>
+                                            <constraint firstAttribute="width" constant="50" id="A61-gw-DKz"/>
+                                            <constraint firstAttribute="height" constant="50" id="ZAI-HC-LrS"/>
                                         </constraints>
-                                        <string key="text">This is an overview of how SmartDeviceLink (SDL) works. It will go through higher level discussions about certain aspects of SDL to give an intro level of understanding. For more general information on SmartDeviceLink (SDL) as a technology, there is a white-paper available here.
-SmartDeviceLink is a connectivity protocol and set of associated libraries that allow third-party applications to communicate with cars. This allows drivers to safely access the content they want through their vehicle.
-There are different components to SDL that make everything work. The following diagram shows how some of those pieces are connected.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Click">
+                                            <color key="titleColor" red="0.15317772569999999" green="0.12028289759999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="heO-VY-VjL">
                                         <rect key="frame" x="131.5" y="255.5" width="37" height="37"/>
                                         <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                                     </activityIndicatorView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNH-7i-LBE">
+                                        <rect key="frame" x="5" y="493" width="50" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="A64-hz-7vL"/>
+                                            <constraint firstAttribute="height" constant="50" id="o9a-QN-Y6u"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Click">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleShadowColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QmW-VP-tKv" userLabel="single tap view">
+                                        <rect key="frame" x="47" y="118" width="49" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FSF-qa-Ph5" userLabel="double tap view">
+                                        <rect key="frame" x="126" y="118" width="49" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="XAq-zs-Y3H" secondAttribute="trailing" priority="750" constant="5" id="07H-R0-Z9m"/>
                                     <constraint firstItem="heO-VY-VjL" firstAttribute="centerX" secondItem="Ey4-1z-FIR" secondAttribute="centerX" id="2Br-ok-EIh"/>
-                                    <constraint firstItem="yRC-lQ-cfA" firstAttribute="leading" secondItem="Ey4-1z-FIR" secondAttribute="leading" constant="5" id="2ZP-gO-cBE"/>
-                                    <constraint firstItem="PoP-RH-8RE" firstAttribute="top" secondItem="Ey4-1z-FIR" secondAttribute="top" constant="5" id="P4W-1P-Eym"/>
-                                    <constraint firstAttribute="bottom" secondItem="XAq-zs-Y3H" secondAttribute="bottom" constant="5" id="QNU-CL-Nqm"/>
-                                    <constraint firstItem="PoP-RH-8RE" firstAttribute="leading" secondItem="Ey4-1z-FIR" secondAttribute="leading" constant="5" id="f31-FB-cm5"/>
+                                    <constraint firstAttribute="trailing" secondItem="4JX-Pj-iKW" secondAttribute="trailing" constant="5" id="56i-jf-OM6"/>
+                                    <constraint firstItem="PKZ-ch-9wl" firstAttribute="top" secondItem="Ey4-1z-FIR" secondAttribute="top" constant="5" id="6cV-pP-qgz"/>
+                                    <constraint firstAttribute="bottom" secondItem="qxE-TV-gZz" secondAttribute="bottom" constant="5" id="H21-wa-cgx"/>
+                                    <constraint firstItem="TJT-oW-v24" firstAttribute="leading" secondItem="Ey4-1z-FIR" secondAttribute="leadingMargin" constant="1" id="JvI-Nz-DjE"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="TJT-oW-v24" secondAttribute="trailing" constant="1" id="THe-Rk-tFd"/>
+                                    <constraint firstItem="PKZ-ch-9wl" firstAttribute="leading" secondItem="Ey4-1z-FIR" secondAttribute="leading" constant="5" id="WdA-k6-sZb"/>
                                     <constraint firstItem="heO-VY-VjL" firstAttribute="centerY" secondItem="Ey4-1z-FIR" secondAttribute="centerY" id="irZ-ua-C1a"/>
-                                    <constraint firstItem="JyM-hX-Ojt" firstAttribute="top" secondItem="Ey4-1z-FIR" secondAttribute="top" constant="5" id="tar-Pw-SGW"/>
-                                    <constraint firstAttribute="bottom" secondItem="yRC-lQ-cfA" secondAttribute="bottom" constant="5" id="tem-5h-KWI"/>
-                                    <constraint firstAttribute="trailing" secondItem="JyM-hX-Ojt" secondAttribute="trailing" priority="750" constant="5" id="yJy-5t-Slw"/>
+                                    <constraint firstAttribute="bottom" secondItem="TNH-7i-LBE" secondAttribute="bottom" constant="5" id="lJb-K8-rOt"/>
+                                    <constraint firstItem="4JX-Pj-iKW" firstAttribute="top" secondItem="Ey4-1z-FIR" secondAttribute="top" constant="5" id="p0s-Ds-2UH"/>
+                                    <constraint firstAttribute="trailing" secondItem="qxE-TV-gZz" secondAttribute="trailing" constant="5" id="pLg-aA-fdC"/>
+                                    <constraint firstItem="TNH-7i-LBE" firstAttribute="leading" secondItem="Ey4-1z-FIR" secondAttribute="leading" constant="5" id="uko-zi-wcc"/>
+                                    <constraint firstItem="TJT-oW-v24" firstAttribute="top" secondItem="Ey4-1z-FIR" secondAttribute="topMargin" constant="1" id="v68-KQ-Aol"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="TJT-oW-v24" secondAttribute="bottom" constant="1" id="wW2-st-tCN"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -223,6 +283,10 @@ There are different components to SDL that make everything work. The following d
                             <constraint firstItem="Ey4-1z-FIR" firstAttribute="leading" secondItem="MAo-Oq-qpx" secondAttribute="leading" constant="10" id="wv3-8Z-boi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MAo-Oq-qpx"/>
+                        <connections>
+                            <outlet property="doubleTapView" destination="FSF-qa-Ph5" id="0zI-JM-gnq"/>
+                            <outlet property="singleTapView" destination="QmW-VP-tKv" id="RO8-qR-XqL"/>
+                        </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PEX-vZ-Rwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
