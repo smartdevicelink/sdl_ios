@@ -642,7 +642,7 @@ UInt32 const MenuCellIdMin = 1;
     params.position = @(position);
 
     command.menuParams = params;
-    command.vrCommands = cell.voiceCommands.count == 0 ? nil : cell.voiceCommands;
+    command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
