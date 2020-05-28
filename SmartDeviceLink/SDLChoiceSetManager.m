@@ -39,7 +39,7 @@
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
