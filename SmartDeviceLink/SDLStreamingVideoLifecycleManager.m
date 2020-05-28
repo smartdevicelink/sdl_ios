@@ -206,16 +206,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)start { // restart
-    if (!self.protocol) {
-        NSLog(@"cannot (re)start without protocol");
-        return;
-    }
-
-    [self.focusableItemManager start];
-    [self sdl_startVideoSession];
-}
-
 - (void)stop {
     SDLLogD(@"Stopping manager");
 
@@ -223,14 +213,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
     _lastPresentationTimestamp = kCMTimeInvalid;
-//    _hmiLevel = SDLHMILevelNone;
-//    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
-//    [self.videoScaleManager stop];
-//    [self.focusableItemManager stop];
+    _hmiLevel = SDLHMILevelNone;
+    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
+    [self.videoScaleManager stop];
+    [self.focusableItemManager stop];
     _connectedVehicleMake = nil;
 
-//    [self.protocol removeListener:self];
-//    _protocol = nil;
+    [self.protocol removeListener:self];
+    _protocol = nil;
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
@@ -411,6 +401,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoServiceEndedCompletionHandler();
         self.videoServiceEndedCompletionHandler = nil;
     }
+
+    if (self.shouldAutoResume) {
+        self.shouldAutoResume = NO;
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
+    }
 }
 
 - (void)didEnterStateVideoStreamStarting {
@@ -487,7 +482,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
             if (self.displayLink) {
-                NSLog(@"WARNING: the display link was not disposed in good time");
+                SDLLogW(@"The display link was not disposed in good time");
             }
             self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
             if (@available(iOS 10, *)) {
@@ -528,6 +523,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
 
+    if (![self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
+        SDLLogW(@"Request to start video service ACKed in wrong state %@, skip", self.videoStreamStateMachine.currentState);
+        return;
+    }
+
     self.videoEncrypted = startServiceACK.header.encrypted;
 
     SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:startServiceACK.payload];
@@ -560,6 +560,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
+    if (![self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
+        SDLLogW(@"Request to start video service NAKed in wrong state %@, skip", self.videoStreamStateMachine.currentState);
+        return;
+    }
+
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
     SDLLogE(@"Request to start video service NAKed with reason: %@", nakPayload.description);
 
@@ -589,11 +594,21 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
     SDLLogD(@"Request to end video service ACKed");
 
+    if (![self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateShuttingDown]) {
+        SDLLogW(@"wrong state %@, skip", self.videoStreamStateMachine.currentState);
+        return;
+    }
+
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
+
+    if (![self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateShuttingDown]) {
+        SDLLogW(@"Request to end video service NAKed in wrong state %@, skip", self.videoStreamStateMachine.currentState);
+        return;
+    }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
     SDLLogE(@"Request to end video service NAKed with payload: %@", nakPayload);
@@ -679,7 +694,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [notificationCenter addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
         [notificationCenter addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [notificationCenter addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
-//        [notificationCenter addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
     }
 }
 
@@ -695,11 +709,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video capabilities notification received: %@", videoCapability);
 
     self.videoStreamingCapability = videoCapability;
-    self.shouldAutoResume = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self suspendVideo];
-        // videoStreamingCapability will be applied later when video resumes
-    });
+
+    if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
+        typeof(self) __weak weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.shouldAutoResume = YES;
+            [weakSelf.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
+            // videoStreamingCapability will be applied later when video resumes
+        });
+    }
 }
 
 #pragma mark - SDLVideoEncoderDelegate

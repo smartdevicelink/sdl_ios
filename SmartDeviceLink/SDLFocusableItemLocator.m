@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_parseViewHierarchy:(UIView *)currentView {
     if (currentView) {
-        SDLLogD(@"Parsing UIView heirarchy: %@", currentView);
+        SDLLogV(@"Parsing UIView heirarchy: %@", currentView);
         // Finding focusable subviews recursevly
         BOOL focusable = NO;
         if (@available(iOS 9.0, *)) {

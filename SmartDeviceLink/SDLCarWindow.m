@@ -84,9 +84,6 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsBeginImageContextWithOptions(appFrame.size, YES, 1);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-//    const CGFloat scale = ...;
-//    CGContextScaleCTM(context, scale, scale);
-
     switch (self.renderingType) {
         case SDLCarWindowRenderingTypeLayer: {
             [self.rootViewController.view.layer renderInContext:context];
