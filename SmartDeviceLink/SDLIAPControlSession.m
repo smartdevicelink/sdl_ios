@@ -53,7 +53,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [self.delegate controlSessionShouldRetry];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
-
         __weak typeof(self) weakSelf = self;
         [self sdl_startStreamsWithCompletionHandler:^(BOOL success) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -98,24 +97,23 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the control session");
     if ([NSThread isMainThread]) {
-        [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
+        [self sdl_stopAndDestroySession];
+        return disconnectCompletionHandler();
     } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self sdl_stopAndDestroySession];
+            return disconnectCompletionHandler();
         });
     }
 }
 
 /// Closes the session streams and then destroys the session.
-/// @param disconnectCompletionHandler Handler called when the session has disconnected
-- (void)sdl_stopAndDestroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+- (void)sdl_stopAndDestroySession {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     [super stopStream:self.eaSession.outputStream];
     [super stopStream:self.eaSession.inputStream];
     [super cleanupClosedSession];
-
-    disconnectCompletionHandler();
 }
 
 

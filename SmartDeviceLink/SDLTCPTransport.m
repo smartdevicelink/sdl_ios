@@ -112,8 +112,9 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     self.disconnectCompletionHandler = disconnectCompletionHandler;
 
-    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams.
-    [self sdl_cancelIOThread];
+    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams. Make sure to wake up the run loop in case we don't have any I/O event.
+    [self.ioThread cancel];
+    [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - Data Transmission
@@ -144,7 +145,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self.inputStream open];
         [self.outputStream open];
 
-        while (self.ioThread != nil && ![self.ioThread isCancelled]) {
+        while (self.ioThread != nil && !self.ioThread.cancelled) {
             BOOL ret = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
             if (!ret) {
                 SDLLogW(@"Failed to start TCP transport run loop");
@@ -179,13 +180,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
     [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [stream setDelegate:nil];
-}
-
-- (void)sdl_cancelIOThread {
-    [self.ioThread cancel];
-
-    // Wake up the run loop in case we don't have any I/O event
-    [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - NSStreamDelegate

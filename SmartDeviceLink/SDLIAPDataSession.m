@@ -25,7 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSThread *ioStreamThread;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
-@property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
+
+/// A handler called when the data session has been shutdown
+@property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 
 @end
 
@@ -41,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _delegate = delegate;
     _sendDataQueue = [[SDLMutableDataQueue alloc] init];
-    _canceledSemaphore = dispatch_semaphore_create(0);
 
     return self;
 }
@@ -89,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
         }];
     } else {
         __weak typeof(self) weakSelf = self;
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self sdl_stopAndDestroySessionWithCompletionHandler:^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [strongSelf.sendDataQueue removeAllObjects];
@@ -111,35 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
         return disconnectCompletionHandler();
     }
 
+    self.disconnectCompletionHandler = disconnectCompletionHandler;
+
+    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams. Make sure to wake up the run loop in case we don't have any I/O event.
     [self.ioStreamThread cancel];
-
-    // Waiting for the I/O streams of the data session to close
-    [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
-        if (success == NO) {
-            SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
-        }
-        [super cleanupClosedSession];
-
-        return disconnectCompletionHandler();
-    }];
+    [self performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 }
 
-/**
- *  Wait for the data session to detroy its input and output streams. The data EASession can not be destroyed until both streams have closed.
- *
- *  @param canceledSemaphore When the canceled semaphore is released, the data session's input and output streams have been destroyed.
- *  @param completionHandler Returns whether or not the data session's I/O streams were closed successfully.
- */
-- (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
-    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadWaitSecs * NSEC_PER_SEC)));
-    if (lWait == 0) {
-        SDLLogD(@"Stream thread canceled successfully");
-        return completionHandler(YES);
-    } else {
-        SDLLogE(@"Failed to cancel stream thread");
-        return completionHandler(NO);
-    }
-}
+- (void)sdl_doNothing {}
 
 #pragma mark - Sending data
 
@@ -344,7 +324,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        while (!self.ioStreamThread.cancelled) {
+        while (self.ioStreamThread != nil && !self.ioStreamThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         }
@@ -353,8 +333,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Close I/O streams of the data session. When the streams are closed. Notify the thread that it can close
         [self sdl_closeSession];
+        [super cleanupClosedSession];
 
-        dispatch_semaphore_signal(self.canceledSemaphore);
+        if (self.disconnectCompletionHandler != nil) {
+            self.disconnectCompletionHandler();
+            self.disconnectCompletionHandler = nil;
+        }
     }
 }
 
