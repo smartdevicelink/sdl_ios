@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     const CGRect bounds = self.streamManager.videoScaleManager.appViewportFrame;
     if (1 > bounds.size.width) {
-        NSLog(@"CarWindow: Invalid viewport frame");
+        SDLLogD(@"CarWindow: Invalid viewport frame");
         return;
     }
 
@@ -170,7 +170,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_didReceiveVideoStreamSuspended:(NSNotification *)notification {
-    NSLog(@"#VIDEO: suspended");
 }
 
 #pragma mark - Custom Accessors
@@ -225,8 +224,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param viewController (aka rootViewController) The view controller to resize
  */
 - (void)sdl_applyDisplayDimensionsToViewController:(UIViewController *)viewController {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
     if (1 > displSize.width) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.

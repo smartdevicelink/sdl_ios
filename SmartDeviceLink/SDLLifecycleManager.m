@@ -826,9 +826,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
 
-    NSLog(@"sdl_hmiStatusDidChange:[%@-->%@], video[%@-->%@]", oldHMILevel, hmiStatusNotification.hmiLevel,
-          oldVideoStreamingState, self.videoStreamingState);
-
     if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
         SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
     }

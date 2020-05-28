@@ -199,11 +199,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 
     // attempt to start streaming since we may already have necessary conditions met
-    const BOOL success = [self sdl_startVideoSession];
-    if (!success) {
-        NSLog(@"cannot start V (state:%@, hmi:%@)", self.videoStreamingState, self.hmiLevel);
-    } else {
-    }
+    [self sdl_startVideoSession];
 }
 
 - (void)stop {
