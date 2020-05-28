@@ -173,8 +173,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_disconnectSecondaryTransportWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Destroying the audio and video protocols");
-        [strongSelf.audioLifecycleManager stopAudioStreaming];
-        [strongSelf.videoLifecycleManager stopVideoStreaming];
+        [strongSelf.audioLifecycleManager secondaryTransportDidDisconnect];
+        [strongSelf.videoLifecycleManager secondaryTransportDidDisconnect];
         strongSelf.audioProtocol = nil;
         strongSelf.videoProtocol = nil;
     }];
