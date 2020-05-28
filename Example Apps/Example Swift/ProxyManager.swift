@@ -216,6 +216,26 @@ extension ProxyManager: SDLManagerDelegate {
 
     /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
     ///
+    /// - Parameter language: The head unit's current language
+    /// - Returns: A SDLLifecycleConfigurationUpdate object
+    func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
+        var appName = ""
+        switch language {
+        case .enUs:
+            appName = ExampleAppName
+        case .esMx:
+            appName = ExampleAppNameSpanish
+        case .frCa:
+            appName = ExampleAppNameFrench
+        default:
+            return nil
+        }
+
+        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: appName, type: .text)], voiceRecognitionCommandNames: nil)
+    }
+
+    /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
+    ///
     /// - Parameter language: The head unit's current VR+TTS language
     /// - Parameter hmiLanguage: The head unit's current HMI language
     /// - Returns: A SDLLifecycleConfigurationUpdate object

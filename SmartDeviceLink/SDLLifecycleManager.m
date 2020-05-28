@@ -399,7 +399,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     SDLLifecycleConfigurationUpdate *configUpdate = nil;
     BOOL supportsNewDelegate = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
-    if (delegateCanUpdateLifecycle) {
+    if (supportsNewDelegate) {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
     } else {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];

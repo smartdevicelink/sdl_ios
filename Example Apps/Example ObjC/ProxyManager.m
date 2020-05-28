@@ -288,6 +288,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
+    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
+
+    if ([language isEqualToEnum:SDLLanguageEnUs]) {
+        update.appName = ExampleAppName;
+    } else if ([language isEqualToString:SDLLanguageEsMx]) {
+        update.appName = ExampleAppNameSpanish;
+    } else if ([language isEqualToString:SDLLanguageFrCa]) {
+        update.appName = ExampleAppNameFrench;
+    } else {
+        return nil;
+    }
+
+    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
+    return update;
+}
+
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
