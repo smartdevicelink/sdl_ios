@@ -76,25 +76,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Stop
 
+/// Makes sure the session is closed and destroyed on the main thread.
+/// @param disconnectCompletionHandler Handler called when the session has disconnected
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
-    __weak typeof(self) weakSelf = self;
-    [self sdl_destroySessionWithCompletionHandler:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.sendDataQueue removeAllObjects];
-        return disconnectCompletionHandler();
-    }];
-}
-
-/**
- *  Makes sure the session is closed and destroyed on the main thread.
- */
-- (void)sdl_destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     if ([NSThread isMainThread]) {
-        [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
+        __weak typeof(self) weakSelf = self;
+        [self sdl_stopAndDestroySessionWithCompletionHandler:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.sendDataQueue removeAllObjects];
+            return disconnectCompletionHandler();
+        }];
     } else {
+        __weak typeof(self) weakSelf = self;
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
+            [self sdl_stopAndDestroySessionWithCompletionHandler:^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [strongSelf.sendDataQueue removeAllObjects];
+                return disconnectCompletionHandler();
+            }];
         });
     }
 }

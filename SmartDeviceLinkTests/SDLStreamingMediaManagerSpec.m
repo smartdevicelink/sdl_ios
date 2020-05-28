@@ -313,7 +313,7 @@ describe(@"the streaming media manager", ^{
                 OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:1.0];
+                [NSThread sleepForTimeInterval:2.0];
 
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);

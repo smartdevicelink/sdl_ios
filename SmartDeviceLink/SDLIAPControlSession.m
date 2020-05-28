@@ -93,15 +93,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark Stop
 
+/// Makes sure the session is closed and destroyed on the main thread.
+/// @param disconnectCompletionHandler Handler called when the session has disconnected
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the control session");
-    [self sdl_destroySessionWithCompletionHandler:disconnectCompletionHandler];
-}
-
-/**
- *  Makes sure the session is closed and destroyed on the main thread.
- */
-- (void)sdl_destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     if ([NSThread isMainThread]) {
         [self sdl_stopAndDestroySessionWithCompletionHandler:disconnectCompletionHandler];
     } else {
@@ -111,9 +106,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
-/**
- *  Closes the session streams and then destroys the session.
- */
+/// Closes the session streams and then destroys the session.
+/// @param disconnectCompletionHandler Handler called when the session has disconnected
 - (void)sdl_stopAndDestroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
@@ -258,7 +252,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf sdl_destroySessionWithCompletionHandler:^{
+        [strongSelf destroySessionWithCompletionHandler:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate controlSessionShouldRetry];
