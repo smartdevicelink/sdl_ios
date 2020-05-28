@@ -738,33 +738,32 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 #pragma mark - Streaming session helpers
 
-- (BOOL)sdl_startVideoSession {
+- (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (self.protocol == nil) {
-        SDLLogD(@"No transport established with head unit. Video start service request will not be sent.");
-        return NO;
+        SDLLogW(@"No transport established with head unit. Video start service request will not be sent.");
+        return;
     }
 
     if (!self.isHmiStateVideoStreamCapable) {
-        SDLLogD(@"SDL Core is not ready to stream video. Video start service request will not be sent.");
-        return NO;
+        SDLLogV(@"SDL Core is not ready to stream video. Video start service request will not be sent.");
+        return;
     }
 
     if (!self.isStreamingSupported) {
-        SDLLogD(@"Streaming is not supported. Video start service request will not be sent.");
-        return NO;
+        SDLLogV(@"Streaming is not supported. Video start service request will not be sent.");
+        return;
     }
 
     if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateStopped] && self.isHmiStateVideoStreamCapable) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
-        return YES;
+        return;
     }
 
-    SDLLogD(@"Unable to send video start service request\n"
+    SDLLogE(@"Unable to send video start service request\n"
             "Video State must be in state STOPPED: %@\n"
             "HMI state must be LIMITED or FULL: %@\n",
             self.videoStreamStateMachine.currentState, self.hmiLevel);
-    return NO;
 }
 
 - (void)sdl_stopVideoSession {
@@ -793,11 +792,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.carWindow syncFrame];
 }
 
-- (BOOL)sdl_sendBackgroundFrames {
+- (void)sdl_sendBackgroundFrames {
     SDLLogV(@"Attempting to send background frames");
     if (!self.backgroundingPixelBuffer) {
         SDLLogW(@"No background pixel buffer, unable to send background frames");
-        return NO;
+        return;
     }
 
     int32_t timeRate = 30;
@@ -814,8 +813,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
         }
     }
-
-    return YES;
 }
 
 - (void)sdl_requestVideoCapabilities:(SDLVideoCapabilityResponseHandler)responseHandler {
