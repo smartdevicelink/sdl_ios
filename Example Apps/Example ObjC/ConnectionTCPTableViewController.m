@@ -75,8 +75,11 @@ typedef NS_ENUM(NSInteger, AppKind) {
         case ProxyStateStopped: {
             SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
 
-            self.appKind = (!self.appSelector || self.appSelector.hidden) ? AppKindSimple : self.appSelector.selectedSegmentIndex;
-            self.testAppViewController = [self createTestViewControllerOfType:self.appKind];
+            if (!self.testAppViewController) {
+//                self.appKind = (!self.appSelector || self.appSelector.hidden) ? AppKindSimple : self.appSelector.selectedSegmentIndex;
+                self.appKind = AppKindSimple;
+                self.testAppViewController = [self createTestViewControllerOfType:self.appKind];
+            }
             [ProxyManager sharedManager].videoVC = self.testAppViewController;
 
             [[ProxyManager sharedManager] startProxyTCP:tcpConfig];
@@ -89,19 +92,6 @@ typedef NS_ENUM(NSInteger, AppKind) {
         } break;
         default: break;
     }
-}
-
-- (UIViewController*)createVideoVC {
-    NSLog(@"%s: thread: %@", __PRETTY_FUNCTION__, [NSThread isMainThread]?@"main":@"bg thread");
-
-    NSURL *videoURL = [[NSBundle mainBundle] URLForResource:@"sdl_video" withExtension:@"mp4"];
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[videoURL path]]) {
-        NSLog(@"no video at: %@", videoURL);
-        return nil;
-    }
-
-    return nil;
 }
 
 - (UIViewController*)createTestViewControllerOfType:(AppKind)appKind {
@@ -200,7 +190,6 @@ typedef NS_ENUM(NSInteger, AppKind) {
 - (void)finishApp {
     if (self.testAppViewController) {
         [self.navigationController popToViewController:self.parentViewController animated:YES];
-        self.testAppViewController = nil;
     }
 }
 
