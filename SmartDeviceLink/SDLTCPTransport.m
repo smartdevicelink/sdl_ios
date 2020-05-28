@@ -9,6 +9,7 @@
 #import "SDLTCPTransport.h"
 #import "SDLMutableDataQueue.h"
 #import "SDLError.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLTimer.h"
 #import <errno.h>
@@ -16,6 +17,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const TCPIOThreadName = @"com.smartdevicelink.tcpiothread";
+NSTimeInterval const IOThreadCanceledSemaphoreWaitSecs = 1.0;
 NSUInteger const DefaultReceiveBufferSize = 16 * 1024;
 NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
@@ -30,18 +32,21 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @property (nullable, nonatomic, strong) SDLTimer *connectionTimer;
 @property (nonatomic, assign) BOOL transportConnected;
 @property (nonatomic, assign) BOOL transportErrorNotified;
+/// A semaphore used to block the current thread until we know that the I/O streams have been shutdown on the ioThread
+@property (nonatomic, strong) dispatch_semaphore_t ioThreadCancelledSemaphore;
 
-/// A handler called when the TCP transport has been shutdown
-@property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 @end
 
 @implementation SDLTCPTransport
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _receiveBufferSize = DefaultReceiveBufferSize;
-        _sendDataQueue = [[SDLMutableDataQueue alloc] init];
-    }
+    self = [super init];
+    if (!self) { return nil; }
+
+    _receiveBufferSize = DefaultReceiveBufferSize;
+    _sendDataQueue = [[SDLMutableDataQueue alloc] init];
+    _ioThreadCancelledSemaphore = dispatch_semaphore_create(0);
+
     return self;
 }
 
@@ -56,7 +61,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)dealloc {
-    SDLLogV(@"dealloc");
+    SDLLogV(@"TCP Transport dealloc");
 }
 
 #pragma mark - Stream Lifecycle
@@ -106,15 +111,44 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     self.transportConnected = NO;
 
     if (self.ioThread == nil) {
-        SDLLogV(@"TCP transport thread already cancelled");
+        SDLLogV(@"TCP transport not yet started or has been shutdown");
         return disconnectCompletionHandler();
     }
 
-    self.disconnectCompletionHandler = disconnectCompletionHandler;
+    // Tell the ioThread to shutdown the I/O streams. The I/O streams must be opened and closed on the same thread; if they are not, random crashes can occur.
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
-    // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams. Make sure to wake up the run loop in case we don't have any I/O event.
-    [self.ioThread cancel];
-    [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
+        // Attempt to cancel the ioThread. Once the thread realizes it has been cancelled, it will cleanup the input/output streams. Make sure to wake up the run loop in case we don't have any I/O event.
+        [strongSelf.ioThread cancel];
+        [strongSelf performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
+
+        // Block the current thread until the semaphore has been released by the ioThread (or a timeout has occured).
+        BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCanceled];
+        NSLog(@"called after");
+        if (!cancelledSuccessfully) {
+            SDLLogE(@"The I/O streams were not shut down successfully. Bad things might happen...");
+        }
+
+        disconnectCompletionHandler();
+    });
+}
+
+/// Wait for the ioThread to destroy the I/O streams. To ensure that we are not blocking the ioThread, this method should only be called from the main thread.
+/// @return Whether or not the session's I/O streams were closed successfully.
+- (BOOL)sdl_isIOThreadCanceled {
+    NSAssert(NSThread.currentThread.isMainThread, @"%@ must be called from the main thread!", NSStringFromSelector(_cmd));
+
+    long lWait = dispatch_semaphore_wait(self.ioThreadCancelledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOThreadCanceledSemaphoreWaitSecs * NSEC_PER_SEC)));
+    if (lWait == 0) {
+        NSLog(@"lWait == 0");
+        SDLLogD(@"ioThread cancelled successfully");
+        return YES;
+    }
+
+    SDLLogE(@"Failed to cancel ioThread within %f seconds", IOThreadCanceledSemaphoreWaitSecs);
+    return NO;
 }
 
 #pragma mark - Data Transmission
@@ -152,19 +186,16 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
                 break;
             }
         }
-        SDLLogD(@"TCP transport run loop terminated");
 
+        SDLLogD(@"TCP transport run loop terminated");
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
         self.inputStream = nil;
         self.outputStream = nil;
-
         [self.connectionTimer cancel];
 
-        if (self.disconnectCompletionHandler != nil) {
-            self.disconnectCompletionHandler();
-            self.disconnectCompletionHandler = nil;
-        }
+        // If a thread is blocked waiting on the transport to shutdown, let the thread know that shutdown has completed.
+        dispatch_semaphore_signal(self.ioThreadCancelledSemaphore);
     }
 }
 
