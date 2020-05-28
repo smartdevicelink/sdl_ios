@@ -228,10 +228,6 @@ typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
  */
 - (void)unsubscribeFromRPC:(SDLNotificationName)rpcName withObserver:(id)observer NS_SWIFT_NAME(unsubscribe(from:observer:));
 
-// start stop video/audio streaming
-- (void)resumeStreaming;
-- (void)suspendStreaming;
-
 @end
 
 NS_ASSUME_NONNULL_END

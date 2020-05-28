@@ -903,15 +903,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 }
 
-// start stop video/audio streaming
-- (void)resumeStreaming {
-    [self.streamManager resumeStreaming];
-}
-
-- (void)suspendStreaming {
-    [self.streamManager suspendStreaming];
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

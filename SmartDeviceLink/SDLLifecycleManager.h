@@ -161,10 +161,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
 
-// start stop video/audio streaming
-- (void)resumeStreaming;
-- (void)suspendStreaming;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -284,14 +284,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.videoLifecycleManager.showVideoBackgroundDisplay = showVideoBackgroundDisplay;
 }
 
-- (void)resumeStreaming {
-    [self.videoLifecycleManager resumeVideo];
-}
-
-- (void)suspendStreaming {
-    [self.videoLifecycleManager suspendVideo];
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

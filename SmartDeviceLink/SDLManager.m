@@ -167,15 +167,6 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:observer name:rpcName object:nil];
 }
 
-// start stop video/audio streaming
-- (void)resumeStreaming {
-    [self.lifecycleManager resumeStreaming];
-}
-
-- (void)suspendStreaming {
-    [self.lifecycleManager suspendStreaming];
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

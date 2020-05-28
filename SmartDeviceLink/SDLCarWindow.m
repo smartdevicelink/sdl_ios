@@ -75,13 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    const CGRect appFrame = self.streamManager.videoScaleManager.appViewportFrame;
-    if (1 > appFrame.size.width) {
+    const CGRect bounds = self.streamManager.videoScaleManager.appViewportFrame;
+    if (1 > bounds.size.width) {
         NSLog(@"CarWindow: Invalid viewport frame");
         return;
     }
 
-    UIGraphicsBeginImageContextWithOptions(appFrame.size, YES, 1);
+    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     switch (self.renderingType) {
@@ -89,10 +89,10 @@ NS_ASSUME_NONNULL_BEGIN
             [self.rootViewController.view.layer renderInContext:context];
         } break;
         case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:appFrame afterScreenUpdates:YES];
+            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
         } break;
         case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:appFrame afterScreenUpdates:NO];
+            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
         } break;
     }
 
