@@ -229,7 +229,7 @@ describe(@"the streaming media manager", ^{
                 [testStreamingMediaManager startSecondaryTransportWithProtocol:mockProtocol];
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:1.0];
+                [NSThread sleepForTimeInterval:2.0];
             });
 
             it(@"should start both the audio and video stream managers with the protocol", ^{
@@ -313,7 +313,7 @@ describe(@"the streaming media manager", ^{
                 OCMExpect([mockSecondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 // Make sure the dispatch_group tasks finish before performing checks
-                [NSThread sleepForTimeInterval:0.1];
+                [NSThread sleepForTimeInterval:1.0];
 
                 OCMVerify([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMVerify([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
