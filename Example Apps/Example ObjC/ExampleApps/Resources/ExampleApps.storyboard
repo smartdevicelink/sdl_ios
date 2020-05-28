@@ -288,6 +288,12 @@ Another factor that decreased the popularity of pies was industrialization and i
                             <outlet property="singleTapView" destination="QmW-VP-tKv" id="RO8-qR-XqL"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outletCollection property="buttons" destination="PKZ-ch-9wl" id="leI-2f-Dv0"/>
+                        <outletCollection property="buttons" destination="4JX-Pj-iKW" id="6Es-8h-vxZ"/>
+                        <outletCollection property="buttons" destination="TNH-7i-LBE" id="3UO-P1-hbN"/>
+                        <outletCollection property="buttons" destination="qxE-TV-gZz" id="6LU-S7-MUP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PEX-vZ-Rwq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

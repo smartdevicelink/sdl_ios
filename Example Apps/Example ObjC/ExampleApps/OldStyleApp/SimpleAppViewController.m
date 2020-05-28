@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface SimpleAppViewController ()
+@property (strong, nonatomic, nullable) IBOutletCollection(UIButton) NSArray *buttons;
 @end
 
 
@@ -33,10 +34,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    for (UIButton *button in self.buttons) {
+        button.tag = 0;
+    }
 }
 
 - (SimpleRootView *)rootView {
     return (SimpleRootView *)self.view;
+}
+
+- (void)updateOnTouchButton:(UIView * _Nullable)viewCandidate {
+    if (!viewCandidate) {
+        return;
+    }
+    for (UIButton *button in self.buttons) {
+        if (button == viewCandidate) {
+            button.tag += 1;
+            [button setTitle:[NSString stringWithFormat:@"%03d", (int)button.tag] forState:UIControlStateNormal];
+            break;
+        }
+    }
 }
 
 @end
@@ -54,6 +72,7 @@ static const CGFloat MinSz = -8.0;
         frame = CGRectInset(frame, MinSz, MinSz);
     }
     self.rootView.singleTap = [TouchModel touchPoint:point inRect:frame];
+    [self updateOnTouchButton:view];
     NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, NSStringFromClass(view.class), self.rootView.singleTap);
 }
 
@@ -64,6 +83,7 @@ static const CGFloat MinSz = -8.0;
         frame = CGRectInset(frame, MinSz, MinSz);
     }
     self.rootView.doubleTap = [TouchModel touchPoint:point inRect:frame];
+    [self updateOnTouchButton:view];
     NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, NSStringFromClass(view.class), self.rootView.doubleTap);
 }
 
