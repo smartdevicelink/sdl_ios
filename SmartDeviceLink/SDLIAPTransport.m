@@ -320,7 +320,7 @@ int const CreateSessionRetries = 3;
 
     dispatch_group_leave(endSessionsTask);
 
-     // This will always run
+    // This will always run after all `leave` calls
     dispatch_group_notify(endSessionsTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         SDLLogV(@"Both the data and control sessions are closed");
         if (disconnectCompletionHandler != nil) {

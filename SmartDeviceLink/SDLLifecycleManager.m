@@ -290,7 +290,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     dispatch_group_leave(stopManagersTask);
 
-    // This will always run
+    // This will always run after all `leave`s
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(stopManagersTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;

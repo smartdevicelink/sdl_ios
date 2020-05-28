@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// This method is used internally to stop video streaming when the secondary transport has been closed due to an connection error. The primary transport is still open.
 /// 1. Since the transport has been closed, we can not send an end video service control frame to the module.
 /// 2. Since the primary transport is still open, we will not reset the `hmiLevel`, `videoStreamingState` or the video scale manager. This lets us resume video streaming if the secondary transport can be reestablished during the same app session.
-- (void)stopVideoStreaming;
+- (void)secondaryTransportDidDisconnect;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.

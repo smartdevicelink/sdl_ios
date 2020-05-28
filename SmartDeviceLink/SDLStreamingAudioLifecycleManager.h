@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// This method is used internally to stop audio streaming when the secondary transport has been closed due to an connection error. The primary transport is still open.
 /// 1. Since the transport has been closed, we can not send an end audio service control frame to the module.
 /// 2. Since the primary transport is still open, we will not reset the `hmiLevel`. This lets us resume audio streaming if the secondary transport can be reestablished during the same app session.
-- (void)stopAudioStreaming;
+- (void)secondaryTransportDidDisconnect;
 
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
