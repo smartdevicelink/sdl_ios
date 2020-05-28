@@ -110,6 +110,9 @@ struct TransportProtocolUpdated {
 /// The current hmi level of the SDL app.
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
+/// The current application state of the app on the phone. This information is tracked because TCP transport can only reliably work when the app on the phone is in the foreground. If the phone is locked or the app is put in the background for a long time, the OS can reclaim the socket.
+@property (assign, nonatomic) UIApplicationState currentApplicationState;
+
 /// A background task used to close the secondary transport before the app is suspended.
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
@@ -141,8 +144,11 @@ struct TransportProtocolUpdated {
     _tcpPort = TCPPortUnspecified;
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskSecondaryTransportName];
+    _currentApplicationState = UIApplicationStateInactive;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -519,26 +525,13 @@ struct TransportProtocolUpdated {
         return NO;
     }
 
-    if (self.sdl_getAppState != UIApplicationStateActive) {
+    if (self.currentApplicationState != UIApplicationStateActive) {
         SDLLogD(@"App state is not Active, TCP transport is not ready");
         return NO;
     }
 
     return YES;
 }
-
-- (UIApplicationState)sdl_getAppState {
-    if ([NSThread isMainThread]) {
-        return [UIApplication sharedApplication].applicationState;
-    } else {
-        __block UIApplicationState appState;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            appState = [UIApplication sharedApplication].applicationState;
-        });
-        return appState;
-    }
-}
-
 
 #pragma mark - SDLProtocolListener Implementation
 
@@ -695,6 +688,12 @@ struct TransportProtocolUpdated {
 
 #pragma mark - App state handling
 
+/// Tracks the current application state of the app on the phone.
+/// @param notification Notification containing the state of the app
+- (void)sdl_appStateDidUpdate:(NSNotification*)notification {
+    self.currentApplicationState = (notification.name == UIApplicationDidBecomeActiveNotification) ? UIApplicationStateActive : UIApplicationStateInactive;
+}
+
 /// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
 /// @param notification Notification from the OS that the app's life-cycle state has changed
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
@@ -735,7 +734,7 @@ struct TransportProtocolUpdated {
     __weak typeof(self) weakSelf = self;
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
-        if (strongSelf.sdl_getAppState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+        if (strongSelf.currentApplicationState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
             // Return NO as we do not need to perform any cleanup and can end the background task immediately
             SDLLogV(@"No cleanup needed since app has been foregrounded.");
             return NO;

@@ -96,15 +96,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /// @param disconnectCompletionHandler Handler called when the session has disconnected
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the control session");
-    if ([NSThread isMainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self sdl_stopAndDestroySession];
         return disconnectCompletionHandler();
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySession];
-            return disconnectCompletionHandler();
-        });
-    }
+    });
 }
 
 /// Closes the session streams and then destroys the session.

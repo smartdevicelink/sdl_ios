@@ -125,8 +125,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [strongSelf performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 
         // Block the current thread until the semaphore has been released by the ioThread (or a timeout has occured).
-        BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCanceled];
-        NSLog(@"called after");
+        BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCancelled];
         if (!cancelledSuccessfully) {
             SDLLogE(@"The I/O streams were not shut down successfully. Bad things might happen...");
         }
@@ -135,14 +134,16 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     });
 }
 
+/// Helper method for waking up the ioThread.
+- (void)sdl_doNothing {}
+
 /// Wait for the ioThread to destroy the I/O streams. To ensure that we are not blocking the ioThread, this method should only be called from the main thread.
 /// @return Whether or not the session's I/O streams were closed successfully.
-- (BOOL)sdl_isIOThreadCanceled {
+- (BOOL)sdl_isIOThreadCancelled {
     NSAssert(NSThread.currentThread.isMainThread, @"%@ must be called from the main thread!", NSStringFromSelector(_cmd));
 
     long lWait = dispatch_semaphore_wait(self.ioThreadCancelledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOThreadCanceledSemaphoreWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
-        NSLog(@"lWait == 0");
         SDLLogD(@"ioThread cancelled successfully");
         return YES;
     }
@@ -187,6 +188,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
             }
         }
 
+        // Close the I/O streams
         SDLLogD(@"TCP transport run loop terminated");
         [self sdl_teardownStream:self.inputStream];
         [self sdl_teardownStream:self.outputStream];
@@ -194,7 +196,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         self.outputStream = nil;
         [self.connectionTimer cancel];
 
-        // If a thread is blocked waiting on the transport to shutdown, let the thread know that shutdown has completed.
+        // If a thread is blocked waiting on the I/O streams to shutdown, let the thread know that shutdown has completed.
         dispatch_semaphore_signal(self.ioThreadCancelledSemaphore);
     }
 }
@@ -370,8 +372,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         self.transportErrorNotified = YES;
     }
 }
-
-- (void)sdl_doNothing {}
 
 @end
 

@@ -62,46 +62,13 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (assign, nonatomic) UIApplicationState currentApplicationState;
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 
 - (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler;
 
 @end
 
-@interface SDLSecondaryTransportManager (ForTest)
-// Swap sdl_getAppState method to dummy implementation.
-// Since the test runs on the main thread, dispatch_sync()-ing to the main thread freezes the tests.
-+ (void)swapGetActiveAppStateMethod;
-+ (void)swapGetInactiveAppStateMethod;
-@end
-
-@implementation SDLSecondaryTransportManager (ForTest)
-
-- (UIApplicationState)dummyGetActiveAppState {
-    NSLog(@"Testing: app state for secondary transport manager is ACTIVE");
-    return UIApplicationStateActive;
-}
-
-+ (void)swapGetActiveAppStateMethod {
-    SEL selector = NSSelectorFromString(@"sdl_getAppState");
-    Method from = class_getInstanceMethod(self, selector);
-    Method to = class_getInstanceMethod(self, @selector(dummyGetActiveAppState));
-    method_exchangeImplementations(from, to);
-}
-
-- (UIApplicationState)dummyGetInactiveAppState {
-    NSLog(@"Testing: app state for secondary transport manager is INACTIVE");
-    return UIApplicationStateBackground;
-}
-
-+ (void)swapGetInactiveAppStateMethod {
-    SEL selector = NSSelectorFromString(@"sdl_getAppState");
-    Method from = class_getInstanceMethod(self, selector);
-    Method to = class_getInstanceMethod(self, @selector(dummyGetInactiveAppState));
-    method_exchangeImplementations(from, to);
-}
-
-@end
 
 @interface SDLTCPTransport (ConnectionDisabled)
 // Disable connect and disconnect methods
@@ -121,7 +88,7 @@ static const int TCPPortUnspecified = -1;
     Method to = class_getInstanceMethod(self, @selector(dummyConnect));
     method_exchangeImplementations(from, to);
 
-    from = class_getInstanceMethod(self, @selector(disconnect));
+    from = class_getInstanceMethod(self, @selector(disconnectWithCompletionHandler:));
     to = class_getInstanceMethod(self, @selector(dummyDisconnect));
     method_exchangeImplementations(from, to);
 }
@@ -145,7 +112,7 @@ static const int TCPPortUnspecified = -1;
     Method to = class_getInstanceMethod(self, @selector(dummyConnect));
     method_exchangeImplementations(from, to);
 
-    from = class_getInstanceMethod(self, @selector(disconnect));
+    from = class_getInstanceMethod(self, @selector(disconnectWithCompletionHandler:));
     to = class_getInstanceMethod(self, @selector(dummyDisconnect));
     method_exchangeImplementations(from, to);
 }
@@ -171,7 +138,6 @@ describe(@"the secondary transport manager ", ^{
     };
 
     beforeEach(^{
-        [SDLSecondaryTransportManager swapGetActiveAppStateMethod];
         [SDLTCPTransport swapConnectionMethods];
         [SDLIAPTransport swapConnectionMethods];
 
@@ -179,6 +145,8 @@ describe(@"the secondary transport manager ", ^{
         testStreamingProtocolDelegate = OCMStrictProtocolMock(@protocol(SDLStreamingProtocolDelegate));
         testStateMachineQueue = dispatch_queue_create("com.sdl.testsecondarytransportmanager", DISPATCH_QUEUE_SERIAL);
         manager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:testStreamingProtocolDelegate serialQueue:testStateMachineQueue];
+
+        manager.currentApplicationState = UIApplicationStateActive;
     });
 
     afterEach(^{
@@ -190,7 +158,6 @@ describe(@"the secondary transport manager ", ^{
 
         [SDLIAPTransport swapConnectionMethods];
         [SDLTCPTransport swapConnectionMethods];
-        [SDLSecondaryTransportManager swapGetActiveAppStateMethod];
     });
 
 
@@ -437,6 +404,7 @@ describe(@"the secondary transport manager ", ^{
                     testStartServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMtu authToken:nil protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
                     testStartServiceACKMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testStartServiceACKHeader andPayload:testStartServiceACKPayload.data];
                     manager.currentHMILevel = SDLHMILevelFull;
+                    manager.currentApplicationState = UIApplicationStateActive;
                 });
 
                 it(@"should configure its properties and immediately transition to Connecting state", ^{
@@ -1251,7 +1219,7 @@ describe(@"the secondary transport manager ", ^{
         describe(@"When the background task expires", ^{
             context(@"If the app is still in the background", ^{
                 beforeEach(^{
-                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                    manager.currentApplicationState = UIApplicationStateBackground;
                 });
                 
                 it(@"should stop the TCP transport if the app is still in the background and perform cleanup before ending the background task", ^{
@@ -1273,7 +1241,7 @@ describe(@"the secondary transport manager ", ^{
                 });
                 
                 afterEach(^{
-                    [SDLSecondaryTransportManager swapGetInactiveAppStateMethod];
+                    manager.currentApplicationState = UIApplicationStateActive;
                 });
             });
             
