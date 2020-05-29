@@ -318,14 +318,8 @@ NS_ASSUME_NONNULL_BEGIN
         update.appName = nil;
     }
 
-    if ([language isEqualToEnum:SDLLanguageEnUs]) {
-        update.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
-    } else if ([language isEqualToEnum:SDLLanguageEsMx]) {
-        update.ttsName = [SDLTTSChunk textChunksFromString:SDLLanguageEsMx];
-    } else if ([language isEqualToEnum:SDLLanguageFrCa]) {
-        update.ttsName = [SDLTTSChunk textChunksFromString:SDLLanguageFrCa];
-    } else {
-        update.ttsName = nil;
+    if (update.appName != nil) {
+        update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
     }
 
     if (update.appName == nil || update.ttsName == nil) {
