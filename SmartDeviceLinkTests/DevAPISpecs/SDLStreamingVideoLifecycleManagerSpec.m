@@ -766,7 +766,7 @@ describe(@"the streaming video manager", ^{
     });
 
     describe(@"stopping the manager", ^{
-        __block BOOL handlerCalled = nil;
+        __block BOOL handlerCalled = NO;
 
         beforeEach(^{
             handlerCalled = NO;
