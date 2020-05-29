@@ -240,7 +240,7 @@ extension ProxyManager: SDLManagerDelegate {
     /// - Parameter hmiLanguage: The head unit's current HMI language
     /// - Returns: A SDLLifecycleConfigurationUpdate object
     func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage, hmiLanguage: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
-        var appName = ""
+        let update = SDLLifecycleConfigurationUpdate()
         switch hmiLanguage {
         case .enUs:
             appName = ExampleAppName
