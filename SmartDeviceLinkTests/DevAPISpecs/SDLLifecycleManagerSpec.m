@@ -429,7 +429,6 @@ describe(@"a lifecycle manager", ^{
                     registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
                     registerAppInterfaceResponse.info = @"Language mismatch";
                     registerAppInterfaceResponse.language = SDLLanguageEnGb;
-                    registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageEnGb;
                     testManager.registerResponse = registerAppInterfaceResponse;
 
                     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"E" ttsName:[SDLTTSChunk textChunksFromString:@"EnGb ttsName"] voiceRecognitionCommandNames:nil];
@@ -453,7 +452,6 @@ describe(@"a lifecycle manager", ^{
                     registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
                     registerAppInterfaceResponse.info = @"Language mismatch";
                     registerAppInterfaceResponse.language = SDLLanguageDeDe;
-                    registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageDeDe;
                     testManager.registerResponse = registerAppInterfaceResponse;
 
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(nil);
