@@ -23,7 +23,8 @@ script:
 - set -o pipefail && xcodebuild -allowProvisioningUpdates -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-ObjC" -destination "platform=iOS Simulator,OS=13.5,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO build | xcpretty -c;
 - set -o pipefail && xcodebuild -allowProvisioningUpdates -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example-Swift" -destination "platform=iOS Simulator,OS=13.5,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO build | xcpretty -c;
 # Run the SmartDeviceLink tests
-- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=iOS Simulator,OS=13.5,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -t;
+- set -o pipefail && xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -destination "platform=iOS Simulator,OS=13.5,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -t ;
 
 after_success:
+- sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 - bash <(curl -s https://codecov.io/bash) -J 'SmartDeviceLink'
