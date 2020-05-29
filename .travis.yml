@@ -2,9 +2,7 @@ language: objective-c
 osx_image: xcode11.5
 xcode_project: SmartDeviceLink-iOS.xcodeproj
 xcode_scheme:
-    - SmartDeviceLink-Example-ObjC
-    - SmartDeviceLink-Example-Swift
-    - SmartDeviceLink
+    - SmartDeviceLinkTests
 xcode_destination: platform=iOS Simulator,OS=11.3,name=iPhone X
 xcode_sdk:
     - iphonesimulator13.5
