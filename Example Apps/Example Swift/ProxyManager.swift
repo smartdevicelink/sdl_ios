@@ -243,11 +243,11 @@ extension ProxyManager: SDLManagerDelegate {
         let update = SDLLifecycleConfigurationUpdate()
         switch hmiLanguage {
         case .enUs:
-            appName = ExampleAppName
+            update.appName = ExampleAppName
         case .esMx:
-            appName = ExampleAppNameSpanish
+            update.appName = ExampleAppNameSpanish
         case .frCa:
-            appName = ExampleAppNameFrench
+            update.appName = ExampleAppNameFrench
         default:
             return nil
         }
