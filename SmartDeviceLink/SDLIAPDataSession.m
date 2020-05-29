@@ -81,55 +81,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Stop
 
-/// Makes sure the session is closed and destroyed on the main thread.
+/// Waits for the ioStreamThread to close and destroy the I/O streams.
 /// @param disconnectCompletionHandler Handler called when the session has disconnected
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self sdl_stopAndDestroySessionWithCompletionHandler:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.sendDataQueue removeAllObjects];
-            return disconnectCompletionHandler();
-        }];
-    });
-}
-
-/**
- *  Waits for the session streams to close on the I/O Thread and then destroys the session.
- */
-- (void)sdl_stopAndDestroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
-    NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.ioStreamThread == nil) {
-        SDLLogV(@"Stopping data session but no thread established.");
+        SDLLogV(@"No data session established");
         [super cleanupClosedSession];
         return disconnectCompletionHandler();
     }
 
-    // Tell the ioThread to shutdown the I/O streams. The I/O streams must be opened and closed on the same thread; if they are not, random crashes can occur.
+    // Tell the ioStreamThread to shutdown the I/O streams. The I/O streams must be opened and closed on the same thread; if they are not, random crashes can occur. Dispatch this task to the main queue to ensure that this task is performed on the Main Thread. We are using the Main Thread for ease since we don't want to create a separate thread just to wait on closing the I/O streams. Using the Main Thread ensures that semaphore wait is not called from ioStreamThread, which would block the ioStreamThread and prevent shutdown.
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        // Attempt to cancel the `ioThread`. Once the thread realizes it has been cancelled, it will cleanup the input/output streams. Make sure to wake up the run loop in case we don't have any I/O event.
+        // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
         [strongSelf.ioStreamThread cancel];
         [strongSelf performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 
-        // Block the current thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
+        // Block the thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
         BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCancelled];
         if (!cancelledSuccessfully) {
-            SDLLogE(@"The I/O streams were not shut down successfully. Bad things might happen...");
+            SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
         }
+
+        [strongSelf.sendDataQueue removeAllObjects];
 
         disconnectCompletionHandler();
     });
 }
 
-/// Wait for the ioStreamThread to destroy the I/O streams. To ensure that we are not blocking the ioThread, this method should only be called from the main thread.
+/// Wait for the ioStreamThread to destroy the I/O streams. Make sure this method is not called on the ioStreamThread, as it will block the thread until the timeout occurs.
 /// @return Whether or not the session's I/O streams were closed successfully.
 - (BOOL)sdl_isIOThreadCancelled {
-    NSAssert(NSThread.currentThread.isMainThread, @"%@ must be called from the main thread!", NSStringFromSelector(_cmd));
+    NSAssert(![NSThread.currentThread.name isEqualToString:IOStreamThreadName], @"%@ must not be called from the ioStreamThread!", NSStringFromSelector(_cmd));
 
     long lWait = dispatch_semaphore_wait(self.ioStreamThreadCancelledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadCanceledSemaphoreWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
@@ -141,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-/// Helper method for waking up the ioThread.
+/// Helper method for waking up the ioStreamThread.
 - (void)sdl_doNothing {}
 
 #pragma mark - Sending data
