@@ -254,7 +254,7 @@ extension ProxyManager: SDLManagerDelegate {
         
         update.ttsName = SDLTTSChunk(text: appName, type: .text)
         
-        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: ttsName, type: .text)], voiceRecognitionCommandNames: nil)
+        return update
     }
 }
 
