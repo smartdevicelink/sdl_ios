@@ -315,7 +315,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([hmiLanguage isEqualToEnum:SDLLanguageFrCa]) {
         update.appName = ExampleAppNameFrench;
     } else {
-        update.appName = nil;
+        return nil;
     }
 
     if (update.appName != nil) {
