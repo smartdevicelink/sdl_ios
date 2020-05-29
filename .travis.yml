@@ -11,11 +11,6 @@ xcode_sdk:
 env:
   global:
     - FRAMEWORK_NAME=SmartDeviceLink
-    - ONLY_ACTIVE_ARCH=NO
-    - RUN_CLANG_STATIC_ANALYZER=NO
-    - GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
-    - GCC_GENERATE_TEST_COVERAGE_FILES=YES
-    - ENABLE_TESTABILITY=YES
 
 cache:
   directories:
