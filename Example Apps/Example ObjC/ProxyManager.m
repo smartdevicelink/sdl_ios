@@ -322,11 +322,7 @@ NS_ASSUME_NONNULL_BEGIN
         update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
     }
 
-    if (update.appName == nil || update.ttsName == nil) {
-        return nil;
-    } else {
-        return update;
-    }
+    return update;
 }
 
 @end
