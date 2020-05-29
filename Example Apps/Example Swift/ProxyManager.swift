@@ -252,17 +252,7 @@ extension ProxyManager: SDLManagerDelegate {
             return nil
         }
         
-        var ttsName = ""
-        switch language {
-        case .enUs:
-            ttsName = ExampleAppName
-        case .esMx:
-            ttsName = ExampleAppNameSpanish
-        case .frCa:
-            ttsName = ExampleAppNameFrench
-        default:
-            return nil
-        }
+        update.ttsName = SDLTTSChunk(text: appName, type: .text)
         
         return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: ttsName, type: .text)], voiceRecognitionCommandNames: nil)
     }
