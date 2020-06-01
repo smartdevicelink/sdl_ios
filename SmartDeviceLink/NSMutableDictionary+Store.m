@@ -52,6 +52,13 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_setObject:obj forName:name];
         return obj;
     } else {
+        if ((classType == NSString.class) && [obj respondsToSelector:@selector(stringValue)]) {
+            // fix an issue when JSON treats number values as NSNumber and a string expected
+            NSString * numString = [obj stringValue];
+            if (numString) {
+                return numString;
+            }
+        }
         // The object in the store is not correct, we'll assert in debug and return an error and nil
         NSError *wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:obj expectedType:classType];
 

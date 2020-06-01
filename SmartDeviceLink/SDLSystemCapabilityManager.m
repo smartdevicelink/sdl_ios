@@ -80,6 +80,7 @@ typedef NSString * SDLServiceID;
 
 @end
 
+
 @implementation SDLSystemCapabilityManager
 
 #pragma mark - Lifecycle
@@ -610,6 +611,14 @@ typedef NSString * SDLServiceID;
     return YES;
 }
 
+- (void)unsubscribeObserver:(id)observer {
+    if (observer) {
+        for (SDLSystemCapabilityType type in self.capabilityObservers.allKeys) {
+            [self unsubscribeFromCapabilityType:type withObserver:observer];
+        }
+    }
+}
+
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
     SDLLogD(@"Unsubscribing from capability type: %@", type);
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
@@ -635,8 +644,9 @@ typedef NSString * SDLServiceID;
         [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
     }
 
-    if (handler == nil) { return; }
-    handler(capability, self.subscriptionStatus[type].boolValue, error);
+    if (handler) {
+        handler(capability, self.subscriptionStatus[type].boolValue, error);
+    }
 }
 
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {

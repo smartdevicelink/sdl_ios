@@ -146,6 +146,10 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 - (void)handleBytesFromTransport:(NSData *)receivedData;
 
+
+- (void)addListener:(id<SDLProtocolListener>)listener;
+- (void)removeListener:(id<SDLProtocolListener>)listener;
+
 @end
 
 NS_ASSUME_NONNULL_END

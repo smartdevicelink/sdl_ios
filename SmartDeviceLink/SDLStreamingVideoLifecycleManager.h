@@ -176,6 +176,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
+- (void)suspendVideo;
+- (void)resumeVideo;
+
 @end
 
 NS_ASSUME_NONNULL_END

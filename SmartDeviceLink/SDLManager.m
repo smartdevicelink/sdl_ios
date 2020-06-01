@@ -22,6 +22,7 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLStreamingMediaManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

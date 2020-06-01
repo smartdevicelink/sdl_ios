@@ -10,6 +10,7 @@
 
 @class SDLOnTouchEvent;
 @class SDLHapticRect;
+@class SDLImageResolution;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -68,10 +69,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SDLHapticRect *)scaleHapticRect:(SDLHapticRect *)hapticRect;
 
+- (SDLImageResolution *)makeScaledResolution;
+
 /**
  Stops the manager. This method is used internally.
  */
 - (void)stop;
+
++ (CGSize)scale:(float)scale size:(CGSize)size;
 
 @end
 

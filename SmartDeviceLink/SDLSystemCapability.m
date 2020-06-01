@@ -172,6 +172,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectsForName:SDLRPCParameterNameDisplayCapabilities ofClass:SDLDisplayCapability.class error:nil];
 }
 
+- (NSString *)description {
+    if ([self.systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+        return [NSString stringWithFormat:@"<%@:%p>type:VIDEO_STREAMING {%@}", NSStringFromClass(self.class), self,
+                self.videoStreamingCapability];
+    }
+    return [super description];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

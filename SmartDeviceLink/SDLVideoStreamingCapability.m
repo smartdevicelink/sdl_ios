@@ -98,6 +98,29 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
 }
 
+- (NSString *)description {
+    NSMutableString *formats = [NSMutableString string];
+    for (SDLVideoStreamingFormat * f in self.supportedFormats) {
+        [formats appendFormat:@"%@; ", f];
+    }
+    return [NSString stringWithFormat:@"<%@:%p>{\n"
+@"\tsupportedFormats:%@\n"
+@"\tpreferredResolution:%@\n"
+@"\tmaxBitrate:%@\n"
+@"\thapticSpatialDataSupported:%@\n"
+@"\tdiagonalScreenSize:%@\n"
+@"\tpixelPerInch:%@\n"
+@"\tscale:%@ }",
+            NSStringFromClass(self.class), self,
+            formats,
+            self.preferredResolution,
+            self.maxBitrate,
+            self.hapticSpatialDataSupported,
+            self.diagonalScreenSize,
+            self.pixelPerInch,
+            self.scale];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
