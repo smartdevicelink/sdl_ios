@@ -197,7 +197,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.protocol addListener:self];
     [self.focusableItemManager start];
 
-
     // attempt to start streaming since we may already have necessary conditions met
     [self sdl_startVideoSession];
 }
@@ -379,6 +378,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncrypted = NO;
     _videoFormat = nil;
 
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
+
     if (_videoEncoder != nil) {
         [_videoEncoder stop];
         _videoEncoder = nil;
@@ -407,26 +408,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
 
-    __weak typeof(self) weakSelf = self;
-    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-        SDLLogD(@"Received video capability response, Capability: %@", capability);
-
-        [weakSelf sdl_applyVideoCapability:capability];
-
-        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
-        for (id key in weakSelf.customEncoderSettings.keyEnumerator) {
-            weakSelf.videoEncoderSettings[key] = [weakSelf.customEncoderSettings valueForKey:key];
-        }
-
-        if (weakSelf.dataSource != nil) {
-            SDLLogV(@"Calling data source for modified preferred resolutions");
-            weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
-            SDLLogD(@"Got specialized video resolutions: %@", weakSelf.preferredResolutions);
-        }
-
-        [weakSelf.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:weakSelf selector:@selector(sdl_displayCapabilityDidUpdate:)];
-        [weakSelf sdl_sendVideoStartService];
-    }];
+    // unsubscribing and subscribing again makes the .systemCapabilityManager call and respond in the callback
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -452,7 +436,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
         SDLLogD(@"Attempting to create video encoder");
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.displayViewportResolution ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.appViewportFrame.size ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -536,7 +520,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // This is the definitive screen size that will be used
     if ((videoAckPayload.height != SDLControlFrameInt32NotFound || videoAckPayload.height != 0) && (videoAckPayload.width != SDLControlFrameInt32NotFound && videoAckPayload.width != 0)) {
-        self.videoScaleManager.displayViewportResolution = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
+        const float scale = self.videoScaleManager.scale;
+        const CGSize ackSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
+        self.videoScaleManager.displayViewportResolution = CGSizeMake(ackSize.width * scale, ackSize.height * scale);
     } else if (self.preferredResolutions.count > 0) {
         // If a preferred resolution was set, use the first option to set the screen size
         SDLImageResolution *preferredResolution = self.preferredResolutions.firstObject;
@@ -629,12 +615,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLImageResolution *resolution = registerResponse.displayCapabilities.screenParams.resolution;
 #pragma clang diagnostic pop
     if (resolution != nil) {
-        self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
-                                 resolution.resolutionHeight.floatValue);
+        const CGSize initSize = CGSizeMake(resolution.resolutionWidth.floatValue, resolution.resolutionHeight.floatValue);
+        // use initial size and default scale, it may change on video capabilities update
+        self.videoScaleManager.displayViewportResolution = initSize;
+        self.videoScaleManager.scale = 1;
         // HAX: Workaround for Legacy Ford and Lincoln displays with > 800 resolution width or height. They don't support scaling and if we don't do this workaround, they will not correctly scale the view.
         NSString *make = registerResponse.vehicleType.make;
-        CGSize resolution = self.videoScaleManager.displayViewportResolution;
-        if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (resolution.width > 800 || resolution.height > 800)) {
+        if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (initSize.width > 800 || initSize.height > 800)) {
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
         }
     }
@@ -705,6 +692,24 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video capabilities notification received: %@", videoCapability);
 
     self.videoStreamingCapability = videoCapability;
+
+    if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
+        [self sdl_applyVideoCapability:videoCapability];
+
+        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
+        for (id key in self.customEncoderSettings.keyEnumerator) {
+            self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+        }
+
+        if (self.dataSource != nil) {
+            SDLLogV(@"Calling data source for modified preferred resolutions");
+            self.preferredResolutions = [self.dataSource resolutionFromHeadUnitPreferredResolution:self.preferredResolutions.firstObject];
+            SDLLogD(@"Got specialized video resolutions: %@", self.preferredResolutions);
+        }
+
+        [self sdl_sendVideoStartService];
+        return;
+    }
 
     if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
         typeof(self) __weak weakSelf = self;
@@ -877,10 +882,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (capability != nil) {
         self.videoScaleManager.scale = capability.scale.floatValue;
         self.videoScaleManager.displayViewportResolution = capability.preferredResolution.makeSize;
+        SDLImageResolution *resolution = self.videoScaleManager.makeScaledResolution;
 
         // If we got a response, get the head unit's preferred formats and resolutions
         self.preferredFormats = capability.supportedFormats;
-        self.preferredResolutions = @[capability.preferredResolution];
+        self.preferredResolutions = @[resolution];
         if (capability.maxBitrate != nil) {
             self.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
         }
@@ -898,7 +904,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     } else {
         // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
         SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
-        SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)self.videoScaleManager.displayViewportResolution.width height:(uint16_t)self.videoScaleManager.displayViewportResolution.height];
+        SDLImageResolution *resolution = self.videoScaleManager.makeScaledResolution;
         self.preferredFormats = @[format];
         self.preferredResolutions = @[resolution];
 

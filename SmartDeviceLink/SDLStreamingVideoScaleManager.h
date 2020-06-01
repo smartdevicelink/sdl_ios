@@ -10,6 +10,7 @@
 
 @class SDLOnTouchEvent;
 @class SDLHapticRect;
+@class SDLImageResolution;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return The position of the haptic rectangle in the display's coordinate system
  */
 - (SDLHapticRect *)scaleHapticRect:(SDLHapticRect *)hapticRect;
+
+- (SDLImageResolution *)makeScaledResolution;
 
 /**
  Stops the manager. This method is used internally.

@@ -15,6 +15,7 @@
 #import "SDLTouchEvent.h"
 #import "SDLHapticRect.h"
 #import "SDLNotificationConstants.h"
+#import "SDLImageResolution.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,6 +78,11 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (void)setScale:(float)scale {
     _scale = [self.class validateScale:scale];
+}
+
+- (SDLImageResolution *)makeScaledResolution {
+    const CGSize size = [self.class scale:self.scale size:self.displayViewportResolution];
+    return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
 }
 
 #pragma mark - Helpers
