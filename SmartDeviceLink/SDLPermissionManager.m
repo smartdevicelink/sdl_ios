@@ -149,6 +149,15 @@ NS_ASSUME_NONNULL_BEGIN
     return filter.identifier;
 }
 
+- (SDLPermissionObserverIdentifier)addStrictObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
+    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
+
+    // Store the filter for later use
+    [self.filters addObject:filter];
+
+    return filter.identifier;
+}
+
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
     NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusOfRPCs:filter.rpcNames];

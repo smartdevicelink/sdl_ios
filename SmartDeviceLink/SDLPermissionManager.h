@@ -79,6 +79,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
 
 /**
+*  Add an observer for specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will not return immediately with the current status and will wait for the permissions changes specified in the groupType param.
+*
+*  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
+*
+*  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
+*
+*  @param rpcNames The RPCs to be observed
+*  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.
+*  @param handler The block that will be called whenever permissions change.
+*
+*  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
+*/
+- (SDLPermissionObserverIdentifier)addStrictObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+
+/**
  *  Remove every current observer
  */
 - (void)removeAllObservers;
