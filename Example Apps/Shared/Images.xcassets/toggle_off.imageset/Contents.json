@@ -1,8 +1,8 @@
 {
   "images" : [
     {
+      "filename" : "iconmonstr-battery-3-240.png",
       "idiom" : "universal",
-      "filename" : "toggle_off.png",
       "scale" : "1x"
     },
     {
@@ -15,7 +15,7 @@
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
