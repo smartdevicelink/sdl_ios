@@ -1,4 +1,4 @@
-name: SmartDeviceLink Unit Tests
+name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
 on:
