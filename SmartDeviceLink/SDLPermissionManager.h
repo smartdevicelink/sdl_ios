@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
  *
  *  @param rpcNames The RPCs to be observed
- *  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.
+ *  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Immediately when the observer is set regardless of RPC status  2. Every RPC in rpcNames becomes allowed 3. The group of rpcNames goes from all being allowed to some or all being disallowed.
  *  @param handler The block that will be called whenever permissions change.
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
