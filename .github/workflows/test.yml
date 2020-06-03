@@ -79,8 +79,5 @@ jobs:
               run: set -o pipefail && xcodebuild test-without-building -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES | xcpretty --color --simple
 
             # Upload coverage reports to Codecov
-            - name: Codecov
+            - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v1
-              with:
-                  file: ./codecov.yml
-                  flags: unittests
