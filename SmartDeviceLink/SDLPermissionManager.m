@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
     return filter.identifier;
 }
 
-- (SDLPermissionObserverIdentifier)addStrictObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use

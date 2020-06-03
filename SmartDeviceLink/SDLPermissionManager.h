@@ -10,6 +10,7 @@
 
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
+#import "SDLRPCFunctionNames.h"
 
 @class SDLPermissionItem;
 @class SDLRPCMessage;
@@ -43,7 +44,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCAllowed:(SDLPermissionRPCName)rpcName;
+- (BOOL)isRPCAllowed:(SDLPermissionRPCName)rpcName __deprecated_msg(("Use isRPCNameAllowed: instead"));
+
+/**
+*  Determine if an individual RPC is allowed for the current HMI level
+*
+*  @param rpcName  The name of the RPC to be tested, for example, SDLShow
+*
+*  @return YES if the RPC is allowed at the current HMI level, NO if not
+*/
+- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName;
 
 /**
  *  Determine if all RPCs are allowed for the current HMI level
@@ -52,7 +62,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */
-- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames;
+- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use groupStatusOfRPCNames: instead"));
+
+/**
+*  Determine if all RPCs are allowed for the current HMI level
+*
+*  @param rpcNames The RPCs to check
+*
+*  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
+*/
+- (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -61,7 +80,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames;
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use statusOfRPCNames: instead"));
+
+/**
+*  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
+*
+*  @param rpcNames An array of RPC names to check
+*
+*  @return A dictionary specifying if the passed in RPC names are currently allowed or not
+*/
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -76,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCs:groupType:withHandler: instead"));
 
 /**
 *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will not return immediately with the current status and will wait for the permissions changes specified in the groupType param.
@@ -91,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 *
 *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
 */
-- (SDLPermissionObserverIdentifier)addStrictObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
 
 /**
  *  Remove every current observer
@@ -109,7 +137,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Check whether or not an RPC needs encryption.
  */
-- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName;
+- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName __deprecated_msg(("Use rpcNameRequiresEncryption: instead"));
+
+/**
+ *  Check whether or not an RPC needs encryption.
+ */
+- (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName;
 
 @end
 
