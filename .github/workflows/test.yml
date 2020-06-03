@@ -2,14 +2,12 @@ name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
 on:
+    # Runs the workflow when someone pushes to a repository branch, which triggers the push event
     push:
-        branches:
-            - '*'
-        tags-ignore:
-            - v* # Don't run workflow when a tag is created
+
+    # Runs the workflow only when someone opens or reopens a pull request
     pull_request:
-        branches:
-            - '*'
+        types: [opened, reopened]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
