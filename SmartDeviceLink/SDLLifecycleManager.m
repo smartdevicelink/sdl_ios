@@ -401,7 +401,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if (supportsNewDelegate) {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
     } else if (supportsOldDelegate) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
+#pragma clang diagnostic pop
     }
 
     if (configUpdate) {
