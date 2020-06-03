@@ -318,9 +318,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    if (update.appName != nil) {
-        update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
-    }
+    update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
 
     return update;
 }
