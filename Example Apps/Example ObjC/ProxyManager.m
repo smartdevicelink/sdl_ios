@@ -307,6 +307,24 @@ NS_ASSUME_NONNULL_BEGIN
     return update;
 }
 
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
+    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
+
+    if ([hmiLanguage isEqualToEnum:SDLLanguageEnUs]) {
+        update.appName = ExampleAppName;
+    } else if ([hmiLanguage isEqualToEnum:SDLLanguageEsMx]) {
+        update.appName = ExampleAppNameSpanish;
+    } else if ([hmiLanguage isEqualToEnum:SDLLanguageFrCa]) {
+        update.appName = ExampleAppNameFrench;
+    } else {
+        return nil;
+    }
+
+    update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
+
+    return update;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
