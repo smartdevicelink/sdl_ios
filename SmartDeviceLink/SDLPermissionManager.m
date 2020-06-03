@@ -74,11 +74,30 @@ NS_ASSUME_NONNULL_BEGIN
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
 
+- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName {
+    if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
+        return NO;
+    }
+
+    // to do
+    SDLPermissionItem *item = self.permissions[rpcName];
+    return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
+}
+
 - (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
     if (self.currentHMILevel == nil) {
         return SDLPermissionGroupStatusUnknown;
     }
 
+    return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
+}
+
+- (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
+    if (self.currentHMILevel == nil) {
+        return SDLPermissionGroupStatusUnknown;
+    }
+
+    // to do double check this
     return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
@@ -132,6 +151,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [permissionAllowedDict copy];
 }
 
+- (NSDictionary<SDLPermissionRPCName,NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
+    NSMutableDictionary<SDLPermissionRPCName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
+    // to do
+    for (NSString *rpcName in rpcNames) {
+        BOOL allowed = [self isRPCNameAllowed:rpcName];
+        permissionAllowedDict[rpcName] = @(allowed);
+    }
+
+    return [permissionAllowedDict copy];
+}
+
 
 #pragma mark - Permissions observers
 
@@ -149,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
     return filter.identifier;
 }
 
-- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
@@ -159,8 +189,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
-    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
-    NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusOfRPCs:filter.rpcNames];
+    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.rpcNames];
+    NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusOfRPCNames:filter.rpcNames];
 
     filter.handler(allowedDict, permissionStatus);
 }
@@ -212,7 +242,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLPermissionFilter *filter in modifiedFilters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
             SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter.identifier] unsignedIntegerValue];
-            SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCs:filter.rpcNames];
+            SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCNames:filter.rpcNames];
 
             // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
             if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
@@ -322,7 +352,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *filtersWithStatus = [NSMutableDictionary dictionary];
     for (SDLPermissionFilter *filter in filters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
-            filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCs:filter.rpcNames]);
+            filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCNames:filter.rpcNames]);
         }
     }
 
@@ -377,6 +407,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {
+    if (self.permissions[rpcName].requireEncryption != nil) {
+        return self.permissions[rpcName].requireEncryption.boolValue;
+    }
+    return NO;
+}
+
+- (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName {
+    // to do
     if (self.permissions[rpcName].requireEncryption != nil) {
         return self.permissions[rpcName].requireEncryption.boolValue;
     }

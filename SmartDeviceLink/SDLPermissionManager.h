@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 *
 *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
 */
-- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
 
 /**
  *  Remove every current observer
