@@ -2,10 +2,10 @@ name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
 on:
-    # Runs the workflow when someone pushes to a repository branch, which triggers the push event
+    # Runs the workflow when someone pushes to a repository branch, which triggers the push event.
     push:
 
-    # Runs the workflow only when someone opens or reopens a pull request
+    # Runs the workflow only when someone opens or reopens a pull request (there are a bunch of activity types that can trigger a workflow that we don't want - like labeling, assigning, and locking the PR). This prevents two workflows from being triggered when a push is made to a pull request branch because the pull request activity type of "synchronize" also triggers another, separate, workflow.
     pull_request:
         types: [opened, reopened]
 
