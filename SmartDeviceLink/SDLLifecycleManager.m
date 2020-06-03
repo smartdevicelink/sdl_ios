@@ -380,12 +380,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
     if ((delegateCanUpdateLifecycle || oldDelegateCanUpdateLifecycle)
-        && ([supportedLanguages containsObject:actualHMILanguage] || [supportedLanguages containsObject:actualVRLanguage])) {
-        if (![actualHMILanguage isEqualToEnum:desiredHMILanguage] || ![actualVRLanguage isEqualToEnum:desiredVRLanguage]) {
-            [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
-        } else {
-            [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
-        }
+        && ([supportedLanguages containsObject:actualHMILanguage] || [supportedLanguages containsObject:actualVRLanguage])
+        && (![actualHMILanguage isEqualToEnum:desiredHMILanguage] || ![actualVRLanguage isEqualToEnum:desiredVRLanguage])) {
+        // If the delegate is implemented, AND the new HMI / VR language is a supported language, AND the new HMI / VR language is not the current language, THEN go to the updating configuration state and see if the dev wants to change the registration.
+        [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
     } else {
         [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
     }
