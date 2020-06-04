@@ -390,6 +390,12 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.vrCapability).to(beFalse());
                 expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
             });
         });
 
@@ -416,16 +422,13 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.vrCapability).to(beTrue());
                 expect(testSystemCapabilityManager.audioPassThruCapabilities).to(equal(testAudioPassThruCapabilities));
                 expect(testSystemCapabilityManager.pcmStreamCapability).to(equal(testPCMStreamCapability));
-            });
-        });
 
-        afterEach(^{
-            // Make sure the system capabilities properties were not inadverdently set
-            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            });
         });
     });
 
@@ -456,6 +459,19 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
 #pragma clang diagnostic pop
+
+                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
             });
         });
 
@@ -475,23 +491,35 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
 #pragma clang diagnostic pop
+
+                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
             });
         });
 
-        afterEach(^{
-            // Make sure the other RAIR properties and system capabilities were not inadverdently set
-            expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-            expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-            expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-            expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-            expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-            expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
-            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+        describe(@"if the setdisplaylayout has nil displaycapabilities", ^{
+            beforeEach(^{
+                testSetDisplayLayoutResponse.success = @YES;
+                testSetDisplayLayoutResponse.displayCapabilities = nil;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should should save the capabilities", ^{
+                // All the text fields and image fields should be available
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(29));
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(14));
+            });
         });
     });
     

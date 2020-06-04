@@ -27,7 +27,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -312,7 +312,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = (self.windowCapability.textFields != nil) ? self.windowCapability.maxNumberOfMainFieldLines : 4;
+    NSUInteger numberOfLines = self.windowCapability.maxNumberOfMainFieldLines;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -523,46 +523,46 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL templateSupportsPrimaryArtwork = (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = [self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic];
+    BOOL graphicMatchesExisting = [self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name];
+    BOOL graphicExists = (self.primaryGraphic != nil);
 
-    return (templateSupportsPrimaryArtwork
-            && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
-            && self.primaryGraphic != nil);
+    return (templateSupportsPrimaryArtwork && !graphicMatchesExisting && graphicExists);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL templateSupportsSecondaryArtwork = (self.windowCapability.imageFields != nil) ? ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
+    BOOL templateSupportsSecondaryArtwork = [self.windowCapability hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic];
+    BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name];
+    BOOL graphicExists = (self.secondaryGraphic != nil);
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
-    return (templateSupportsSecondaryArtwork
-            && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
-            && self.secondaryGraphic != nil);
+    return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
 }
 
 - (BOOL)sdl_shouldUpdateMediaTextField {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMediaTrack] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMediaTrack];
 }
 
 - (BOOL)sdl_shouldUpdateTitleField {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTemplateTitle] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTemplateTitle];
 }
 
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {
     NSMutableArray *array = [NSMutableArray array];
-    self.textField1.length > 0 ? [array addObject:self.textField1] : nil;
-    self.textField2.length > 0 ? [array addObject:self.textField2] : nil;
-    self.textField3.length > 0 ? [array addObject:self.textField3] : nil;
-    self.textField4.length > 0 ? [array addObject:self.textField4] : nil;
+    (self.textField1.length > 0) ? [array addObject:self.textField1] : nil;
+    (self.textField2.length > 0) ? [array addObject:self.textField2] : nil;
+    (self.textField3.length > 0) ? [array addObject:self.textField3] : nil;
+    (self.textField4.length > 0) ? [array addObject:self.textField4] : nil;
 
     return [array copy];
 }
 
 - (NSArray<SDLMetadataType> *)sdl_findNonNilMetadataFields {
     NSMutableArray *array = [NSMutableArray array];
-    self.textField1Type.length > 0 ? [array addObject:self.textField1Type] : nil;
-    self.textField2Type.length > 0 ? [array addObject:self.textField2Type] : nil;
-    self.textField3Type.length > 0 ? [array addObject:self.textField3Type] : nil;
-    self.textField4Type.length > 0 ? [array addObject:self.textField4Type] : nil;
+    (self.textField1Type.length) > 0 ? [array addObject:self.textField1Type] : nil;
+    (self.textField2Type.length) > 0 ? [array addObject:self.textField2Type] : nil;
+    (self.textField3Type.length) > 0 ? [array addObject:self.textField3Type] : nil;
+    (self.textField4Type.length) > 0 ? [array addObject:self.textField4Type] : nil;
 
     return [array copy];
 }
