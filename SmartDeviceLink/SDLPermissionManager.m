@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
 
-- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName {
+- (BOOL)isRPCPermitted:(SDLRPCFunctionName)rpcName {
     if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
         return NO;
     }
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<SDLPermissionRPCName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     // to do
     for (NSString *rpcName in rpcNames) {
-        BOOL allowed = [self isRPCNameAllowed:rpcName];
+        BOOL allowed = [self isRPCPermitted:rpcName];
         permissionAllowedDict[rpcName] = @(allowed);
     }
 

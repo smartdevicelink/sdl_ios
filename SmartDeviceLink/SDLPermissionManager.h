@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 *
 *  @return YES if the RPC is allowed at the current HMI level, NO if not
 */
-- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName;
+- (BOOL)isRPCPermitted:(SDLRPCFunctionName)rpcName;
 
 /**
  *  Determine if all RPCs are allowed for the current HMI level

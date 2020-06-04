@@ -11,6 +11,7 @@
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionManager.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 
@@ -133,65 +134,122 @@ describe(@"SDLPermissionsManager", ^{
     
     describe(@"checking if a permission is allowed", ^{
         __block NSString *someRPCName = nil;
+        __block SDLRPCFunctionName someRPCFunctionName = nil;
         __block BOOL testResultBOOL = NO;
-        
-        context(@"when no permissions exist", ^{
-            beforeEach(^{
-                someRPCName = @"some rpc name";
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName];
-#pragma clang diagnostic pop
+        context(@"when no permissions exist", ^{
+            context(@"deprecated isRPCAllowed: method", ^{
+                beforeEach(^{
+                    someRPCName = @"some rpc name";
+
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should not be allowed", ^{
+                    expect(@(testResultBOOL)).to(equal(@NO));
+                });
             });
-            
-            it(@"should not be allowed", ^{
-                expect(@(testResultBOOL)).to(equal(@NO));
+
+            context(@"isRPCPermitted: method", ^{
+                beforeEach(^{
+                    someRPCFunctionName = @"SomeRPCFunctionName";
+                    testResultBOOL = [testPermissionsManager isRPCPermitted:someRPCName];
+                });
+
+                it(@"should not be allowed", ^{
+                    expect(@(testResultBOOL)).to(equal(@NO));
+                });
             });
         });
         
         context(@"when permissions exist but no HMI level", ^{
-            beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
-#pragma clang diagnostic pop
+            context(@"deprecated isRPCAllowed: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should not be allowed", ^{
+                    expect(@(testResultBOOL)).to(equal(@NO));
+                });
             });
-            
-            it(@"should not be allowed", ^{
-                expect(@(testResultBOOL)).to(equal(@NO));
+
+            context(@"isRPCPermitted: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    testResultBOOL = [testPermissionsManager isRPCPermitted:someRPCName];
+                });
+
+                it(@"should not be allowed", ^{
+                    expect(@(testResultBOOL)).to(equal(@NO));
+                });
             });
         });
         
         context(@"when permissions exist", ^{
-            context(@"and the permission is allowed", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
-#pragma clang diagnostic pop
+            context(@"deprecated isRPCAllowed: method", ^{
+                context(@"and the permission is allowed", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                        testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
+                        #pragma clang diagnostic pop
+                    });
+
+                    it(@"should be allowed", ^{
+                        expect(@(testResultBOOL)).to(equal(@YES));
+                    });
                 });
-                
-                it(@"should be allowed", ^{
-                    expect(@(testResultBOOL)).to(equal(@YES));
+
+                context(@"and the permission is denied", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                        testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllDisallowed];
+                        #pragma clang diagnostic pop
+                    });
+
+                    it(@"should be denied", ^{
+                        expect(@(testResultBOOL)).to(equal(@NO));
+                    });
                 });
             });
-            
-            context(@"and the permission is denied", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllDisallowed];
-#pragma clang diagnostic pop
+
+            context(@"isRPCPermitted: method", ^{
+                context(@"and the permission is allowed", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                        testResultBOOL = [testPermissionsManager isRPCPermitted:testRPCNameAllAllowed];
+                    });
+
+                    it(@"should be allowed", ^{
+                        expect(@(testResultBOOL)).to(equal(@YES));
+                    });
                 });
-                
-                it(@"should be denied", ^{
-                    expect(@(testResultBOOL)).to(equal(@NO));
+
+                context(@"and the permission is denied", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                        testResultBOOL = [testPermissionsManager isRPCPermitted:testRPCNameAllDisallowed];
+                    });
+
+                    it(@"should be denied", ^{
+                        expect(@(testResultBOOL)).to(equal(@NO));
+                    });
                 });
             });
         });
@@ -201,94 +259,179 @@ describe(@"SDLPermissionsManager", ^{
         __block SDLPermissionGroupStatus testResultStatus = SDLPermissionGroupStatusUnknown;
         
         context(@"with no permissions data", ^{
-            beforeEach(^{
+            context(@"deprecated groupStatusOfRPCs: method", ^{
+                beforeEach(^{
                 #pragma clang diagnostic push
                 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
                 #pragma clang diagnostic pop
+                });
+
+                it(@"should return unknown", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
+                });
             });
-            
-            it(@"should return unknown", ^{
-                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
+
+            context(@"groupStatusOfRPCNames: method", ^{
+                beforeEach(^{
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                });
+
+                it(@"should return unknown", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
+                });
             });
         });
         
         context(@"for an all allowed group", ^{
-            beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
-                #pragma clang diagnostic pop
+            context(@"deprecated groupStatusOfRPCs: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
+                });
             });
-            
-            it(@"should return mixed", ^{
-                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
+
+            context(@"groupStatusOfRPCNames: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
+                });
             });
         });
         
         context(@"for an all disallowed group", ^{
-            beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
-                #pragma clang diagnostic pop
+            context(@"deprecated groupStatusOfRPCs: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+                });
             });
-            
-            it(@"should return mixed", ^{
-                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+
+            context(@"groupStatusOfRPCNames: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+                });
             });
         });
         
         context(@"for a mixed group", ^{
-            beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                #pragma clang diagnostic pop
+            context(@"deprecated groupStatusOfRPCs: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
+                });
             });
-            
-            it(@"should return mixed", ^{
-                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
+
+            context(@"groupStatusOfRPCNames: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                });
+
+                it(@"should return mixed", ^{
+                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
+                });
             });
         });
     });
     
     describe(@"checking the status of RPCs", ^{
         __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
-        
         context(@"with no permissions data", ^{
-            beforeEach(^{
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                #pragma clang diagnostic pop
+            context(@"deprecated statusOfRPCs: method", ^{
+                beforeEach(^{
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should return correct permission statuses", ^{
+                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
+                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                });
             });
-            
-            it(@"should return correct permission statuses", ^{
-                expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
-                expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+
+            context(@"statusOfRPCNames: method", ^{
+                beforeEach(^{
+                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                });
+
+                it(@"should return correct permission statuses", ^{
+                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
+                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                });
             });
         });
         
         context(@"with permissions data", ^{
-            beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                #pragma clang diagnostic pop
+            context(@"deprecated statusOfRPCs: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    #pragma clang diagnostic pop
+                });
+
+                it(@"should return correct permission statuses", ^{
+                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
+                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                });
             });
-            
-            it(@"should return correct permission statuses", ^{
-                expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
-                expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+
+            context(@"statusOfRPCNames: method", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                });
+
+                it(@"should return correct permission statuses", ^{
+                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
+                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                });
             });
         });
     });
