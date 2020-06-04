@@ -139,16 +139,7 @@ private extension ProxyManager {
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
 
-//            RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
-            let permissionsManager = self.sdlManager.permissionManager
-//            permissionsManager.subscribe(toRPCs: [SDLRPCFunctionName.addCommand], groupType: .allAllowed) { (dict, status) in
-//                print("SUBSCRIBE TO RPCS CALLED")
-//            }
-
-            permissionsManager.addObserver(forRPCs: ["PerformInteraction"], groupType: .allAllowed) { (dict, status) in
-                print("AddOBSERVER TO RPCS CALLED")
-                print("STATUS IS \(dict["PerformInteraction"])")
-            }
+            RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
             SDLLog.d("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
         })

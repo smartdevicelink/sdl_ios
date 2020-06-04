@@ -79,7 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
-    // to do
     SDLPermissionItem *item = self.permissions[rpcName];
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
@@ -97,7 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLPermissionGroupStatusUnknown;
     }
 
-    // to do double check this
     return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
@@ -151,10 +149,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [permissionAllowedDict copy];
 }
 
-- (NSDictionary<SDLPermissionRPCName,NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
-    NSMutableDictionary<SDLPermissionRPCName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
-    // to do
-    for (NSString *rpcName in rpcNames) {
+- (NSDictionary<SDLRPCFunctionName,NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
+    NSMutableDictionary<SDLRPCFunctionName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
+    
+    for (SDLRPCFunctionName rpcName in rpcNames) {
         BOOL allowed = [self isRPCPermitted:rpcName];
         permissionAllowedDict[rpcName] = @(allowed);
     }
@@ -414,7 +412,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName {
-    // to do
     if (self.permissions[rpcName].requireEncryption != nil) {
         return self.permissions[rpcName].requireEncryption.boolValue;
     }
