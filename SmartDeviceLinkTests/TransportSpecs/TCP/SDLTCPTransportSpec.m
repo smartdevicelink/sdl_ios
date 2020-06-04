@@ -190,8 +190,6 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(serverDelegateMock, 0.5);
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:testData]);
 
         waitUntilTimeout(1, ^(void (^done)(void)){
@@ -232,14 +230,11 @@ describe(@"SDLTCPTransport", ^ {
         [transport connect];
 
         // check that transport still sends out data long after NSStreamEventHasSpaceAvailable event
-        [NSThread sleepForTimeInterval:1.0];
         [transport sendData:testData1];
         [transport sendData:testData2];
 
         OCMVerifyAllWithDelay(serverDelegateMock, 0.5);
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:expectedData]);
 
         // don't receive further delegate events
@@ -288,8 +283,6 @@ describe(@"SDLTCPTransport", ^ {
         [server send:testData2];
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:expectedData]);
 
         waitUntilTimeout(1, ^(void (^done)(void)){

@@ -153,11 +153,10 @@ describe(@"SDLIAPTransport", ^{
                 OCMExpect([mockDataSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-                [NSThread sleepForTimeInterval:0.1];
 
-                expect(transport.retryCounter).to(equal(0));
-                expect(transport.sessionSetupInProgress).to(beFalse());
-                expect(transport.transportDestroyed).to(beTrue());
+                expect(transport.retryCounter).toEventually(equal(0));
+                expect(transport.sessionSetupInProgress).toEventually(beFalse());
+                expect(transport.transportDestroyed).toEventually(beTrue());
 
                 OCMVerify([mockTransportDelegate onTransportDisconnected]);
             });
@@ -178,11 +177,10 @@ describe(@"SDLIAPTransport", ^{
                 OCMExpect([mockControlSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-                [NSThread sleepForTimeInterval:0.1];
 
-                expect(transport.retryCounter).to(equal(0));
-                expect(transport.sessionSetupInProgress).to(beFalse());
-                expect(transport.transportDestroyed).to(beFalse());
+                expect(transport.retryCounter).toEventually(equal(0));
+                expect(transport.sessionSetupInProgress).toEventually(beFalse());
+                expect(transport.transportDestroyed).toEventually(beFalse());
 
                 OCMReject([mockTransportDelegate onTransportDisconnected]);
             });
