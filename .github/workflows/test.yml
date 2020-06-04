@@ -8,7 +8,7 @@ on:
     pull_request:
         types: [opened]
     schedule:
-        branch: master
+        - branch: master
         - cron:  '5 * * * *' # runs every 5 minutes
 
 env:
