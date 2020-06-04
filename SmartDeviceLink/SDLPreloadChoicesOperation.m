@@ -19,7 +19,7 @@
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -192,27 +192,27 @@ NS_ASSUME_NONNULL_BEGIN
     }
 #pragma clang diagnostic pop
 
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
 }
 
 /// Determine if we should send secondary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryText {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText];
 }
 
 /// Determine if we should send teriary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceTertiaryText {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText];
 }
 
 /// Determine if we should send the primary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoicePrimaryImage {
-    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
+    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage];
 }
 
 /// Determine if we should send the secondary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryImage {
-    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
+    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage];
 }
 
 #pragma mark - Property Overrides

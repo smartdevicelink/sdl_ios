@@ -20,6 +20,7 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
+#import "SDLImageField+ScreenManagerExtensions.h"
 #import "SDLLogMacros.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
@@ -35,6 +36,8 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
+#import "SDLTextField+ScreenManagerExtensions.h"
+#import "SDLTextFieldName.h"
 #import "SDLVersion.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLWindowCapability.h"
@@ -208,6 +211,8 @@ typedef NSString * SDLServiceID;
 
     // return if display capabilities don't exist.
     if (display == nil) {
+        defaultWindowCapability.textFields = [SDLTextField allTextFields];
+        defaultWindowCapability.imageFields = [SDLImageField allImageFields];
         displayCapability.windowCapabilities = @[defaultWindowCapability];
         return @[displayCapability];
     }
