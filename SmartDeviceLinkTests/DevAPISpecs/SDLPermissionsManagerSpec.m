@@ -558,6 +558,45 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
 
+        describe(@"adding a new observer with subscribeToRPC:", ^{
+            context(@"when no data is present", ^{
+                __block BOOL testObserverCalled = NO;
+
+                beforeEach(^{
+                    testObserverCalled = NO;
+                    [testPermissionsManager subscribeToRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        testObserverCalled = YES;
+                    }];
+                });
+
+                it(@"should not be called", ^{
+                    expect(@(testObserverCalled)).to(equal(@NO));
+                });
+            });
+
+            context(@"when data is present", ^{
+                __block BOOL testObserverCalled = NO;
+
+                beforeEach(^{
+                    testObserverCalled = NO;
+
+                    // Post the notification before setting the observer to make sure data is already present
+                    // HMI Full & Limited allowed
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
+                    [testPermissionsManager subscribeToRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        testObserverCalled = YES;
+                    }];
+                });
+
+                it(@"should not be called", ^{
+                    expect(@(testObserverCalled)).to(equal(@NO));
+                });
+            });
+        });
+
         context(@"updating an observer with new permission data", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
 
