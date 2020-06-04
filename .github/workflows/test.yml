@@ -9,7 +9,7 @@ on:
         types: [opened]
     schedule:
         branch: master
-        cron:  '5 * * * *' # runs every 5 minutes
+        - cron:  '5 * * * *' # runs every 5 minutes
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
