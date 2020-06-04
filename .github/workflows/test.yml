@@ -7,8 +7,8 @@ on:
     # Runs the workflow only when someone opens a pull request (there are a bunch of activity types that can trigger a workflow that we don't want - like labeling, assigning, and locking the PR). The "push" trigger will generate a new workflow if a push is made to a pull request branch.
     pull_request:
         types: [opened]
+    # Runs the workflow every 5 minutes on the master branch
     schedule:
-        - branch: master
         - cron:  '5 * * * *' # runs every 5 minutes
 
 env:
