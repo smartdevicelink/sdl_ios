@@ -14,8 +14,11 @@
 
 - (void)managerDidDisconnect { }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
     return nil;
 }
+#pragma mark diagnostic pop
 
 @end
