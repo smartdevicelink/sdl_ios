@@ -247,7 +247,7 @@ extension ProxyManager: SDLManagerDelegate {
             return nil
         }
         
-        update.ttsName = SDLTTSChunk(text: appName, type: .text)
+        update.ttsName = [SDLTTSChunk(text: update.appName!, type: .text)]
         
         return update
     }
