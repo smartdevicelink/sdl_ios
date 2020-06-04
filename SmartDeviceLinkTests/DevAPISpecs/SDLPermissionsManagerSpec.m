@@ -138,8 +138,11 @@ describe(@"SDLPermissionsManager", ^{
         context(@"when no permissions exist", ^{
             beforeEach(^{
                 someRPCName = @"some rpc name";
-                
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName];
+#pragma clang diagnostic pop
             });
             
             it(@"should not be allowed", ^{
@@ -150,8 +153,10 @@ describe(@"SDLPermissionsManager", ^{
         context(@"when permissions exist but no HMI level", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
+#pragma clang diagnostic pop
             });
             
             it(@"should not be allowed", ^{
@@ -164,8 +169,10 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
+#pragma clang diagnostic pop
                 });
                 
                 it(@"should be allowed", ^{
@@ -177,8 +184,10 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllDisallowed];
+#pragma clang diagnostic pop
                 });
                 
                 it(@"should be denied", ^{
@@ -193,7 +202,10 @@ describe(@"SDLPermissionsManager", ^{
         
         context(@"with no permissions data", ^{
             beforeEach(^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return unknown", ^{
@@ -205,8 +217,10 @@ describe(@"SDLPermissionsManager", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return mixed", ^{
@@ -218,8 +232,10 @@ describe(@"SDLPermissionsManager", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return mixed", ^{
@@ -231,8 +247,10 @@ describe(@"SDLPermissionsManager", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return mixed", ^{
@@ -246,7 +264,10 @@ describe(@"SDLPermissionsManager", ^{
         
         context(@"with no permissions data", ^{
             beforeEach(^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return correct permission statuses", ^{
@@ -259,8 +280,10 @@ describe(@"SDLPermissionsManager", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                #pragma clang diagnostic pop
             });
             
             it(@"should return correct permission statuses", ^{
@@ -281,12 +304,14 @@ describe(@"SDLPermissionsManager", ^{
                     testObserverCalled = NO;
                     testObserverStatus = SDLPermissionGroupStatusUnknown;
                     testObserverChangeDict = nil;
-
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverChangeDict = change;
                         testObserverStatus = status;
                         testObserverCalled = YES;
                     }];
+                    #pragma clang diagnostic pop
                 });
 
                 it(@"should return correct permission statuses", ^{
@@ -313,11 +338,14 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = changedDict;
                             testObserverReturnStatus = status;
                         }];
+                        #pragma clang diagnostic pop
                     });
 
                     it(@"should call the observer with proper status", ^{
@@ -340,11 +368,14 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = change;
                             testObserverReturnStatus = status;
                         }];
+                        #pragma clang diagnostic pop
                     });
 
                     it(@"should call the observer with proper status", ^{
@@ -367,10 +398,13 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverReturnStatus = status;
                         }];
+                        #pragma clang diagnostic pop
                     });
 
                     it(@"should call the observer with status Disallowed", ^{
@@ -402,10 +436,13 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
                         [changeDicts addObject:changedDict];
                     }];
+                    #pragma clang diagnostic pop
 
                     // Create a permission update disallowing our current HMI level for the observed permission
                     SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -500,11 +537,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it becomes All Allowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         // Create a permission update allowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -543,11 +583,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it goes from All Allowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -606,11 +649,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"from mixed to disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -640,11 +686,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"from disallowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -691,11 +740,14 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                    #pragma clang diagnostic push
+                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
                         [changeDicts addObject:changedDict];
                         [testStatuses addObject:@(status)];
                     }];
+                    #pragma clang diagnostic pop
 
                     // Upgrade the HMI level to LIMITED
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
@@ -742,11 +794,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it becomes All Allowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     });
@@ -762,11 +817,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it goes from All Allowed to at least some disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
                     });
@@ -811,11 +869,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"that goes from disallowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     });
@@ -830,11 +891,14 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"that goes from mixed to disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
+                        #pragma clang diagnostic push
+                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
                         }];
+                        #pragma clang diagnostic pop
 
                         [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
                     });
@@ -857,9 +921,12 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
 
                 // Add two observers
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
+                #pragma clang diagnostic pop
 
                 // Remove one observer
                 [testPermissionsManager removeObserverForIdentifier:observerId];
@@ -882,6 +949,8 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
 
                 // Add two observers
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 NSUUID *testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
@@ -889,6 +958,7 @@ describe(@"SDLPermissionsManager", ^{
                 [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
+                #pragma clang diagnostic pop
 
                 // Remove one observer
                 [testPermissionsManager removeObserverForIdentifier:testRemovedObserverId];
@@ -911,6 +981,8 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
 
                 // Add two observers
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
@@ -918,6 +990,7 @@ describe(@"SDLPermissionsManager", ^{
                 [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
+                #pragma clang diagnostic pop
 
                 // Remove all observers
                 [testPermissionsManager removeAllObservers];
