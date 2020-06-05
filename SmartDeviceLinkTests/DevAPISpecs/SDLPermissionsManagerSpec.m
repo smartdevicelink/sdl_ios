@@ -294,7 +294,7 @@ describe(@"SDLPermissionsManager", ^{
                     #pragma clang diagnostic pop
                 });
 
-                it(@"should return mixed", ^{
+                it(@"should return allowed", ^{
                     expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
             });
@@ -307,7 +307,7 @@ describe(@"SDLPermissionsManager", ^{
                     testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
                 });
 
-                it(@"should return mixed", ^{
+                it(@"should return allowed", ^{
                     expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
             });
@@ -324,7 +324,7 @@ describe(@"SDLPermissionsManager", ^{
                     #pragma clang diagnostic pop
                 });
 
-                it(@"should return mixed", ^{
+                it(@"should return disallowed", ^{
                     expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                 });
             });
@@ -337,7 +337,7 @@ describe(@"SDLPermissionsManager", ^{
                     testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
                 });
 
-                it(@"should return mixed", ^{
+                it(@"should return disallowed", ^{
                     expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                 });
             });
