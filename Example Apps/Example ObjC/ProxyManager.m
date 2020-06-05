@@ -290,6 +290,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
@@ -306,6 +308,7 @@ NS_ASSUME_NONNULL_BEGIN
     update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
     return update;
 }
+#pragma clang diagnostic pop
 
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
