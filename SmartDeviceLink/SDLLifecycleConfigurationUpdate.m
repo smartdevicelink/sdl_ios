@@ -25,4 +25,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Lifecycle Configuration Update: new app name: %@, new short app name: %@, new tts name: %@, new voice commands: %@", self.appName, self.shortAppName, self.ttsName, self.voiceRecognitionCommandNames];
+}
+
 @end
