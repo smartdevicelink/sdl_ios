@@ -61,6 +61,7 @@
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
+@property (strong, nonatomic) SDLLanguage currentVRLanguage;
 @end
 
 QuickConfigurationBegin(SendingRPCsConfiguration)
@@ -150,6 +151,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.rpcOperationQueue).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
         expect(testManager.authToken).to(beNil());
+        expect(testManager.currentVRLanguage).toNot(beNil());
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
