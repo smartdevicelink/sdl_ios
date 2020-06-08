@@ -87,10 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 # pragma mark - Responses
 
-- (void)onReceivedLockScreenIcon:(UIImage *)icon {
-    [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
-}
-
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveAddCommandResponse response:response];
 }

@@ -547,7 +547,7 @@ extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 /// Name for a Command notification RPC
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
 
-/// Name for a EncodedData notification RPC
+/// Name for a EncodedSyncPData notification RPC
 extern SDLNotificationName const SDLDidReceiveEncodedDataNotification __deprecated;
 
 /// Name for a InteriorVehicleData notification RPC

@@ -49,14 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLVehicleMake;
 
-typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
-typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
-
 NSString *const SDLProxyVersion = @"6.6.0";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
-const int PoliciesCorrelationId = 65535;
-static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
@@ -66,8 +61,6 @@ static float DefaultConnectionTimeout = 45.0;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
-@property (nonatomic, strong) NSURLSession *urlSession;
-@property (nonatomic, strong) SDLCacheFileManager *cacheFileManager;
 
 @end
 
@@ -97,14 +90,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.transport connect];
 
         SDLLogV(@"Proxy transport initialization");
-        
-        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
-        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
-        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
-        
-        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-        _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
 
     return self;
@@ -132,14 +117,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.transport connect];
         
         SDLLogV(@"Proxy transport initialization");
-        
-        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
-        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
-        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
-        
-        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-        _cacheFileManager = [[SDLCacheFileManager alloc] init];
     }
     
     return self;
@@ -187,8 +164,6 @@ static float DefaultConnectionTimeout = 45.0;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [_urlSession invalidateAndCancel];
 }
 
 - (void)dealloc {
@@ -469,19 +444,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
     }
 
-    if ([functionName isEqualToString:@"OnEncodedSyncPData"]) {
-        [self sdl_handleSyncPData:newMessage];
-    }
-
-    if ([functionName isEqualToString:@"OnSystemRequest"]) {
-        [self sdl_handleSystemRequest:dict];
-    }
-
-    if ([functionName isEqualToString:@"SystemRequestResponse"]) {
-        [self sdl_handleSystemRequestResponse:newMessage];
-    }
-
-
     if ([functionName isEqualToString:@"OnButtonPress"]) {
         SDLOnButtonPress *message = (SDLOnButtonPress *)newMessage;
         if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
@@ -551,48 +513,6 @@ static float DefaultConnectionTimeout = 45.0;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_sendMobileHMIState) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
-}
-
-- (void)sdl_handleSyncPData:(SDLRPCMessage *)message {
-    // If URL != nil, perform HTTP Post and don't pass the notification to proxy listeners
-    SDLLogV(@"OnEncodedSyncPData: %@", message);
-
-    NSString *urlString = (NSString *)message.parameters[SDLRPCParameterNameURLUppercase];
-    NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)message.parameters[SDLRPCParameterNameData];
-    NSNumber *encodedSyncPTimeout = (NSNumber *)message.parameters[SDLRPCParameterNameTimeoutCapitalized];
-
-    if (urlString && encodedSyncPData && encodedSyncPTimeout) {
-        [self sdl_sendEncodedSyncPData:encodedSyncPData toURL:urlString withTimeout:encodedSyncPTimeout];
-    }
-}
-
-- (void)sdl_handleSystemRequest:(NSDictionary<NSString *, id> *)dict {
-    SDLLogV(@"OnSystemRequest");
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
-    SDLRequestType requestType = systemRequest.requestType;
-#pragma clang diagnostic pop
-
-    // Handle the various OnSystemRequest types
-    if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
-        [self sdl_handleSystemRequestProprietary:systemRequest];
-    } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
-        [self sdl_handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if ([requestType isEqualToEnum:SDLRequestTypeIconURL]) {
-        [self sdl_handleSystemRequestIconURL:systemRequest];
-    } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
-        [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self sdl_handleSystemRequestLaunchApp:systemRequest];
-        });
-    }
-}
-
-- (void)sdl_handleSystemRequestResponse:(SDLRPCMessage *)message {
-    SDLLogV(@"SystemRequestResponse to be discarded");
 }
 
 #pragma mark BackCompatability ButtonName Helpers
@@ -697,253 +617,6 @@ static float DefaultConnectionTimeout = 45.0;
     [self sdl_invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
 }
 
-
-#pragma mark OnSystemRequest Handlers
-- (void)sdl_handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
-    NSURL *URLScheme = [NSURL URLWithString:request.url];
-    if (URLScheme == nil) {
-        SDLLogW(@"System request LaunchApp failed: invalid URL sent from module: %@", request.url);
-        return;
-    }
-    // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927
-    if (SDL_SYSTEM_VERSION_LESS_THAN(@"9.0")) {
-        // Return early if we can't openURL because openURL will crash instead of fail silently in < 9.0
-        if (![[UIApplication sharedApplication] canOpenURL:URLScheme]) {
-            return;
-        }
-    }
-    [[UIApplication sharedApplication] openURL:URLScheme];
-}
-
-- (void)sdl_handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
-    NSDictionary<NSString *, id> *JSONDictionary = [self sdl_validateAndParseSystemRequest:request];
-    if (JSONDictionary == nil || request.url == nil) {
-        return;
-    }
-
-    NSDictionary<NSString *, id> *requestData = JSONDictionary[@"HTTPRequest"];
-    NSString *bodyString = requestData[@"body"];
-    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-
-    // Parse and display the policy data.
-    SDLPolicyDataParser *pdp = [[SDLPolicyDataParser alloc] init];
-    NSData *policyData = [pdp unwrap:bodyData];
-    if (policyData != nil) {
-        [pdp parsePolicyData:policyData];
-        SDLLogV(@"Policy data received");
-    }
-
-    // Send the HTTP Request
-    __weak typeof(self) weakSelf = self;
-    [self sdl_uploadForBodyDataDictionary:JSONDictionary
-                            urlString:request.url
-                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                         __strong typeof(weakSelf) strongSelf = weakSelf;
-
-                        if (error) {
-                            SDLLogW(@"OnSystemRequest HTTP response error: %@", error);
-                            return;
-                        }
-
-                        if (data == nil || data.length == 0) {
-                            SDLLogW(@"OnSystemRequest HTTP response error: no data received");
-                            return;
-                        }
-
-                        // Create the SystemRequest RPC to send to module.
-                        SDLLogV(@"OnSystemRequest HTTP response");
-                        SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
-                        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
-                        request.requestType = SDLRequestTypeProprietary;
-                        request.bulkData = data;
-
-                        // Parse and display the policy data.
-                        SDLPolicyDataParser *pdp = [[SDLPolicyDataParser alloc] init];
-                        NSData *policyData = [pdp unwrap:data];
-                        if (policyData) {
-                            [pdp parsePolicyData:policyData];
-                            SDLLogV(@"Cloud policy data: %@", pdp);
-                        }
-
-                        // Send the RPC Request
-                        [strongSelf sendRPC:request];
-                    }];
-}
-
-- (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-    __weak typeof(self) weakSelf = self;
-    [self.cacheFileManager retrieveImageForRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (error != nil) {
-            SDLLogW(@"Failed to retrieve lock screen icon: %@", error.localizedDescription);
-            return;
-        }
-        
-        [strongSelf sdl_invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:image];
-    }];
-}
-
-- (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
-                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (error != nil) {
-                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed: %@", error.localizedDescription);
-                        return;
-                    } else if (data.length == 0) {
-                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed to get the cloud app icon image data");
-                        return;
-                    }
-
-                    SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
-                    iconURLSystemRequest.bulkData = data;
-
-                    [strongSelf sendRPC:iconURLSystemRequest];
-                }];
-}
-
-- (void)sdl_handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
-    if (request.bulkData.length == 0) {
-        // TODO: not sure how we want to handle http requests that don't have bulk data (maybe as GET?)
-        return;
-    }
-
-    __weak typeof(self) weakSelf = self;
-    [self sdl_uploadData:request.bulkData
-              toURLString:request.url
-        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (error != nil) {
-                SDLLogW(@"OnSystemRequest (HTTP) error: %@", error.localizedDescription);
-                return;
-            }
-
-            if (data.length == 0) {
-                SDLLogW(@"OnSystemRequest (HTTP) error: no data returned");
-                return;
-            }
-
-            // Show the HTTP response
-            SDLLogV(@"OnSystemRequest (HTTP) response: %@", response);
-
-            // Create the SystemRequest RPC to send to module.
-            SDLPutFile *putFile = [[SDLPutFile alloc] init];
-            putFile.fileType = SDLFileTypeJSON;
-            putFile.correlationID = @(PoliciesCorrelationId);
-            putFile.syncFileName = @"response_data";
-            putFile.bulkData = data;
-
-            // Send RPC Request
-            [strongSelf sendRPC:putFile];
-        }];
-}
-
-/**
- *  Determine if the System Request is valid and return it's JSON dictionary, if available.
- *
- *  @param request The system request to parse
- *
- *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
- */
-- (nullable NSDictionary<NSString *, id> *)sdl_validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
-    NSString *urlString = request.url;
-    SDLFileType fileType = request.fileType;
-
-    // Validate input
-    if (urlString == nil || [NSURL URLWithString:urlString] == nil) {
-        SDLLogW(@"OnSystemRequest validation failure: URL is nil");
-        return nil;
-    }
-
-    if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
-        SDLLogW(@"OnSystemRequest validation failure: file type is not JSON");
-        return nil;
-    }
-
-    // Get data dictionary from the bulkData
-    NSError *error = nil;
-    NSDictionary<NSString *, id> *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
-    if (error != nil) {
-        SDLLogW(@"OnSystemRequest validation failure: data is not valid JSON");
-        return nil;
-    }
-
-    return JSONDictionary;
-}
-
-/**
- *  Start an upload for some data to a web address specified
- *
- *  @param data              The data to be passed to the server
- *  @param urlString         The URL the data should be POSTed to
- *  @param completionHandler A completion handler of what to do when the server responds
- */
-- (void)sdl_uploadData:(NSData *_Nonnull)data toURLString:(NSString *_Nonnull)urlString completionHandler:(URLSessionTaskCompletionHandler _Nullable)completionHandler {
-    // NSURLRequest configuration
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
-    request.HTTPMethod = @"POST";
-
-    SDLLogV(@"OnSystemRequest (HTTP) upload task created for URL: %@", urlString);
-
-    // Create the upload task
-    [self sdl_sendUploadRequest:request withData:data completionHandler:completionHandler];
-}
-
-/**
- *  Start an upload for a body data dictionary, this is used by the "proprietary" system request needed for backward compatibility
- *
- *  @param dictionary        The system request dictionary that contains the HTTP data to be sent
- *  @param urlString         A string containing the URL to send the upload to
- *  @param completionHandler A completion handler returning the response from the server to the upload task
- */
-- (void)sdl_uploadForBodyDataDictionary:(NSDictionary<NSString *, id> *)dictionary urlString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    NSParameterAssert(dictionary != nil);
-    NSParameterAssert(urlString != nil);
-    NSParameterAssert(completionHandler != NULL);
-
-    // Extract data from the dictionary
-    NSDictionary<NSString *, id> *requestData = dictionary[@"HTTPRequest"];
-    NSDictionary *headers = requestData[@"headers"];
-    NSString *contentType = headers[@"ContentType"];
-    NSTimeInterval timeout = [headers[@"ConnectTimeout"] doubleValue];
-    NSString *method = headers[@"RequestMethod"];
-    NSString *bodyString = requestData[@"body"];
-    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-
-    // NSURLRequest configuration
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setValue:contentType forHTTPHeaderField:@"content-type"];
-    request.timeoutInterval = timeout;
-    request.HTTPMethod = method;
-
-    SDLLogV(@"OnSystemRequest (Proprietary) upload task created for URL: %@", urlString);
-
-    // Create the upload task
-    [self sdl_sendUploadRequest:request withData:bodyData completionHandler:completionHandler];
-}
-
-- (void)sdl_sendUploadRequest:(NSURLRequest*)request withData:(NSData*)data completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    NSMutableURLRequest* mutableRequest = [request mutableCopy];
-    
-    if ([mutableRequest.URL.scheme isEqualToString:@"http"]) {
-        mutableRequest.URL = [NSURL URLWithString:[mutableRequest.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
-    }
-    
-    [[self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:completionHandler] resume];
-}
-
-- (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    if ([url.scheme isEqualToString:@"http"]) {
-        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
-    }
-    
-    [[self.urlSession dataTaskWithURL:url completionHandler:completionHandler] resume];
-}
-
 #pragma mark - Delegate management
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate {
@@ -969,66 +642,8 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 
-#pragma mark - System Request and SyncP handling
-
-- (void)sdl_sendEncodedSyncPData:(NSDictionary<NSString *, id> *)encodedSyncPData toURL:(NSString *)urlString withTimeout:(NSNumber *)timeout {
-    // Configure HTTP URL & Request
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.HTTPMethod = @"POST";
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    request.timeoutInterval = 60;
-
-    // Prepare the data in the required format
-    NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
-    NSArray<NSString *> *array = [NSArray arrayWithObject:encodedSyncPDataString];
-    NSDictionary<NSString *, id> *dictionary = @{ @"data": array };
-    NSError *JSONSerializationError = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
-    if (JSONSerializationError) {
-        SDLLogW(@"Error attempting to create SyncPData for HTTP request: %@", JSONSerializationError);
-        return;
-    }
-
-    // Send the HTTP Request
-    __weak typeof(self) weakSelf = self;
-    [[self.urlSession uploadTaskWithRequest:request
-                                   fromData:data
-                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                           [weakSelf sdl_syncPDataNetworkRequestCompleteWithData:data response:response error:error];
-                                       }] resume];
-
-    SDLLogV(@"OnEncodedSyncPData (HTTP Request)");
-}
-
-// Handle the OnEncodedSyncPData HTTP Response
-- (void)sdl_syncPDataNetworkRequestCompleteWithData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
-    // Sample of response: {"data":["SDLKGLSDKFJLKSjdslkfjslkJLKDSGLKSDJFLKSDJF"]}
-    SDLLogV(@"OnEncodedSyncPData (HTTP Response): %@", response);
-
-    // Validate response data.
-    if (data == nil || data.length == 0) {
-        SDLLogW(@"OnEncodedSyncPData (HTTP Response): no data returned");
-        return;
-    }
-
-    // Convert data to RPCRequest
-    NSError *JSONConversionError = nil;
-    NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
-    if (!JSONConversionError) {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
-        #pragma clang diagnostic pop
-        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
-        request.data = [responseDictionary objectForKey:@"data"];
-
-        [self sendRPC:request];
-    }
-}
-
-
 #pragma mark - PutFile Streaming
+
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
     inputStream.delegate = self;
     objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
