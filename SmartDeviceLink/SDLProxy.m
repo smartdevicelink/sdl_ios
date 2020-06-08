@@ -190,6 +190,8 @@ static float DefaultConnectionTimeout = 45.0;
             [strongSelf.urlSession invalidateAndCancel];
             return completionHandler();
         }];
+    } else {
+        return completionHandler();
     }
 }
 
