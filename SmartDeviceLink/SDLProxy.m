@@ -211,33 +211,30 @@ static float DefaultConnectionTimeout = 45.0;
 /// This was originally designed to make sure that the head unit properly knew about the mobile app's ability to run timers in the background, which affected heartbeat.
 /// It may still affect some features on the head unit and the ability for the head unit to know which app is in the foreground is useful. It should not be removed due to unknown backward compatibility issues.
 - (void)sdl_sendMobileHMIState {
-    __block UIApplicationState appState = UIApplicationStateInactive;
-    if ([NSThread isMainThread]) {
-        appState = [UIApplication sharedApplication].applicationState;
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            appState = [UIApplication sharedApplication].applicationState;
-        });
-    }
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        UIApplicationState appState = [UIApplication sharedApplication].applicationState;
+        SDLOnHMIStatus *hmiStatusRPC = [[SDLOnHMIStatus alloc] init];
 
-    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
+        hmiStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
+        hmiStatusRPC.systemContext = SDLSystemContextMain;
 
-    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
-    HMIStatusRPC.systemContext = SDLSystemContextMain;
+        switch (appState) {
+            case UIApplicationStateActive: {
+                hmiStatusRPC.hmiLevel = SDLHMILevelFull;
+            } break;
+            case UIApplicationStateBackground: // Fallthrough
+            case UIApplicationStateInactive: {
+                hmiStatusRPC.hmiLevel = SDLHMILevelBackground;
+            } break;
+            default: break;
+        }
 
-    switch (appState) {
-        case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
-        } break;
-        case UIApplicationStateBackground: // Fallthrough
-        case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
-        } break;
-        default: break;
-    }
-
-    SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC];
+        SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", hmiStatusRPC.hmiLevel);
+        [strongSelf sendRPC:hmiStatusRPC];
+    });
 }
 
 #pragma mark - Accessors
