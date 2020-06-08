@@ -149,7 +149,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
 
                 it(@"should not be allowed", ^{
-                    expect(@(testResultBOOL)).to(equal(@NO));
+                    expect(testResultBOOL).to(beFalse());
                 });
             });
 
@@ -160,7 +160,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
 
                 it(@"should not be allowed", ^{
-                    expect(@(testResultBOOL)).to(equal(@NO));
+                    expect(testResultBOOL).to(beFalse());
                 });
             });
         });
@@ -176,7 +176,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
 
                 it(@"should not be allowed", ^{
-                    expect(@(testResultBOOL)).to(equal(@NO));
+                    expect(testResultBOOL).to(beFalse());
                 });
             });
 
@@ -187,7 +187,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
 
                 it(@"should not be allowed", ^{
-                    expect(@(testResultBOOL)).to(equal(@NO));
+                    expect(testResultBOOL).to(beFalse());
                 });
             });
         });
@@ -205,7 +205,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
 
                     it(@"should be allowed", ^{
-                        expect(@(testResultBOOL)).to(equal(@YES));
+                        expect(testResultBOOL).to(beTrue());
                     });
                 });
 
@@ -220,7 +220,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
 
                     it(@"should be denied", ^{
-                        expect(@(testResultBOOL)).to(equal(@NO));
+                        expect(testResultBOOL).to(beFalse());
                     });
                 });
             });
@@ -235,7 +235,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
 
                     it(@"should be allowed", ^{
-                        expect(@(testResultBOOL)).to(equal(@YES));
+                        expect(testResultBOOL).to(beTrue());
                     });
                 });
 
@@ -248,7 +248,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
 
                     it(@"should be denied", ^{
-                        expect(@(testResultBOOL)).to(equal(@NO));
+                        expect(testResultBOOL).to(beFalse());
                     });
                 });
             });
@@ -570,7 +570,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
 
                 it(@"should not be called", ^{
-                    expect(@(testObserverCalled)).to(equal(@NO));
+                    expect(testObserverCalled).to(beFalse());
                 });
             });
 

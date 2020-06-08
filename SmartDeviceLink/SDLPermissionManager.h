@@ -49,11 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Determine if an individual RPC is allowed for the current HMI level
  *
- * @param rpcName  The name of the RPC to be tested, for example, SDLRPCFunctionNameShow
+ * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameShow
  *
  * @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCPermitted:(SDLRPCFunctionName)rpcName;
+- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName;
 
 /**
  *  Determine if all RPCs are allowed for the current HMI level
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A dictionary specifying if the passed in RPC names are currently allowed or not
 */
-- (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
+- (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -109,8 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will not return immediately with the current status and will wait for the permissions changes specified in the groupType param.
  *
- *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
- *
  *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
  *
  *  @param rpcNames The RPCs to be observed
@@ -119,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLObservedPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLObservedPermissionsChangedHandler)handler;
 
 /**
  *  Remove every current observer
