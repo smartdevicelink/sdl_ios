@@ -191,7 +191,12 @@ struct TransportProtocolUpdated {
         return completionHandler();
     }
 
+    // In order to stop the secondary transport
+    // 1. The observer must be told to shut down the services running on the transports. This can take a few moments since a request must be sent to the module a response must be awaited.
+    // 2. Once the services have been shutdown, the observer will notifiy this class by calling `disconnectSecondaryTransportWithCompletionHandler`. The secondary transport can now be shutdown. This can take a few memoments since the I/O streams must be closed on the thread they were opened on.
+    // 3. Once the secondary transport has shutdown successfully, the `disconnectCompletionHandler` will be called. 
     self.disconnectCompletionHandler = completionHandler;
+
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
 }
 
