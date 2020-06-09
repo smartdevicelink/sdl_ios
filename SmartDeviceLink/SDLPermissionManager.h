@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCAllowed:(SDLPermissionRPCName)rpcName __deprecated_msg(("Use isRPCPermitted: instead"));
+- (BOOL)isRPCAllowed:(SDLPermissionRPCName)rpcName __deprecated_msg(("Use isRPCNameAllowed: instead"));
 
 /**
  * Determine if an individual RPC is allowed for the current HMI level
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use statusOfRPCNames: instead"));
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use statusesOfRPCNames: instead"));
 
 /**
  * Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -104,10 +104,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCs:groupType:withHandler: instead"));
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCNames:groupType:withHandler: instead"));
 
 /**
- *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will not return immediately with the current status and will wait for the permissions changes specified in the groupType param.
+ *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.
  *
  *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
  *
@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLObservedPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLSubscribedPermissionsChangedHandler)handler;
 
 /**
  *  Remove every current observer

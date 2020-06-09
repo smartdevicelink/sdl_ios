@@ -66,15 +66,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Permissions available
 
 - (BOOL)isRPCAllowed:(NSString *)rpcName {
-    if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
-        return NO;
-    }
-
-    SDLPermissionItem *item = self.permissions[rpcName];
-    return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
+    return [self isRPCNameAllowed:rpcName];
 }
 
-- (BOOL)isRPCPermitted:(SDLRPCFunctionName)rpcName {
+- (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName {
     if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
         return NO;
     }
@@ -84,11 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    if (self.currentHMILevel == nil) {
-        return SDLPermissionGroupStatusUnknown;
-    }
-
-    return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
+    return [self groupStatusOfRPCNames:rpcNames];
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
@@ -139,21 +130,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    NSMutableDictionary<SDLPermissionRPCName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
-
-    for (NSString *rpcName in rpcNames) {
-        BOOL allowed = [self isRPCAllowed:rpcName];
-        permissionAllowedDict[rpcName] = @(allowed);
-    }
-
-    return [permissionAllowedDict copy];
+    return [self statusesOfRPCNames:rpcNames];
 }
 
-- (NSDictionary<SDLRPCFunctionName,NSNumber *> *)statusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
+- (NSDictionary<SDLRPCFunctionName,NSNumber *> *)statusesOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
     NSMutableDictionary<SDLRPCFunctionName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     
     for (SDLRPCFunctionName rpcName in rpcNames) {
-        BOOL allowed = [self isRPCPermitted:rpcName];
+        BOOL allowed = [self isRPCNameAllowed:rpcName];
         permissionAllowedDict[rpcName] = @(allowed);
     }
 
@@ -177,18 +161,24 @@ NS_ASSUME_NONNULL_BEGIN
     return filter.identifier;
 }
 
-- (SDLPermissionObserverIdentifier)subscribeToRPCs:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
     [self.filters addObject:filter];
+
+    // Check permission status and group type to see if we need to call handler immediately after setting the observer
+    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.rpcNames];
+    if ((groupType == SDLPermissionGroupTypeAny) || (groupType == SDLPermissionGroupTypeAllAllowed && permissionStatus == SDLPermissionGroupStatusAllowed)) {
+        [self sdl_callFilterObserver:filter];
+    }
 
     return filter.identifier;
 }
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.rpcNames];
-    NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusOfRPCNames:filter.rpcNames];
+    NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusesOfRPCNames:filter.rpcNames];
 
     filter.handler(allowedDict, permissionStatus);
 }
@@ -405,10 +395,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {
-    if (self.permissions[rpcName].requireEncryption != nil) {
-        return self.permissions[rpcName].requireEncryption.boolValue;
-    }
-    return NO;
+    return [self rpcNameRequiresEncryption:rpcName];
 }
 
 - (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName {

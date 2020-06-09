@@ -52,7 +52,7 @@ private extension RPCPermissionsManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: true if allowed, false if not
     class func checkCurrentPermission(with manager: SDLManager, rpcName: SDLRPCFunctionName) -> Bool {
-        let isRPCAllowed = manager.permissionManager.isRPCPermitted(rpcName)
+        let isRPCAllowed = manager.permissionManager.isRPCNameAllowed(rpcName)
         logRPCPermission(rpcName: rpcName, isRPCAllowed: isRPCAllowed)
         return isRPCAllowed
     }
@@ -63,7 +63,7 @@ private extension RPCPermissionsManager {
     /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
     class func checkCurrentGroupPermissions(with manager: SDLManager, rpcNames: [SDLRPCFunctionName]) -> SDLPermissionGroupStatus {
         let groupPermissionStatus = manager.permissionManager.groupStatus(ofRPCNames: rpcNames)
-        let individualPermissionStatuses = manager.permissionManager.status(ofRPCNames: rpcNames)
+        let individualPermissionStatuses = manager.permissionManager.statuses(ofRPCNames: rpcNames)
         logRPCGroupPermissions(rpcNames: rpcNames, groupPermissionStatus: groupPermissionStatus, individualPermissionStatuses: individualPermissionStatuses)
         return groupPermissionStatus
     }
@@ -75,7 +75,7 @@ private extension RPCPermissionsManager {
     ///   - groupType: The type of changes to get notified about
     /// - Returns: A unique id assigned to observer. Use the id to unsubscribe to notifications
     class func subscribeGroupPermissions(with manager: SDLManager, rpcNames: [SDLRPCFunctionName], groupType: SDLPermissionGroupType) -> UUID {
-        let permissionAllAllowedObserverId = manager.permissionManager.subscribe(toRPCs: rpcNames, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in
+        let permissionAllAllowedObserverId = manager.permissionManager.subscribe(toRPCNames: rpcNames, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in
             self.logRPCGroupPermissions(rpcNames: rpcNames, groupPermissionStatus: groupStatus, individualPermissionStatuses: individualStatuses)
         })
 

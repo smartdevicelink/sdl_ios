@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return         True if the RPC can be sent to Core right now, false if not
  */
 + (BOOL)sdlex_checkCurrentPermissionWithManager:(SDLManager *)manager rpcName:(SDLRPCFunctionName)rpcName {
-    BOOL isRPCAllowed = [manager.permissionManager isRPCPermitted:rpcName];
+    BOOL isRPCAllowed = [manager.permissionManager isRPCNameAllowed:rpcName];
     [self sdlex_logRPCPermission:rpcName isRPCAllowed:isRPCAllowed];
     return isRPCAllowed;
 }
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLRPCFunctionName> *)rpcNames {
     SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCNames:rpcNames];
-    NSDictionary<NSString *, NSNumber *> *individualPermissionStatuses = [manager.permissionManager statusOfRPCNames:rpcNames];
+    NSDictionary<NSString *, NSNumber *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCNames:rpcNames];
     [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
     return groupPermissionStatus;
 }
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             A unique identifier for the subscription. This can be used to later to unsubscribe from the notifications.
  */
 + (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType {
-    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCs:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCNames:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
         [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:status individualPermissionStatuses:change];
     }];
     return observerId;

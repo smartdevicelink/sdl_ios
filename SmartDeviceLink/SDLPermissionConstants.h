@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
 typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, NSNumber *> *_Nonnull change, SDLPermissionGroupStatus status);
 
 /**
-*  The SDLObservedPermissionsChangedHandler is a block that is passed in to subscribeToRPCs:groupType:withHandler: that will be stored and called when specified permissions change.
+*  The SDLObservedPermissionsChangedHandler is a block that is passed in to subscribeToRPCNames:groupType:withHandler: that will be stored and called when specified permissions change.
 *
 *  @param change A dictionary of permission changes containing <key(SDLRPCFunctionName): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
 *  @param status The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed

@@ -153,10 +153,10 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"isRPCPermitted: method", ^{
+            context(@"isRPCNameAllowed: method", ^{
                 beforeEach(^{
                     someRPCFunctionName = @"SomeRPCFunctionName";
-                    testResultBOOL = [testPermissionsManager isRPCPermitted:someRPCName];
+                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
                 });
 
                 it(@"should not be allowed", ^{
@@ -180,10 +180,10 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"isRPCPermitted: method", ^{
+            context(@"isRPCNameAllowed: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    testResultBOOL = [testPermissionsManager isRPCPermitted:someRPCName];
+                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
                 });
 
                 it(@"should not be allowed", ^{
@@ -225,13 +225,13 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"isRPCPermitted: method", ^{
+            context(@"isRPCNameAllowed: method", ^{
                 context(@"and the permission is allowed", ^{
                     beforeEach(^{
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        testResultBOOL = [testPermissionsManager isRPCPermitted:testRPCNameAllAllowed];
+                        testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllAllowed];
                     });
 
                     it(@"should be allowed", ^{
@@ -244,7 +244,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        testResultBOOL = [testPermissionsManager isRPCPermitted:testRPCNameAllDisallowed];
+                        testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllDisallowed];
                     });
 
                     it(@"should be denied", ^{
@@ -391,9 +391,9 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"statusOfRPCNames: method", ^{
+            context(@"statusesOfRPCNames: method", ^{
                 beforeEach(^{
-                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
@@ -420,12 +420,12 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"statusOfRPCNames: method", ^{
+            context(@"statusesOfRPCNames: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
@@ -558,19 +558,19 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
 
-        describe(@"adding a new observer with subscribeToRPC:", ^{
+        describe(@"adding a new observer with subscribeToRPCNames:groupType:Handler", ^{
             context(@"when no data is present", ^{
                 __block BOOL testObserverCalled = NO;
 
                 beforeEach(^{
                     testObserverCalled = NO;
-                    [testPermissionsManager subscribeToRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
 
-                it(@"should not be called", ^{
-                    expect(testObserverCalled).to(beFalse());
+                it(@"should be called", ^{
+                    expect(testObserverCalled).to(beTrue());
                 });
             });
 
@@ -586,13 +586,13 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
-                    [testPermissionsManager subscribeToRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
 
-                it(@"should not be called", ^{
-                    expect(@(testObserverCalled)).to(equal(@NO));
+                it(@"should be called", ^{
+                    expect(@(testObserverCalled)).to(beTrue());
                 });
             });
         });
