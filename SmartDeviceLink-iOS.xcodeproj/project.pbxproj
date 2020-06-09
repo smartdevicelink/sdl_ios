@@ -4017,6 +4017,15 @@
 			name = "SyncPData Handler";
 			sourceTree = "<group>";
 		};
+		4A3BA4E324900962003E56B8 /* Custom RPC Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				4A3BA4DE248EB117003E56B8 /* SyncPData Handler */,
+				4A3BA4D9248E8EBB003E56B8 /* SystemRequest Handler */,
+			);
+			name = "Custom RPC Handlers";
+			sourceTree = "<group>";
+		};
 		4A4AD8A12489422F008FC414 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -4145,9 +4154,8 @@
 			isa = PBXGroup;
 			children = (
 				5D0A7378203F0CB10001595D /* Configuration */,
+				4A3BA4E324900962003E56B8 /* Custom RPC Handlers */,
 				5D07C0342044AD1900D1ECDC /* Request Operations */,
-				4A3BA4DE248EB117003E56B8 /* SyncPData Handler */,
-				4A3BA4D9248E8EBB003E56B8 /* SystemRequest Handler */,
 				5D1654581D3E7A1600554D93 /* SDLLifecycleManager.h */,
 				5D1654591D3E7A1600554D93 /* SDLLifecycleManager.m */,
 			);
