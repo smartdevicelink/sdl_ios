@@ -11,6 +11,7 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
@@ -26,6 +27,8 @@
 #import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
+#import "SDLLifecycleSyncPDataHandler.h"
+#import "SDLLifecycleSystemRequestHandler.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
@@ -45,7 +48,6 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLAsynchronousRPCOperation.h"
 #import "SDLResult.h"
 #import "SDLScreenManager.h"
 #import "SDLSecondaryTransportManager.h"
@@ -102,6 +104,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
+
+// RPC Handlers
+@property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;
+@property (strong, nonatomic) SDLLifecycleSystemRequestHandler *systemRequestHandler;
 
 @end
 
@@ -164,6 +170,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if (configuration.encryptionConfig.securityManagers != nil) {
         _encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:self configuration:_configuration.encryptionConfig];
     }
+
+    // RPC Handlers
+    _syncPDataHandler = [[SDLLifecycleSyncPDataHandler alloc] initWithConnectionManager:self];
+    _systemRequestHandler = [[SDLLifecycleSystemRequestHandler alloc] initWithConnectionManager:self];
 
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
@@ -287,6 +297,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.responseDispatcher clear];
 
     [self.rpcOperationQueue cancelAllOperations];
+
+    [self.syncPDataHandler stop];
+    [self.systemRequestHandler stop];
 
     self.registerResponse = nil;
     self.lastCorrelationId = 0;

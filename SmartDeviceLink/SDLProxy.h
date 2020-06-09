@@ -122,17 +122,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId;
 
-/**
- *  Puts data into a file on the module. Performs a putFile for a given input stream, performed in chunks, for handling very large files.
- *
- *  @param inputStream A stream containing the data to put to the module.
- *  @param putFileRPCRequest A SDLPutFile object containing the parameters for the put(s)
- *
- *  @discussion: The proxy will read from the stream based on the max MTU size and send them in individual putFile requests. This may result in multiple responses being received, one for each request.
- *  @note: The length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.
- */
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
-
 /// Disconnects the current app session, including the security manager and primary transport.
 - (void)disconnectSession;
 

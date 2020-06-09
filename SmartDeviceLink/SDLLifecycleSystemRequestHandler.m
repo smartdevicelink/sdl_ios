@@ -193,7 +193,7 @@ static const float DefaultConnectionTimeout = 45.0;
         // Show the HTTP response
         SDLLogV(@"OnSystemRequest (HTTP) response: %@", response);
 
-        // Create the SystemRequest RPC to send to module.
+        // Create the PutFile RPC to send to module.
         SDLPutFile *putFile = [[SDLPutFile alloc] init];
         putFile.fileType = SDLFileTypeJSON;
         putFile.correlationID = @(PoliciesCorrelationId);
