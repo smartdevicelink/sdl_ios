@@ -641,58 +641,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
     }
 }
 
-
-#pragma mark - PutFile Streaming
-
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
-    inputStream.delegate = self;
-    objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
-    objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
-
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream open];
-}
-
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
-    switch (eventCode) {
-        case NSStreamEventHasBytesAvailable: {
-            // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
-            NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
-
-            NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-            NSInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
-            if (nBytesRead > 0) {
-                NSData *data = [buffer subdataWithRange:NSMakeRange(0, (NSUInteger)nBytesRead)];
-                NSUInteger baseOffset = [(NSNumber *)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
-                NSUInteger newOffset = baseOffset + currentStreamOffset;
-
-                SDLPutFile *putFileRPCRequest = (SDLPutFile *)objc_getAssociatedObject(stream, @"SDLPutFile");
-                [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
-                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:(NSUInteger)nBytesRead]];
-                [putFileRPCRequest setBulkData:data];
-
-                [self sendRPC:putFileRPCRequest];
-            }
-
-            break;
-        }
-        case NSStreamEventEndEncountered: {
-            // Cleanup the stream
-            [stream close];
-            [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
-            break;
-        }
-        case NSStreamEventErrorOccurred: {
-            SDLLogE(@"NSStream error attempting to upload putfile stream: %lu", (unsigned long)eventCode);
-            break;
-        }
-        default: {
-            break;
-        }
-    }
-}
-
 @end
 
 NS_ASSUME_NONNULL_END
