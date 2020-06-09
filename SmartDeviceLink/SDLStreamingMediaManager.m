@@ -161,6 +161,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_disconnectSecondaryTransportAndStartWithNewVideoProtocol:nil newAudioProtocol:nil transportDestroyed:true];
 }
 
+/// Disconnects the secondary transport. If the transport is still open and a new video or audio protocol have been set, then a new video/audio sessions are attempted. If the transport has been closed, then the audio/video managers are stopped.
+/// @param newVideoProtocol The new video protocol
+/// @param newAudioProtocol The new audio protocol
+/// @param transportDestroyed Whether or not the transport is still open
 - (void)sdl_disconnectSecondaryTransportAndStartWithNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol newAudioProtocol:(nullable SDLProtocol *)newAudioProtocol transportDestroyed:(BOOL)transportDestroyed {
     SDLLogV(@"Disconnecting the secondary transport");
     __weak typeof(self) weakSelf = self;
