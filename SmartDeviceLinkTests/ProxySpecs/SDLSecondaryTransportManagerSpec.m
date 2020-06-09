@@ -1060,7 +1060,7 @@ describe(@"the secondary transport manager ", ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
             });
 
-            mockBackgroundTaskManager = OCMPartialMock([[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:@"com.test.backgroundTask"]);
+            mockBackgroundTaskManager = OCMClassMock([SDLBackgroundTaskManager class]);
             manager.backgroundTaskManager = mockBackgroundTaskManager;
         });
 
@@ -1124,8 +1124,8 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should end the background task and try to restart the TCP transport", ^{
                     OCMExpect([mockBackgroundTaskManager endBackgroundTask]);
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConnecting));
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConnecting));
                 });
             });
 
@@ -1309,7 +1309,7 @@ describe(@"the secondary transport manager ", ^{
 
         beforeEach(^{
             mockSecondaryTransport = OCMProtocolMock(@protocol(SDLTransportType));
-            mockBackgroundTaskManager = OCMPartialMock([[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:@"com.test.backgroundTask"]);
+            mockBackgroundTaskManager = OCMClassMock([SDLBackgroundTaskManager class]);
 
             manager.backgroundTaskManager = mockBackgroundTaskManager;
             manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
