@@ -27,10 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Called when the audio and/or video must be stopped because the transport has been destroyed or errored out.
 ///
 /// Since the transport does not exist, current sessions can not be properly stopped (i.e. no request can be sent module to stop the session) but the observer still needs to stop creating and sending data.
-///
-/// @param videoProtocol protocol instance that was being used for video streaming
-/// @param audioProtocol protocol instance that was being used for audio streaming
-- (void)destroyVideoProtocol:(nullable SDLProtocol *)videoProtocol audioProtocol:(nullable SDLProtocol *)audioProtocol;
+- (void)transportClosed;
 
 @end
 

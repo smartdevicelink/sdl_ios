@@ -587,7 +587,7 @@ struct TransportProtocolUpdated {
     dispatch_async(self.stateMachineQueue, ^{
         if ([self sdl_isTransportOpened]) {
             if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
-                 [self.streamingProtocolDelegate destroyVideoProtocol:self.secondaryProtocol audioProtocol:self.secondaryProtocol];
+                 [self.streamingProtocolDelegate transportClosed];
             }
             SDLLogV(@"Secondary transport is ready to reconnect. Attempting to reconnect the secondary transport");
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];

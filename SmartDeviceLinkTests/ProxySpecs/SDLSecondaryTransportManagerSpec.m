@@ -692,7 +692,7 @@ describe(@"the secondary transport manager ", ^{
 
         describe(@"when transport is closed", ^{
             it(@"should transition to Reconnecting state", ^{
-                OCMExpect([testStreamingProtocolDelegate destroyVideoProtocol:[OCMArg any] audioProtocol:[OCMArg any]]);
+                OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
                 [testSecondaryProtocolMock onProtocolClosed];
 
@@ -891,7 +891,7 @@ describe(@"the secondary transport manager ", ^{
             });
 
             it(@"should transition to Reconnecting state", ^{
-                OCMExpect([testStreamingProtocolDelegate destroyVideoProtocol:secondaryProtocol audioProtocol:secondaryProtocol]);
+                OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
                 [testSecondaryProtocolMock onProtocolClosed];
 
