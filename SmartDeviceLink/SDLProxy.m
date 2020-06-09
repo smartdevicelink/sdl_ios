@@ -166,10 +166,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)dealloc {
-    SDLLogV(@"Proxy dealloc");
-}
-
 - (void)sdl_notifyProxyClosed {
     if (_isConnected) {
         _isConnected = NO;
