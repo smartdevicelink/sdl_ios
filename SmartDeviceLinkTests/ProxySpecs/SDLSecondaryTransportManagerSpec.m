@@ -1056,12 +1056,12 @@ describe(@"the secondary transport manager ", ^{
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
             testPrimaryProtocol.transport = testPrimaryTransport;
 
+            mockBackgroundTaskManager = OCMClassMock([SDLBackgroundTaskManager class]);
+            manager.backgroundTaskManager = mockBackgroundTaskManager;
+
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
             });
-
-            mockBackgroundTaskManager = OCMClassMock([SDLBackgroundTaskManager class]);
-            manager.backgroundTaskManager = mockBackgroundTaskManager;
         });
 
         context(@"app enters the background", ^{
