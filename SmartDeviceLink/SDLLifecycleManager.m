@@ -690,6 +690,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }];
 }
 
+- (void)sendConnectionManagerRPC:(__kindof SDLRPCMessage *)rpc {
+    NSAssert(([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]), @"Only RPCs of type `Response` or `Notfication` can be sent using this method. To send RPCs of type `Request` use sendConnectionRequest:withResponseHandler:.");
+
+    [self sdl_runOnProcessingQueue:^{
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
+    }];
+}
+
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);

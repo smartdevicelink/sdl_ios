@@ -134,6 +134,7 @@ static const float DefaultConnectionTimeout = 45.0;
     }];
 }
 
+// TODO: Move to lock screen manager
 - (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
     [self.cacheFileManager retrieveImageForRequest:request withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
         if (error != nil) {

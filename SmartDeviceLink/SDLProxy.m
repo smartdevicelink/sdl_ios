@@ -177,42 +177,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
     }
 }
 
-
-#pragma mark - Application Lifecycle
-
-/// This method sends an OnHMIStatus with the Mobile's HMI level to the head unit.
-/// This was originally designed to make sure that the head unit properly knew about the mobile app's ability to run timers in the background, which affected heartbeat.
-/// It may still affect some features on the head unit and the ability for the head unit to know which app is in the foreground is useful. It should not be removed due to unknown backward compatibility issues.
-- (void)sdl_sendMobileHMIState {
-    __block UIApplicationState appState = UIApplicationStateInactive;
-    if ([NSThread isMainThread]) {
-        appState = [UIApplication sharedApplication].applicationState;
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            appState = [UIApplication sharedApplication].applicationState;
-        });
-    }
-
-    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
-
-    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
-    HMIStatusRPC.systemContext = SDLSystemContextMain;
-
-    switch (appState) {
-        case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
-        } break;
-        case UIApplicationStateBackground: // Fallthrough
-        case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
-        } break;
-        default: break;
-    }
-
-    SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC];
-}
-
 #pragma mark - Accessors
 
 - (NSSet<NSObject<SDLProxyListener> *> *)proxyListeners {
@@ -505,13 +469,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
     self.protocol.securityManager = [self sdl_securityManagerForMake:registerResponse.vehicleType.make];
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
-    }
-
-    if ([SDLGlobals sharedGlobals].protocolVersion.major >= 4) {
-        [self sdl_sendMobileHMIState];
-        // Send SDL updates to application state
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_sendMobileHMIState) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
 }
 
