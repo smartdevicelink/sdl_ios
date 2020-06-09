@@ -586,10 +586,8 @@ struct TransportProtocolUpdated {
 - (void)sdl_transportClosed {
     dispatch_async(self.stateMachineQueue, ^{
         if ([self sdl_isTransportOpened]) {
-            if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered] || [self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateConnecting]) {
-                 [self.streamingProtocolDelegate transportClosed];
-            }
             SDLLogV(@"Secondary transport is ready to reconnect. Attempting to reconnect the secondary transport");
+            [self.streamingProtocolDelegate transportClosed];
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
         } else {
             SDLLogD(@"Secondary transport is not ready to reconnect. Will not attempt to reconnect the secondary transport");
