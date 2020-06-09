@@ -1118,12 +1118,13 @@ describe(@"the secondary transport manager ", ^{
 
                     manager.secondaryTransportType = SDLTransportSelectionTCP;
                     [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
-
-                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
                 });
 
                 it(@"should end the background task and try to restart the TCP transport", ^{
                     OCMExpect([mockBackgroundTaskManager endBackgroundTask]);
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
                     expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConnecting));
                 });
@@ -1132,13 +1133,15 @@ describe(@"the secondary transport manager ", ^{
             describe(@"if the secondary transport not connected and is not configured", ^{
                 beforeEach(^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateConnecting fromOldState:nil callEnterTransition:NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
                 });
 
                 it(@"should ignore the state change notification", ^{
                     OCMReject([mockBackgroundTaskManager endBackgroundTask]);
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConnecting));
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConnecting));
                 });
             });
         });
