@@ -27,6 +27,7 @@
 #import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
+#import "SDLLifecycleMobileHMIStateHandler.h"
 #import "SDLLifecycleSyncPDataHandler.h"
 #import "SDLLifecycleSystemRequestHandler.h"
 #import "SDLLockScreenConfiguration.h"
@@ -108,6 +109,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 // RPC Handlers
 @property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;
 @property (strong, nonatomic) SDLLifecycleSystemRequestHandler *systemRequestHandler;
+@property (strong, nonatomic) SDLLifecycleMobileHMIStateHandler *mobileHMIStateHandler;
 
 @end
 
@@ -174,6 +176,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // RPC Handlers
     _syncPDataHandler = [[SDLLifecycleSyncPDataHandler alloc] initWithConnectionManager:self];
     _systemRequestHandler = [[SDLLifecycleSystemRequestHandler alloc] initWithConnectionManager:self];
+    _mobileHMIStateHandler = [[SDLLifecycleMobileHMIStateHandler alloc] initWithConnectionManager:self];
 
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
@@ -300,6 +303,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     [self.syncPDataHandler stop];
     [self.systemRequestHandler stop];
+    [self.mobileHMIStateHandler stop];
 
     self.registerResponse = nil;
     self.lastCorrelationId = 0;

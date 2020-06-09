@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLifecycleMobileHMIStateHandler : NSObject
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
+- (void)stop;
 
 @end
 
