@@ -17,7 +17,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCParameterNames.h"
 
-const int PoliciesCorrelationId = 65535;
+static const int PoliciesCorrelationId = 65535;
 
 @interface SDLLifecycleSyncPDataHandler ()
 

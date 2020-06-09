@@ -24,8 +24,8 @@
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-const int PoliciesCorrelationId = 65535;
-const float DefaultConnectionTimeout = 45.0;
+static const int PoliciesCorrelationId = 65535;
+static const float DefaultConnectionTimeout = 45.0;
 
 @interface SDLLifecycleSystemRequestHandler ()
 
