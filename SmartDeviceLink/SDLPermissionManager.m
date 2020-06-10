@@ -12,6 +12,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
+#import "SDLParameterPermissions.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
 #import "SDLPredefinedWindows.h"
@@ -372,6 +373,22 @@ NS_ASSUME_NONNULL_BEGIN
         return self.permissions[rpcName].requireEncryption.boolValue;
     }
     return NO;
+}
+
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter {
+    return [self isPermissionParameterAllowed:rpcName parameter:parameter permissionItems:self.permissions hmiLevel:self.currentHMILevel];
+}
+
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {
+
+    SDLPermissionItem *permissionItem = permissionItems[rpcName];
+    if (permissionItem == nil || ![self isRPCAllowed:rpcName] || permissionItem.parameterPermissions == nil || permissionItem.parameterPermissions.allowed == nil) {
+        return NO;
+    } else if (permissionItem.parameterPermissions.userDisallowed != nil) {
+        return [permissionItem.parameterPermissions.allowed containsObject:parameter] && ![permissionItem.parameterPermissions.userDisallowed containsObject:parameter];
+    } else {
+        return [permissionItem.parameterPermissions.allowed containsObject:parameter];
+    }
 }
 
 @end

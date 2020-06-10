@@ -10,6 +10,7 @@
 
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
+#import "SDLRPCFunctionNames.h"
 
 @class SDLPermissionItem;
 @class SDLRPCMessage;
@@ -95,6 +96,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  Check whether or not an RPC needs encryption.
  */
 - (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName;
+
+
+/**
+ * Check whether a parameter of an RPC is allowed
+ *
+ * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
+ *
+ * @param parameter  The name of the parameter to be tested, for example, rpm
+ */
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString*)parameter;
 
 @end
 
