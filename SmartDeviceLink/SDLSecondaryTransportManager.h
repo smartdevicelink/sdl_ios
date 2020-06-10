@@ -6,7 +6,7 @@
 //  Copyright © 2018 Xevo Inc. All rights reserved.
 //
 
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingProtocolDelegate.h"
 
 @class SDLControlFramePayloadRPCStartServiceAck;
@@ -34,7 +34,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  manager with appropriate SDLProtocol instance. When the secondary transport is
  disconnected, this manager retries connection with a regular interval.
  */
-@interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
+@interface SDLSecondaryTransportManager : NSObject <SDLProtocolDelegate>
 
 /// Create a new secondary transport manager.
 /// @param streamingProtocolDelegate a delegate to handle updates on protocol instances

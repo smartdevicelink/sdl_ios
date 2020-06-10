@@ -24,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLEncryptionLifecycleManager() <SDLProtocolListener>
+@interface SDLEncryptionLifecycleManager() <SDLProtocolDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;

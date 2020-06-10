@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLProtocolListener <NSObject>
+@protocol SDLProtocolDelegate <NSObject>
 
 @optional
 

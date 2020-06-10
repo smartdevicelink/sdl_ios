@@ -20,7 +20,7 @@ QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 describe(@"HandleReceivedMessage Tests", ^ {
     xcontext(@"When handling control message", ^ {
         it(@"Should route message correctly", ^ {
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -44,7 +44,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
     
     xcontext(@"When handling single frame message", ^ {
         it(@"Should route message correctly", ^ {
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -130,7 +130,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             testMessage.header.frameData = 0;
             testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, payloadData.length - offset)];
             
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
             __block BOOL verified = NO;
             [[[delegateMock stub] andDo:^(NSInvocation* invocation) {

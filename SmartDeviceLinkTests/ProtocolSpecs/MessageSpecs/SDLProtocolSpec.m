@@ -411,7 +411,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
     beforeEach(^{
         testProtocol = [[SDLProtocol alloc] init];
-        delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-value"
         [[SDLGlobals sharedGlobals] init]; // Make sure to reset between tests
@@ -567,7 +567,7 @@ xdescribe(@"HandleProtocolRegisterSecondaryTransport Tests", ^ {
     it(@"Should pass information along to delegate when ACKed", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
 
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         testHeader.frameType = SDLFrameTypeControl;
@@ -586,7 +586,7 @@ xdescribe(@"HandleProtocolRegisterSecondaryTransport Tests", ^ {
     it(@"Should pass information along to delegate when NAKed", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
 
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         testHeader.frameType = SDLFrameTypeControl;
@@ -610,7 +610,7 @@ xdescribe(@"HandleHeartbeatForSession Tests", ^{
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol handleHeartbeatForSession:0x44];
@@ -628,7 +628,7 @@ xdescribe(@"OnProtocolMessageReceived Tests", ^ {
         testHeader.serviceType = SDLServiceTypeRPC;
         testMessage.header = testHeader;
         
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onProtocolMessageReceived:testMessage];
@@ -641,7 +641,7 @@ xdescribe(@"OnProtocolOpened Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onProtocolOpened];
@@ -654,7 +654,7 @@ xdescribe(@"OnProtocolClosed Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onProtocolClosed];
@@ -669,7 +669,7 @@ xdescribe(@"OnError Tests", ^ {
         
         NSException* testException = [[NSException alloc] initWithName:@"Name" reason:@"No Reason" userInfo:@{}];
         
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onError:@"Nothing actually happened" exception:testException];

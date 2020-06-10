@@ -110,13 +110,22 @@ extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
 #pragma mark - General notifications
 
 /// Name for a disconnection notification
-extern SDLNotificationName const SDLTransportDidDisconnect;
+extern SDLNotificationName const SDLTransportDidDisconnect __deprecated_msg("Use SDLRPCServiceDidDisconnect instead");
 
 /// Name for a connection notification
-extern SDLNotificationName const SDLTransportDidConnect;
+extern SDLNotificationName const SDLTransportDidConnect __deprecated_msg("Use SDLRPCServiceDidConnect instead");
 
 /// Name for a error during connection notification
-extern SDLNotificationName const SDLTransportConnectError;
+extern SDLNotificationName const SDLTransportConnectError __deprecated_msg("Use SDLRPCServiceConnectionDidError instead");
+
+/// Name for a disconnection notification
+extern SDLNotificationName const SDLRPCServiceDidDisconnect;
+
+/// Name for a connection notification
+extern SDLNotificationName const SDLRPCServiceDidConnect;
+
+/// Name for a error during connection notification
+extern SDLNotificationName const SDLRPCServiceConnectionDidError;
 
 /// Name for a general error notification
 extern SDLNotificationName const SDLDidReceiveError;

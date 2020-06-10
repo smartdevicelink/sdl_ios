@@ -5,7 +5,7 @@
 
 #import "SDLTransportType.h"
 #import "SDLProtocolConstants.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLSecurityType.h"
 #import "SDLTransportDelegate.h"
 
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, SDLProtocolError) {
 extern NSString *const SDLProtocolSecurityErrorDomain;
 
 
-@interface SDLProtocol : NSObject <SDLProtocolListener, SDLTransportDelegate>
+@interface SDLProtocol : NSObject <SDLProtocolDelegate, SDLTransportDelegate>
 
 /**
  *  Deprecated debug logging tool.
@@ -38,14 +38,14 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 /**
  *  The transport layer for sending data between the app and Core
  */
-@property (nullable, weak, nonatomic) id<SDLTransportType> transport;
+@property (nullable, strong, nonatomic) id<SDLTransportType> transport;
 
 /**
  *  A table for tracking all subscribers
  *
  *  If you update protocolDelegateTable while the protocol is running, please make sure to guard with @synchronized.
  */
-@property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
+@property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolDelegate>> *protocolDelegateTable;
 
 /**
  *  A security manager for sending encrypted data.
@@ -64,13 +64,22 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 
 #pragma mark - Init
 /**
- *  Initialize the protocol with an encryption lifecycle manager.
+ * Initialize the protocol with an encryption lifecycle manager
  *
- *  @param encryptionLifecycleManager An encryption lifecycle manager.
+ * @param encryptionManager An encryption lifecycle manager
+ * @param transport The transport to send and receive data from
  *
- *  @return An instance of SDLProtocol
+ * @return An instance of SDLProtocol
  */
-- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager;
+- (instancetype)initWithTransport:(id<SDLTransportType>)transport encryptionManager:(nullable SDLEncryptionLifecycleManager *)encryptionManager;
+
+#pragma mark - Lifecycle
+
+/// Starts the connected transport
+- (void)start;
+
+/// Stops the connected transport
+- (void)stop;
 
 #pragma mark - Sending
 
@@ -136,15 +145,6 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  @param serviceType  A SDLServiceType object
  */
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;
-
-#pragma mark - Recieving
-
-/**
- *  Turns received bytes into message objects.
- *
- *  @param receivedData The data received from Core
- */
-- (void)handleBytesFromTransport:(NSData *)receivedData;
 
 @end
 

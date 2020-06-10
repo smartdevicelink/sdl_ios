@@ -61,33 +61,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _messageID = 0;
-        _hashId = SDLControlFrameInt32NotFound;
-        _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
-        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
-        _serviceHeaders = [[NSMutableDictionary alloc] init];
-        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
-        _messageRouter.delegate = self;
-    }
+- (instancetype)initWithTransport:(id<SDLTransportType>)transport encryptionManager:(nullable SDLEncryptionLifecycleManager *)encryptionManager {
+    self = [super init];
+    if (!self) { return nil; }
+    _messageID = 0;
+    _hashId = SDLControlFrameInt32NotFound;
+    _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
+    _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
+    _serviceHeaders = [[NSMutableDictionary alloc] init];
+    _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
+    _messageRouter.delegate = self;
 
+    _transport = transport;
+    _transport.delegate = self;
+
+    _encryptionLifecycleManager = encryptionManager;
+    
     return self;
 }
 
-- (instancetype)initWithEncryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
-    if (self = [super init]) {
-        _messageID = 0;
-        _hashId = SDLControlFrameInt32NotFound;
-        _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
-        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
-        _serviceHeaders = [[NSMutableDictionary alloc] init];
-        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
-        _messageRouter.delegate = self;
-        _encryptionLifecycleManager = encryptionLifecycleManager;
-    }
-    
-    return self;
+- (void)start {
+    [self.transport connect];
+}
+
+- (void)stop {
+    [self.transport disconnect];
 }
 
 #pragma mark - Service metadata
@@ -104,7 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
     if (header == nil) {
-        SDLLogW(@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType);
+        // The first time the service type is created, there's no header, so we don't need to warn.
+        if (serviceType != SDLServiceTypeRPC) {
+            SDLLogW(@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type.", serviceType);
+        }
+
+        return 0;
     }
 
     return header.sessionID;
@@ -113,11 +116,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLTransportDelegate
 
 - (void)onTransportConnected {
-    NSArray<id<SDLProtocolListener>> *listeners;
+    NSArray<id<SDLProtocolDelegate>> *listeners;
     @synchronized(self.protocolDelegateTable) {
         listeners = self.protocolDelegateTable.allObjects;
     }
-    for (id<SDLProtocolListener> listener in listeners) {
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
             [listener onProtocolOpened];
         }
@@ -125,11 +128,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onTransportDisconnected {
-    NSArray<id<SDLProtocolListener>> *listeners;
+    NSArray<id<SDLProtocolDelegate>> *listeners;
     @synchronized(self.protocolDelegateTable) {
         listeners = self.protocolDelegateTable.allObjects;
     }
-    for (id<SDLProtocolListener> listener in listeners) {
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
             [listener onProtocolClosed];
         }
@@ -141,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onError:(NSError *)error {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+    for (id<SDLProtocolDelegate> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onTransportError:)]) {
             [listener onTransportError:error];
         }
@@ -174,22 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
     NSData *servicePayload = payload;
 
-    switch (serviceType) {
-        case SDLServiceTypeRPC: {
-            // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
-            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC]) {
-                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
-            } else {
-                header.sessionID = 0;
-            }
-
-            SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
-            servicePayload = startServicePayload.data;
-        } break;
-        default: {
-            header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
-        } break;
-    }
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoStartService;
@@ -536,8 +524,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.serviceHeaders[@(startServiceACK.header.serviceType)] = [startServiceACK.header copy];
 
     // Pass along to all the listeners
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
             [listener handleProtocolStartServiceACKMessage:startServiceACK];
         }
@@ -547,8 +535,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     [self sdl_logControlNAKPayload:startServiceNAK];
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
             [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
         }
@@ -559,8 +547,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Remove the session id
     [self.serviceHeaders removeObjectForKey:@(endServiceACK.header.serviceType)];
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
             [listener handleProtocolEndServiceACKMessage:endServiceACK];
         }
@@ -570,8 +558,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     [self sdl_logControlNAKPayload:endServiceNAK];
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
             [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
         }
@@ -579,8 +567,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
             [listener handleProtocolRegisterSecondaryTransportACKMessage:registerSecondaryTransportACK];
         }
@@ -590,8 +578,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK {
     [self sdl_logControlNAKPayload:registerSecondaryTransportNAK];
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:)]) {
             [listener handleProtocolRegisterSecondaryTransportNAKMessage:registerSecondaryTransportNAK];
         }
@@ -608,8 +596,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
             [listener handleHeartbeatForSession:session];
         }
@@ -617,8 +605,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleHeartbeatACK {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
             [listener handleHeartbeatACK];
         }
@@ -626,8 +614,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
             [listener handleTransportEventUpdateMessage:transportEventUpdate];
         }
@@ -641,8 +629,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
             [listener onProtocolMessageReceived:msg];
         }
@@ -650,8 +638,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onProtocolOpened {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
             [listener onProtocolOpened];
         }
@@ -659,8 +647,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onProtocolClosed {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
             [listener onProtocolClosed];
         }
@@ -668,8 +656,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onError:(NSString *)info exception:(NSException *)e {
-    NSArray<id<SDLProtocolListener>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolListener> listener in listeners) {
+    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
+    for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onError:exception:)]) {
             [listener onError:info exception:e];
         }
@@ -697,7 +685,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSArray<id<SDLProtocolListener>> *)sdl_getProtocolListeners {
+- (NSArray<id<SDLProtocolDelegate>> *)sdl_getProtocolListeners {
     @synchronized(self.protocolDelegateTable) {
         return self.protocolDelegateTable.allObjects;
     }

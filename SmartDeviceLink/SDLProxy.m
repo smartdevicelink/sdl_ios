@@ -50,8 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLVehicleMake;
 
 NSString *const SDLProxyVersion = @"6.6.0";
-const float StartSessionTime = 10.0;
-const float NotifyProxyClosedDelay = (float)0.1;
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
@@ -68,90 +66,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
 @implementation SDLProxy
 
 #pragma mark - Object lifecycle
-- (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
-    if (self = [super init]) {
-        SDLLogD(@"Framework Version: %@", self.proxyVersion);
-        _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _mutableProxyListeners = [NSMutableSet setWithObject:delegate];
-        _securityManagers = [NSMutableDictionary dictionary];
-
-        _protocol = [[SDLProtocol alloc] init];
-        _transport = transport;
-        _transport.delegate = _protocol;
-
-        [_protocol.protocolDelegateTable addObject:self];
-        _protocol.transport = transport;
-
-        // make sure that secondary transport manager is started prior to starting protocol
-        if (secondaryTransportManager != nil) {
-            [secondaryTransportManager startWithPrimaryProtocol:_protocol];
-        }
-
-        [self.transport connect];
-
-        SDLLogV(@"Proxy transport initialization");
-    }
-
-    return self;
-}
-
-- (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
-    if (self = [super init]) {
-        SDLLogD(@"Framework Version: %@", self.proxyVersion);
-        _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _mutableProxyListeners = [NSMutableSet setWithObject:delegate];
-        _securityManagers = [NSMutableDictionary dictionary];
-        
-        _protocol = [[SDLProtocol alloc] initWithEncryptionLifecycleManager:encryptionLifecycleManager];
-        _transport = transport;
-        _transport.delegate = _protocol;
-        
-        [_protocol.protocolDelegateTable addObject:self];
-        _protocol.transport = transport;
-        
-        // make sure that secondary transport manager is started prior to starting protocol
-        if (secondaryTransportManager != nil) {
-            [secondaryTransportManager startWithPrimaryProtocol:_protocol];
-        }
-        
-        [self.transport connect];
-        
-        SDLLogV(@"Proxy transport initialization");
-    }
-    
-    return self;
-}
-
-
-+ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
-    SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
-
-    return ret;
-}
-
-+ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
-    SDLTCPTransport *transport = [[SDLTCPTransport alloc] initWithHostName:ipaddress portNumber:port];
-
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
-
-    return ret;
-}
-
-+ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
-    SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager encryptionLifecycleManager:encryptionLifecycleManager];
-    
-    return ret;
-}
-
-+ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager encryptionLifecycleManager:(SDLEncryptionLifecycleManager *)encryptionLifecycleManager {
-    SDLTCPTransport *transport = [[SDLTCPTransport alloc] initWithHostName:ipaddress portNumber:port];
-    
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager encryptionLifecycleManager:encryptionLifecycleManager];
-
-    return ret;
-}
 
 - (void)disconnectSession {
     SDLLogD(@"Disconnecting the proxy; stopping security manager and primary transport.");
@@ -225,23 +139,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
 
 #pragma mark - SDLProtocolListener Implementation
 
-- (void)onProtocolOpened {
-    _isConnected = YES;
-    SDLLogV(@"Proxy RPC protocol opened");
-    // The RPC payload will be created by the protocol object...it's weird and confusing, I know.
-    [self.protocol startServiceWithType:SDLServiceTypeRPC payload:nil];
-
-    if (self.startSessionTimer == nil) {
-        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
-        __weak typeof(self) weakSelf = self;
-        self.startSessionTimer.elapsedBlock = ^{
-            SDLLogW(@"Start session timed out");
-            [weakSelf performSelector:@selector(sdl_notifyProxyClosed) withObject:nil afterDelay:NotifyProxyClosedDelay];
-        };
-    }
-    [self.startSessionTimer start];
-}
-
 - (void)onProtocolClosed {
     [self sdl_notifyProxyClosed];
 }
@@ -252,16 +149,6 @@ const float NotifyProxyClosedDelay = (float)0.1;
 
 - (void)onTransportError:(NSError *)error {
     [self sdl_invokeMethodOnDelegates:@selector(onTransportError:) withObject:error];
-}
-
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    // Turn off the timer, the start session response came back
-    [self.startSessionTimer cancel];
-    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
-
-    if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
-        [self sdl_invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
-    }
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msgData {

@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SDLConnectionManagerType.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 
 @class SDLEncryptionConfiguration;
 @class SDLProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLEncryptionLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLEncryptionLifecycleManager : NSObject <SDLProtocolDelegate>
 
 /**
  *  Whether or not the encryption session is connected.

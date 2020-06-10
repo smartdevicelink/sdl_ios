@@ -9,28 +9,18 @@
 @class SDLStreamingMediaManager;
 @class SDLTimer;
 
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 #import "SDLTransportType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
+@interface SDLProxy : NSObject <SDLProtocolDelegate, NSStreamDelegate> {
     Byte _version;
     Byte _bulkSessionID;
     BOOL _isConnected;
 }
-
-/**
- *  The protocol that handles sending and receiving messages from Core.
- */
-@property (nullable, strong, nonatomic) SDLProtocol *protocol;
-
-/**
- *  The transport type used to connect the app to Core.
- */
-@property (nullable, strong, nonatomic) id<SDLTransportType> transport;
 
 /**
  *  A set of all subscribers.
@@ -46,16 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  The proxy version number.
  */
 @property (readonly, copy, nonatomic) NSString *proxyVersion;
-
-/**
- *  Convenience init.
- *
- *  @param transport                   The type of network connection
- *  @param delegate                    The subscriber
- *  @param secondaryTransportManager   The secondary transport manager
- *  @return                            A SDLProxy object
- */
-- (id)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
 
 /**
  *  Creates a SDLProxy object with an iap (USB / Bluetooth) transport network connection.

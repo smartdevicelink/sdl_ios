@@ -25,6 +25,7 @@
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
 #import "SDLGlobals.h"
+#import "SDLIAPTransport.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLifecycleMobileHMIStateHandler.h"
@@ -44,6 +45,7 @@
 #import "SDLPermissionManager.h"
 #import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
+#import "SDLLifecycleProtocolHandler.h"
 #import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterface.h"
@@ -58,6 +60,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTCPTransport.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
@@ -82,7 +85,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @interface SDLStreamingMediaManager ()
 
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
-- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
 
 @end
 
@@ -97,19 +99,24 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
-// Private properties
+// Private Managers
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+@property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
+
+// Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
-@property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
 
 // RPC Handlers
 @property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;
 @property (strong, nonatomic) SDLLifecycleSystemRequestHandler *systemRequestHandler;
 @property (strong, nonatomic) SDLLifecycleMobileHMIStateHandler *mobileHMIStateHandler;
+
+// Protocol and Transport
+@property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
 
 @end
 
@@ -251,28 +258,28 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Start a background task so a session can be established even when the app is backgrounded.
     [self.backgroundTaskManager startBackgroundTask];
 
-    // Start up the internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    // Start up the internal protocol, transport, and other internal managers
     self.secondaryTransportManager = nil;
-    if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
-                                       tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
-                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
-                          secondaryTransportManager:self.secondaryTransportManager
-                         encryptionLifecycleManager:self.encryptionLifecycleManager];
-    } else if (self.configuration.lifecycleConfig.allowedSecondaryTransports == SDLSecondaryTransportsNone) {
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:nil encryptionLifecycleManager:self.encryptionLifecycleManager];
+    SDLLifecycleConfiguration *lifecycleConfig = self.configuration.lifecycleConfig;
+    id<SDLTransportType> newTransport = nil;
+
+    if (lifecycleConfig.tcpDebugMode) {
+        newTransport = [[SDLTCPTransport alloc] initWithHostName:lifecycleConfig.tcpDebugIPAddress portNumber:@(lifecycleConfig.tcpDebugPort).stringValue];
     } else {
-        if ([self.class sdl_isStreamingConfiguration:self.configuration]) {
+        newTransport = [[SDLIAPTransport alloc] init];
+
+        if (self.configuration.lifecycleConfig.allowedSecondaryTransports != SDLSecondaryTransportsNone
+            && [self.class sdl_isStreamingConfiguration:self.configuration]) {
             // Reuse the queue to run the secondary transport manager's state machine
             self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)self.streamManager serialQueue:self.lifecycleQueue];
             self.streamManager.secondaryTransportManager = self.secondaryTransportManager;
         }
-
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher secondaryTransportManager:self.secondaryTransportManager encryptionLifecycleManager:self.encryptionLifecycleManager];
     }
-#pragma clang diagnostic pop
+
+    SDLProtocol *newProtocol = [[SDLProtocol alloc] initWithTransport:newTransport encryptionManager:self.encryptionLifecycleManager];
+    [self.secondaryTransportManager startWithPrimaryProtocol:self.protocolHandler.protocol]; // Will not run if secondaryTransportManager is nil
+    self.protocolHandler = [[SDLLifecycleProtocolHandler alloc] initWithProtocol:newProtocol notificationDispatcher:self.notificationDispatcher];
+    [self.protocolHandler start];
 }
 
 - (void)didEnterStateStopped {
@@ -498,7 +505,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     
     // Starts the streaming media manager if only using the primary transport (i.e. secondary transports has been disabled in the lifecyle configuration). If using a secondary transport, setup is handled by the stream manager.
     if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self.streamManager startSecondaryTransportWithProtocol:self.proxy.protocol];
+        [self.streamManager startWithProtocol:self.protocolHandler.protocol];
     }
 
     dispatch_group_enter(managerGroup);
