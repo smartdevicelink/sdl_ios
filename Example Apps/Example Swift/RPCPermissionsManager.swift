@@ -101,7 +101,7 @@ private extension RPCPermissionsManager {
     ///   - rpcName: The name of the RPC
     ///   - isRPCAllowed: The permission status for the RPC
     class func logRPCPermission(rpcName: SDLRPCFunctionName, isRPCAllowed: Bool) {
-        SDLLog.d("\(rpcName) RPC can be sent to SDL Core? \(isRPCAllowed ? "yes" : "no")")
+        SDLLog.d("\(rpcName.rawValue.rawValue) RPC can be sent to SDL Core? \(isRPCAllowed ? "yes" : "no")")
     }
 
     /// Logs permissions for a group of RPCs
@@ -111,7 +111,7 @@ private extension RPCPermissionsManager {
     ///   - groupPermissionStatus: The permission status for all RPCs in the group
     ///   - individualPermissionStatuses: The permission status for each of the RPCs in the group
     class func logRPCGroupPermissions(rpcNames: [SDLRPCFunctionName], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [SDLRPCFunctionName:NSNumber]) {
-        SDLLog.d("The group status for \(rpcNames) has changed to: \(groupPermissionStatus)")
+        SDLLog.d("The group status for \(rpcNames.map { $0.rawValue.rawValue } ) has changed to: \(groupPermissionStatus.rawValue)")
         for (rpcName, rpcAllowed) in individualPermissionStatuses {
             logRPCPermission(rpcName: rpcName, isRPCAllowed: rpcAllowed.boolValue)
         }
