@@ -266,6 +266,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Threading Utilities
 
+/// Checks if we are already on the main queue. If so, the block is added to the queue; if not, the block is dispatched to the main queue.
+/// @discussion Used to ensure that updates to the lock screen UI are done on the main thread.
+/// @param block The block to be executed.
 - (void)sdl_runOnMainQueue:(void (^)(void))block {
     if ([NSThread isMainThread]) {
         block();
