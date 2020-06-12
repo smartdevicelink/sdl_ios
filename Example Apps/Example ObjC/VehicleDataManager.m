@@ -8,6 +8,7 @@
 
 #import "AlertManager.h"
 #import "AppConstants.h"
+#import "SDLRPCFunctionNames.h"
 #import "SmartDeviceLink.h"
 #import "TextValidator.h"
 #import "VehicleDataManager.h"
@@ -136,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
-    if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
+    if (![manager.permissionManager isRPCNameAllowed:SDLRPCFunctionNameGetVehicleData]) {
         [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil iconName:nil]];
         return;
     }

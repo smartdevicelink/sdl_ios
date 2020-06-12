@@ -232,7 +232,7 @@ extension VehicleDataManager {
     class func hasPermissionToAccessVehicleData(with manager: SDLManager) -> Bool {
         SDLLog.d("Checking if app has permission to access vehicle data...")
 
-        guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
+        guard manager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.getVehicleData) else {
             let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
             manager.send(request: alert)
             return false
