@@ -46,7 +46,6 @@
 #import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLLifecycleProtocolHandler.h"
-#import "SDLProxy.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -186,8 +185,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _mobileHMIStateHandler = [[SDLLifecycleMobileHMIStateHandler alloc] initWithConnectionManager:self];
 
     // Notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_rpcServiceDidConnect) name:SDLRPCServiceDidConnect object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
 
@@ -293,7 +292,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
-    [self.proxy disconnectSession];
+    [self.protocolHandler stop];
     self.proxy = nil;
 
     [self.fileManager stop];
@@ -358,7 +357,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
     if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
         SDLLogW(@"Disconnecting from head unit, protocol version %@ is less than configured minimum version %@", [SDLGlobals sharedGlobals].protocolVersion.stringVersion, self.configuration.lifecycleConfig.minimumProtocolVersion.stringVersion);
-        [self.proxy.protocol endServiceWithType:SDLServiceTypeRPC];
+        [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
         [self sdl_transitionToState:SDLLifecycleStateStopped];
         return;
     }
@@ -500,7 +499,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }];
     
     if (self.encryptionLifecycleManager != nil) {
-        [self.encryptionLifecycleManager startWithProtocol:self.proxy.protocol];
+        [self.encryptionLifecycleManager startWithProtocol:self.protocolHandler.protocol];
     }
     
     // Starts the streaming media manager if only using the primary transport (i.e. secondary transports has been disabled in the lifecyle configuration). If using a secondary transport, setup is handled by the stream manager.
@@ -764,9 +763,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         NSNumber *corrID = [self sdl_getNextCorrelationId];
         requestRPC.correlationID = corrID;
         [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self.proxy sendRPC:requestRPC];
+        [self.protocolHandler.protocol sendRPC:requestRPC];
     } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self.proxy sendRPC:request];
+        [self.protocolHandler.protocol sendRPC:request];
     } else {
         SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }
@@ -825,12 +824,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
  *  @return An authentication token
  */
 - (nullable NSString *)authToken {
-    return self.proxy.protocol.authToken;
+    return self.protocolHandler.protocol.authToken;
 }
 
 #pragma mark SDL notification observers
 
-- (void)transportDidConnect {
+- (void)sdl_rpcServiceDidConnect {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogD(@"Transport connected");
 
@@ -840,7 +839,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 }
 
-- (void)transportDidDisconnect {
+- (void)sdl_transportDidDisconnect {
     SDLLogD(@"Transport Disconnected");
 
     dispatch_async(self.lifecycleQueue, ^{
@@ -947,7 +946,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
-    } else if (appUnregisteredNotification.reason != nil && ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized] || [appUnregisteredNotification.reason isEqualToString:SDLAppInterfaceUnregisteredReasonProtocolViolation])) {
+    } else if (appUnregisteredNotification.reason != nil
+               && ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]
+                   || [appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonProtocolViolation])) {
         // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {

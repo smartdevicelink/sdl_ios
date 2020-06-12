@@ -76,14 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onProtocolClosed;
 
 /**
- *  Called when the message is an error message.
- *
- *  @param info The error info message
- *  @param e    The exception
- */
-- (void)onError:(NSString *)info exception:(NSException *)e;
-
-/**
  *  Called when an error is notified from transport.
  *
  *  Note: currently, this is used only by TCP transport.

@@ -85,6 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stop {
+    [self.securityManager stop];
     [self.transport disconnect];
 }
 
@@ -140,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onDataReceived:(NSData *)receivedData {
-    [self handleBytesFromTransport:receivedData];
+    [self sdl_handleBytesFromTransport:receivedData];
 }
 
 - (void)onError:(NSError *)error {
@@ -422,7 +423,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Receive and Process Data
 
 // Turn received bytes into message objects.
-- (void)handleBytesFromTransport:(NSData *)receivedData {
+- (void)sdl_handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
         self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC])];
@@ -431,10 +432,10 @@ NS_ASSUME_NONNULL_BEGIN
     // Save the data
     [self.receiveBuffer appendData:receivedData];
 
-    [self processMessages];
+    [self sdl_processMessages];
 }
 
-- (void)processMessages {
+- (void)sdl_processMessages {
     UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
 
     // If we have enough bytes, create the header.
@@ -482,9 +483,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
-        [self processMessages];
+        [self sdl_processMessages];
     }
 }
+
+#pragma mark - SDLProtocolDelegate from SDLReceivedProtocolMessageRouter
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // V5 Packet
@@ -655,15 +658,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)onError:(NSString *)info exception:(NSException *)e {
-    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onError:exception:)]) {
-            [listener onError:info exception:e];
-        }
-    }
-}
-
 - (void)sdl_logControlNAKPayload:(SDLProtocolMessage *)nakMessage {
     switch (nakMessage.header.frameData) {
         case SDLFrameInfoStartServiceNACK: // fallthrough
@@ -693,6 +687,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - TLS Handshake
+
 // TODO: These should be split out to a separate class to be tested properly
 - (void)sdl_processSecurityMessage:(SDLProtocolMessage *)clientHandshakeMessage {
     if (self.securityManager == nil) {

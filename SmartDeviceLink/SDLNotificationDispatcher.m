@@ -55,10 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLProxyListener Delegate Methods
 
-//- (void)onProxyOpened {
-//    
-//}
-
 - (void)onProxyClosed {
     [self postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }

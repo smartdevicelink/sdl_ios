@@ -16,3 +16,9 @@ typedef NS_ENUM(Byte, SDLRPCMessageType) {
     /// A message that does not have a response
     SDLRPCMessageTypeNotification
 };
+
+typedef NSString* SDLRPCMessageTypeName SDL_SWIFT_ENUM;
+
+extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameRequest;
+extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameResponse;
+extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameNotification;

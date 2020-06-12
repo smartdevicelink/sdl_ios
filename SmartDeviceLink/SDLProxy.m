@@ -56,43 +56,12 @@ NSString *const SDLProxyVersion = @"6.6.0";
 }
 
 @property (copy, nonatomic) NSString *appId;
-@property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
 
 
 @implementation SDLProxy
-
-#pragma mark - Object lifecycle
-
-- (void)disconnectSession {
-    SDLLogD(@"Disconnecting the proxy; stopping security manager and primary transport.");
-    if (self.protocol.securityManager != nil) {
-        [self.protocol.securityManager stop];
-    }
-
-    if (self.transport != nil) {
-        [self.transport disconnect];
-    }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)sdl_notifyProxyClosed {
-    if (_isConnected) {
-        _isConnected = NO;
-        [self sdl_invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
-    }
-}
-
-#pragma mark - Accessors
-
-- (NSSet<NSObject<SDLProxyListener> *> *)proxyListeners {
-    return [self.mutableProxyListeners copy];
-}
-
 
 #pragma mark - Setters / Getters
 
@@ -139,18 +108,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
 
 #pragma mark - SDLProtocolListener Implementation
 
-- (void)onProtocolClosed {
-    [self sdl_notifyProxyClosed];
-}
-
-- (void)onError:(NSString *)info exception:(NSException *)e {
-    [self sdl_invokeMethodOnDelegates:@selector(onError:) withObject:e];
-}
-
-- (void)onTransportError:(NSError *)error {
-    [self sdl_invokeMethodOnDelegates:@selector(onTransportError:) withObject:error];
-}
-
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msgData {
     @try {
         [self handleProtocolMessage:msgData];
@@ -161,21 +118,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
 
 
 #pragma mark - Message sending
-- (void)sendRPC:(SDLRPCMessage *)message {
-    if ([message.name isEqualToString:SDLRPCFunctionNameSubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message];
-        if (handledRPC) { return; }
-    } else if ([message.name isEqualToString:SDLRPCFunctionNameUnsubscribeButton]) {
-        BOOL handledRPC = [self sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message];
-        if (handledRPC) { return; }
-    }
-
-    @try {
-        [self.protocol sendRPC:message];
-    } @catch (NSException *exception) {
-        SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-    }
-}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -256,35 +198,7 @@ NSString *const SDLProxyVersion = @"6.6.0";
 
 #pragma mark - Message Receiving
 
-- (void)handleProtocolMessage:(SDLProtocolMessage *)incomingMessage {
-    // Convert protocol message to dictionary
-    NSDictionary<NSString *, id> *rpcMessageAsDictionary = [incomingMessage rpcDictionary];
-    [self handleRPCDictionary:rpcMessageAsDictionary];
-}
-
 - (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dict {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:[dict mutableCopy]];
-#pragma clang diagnostic pop
-    NSString *functionName = message.name;
-    NSString *messageType = message.messageType;
-
-    // If it's a response, append response
-    if ([messageType isEqualToString:SDLRPCParameterNameResponse]) {
-        BOOL notGenericResponseMessage = ![functionName isEqualToString:SDLRPCFunctionNameGenericResponse];
-        if (notGenericResponseMessage) {
-            functionName = [NSString stringWithFormat:@"%@Response", functionName];
-        }
-    }
-
-    // From the function name, create the corresponding RPCObject and initialize it
-    NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
-    SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
-
-    // Log the RPC message
-    SDLLogV(@"Message received: %@", newMessage);
-
     // Intercept and handle several messages ourselves
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
@@ -313,12 +227,7 @@ NSString *const SDLProxyVersion = @"6.6.0";
         }
     }
 
-    [self sdl_invokeDelegateMethodsWithFunction:functionName message:newMessage];
-    
-    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reconnection attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
-    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
-        [self sdl_handleRPCUnregistered:dict];
-    }
+//    [self sdl_invokeDelegateMethodsWithFunction:functionName message:newMessage];
 
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnHMIStatus"]) {
@@ -331,20 +240,7 @@ NSString *const SDLProxyVersion = @"6.6.0";
     }
 }
 
-- (void)sdl_invokeDelegateMethodsWithFunction:(NSString *)functionName message:(SDLRPCMessage *)message {
-    // Formulate the name of the method to call and invoke the method on the delegate(s)
-    NSString *handlerName = [NSString stringWithFormat:@"on%@:", functionName];
-    SEL handlerSelector = NSSelectorFromString(handlerName);
-    [self sdl_invokeMethodOnDelegates:handlerSelector withObject:message];
-}
-
-
 #pragma mark - RPC Handlers
-
-- (void)sdl_handleRPCUnregistered:(NSDictionary<NSString *, id> *)messageDictionary {
-    SDLLogW(@"Unregistration forced by module. %@", messageDictionary);
-    [self sdl_notifyProxyClosed];
-}
 
 - (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
@@ -455,30 +351,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
     [self sdl_invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
-}
-
-#pragma mark - Delegate management
-
-- (void)addDelegate:(NSObject<SDLProxyListener> *)delegate {
-    @synchronized(self.mutableProxyListeners) {
-        [self.mutableProxyListeners addObject:delegate];
-    }
-}
-
-- (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate {
-    @synchronized(self.mutableProxyListeners) {
-        [self.mutableProxyListeners removeObject:delegate];
-    }
-}
-
-- (void)sdl_invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
-    // Occurs on the processing serial queue
-    for (id<SDLProxyListener> listener in self.proxyListeners) {
-        if ([listener respondsToSelector:aSelector]) {
-            // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-            ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
-        }
-    }
 }
 
 @end

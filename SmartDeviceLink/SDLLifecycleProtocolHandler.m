@@ -16,6 +16,9 @@
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
+#import "SDLRPCFunctionNames.h"
+#import "SDLRPCMessage.h"
+#import "SDLRPCMessageType.h"
 #import "SDLTimer.h"
 
 static const float StartSessionTime = 10.0;
@@ -53,7 +56,10 @@ static const float StartSessionTime = 10.0;
 
 #pragma mark - SDLProtocolDelegate
 
+/// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
 - (void)onProtocolOpened {
+    [self sdl_postNotificationName:SDLTransportDidConnect infoObject:nil];
+
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:startServicePayload.data];
 
@@ -68,30 +74,99 @@ static const float StartSessionTime = 10.0;
     [self.rpcStartServiceTimeoutTimer start];
 }
 
+/// Called when the transport is closed.
 - (void)onProtocolClosed {
-    
-}
-
-- (void)onError:(NSString *)info exception:(NSException *)e {
-
+    [self sdl_postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
 - (void)onTransportError:(NSError *)error {
-
+    [self sdl_postNotificationName:SDLTransportConnectError infoObject:error];
 }
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     [self.rpcStartServiceTimeoutTimer cancel];
-    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
+    SDLLogD(@"Start Service (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
-        [self sdl_postNotificationName:SDLTransportDidConnect infoObject:nil];
         [self sdl_postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
     }
 }
 
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+    [self.rpcStartServiceTimeoutTimer cancel];
+    SDLLogD(@"End Service (response)\nSessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
+    if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
+        [self sdl_postNotificationName:SDLRPCServiceDidDisconnect infoObject:nil];
+    }
+}
+
+- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+    NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];
+    SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
+    NSString *functionName = message.name;
+    NSString *messageType = message.messageType;
+
+    // If it's a response, append "response"
+    if ([messageType isEqualToString:SDLRPCMessageTypeNameResponse]) {
+        BOOL notGenericResponseMessage = ![functionName isEqualToString:SDLRPCFunctionNameGenericResponse];
+        if (notGenericResponseMessage) {
+            functionName = [NSString stringWithFormat:@"%@Response", functionName];
+        }
+    }
+
+    // From the function name, create the corresponding RPCObject and initialize it
+    NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
+    SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:rpcMessageAsDictionary];
+
+    // Log the RPC message
+    SDLLogV(@"Message received: %@", newMessage);
+
+    // Intercept and handle several messages ourselves
+
+//    if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
+//        [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
+//    }
+//
+//    if ([functionName isEqualToString:SDLRPCFunctionNameOnButtonPress]) {
+//        SDLOnButtonPress *message = (SDLOnButtonPress *)newMessage;
+//        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+//            BOOL handledRPC = [self sdl_handleOnButtonPressPostV5:message];
+//            if (handledRPC) { return; }
+//        } else { // RPC version of 4 or less (connected to an old head unit)
+//            BOOL handledRPC = [self sdl_handleOnButtonPressPreV5:message];
+//            if (handledRPC) { return; }
+//        }
+//    }
+//
+//    if ([functionName isEqualToString:SDLRPCFunctionNameOnButtonEvent]) {
+//        SDLOnButtonEvent *message = (SDLOnButtonEvent *)newMessage;
+//        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+//            BOOL handledRPC = [self sdl_handleOnButtonEventPostV5:message];
+//            if (handledRPC) { return; }
+//        } else {
+//            BOOL handledRPC = [self sdl_handleOnButtonEventPreV5:message];
+//            if (handledRPC) { return; }
+//        }
+//    }
+
+    SEL callbackSelector = NSSelectorFromString([NSString stringWithFormat:@"on%@", functionName]);
+    ((void (*)(id, SEL, id))[(NSObject *)self.notificationDispatcher methodForSelector:callbackSelector])(self.notificationDispatcher, callbackSelector, newMessage);
+
+    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reconnection attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
+    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
+        [self sdl_handleRPCUnregistered:dict];
+    }
+
+    // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
+    if ([functionName isEqualToString:@"OnHMIStatus"]) {
+        [self sdl_handleAfterHMIStatus:newMessage];
+    }
+
+    // When an OnDriverDistraction notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
+    if ([functionName isEqualToString:@"OnDriverDistraction"]) {
+        [self sdl_handleAfterDriverDistraction:newMessage];
+    }
 }
 
 #pragma mark - Utilities
