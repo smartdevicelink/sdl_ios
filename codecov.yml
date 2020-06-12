@@ -5,7 +5,8 @@ coverage:
   ignore:
   - Carthage/.*
   - SmartDeviceLinkTests/.*
-  - SmartDeviceLinkExample/.*
+  - Example Apps/.*
+  - bson_c_lib/.*
   status:
     project: false
     patch:
