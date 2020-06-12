@@ -157,16 +157,6 @@ static const float StartSessionTime = 10.0;
     if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
         [self sdl_handleRPCUnregistered:dict];
     }
-
-    // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
-    if ([functionName isEqualToString:@"OnHMIStatus"]) {
-        [self sdl_handleAfterHMIStatus:newMessage];
-    }
-
-    // When an OnDriverDistraction notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
-    if ([functionName isEqualToString:@"OnDriverDistraction"]) {
-        [self sdl_handleAfterDriverDistraction:newMessage];
-    }
 }
 
 #pragma mark - Utilities

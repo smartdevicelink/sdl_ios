@@ -11,6 +11,7 @@
 #import "NSBundle+SDLBundle.h"
 #import "SDLLogMacros.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+@property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -53,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     _config = config;
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
+    _statusManager = [[SDLLockScreenStatusManager alloc] init];
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

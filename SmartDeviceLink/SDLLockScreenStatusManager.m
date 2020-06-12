@@ -6,7 +6,11 @@
 #import "SDLLockScreenStatusManager.h"
 
 #import "SDLLockScreenStatus.h"
+#import "SDLNotificationConstants.h"
+#import "SDLOnDriverDistraction.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLRPCNotificationNotification.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,11 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     self = [super init];
-    if (self) {
-        _userSelected = NO;
-        _driverDistracted = NO;
-        _haveDriverDistractionStatus = NO;
-    }
+    if (!self) { return nil; }
+
+    _userSelected = NO;
+    _driverDistracted = NO;
+    _haveDriverDistractionStatus = NO;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:nil];
+
     return self;
 }
 
@@ -123,6 +130,34 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLLockScreenStatusOff;
 #pragma clang diagnostic pop
     }
+}
+
+#pragma mark - Utilities
+
+- (void)sdl_postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
+    NSDictionary<NSString *, id> *userInfo = nil;
+    if (infoObject != nil) {
+        userInfo = @{SDLNotificationUserInfoObject: infoObject};
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+}
+
+
+#pragma mark - Observers
+
+- (void)sdl_hmiStatusDidUpdate:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = notification.notification;
+
+    self.hmiLevel = hmiStatus.hmiLevel;
+    [self sdl_postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:self.lockScreenStatusNotification];
+}
+
+- (void)sdl_driverDistractionDidUpdate:(SDLRPCNotificationNotification *)notification {
+    SDLOnDriverDistraction *driverDistraction = notification.notification;
+
+    self.driverDistracted = [driverDistraction.state isEqualToEnum:SDLDriverDistractionStateOn];
+    [self sdl_postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:self.lockScreenStatusNotification];
 }
 
 @end

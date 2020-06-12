@@ -106,17 +106,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
 }
 
 
-#pragma mark - SDLProtocolListener Implementation
-
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msgData {
-    @try {
-        [self handleProtocolMessage:msgData];
-    } @catch (NSException *e) {
-        SDLLogW(@"Proxy: Failed to handle protocol message %@", e);
-    }
-}
-
-
 #pragma mark - Message sending
 
 #pragma clang diagnostic push
@@ -333,25 +322,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
     return NO;
 }
 #pragma clang diagnostic pop
-
-
-#pragma mark Handle Post-Invoke of Delegate Methods
-- (void)sdl_handleAfterHMIStatus:(SDLRPCMessage *)message {
-    SDLHMILevel hmiLevel = (SDLHMILevel)message.parameters[SDLRPCParameterNameHMILevel];
-    _lsm.hmiLevel = hmiLevel;
-
-    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-    [self sdl_invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
-}
-
-- (void)sdl_handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)message.parameters[SDLRPCParameterNameState];
-    BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
-    _lsm.driverDistracted = state;
-
-    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-    [self sdl_invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
-}
 
 @end
 

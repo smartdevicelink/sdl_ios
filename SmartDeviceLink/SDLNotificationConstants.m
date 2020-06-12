@@ -25,6 +25,7 @@ SDLNotificationName const SDLDidReceiveLockScreenIcon = @"com.sdl.general.locksc
 SDLNotificationName const SDLDidBecomeReady = @"com.sdl.notification.managerReady";
 SDLNotificationName const SDLDidReceiveVehicleIconNotification = @"com.sdl.notification.vehicleIcon";
 SDLNotificationName const SDLDidUpdateProjectionView = @"com.sdl.notification.projectionViewUpdate";
+SDLNotificationName const SDLDidChangeLockScreenStatusNotification = @"com.sdl.notification.lockScreenStatus";
 
 #pragma mark - RPC Responses
 SDLNotificationName const SDLDidReceiveAddCommandResponse = @"com.sdl.response.addCommand";
@@ -169,7 +170,6 @@ SDLNotificationName const SDLDidReceiveEncodedDataNotification = @"com.sdl.notif
 SDLNotificationName const SDLDidReceiveInteriorVehicleDataNotification = @"com.sdl.notification.interiorVehicleData";
 SDLNotificationName const SDLDidReceiveKeyboardInputNotification = @"com.sdl.notification.keyboardInput";
 SDLNotificationName const SDLDidChangeLanguageNotification = @"com.sdl.notification.changeLanguage";
-SDLNotificationName const SDLDidChangeLockScreenStatusNotification = @"com.sdl.notification.lockScreenStatus";
 SDLNotificationName const SDLDidReceiveNewHashNotification = @"com.sdl.notification.newHash";
 SDLNotificationName const SDLDidChangePermissionsNotification = @"com.sdl.notification.changePermission";
 SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification = @"com.sdl.notification.rcStatus";

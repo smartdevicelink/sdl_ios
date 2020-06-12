@@ -139,6 +139,9 @@ extern SDLNotificationName const SDLDidBecomeReady;
 /// Name for a notification sent by the user when their CarWindow view has been updated
 extern SDLNotificationName const SDLDidUpdateProjectionView;
 
+/// Name for a LockScreenStatus notification RPC
+extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;
+
 /**
  *  NSNotification names associated with specific RPC responses.
  */
@@ -567,9 +570,6 @@ extern SDLNotificationName const SDLDidReceiveKeyboardInputNotification;
 
 /// Name for a Language notification RPC
 extern SDLNotificationName const SDLDidChangeLanguageNotification;
-
-/// Name for a LockScreenStatus notification RPC
-extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification __deprecated;
 
 /// Name for a NewHash notification RPC
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;
