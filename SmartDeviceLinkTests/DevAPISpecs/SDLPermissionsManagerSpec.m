@@ -33,6 +33,14 @@ describe(@"SDLPermissionsManager", ^{
     __block NSString *testRPCNameAllDisallowed = nil;
     __block NSString *testRPCNameFullLimitedAllowed = nil;
     __block NSString *testRPCNameFullLimitedBackgroundAllowed = nil;
+
+    __block NSString *testRPCParameterNameAllAllowed = nil;
+    __block NSString *testRPCParameterNameAllDisallowed = nil;
+    __block NSString *testRPCParameterNameFullLimitedAllowed = nil;
+    __block NSString *testRPCParameterNameFullLimitedBackgroundAllowed = nil;
+
+    __block SDLParameterPermissions *testParameterPermissionAllowed = nil;
+    __block SDLParameterPermissions *testParamterPermissionUserDisallowed = nil;
     
     __block SDLPermissionItem *testPermissionAllAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsAllAllowed = nil;
@@ -60,6 +68,17 @@ describe(@"SDLPermissionsManager", ^{
         testRPCNameAllDisallowed = @"AllDisallowed";
         testRPCNameFullLimitedAllowed = @"FullAndLimitedAllowed";
         testRPCNameFullLimitedBackgroundAllowed = @"FullAndLimitedAndBackgroundAllowed";
+
+        testRPCParameterNameAllAllowed = @"AllAllowed";
+        testRPCParameterNameAllDisallowed = @"AllDisallowed";
+        testRPCParameterNameFullLimitedAllowed = @"FullAndLimitedAllowed";
+        testRPCParameterNameFullLimitedBackgroundAllowed = @"FullAndLimitedAndBackgroundAllowed";
+
+        testParameterPermissionAllowed = [[SDLParameterPermissions alloc] init];
+        testParameterPermissionAllowed.allowed = @[testRPCParameterNameAllAllowed];
+
+        testParamterPermissionUserDisallowed = [[SDLParameterPermissions alloc] init];
+        testParamterPermissionUserDisallowed.userDisallowed = @[testRPCParameterNameAllDisallowed];
         
         // Create a manager
         testPermissionsManager = [[SDLPermissionManager alloc] init];
@@ -1090,6 +1109,45 @@ describe(@"SDLPermissionsManager", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                 });
+            });
+        });
+    });
+
+    describe(@"checking parameter permissions", ^{
+        __block SDLRPCFunctionName someRPCFunctionName = nil;
+        __block NSString *someRPCParameterName = nil;
+        __block BOOL testResultBOOL = NO;
+
+        context(@"when there are no permission items", ^{
+            beforeEach(^{
+                someRPCFunctionName = @"SomeRPCFunctionName";
+                someRPCParameterName = @"SomeRPCParameterName";
+                testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:someRPCFunctionName parameter:someRPCParameterName];
+            });
+
+            it(@"should not be allowed", ^{
+                expect(testResultBOOL).to(beFalse());
+            });
+        });
+
+        context(@"when permissions exist but no HMI level", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameAllAllowed parameter:someRPCParameterName];
+            });
+        });
+        
+        context(@"When there are permission items", ^{
+            context(@"when rpc is not allowed", ^{
+                
+            });
+            
+            context(@"when there are no paramter permissions", ^{
+                
+            });
+            
+            context(@"when there are no parameter permissions allowed", ^{
+                
             });
         });
     });

@@ -413,7 +413,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {
 
     SDLPermissionItem *permissionItem = permissionItems[rpcName];
-    if (permissionItem == nil || ![self isRPCAllowed:rpcName] || permissionItem.parameterPermissions == nil || permissionItem.parameterPermissions.allowed == nil) {
+    if (permissionItem == nil || ![self isRPCNameAllowed:rpcName] || permissionItem.parameterPermissions == nil || permissionItem.parameterPermissions.allowed == nil) {
         return NO;
     } else if (permissionItem.parameterPermissions.userDisallowed != nil) {
         return [permissionItem.parameterPermissions.allowed containsObject:parameter] && ![permissionItem.parameterPermissions.userDisallowed containsObject:parameter];
