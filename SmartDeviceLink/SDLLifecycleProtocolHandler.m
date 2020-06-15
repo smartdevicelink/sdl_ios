@@ -92,7 +92,7 @@ static const float StartSessionTime = 10.0;
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     [self.rpcStartServiceTimeoutTimer cancel];
-    SDLLogD(@"Start Service (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
+    SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
         [self sdl_postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
@@ -101,7 +101,7 @@ static const float StartSessionTime = 10.0;
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     [self.rpcStartServiceTimeoutTimer cancel];
-    SDLLogD(@"Start Service (response)\nSessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
+    SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
 
     if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
         [self sdl_postNotificationName:SDLRPCServiceConnectionDidError infoObject:nil];
@@ -110,7 +110,7 @@ static const float StartSessionTime = 10.0;
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     [self.rpcStartServiceTimeoutTimer cancel];
-    SDLLogD(@"End Service (response)\nSessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
+    SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
     if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
         [self sdl_postNotificationName:SDLRPCServiceDidDisconnect infoObject:nil];
