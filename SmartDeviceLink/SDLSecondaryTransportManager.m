@@ -695,15 +695,11 @@ struct TransportProtocolUpdated {
 
 #pragma mark - App state handling
 
-/// Tracks the current application state of the app on the phone.
-/// @param notification Notification containing the state of the app
-- (void)sdl_appStateDidUpdate:(NSNotification*)notification {
-    self.currentApplicationState = (notification.name == UIApplicationDidBecomeActiveNotification) ? UIApplicationStateActive : UIApplicationStateInactive;
-}
-
 /// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
 /// @param notification Notification from the OS that the app's life-cycle state has changed
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
+    self.currentApplicationState = (notification.name == UIApplicationDidBecomeActiveNotification) ? UIApplicationStateActive : UIApplicationStateInactive;
+
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.stateMachineQueue, ^{
         __strong typeof(self) strongSelf = weakSelf;
