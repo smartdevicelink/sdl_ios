@@ -8,12 +8,7 @@
 
 #import "SDLNotificationDispatcher.h"
 
-#import "SDLError.h"
-#import "SDLNotificationConstants.h"
-#import "SDLRPCNotification.h"
-#import "SDLRPCNotificationNotification.h"
-#import "SDLRPCRequestNotification.h"
-#import "SDLRPCResponseNotification.h"
+#import "SmartDeviceLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

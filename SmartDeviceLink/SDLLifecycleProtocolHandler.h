@@ -10,6 +10,7 @@
 
 #import "SDLProtocolDelegate.h"
 
+@class SDLConfiguration;
 @class SDLNotificationDispatcher;
 @class SDLProtocol;
 
