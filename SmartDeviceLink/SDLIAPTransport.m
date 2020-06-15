@@ -556,13 +556,6 @@ int const CreateSessionRetries = 3;
     return NO;
 }
 
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    SDLLogV(@"iAP transport dealloc");
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

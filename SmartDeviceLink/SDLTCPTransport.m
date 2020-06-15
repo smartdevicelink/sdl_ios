@@ -60,10 +60,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     return self;
 }
 
-- (void)dealloc {
-    SDLLogV(@"TCP Transport dealloc");
-}
-
 #pragma mark - Stream Lifecycle
 
 // Note: When a connection is refused (e.g. TCP port number is not correct) or timed out (e.g. invalid IP address), then onError will be notified.
