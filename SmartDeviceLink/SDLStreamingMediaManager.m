@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
     // This will always run
     dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (oldVideoProtocol != nil || oldAudioProtocol != nil) {
-            [self sdl_disconnectSecondaryTransportAndStartWithNewVideoProtocol:newVideoProtocol newAudioProtocol:newAudioProtocol transportDestroyed:false];
+            [self sdl_reconnectSecondaryTransportWithNewVideoProtocol:newVideoProtocol newAudioProtocol:newAudioProtocol transportDestroyed:false];
         } else {
             SDLLogV(@"No need to disconnect the secondary transport. Starting new audio and video protocols");
             [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)transportClosed {
-    [self sdl_disconnectSecondaryTransportAndStartWithNewVideoProtocol:nil newAudioProtocol:nil transportDestroyed:true];
+    [self sdl_reconnectSecondaryTransportWithNewVideoProtocol:nil newAudioProtocol:nil transportDestroyed:true];
 }
 
 /// Disconnects the secondary transport. If the transport is still open and a new video or audio protocol have been set, then a new video/audio sessions are attempted. If the transport has been closed, then the audio/video managers are stopped.
