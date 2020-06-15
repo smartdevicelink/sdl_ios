@@ -69,13 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangeDriverDistractionStateNotification notification:notification];
 }
 
-#pragma mark Optional Methods
-
-- (void)onError:(NSException *)e {
-    NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:e.name andReason:e.reason];
-    [self postNotificationName:SDLDidReceiveError infoObject:error];
-}
-
 # pragma mark - Responses
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
@@ -147,12 +140,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveEncodedSyncPDataResponse response:response];
-#pragma clang diagnostic pop
 }
 #pragma clang diagnostic pop
 
@@ -309,12 +299,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSyncPDataResponse response:response];
-#pragma clang diagnostic pop
 }
 #pragma clang diagnostic pop
 
@@ -413,12 +400,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
     [self postRPCRequestNotification:SDLDidReceiveEncodedSyncPDataRequest request:request];
-#pragma clang diagnostic pop
 }
 #pragma clang diagnostic pop
 
@@ -571,14 +555,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onSyncPData:(SDLSyncPData *)request {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onSyncPData:(SDLSyncPData *)request {
     [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
 #pragma clang diagnostic pop
 }
-#pragma clang diagnostic pop
 
 -(void)onSystemRequest:(SDLSystemRequest *)request {
     [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
@@ -635,12 +616,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveEncodedDataNotification notification:notification];
-#pragma clang diagnostic pop
 }
 #pragma clang diagnostic pop
 
@@ -669,12 +647,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)onOnSyncPData:(SDLOnSyncPData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSyncPDataNotification notification:notification];
-#pragma clang diagnostic pop
 }
 #pragma clang diagnostic pop
 

@@ -136,7 +136,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     SDLLogV(@"Initializing Lifecycle Manager");
 
-    SDLLogD([NSBundle bundleForClass:self].infoDictionary);
+    SDLLogD(@"%@", [NSBundle bundleForClass:self.class].infoDictionary.description);
 
     // Dependencies
     _configuration = [configuration copy];
