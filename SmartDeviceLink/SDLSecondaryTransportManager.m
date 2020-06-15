@@ -153,6 +153,8 @@ struct TransportProtocolUpdated {
     });
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeInActive:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -266,9 +268,6 @@ struct TransportProtocolUpdated {
 - (void)didEnterStateStopped {
     SDLLogD(@"Secondary transport manager stopped");
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                            @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
@@ -287,8 +286,6 @@ struct TransportProtocolUpdated {
 
 - (void)didEnterStateStarted {
     SDLLogD(@"Secondary transport manager started");
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)didEnterStateConfigured {
@@ -717,36 +714,42 @@ struct TransportProtocolUpdated {
 
 /// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
 /// @param notification Notification from the OS that the app's life-cycle state has changed
-- (void)sdl_onAppStateUpdated:(NSNotification *)notification {
-    self.currentApplicationState = (notification.name == UIApplicationDidBecomeActiveNotification) ? UIApplicationStateActive : UIApplicationStateInactive;
+- (void)sdl_appStateDidBecomeActive:(NSNotification *)notification {
+    self.currentApplicationState = UIApplicationStateActive;
 
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.stateMachineQueue, ^{
         __strong typeof(self) strongSelf = weakSelf;
-        if (notification.name == UIApplicationWillResignActiveNotification) {
-            SDLLogD(@"App will enter the background");
-            if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
-                SDLLogD(@"Starting background task to keep TCP transport alive");
-                strongSelf.backgroundTaskManager.taskExpiringHandler = [strongSelf sdl_backgroundTaskEndedHandler];
-                [strongSelf.backgroundTaskManager startBackgroundTask];
-            } else {
-                SDLLogD(@"TCP transport already disconnected, will not start a background task.");
-            }
-        } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            SDLLogD(@"App entered the foreground");
-            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
-                SDLLogD(@"In the registered state; TCP transport has not yet been shutdown. Ending the background task.");
-                [strongSelf.backgroundTaskManager endBackgroundTask];
-            } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
-                && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
-                && [strongSelf sdl_isTCPReady]
-                && [strongSelf sdl_isHMILevelNonNone]) {
-                SDLLogD(@"In the configured state; restarting the TCP transport. Ending the background task.");
-                [strongSelf.backgroundTaskManager endBackgroundTask];
-                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
-            } else {
-                SDLLogD(@"TCP transport not ready to start, our current state is: %@", strongSelf.stateMachine.currentState);
-            }
+        SDLLogD(@"App entered the foreground");
+        if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
+            SDLLogD(@"In the registered state; TCP transport has not yet been shutdown. Ending the background task.");
+            [strongSelf.backgroundTaskManager endBackgroundTask];
+        } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
+                   && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
+                   && [strongSelf sdl_isTCPReady]
+                   && [strongSelf sdl_isHMILevelNonNone]) {
+            SDLLogD(@"In the configured state; restarting the TCP transport. Ending the background task.");
+            [strongSelf.backgroundTaskManager endBackgroundTask];
+            [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+        } else {
+            SDLLogD(@"TCP transport not ready to start, our current state is: %@", strongSelf.stateMachine.currentState);
+        }
+    });
+}
+
+- (void)sdl_appStateDidBecomeInActive:(NSNotification *)notification {
+    self.currentApplicationState = UIApplicationStateInactive;
+
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.stateMachineQueue, ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        SDLLogD(@"App will enter the background");
+        if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
+            SDLLogD(@"Starting background task to keep TCP transport alive");
+            strongSelf.backgroundTaskManager.taskExpiringHandler = [strongSelf sdl_backgroundTaskEndedHandler];
+            [strongSelf.backgroundTaskManager startBackgroundTask];
+        } else {
+            SDLLogD(@"TCP transport already disconnected, will not start a background task.");
         }
     });
 }
