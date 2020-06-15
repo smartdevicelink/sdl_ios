@@ -270,7 +270,7 @@ struct TransportProtocolUpdated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
-                                @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
+                                           @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
     self.transportsForAudioService = @[];
     self.transportsForVideoService = @[];
