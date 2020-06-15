@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
-    SDLLogV(@"iAP data session init");
+    SDLLogV(@"iAP data session init for accessory: %@", accessory);
 
     self = [super initWithAccessory:accessory forProtocol:protocol];
     if (!self) { return nil; }
@@ -47,9 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)dealloc {
-    SDLLogV(@"iAP data session dealloc");
-}
 
 #pragma mark Start
 
@@ -124,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
         return YES;
     }
 
-    SDLLogE(@"Failed to cancel ioStreamThread within %f seconds", IOStreamThreadCanceledSemaphoreWaitSecs);
+    SDLLogE(@"Failed to cancel ioStreamThread within %.1f seconds", IOStreamThreadCanceledSemaphoreWaitSecs);
     return NO;
 }
 

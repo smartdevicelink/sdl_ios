@@ -165,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newVideoProtocol The new video protocol
 /// @param newAudioProtocol The new audio protocol
 /// @param transportDestroyed Whether or not the transport is still open
-- (void)sdl_disconnectSecondaryTransportAndStartWithNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol newAudioProtocol:(nullable SDLProtocol *)newAudioProtocol transportDestroyed:(BOOL)transportDestroyed {
+- (void)sdl_reconnectSecondaryTransportWithNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol newAudioProtocol:(nullable SDLProtocol *)newAudioProtocol transportDestroyed:(BOOL)transportDestroyed {
     SDLLogV(@"Disconnecting the secondary transport");
     __weak typeof(self) weakSelf = self;
     [self sdl_disconnectSecondaryTransportWithCompletionHandler:^{

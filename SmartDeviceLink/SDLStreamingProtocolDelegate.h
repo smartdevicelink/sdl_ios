@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLStreamingProtocolDelegate <NSObject>
 
-/// Called when protocol instance for audio and/or video service has been updated. The transport is established
+/// Called when protocol instance for audio and/or video service has been updated and the transport is established.
 ///
 /// If `newVideoProtocol` or `newAudioProtocol` have been set then the transport is established and a current session can be started. If `newVideoProtocol` or `newAudioProtocol` is nil it indicates that underlying transport will become unavailable and any ongoing sessions on that transport should be stopped (i.e. send a request to the module to stop the session and wait for a response).
 ///
