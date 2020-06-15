@@ -11,6 +11,7 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLBackgroundTaskManager.h"
@@ -579,7 +580,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLUnregisterAppInterface *unregisterRequest = [[SDLUnregisterAppInterface alloc] init];
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendRequest:unregisterRequest
+    [self sdl_sendConnectionRequest:unregisterRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         if (error != nil || ![response.success boolValue]) {
             SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
@@ -674,6 +675,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.rpcOperationQueue addOperation:op];
 }
 
+/// Send a request immediately without going through the RPC operation queue
+/// @param rpc The RPC to send
 - (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
     NSAssert(([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]), @"Only RPCs of type `Response` or `Notfication` can be sent using this method. To send RPCs of type `Request` use sendConnectionRequest:withResponseHandler:.");
 
@@ -683,18 +686,23 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     [self sdl_runOnProcessingQueue:^{
-        [self sdl_sendRequest:rpc withResponseHandler:nil];
+        [self sdl_sendConnectionRequest:rpc withResponseHandler:nil];
     }];
 }
 
+/// Send a non-request RPC immediately without going through the RPC operation queue, and allow requests to be sent before the managers have completed setup.
+/// @param rpc The RPC to send
 - (void)sendConnectionManagerRPC:(__kindof SDLRPCMessage *)rpc {
     NSAssert(([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]), @"Only RPCs of type `Response` or `Notfication` can be sent using this method. To send RPCs of type `Request` use sendConnectionRequest:withResponseHandler:.");
 
     [self sdl_runOnProcessingQueue:^{
-        [self sdl_sendRequest:rpc withResponseHandler:nil];
+        [self sdl_sendConnectionRequest:rpc withResponseHandler:nil];
     }];
 }
 
+/// Send a request immediately without going through the RPC operation queue
+/// @param request The request to send
+/// @param handler A callback handler for responses to the request
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, request not sent (%@)", request);
@@ -719,23 +727,28 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     [self sdl_runOnProcessingQueue:^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
+        [self sdl_sendConnectionRequest:request withResponseHandler:handler];
     }];
 }
 
-// Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
+/// Send a request immediately without going through the RPC operation queue, and allow requests to be sent before the managers have completed setup.
+/// @param request The request to send
+/// @param handler A callback handler for responses to the request
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [self sdl_runOnProcessingQueue:^{
-        [self sdl_sendRequest:request withResponseHandler:handler];
+        [self sdl_sendConnectionRequest:request withResponseHandler:handler];
     }];
 }
 
-- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+/// Send a request by sending it directly through the protocol, without going through the RPC operation queue
+/// @param request The request to send
+/// @param handler A callback handler for responses to the request
+- (void)sdl_sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
     // If, for some reason, the request is nil we should error out.
-    if (!request) {
+    if (request == nil) {
         NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
         SDLLogW(@"%@", error);
         if (handler) {
@@ -744,17 +757,20 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    if ([request isKindOfClass:SDLRPCRequest.class]) {
-        // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
-        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
-        NSNumber *corrID = [self sdl_getNextCorrelationId];
-        requestRPC.correlationID = corrID;
-        [self.responseDispatcher storeRequest:requestRPC handler:handler];
-        [self.protocolHandler.protocol sendRPC:requestRPC];
-    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self.protocolHandler.protocol sendRPC:request];
-    } else {
-        SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
+    NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request];
+    for (SDLRPCMessage *message in messages) {
+        if ([request isKindOfClass:SDLRPCRequest.class]) {
+            // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
+            SDLRPCRequest *requestRPC = (SDLRPCRequest *)message;
+            NSNumber *corrID = [self sdl_getNextCorrelationId];
+            requestRPC.correlationID = corrID;
+            [self.responseDispatcher storeRequest:requestRPC handler:handler];
+            [self.protocolHandler.protocol sendRPC:requestRPC];
+        } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
+            [self.protocolHandler.protocol sendRPC:message];
+        } else {
+            SDLLogE(@"Will not send an RPC with unknown type, %@. The request should be of type SDLRPCRequest, SDLRPCResponse, or SDLRPCNotification.", request.class);
+        }
     }
 }
 

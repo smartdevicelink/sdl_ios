@@ -12,6 +12,7 @@
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLifecycleRPCAdapter.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
@@ -118,9 +119,9 @@ static const float StartSessionTime = 10.0;
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];
-    SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
-    NSString *functionName = message.name;
-    NSString *messageType = message.messageType;
+    SDLRPCMessage *receivedMessage = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
+    NSString *functionName = receivedMessage.name;
+    NSString *messageType = receivedMessage.messageType;
 
     // If it's a response, append "response"
     if ([messageType isEqualToString:SDLRPCMessageTypeNameResponse]) {
@@ -134,39 +135,19 @@ static const float StartSessionTime = 10.0;
     NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:rpcMessageAsDictionary];
 
+    // Adapt the incoming message then call the callback
+    NSArray<SDLRPCMessage *> *adaptedMessages = [SDLLifecycleRPCAdapter adaptRPC:newMessage];
+    for (SDLRPCMessage *message in adaptedMessages) {
+        [self sdl_sendCallbackForMessage:message];
+    }
+}
+
+- (void)sdl_sendCallbackForMessage:(SDLRPCMessage *)message {
     // Log the RPC message
-    SDLLogV(@"Message received: %@", newMessage);
+    SDLLogV(@"Message received: %@", message);
 
-    // Intercept and handle several messages ourselves
-
-//    if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
-//        [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
-//    }
-//
-//    if ([functionName isEqualToString:SDLRPCFunctionNameOnButtonPress]) {
-//        SDLOnButtonPress *message = (SDLOnButtonPress *)newMessage;
-//        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-//            BOOL handledRPC = [self sdl_handleOnButtonPressPostV5:message];
-//            if (handledRPC) { return; }
-//        } else { // RPC version of 4 or less (connected to an old head unit)
-//            BOOL handledRPC = [self sdl_handleOnButtonPressPreV5:message];
-//            if (handledRPC) { return; }
-//        }
-//    }
-//
-//    if ([functionName isEqualToString:SDLRPCFunctionNameOnButtonEvent]) {
-//        SDLOnButtonEvent *message = (SDLOnButtonEvent *)newMessage;
-//        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-//            BOOL handledRPC = [self sdl_handleOnButtonEventPostV5:message];
-//            if (handledRPC) { return; }
-//        } else {
-//            BOOL handledRPC = [self sdl_handleOnButtonEventPreV5:message];
-//            if (handledRPC) { return; }
-//        }
-//    }
-
-    SEL callbackSelector = NSSelectorFromString([NSString stringWithFormat:@"on%@", functionName]);
-    ((void (*)(id, SEL, id))[(NSObject *)self.notificationDispatcher methodForSelector:callbackSelector])(self.notificationDispatcher, callbackSelector, newMessage);
+    SEL callbackSelector = NSSelectorFromString([NSString stringWithFormat:@"on%@", message.name]);
+    ((void (*)(id, SEL, id))[(NSObject *)self.notificationDispatcher methodForSelector:callbackSelector])(self.notificationDispatcher, callbackSelector, message);
 }
 
 #pragma mark - Utilities
