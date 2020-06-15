@@ -116,7 +116,7 @@ extern SDLNotificationName const SDLTransportDidDisconnect;
 extern SDLNotificationName const SDLTransportDidConnect;
 
 /// Name for a error during connection notification
-extern SDLNotificationName const SDLTransportConnectError __deprecated_msg("Use SDLRPCServiceConnectionDidError instead");
+extern SDLNotificationName const SDLTransportConnectError;
 
 /// Name for a disconnection notification
 extern SDLNotificationName const SDLRPCServiceDidDisconnect;

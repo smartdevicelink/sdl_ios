@@ -92,6 +92,15 @@ static const float StartSessionTime = 10.0;
     }
 }
 
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+    [self.rpcStartServiceTimeoutTimer cancel];
+    SDLLogD(@"Start Service (response)\nSessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
+
+    if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
+        [self sdl_postNotificationName:SDLRPCServiceConnectionDidError infoObject:nil];
+    }
+}
+
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     [self.rpcStartServiceTimeoutTimer cancel];
     SDLLogD(@"End Service (response)\nSessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
@@ -152,11 +161,6 @@ static const float StartSessionTime = 10.0;
 
     SEL callbackSelector = NSSelectorFromString([NSString stringWithFormat:@"on%@", functionName]);
     ((void (*)(id, SEL, id))[(NSObject *)self.notificationDispatcher methodForSelector:callbackSelector])(self.notificationDispatcher, callbackSelector, newMessage);
-
-    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reconnection attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
-    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
-        [self sdl_handleRPCUnregistered:dict];
-    }
 }
 
 #pragma mark - Utilities

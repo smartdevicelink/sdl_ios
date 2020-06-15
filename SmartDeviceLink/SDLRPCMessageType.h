@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLEnum.h"
+
 /**
  The type of RPC message
  */
@@ -17,7 +19,7 @@ typedef NS_ENUM(Byte, SDLRPCMessageType) {
     SDLRPCMessageTypeNotification
 };
 
-typedef NSString* SDLRPCMessageTypeName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRPCMessageTypeName SDL_SWIFT_ENUM;
 
 extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameRequest;
 extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameResponse;
