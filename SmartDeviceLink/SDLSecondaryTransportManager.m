@@ -144,11 +144,15 @@ struct TransportProtocolUpdated {
     _tcpPort = TCPPortUnspecified;
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskSecondaryTransportName];
+
     _currentApplicationState = UIApplicationStateInactive;
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.currentApplicationState = UIApplication.sharedApplication.applicationState;
+    });
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
