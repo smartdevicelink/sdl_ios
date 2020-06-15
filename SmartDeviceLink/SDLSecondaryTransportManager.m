@@ -300,7 +300,27 @@ struct TransportProtocolUpdated {
         && self.sdl_isHMILevelNonNone) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     } else {
-        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state");
+    /*
+        if ([self.ipAddress length] == 0) {
+        SDLLogD(@"IP address is empty");
+        return NO;
+    }
+    if (self.tcpPort == TCPPortUnspecified) {
+        SDLLogD(@"TCP port number is not available");
+        return NO;
+    }
+    if (!(self.tcpPort > 0 && self.tcpPort <= 65535)) {
+        SDLLogW(@"Invalid TCP port number for secondary transport: %d", self.tcpPort);
+        return NO;
+    }
+
+    if (self.currentApplicationState != UIApplicationStateActive) {
+        SDLLogD(@"App state is not Active, TCP transport is not ready");
+        return NO;
+    }
+
+     */
+        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state. The app's application state needs to be Active in order to create a socket (current app state is %ld) and we need the socket address (current IP address: %@ and port: %d)", (long)self.currentApplicationState, self.ipAddress, self.tcpPort);
     }
 }
 
