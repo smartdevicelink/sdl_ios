@@ -1072,26 +1072,32 @@ describe(@"the secondary transport manager ", ^{
             describe(@"if the secondary transport is connected", ^{
                 beforeEach(^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
                 });
 
                 it(@"should start a background task and stay connected", ^{
                     OCMExpect([mockBackgroundTaskManager startBackgroundTask]);
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateRegistered));
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateRegistered));
+
                 });
             });
 
             describe(@"if the secondary transport has not yet connected", ^{
                 beforeEach(^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateConfigured fromOldState:nil callEnterTransition:NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
                 });
 
                 it(@"should ignore the state change notification", ^{
                     OCMReject([mockBackgroundTaskManager startBackgroundTask]);
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConfigured));
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConfigured));
+
                 });
             });
         });
@@ -1100,13 +1106,16 @@ describe(@"the secondary transport manager ", ^{
             describe(@"if the secondary transport is still connected", ^{
                 beforeEach(^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateRegistered fromOldState:nil callEnterTransition:NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
                 });
 
                 it(@"should end the background task and stay in the connected state", ^{
                     OCMExpect([mockBackgroundTaskManager endBackgroundTask]);
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateRegistered));
+
+                    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
                     OCMVerifyAllWithDelay(mockBackgroundTaskManager, 0.5);
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateRegistered));
+
                 });
             });
 
