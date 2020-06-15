@@ -49,7 +49,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)startSession {
     if (self.accessory == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
-        if (self.delegate == nil) { return; }
         [self.delegate controlSessionShouldRetry];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
@@ -60,7 +59,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
                 SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", strongSelf.accessory);
                 [strongSelf destroySessionWithCompletionHandler:^{
                     __strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (strongSelf.delegate == nil) { return; }
                     [strongSelf.delegate controlSessionShouldRetry];
                 }];
             } else {
@@ -179,7 +177,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
     __weak typeof(self) weakSelf = self;
     [self destroySessionWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.delegate == nil) { return; }
         [strongSelf.delegate controlSessionShouldRetry];
     }];
 }
@@ -208,10 +205,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.accessory.isConnected) {
             [strongSelf.protocolIndexTimer cancel];
-
-            if (strongSelf.delegate != nil) {
-                [strongSelf.delegate controlSession:strongSelf didReceiveProtocolString:indexedProtocolString];
-            }
+            [strongSelf.delegate controlSession:strongSelf didReceiveProtocolString:indexedProtocolString];
         }
     }];
 }
@@ -226,7 +220,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
     __weak typeof(self) weakSelf = self;
     [self destroySessionWithCompletionHandler:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.delegate == nil) { return; }
         [strongSelf.delegate controlSessionShouldRetry];
     }];
 }
@@ -247,7 +240,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
         [strongSelf destroySessionWithCompletionHandler:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate controlSessionShouldRetry];
         }];
     };
