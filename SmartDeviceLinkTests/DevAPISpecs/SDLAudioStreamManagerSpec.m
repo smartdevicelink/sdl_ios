@@ -89,7 +89,7 @@ describe(@"the audio stream manager", ^{
                 expect(mockAudioManager.dataSinceClear.length).toEventually(equal(34380));
 
                 // wait for the delegate to be called when the audio finishes
-                float waitTime = 1.1 + 0.25; // lenth of audio in testAudioFileURL + 0.25 buffer
+                float waitTime = 1.1 + 0.25; // length of audio in testAudioFileURL + 0.25 buffer
                 NSLog(@"Please wait %f for audio file to finish playing...", waitTime);
                 [NSThread sleepForTimeInterval:waitTime];
 
