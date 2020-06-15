@@ -343,7 +343,7 @@ struct TransportProtocolUpdated {
 }
 
 - (void)didEnterStateReconnecting {
-    SDLLogD(@"The secondary transport manager will try to reconnect in %f seconds", RetryConnectionDelay);
+    SDLLogD(@"The secondary transport manager will try to reconnect in %.01f seconds", RetryConnectionDelay);
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
@@ -732,7 +732,7 @@ struct TransportProtocolUpdated {
             [strongSelf.backgroundTaskManager endBackgroundTask];
             [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
         } else {
-            SDLLogD(@"TCP transport not ready to start, our current state is: %@", strongSelf.stateMachine.currentState);
+            SDLLogD(@"TCP transport not ready to start, secondary transport state must be in state Configured (currently in state: %@), the SDL app hmi level must be non-NONE (currently in state: %@), and the app must be ready to start a TCP socket (current app state: %ld, current IP address: %@, current port: %d)", strongSelf.stateMachine.currentState, strongSelf.currentHMILevel, self.currentApplicationState, self.ipAddress, self.tcpPort);
         }
     });
 }
