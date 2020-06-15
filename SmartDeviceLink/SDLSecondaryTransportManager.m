@@ -322,7 +322,7 @@ struct TransportProtocolUpdated {
 }
 
 - (void)didEnterStateReconnecting {
-    SDLLogD(@"The secondary transport manager will try another connection attempt in %f seconds", RetryConnectionDelay);
+    SDLLogD(@"The secondary transport manager will try to reconnect in %f seconds", RetryConnectionDelay);
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
