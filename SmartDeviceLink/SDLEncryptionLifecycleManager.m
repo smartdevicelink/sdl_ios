@@ -6,23 +6,30 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
+#import "SDLAsynchronousRPCRequestOperation.h"
+#import "SDLConfiguration.h"
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLEncryptionManagerConstants.h"
 #import "SDLEncryptionConfiguration.h"
-#import "SDLServiceEncryptionDelegate.h"
-#import "SDLAsynchronousRPCRequestOperation.h"
+#import "SDLError.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLogMacros.h"
-#import "SDLStateMachine.h"
-#import "SDLProtocolMessage.h"
-#import "SDLRPCNotificationNotification.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionConstants.h"
 #import "SDLProtocol.h"
-#import "SDLError.h"
+#import "SDLProtocolMessage.h"
+#import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
+#import "SDLServiceEncryptionDelegate.h"
+#import "SDLStateMachine.h"
+#import "SDLVehicleType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString SDLVehicleMake;
 
 @interface SDLEncryptionLifecycleManager() <SDLProtocolDelegate>
 
@@ -33,13 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
 @property (assign, nonatomic) BOOL requiresEncryption;
-@property (weak, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
+@property (strong, nonatomic) SDLConfiguration *configuration;
+
+@property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
 
 @implementation SDLEncryptionLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -49,10 +58,29 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _currentHMILevel = nil;
     _requiresEncryption = NO;
+    _securityManagers = [NSMutableDictionary dictionary];
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
-    _delegate = configuration.delegate;
+    _configuration = configuration;
 
+    for (Class securityManagerClass in _configuration.encryptionConfig.securityManagers) {
+        if (![securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
+            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Class %@ does not conform to SDLSecurityType protocol", NSStringFromClass(securityManagerClass)];
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+        }
+
+        NSSet<NSString *> *vehicleMakes = [securityManagerClass availableMakes];
+        if (vehicleMakes == nil || vehicleMakes.count == 0) {
+            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Failed to retrieve makes for class %@", NSStringFromClass(securityManagerClass)];
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+        }
+
+        for (NSString *vehicleMake in vehicleMakes) {
+            self.securityManagers[vehicleMake] = securityManagerClass;
+        }
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerAppInterfaceResponseReceived:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
@@ -75,7 +103,6 @@ NS_ASSUME_NONNULL_BEGIN
     _protocol = nil;
     _currentHMILevel = nil;
     _requiresEncryption = NO;
-    _delegate = nil;
 
     SDLLogD(@"Stopping encryption manager");
 }
@@ -92,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Attempting to start Encryption Service");
     if (!self.protocol || !self.currentHMILevel) {
         SDLLogV(@"Encryption manager is not yet started");
-        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
+        [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         return;
     }
     
@@ -101,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStarting];
         } else {
             SDLLogE(@"Encryption Manager is not ready to encrypt.");
-            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
+            [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         }
     }
 }
@@ -112,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error) {
             SDLLogE(@"TLS setup error: %@", error);
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:error];
+            [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:error];
         }
     }];
 }
@@ -156,11 +183,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (encryptionStartServiceAck.header.encrypted) {
         SDLLogD(@"Encryption service started");
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateReady];
-        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:YES error:nil];
+        [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:YES error:nil];
     } else {
         SDLLogD(@"Encryption service ACK received encryption = OFF");
         [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-        [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_encryption_off]];
+        [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_encryption_off]];
     }
 }
 
@@ -178,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_handleEncryptionStartServiceNAK:(SDLProtocolMessage *)audioStartServiceNak {
     SDLLogW(@"Encryption service failed to start due to NAK");
     [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-    [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_nak]];
+    [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_nak]];
 }
 
 #pragma mark Encryption End Service
@@ -188,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service ACK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
+            [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         } break;
         default: break;
     }
@@ -199,17 +226,26 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service NAK");
             [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
-            [self.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
+            [self.configuration.encryptionConfig.delegate serviceEncryptionUpdatedOnService:SDLServiceTypeRPC encrypted:NO error:[NSError sdl_encryption_lifecycle_notReadyError]];
         } break;
         default: break;
     }
 }
 
 #pragma mark - SDL RPC Notification callbacks
-- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
-        return;
+
+- (void)sdl_registerAppInterfaceResponseReceived:(SDLRPCResponseNotification *)notification {
+    if (![notification isResponseMemberOfClass:[SDLRegisterAppInterfaceResponse class]]) { return; }
+
+    SDLRegisterAppInterfaceResponse *registerResponse = notification.response;
+    self.protocol.securityManager = [self sdl_securityManagerForMake:registerResponse.vehicleType.make];
+    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
+        self.protocol.securityManager.appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
     }
+}
+
+- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) { return; }
     
     SDLOnHMIStatus *hmiStatus = notification.notification;
     
@@ -244,6 +280,18 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.encryptionStateMachine isCurrentState:SDLEncryptionLifecycleManagerStateStopped]) {
         [self sdl_startEncryptionService];
     }
+}
+
+
+#pragma mark - Utilities
+
+- (nullable id<SDLSecurityType>)sdl_securityManagerForMake:(NSString *)make {
+    if ((make != nil) && (self.securityManagers[make] != nil)) {
+        Class securityManagerClass = self.securityManagers[make];
+        return [[securityManagerClass alloc] init];
+    }
+
+    return nil;
 }
 
 - (BOOL)sdl_appRequiresEncryption {

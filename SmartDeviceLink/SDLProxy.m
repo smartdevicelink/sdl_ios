@@ -47,16 +47,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString SDLVehicleMake;
-
 NSString *const SDLProxyVersion = @"6.6.0";
-
-@interface SDLProxy () {
-    SDLLockScreenStatusManager *_lsm;
-}
-
-@property (copy, nonatomic) NSString *appId;
-@property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
 
@@ -67,42 +58,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
 
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
-}
-
-#pragma mark - SecurityManager
-
-- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId {
-    NSParameterAssert(securityManagerClasses != nil);
-    NSParameterAssert(appId != nil);
-    self.appId = appId;
-
-    for (Class securityManagerClass in securityManagerClasses) {
-        if (![securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
-            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Class %@ does not conform to SDLSecurityType protocol", NSStringFromClass(securityManagerClass)];
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-        }
-
-        NSSet<NSString *> *vehicleMakes = [securityManagerClass availableMakes];
-
-        if (vehicleMakes == nil || vehicleMakes.count == 0) {
-            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Failed to retrieve makes for class %@", NSStringFromClass(securityManagerClass)];
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-        }
-
-        for (NSString *vehicleMake in vehicleMakes) {
-            self.securityManagers[vehicleMake] = securityManagerClass;
-        }
-    }
-}
-
-- (nullable id<SDLSecurityType>)sdl_securityManagerForMake:(NSString *)make {
-    if ((make != nil) && (self.securityManagers[make] != nil)) {
-        Class securityManagerClass = self.securityManagers[make];
-        self.protocol.appId = self.appId;
-        return [[securityManagerClass alloc] init];
-    }
-
-    return nil;
 }
 
 
@@ -226,17 +181,6 @@ NSString *const SDLProxyVersion = @"6.6.0";
     // When an OnDriverDistraction notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnDriverDistraction"]) {
         [self sdl_handleAfterDriverDistraction:newMessage];
-    }
-}
-
-#pragma mark - RPC Handlers
-
-- (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
-    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-
-    self.protocol.securityManager = [self sdl_securityManagerForMake:registerResponse.vehicleType.make];
-    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
-        self.protocol.securityManager.appId = self.appId;
     }
 }
 

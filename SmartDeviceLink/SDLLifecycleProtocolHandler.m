@@ -8,8 +8,10 @@
 
 #import "SDLLifecycleProtocolHandler.h"
 
+#import "SDLConfiguration.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLGlobals.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
@@ -28,17 +30,21 @@ static const float StartSessionTime = 10.0;
 @property (weak, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
 
 @property (strong, nonatomic) SDLTimer *rpcStartServiceTimeoutTimer;
+@property (copy, nonatomic) NSString *appId;
 
 @end
 
 @implementation SDLLifecycleProtocolHandler
 
-- (instancetype)initWithProtocol:(SDLProtocol *)protocol notificationDispatcher:(SDLNotificationDispatcher *)notificationDispatcher {
+- (instancetype)initWithProtocol:(SDLProtocol *)protocol notificationDispatcher:(SDLNotificationDispatcher *)notificationDispatcher configuration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) { return nil; }
 
     _protocol = protocol;
     _notificationDispatcher = notificationDispatcher;
+
+    _appId = configuration.lifecycleConfig.fullAppId ? configuration.lifecycleConfig.fullAppId : configuration.lifecycleConfig.appId;
+    _protocol.appId = _appId;
 
     [_protocol.protocolDelegateTable addObject:self];
 

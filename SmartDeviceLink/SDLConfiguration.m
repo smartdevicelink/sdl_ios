@@ -97,6 +97,13 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
     _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration defaultConfiguration];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (_encryptionConfig.securityManagers == nil && _streamingMediaConfig.securityManagers != nil) {
+        _encryptionConfig.securityManagers = _streamingMediaConfig.securityManagers;
+    }
+#pragma clang diagnostic pop
+
     return self;
 }
 

@@ -276,9 +276,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     SDLProtocol *newProtocol = [[SDLProtocol alloc] initWithTransport:newTransport encryptionManager:self.encryptionLifecycleManager];
-    [self.secondaryTransportManager startWithPrimaryProtocol:self.protocolHandler.protocol]; // Will not run if secondaryTransportManager is nil
-    self.protocolHandler = [[SDLLifecycleProtocolHandler alloc] initWithProtocol:newProtocol notificationDispatcher:self.notificationDispatcher];
+    self.protocolHandler = [[SDLLifecycleProtocolHandler alloc] initWithProtocol:newProtocol notificationDispatcher:self.notificationDispatcher configuration:self.configuration];
     [self.protocolHandler start];
+
+    [self.secondaryTransportManager startWithPrimaryProtocol:self.protocolHandler.protocol]; // Will not run if secondaryTransportManager is nil
 }
 
 - (void)didEnterStateStopped {
@@ -339,20 +340,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
     if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
 
-    // If we have security managers, add them to the proxy
-    NSString *appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (self.configuration.streamingMediaConfig.securityManagers != nil) {
-        SDLLogD(@"Adding security managers from streamingMedia configuration");
-        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:appId];
-    }
-#pragma clang diagnostic pop
-    if (self.configuration.encryptionConfig.securityManagers != nil) {
-        SDLLogD(@"Adding security managers from encryption configuration");
-        [self.proxy addSecurityManagers:self.configuration.encryptionConfig.securityManagers forAppId:appId];
-    }
-
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
     if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
         SDLLogW(@"Disconnecting from head unit, protocol version %@ is less than configured minimum version %@", [SDLGlobals sharedGlobals].protocolVersion.stringVersion, self.configuration.lifecycleConfig.minimumProtocolVersion.stringVersion);
@@ -366,8 +353,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
-    [self sendConnectionManagerRequest:regRequest
-      withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+    [self sendConnectionManagerRequest:regRequest withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
         if (error != nil || ![response.success boolValue]) {
             SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
