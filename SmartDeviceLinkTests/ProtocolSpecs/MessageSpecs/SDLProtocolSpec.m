@@ -563,7 +563,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
     });
 });
 
-xdescribe(@"HandleProtocolRegisterSecondaryTransport Tests", ^ {
+describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^ {
     it(@"Should pass information along to delegate when ACKed", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
 
@@ -605,7 +605,7 @@ xdescribe(@"HandleProtocolRegisterSecondaryTransport Tests", ^ {
     });
 });
 
-xdescribe(@"HandleHeartbeatForSession Tests", ^{
+describe(@"HandleHeartbeatForSession Tests", ^{
     // TODO: Test automatically sending data to head unit (dependency injection?)
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
@@ -619,7 +619,7 @@ xdescribe(@"HandleHeartbeatForSession Tests", ^{
     });
 });
 
-xdescribe(@"OnProtocolMessageReceived Tests", ^ {
+describe(@"OnProtocolMessageReceived Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol *testProtocol = [[SDLProtocol alloc] init];
         
@@ -637,7 +637,7 @@ xdescribe(@"OnProtocolMessageReceived Tests", ^ {
     });
 });
 
-xdescribe(@"OnProtocolOpened Tests", ^ {
+describe(@"OnProtocolOpened Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
@@ -650,7 +650,7 @@ xdescribe(@"OnProtocolOpened Tests", ^ {
     });
 });
 
-xdescribe(@"OnProtocolClosed Tests", ^ {
+describe(@"OnProtocolClosed Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
@@ -660,21 +660,6 @@ xdescribe(@"OnProtocolClosed Tests", ^ {
         [testProtocol onProtocolClosed];
         
         OCMExpect([delegateMock onProtocolClosed]);
-    });
-});
-
-xdescribe(@"OnError Tests", ^ {
-    it(@"Should pass information along to delegate", ^ {
-        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-        
-        NSException* testException = [[NSException alloc] initWithName:@"Name" reason:@"No Reason" userInfo:@{}];
-        
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onError:@"Nothing actually happened" exception:testException];
-        
-        OCMExpect([delegateMock onError:[OCMArg any] exception:[OCMArg any]]);
     });
 });
 

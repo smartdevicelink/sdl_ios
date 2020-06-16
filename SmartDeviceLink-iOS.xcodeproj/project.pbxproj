@@ -5411,17 +5411,6 @@
 			name = Payload;
 			sourceTree = "<group>";
 		};
-		5D59DD451B14FDD000BE744D /* ProxySpecs */ = {
-			isa = PBXGroup;
-			children = (
-				1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */,
-				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
-				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
-				EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */,
-			);
-			name = ProxySpecs;
-			sourceTree = "<group>";
-		};
 		5D6008871BE3ED470094A505 /* State Machine */ = {
 			isa = PBXGroup;
 			children = (
@@ -5494,11 +5483,10 @@
 				167ED9231A9BB86300797BE5 /* Libraries */,
 				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
 				5D4346431E6F0B5600B639C6 /* LoggingSpecs */,
-				5D59DD451B14FDD000BE744D /* ProxySpecs */,
-				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
 				1680B1041A9CD7AD00DBD79E /* ProtocolSpecs */,
-				EE5D1B31208EBC7100D17216 /* TransportSpecs */,
 				162E81E01A9BDE8A00906325 /* RPCSpecs */,
+				EE5D1B31208EBC7100D17216 /* TransportSpecs */,
+				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
 				5D61FA2D1A84237100846EE7 /* Supporting Files */,
 				167ED9451A9BCE5D00797BE5 /* SwiftSpec.swift */,
 			);
@@ -5584,6 +5572,7 @@
 			children = (
 				5D76E3261D3D0A4700647CFA /* Utilities */,
 				5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */,
+				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
 			);
 			name = LockScreen;
 			sourceTree = "<group>";
@@ -6110,13 +6099,13 @@
 			isa = PBXGroup;
 			children = (
 				00EADD3122DFDF680088B608 /* Encryption */,
-				5DAD5F8120507DE40025624C /* Screen */,
-				DA8966ED1E5693D100413EAB /* Streaming */,
-				880E35B62088F77C00181259 /* System Capabilities */,
+				5D9F507E1BE7E46600FEF399 /* Files */,
 				5D1654541D3E753100554D93 /* Lifecycle */,
 				5D76E31A1D3805E600647CFA /* LockScreen */,
 				5D9F507F1BE7E6C900FEF399 /* Permissions */,
-				5D9F507E1BE7E46600FEF399 /* Files */,
+				5DAD5F8120507DE40025624C /* Screen */,
+				DA8966ED1E5693D100413EAB /* Streaming */,
+				880E35B62088F77C00181259 /* System Capabilities */,
 				5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */,
 			);
 			name = Managers;
@@ -6528,6 +6517,7 @@
 				DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */,
 				DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */,
 				DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */,
+				1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */,
 				DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */,
 			);
 			name = Touches;
@@ -6566,9 +6556,11 @@
 		DA8966ED1E5693D100413EAB /* Streaming */ = {
 			isa = PBXGroup;
 			children = (
-				5DEF69621FD6FEB6004B8C2F /* Video */,
 				5DEF69591FD5FE74004B8C2F /* Audio Manager */,
 				DA1166D71D14601C00438CEA /* Touches */,
+				5DEF69621FD6FEB6004B8C2F /* Video */,
+				EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */,
+				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
 			);
 			name = Streaming;
 			sourceTree = "<group>";

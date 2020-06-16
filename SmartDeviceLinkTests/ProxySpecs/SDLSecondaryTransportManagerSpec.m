@@ -272,7 +272,7 @@ describe(@"the secondary transport manager ", ^{
                     // in this configuration, only audio service is allowed on primary transport
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:nil fromOldAudioProtocol:nil toNewAudioProtocol:testPrimaryProtocol]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -300,7 +300,7 @@ describe(@"the secondary transport manager ", ^{
                     // in this case, audio and video services start on primary transport (for compatibility)
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:testPrimaryProtocol fromOldAudioProtocol:nil toNewAudioProtocol:testPrimaryProtocol]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -328,7 +328,7 @@ describe(@"the secondary transport manager ", ^{
                     // So both services run on primary transport.
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:testPrimaryProtocol fromOldAudioProtocol:nil toNewAudioProtocol:testPrimaryProtocol]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -352,7 +352,7 @@ describe(@"the secondary transport manager ", ^{
                     // both services run on primary transport
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:testPrimaryProtocol fromOldAudioProtocol:nil toNewAudioProtocol:testPrimaryProtocol]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -386,7 +386,7 @@ describe(@"the secondary transport manager ", ^{
             });
 
             it(@"should configure its properties but stay in Started state", ^{
-                [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                 [NSThread sleepForTimeInterval:0.1];
 
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStarted));
@@ -443,8 +443,8 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should configure its properties and immediately transition to Connecting state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
@@ -480,8 +480,8 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should configure its properties and transition to Configured state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
-                    [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -605,7 +605,7 @@ describe(@"the secondary transport manager ", ^{
                     testTransportEventUpdateMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testTransportEventUpdateHeader andPayload:testTransportEventUpdatePayload.data];
 
                     testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                 });
@@ -717,7 +717,7 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should transition to Registered state", ^{
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:secondaryProtocol fromOldAudioProtocol:nil toNewAudioProtocol:secondaryProtocol]);
 
-                    [testSecondaryProtocolMock handleBytesFromTransport:testRegisterSecondaryTransportAckMessage.data];
+                    [testSecondaryProtocolMock onDataReceived:testRegisterSecondaryTransportAckMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
@@ -742,7 +742,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Reconnecting state", ^{
-                    [testSecondaryProtocolMock handleBytesFromTransport:testRegisterSecondaryTransportNakMessage.data];
+                    [testSecondaryProtocolMock onDataReceived:testRegisterSecondaryTransportNakMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateReconnecting));
@@ -789,7 +789,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should ignore the frame and stay in Connecting state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
@@ -808,7 +808,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state, then transition to Connecting state again", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
@@ -826,7 +826,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -907,7 +907,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should ignore the frame and stay in Registered state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateRegistered));
@@ -927,7 +927,7 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should transition to Configured state, then transition to Connecting state again", ^{
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:secondaryProtocol toNewVideoProtocol:nil fromOldAudioProtocol:secondaryProtocol toNewAudioProtocol:nil]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
@@ -947,7 +947,7 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should transition to Configured state", ^{
                     OCMExpect([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:secondaryProtocol toNewVideoProtocol:nil fromOldAudioProtocol:secondaryProtocol toNewAudioProtocol:nil]);
 
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
@@ -1061,7 +1061,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should ignore the frame and stay in Reconnecting state", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateReconnecting));
@@ -1080,7 +1080,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state before timeout, then transition to Connecting state again", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
@@ -1098,7 +1098,7 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state before timeout", ^{
-                    [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
+                    [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
 
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
