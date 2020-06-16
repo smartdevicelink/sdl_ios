@@ -120,19 +120,10 @@ static const float StartSessionTime = 10.0;
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];
     SDLRPCMessage *receivedMessage = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
-    NSString *functionName = receivedMessage.name;
-    NSString *messageType = receivedMessage.messageType;
-
-    // If it's a response, append "response"
-    if ([messageType isEqualToString:SDLRPCMessageTypeNameResponse]) {
-        BOOL notGenericResponseMessage = ![functionName isEqualToString:SDLRPCFunctionNameGenericResponse];
-        if (notGenericResponseMessage) {
-            functionName = [NSString stringWithFormat:@"%@Response", functionName];
-        }
-    }
+    NSString *fullName = [self sdl_fullNameForMessage:receivedMessage];
 
     // From the function name, create the corresponding RPCObject and initialize it
-    NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
+    NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", fullName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:rpcMessageAsDictionary];
 
     // Adapt the incoming message then call the callback
@@ -146,11 +137,53 @@ static const float StartSessionTime = 10.0;
     // Log the RPC message
     SDLLogV(@"Message received: %@", message);
 
-    SEL callbackSelector = NSSelectorFromString([NSString stringWithFormat:@"on%@", message.name]);
-    ((void (*)(id, SEL, id))[(NSObject *)self.notificationDispatcher methodForSelector:callbackSelector])(self.notificationDispatcher, callbackSelector, message);
+    SDLNotificationName notificationName = [self sdl_notificationNameForMessage:message];
+    if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameResponse]) {
+        [self.notificationDispatcher postRPCResponseNotification:notificationName response:(SDLRPCResponse *)message];
+    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameRequest]) {
+        [self.notificationDispatcher postRPCRequestNotification:notificationName request:(SDLRPCRequest *)message];
+    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification]) { // TODO: This won't always work, some are "didChange"
+        [self.notificationDispatcher postRPCNotificationNotification:notificationName notification:(SDLRPCNotification *)message];
+    }
 }
 
 #pragma mark - Utilities
+
+- (SDLNotificationName)sdl_notificationNameForMessage:(SDLRPCMessage *)message {
+    NSString *messageName = message.name;
+
+    // Strip the "on" if it's a notification
+    if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification] && [messageName hasPrefix:@"On"]) {
+        messageName = [messageName stringByReplacingOccurrencesOfString:@"on" withString:@""];
+    }
+
+    NSString *firstChar = [messageName substringToIndex:1].lowercaseString;
+    messageName = [messageName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:firstChar];
+
+    if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameResponse]) {
+        return [NSString stringWithFormat:@"com.sdl.response.%@", messageName];
+    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameRequest]) {
+        return [NSString stringWithFormat:@"com.sdl.request.%@", messageName];
+    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification]) {
+        return [NSString stringWithFormat:@"com.sdl.notification.%@", messageName];
+    }
+
+    return nil;
+}
+
+- (NSString *)sdl_fullNameForMessage:(SDLRPCMessage *)message {
+    NSString *functionName = message.name;
+    NSString *messageType = message.messageType;
+
+    // If it's a response, append "response"
+    if ([messageType isEqualToEnum:SDLRPCMessageTypeNameResponse]) {
+        if (![functionName isEqualToEnum:SDLRPCFunctionNameGenericResponse]) {
+            functionName = [NSString stringWithFormat:@"%@Response", functionName];
+        }
+    }
+
+    return functionName;
+}
 
 - (void)sdl_postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
