@@ -151,15 +151,6 @@ static const float StartSessionTime = 10.0;
 
 - (SDLNotificationName)sdl_notificationNameForMessage:(SDLRPCMessage *)message {
     NSString *messageName = message.name;
-
-    // Strip the "on" if it's a notification
-    if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification] && [messageName hasPrefix:@"On"]) {
-        messageName = [messageName stringByReplacingOccurrencesOfString:@"on" withString:@""];
-    }
-
-    NSString *firstChar = [messageName substringToIndex:1].lowercaseString;
-    messageName = [messageName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:firstChar];
-
     if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameResponse]) {
         return [NSString stringWithFormat:@"com.sdl.response.%@", messageName];
     } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameRequest]) {
@@ -168,7 +159,7 @@ static const float StartSessionTime = 10.0;
         return [NSString stringWithFormat:@"com.sdl.notification.%@", messageName];
     }
 
-    return nil;
+    return messageName;
 }
 
 - (NSString *)sdl_fullNameForMessage:(SDLRPCMessage *)message {
