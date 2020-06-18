@@ -154,7 +154,7 @@ struct TransportProtocolUpdated {
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeInActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -555,12 +555,12 @@ struct TransportProtocolUpdated {
                 return;
             }
 
-            // if the state is still Connecting, go back to Configured state and retry immediately
+            // If still in Connecting state, shutdown the transport and try to reconnect
             if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
-                SDLLogD(@"Retry secondary transport connection after registration timeout");
-                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                SDLLogD(@"Shutting down and restarting the secondary transport connection after registration timeout");
+                [strongSelf sdl_transportClosed];
             } else {
-                SDLLogD(@"Will not retry secondary transport connection because current state is: %@", strongSelf.stateMachine.currentState);
+                SDLLogD(@"Could not register the secondary transport with the module. The services will not be started on the secondary transport.");
             }
         });
     };
@@ -717,7 +717,7 @@ struct TransportProtocolUpdated {
     });
 }
 
-- (void)sdl_appStateDidBecomeInActive:(NSNotification *)notification {
+- (void)sdl_appStateDidBecomeInactive:(NSNotification *)notification {
     self.currentApplicationState = UIApplicationStateInactive;
 
     __weak typeof(self) weakSelf = self;
@@ -815,6 +815,7 @@ struct TransportProtocolUpdated {
 }
 
 #pragma mark - RPC Notifications
+
 /// Check and track the HMI status to ensure that the secondary transport only attempts a connection in non-NONE HMI states
 ///
 /// See: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0214-secondary-transport-optimization.md

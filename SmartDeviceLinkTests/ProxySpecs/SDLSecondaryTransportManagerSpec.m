@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
 
 // should be in sync with SDLSecondaryTransportManager.m
 static const float RetryConnectionDelay = 5.25;
+static const float RegisterTransportTime = 10.25;
 static const int TCPPortUnspecified = -1;
 
 
@@ -645,8 +646,6 @@ describe(@"the secondary transport manager ", ^{
                 [testSecondaryProtocolMock onProtocolOpened];
 
                 OCMVerifyAllWithDelay(testSecondaryProtocolMock, 0.5);
-
-                // Note: cannot test the timeout scenario since the timer fires on main thread
             });
 
             describe(@"and Register Secondary Transport ACK is received", ^{
@@ -696,6 +695,50 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should transition to Reconnecting state", ^{
                     [testSecondaryProtocolMock handleBytesFromTransport:testRegisterSecondaryTransportNakMessage.data];
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
+                });
+            });
+
+            describe(@"and timeout occurs while waiting for the module to respond to the Register Secondary Transport request", ^{
+                beforeEach(^{
+                    // assume audio and video services are allowed only on secondary transport
+                    manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
+                    manager.transportsForVideoService = @[@(SDLTransportClassSecondary)];
+                    manager.streamingServiceTransportMap[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
+                    manager.streamingServiceTransportMap[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
+                });
+
+                it(@"if in the Connecting state it should transition to Reconnecting state", ^{
+                    dispatch_sync(testStateMachineQueue, ^{
+                        [manager.stateMachine setToState:SDLSecondaryTransportStateConnecting fromOldState:nil callEnterTransition:NO];
+                    });
+
+                    [testSecondaryProtocolMock onProtocolOpened];
+
+                    OCMExpect([testStreamingProtocolDelegate transportClosed]);
+
+                    // Wait for the timer to elapse
+                    float waitTime = RegisterTransportTime;
+                    NSLog(@"Please wait for register transport timer to elapse... (for %.02f seconds)", waitTime);
+                    [NSThread sleepForTimeInterval:waitTime];
+
+                    OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
+
+                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
+                });
+
+                it(@"if not in the Connecting state it should not try to reconnect", ^{
+                    dispatch_sync(testStateMachineQueue, ^{
+                        [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:NO];
+                    });
+
+                    [testSecondaryProtocolMock onProtocolOpened];
+
+                    // Wait for the timer to elapse
+                    float waitTime = RegisterTransportTime;
+                    NSLog(@"Please wait for register transport timer to elapse... (for %.02f seconds)", waitTime);
+                    [NSThread sleepForTimeInterval:waitTime];
+
                     expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
                 });
             });
@@ -961,7 +1004,7 @@ describe(@"the secondary transport manager ", ^{
 
                 // wait for the timer
                 float waitTime = RetryConnectionDelay;
-                NSLog(@"Please wait for reconnection timeout ... (for %f seconds)", waitTime);
+                NSLog(@"Please wait for reconnection timeout... (for %.02f seconds)", waitTime);
                 [NSThread sleepForTimeInterval:waitTime];
 
                 expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConfigured));
