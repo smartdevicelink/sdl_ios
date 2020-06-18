@@ -16,21 +16,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// A handler run when the subscribe button has been selected
 /// @param buttonPress Indicates whether this is a long or short button press event
-/// @param buttonEvent Indicates that the button has been depressed or released
+/// @param buttonEvent Indicates whether the button has been depressed or released
 /// @param error The error, if one occurred, during the subscription
 typedef void (^SDLSubscribeButtonUpdateHandler)(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error);
 
 /// The handler run when the update has completed
-/// @param error An error if the update failed and an error occurred
+/// @param error An error if the update failed
 typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable error);
 
-/// TODO class description
+/// TODO - class description
 @interface SDLSubscribeButtonManager : NSObject
 
 /// Initialize the manager with required dependencies.
 /// @param connectionManager The connection manager object for sending RPCs
-/// @param systemCapabilityManager The system capability manager object for reading window capabilities
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
 /// Starts the manager. This method is used internally.
 - (void)start;
@@ -41,15 +40,14 @@ typedef void(^SDLSubscribeButtonUpdateCompletionHandler)(NSError *__nullable err
 /// Subscribes to a subscribe button with the button name.
 /// @param buttonName The name of the subscribe button
 /// @param updateHandler The block run when the subscribe button is selected
-/// @return An object that can be used to unsubscribe the block using `unsubscribeButtonWithObserver:withCompletionHandler:`. If `nil` the manager was not able attempt the subscription for some reason (such as the app being in HMI_NONE).
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler;
+/// @return An object that can be used to unsubscribe the block using `unsubscribeButtonWithObserver:withCompletionHandler:`. If `nil` the manager was not able attempt the subscription for some reason.
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler;
 
 /// Subscribes to a subscribe button with the button name.
 /// @param buttonName The name of the subscribe button
 /// @param observer The object that will have `selector` called whenever the subscribe button is selected
 /// @param selector The selector on `observer` that will be called whenever the subscribe button is selected
-/// @return YES if the manager is attempting the subscription, or NO if the manager can't attempt the subscription for some reason (i.e. the app does not have the correct permissions to send the subscribe button), or the selector doesn't contain the correct number of parameters.
-- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 
 /// Unsubscribes to a subscribed subscribe button.
 /// @param buttonName The name of the subscribe button

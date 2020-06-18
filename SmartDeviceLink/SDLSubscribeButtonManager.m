@@ -27,11 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSubscribeButtonManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-
 @property (strong, nonatomic) NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *subscribeButtonObservers;
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (copy, nonatomic, nullable) SDLHMIPermissions *subscribeButtonPermissions;
 
 @end
 
@@ -39,18 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
-    _systemCapabilityManager = systemCapabilityManager;
-
-    _subscribeButtonObservers = [NSMutableDictionary dictionary];
-    _currentHMILevel = nil;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionStatusNotification:) name:SDLDidChangePermissionsNotification object:nil];
 
     return self;
 }
@@ -59,60 +48,44 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     [_subscribeButtonObservers removeAllObjects];
-    _currentHMILevel = nil;
 }
 
 #pragma mark - Subscriptions
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
-
-    BOOL canSubscribe = [self sdl_canSubscribeToButtonNamed:buttonName];
-    if (!canSubscribe) {
-        return nil;
-    }
-
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:updateHandler];
 
     if (self.subscribeButtonObservers[buttonName].count > 0) {
         [self.subscribeButtonObservers[buttonName] addObject:observerObject];
-        SDLLogD(@"Subscribe button with name %@ is already subscribed", buttonName);
+        SDLLogV(@"Subscribe button with name %@ is already subscribed", buttonName);
         return observerObject.observer;
     }
 
     [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
-
     return observerObject.observer;
 }
 
-- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector; {
-    SDLLogD(@"Subscribing to subscribe button with name: %@, with observer: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
-
-    BOOL canSubscribe = [self sdl_canSubscribeToButtonNamed:buttonName];
-    if (!canSubscribe) {
-        return NO;
-    }
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector; {
+    SDLLogV(@"Subscribing to subscribe button with name: %@, with observer: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
 
     NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
     if (numberOfParametersInSelector > 4) {
         SDLLogE(@"Attempted to subscribe to a subscribe button using a selector that contains more than 4 parameters");
-        return NO;
+        return;
     }
 
     if (observer == nil) {
         SDLLogE(@"Attempted to subscribe to subscribe button with name %@ with a selector on a *nil* observer, which will always fail", buttonName);
-        return NO;
+        return;
     }
 
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer selector:selector];
     if (self.subscribeButtonObservers[buttonName].count > 0) {
         [self.subscribeButtonObservers[buttonName] addObject:observerObject];
         SDLLogD(@"Subscribe button with name %@ is already subscribed", buttonName);
-        return YES;
     }
 
     [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
-
-    return YES;
 }
 
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
@@ -141,15 +114,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-- (BOOL)sdl_canSubscribeToButtonNamed:(SDLButtonName)buttonName {
-    if (![self.subscribeButtonPermissions.allowed containsObject:self.currentHMILevel]) {
-        SDLLogE(@"Attempted to subscribe to subscribe button named %@ in HMI level %@, which is not allowed. Please wait until you have the right permissions before attempting to subscribe", buttonName, self.currentHMILevel);
-        return NO;
-    }
-
-    return YES;
-}
-
 /// Helper method for sending a `SubscribeButton` request and notifying subscribers of button events.
 /// @param buttonName The name of the subscribe button
 /// @param observerObject The observer object
@@ -168,38 +132,15 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - Notifications
-
-- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
-    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
-
-    self.currentHMILevel = hmiStatus.hmiLevel;
-}
-
-- (void)sdl_permissionStatusNotification:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
-        return;
-    }
-
-    SDLOnPermissionsChange *onPermissionsChange = (SDLOnPermissionsChange *)notification.notification;
-    NSArray<SDLPermissionItem *> *permissionItems = onPermissionsChange.permissionItem;
-    for (SDLPermissionItem *item in permissionItems) {
-        // TODO: does this need to be thread safe?
-        if ([item.rpcName isEqualToEnum:SDLRPCFunctionNameSubscribeButton]) {
-            self.subscribeButtonPermissions = item.hmiPermissions;
-            break;
-        }
-    }
-}
-
 #pragma mark - Subscriptions
 
+/// Helper method for notifying subscribers of button events.
+/// @param observer The object that will have `selector` called
+/// @param buttonName The name of the subscribe button
+/// @param buttonPress Indicates whether this is a long or short button press event
+/// @param buttonEvent Indicates that the button has been depressed or released
+/// @param error The error, if one occurred; nil if not
 - (void)sdl_invokeObserver:(SDLSubscribeButtonObserver *)observer withButtonName:(SDLButtonName)buttonName buttonPress:(nullable SDLOnButtonPress *)buttonPress buttonEvent:(nullable SDLOnButtonEvent *)buttonEvent error:(nullable NSError *)error {
-
     if (observer.updateBlock != nil) {
         observer.updateBlock(buttonPress, buttonEvent, error);
     } else {
@@ -216,13 +157,13 @@ NS_ASSUME_NONNULL_BEGIN
             [invocation setArgument:&buttonName atIndex:2];
         }
         if (numberOfParametersInSelector >= 2) {
-            [invocation setArgument:&buttonPress atIndex:3];
+            [invocation setArgument:&error atIndex:3];
         }
         if (numberOfParametersInSelector >= 3) {
-            [invocation setArgument:&buttonEvent atIndex:4];
+            [invocation setArgument:&buttonPress atIndex:4];
         }
         if (numberOfParametersInSelector >= 4) {
-            [invocation setArgument:&error atIndex:5];
+            [invocation setArgument:&buttonEvent atIndex:5];
         }
         if (numberOfParametersInSelector >= 5) {
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];

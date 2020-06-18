@@ -210,7 +210,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)stop;
 
-#pragma mark Text and Graphic
+#pragma mark - Text and Graphic
 /**
  Delays all screen updates until endUpdatesWithCompletionHandler: is called.
  */
@@ -252,13 +252,13 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)endUpdatesWithCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
-#pragma mark Soft Buttons
+#pragma mark - Soft Buttons
 
 /// Retrieve a SoftButtonObject based on its name.
 /// @param name The name of the button
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name;
 
-#pragma mark Subscribe Buttons
+#pragma mark - Subscribe Buttons
 
 /// Subscribes to the specified hard button. The update handler will be called when the button has been selected.
 /// To unsubscribe to the hard button, please call `unsubscribeButton:withObserver:withCompletionHandler:`.
@@ -293,7 +293,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 /// @param completionHandler A handler called when the observer has been unsubscribed to the hard button
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler;
 
-#pragma mark Choice Sets
+#pragma mark - Choice Sets
 
 /**
  Preload cells to the head unit. This will *greatly* reduce the time taken to present a choice set. Any already matching a choice already on the head unit will be ignored. You *do not* need to wait until the completion handler is called to present a choice set containing choices being loaded. The choice set will wait until the preload completes and then immediately present.
@@ -355,7 +355,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  */
 - (void)dismissKeyboardWithCancelID:(NSNumber<SDLInt> *)cancelID;
 
-#pragma mark Menu
+#pragma mark - Menu
 
 /**
  Present the top-level of your application menu. This method should be called if the menu needs to be opened programmatically because the built in menu button is hidden.
