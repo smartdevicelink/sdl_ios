@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLWindowCapability (ShowManagerExtensions)
+@interface SDLWindowCapability (ScreenManagerExtensions)
 
 @property (assign, nonatomic, readonly) NSUInteger maxNumberOfMainFieldLines;
 

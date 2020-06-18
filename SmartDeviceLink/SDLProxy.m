@@ -585,7 +585,9 @@ static float DefaultConnectionTimeout = 45.0;
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
-        [self sdl_handleSystemRequestLaunchApp:systemRequest];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self sdl_handleSystemRequestLaunchApp:systemRequest];
+        });
     }
 }
 

@@ -30,9 +30,10 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
-/**
- *  Stops the manager. This method is used internally.
- */
+/// Starts the manager. This method is used internally.
+- (void)start;
+
+/// Stops the manager. This method is used internally.
 - (void)stop;
 
 @property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
