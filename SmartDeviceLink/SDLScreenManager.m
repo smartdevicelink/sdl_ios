@@ -265,16 +265,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Subscribe Buttons
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler {
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler {
     return [self.subscribeButtonManager subscribeButton:buttonName withUpdateHandler:updateHandler];
 }
 
-- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector {
-    return [self.subscribeButtonManager subscribeButton:buttonName withObserver:observer selector:selector];
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector {
+    [self.subscribeButtonManager subscribeButton:buttonName withObserver:observer selector:selector];
 }
 
-- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block {
-    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:block];
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler {
+    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:completionHandler];
 }
 
 #pragma mark - Choice Sets

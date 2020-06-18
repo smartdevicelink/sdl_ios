@@ -260,9 +260,38 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark Subscribe Buttons
 
-- (nullable id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonHandler)updateHandler;
-- (BOOL)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
-- (BOOL)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)block;
+/// Subscribes to the specified hard button. The update handler will be called when the button has been selected.
+/// To unsubscribe to the hard button, please call `unsubscribeButton:withObserver:withCompletionHandler:`.
+/// @param buttonName The name of the hard button to subscribe to
+/// @param updateHandler A handler called when a response to the subscription request has been received from the module and when the button has been selected
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler;
+
+/// Subscribes to the specified hard button. The selector will be called when the button has been selected.
+///
+/// The selector supports the following parameters:
+///
+/// 1. A selector with no parameters. The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
+///
+/// 2. A selector with one parameter, (SDLButtonName). The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
+///
+/// 3. A selector with two parameters, (SDLButtonName, NSError). The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
+///
+/// 4. A selector with three parameters, (SDLButtonName, NSError, SDLOnButtonPress). The observer will be notified when a long or short button press occurs, but not a button event.
+///
+/// 5. A selector with four parameters, (SDLButtonName, NSError, SDLOnButtonPress, SDLOnButtonEvent). The observer will be notified when any button press or any button event occurs.
+///
+/// To unsubscribe to the hard button, please call `unsubscribeButton:withObserver:withCompletionHandler:`.
+///
+/// @param buttonName The name of the hard button to subscribe to
+/// @param observer The object that will have `selector` called whenever the button has been selected
+/// @param selector The selector on `observer` that will be called whenever the button has been selected
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
+
+/// Unsubscribes to the specified hard button. Please note that if a hard button has multiple subscribers the observer will no longer get notifications, however, the app will still be subscribed to the hard button until the last subscriber is removed.
+/// @param buttonName The name of the hard button to subscribe to
+/// @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed
+/// @param completionHandler A handler called when the observer has been unsubscribed to the hard button
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler;
 
 #pragma mark Choice Sets
 
