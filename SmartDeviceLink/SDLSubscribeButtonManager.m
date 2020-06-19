@@ -11,6 +11,7 @@
 #import "SDLError.h"
 #import "SDLHMIPermissions.h"
 #import "SDLLogMacros.h"
+#import "SDLOnButtonPress.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
@@ -40,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
+    _subscribeButtonObservers = [NSMutableDictionary dictionary];
 
     return self;
 }
@@ -119,16 +121,21 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param observerObject The observer object
 - (void)sdl_subscribeToButtonNamed:(SDLButtonName)buttonName withObserverObject:(SDLSubscribeButtonObserver *)observerObject {
     self.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithArray:@[observerObject]];
+
+    __weak typeof(self) weakSelf = self;
     SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
-            [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:buttonEvent error:nil];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        for (SDLSubscribeButtonObserver *subscribeButtonObserver in strongSelf.subscribeButtonObservers[buttonPress.buttonName]) {
+            [strongSelf sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:buttonEvent error:nil];
         }
     }];
 
     [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) { return; }
+
         // If there was an error during the subscription attempt, return the error message.
-        [self sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
     }];
 }
 

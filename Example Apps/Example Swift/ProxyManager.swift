@@ -23,6 +23,7 @@ enum ProxyState {
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
+    fileprivate var subscribeButtonManager: SubscribeButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
     fileprivate var performInteractionManager: PerformInteractionManager!
     fileprivate var firstHMILevelState: SDLHMILevel
@@ -117,7 +118,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "SubscribeButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs
@@ -136,6 +137,7 @@ private extension ProxyManager {
             self.delegate?.didChangeProxyState(ProxyState.connected)
 
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
+            self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
 
@@ -149,8 +151,10 @@ private extension ProxyManager {
 // MARK: - SDLManagerDelegate
 
 extension ProxyManager: SDLManagerDelegate {
-    /// Called when the connection beween this app and SDL Core has closed.
+    /// Called when the connection beween this app and the module has closed.
     func managerDidDisconnect() {
+        subscribeButtonManager.unsubscribeToPresetButtons()
+        
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
         }
@@ -161,8 +165,8 @@ extension ProxyManager: SDLManagerDelegate {
     /// Called when the state of the SDL app has changed. The state limits the type of RPC that can be sent. Refer to the class documentation for each RPC to determine what state(s) the RPC can be sent.
     ///
     /// - Parameters:
-    ///   - oldLevel: The old SDL HMI Level
-    ///   - newLevel: The new SDL HMI Level
+    ///   - oldLevel: The old HMI Level
+    ///   - newLevel: The new HMI Level
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
         if newLevel != .none && firstHMILevelState == .none {
             // This is our first time in a non-NONE state
@@ -170,27 +174,40 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
             createMenuAndGlobalVoiceCommands()
+
+            // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
         }
 
         switch newLevel {
-        case .full:                // The SDL app is in the foreground
-            // Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
+        case .full:
+            // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
             showInitialData()
-        case .limited: break        // An active NAV or MEDIA SDL app is in the background
-        case .background: break     // The SDL app is not in the foreground
-        case .none: break           // The SDL app is not yet running
+            subscribeButtonManager.subscribeToPresetButtons()
+        case .limited:
+            // An active NAV or MEDIA SDL app is in the background
+            break
+        case .background:
+            // The SDL app is not in the foreground
+            subscribeButtonManager.unsubscribeToPresetButtons()
+        case .none:
+            // The SDL app is not yet running
+            break
         default: break
         }
     }
 
+    /// Called when the SDL app's HMI context changes.
+    /// - Parameters:
+    ///   - oldContext: The old HMI context
+    ///   - newContext: The new HMI context
     func systemContext(_ oldContext: SDLSystemContext?, didChangeToContext newContext: SDLSystemContext) {
         switch newContext {
-        case SDLSystemContext.alert: break
-        case SDLSystemContext.hmiObscured: break
-        case SDLSystemContext.main: break
-        case SDLSystemContext.menu: break
-        case SDLSystemContext.voiceRecognitionSession: break
+        case SDLSystemContext.alert: break // The SDL app's screen is obscured by an alert
+        case SDLSystemContext.hmiObscured: break // The SDL app's screen is obscured
+        case SDLSystemContext.main: break // The SDL app's main screen is open
+        case SDLSystemContext.menu: break // The SDL app's menu is open
+        case SDLSystemContext.voiceRecognitionSession: break // A voice recognition session is in progress
         default: break
         }
     }
@@ -198,8 +215,8 @@ extension ProxyManager: SDLManagerDelegate {
     /// Called when the audio state of the SDL app has changed. The audio state only needs to be monitored if the app is streaming audio.
     ///
     /// - Parameters:
-    ///   - oldState: The old SDL audio streaming state
-    ///   - newState: The new SDL audio streaming state
+    ///   - oldState: The old audio streaming state
+    ///   - newState: The new audio streaming state
     func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
         switch newState {
         case .audible: break        // The SDL app's audio can be heard
@@ -207,26 +224,6 @@ extension ProxyManager: SDLManagerDelegate {
         case .attenuated: break     // The SDL app's audio volume has been lowered to let the system speak over the audio. This usually happens with voice recognition commands.
         default: break
         }
-    }
-
-    /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
-    ///
-    /// - Parameter language: The head unit's current language
-    /// - Returns: A SDLLifecycleConfigurationUpdate object
-    func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
-        var appName = ""
-        switch language {
-        case .enUs:
-            appName = ExampleAppName
-        case .esMx:
-            appName = ExampleAppNameSpanish
-        case .frCa:
-            appName = ExampleAppNameFrench
-        default:
-            return nil
-        }
-
-        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: appName, type: .text)], voiceRecognitionCommandNames: nil)
     }
 
     /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
