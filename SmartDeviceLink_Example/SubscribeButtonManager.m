@@ -73,7 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    for (SDLButtonName buttonName in self.presetButtonSubscriptionIDs) {
+
+    for (SDLButtonName buttonName in self.presetButtonSubscriptionIDs.allKeys) {
         NSObject *subscriptionId = self.presetButtonSubscriptionIDs[buttonName];
         __weak typeof(self) weakSelf = self;
         [self.sdlManager.screenManager unsubscribeButton:buttonName withObserver:subscriptionId withCompletionHandler:^(NSError * _Nullable error) {

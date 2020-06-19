@@ -27,12 +27,12 @@ class SubscribeButtonManager {
             return
         }
 
-        guard presetButtonSubscriptionIDs.isEmpty else {
-            SDLLog.w("The app is already subscribed to preset buttons")
-            return
-        }
-
         presetButtons.forEach { buttonName in
+            guard presetButtonSubscriptionIDs[buttonName] == nil else {
+                SDLLog.w("The app is already subscribed to the \(buttonName) preset buttons")
+                return
+            }
+
             let subscriptionID = sdlManager.screenManager.subscribeButton(buttonName) { [weak self] (press, event, error) in
                 guard error == nil, let press = press else { return }
                 let alert: SDLAlert
@@ -52,20 +52,20 @@ class SubscribeButtonManager {
     /// Unsubscribes to all subscribed preset buttons.
     func unsubscribeToPresetButtons() {
         guard !presetButtonSubscriptionIDs.isEmpty else {
-            SDLLog.w("The app is not subscribed to preset buttons")
+            SDLLog.w("The app is not subscribed to any preset buttons")
             return
         }
 
-        for subscription in presetButtonSubscriptionIDs {
-            guard let observer = subscription.value as? NSObject else { continue }
-            sdlManager.screenManager.unsubscribeButton(subscription.key, withObserver: observer) { [weak self] (error) in
+        for (buttonName, subscriptionID) in presetButtonSubscriptionIDs {
+            guard let subscriptionID  = subscriptionID as? NSObject else { continue }
+            sdlManager.screenManager.unsubscribeButton(buttonName, withObserver: subscriptionID) { [weak self] (error) in
                 guard error == nil else {
-                    SDLLog.e("The \(subscription.key) button was not unsubscribed")
+                    SDLLog.e("The \(buttonName) button was not unsubscribed")
                     return
                 }
 
-                SDLLog.d("The \(subscription.key) button was successfully unsubscribed")
-                self?.presetButtonSubscriptionIDs[subscription.key] = nil
+                SDLLog.d("The \(buttonName) button was successfully unsubscribed")
+                self?.presetButtonSubscriptionIDs[buttonName] = nil
             }
         }
     }
