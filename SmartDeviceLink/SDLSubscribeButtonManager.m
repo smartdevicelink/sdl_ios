@@ -89,6 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.subscribeButtonObservers[buttonName].count > 0) {
         [self.subscribeButtonObservers[buttonName] addObject:observerObject];
         SDLLogD(@"Subscribe button with name %@ is already subscribed", buttonName);
+        return;
     }
 
     [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];

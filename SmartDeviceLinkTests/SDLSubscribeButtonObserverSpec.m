@@ -10,23 +10,18 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSubscribeButtonObserver.h"
-
-@implementation SDLSubscribeButtonObserver (Tests)
-
-- (void)testMethod {}
-
-@end
+#import "TestSubscribeButtonObserver.h"
 
 QuickSpecBegin(SDLSubscribeButtonObserverSpec)
 
 describe(@"subscribe button observer", ^{
-    __block id<NSObject> testObserver = nil;
+    __block TestSubscribeButtonObserver *testObserver = nil;
     __block SEL testSelector = nil;
     __block SDLSubscribeButtonUpdateHandler testUpdateBlock = nil;
 
     beforeEach(^{
-        testObserver = [[NSObject alloc] init];
-        testSelector = @selector(testMethod);
+        testObserver = [[TestSubscribeButtonObserver alloc] init];
+        testSelector = @selector(buttonPressEvent);
         testUpdateBlock = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {};
     });
 
