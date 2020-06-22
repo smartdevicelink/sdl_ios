@@ -41,6 +41,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 
+- (instancetype)initWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler {
+
+    _identifier = [NSUUID UUID];
+    _permissionElements = rpcNames;
+    _groupType = groupType;
+    _handler = handler;
+
+    return self;
+}
+
++ (instancetype)filterWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler {
+    return  [[self alloc] initWithPermissionElements:rpcNames groupType:groupType observer:handler];
+}
+
 
 #pragma mark - NSCopying
 

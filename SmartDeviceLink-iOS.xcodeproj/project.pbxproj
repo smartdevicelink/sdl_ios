@@ -38,6 +38,8 @@
 		00E22CED22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
+		106412C6249FB80B0069A97A /* SDLPermissionElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 106412C4249FB80B0069A97A /* SDLPermissionElement.h */; };
+		106412C7249FB80B0069A97A /* SDLPermissionElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 106412C5249FB80B0069A97A /* SDLPermissionElement.m */; };
 		10893C162417D78300BA347E /* SDLIconArchiveFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C142417D78300BA347E /* SDLIconArchiveFile.h */; };
 		10893C172417D78300BA347E /* SDLIconArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C152417D78300BA347E /* SDLIconArchiveFile.m */; };
 		10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C182418188600BA347E /* SDLCacheFileManager.h */; };
@@ -1755,6 +1757,8 @@
 		00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionConfiguration.h; sourceTree = "<group>"; };
 		00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfigurationSpec.m; sourceTree = "<group>"; };
+		106412C4249FB80B0069A97A /* SDLPermissionElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPermissionElement.h; sourceTree = "<group>"; };
+		106412C5249FB80B0069A97A /* SDLPermissionElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionElement.m; sourceTree = "<group>"; };
 		10893C142417D78300BA347E /* SDLIconArchiveFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIconArchiveFile.h; sourceTree = "<group>"; };
 		10893C152417D78300BA347E /* SDLIconArchiveFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIconArchiveFile.m; sourceTree = "<group>"; };
 		10893C182418188600BA347E /* SDLCacheFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCacheFileManager.h; sourceTree = "<group>"; };
@@ -5581,6 +5585,8 @@
 				5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */,
 				5D8204241BCEA8A600D0A41B /* SDLPermissionManager.h */,
 				5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */,
+				106412C4249FB80B0069A97A /* SDLPermissionElement.h */,
+				106412C5249FB80B0069A97A /* SDLPermissionElement.m */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -6590,6 +6596,7 @@
 				9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */,
 				9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */,
 				9FE2470D22D77A5A00F8D2FC /* SDLDeleteWindowResponse.h in Headers */,
+				106412C6249FB80B0069A97A /* SDLPermissionElement.h in Headers */,
 				9FE2470922D77A3600F8D2FC /* SDLDeleteWindow.h in Headers */,
 				9FE2471122D77AA400F8D2FC /* SDLCreateWindowResponse.h in Headers */,
 				9FD334E022DC6E7500F62736 /* SDLCreateWindow.h in Headers */,
@@ -7745,6 +7752,7 @@
 				1E5AD0511F1F7BF10029B8AF /* SDLRadioBand.m in Sources */,
 				88B3BF9D20DA8BBC00943565 /* SDLFuelRange.m in Sources */,
 				5D61FDDC1A84238C00846EE7 /* SDLTriggerSource.m in Sources */,
+				106412C7249FB80B0069A97A /* SDLPermissionElement.m in Sources */,
 				5DADA7761F4DFED60084D17D /* SDLRectangle.m in Sources */,
 				88EED83F1F33C5A400E6C42E /* SDLSendHapticData.m in Sources */,
 				5D16545B1D3E7A1600554D93 /* SDLLifecycleManager.m in Sources */,
