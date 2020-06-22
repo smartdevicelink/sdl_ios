@@ -10,7 +10,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLProtocolDelegate.h"
 
-@class SDLEncryptionConfiguration;
+@class SDLConfiguration;
 @class SDLProtocol;
 
 NS_ASSUME_NONNULL_BEGIN

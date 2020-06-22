@@ -63,6 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
     [_multipleCompletionBlocks addObject:completionHandler];
 }
 
+- (void)sendConnectionManagerRPC:(nonnull __kindof SDLRPCMessage *)rpc {
+    [self sendConnectionRPC:rpc];
+}
+
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
     [self respondToLastRequestWithResponse:response error:nil];
 }

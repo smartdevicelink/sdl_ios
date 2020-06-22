@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
-    return [self configurationWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil];
+    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil encryption:nil];
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig {

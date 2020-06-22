@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[[SDLConfiguration alloc] initWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
