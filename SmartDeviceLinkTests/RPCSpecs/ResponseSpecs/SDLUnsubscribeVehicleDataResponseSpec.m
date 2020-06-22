@@ -52,6 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.electronicParkBrakeStatus = vehicleDataResult;
         testResponse.turnSignal = vehicleDataResult;
         testResponse.cloudAppVehicleID = vehicleDataResult;
+        testResponse.stabilityControlsStatus = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -82,6 +83,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+        expect(testResponse.stabilityControlsStatus).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -115,7 +117,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMyKey:vehicleDataResult,
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
-                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult
+                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
+                                                                   @"stabilityControlsStatus":vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
 #pragma clang diagnostic push
@@ -152,10 +155,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+        expect(testResponse.stabilityControlsStatus).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
         
         expect(testResponse.gps).to(beNil());
         expect(testResponse.speed).to(beNil());
@@ -186,14 +190,16 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.cloudAppVehicleID).to(beNil());
+        expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+        SDLUnsubscribeVehicleDataResponse *testResponse = [SDLUnsubscribeVehicleDataResponse new];
 
-        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
+        [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
-        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
+        expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
+        expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 });
 

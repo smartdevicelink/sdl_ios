@@ -11,7 +11,7 @@
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-
+#import "SDLStabilityControlsStatus.h"
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
@@ -30,6 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* vin = nil;
     __block NSString* cloudAppVehicleID = nil;
+    __block SDLStabilityControlsStatus* stabilityControlsStatus = nil;
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];
@@ -46,6 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
         fuelRange = [[SDLFuelRange alloc] init];
         vin = @"6574839201a";
         cloudAppVehicleID = @"cloudAppVehicleID";
+        stabilityControlsStatus = [[SDLStabilityControlsStatus alloc] initWithEscSystem:SDLVehicleDataStatusOn trailerSwayControl:SDLVehicleDataStatusOn];
     });
 
     it(@"Should set and get correctly", ^ {
@@ -81,6 +83,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.turnSignal = SDLTurnSignalBoth;
         testResponse.vin = vin;
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
+        testResponse.stabilityControlsStatus = stabilityControlsStatus;
 
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.airbagStatus).to(equal(airbag));
@@ -112,10 +115,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
+        expect(testResponse.stabilityControlsStatus).to(equal(stabilityControlsStatus));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+        NSDictionary* dict = @{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{
                                                      SDLRPCParameterNameAccelerationPedalPosition:@0,
@@ -147,8 +151,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTirePressure:tires,
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
-                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
+                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh,
+                                                     @"stabilityControlsStatus":stabilityControlsStatus
+                                                 },
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
@@ -184,10 +190,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
+        expect(testResponse.stabilityControlsStatus).to(equal(stabilityControlsStatus));
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
+        SDLGetVehicleDataResponse* testResponse = [SDLGetVehicleDataResponse new];
         
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.airbagStatus).to(beNil());
@@ -219,14 +226,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.vin).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
+        expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
-
+        SDLGetVehicleDataResponse *testRequest = [SDLGetVehicleDataResponse new];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
         
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+        expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 });
 

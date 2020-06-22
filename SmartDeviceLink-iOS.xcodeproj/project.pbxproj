@@ -1545,6 +1545,7 @@
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E7524A0441100B977D0 /* SDLStabilityControlsStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E7324A0441100B977D0 /* SDLStabilityControlsStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E7624A0441100B977D0 /* SDLStabilityControlsStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7424A0441100B977D0 /* SDLStabilityControlsStatus.m */; };
+		B38D8E7824A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7724A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3303,6 +3304,7 @@
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
 		B38D8E7324A0441100B977D0 /* SDLStabilityControlsStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStabilityControlsStatus.h; sourceTree = "<group>"; };
 		B38D8E7424A0441100B977D0 /* SDLStabilityControlsStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStabilityControlsStatus.m; sourceTree = "<group>"; };
+		B38D8E7724A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStabilityControlsStatusSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -3828,6 +3830,7 @@
 		162E828E1A9BDE8A00906325 /* StructSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				B38D8E7724A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m */,
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
@@ -8306,6 +8309,7 @@
 				162E82FF1A9BDE8B00906325 /* SDLTextAlignmentSpec.m in Sources */,
 				000DD57222EF063F005AB7A7 /* SDLGetInteriorVehicleDataConsentResponseSpec.m in Sources */,
 				162E831F1A9BDE8B00906325 /* SDLOnTouchEventSpec.m in Sources */,
+				B38D8E7824A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m in Sources */,
 				162E83921A9BDE8B00906325 /* SDLTouchEventCapabilitiesSpec.m in Sources */,
 				162E837F1A9BDE8B00906325 /* SDLHeadLampStatusSpec.m in Sources */,
 				162E834D1A9BDE8B00906325 /* SDLChangeRegistrationResponseSpec.m in Sources */,
