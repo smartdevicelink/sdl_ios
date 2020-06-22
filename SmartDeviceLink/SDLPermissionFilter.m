@@ -23,37 +23,40 @@ NS_ASSUME_NONNULL_BEGIN
                          }];
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _identifier = [NSUUID UUID];
-    _rpcNames = rpcNames;
+    // to do cleanup
+//    _rpcNames = rpcNames;
+    _permissionElements = rpcNames;
     _groupType = groupType;
     _handler = observer;
 
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 
-- (instancetype)initWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler {
-
-    _identifier = [NSUUID UUID];
-    _permissionElements = rpcNames;
-    _groupType = groupType;
-    _handler = handler;
-
-    return self;
-}
-
-+ (instancetype)filterWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler {
-    return  [[self alloc] initWithPermissionElements:rpcNames groupType:groupType observer:handler];
-}
+// to do cleanup
+//- (instancetype)initWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler {
+//
+//    _identifier = [NSUUID UUID];
+//    _permissionElements = rpcNames;
+//    _groupType = groupType;
+//    _handler = handler;
+//
+//    return self;
+//}
+//
+//+ (instancetype)filterWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler {
+//    return  [[self alloc] initWithPermissionElements:rpcNames groupType:groupType observer:handler];
+//}
 
 
 #pragma mark - NSCopying
