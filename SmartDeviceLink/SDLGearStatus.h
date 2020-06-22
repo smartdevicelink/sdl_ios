@@ -30,103 +30,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLEnum.h"
+#import "SDLPRNDL.h"
+#import "SDLRPCStruct.h"
+#import "SDLTransmissionType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- * The selected gear.
- *
- * @since SDL 2.0.0
- */
-typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
-
-/**
- *  Park
- */
-extern SDLPRNDL const SDLPRNDLPark;
-
-/**
- *  Reverse gear
- */
-extern SDLPRNDL const SDLPRNDLReverse;
-
-/**
- *  No gear
- */
-extern SDLPRNDL const SDLPRNDLNeutral;
-
-/**
- *  @abstract: Drive gear
- */
-extern SDLPRNDL const SDLPRNDLDrive;
-
-/**
- * Drive Sport mode
- */
-extern SDLPRNDL const SDLPRNDLSport;
-
-/**
- * 1st gear hold
- */
-extern SDLPRNDL const SDLPRNDLLowGear;
-
-/**
- * First gear
- */
-extern SDLPRNDL const SDLPRNDLFirst;
-
-/**
- * Second gear
- */
-extern SDLPRNDL const SDLPRNDLSecond;
-
-/**
- * Third gear
- */
-extern SDLPRNDL const SDLPRNDLThird;
-
-/**
- * Fourth gear
- */
-extern SDLPRNDL const SDLPRNDLFourth;
-
-/**
- * Fifth gear
- */
-extern SDLPRNDL const SDLPRNDLFifth;
-
-/**
- * Sixth gear
- */
-extern SDLPRNDL const SDLPRNDLSixth;
-
-/**
- * Seventh gear
- */
-extern SDLPRNDL const SDLPRNDLSeventh;
-
-/**
- * Eighth gear
- */
-extern SDLPRNDL const SDLPRNDLEighth;
-
-/**
- * Ninth gear
  * @since SDL 6.2.0
  */
-extern SDLPRNDL const SDLPRNDLNinth;
+@interface SDLGearStatus : SDLRPCStruct
 
 /**
- * Tenth gear
- * @since SDL 6.2.0
+ * @param userSelectedGear - userSelectedGear
+ * @param actualGear - actualGear
+ * @param transmissionType - transmissionType
+ * @return A SDLGearStatus object
  */
-extern SDLPRNDL const SDLPRNDLTenth;
+- (instancetype)initWithUserSelectedGear:(nullable SDLPRNDL)userSelectedGear actualGear:(nullable SDLPRNDL)actualGear transmissionType:(nullable SDLTransmissionType)transmissionType;
 
 /**
- * Unknown
+ * Gear position selected by the user i.e. Park, Drive, Reverse
  */
-extern SDLPRNDL const SDLPRNDLUnknown;
+@property (nullable, strong, nonatomic) SDLPRNDL userSelectedGear;
 
 /**
- * Fault
+ * Actual Gear in use by the transmission
  */
-extern SDLPRNDL const SDLPRNDLFault;
+@property (nullable, strong, nonatomic) SDLPRNDL actualGear;
+
+/**
+ * Tells the transmission type
+ */
+@property (nullable, strong, nonatomic) SDLTransmissionType transmissionType;
+
+@end
+
+NS_ASSUME_NONNULL_END

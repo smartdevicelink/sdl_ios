@@ -1543,6 +1543,10 @@
 		9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471322D77AD500F8D2FC /* SDLWindowType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B38D8E6D24A034DB00B977D0 /* SDLGearStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B38D8E6E24A034DB00B977D0 /* SDLGearStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */; };
+		B38D8E7124A0351200B977D0 /* SDLTransmissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */; };
+		B38D8E7224A0351200B977D0 /* SDLTransmissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3299,6 +3303,10 @@
 		9FE2471322D77AD500F8D2FC /* SDLWindowType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWindowType.h; sourceTree = "<group>"; };
 		9FE2471422D77AD500F8D2FC /* SDLWindowType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowType.m; sourceTree = "<group>"; };
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
+		B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLGearStatus.h; sourceTree = "<group>"; };
+		B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatus.m; sourceTree = "<group>"; };
+		B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionType.m; sourceTree = "<group>"; };
+		B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransmissionType.h; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -4718,6 +4726,8 @@
 		5D5934F31A85164500687FB9 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
+				B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */,
+				B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */,
 				5D61FA481A84238A00846EE7 /* SDLAirbagStatus.h */,
 				5D61FA491A84238A00846EE7 /* SDLAirbagStatus.m */,
 				332A913C1CED87F80043824C /* SDLAppInfo.h */,
@@ -4937,6 +4947,8 @@
 		5D5934F41A85165E00687FB9 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */,
+				B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */,
 				5D61FA521A84238A00846EE7 /* SDLAmbientLightStatus.h */,
 				5D61FA531A84238A00846EE7 /* SDLAmbientLightStatus.m */,
 				5D61FA541A84238A00846EE7 /* SDLAppHMIType.h */,
@@ -6803,6 +6815,7 @@
 				5D61FD431A84238C00846EE7 /* SDLProtocol.h in Headers */,
 				5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */,
 				5DEF695B1FD6F82D004B8C2F /* SDLStreamingAudioManagerType.h in Headers */,
+				B38D8E7224A0351200B977D0 /* SDLTransmissionType.h in Headers */,
 				5D61FC921A84238C00846EE7 /* SDLDisplayType.h in Headers */,
 				5D61FD0D1A84238C00846EE7 /* SDLOnHashChange.h in Headers */,
 				5D61FC6B1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.h in Headers */,
@@ -6980,6 +6993,7 @@
 				5D4631041F2120A30092EFDC /* SDLControlFramePayloadType.h in Headers */,
 				EED5CA061F4D1E2300F04000 /* SDLRTPH264Packetizer.h in Headers */,
 				5D61FCCF1A84238C00846EE7 /* SDLImageField.h in Headers */,
+				B38D8E6D24A034DB00B977D0 /* SDLGearStatus.h in Headers */,
 				5D535DC51B72473800CF7760 /* SDLGlobals.h in Headers */,
 				5D79A03B1CE36F030035797B /* SDLUploadFileOperation.h in Headers */,
 				8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */,
@@ -7758,6 +7772,7 @@
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D339CEB207C066E000CC364 /* SDLMenuCell.m in Sources */,
 				8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */,
+				B38D8E7124A0351200B977D0 /* SDLTransmissionType.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
 				752ECDB7228B4D6B00D945F4 /* SDLDynamicMenuUpdateAlgorithm.m in Sources */,
@@ -7842,6 +7857,7 @@
 				5DCD7AE11FCCA8D200A0FC7F /* SDLCarWindow.m in Sources */,
 				1E5AD0911F20BE820029B8AF /* SDLSetInteriorVehicleData.m in Sources */,
 				884E702C21FBB151008D53BA /* SDLAppServiceRecord.m in Sources */,
+				B38D8E6E24A034DB00B977D0 /* SDLGearStatus.m in Sources */,
 				5D60088B1BE3ED540094A505 /* SDLStateMachine.m in Sources */,
 				8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */,
 				5D61FD181A84238C00846EE7 /* SDLOnPermissionsChange.m in Sources */,

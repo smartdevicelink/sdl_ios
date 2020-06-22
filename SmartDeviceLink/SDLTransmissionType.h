@@ -33,100 +33,49 @@
 #import "SDLEnum.h"
 
 /**
- * The selected gear.
+ * Type of transmission used in the vehicle.
  *
- * @since SDL 2.0.0
- */
-typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
-
-/**
- *  Park
- */
-extern SDLPRNDL const SDLPRNDLPark;
-
-/**
- *  Reverse gear
- */
-extern SDLPRNDL const SDLPRNDLReverse;
-
-/**
- *  No gear
- */
-extern SDLPRNDL const SDLPRNDLNeutral;
-
-/**
- *  @abstract: Drive gear
- */
-extern SDLPRNDL const SDLPRNDLDrive;
-
-/**
- * Drive Sport mode
- */
-extern SDLPRNDL const SDLPRNDLSport;
-
-/**
- * 1st gear hold
- */
-extern SDLPRNDL const SDLPRNDLLowGear;
-
-/**
- * First gear
- */
-extern SDLPRNDL const SDLPRNDLFirst;
-
-/**
- * Second gear
- */
-extern SDLPRNDL const SDLPRNDLSecond;
-
-/**
- * Third gear
- */
-extern SDLPRNDL const SDLPRNDLThird;
-
-/**
- * Fourth gear
- */
-extern SDLPRNDL const SDLPRNDLFourth;
-
-/**
- * Fifth gear
- */
-extern SDLPRNDL const SDLPRNDLFifth;
-
-/**
- * Sixth gear
- */
-extern SDLPRNDL const SDLPRNDLSixth;
-
-/**
- * Seventh gear
- */
-extern SDLPRNDL const SDLPRNDLSeventh;
-
-/**
- * Eighth gear
- */
-extern SDLPRNDL const SDLPRNDLEighth;
-
-/**
- * Ninth gear
  * @since SDL 6.2.0
  */
-extern SDLPRNDL const SDLPRNDLNinth;
+typedef SDLEnum SDLTransmissionType SDL_SWIFT_ENUM;
 
 /**
- * Tenth gear
- * @since SDL 6.2.0
+ * Manual transmission.
  */
-extern SDLPRNDL const SDLPRNDLTenth;
+extern SDLTransmissionType const SDLTransmissionTypeManual;
 
 /**
- * Unknown
+ * Automatic transmission.
  */
-extern SDLPRNDL const SDLPRNDLUnknown;
+extern SDLTransmissionType const SDLTransmissionTypeAutomatic;
 
 /**
- * Fault
+ * Semi automatic transmission.
  */
-extern SDLPRNDL const SDLPRNDLFault;
+extern SDLTransmissionType const SDLTransmissionTypeSemiAutomatic;
+
+/**
+ * Dual clutch transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
+
+/**
+ * Continuously variable transmission(CVT).
+ */
+extern SDLTransmissionType const SDLTransmissionTypeContinuouslyVariable;
+
+/**
+ * Infinitely variable transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
+
+/**
+ * Electric variable transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeElectricVariable;
+
+/**
+ * Direct drive between engine and wheels.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeDirectDrive;
+

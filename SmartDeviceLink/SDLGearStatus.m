@@ -30,103 +30,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLEnum.h"
+#import "SDLGearStatus.h"
+#import "NSMutableDictionary+Store.h"
+#import "SDLPRNDL.h"
+#import "SDLTransmissionType.h"
+#import "SDLRPCParameterNames.h"
 
-/**
- * The selected gear.
- *
- * @since SDL 2.0.0
- */
-typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  Park
- */
-extern SDLPRNDL const SDLPRNDLPark;
+@implementation SDLGearStatus
 
-/**
- *  Reverse gear
- */
-extern SDLPRNDL const SDLPRNDLReverse;
+- (instancetype)initWithUserSelectedGear:(nullable SDLPRNDL)userSelectedGear actualGear:(nullable SDLPRNDL)actualGear transmissionType:(nullable SDLTransmissionType)transmissionType {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.userSelectedGear = userSelectedGear;
+    self.actualGear = actualGear;
+    self.transmissionType = transmissionType;
+    return self;
+}
 
-/**
- *  No gear
- */
-extern SDLPRNDL const SDLPRNDLNeutral;
+- (void)setUserSelectedGear:(nullable SDLPRNDL)userSelectedGear {
+    [self.store sdl_setObject:userSelectedGear forName:SDLRPCParameterNameUserSelectedGear];
+}
 
-/**
- *  @abstract: Drive gear
- */
-extern SDLPRNDL const SDLPRNDLDrive;
+- (nullable SDLPRNDL)userSelectedGear {
+    return [self.store sdl_enumForName:SDLRPCParameterNameUserSelectedGear error:nil];
+}
 
-/**
- * Drive Sport mode
- */
-extern SDLPRNDL const SDLPRNDLSport;
+- (void)setActualGear:(nullable SDLPRNDL)actualGear {
+    [self.store sdl_setObject:actualGear forName:SDLRPCParameterNameActualGear];
+}
 
-/**
- * 1st gear hold
- */
-extern SDLPRNDL const SDLPRNDLLowGear;
+- (nullable SDLPRNDL)actualGear {
+    return [self.store sdl_enumForName:SDLRPCParameterNameActualGear error:nil];
+}
 
-/**
- * First gear
- */
-extern SDLPRNDL const SDLPRNDLFirst;
+- (void)setTransmissionType:(nullable SDLTransmissionType)transmissionType {
+    [self.store sdl_setObject:transmissionType forName:SDLRPCParameterNameTransmissionType];
+}
 
-/**
- * Second gear
- */
-extern SDLPRNDL const SDLPRNDLSecond;
+- (nullable SDLTransmissionType)transmissionType {
+    return [self.store sdl_enumForName:SDLRPCParameterNameTransmissionType error:nil];
+}
 
-/**
- * Third gear
- */
-extern SDLPRNDL const SDLPRNDLThird;
+@end
 
-/**
- * Fourth gear
- */
-extern SDLPRNDL const SDLPRNDLFourth;
-
-/**
- * Fifth gear
- */
-extern SDLPRNDL const SDLPRNDLFifth;
-
-/**
- * Sixth gear
- */
-extern SDLPRNDL const SDLPRNDLSixth;
-
-/**
- * Seventh gear
- */
-extern SDLPRNDL const SDLPRNDLSeventh;
-
-/**
- * Eighth gear
- */
-extern SDLPRNDL const SDLPRNDLEighth;
-
-/**
- * Ninth gear
- * @since SDL 6.2.0
- */
-extern SDLPRNDL const SDLPRNDLNinth;
-
-/**
- * Tenth gear
- * @since SDL 6.2.0
- */
-extern SDLPRNDL const SDLPRNDLTenth;
-
-/**
- * Unknown
- */
-extern SDLPRNDL const SDLPRNDLUnknown;
-
-/**
- * Fault
- */
-extern SDLPRNDL const SDLPRNDLFault;
+NS_ASSUME_NONNULL_END
