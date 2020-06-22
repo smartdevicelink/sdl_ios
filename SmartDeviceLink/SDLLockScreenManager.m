@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.canPresent = NO;
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             [strongSelf sdl_start];
         }
-    }];
+    });
 }
 
 - (void)sdl_start {
@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_appDidBecomeActive:(NSNotification *)notification {
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         // Restart, and potentially dismiss the lock screen if the app was disconnected in the background
         if (!strongSelf.canPresent) {
@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         [strongSelf sdl_checkLockScreen];
-    }];
+    });
 }
 
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
@@ -190,9 +190,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf sdl_updatePresentation];
-    }];
+    });
 }
 
 - (void)sdl_updatePresentation {
@@ -251,7 +251,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(self) strongSelf = weakSelf;
         SDLLockScreenViewController *lockscreenViewController = (SDLLockScreenViewController *)strongSelf.lockScreenViewController;
         if (enabled) {
@@ -264,17 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
             [lockscreenViewController removeDismissGesture];
             lockscreenViewController.lockedLabelText = nil;
         }
-    }];
-}
-
-#pragma mark - Threading Utilities
-
-- (void)sdl_runOnMainQueue:(void (^)(void))block {
-    if ([NSThread isMainThread]) {
-        block();
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), block);
-    }
+    });
 }
 
 @end
