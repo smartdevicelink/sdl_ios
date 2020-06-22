@@ -22,6 +22,7 @@
 #import "SDLSubscribeButtonObserver.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeButtonResponse.h"
+#import "SDLOnButtonEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _subscribeButtonObservers = [NSMutableDictionary dictionary];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_handleButtonEvent:) name:SDLDidReceiveButtonEventNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_handleButtonPress:) name:SDLDidReceiveButtonPressNotification object:nil];
 
     return self;
 }
@@ -121,15 +125,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param observerObject The observer object
 - (void)sdl_subscribeToButtonNamed:(SDLButtonName)buttonName withObserverObject:(SDLSubscribeButtonObserver *)observerObject {
     self.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithArray:@[observerObject]];
+    SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:nil];
 
     __weak typeof(self) weakSelf = self;
-    SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        for (SDLSubscribeButtonObserver *subscribeButtonObserver in strongSelf.subscribeButtonObservers[buttonPress.buttonName]) {
-            [strongSelf sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:buttonEvent error:nil];
-        }
-    }];
-
     [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) { return; }
 
@@ -177,6 +175,28 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         [invocation invoke];
+    }
+}
+
+#pragma mark - Notifications
+
+- (void)sdl_handleButtonEvent:(SDLRPCNotificationNotification *)notification {
+    SDLOnButtonEvent *buttonEvent = (SDLOnButtonEvent *)notification.notification;
+    if (buttonEvent == nil) { return; }
+
+    SDLButtonName buttonName = buttonEvent.buttonName;
+    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
+        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:nil buttonEvent:buttonEvent error:nil];
+    }
+}
+
+- (void)sdl_handleButtonPress:(SDLRPCNotificationNotification *)notification {
+    SDLOnButtonPress *buttonPress = (SDLOnButtonPress *)notification.notification;
+    if (buttonPress == nil) { return; }
+
+    SDLButtonName buttonName = buttonPress.buttonName;
+    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
+        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:nil error:nil];
     }
 }
 
