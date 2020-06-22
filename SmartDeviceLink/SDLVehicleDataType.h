@@ -204,4 +204,4 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
 /**
  * @since SDL 6.2.0
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeVehicledataStabilitycontrolsstatus;
+extern SDLVehicleDataType const SDLVehicleDataTypeStabilityControlsStatus;

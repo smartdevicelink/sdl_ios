@@ -64,4 +64,4 @@ SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus = @"VEHICLE
 SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
 SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID = @"VEHICLEDATA_CLOUDAPPVEHICLEID";
 SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType = @"VEHICLEDATA_OEM_CUSTOM_DATA";
-SDLVehicleDataType const SDLVehicleDataTypeVehicledataStabilitycontrolsstatus = @"VEHICLEDATA_STABILITYCONTROLSSTATUS";
+SDLVehicleDataType const SDLVehicleDataTypeStabilityControlsStatus = @"VEHICLEDATA_STABILITYCONTROLSSTATUS";
