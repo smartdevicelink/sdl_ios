@@ -345,17 +345,22 @@ describe(@"subscribe button manager", ^{
             });
 
             it(@"should unsubscribe the observer if there are multiple observers subscribed to the button", ^{
-//                id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
-//                [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler2];
-//
-//                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID1 withCompletionHandler:testCompletionHandler1];
-//
-//                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-//                expect(observers.count).to(equal(1));
-//                expect((id)observers[0].updateBlock).to(equal((id)testUpdateHandler2));
-//
-//                expect(testCompletionHandler1Called).to(beTrue());
-//                expect(testConnectionManager.receivedRequests.count).to(equal(1));
+                id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
+                id subscriptionID2 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler2];
+
+                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID1 withCompletionHandler:testCompletionHandler1];
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(1));
+                expect((id)observers[0].updateBlock).to(equal((id)testUpdateHandler2));
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler2Called).to(beFalse());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(1));
+                for (SDLRPCMessage *request in testConnectionManager.receivedRequests) {
+                    expect([request isKindOfClass:SDLUnsubscribeButton.class]).to(beFalse());
+                }
             });
 
 

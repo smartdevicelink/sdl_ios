@@ -102,7 +102,17 @@ NS_ASSUME_NONNULL_BEGIN
         return completionHandler(nil);
     }
 
-    [self.subscribeButtonObservers[buttonName] removeObject:observer];
+    NSMutableArray *subscribedObservers = self.subscribeButtonObservers[buttonName];
+    for (uint i = 0; i < subscribedObservers.count; i += 1) {
+        SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)subscribedObservers[i];
+        if (subscribedObserver.observer != observer ) { continue; }
+        [subscribedObservers removeObjectAtIndex:i];
+        break;
+    }
+
+    self.subscribeButtonObservers[buttonName] = (subscribedObservers.count > 0) ? subscribedObservers : nil;
+
+    // [self.subscribeButtonObservers[buttonName] removeObject:observer];
     if (self.subscribeButtonObservers[buttonName].count > 0) {
         return completionHandler(nil);
     }
