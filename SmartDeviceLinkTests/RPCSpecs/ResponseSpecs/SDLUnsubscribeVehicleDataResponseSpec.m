@@ -16,6 +16,9 @@
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 
+//@property (nullable, strong, nonatomic) SDLVehicleDataResult *windowStatus;
+
+
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
@@ -52,6 +55,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.electronicParkBrakeStatus = vehicleDataResult;
         testResponse.turnSignal = vehicleDataResult;
         testResponse.cloudAppVehicleID = vehicleDataResult;
+        testResponse.windowStatus = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -82,10 +86,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+        expect(testResponse.windowStatus).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameGPS:vehicleDataResult,
                                                                    SDLRPCParameterNameSpeed:vehicleDataResult,
@@ -115,9 +120,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMyKey:vehicleDataResult,
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
-                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult
+                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
+                                                                   @"windowStatus":vehicleDataResult
                                                                    },
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
@@ -152,10 +158,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+        expect(testResponse.windowStatus).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
         
         expect(testResponse.gps).to(beNil());
         expect(testResponse.speed).to(beNil());
@@ -186,14 +193,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.cloudAppVehicleID).to(beNil());
+        expect(testResponse.windowStatus).to(beNil());
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
+        [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
-        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
-
-        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
+        expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
+        expect(testResponse.windowStatus).to(beNil());
     });
 });
 

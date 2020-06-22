@@ -1547,6 +1547,8 @@
 		B38D8E6624A029F700B977D0 /* SDLWindowStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E6424A029F700B977D0 /* SDLWindowStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E6924A02A4800B977D0 /* SDLWindowState.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E6724A02A4700B977D0 /* SDLWindowState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E6A24A02A4800B977D0 /* SDLWindowState.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E6824A02A4800B977D0 /* SDLWindowState.m */; };
+		B38D8E7B24A0E11C00B977D0 /* SDLWindowStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7924A0E11C00B977D0 /* SDLWindowStatusSpec.m */; };
+		B38D8E7C24A0E11C00B977D0 /* SDLWindowStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7A24A0E11C00B977D0 /* SDLWindowStateSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3307,6 +3309,8 @@
 		B38D8E6424A029F700B977D0 /* SDLWindowStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWindowStatus.h; sourceTree = "<group>"; };
 		B38D8E6724A02A4700B977D0 /* SDLWindowState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWindowState.h; sourceTree = "<group>"; };
 		B38D8E6824A02A4800B977D0 /* SDLWindowState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWindowState.m; sourceTree = "<group>"; };
+		B38D8E7924A0E11C00B977D0 /* SDLWindowStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWindowStatusSpec.m; sourceTree = "<group>"; };
+		B38D8E7A24A0E11C00B977D0 /* SDLWindowStateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWindowStateSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -3832,6 +3836,8 @@
 		162E828E1A9BDE8A00906325 /* StructSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				B38D8E7A24A0E11C00B977D0 /* SDLWindowStateSpec.m */,
+				B38D8E7924A0E11C00B977D0 /* SDLWindowStatusSpec.m */,
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
@@ -8096,6 +8102,7 @@
 				5DCC458D221C9F6600036C2F /* SDLVersionSpec.m in Sources */,
 				1EE8C45D1F387D1C00FDC2CF /* SDLGetInteriorVehicleDataResponseSpec.m in Sources */,
 				162E82F21A9BDE8B00906325 /* SDLPredefinedLayoutSpec.m in Sources */,
+				B38D8E7B24A0E11C00B977D0 /* SDLWindowStatusSpec.m in Sources */,
 				162E83521A9BDE8B00906325 /* SDLDeleteSubMenuResponseSpec.m in Sources */,
 				162E82E91A9BDE8B00906325 /* SDLKeypressModeSpec.m in Sources */,
 				162E83211A9BDE8B00906325 /* SDLRPCPayloadSpec.m in Sources */,
@@ -8122,6 +8129,7 @@
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
 				880D2680220E038800B3F496 /* SDLWeatherServiceManifestSpec.m in Sources */,
 				88EEC5BE220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m in Sources */,
+				B38D8E7C24A0E11C00B977D0 /* SDLWindowStateSpec.m in Sources */,
 				1680B1161A9CD7AD00DBD79E /* SDLProtocolMessageSpec.m in Sources */,
 				DA9F7EB21DCC084300ACAE48 /* SDLDeliveryModeSpec.m in Sources */,
 				162E83771A9BDE8B00906325 /* SDLClusterModeStatusSpec.m in Sources */,

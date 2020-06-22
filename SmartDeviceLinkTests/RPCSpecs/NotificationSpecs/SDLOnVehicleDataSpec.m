@@ -7,11 +7,10 @@
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-
+#import "SDLWindowStatus.h"
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
 
@@ -29,6 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLMyKey* myKey = nil;
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* cloudAppVehicleID = nil;
+    __block NSArray<SDLWindowStatus *> *windowStatus = nil;
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];
@@ -44,6 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
         myKey = [[SDLMyKey alloc] init];
         fuelRange = [[SDLFuelRange alloc] init];
         cloudAppVehicleID = @"testCloudAppVehicleID";
+        windowStatus = @[[SDLWindowStatus new], [SDLWindowStatus new], [SDLWindowStatus new]];
     });
 
     it(@"should correctly initialize with init", ^ {
@@ -79,6 +80,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.turnSignal = SDLTurnSignalRight;
         testNotification.vin = @"222222222722";
         testNotification.wiperStatus = SDLWiperStatusStalled;
+        testNotification.windowStatus = windowStatus;
 
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));
         expect(testNotification.airbagStatus).to(equal(airbag));
@@ -110,7 +112,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.turnSignal).to(equal(SDLTurnSignalRight));
         expect(testNotification.vin).to(equal(@"222222222722"));
         expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
-    });
+        expect(testNotification.windowStatus).to(equal(windowStatus));
+});
     
     it(@"Should get correctly when initialized", ^ {
         NSDictionary* dict = @{SDLRPCParameterNameNotification:
@@ -144,7 +147,9 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameTirePressure:tires,
                                            SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                            SDLRPCParameterNameVIN:@"222222222722",
-                                           SDLRPCParameterNameWiperStatus:SDLWiperStatusStalled},
+                                           SDLRPCParameterNameWiperStatus:SDLWiperStatusStalled,
+                                           @"windowStatus":windowStatus
+                                         },
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -181,10 +186,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testNotification.vin).to(equal(@"222222222722"));
         expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
+        expect(testNotification.windowStatus).to(equal(windowStatus));
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] init];
+        SDLOnVehicleData* testNotification = [SDLOnVehicleData new];
         
         expect(testNotification.accPedalPosition).to(beNil());
         expect(testNotification.airbagStatus).to(beNil());
@@ -216,15 +222,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.turnSignal).to(beNil());
         expect(testNotification.vin).to(beNil());
         expect(testNotification.wiperStatus).to(beNil());
+        expect(testNotification.windowStatus).to(beNil());
     });
 
     it(@"Should set and get generic Network Signal Data", ^{
-        SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
-
+        SDLOnVehicleData *testRequest = [SDLOnVehicleData new];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
-
+        expect(testNotification.windowStatus).to(beNil());
     });
 });
 
