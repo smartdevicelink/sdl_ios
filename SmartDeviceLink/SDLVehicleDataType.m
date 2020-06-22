@@ -41,8 +41,6 @@ SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption = @"VEHICLEDATA_FUELC
 SDLVehicleDataType const SDLVehicleDataTypeFuelRange = @"VEHICLEDATA_FUELRANGE";
 SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature = @"VEHICLEDATA_EXTERNTEMP";
 SDLVehicleDataType const SDLVehicleDataTypeVIN = @"VEHICLEDATA_VIN";
-SDLVehicleDataType const SDLVehicleDataTypeVehicledataGearstatus = @"VEHICLEDATA_GEARSTATUS";
-SDLVehicleDataType const SDLVehicleDataTypeVehicledataPrndl = @"VEHICLEDATA_PRNDL";
 SDLVehicleDataType const SDLVehicleDataTypeTirePressure = @"VEHICLEDATA_TIREPRESSURE";
 SDLVehicleDataType const SDLVehicleDataTypeOdometer = @"VEHICLEDATA_ODOMETER";
 SDLVehicleDataType const SDLVehicleDataTypeBeltStatus = @"VEHICLEDATA_BELTSTATUS";
@@ -65,4 +63,5 @@ SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus = @"VEHICLE
 SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
 SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID = @"VEHICLEDATA_CLOUDAPPVEHICLEID";
 SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType = @"VEHICLEDATA_OEM_CUSTOM_DATA";
-
+SDLVehicleDataType const SDLVehicleDataTypeGearStatus = @"VEHICLEDATA_GEARSTATUS";
+SDLVehicleDataType const SDLVehicleDataTypePrndl = @"VEHICLEDATA_PRNDL";

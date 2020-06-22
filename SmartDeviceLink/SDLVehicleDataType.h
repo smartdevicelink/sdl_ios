@@ -80,15 +80,9 @@ extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature;
 extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 
 /**
- * Vehicle Gear data
- * @since SDL 6.2.0
- */
-extern SDLVehicleDataType const SDLVehicleDataTypeVehicledataGearstatus;
-
-/**
  Vehicle PRNDL data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
+extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
 
 /**
  Vehicle tire pressure data
@@ -206,3 +200,14 @@ extern SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID;
  Added in SDL 6.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
+
+/**
+ * Vehicle Gear data
+ * @since SDL 6.2.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
+
+/**
+ * Vehicle PRNDL data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
