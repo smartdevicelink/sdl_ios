@@ -217,14 +217,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)stop {
-    dispatch_sync(_lifecycleQueue, ^{
+    [self sdl_runOnProcessingQueue:^{
         SDLLogD(@"Lifecycle manager stopped");
         if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
             [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         } else {
             [self sdl_transitionToState:SDLLifecycleStateStopped];
         }
-    });
+    }];
 }
 
 - (void)startRPCEncryption {
@@ -340,9 +340,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)didEnterStateConnected {
-    // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
-    if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
-
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
     if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
         SDLLogW(@"Disconnecting from head unit, protocol version %@ is less than configured minimum version %@", [SDLGlobals sharedGlobals].protocolVersion.stringVersion, self.configuration.lifecycleConfig.minimumProtocolVersion.stringVersion);
@@ -833,7 +830,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 #pragma mark SDL notification observers
 
 - (void)sdl_rpcServiceDidConnect {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+    // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]
+        && ![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
         SDLLogD(@"Transport connected");
 
         dispatch_async(self.lifecycleQueue, ^{

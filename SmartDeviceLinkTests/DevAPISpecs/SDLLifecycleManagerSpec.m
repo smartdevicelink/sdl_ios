@@ -81,6 +81,10 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
 
 QuickConfigurationEnd
 
+@interface SDLGlobals ()
+@property (copy, nonatomic, readwrite) SDLVersion *protocolVersion;
+@end
+
 
 @interface SDLLifecycleManager ()
 // reach the private property for testing
@@ -101,7 +105,7 @@ describe(@"a lifecycle manager", ^{
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
     __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
-    
+
     void (^transitionToState)(SDLState *) = ^(SDLState *state) {
         dispatch_sync(testManager.lifecycleQueue, ^{
             [testManager.lifecycleStateMachine transitionToState:state];
@@ -123,12 +127,16 @@ describe(@"a lifecycle manager", ^{
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
         testConfig.lifecycleConfig.minimumProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
+        testConfig.lifecycleConfig.minimumRPCVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:OCMProtocolMock(@protocol(SDLManagerDelegate))];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
         testManager.systemCapabilityManager = systemCapabilityMock;
+
+        [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
+        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
     });
     
     it(@"should initialize properties", ^{
@@ -224,6 +232,8 @@ describe(@"a lifecycle manager", ^{
                 readyHandlerSuccess = success;
                 readyHandlerError = error;
             }];
+
+            testManager.protocolHandler.protocol = protocolMock;
         });
         
         it(@"should initialize enter the started state and start the secondary transport", ^{
@@ -235,15 +245,14 @@ describe(@"a lifecycle manager", ^{
         describe(@"after receiving a connect notification", ^{
             beforeEach(^{
                 // When we connect, we should be creating an sending an RAI
-//                OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
+                OCMExpect([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
                 
                 [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
-                [NSThread sleepForTimeInterval:0.1];
             });
             
             it(@"should send a register app interface request and be in the connected state", ^{
-//                OCMVerifyAllWithDelay(proxyMock, 0.5);
-                expect(testManager.lifecycleState).to(match(SDLLifecycleStateConnected));
+                OCMVerifyAllWithDelay(protocolMock, 1.0);
+                expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateConnected));
             });
             
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -255,7 +264,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateReconnecting));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReconnecting));
                 });
             });
             
@@ -263,18 +272,15 @@ describe(@"a lifecycle manager", ^{
                 it(@"should simply stop", ^{
                     [testManager stop];
                     
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
                 });
             });
         });
 
-        fdescribe(@"in the connected state when the minimum protocol version is in effect", ^{
+        describe(@"in the connected state when the minimum protocol version is in effect", ^{
             beforeEach(^{
-                SDLVersion *oldVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock protocolVersion]).andReturn(oldVersion);
+                [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
 
-                testManager.protocolHandler.protocol = protocolMock;
                 OCMExpect([protocolMock endServiceWithType:SDLServiceTypeRPC]);
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:YES];
             });
@@ -343,9 +349,7 @@ describe(@"a lifecycle manager", ^{
 
         describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
             beforeEach(^{
-                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
 
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
             });
