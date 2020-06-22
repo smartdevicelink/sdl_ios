@@ -11,7 +11,9 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLDisplayCapabilities.h"
+#import "SDLConfiguration.h"
 #import "SDLGlobals.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -34,7 +36,7 @@ QuickSpecBegin(SDLEncryptionLifecycleManagerSpec)
 
 describe(@"the encryption lifecycle manager", ^{
     __block SDLEncryptionLifecycleManager *encryptionLifecycleManager = nil;
-    __block SDLEncryptionConfiguration *testConfiguration = nil;
+    __block SDLConfiguration *testConfiguration = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFakeSecurityManager *testFakeSecurityManager = nil;
     __block NSOperationQueue *testRPCOperationQueue = nil;
@@ -42,7 +44,9 @@ describe(@"the encryption lifecycle manager", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
-        testConfiguration = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
+        SDLEncryptionConfiguration *encryptionConfig = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
+        SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test" fullAppId:@"1234"];
+        testConfiguration = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil encryption:encryptionConfig];
         testRPCOperationQueue = OCMClassMock([NSOperationQueue class]);
         
         encryptionLifecycleManager = [[SDLEncryptionLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
