@@ -68,6 +68,47 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus stabilityControlsStatus:(BOOL)stabilityControlsStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.accPedalPosition = @(accelerationPedalPosition);
+    self.airbagStatus = @(airbagStatus);
+    self.beltStatus = @(beltStatus);
+    self.bodyInformation = @(bodyInformation);
+    self.cloudAppVehicleID = @(cloudAppVehicleID);
+    self.clusterModeStatus = @(clusterModeStatus);
+    self.deviceStatus = @(deviceStatus);
+    self.driverBraking = @(driverBraking);
+    self.eCallInfo = @(eCallInfo);
+    self.electronicParkBrakeStatus = @(electronicParkBrakeStatus);
+    self.emergencyEvent = @(emergencyEvent);
+    self.engineOilLife = @(engineOilLife);
+    self.engineTorque = @(engineTorque);
+    self.externalTemperature = @(externalTemperature);
+    self.fuelLevel = @(fuelLevel);
+    self.fuelLevel_State = @(fuelLevelState);
+    self.fuelRange = @(fuelRange);
+    self.myKey = @(myKey);
+    self.odometer = @(odometer);
+    self.gps = @(gps);
+    self.headLampStatus = @(headLampStatus);
+    self.instantFuelConsumption = @(instantFuelConsumption);
+    self.prndl = @(prndl);
+    self.rpm = @(rpm);
+    self.speed = @(speed);
+    self.steeringWheelAngle = @(steeringWheelAngle);
+    self.tirePressure = @(tirePressure);
+    self.turnSignal = @(turnSignal);
+    self.wiperStatus = @(wiperStatus);
+    self.stabilityControlsStatus = @(stabilityControlsStatus);
+
+    return self;
+}
+
+
 - (void)setGps:(nullable NSNumber<SDLBool> *)gps {
     [self.parameters sdl_setObject:gps forName:SDLRPCParameterNameGPS];
 }
@@ -298,6 +339,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)cloudAppVehicleID {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:nil];
+}
+
+- (void)setStabilityControlsStatus:(nullable NSNumber<SDLBool> *)stabilityControlsStatus {
+    [self.parameters sdl_setObject:stabilityControlsStatus forName:SDLRPCParameterNameStabilityControlsStatus];
+}
+
+- (nullable NSNumber<SDLBool> *)stabilityControlsStatus {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameStabilityControlsStatus ofClass:NSNumber.class error:nil];
 }
 
 - (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState {
