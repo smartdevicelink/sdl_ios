@@ -135,16 +135,18 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return nil;
     }
 
-    SDLLogV(@"Initializing Lifecycle Manager");
-
-    SDLLogD(@"%@", [NSBundle bundleForClass:self.class].infoDictionary.description);
-
     // Dependencies
     _configuration = [configuration copy];
     _delegate = delegate;
 
     // Logging
     [SDLLogManager setConfiguration:_configuration.loggingConfig];
+
+    SDLLogD(@"Initializing Lifecycle Manager");
+    SDLLogE(@"SDL iOS Library Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"CFBundleShortVersionString"]);
+    SDLLogD(@"iOS Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"DTPlatformVersion"]);
+    SDLLogD(@"SDK Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"DTSDKName"]);
+    SDLLogD(@"Minimum OS Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"MinimumOSVersion"]);
 
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
