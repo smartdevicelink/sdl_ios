@@ -48,6 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.myKey = vehicleDataResult;
         testResponse.odometer = vehicleDataResult;
         testResponse.prndl = vehicleDataResult;
+        testResponse.gearStatus = vehicleDataResult;
         testResponse.rpm = vehicleDataResult;
         testResponse.speed = vehicleDataResult;
         testResponse.steeringWheelAngle = vehicleDataResult;
@@ -78,6 +79,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+        expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
         expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
@@ -117,7 +119,9 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameSteeringWheelAngle:vehicleDataResult,
                                                                    SDLRPCParameterNameTirePressure:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
-                                                                   SDLRPCParameterNameWiperStatus:vehicleDataResult},
+                                                                   SDLRPCParameterNameWiperStatus:vehicleDataResult,
+                                                                   @"gearStatus":vehicleDataResult
+                                                                 },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -147,6 +151,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+        expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
         expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
@@ -181,6 +186,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(beNil());
         expect(testResponse.odometer).to(beNil());
         expect(testResponse.prndl).to(beNil());
+        expect(testResponse.gearStatus).to(beNil());
         expect(testResponse.rpm).to(beNil());
         expect(testResponse.speed).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());

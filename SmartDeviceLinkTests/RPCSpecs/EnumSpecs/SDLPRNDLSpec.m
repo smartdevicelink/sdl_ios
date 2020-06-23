@@ -28,6 +28,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLPRNDLSixth).to(equal(@"SIXTH"));
         expect(SDLPRNDLSeventh).to(equal(@"SEVENTH"));
         expect(SDLPRNDLEighth).to(equal(@"EIGHTH"));
+        expect(SDLPRNDLNinth).to(equal(@"NINTH"));
+        expect(SDLPRNDLTenth).to(equal(@"TENTH"));
         expect(SDLPRNDLUnknown).to(equal(@"UNKNOWN"));
         expect(SDLPRNDLFault).to(equal(@"FAULT"));
     });

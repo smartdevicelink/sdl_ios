@@ -16,7 +16,7 @@ QuickSpecBegin(SDLGetVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
+        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -41,6 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.myKey = @YES;
         testRequest.odometer = @YES;
         testRequest.prndl = @YES;
+        testRequest.gearStatus = @YES;
         testRequest.rpm = @YES;
         testRequest.speed = @NO;
         testRequest.steeringWheelAngle = @NO;
@@ -71,6 +72,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
         expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@NO));
         expect(testRequest.steeringWheelAngle).to(equal(@NO));
@@ -110,7 +112,9 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameSteeringWheelAngle:@NO,
                                                                    SDLRPCParameterNameTirePressure:@YES,
                                                                    SDLRPCParameterNameTurnSignal:@NO,
-                                                                   SDLRPCParameterNameWiperStatus:@YES},
+                                                                   SDLRPCParameterNameWiperStatus:@YES,
+                                                                   @"gearStatus":@YES
+                                                                 },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -140,6 +144,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
         expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@NO));
@@ -151,7 +156,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
+        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
 
         expect(testRequest.accPedalPosition).to(beNil());
         expect(testRequest.airbagStatus).to(beNil());
@@ -176,6 +181,7 @@ describe(@"initializers", ^{
         expect(testRequest.myKey).to(beNil());
         expect(testRequest.odometer).to(beNil());
         expect(testRequest.prndl).to(beNil());
+        expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(beNil());
         expect(testRequest.speed).to(beNil());
         expect(testRequest.steeringWheelAngle).to(beNil());
@@ -187,7 +193,7 @@ describe(@"initializers", ^{
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:NO beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:NO beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES gearStatus:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
         expect(testRequest.airbagStatus).to(equal(@NO));
@@ -211,7 +217,8 @@ describe(@"initializers", ^{
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
-        expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.prndl).to(equal(@NO));
+        expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -249,6 +256,7 @@ describe(@"initializers", ^{
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
         expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@NO));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -283,6 +291,7 @@ describe(@"initializers", ^{
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
         expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@NO));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));

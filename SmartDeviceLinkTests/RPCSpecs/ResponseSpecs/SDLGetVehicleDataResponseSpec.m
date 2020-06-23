@@ -11,6 +11,7 @@
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLGearStatus.h"
 
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
@@ -30,6 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* vin = nil;
     __block NSString* cloudAppVehicleID = nil;
+    __block SDLGearStatus* gearStatus = nil;
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];
@@ -46,10 +48,11 @@ describe(@"Getter/Setter Tests", ^ {
         fuelRange = [[SDLFuelRange alloc] init];
         vin = @"6574839201a";
         cloudAppVehicleID = @"cloudAppVehicleID";
+        gearStatus = [SDLGearStatus new];
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
+        SDLGetVehicleDataResponse* testResponse = [SDLGetVehicleDataResponse new];
 
         testResponse.accPedalPosition = @0;
         testResponse.airbagStatus = airbag;
@@ -74,6 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.myKey = myKey;
         testResponse.odometer = @70000;
         testResponse.prndl = SDLPRNDLPark;
+        testResponse.gearStatus = gearStatus;
         testResponse.rpm = @3;
         testResponse.speed = @100;
         testResponse.steeringWheelAngle = @-1500;
@@ -105,6 +109,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(myKey));
         expect(testResponse.odometer).to(equal(@70000));
         expect(testResponse.prndl).to(equal(SDLPRNDLPark));
+        expect(testResponse.gearStatus).to(equal(gearStatus));
         expect(testResponse.rpm).to(equal(@3));
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
@@ -115,7 +120,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+        NSDictionary* dict = @{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{
                                                      SDLRPCParameterNameAccelerationPedalPosition:@0,
@@ -147,8 +152,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTirePressure:tires,
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
-                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
+                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh
+                                                     @"gearStatus":gearStatus
+                                                 },
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
@@ -177,6 +184,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(myKey));
         expect(testResponse.odometer).to(equal(@70000));
         expect(testResponse.prndl).to(equal(SDLPRNDLPark));
+        expect(testResponse.gearStatus).to(equal(gearStatus));
         expect(testResponse.rpm).to(equal(@3));
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
@@ -212,6 +220,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(beNil());
         expect(testResponse.odometer).to(beNil());
         expect(testResponse.prndl).to(beNil());
+        expect(testResponse.gearStatus).to(beNil());
         expect(testResponse.rpm).to(beNil());
         expect(testResponse.speed).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());

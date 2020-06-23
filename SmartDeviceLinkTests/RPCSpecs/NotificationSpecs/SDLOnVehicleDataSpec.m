@@ -11,6 +11,7 @@
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLGearStatus.h"
 
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
@@ -29,6 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLMyKey* myKey = nil;
     __block SDLFuelRange* fuelRange = nil;
     __block NSString* cloudAppVehicleID = nil;
+    __block SDLGearStatus* gearStatus = nil;
 
     beforeEach(^{
         gps = [[SDLGPSData alloc] init];
@@ -44,6 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         myKey = [[SDLMyKey alloc] init];
         fuelRange = [[SDLFuelRange alloc] init];
         cloudAppVehicleID = @"testCloudAppVehicleID";
+        gearStatus = [SDLGearStatus new];
     });
 
     it(@"should correctly initialize with init", ^ {
@@ -72,6 +75,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.myKey = myKey;
         testNotification.odometer = @100050;
         testNotification.prndl = SDLPRNDLDrive;
+        testNotification.gearStatus = gearStatus;
         testNotification.rpm = @4242;
         testNotification.speed = @70.1;
         testNotification.steeringWheelAngle = @0.000000001;
@@ -103,6 +107,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.myKey).to(equal(myKey));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
+        expect(testNotification.gearStatus).to(equal(gearStatus));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.steeringWheelAngle).to(equal(@0.000000001));
@@ -138,6 +143,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameMyKey:myKey,
                                            SDLRPCParameterNameOdometer:@100050,
                                            SDLRPCParameterNamePRNDL:SDLPRNDLDrive,
+                                           @"gearStatus":gearStatus,
                                            SDLRPCParameterNameRPM:@4242,
                                            SDLRPCParameterNameSpeed:@70.1,
                                            SDLRPCParameterNameSteeringWheelAngle:@0.000000001,
@@ -174,6 +180,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.myKey).to(equal(myKey));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
+        expect(testNotification.gearStatus).to(equal(gearStatus));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.steeringWheelAngle).to(equal(@0.000000001));
@@ -209,6 +216,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.myKey).to(beNil());
         expect(testNotification.odometer).to(beNil());
         expect(testNotification.prndl).to(beNil());
+        expect(testNotification.gearStatus).to(beNil());
         expect(testNotification.rpm).to(beNil());
         expect(testNotification.speed).to(beNil());
         expect(testNotification.steeringWheelAngle).to(beNil());

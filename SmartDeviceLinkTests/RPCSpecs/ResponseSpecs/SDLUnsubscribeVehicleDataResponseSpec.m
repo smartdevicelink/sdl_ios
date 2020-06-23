@@ -32,6 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.instantFuelConsumption = vehicleDataResult;
         testResponse.externalTemperature = vehicleDataResult;
         testResponse.prndl = vehicleDataResult;
+        testResponse.gearStatus = vehicleDataResult;
         testResponse.tirePressure = vehicleDataResult;
         testResponse.odometer = vehicleDataResult;
         testResponse.beltStatus = vehicleDataResult;
@@ -62,6 +63,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+        expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
         expect(testResponse.beltStatus).to(equal(vehicleDataResult));
@@ -85,7 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameGPS:vehicleDataResult,
                                                                    SDLRPCParameterNameSpeed:vehicleDataResult,
@@ -115,9 +117,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMyKey:vehicleDataResult,
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
-                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult
+                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
+                                                                   @"gearStatus":vehicleDataResult
                                                                    },
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
@@ -132,6 +135,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+        expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
         expect(testResponse.beltStatus).to(equal(vehicleDataResult));
@@ -166,6 +170,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.externalTemperature).to(beNil());
         expect(testResponse.prndl).to(beNil());
+        expect(testResponse.gearStatus).to(beNil());
         expect(testResponse.tirePressure).to(beNil());
         expect(testResponse.odometer).to(beNil());
         expect(testResponse.beltStatus).to(beNil());
