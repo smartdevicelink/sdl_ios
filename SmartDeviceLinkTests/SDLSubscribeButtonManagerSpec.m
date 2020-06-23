@@ -120,7 +120,7 @@ describe(@"subscribe button manager", ^{
                 expect(testHandler1Called).to(beFalse());
             });
 
-            it(@"should notify the observer with the error when a failure response is recieved for the subscribe button request", ^{
+            it(@"should notify the observer with the error and remove the observer when a failure response is recieved for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
 
                 SDLSubscribeButtonResponse *testFailureResponse = [[SDLSubscribeButtonResponse alloc] init];
@@ -130,6 +130,9 @@ describe(@"subscribe button manager", ^{
 
                 expect(testHandler1Called).to(beTrue());
                 expect(testHandle1Error).to(equal(testError));
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(0));
             });
         });
 
@@ -184,7 +187,7 @@ describe(@"subscribe button manager", ^{
                 expect(testSubscribeButtonObserver1.selectorCalledCount).to(equal(0));
             });
 
-            it(@"should notify the observer with the error when a failure response is recieved for the subscribe button request", ^{
+            it(@"should notify the observer with the error and remove the observer when a failure response is recieved for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector2];
 
                 SDLSubscribeButtonResponse *testFailureResponse = [[SDLSubscribeButtonResponse alloc] init];
@@ -196,6 +199,9 @@ describe(@"subscribe button manager", ^{
                 expect(testSubscribeButtonObserver1.buttonErrorsReceived.count).to(equal(1));
                 expect(testSubscribeButtonObserver1.buttonErrorsReceived[0]).to(equal(testError));
                 expect(testSubscribeButtonObserver1.buttonNamesReceived[0]).to(equal(testButtonName));
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(0));
             });
 
             it(@"should ignore a subscription attempt with an invalid selector - selector has too many parameters", ^{

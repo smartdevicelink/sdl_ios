@@ -164,9 +164,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) { return; }
 
-        // If there was an error during the subscription attempt, return the error message.
+        // If there was an error during the subscription attempt, return the error message and remove the observer.
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
+        [strongSelf sdl_removeSubscribedObserver:observerObject.observer forButtonName:buttonName];
     }];
 }
 
