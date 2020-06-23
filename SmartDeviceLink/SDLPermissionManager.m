@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self statusesOfRPCNames:[self sdl_createPermissionElementFromRPCNames:rpcNames]];
 }
 
-- (NSDictionary<SDLRPCFunctionName,NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
+- (NSDictionary<SDLPermissionElement*, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
     NSMutableDictionary<SDLRPCFunctionName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     
     for (SDLRPCFunctionName rpcName in rpcNames) {
@@ -182,7 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.permissionElements];
-    NSDictionary<SDLPermissionRPCName, NSNumber *> *allowedDict = [self statusesOfRPCNames:filter.permissionElements];
+    NSDictionary<SDLPermissionElement *, NSNumber *> *allowedDict = [self statusesOfRPCNames:filter.permissionElements];
 
     filter.handler(allowedDict, permissionStatus);
 }

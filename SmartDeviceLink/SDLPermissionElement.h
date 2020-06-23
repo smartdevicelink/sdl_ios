@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLParameterPermissions.h"
 #import "SDLRPCFunctionNames.h"
-
-@class SDLParameterPermissions;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLPermissionElement : NSObject
+@interface SDLPermissionElement : NSObject <NSCopying>
 
 /**
  Name of the individual RPC in the policy table.

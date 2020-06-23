@@ -28,4 +28,13 @@
     return self.parameterPermissions;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+
+    SDLPermissionElement *newElement = [[self.class allocWithZone:zone] initWithRPCName:[_rpcName copyWithZone:zone] parameterPermissions:[_parameterPermissions copyWithZone:zone]];
+
+    return newElement;
+}
+
 @end
