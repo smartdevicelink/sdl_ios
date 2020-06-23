@@ -37,6 +37,7 @@
 
 #pragma mark Requests
 
+// See table here https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptSubscribeButton:(SDLSubscribeButton *)message {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
@@ -57,6 +58,7 @@
     return @[message];
 }
 
+// https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptUnsubscribeButton:(SDLUnsubscribeButton *)message {
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
@@ -79,59 +81,65 @@
 
 #pragma mark Notifications
 
+// https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptOnButtonPress:(SDLOnButtonPress *)message {
-    // Drop PlayPause, this shouldn't come in
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            // Send PlayPause & OK notifications
+            // Force receive PlayPause & OK notifications
             SDLOnButtonPress *okPress = [message copy];
             okPress.buttonName = SDLButtonNameOk;
 
             return @[message, okPress];
         } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            // Send PlayPause and OK notifications
+            // Force receive PlayPause and OK notifications
             SDLOnButtonPress *playPausePress = [message copy];
             playPausePress.buttonName = SDLButtonNamePlayPause;
 
             return @[message, playPausePress];
         }
-    } else {
+    } else { // Major version < 5
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            // Send Ok and Play/Pause notifications
+            // Force receive Ok and Play/Pause notifications
             SDLOnButtonPress *playPausePress = [message copy];
             playPausePress.buttonName = SDLButtonNamePlayPause;
 
             return @[message, playPausePress];
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            // Drop
+            return @[];
         }
     }
 
     return @[message];
 }
 
+// https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptOnButtonEvent:(SDLOnButtonEvent *)message {
-    // Drop PlayPause, this shouldn't come in
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            // Send PlayPause & OK notifications
+            // Force receive PlayPause & OK notifications
             SDLOnButtonEvent *okEvent = [message copy];
             okEvent.buttonName = SDLButtonNameOk;
 
             return @[message, okEvent];
         } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            // Send PlayPause and OK notifications
+            // Force receive PlayPause and OK notifications
             SDLOnButtonEvent *playPauseEvent = [message copy];
             playPauseEvent.buttonName = SDLButtonNamePlayPause;
 
             return @[message, playPauseEvent];
         }
-    } else {
+    } else { // Major version < 5
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            // Send Ok and Play/Pause notifications
+            // Force receive Ok and Play/Pause notifications
             SDLOnButtonEvent *playPauseEvent = [message copy];
             playPauseEvent.buttonName = SDLButtonNamePlayPause;
 
             return @[message, playPauseEvent];
-        }
+        } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+           // Drop
+           return @[];
+       }
     }
 
     return @[message];

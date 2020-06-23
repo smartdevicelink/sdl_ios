@@ -137,8 +137,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)sdl_postLockScreenStatus:(SDLOnLockScreenStatus *)statusNotification {
-#pragma clang diagnostic pop
     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:self rpcNotification:statusNotification];
+#pragma clang diagnostic pop
 
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }

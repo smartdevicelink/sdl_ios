@@ -582,8 +582,6 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
     });
 
     it(@"Should pass information along to delegate when NAKed", ^ {
-        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];

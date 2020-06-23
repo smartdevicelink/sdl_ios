@@ -425,6 +425,7 @@
 		4A3BA4E824901794003E56B8 /* SDLLifecycleMobileHMIStateHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3BA4E624901794003E56B8 /* SDLLifecycleMobileHMIStateHandler.m */; };
 		4A3BA4EC24914801003E56B8 /* SDLLifecycleProtocolHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A3BA4EA24914801003E56B8 /* SDLLifecycleProtocolHandler.h */; };
 		4A3BA4ED24914801003E56B8 /* SDLLifecycleProtocolHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3BA4EB24914801003E56B8 /* SDLLifecycleProtocolHandler.m */; };
+		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A4AD8A424894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4AD8A324894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m */; };
 		4A4AD8A724894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4AD8A624894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.m */; };
 		4A99D00E247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */; };
@@ -2150,6 +2151,7 @@
 		4A3BA4E624901794003E56B8 /* SDLLifecycleMobileHMIStateHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleMobileHMIStateHandler.m; sourceTree = "<group>"; };
 		4A3BA4EA24914801003E56B8 /* SDLLifecycleProtocolHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLifecycleProtocolHandler.h; sourceTree = "<group>"; };
 		4A3BA4EB24914801003E56B8 /* SDLLifecycleProtocolHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleProtocolHandler.m; sourceTree = "<group>"; };
+		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A4AD8A224894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestOldConfigurationUpdateManagerDelegate.h; path = DevAPISpecs/TestOldConfigurationUpdateManagerDelegate.h; sourceTree = "<group>"; };
 		4A4AD8A324894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestOldConfigurationUpdateManagerDelegate.m; path = DevAPISpecs/TestOldConfigurationUpdateManagerDelegate.m; sourceTree = "<group>"; };
 		4A4AD8A524894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestNewConfigurationUpdateManagerDelegate.h; sourceTree = "<group>"; };
@@ -4201,6 +4203,7 @@
 				5D60DF23202B7A80001EDA01 /* SDLAsynchronousRPCRequestOperationSpec.m */,
 				5D60DF25202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m */,
 				88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */,
+				4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */,
 			);
 			name = Lifecycle;
 			sourceTree = "<group>";
@@ -8353,6 +8356,7 @@
 				5DE35E4E20CB1C2C0034BE5A /* SDLDeleteChoicesOperationSpec.m in Sources */,
 				5DE35E5220CB1C490034BE5A /* SDLPreloadChoicesOperationSpec.m in Sources */,
 				5DADA7781F4E059E0084D17D /* SDLRectangleSpec.m in Sources */,
+				4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */,
 				5DB1BCDD1D243DC3002FFC37 /* SDLLifecycleConfigurationSpec.m in Sources */,
 				EED5CA0A1F4D206800F04000 /* SDLRTPH264PacketizerSpec.m in Sources */,
 				1EB59CC8202DC86A00343A61 /* SDLModuleTypeSpec.m in Sources */,
