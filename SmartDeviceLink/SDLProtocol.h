@@ -66,6 +66,8 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 @property (strong, nonatomic, readonly, nullable) NSString *authToken;
 
 #pragma mark - Init
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
  * Initialize the protocol with an encryption lifecycle manager
  *
