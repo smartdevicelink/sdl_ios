@@ -101,7 +101,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 // Private Managers
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
-@property (copy, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
+@property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
@@ -756,6 +756,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
+    // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
     NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request];
     for (SDLRPCMessage *message in messages) {
         if ([request isKindOfClass:SDLRPCRequest.class]) {
