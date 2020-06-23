@@ -7,7 +7,7 @@
 
 QuickSpecBegin(SDLPermissionFilterSpec)
 
-fdescribe(@"A filter", ^{
+describe(@"A filter", ^{
     __block NSString *testRPCName1 = nil;
     __block NSString *testRPCName2 = nil;
     __block SDLPermissionElement *testPermissionElement1 = nil;

@@ -62,6 +62,9 @@ fdescribe(@"SDLPermissionsManager", ^{
     __block SDLRPCNotificationNotification *limitedHMINotification = nil;
     __block SDLRPCNotificationNotification *backgroundHMINotification = nil;
     __block SDLRPCNotificationNotification *noneHMINotification = nil;
+
+    __block SDLPermissionElement *testPermissionElementAllAllowed = nil;
+    __block SDLPermissionElement *testPermissionElementFullLimitedAllowed = nil;
     
     beforeEach(^{
         // Permission Names
@@ -147,6 +150,9 @@ fdescribe(@"SDLPermissionsManager", ^{
         limitedHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testLimitedHMIStatus];
         backgroundHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testBackgroundHMIStatus];
         noneHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testNoneHMIStatus];
+
+        testPermissionElementAllAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllAllowed parameterPermissions:testPermissionAllAllowed.parameterPermissions];
+        testPermissionElementFullLimitedAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedAllowed parameterPermissions:testPermissionFullLimitedAllowed.parameterPermissions];
     });
 
     it(@"should clear when stopped", ^{
@@ -300,7 +306,7 @@ fdescribe(@"SDLPermissionsManager", ^{
 
             context(@"groupStatusOfRPCNames: method", ^{
                 beforeEach(^{
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
                 });
 
                 it(@"should return unknown", ^{
@@ -330,7 +336,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
                 });
 
                 it(@"should return allowed", ^{
