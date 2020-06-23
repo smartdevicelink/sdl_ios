@@ -260,13 +260,13 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark - Subscribe Buttons
 
-/// Subscribes to the specified hard button. The update handler will be called when the button has been selected.
-/// To unsubscribe to the hard button, please call `unsubscribeButton:withObserver:withCompletionHandler:`.
+/// Subscribes to a subscribe button. The update handler will be called when the button has been selected. If there is an error subscribing to the subscribe button it will be returned in the `error` parameter of the updateHandler.
 /// @param buttonName The name of the hard button to subscribe to
-/// @param updateHandler A handler called when a response to the subscription request has been received from the module and when the button has been selected
+/// @param updateHandler The block run when the subscribe button is selected
+/// @return An object that can be used to unsubscribe the block using `unsubscribeButtonWithObserver:withCompletionHandler:`.
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler;
 
-/// Subscribes to the specified hard button. The selector will be called when the button has been selected.
+/// Subscribes to a subscribe button. The selector will be called when the button has been selected. If there is an error subscribing to the subscribe button it will be returned in the `error` parameter of the selector.
 ///
 /// The selector supports the following parameters:
 ///
@@ -287,7 +287,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 /// @param selector The selector on `observer` that will be called whenever the button has been selected
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector;
 
-/// Unsubscribes to the specified hard button. Please note that if a hard button has multiple subscribers the observer will no longer get notifications, however, the app will still be subscribed to the hard button until the last subscriber is removed.
+/// Unsubscribes to a subscribe button. Please note that if a subscribe button has multiple subscribers the observer will no longer get notifications, however, the app will still be subscribed to the hard button until the last subscriber is removed.
 /// @param buttonName The name of the hard button to subscribe to
 /// @param observer The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed
 /// @param completionHandler A handler called when the observer has been unsubscribed to the hard button
