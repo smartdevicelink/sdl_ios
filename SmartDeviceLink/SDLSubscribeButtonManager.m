@@ -203,8 +203,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - Subscriptions
-
 /// Helper method for notifying subscribers of button events.
 /// @param observer The object that will have `selector` called
 /// @param buttonName The name of the subscribe button
@@ -289,7 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark Getters
+#pragma mark - Getters
 
 - (NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *)subscribeButtonObservers {
     __block NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *dict = nil;
