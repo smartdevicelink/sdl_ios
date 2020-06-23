@@ -40,7 +40,10 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.instantFuelConsumption = @NO;
         testRequest.myKey = @YES;
         testRequest.odometer = @YES;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRequest.prndl = @YES;
+#pragma clang diagnostic pop
         testRequest.gearStatus = @YES;
         testRequest.rpm = @YES;
         testRequest.speed = @NO;
@@ -71,7 +74,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.instantFuelConsumption).to(equal(@NO));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@NO));
@@ -143,7 +149,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
@@ -180,7 +189,10 @@ describe(@"initializers", ^{
         expect(testRequest.instantFuelConsumption).to(beNil());
         expect(testRequest.myKey).to(beNil());
         expect(testRequest.odometer).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(beNil());
+#pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(beNil());
         expect(testRequest.speed).to(beNil());
@@ -215,7 +227,10 @@ describe(@"initializers", ^{
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
-        expect(testRequest.prndl).to(equal(NO));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testRequest.prndl).to(beNil());
+#pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
@@ -251,8 +266,11 @@ describe(@"initializers", ^{
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(equal(@YES));
-        expect(testRequest.gearStatus).to(equal(@NO));
+#pragma clang diagnostic pop
+        expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -289,8 +307,11 @@ describe(@"initializers", ^{
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
-        expect(testRequest.prndl).to(equal(@YES));
-        expect(testRequest.gearStatus).to(equal(@NO));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testRequest.prndl).to(beTrue());
+#pragma clang diagnostic pop
+        expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
