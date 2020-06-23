@@ -211,7 +211,8 @@ describe(@"the secondary transport manager ", ^{
 
     describe(@"when started", ^{
         beforeEach(^{
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
+            testPrimaryTransport = [[SDLIAPTransport alloc] init];
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
         });
 
         it(@"should transition to Started state", ^{
@@ -227,9 +228,8 @@ describe(@"the secondary transport manager ", ^{
     describe(@"In Started state", ^{
         beforeEach(^{
             // In the tests, we assume primary transport is iAP
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
-            testPrimaryProtocol.transport = testPrimaryTransport;
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
 
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
@@ -518,9 +518,8 @@ describe(@"the secondary transport manager ", ^{
         describe(@"if secondary transport is iAP", ^{
             beforeEach(^{
                 // in this case we assume the primary transport is TCP
-                testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLTCPTransport alloc] init];
-                testPrimaryProtocol.transport = testPrimaryTransport;
+                testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
                 testPrimaryProtocol.securityManager = OCMClassMock([SDLFakeSecurityManager class]);
 
                 dispatch_sync(testStateMachineQueue, ^{
@@ -561,8 +560,8 @@ describe(@"the secondary transport manager ", ^{
 
         describe(@"if secondary transport is TCP", ^{
             beforeEach(^{
-                testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLIAPTransport alloc] init];
+                testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
                 testPrimaryProtocol.transport = testPrimaryTransport;
 
                 dispatch_sync(testStateMachineQueue, ^{
@@ -638,8 +637,8 @@ describe(@"the secondary transport manager ", ^{
 
         describe(@"when stopped", ^{
             beforeEach(^{
-                testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLIAPTransport alloc] init];
+                testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
                 testPrimaryProtocol.transport = testPrimaryTransport;
 
                 dispatch_sync(testStateMachineQueue, ^{
@@ -664,12 +663,11 @@ describe(@"the secondary transport manager ", ^{
         __block id testSecondaryProtocolMock = nil;
 
         beforeEach(^{
-            secondaryProtocol = [[SDLProtocol alloc] init];
+            secondaryProtocol = [[SDLProtocol alloc] initWithTransport:[[SDLTCPTransport alloc] init] encryptionManager:nil];
             testSecondaryProtocolMock = OCMPartialMock(secondaryProtocol);
 
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
-            testPrimaryProtocol.transport = testPrimaryTransport;
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
             });
@@ -854,11 +852,11 @@ describe(@"the secondary transport manager ", ^{
         __block id testSecondaryProtocolMock = nil;
 
         beforeEach(^{
-            secondaryProtocol = [[SDLProtocol alloc] init];
+            secondaryProtocol = [[SDLProtocol alloc] initWithTransport:[[SDLTCPTransport alloc] init] encryptionManager:nil];
             testSecondaryProtocolMock = OCMPartialMock(secondaryProtocol);
 
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
             testPrimaryProtocol.transport = testPrimaryTransport;
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
@@ -1001,8 +999,8 @@ describe(@"the secondary transport manager ", ^{
 
     describe(@"In Reconnecting state", ^{
         beforeEach(^{
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
             testPrimaryProtocol.transport = testPrimaryTransport;
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
@@ -1124,8 +1122,8 @@ describe(@"the secondary transport manager ", ^{
 
         beforeEach(^{
             // In the tests, we assume primary transport is iAP
-            testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
+            testPrimaryProtocol = [[SDLProtocol alloc] initWithTransport:testPrimaryTransport encryptionManager:nil];
             testPrimaryProtocol.transport = testPrimaryTransport;
 
             dispatch_sync(testStateMachineQueue, ^{

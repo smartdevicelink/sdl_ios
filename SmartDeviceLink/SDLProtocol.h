@@ -52,6 +52,9 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 @property (nullable, nonatomic, strong) id<SDLSecurityType> securityManager;
 
+/// The encryption manager for sending encrypted data
+@property (nonatomic, strong) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
+
 /**
  *  The app's id
  */
@@ -66,8 +69,8 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 /**
  * Initialize the protocol with an encryption lifecycle manager
  *
- * @param encryptionManager An encryption lifecycle manager
  * @param transport The transport to send and receive data from
+ * @param encryptionManager An encryption lifecycle manager
  *
  * @return An instance of SDLProtocol
  */

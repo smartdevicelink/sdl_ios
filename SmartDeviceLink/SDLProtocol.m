@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @property (assign, nonatomic) int32_t hashId;
-@property (nonatomic, strong) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 // Readonly public properties
 @property (strong, nonatomic, readwrite, nullable) NSString *authToken;
