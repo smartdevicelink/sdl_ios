@@ -34,7 +34,7 @@
 
 QuickSpecBegin(SDLStreamingMediaManagerSpec)
 
-describe(@"the streaming media manager", ^{
+fdescribe(@"the streaming media manager", ^{
     __block SDLStreamingMediaManager *testStreamingMediaManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLConfiguration *testConfiguration = nil;
@@ -226,7 +226,7 @@ describe(@"the streaming media manager", ^{
 
         describe(@"starting a service on a transport when none is running", ^{
             beforeEach(^{
-                [testStreamingMediaManager startSecondaryTransportWithProtocol:mockProtocol];
+                [testStreamingMediaManager startWithProtocol:mockProtocol];
 
                 // Make sure the dispatch_group tasks finish before performing checks
                 [NSThread sleepForTimeInterval:0.5];
