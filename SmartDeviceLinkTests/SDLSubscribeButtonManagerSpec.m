@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLError.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLRPCNotificationNotification.h"
@@ -195,6 +196,16 @@ describe(@"subscribe button manager", ^{
                 expect(testSubscribeButtonObserver1.buttonErrorsReceived.count).to(equal(1));
                 expect(testSubscribeButtonObserver1.buttonErrorsReceived[0]).to(equal(testError));
                 expect(testSubscribeButtonObserver1.buttonNamesReceived[0]).to(equal(testButtonName));
+            });
+
+            it(@"should ignore a subscription attempt with an invalid selector - selector has too many parameters", ^{
+                SEL testInvalidSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:extraParameter:);
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testInvalidSelector];
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers).to(beNil());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(0));
             });
         });
 
@@ -450,6 +461,16 @@ describe(@"subscribe button manager", ^{
                 expect(testObserver.buttonErrorsReceived).to(beEmpty());
                 expect(testObserver.buttonPressesReceived).to(beEmpty());
                 expect(testObserver.buttonEventsReceived[0]).to(equal(testButtonEvent));
+            });
+
+            it(@"should throw an assert if the selector does not exist for the observer", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testInvalidSelector = @selector(invalidSelector:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testInvalidSelector];
+
+                expectAction(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
             });
         });
 

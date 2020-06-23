@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress;
 - (void)buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress buttonEvent:(SDLOnButtonEvent *)buttonEvent;
 
+/// An invalid selector with too many parameters
+- (void)buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress buttonEvent:(SDLOnButtonEvent *)buttonEvent extraParameter:(BOOL)extraParameter;
+
 @end
 
 NS_ASSUME_NONNULL_END
