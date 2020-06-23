@@ -112,7 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
-        expect(testResponse.handsOffSteering).to(equal(@YES));
+        expect(testResponse.handsOffSteering).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -187,7 +187,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
-        expect(testResponse.handsOffSteering).to(equal(@YES));
+        expect(testResponse.handsOffSteering).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {

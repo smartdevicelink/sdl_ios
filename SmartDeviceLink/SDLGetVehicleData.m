@@ -387,6 +387,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
 }
 
+- (void)setHandsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering {
+    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
+}
+
+- (nullable NSNumber<SDLBool> *)handsOffSteering {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:NSNumber.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
