@@ -203,4 +203,4 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
  * To indicate whether driver hands are off the steering wheel
  * @since SDL 6.2.0
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeVehicledataHandsoffsteering;
+extern SDLVehicleDataType const SDLVehicleDataTypeHandsOffSteering;
