@@ -134,13 +134,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Utilities
 
-- (void)sdl_postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
-    NSDictionary<NSString *, id> *userInfo = nil;
-    if (infoObject != nil) {
-        userInfo = @{SDLNotificationUserInfoObject: infoObject};
-    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)sdl_postLockScreenStatus:(SDLOnLockScreenStatus *)statusNotification {
+#pragma clang diagnostic pop
+    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:self rpcNotification:statusNotification];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 
@@ -150,14 +150,14 @@ NS_ASSUME_NONNULL_BEGIN
     SDLOnHMIStatus *hmiStatus = notification.notification;
 
     self.hmiLevel = hmiStatus.hmiLevel;
-    [self sdl_postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:self.lockScreenStatusNotification];
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
 }
 
 - (void)sdl_driverDistractionDidUpdate:(SDLRPCNotificationNotification *)notification {
     SDLOnDriverDistraction *driverDistraction = notification.notification;
 
     self.driverDistracted = [driverDistraction.state isEqualToEnum:SDLDriverDistractionStateOn];
-    [self sdl_postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:self.lockScreenStatusNotification];
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
 }
 
 @end
