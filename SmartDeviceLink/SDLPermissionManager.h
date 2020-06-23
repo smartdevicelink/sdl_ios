@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCNames:groupType:withHandler: instead"));
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionElementsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCNames:groupType:withHandler: instead"));
 
 /**
  *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.

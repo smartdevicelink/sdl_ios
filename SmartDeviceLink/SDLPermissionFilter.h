@@ -77,12 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
 
-
-// to do clean up
-//- (instancetype)initWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
-//
-//+ (instancetype)filterWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
-
 @end
 
 NS_ASSUME_NONNULL_END

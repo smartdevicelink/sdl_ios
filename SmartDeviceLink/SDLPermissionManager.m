@@ -133,15 +133,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    return [self statusesOfRPCNames:[self sdl_createPermissionElementFromRPCNames:rpcNames]];
+    NSMutableDictionary<SDLPermissionRPCName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
+
+    for (NSString *rpcName in rpcNames) {
+        BOOL allowed = [self isRPCAllowed:rpcName];
+        permissionAllowedDict[rpcName] = @(allowed);
+    }
+
+    return [permissionAllowedDict copy];
 }
 
-- (NSDictionary<SDLPermissionElement*, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
+- (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
     NSMutableDictionary<SDLRPCFunctionName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     
-    for (SDLRPCFunctionName rpcName in rpcNames) {
-        BOOL allowed = [self isRPCNameAllowed:rpcName];
-        permissionAllowedDict[rpcName] = @(allowed);
+    for (SDLPermissionElement *permissionElement in rpcNames) {
+        BOOL allowed = [self isRPCNameAllowed:permissionElement.rpcName];
+        permissionAllowedDict[permissionElement.rpcName] = @(allowed);
     }
 
     return [permissionAllowedDict copy];
@@ -152,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionElementsChangedHandler)handler {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:[self sdl_createPermissionElementFromRPCNames:rpcNames] groupType:groupType observer:handler];
 
     // Store the filter for later use
@@ -299,6 +306,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return permissionElements;
+}
+
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)sdl_convertPermissionElementsDictionary:(NSDictionary<SDLPermissionElement*, NSNumber *> *)permissionElementsDictionary {
+    NSMutableDictionary *rpcNameDictionary = [[NSMutableDictionary alloc] init];
+    for (SDLPermissionElement *key in permissionElementsDictionary.allKeys) {
+        SDLPermissionRPCName rpcName = key.rpcName;
+        [rpcNameDictionary setObject:permissionElementsDictionary[key] forKey:rpcName];
+    }
+
+    return rpcNameDictionary;
 }
 
 /**

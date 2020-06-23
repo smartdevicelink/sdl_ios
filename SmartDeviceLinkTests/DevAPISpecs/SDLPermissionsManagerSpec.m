@@ -65,6 +65,7 @@ fdescribe(@"SDLPermissionsManager", ^{
 
     __block SDLPermissionElement *testPermissionElementAllAllowed = nil;
     __block SDLPermissionElement *testPermissionElementFullLimitedAllowed = nil;
+    __block SDLPermissionElement *testPermissionElementDisallowed = nil;
     
     beforeEach(^{
         // Permission Names
@@ -153,6 +154,7 @@ fdescribe(@"SDLPermissionsManager", ^{
 
         testPermissionElementAllAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllAllowed parameterPermissions:testPermissionAllAllowed.parameterPermissions];
         testPermissionElementFullLimitedAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedAllowed parameterPermissions:testPermissionFullLimitedAllowed.parameterPermissions];
+        testPermissionElementDisallowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllDisallowed    parameterPermissions:testPermissionAllDisallowed.parameterPermissions];
     });
 
     it(@"should clear when stopped", ^{
@@ -366,7 +368,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testPermissionElementFullLimitedAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return disallowed", ^{
@@ -396,7 +398,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return mixed", ^{
@@ -408,6 +410,7 @@ fdescribe(@"SDLPermissionsManager", ^{
     
     describe(@"checking the status of RPCs", ^{
         __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
+        __block NSDictionary<SDLPermissionElement *, NSNumber *> *testResultPermissionElementStatusDict = nil;
         context(@"with no permissions data", ^{
             context(@"deprecated statusOfRPCs: method", ^{
                 beforeEach(^{
@@ -425,12 +428,12 @@ fdescribe(@"SDLPermissionsManager", ^{
 
             context(@"statusesOfRPCNames: method", ^{
                 beforeEach(^{
-                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultPermissionElementStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
-                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
-                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                    expect(testResultPermissionStatusDict[testPermissionElementAllAllowed.rpcName]).to(equal(@NO));
+                    expect(testResultPermissionStatusDict[testPermissionElementDisallowed.rpcName]).to(equal(@NO));
                 });
             });
         });
@@ -457,7 +460,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultPermissionElementStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
@@ -596,7 +599,7 @@ fdescribe(@"SDLPermissionsManager", ^{
 
                 beforeEach(^{
                     testObserverCalled = NO;
-                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionElement *,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -618,7 +621,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
-                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionElement *,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });

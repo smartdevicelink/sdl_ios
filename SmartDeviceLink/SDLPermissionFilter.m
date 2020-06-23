@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _identifier = [NSUUID UUID];
-    // to do cleanup
-//    _rpcNames = rpcNames;
     _permissionElements = rpcNames;
     _groupType = groupType;
     _handler = observer;
@@ -43,21 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 
-// to do cleanup
-//- (instancetype)initWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler {
-//
-//    _identifier = [NSUUID UUID];
-//    _permissionElements = rpcNames;
-//    _groupType = groupType;
-//    _handler = handler;
-//
-//    return self;
-//}
-//
-//+ (instancetype)filterWithPermissionElements:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler {
-//    return  [[self alloc] initWithPermissionElements:rpcNames groupType:groupType observer:handler];
-//}
-
 
 #pragma mark - NSCopying
 
@@ -67,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     return newFilter;
 }
+
 
 #pragma mark - Equality
 
