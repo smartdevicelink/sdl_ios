@@ -214,13 +214,30 @@ describe(@"subscribe button manager", ^{
             __block SDLOnButtonEvent *testHandler2OnButtonEvent = nil;
 
             __block TestSubscribeButtonObserver *testObserver1 = nil;
-            __block SEL testSelector1 = @selector(buttonPressEvent);
+            __block SEL testSelector1 = nil;
 
             __block TestSubscribeButtonObserver *testObserver2 = nil;
-            __block SEL testSelector2 = @selector(buttonPressEvent);
+            __block SEL testSelector2 = nil;
+
+            __block SDLOnButtonPress *testButtonPress = nil;
+            __block SDLOnButtonEvent *testButtonEvent = nil;
+            __block SDLRPCNotificationNotification *buttonEventNotification = nil;
+            __block SDLRPCNotificationNotification *buttonPressNotification = nil;
 
             beforeEach(^{
                 testButtonName = SDLButtonNameTuneUp;
+
+                testButtonPress = [[SDLOnButtonPress alloc] init];
+                testButtonPress.buttonPressMode = SDLButtonPressModeLong;
+                testButtonPress.buttonName = testButtonName;
+
+                testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                testButtonEvent.buttonEventMode = SDLButtonEventModeButtonUp;
+                testButtonEvent.buttonName = testButtonName;
+
+                buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
                 testUpdateHandler1 = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {
                     testHandler1Called = YES;
                     testHandle1Error = error;
@@ -247,12 +264,7 @@ describe(@"subscribe button manager", ^{
                 [testManager subscribeButton:testButtonName withObserver:testObserver2 selector:testSelector2];
             });
 
-            it(@"should notify all observers when a button press notification is recieved", ^{
-                SDLOnButtonEvent *testButtonEvent = [[SDLOnButtonEvent alloc] init];
-                testButtonEvent.buttonEventMode = SDLButtonEventModeButtonUp;
-                testButtonEvent.buttonName = testButtonName;
-
-                SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+            it(@"should notify all observers when a button event notification is recieved", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
                 expect(testHandler1Called).toEventually(beTrue());
@@ -276,12 +288,7 @@ describe(@"subscribe button manager", ^{
                 expect(testObserver2.buttonEventsReceived[0]).to(equal(testButtonEvent));
             });
 
-            it(@"should notify all observers when a button event notification is recieved", ^{
-                SDLOnButtonPress *testButtonPress = [[SDLOnButtonPress alloc] init];
-                testButtonPress.buttonPressMode = SDLButtonPressModeLong;
-                testButtonPress.buttonName = testButtonName;
-
-                SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+            it(@"should notify all observers when a button press notification is recieved", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
                 expect(testHandler1Called).toEventually(beTrue());
@@ -303,6 +310,146 @@ describe(@"subscribe button manager", ^{
                 expect(testObserver2.buttonErrorsReceived).to(beEmpty());
                 expect(testObserver2.buttonPressesReceived[0]).to(equal(testButtonPress));
                 expect(testObserver2.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button press when the selector has no parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEvent);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect(testObserver.buttonNamesReceived).to(beEmpty());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button press when the selector has one parameter", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect([testObserver.buttonNamesReceived containsObject:testButtonName]).to(beTrue());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button press when the selector has two parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect([testObserver.buttonNamesReceived containsObject:testButtonName]).to(beTrue());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button press when the selector has three parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect([testObserver.buttonNamesReceived containsObject:testButtonName]).to(beTrue());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived[0]).to(equal(testButtonPress));
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button press when the selector has four parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect([testObserver.buttonNamesReceived containsObject:testButtonName]).to(beTrue());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived[0]).to(equal(testButtonPress));
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should not notify the observer of a button event when the selector has no parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEvent);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(0));
+                expect(testObserver.buttonNamesReceived).to(beEmpty());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should not notify the observer of a button event when the selector has one parameter", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(0));
+                expect(testObserver.buttonNamesReceived).to(beEmpty());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should not notify the observer of a button event when the selector has two parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(0));
+                expect(testObserver.buttonNamesReceived).to(beEmpty());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should not notify the observer of a button event when the selector has three parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(0));
+                expect(testObserver.buttonNamesReceived).to(beEmpty());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived).to(beEmpty());
+            });
+
+            it(@"should notify the observer of a button event when the selector has four parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:);
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+
+                [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+
+                expect(testObserver.selectorCalledCount).to(equal(1));
+                expect([testObserver.buttonNamesReceived containsObject:testButtonName]).to(beTrue());
+                expect(testObserver.buttonErrorsReceived).to(beEmpty());
+                expect(testObserver.buttonPressesReceived).to(beEmpty());
+                expect(testObserver.buttonEventsReceived[0]).to(equal(testButtonEvent));
             });
         });
 

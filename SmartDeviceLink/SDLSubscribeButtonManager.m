@@ -110,14 +110,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLUnsubscribeButtonResponse *unsubscribeButtonResponse = (SDLUnsubscribeButtonResponse *)response;
-        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success.boolValue == NO) {
+        if (response.success.boolValue == NO) {
             SDLLogE(@"Attempt to unsubscribe to subscribe button named %@ failed", buttonName);
             return completionHandler(error);
         }
 
         SDLLogD(@"Successfully unsubscribed to subscribe button named %@", buttonName);
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_removeSubscribedObserver:observer forButtonName:buttonName];
         return completionHandler(error);
     }];
@@ -187,11 +186,17 @@ NS_ASSUME_NONNULL_BEGIN
             @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
         }
 
+        NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
+
+        // If a selector has 0, 1, 2, or 3 parameters and only a button event has occured, do not notify the observer of the button event.
+        if (buttonEvent != nil && numberOfParametersInSelector <= 3) {
+            return;
+        }
+
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[(NSObject *)observer.observer methodSignatureForSelector:observer.selector]];
         [invocation setSelector:observer.selector];
         [invocation setTarget:observer.observer];
 
-        NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
         if (numberOfParametersInSelector >= 1) {
             [invocation setArgument:&buttonName atIndex:2];
         }
