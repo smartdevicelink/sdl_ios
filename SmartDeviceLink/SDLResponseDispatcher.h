@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
 
 /**
- *  Holds a map of SDLShow soft button ids and their corresponding blocks.
+ *  Holds a map of SDLShow soft button ids and their corresponding blocks.  
  */
 @property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *showButtonHandlerMap;
 
