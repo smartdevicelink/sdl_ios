@@ -16,9 +16,6 @@
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 
-//@property (nullable, strong, nonatomic) SDLVehicleDataResult *windowStatus;
-
-
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 

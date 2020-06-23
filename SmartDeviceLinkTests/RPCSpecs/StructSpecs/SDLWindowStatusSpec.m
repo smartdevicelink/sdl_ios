@@ -2,9 +2,6 @@
 //  SDLWindowStatusSpec.m
 //  SmartDeviceLinkTests
 //
-//  Created by Nicole on 6/20/18.
-//  Copyright © 2018 smartdevicelink. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <Quick/Quick.h>
@@ -12,7 +9,6 @@
 #import "SDLWindowStatus.h"
 #import "SDLWindowState.h"
 #import "SDLGrid.h"
-#import "SDLRPCParameterNames.h"
 
 const UInt8 approximatePosition = 13;
 const UInt8 deviation = 42;
@@ -30,6 +26,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
+        SDLWindowState *state = [[SDLWindowState alloc] initWithApproximatePosition:approximatePosition deviation:deviation];
+        SDLGrid *location = [SDLGrid new];
         NSDictionary *dict = @{@"location":location,
                                 @"state":state
                                 };

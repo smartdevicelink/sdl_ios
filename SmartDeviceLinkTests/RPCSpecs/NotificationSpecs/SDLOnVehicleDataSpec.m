@@ -230,7 +230,7 @@ describe(@"Getter/Setter Tests", ^ {
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
-        expect(testNotification.windowStatus).to(beNil());
+        expect(testRequest.windowStatus).to(beNil());
     });
 });
 

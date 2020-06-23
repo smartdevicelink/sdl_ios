@@ -378,7 +378,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
 }
 
-- (void)windowStatus:(nullable NSNumber<SDLBool> *)windowStatus {
+- (void)setWindowStatus:(nullable NSNumber<SDLBool> *)windowStatus {
     [self.parameters sdl_setObject:windowStatus forName:SDLRPCParameterNameWindowStatus];
 }
 
