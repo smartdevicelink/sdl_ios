@@ -7,7 +7,7 @@
 #import <Nimble/Nimble.h>
 #import "SDLTransmissionType.h"
 
-QuickSpecBegin(SDLWindowTypeSpec)
+QuickSpecBegin(SDLTransmissionTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
