@@ -36,10 +36,10 @@ describe(@"Getter/Setter Tests", ^ {
             NSDictionary* dict = @{@"escSystem":SDLVehicleDataStatusOn,
                                    @"trailerSwayControl":SDLVehicleDataStatusOn};
 
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithDictionary:dict];
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
 
             expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOn));
             expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOn));
