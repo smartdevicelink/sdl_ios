@@ -18,6 +18,7 @@
 #import "SDLSubscribeButtonResponse.h"
 #import "SDLSubscribebutton.h"
 #import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeButtonResponse.h"
 #import "TestConnectionManager.h"
 #import "TestSubscribeButtonObserver.h"
 
@@ -113,8 +114,6 @@ describe(@"subscribe button manager", ^{
 
                 SDLSubscribeButtonResponse *testSuccessResponse = [[SDLSubscribeButtonResponse alloc] init];
                 testSuccessResponse.success = @YES;
-                testSuccessResponse.info = @"test info";
-
                 [testConnectionManager respondToLastRequestWithResponse:testSuccessResponse];
 
                 expect(testHandler1Called).to(beFalse());
@@ -125,10 +124,7 @@ describe(@"subscribe button manager", ^{
 
                 SDLSubscribeButtonResponse *testFailureResponse = [[SDLSubscribeButtonResponse alloc] init];
                 testFailureResponse.success = @NO;
-                testFailureResponse.info = @"test info";
-
                 NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
-
                 [testConnectionManager respondToLastRequestWithResponse:testFailureResponse error:testError];
 
                 expect(testHandler1Called).to(beTrue());
@@ -182,8 +178,6 @@ describe(@"subscribe button manager", ^{
 
                 SDLSubscribeButtonResponse *testSuccessResponse = [[SDLSubscribeButtonResponse alloc] init];
                 testSuccessResponse.success = @YES;
-                testSuccessResponse.info = @"test info";
-
                 [testConnectionManager respondToLastRequestWithResponse:testSuccessResponse];
 
                 expect(testSubscribeButtonObserver1.selectorCalledCount).to(equal(0));
@@ -194,10 +188,7 @@ describe(@"subscribe button manager", ^{
 
                 SDLSubscribeButtonResponse *testFailureResponse = [[SDLSubscribeButtonResponse alloc] init];
                 testFailureResponse.success = @NO;
-                testFailureResponse.info = @"test info";
-
                 NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
-
                 [testConnectionManager respondToLastRequestWithResponse:testFailureResponse error:testError];
 
                 expect(testSubscribeButtonObserver1.selectorCalledCount).to(equal(1));
@@ -336,12 +327,16 @@ describe(@"subscribe button manager", ^{
                     testCompletionHandler1Called = YES;
                     testCompletionHandler1Error = error;
                 };
+                testCompletionHandler1Called = NO;
+                testCompletionHandler2Error = nil;
 
                 testUpdateHandler2 = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {};
                 testCompletionHandler2 = ^(NSError *__nullable error) {
                     testCompletionHandler2Called = YES;
                     testCompletionHandler2Error = error;
                 };
+                testCompletionHandler2Called = NO;
+                testCompletionHandler2Error = nil;
             });
 
             it(@"should unsubscribe the observer if there are multiple observers subscribed to the button", ^{
@@ -353,43 +348,160 @@ describe(@"subscribe button manager", ^{
                 NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
                 expect(observers.count).to(equal(1));
                 expect((id)observers[0].updateBlock).to(equal((id)testUpdateHandler2));
+                expect(observers[0].observer).to(equal(subscriptionID2));
 
                 expect(testCompletionHandler1Called).to(beTrue());
                 expect(testCompletionHandler2Called).to(beFalse());
 
                 expect(testConnectionManager.receivedRequests.count).to(equal(1));
-                for (SDLRPCMessage *request in testConnectionManager.receivedRequests) {
-                    expect([request isKindOfClass:SDLUnsubscribeButton.class]).to(beFalse());
-                }
+                expect(testConnectionManager.receivedRequests.firstObject).to(beAKindOf(SDLSubscribeButton.class));
             });
 
+            it(@"should send an unsubscribe button request when the last observer is removed and it should notify the observer that the unsubscribe request succeeded", ^{
+                id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
+                id subscriptionID2 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler2];
 
-            it(@"should unsubscribe observers and send an unsubscribe request when the last observer is removed", ^{
-//                SDLSubscribeButtonUpdateHandler testUpdateHandler2 = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {};
-//                id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
-//                id subscriptionID2 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler2];
-//
-//                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID1 withCompletionHandler:testCompletionHandler1];
-//                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID2 withCompletionHandler:testCompletionHandler2];
-//
-//                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-//                expect(observers).to(beEmpty());
-//
-//                expect(testCompletionHandler1Called).to(beTrue());
-//                expect(testCompletionHandler2Called).to(beTrue());
-//
-//                expect(testConnectionManager.receivedRequests.count).to(equal(1));
-//                expect([testConnectionManager.receivedRequests[0] isKindOfClass:SDLUnsubscribeButton.class]);
+                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID1 withCompletionHandler:testCompletionHandler1];
+                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID2 withCompletionHandler:testCompletionHandler2];
+
+                SDLUnsubscribeButtonResponse *testSuccessResponse = [[SDLUnsubscribeButtonResponse alloc] init];
+                testSuccessResponse.success = @YES;
+                [testConnectionManager respondToLastRequestWithResponse:testSuccessResponse];
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler1Error).to(beNil());
+                expect(testCompletionHandler2Called).to(beTrue());
+                expect(testCompletionHandler2Error).to(beNil());
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers).to(beNil());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(2));
+                expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
+            });
+
+            it(@"should notify the observer with the error when a failure response is recieved for the unsubscribe button request and it should not remove the observer", ^{
+                id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
+
+                [testManager unsubscribeButton:testButtonName withObserver:subscriptionID1 withCompletionHandler:testCompletionHandler1];
+
+                SDLUnsubscribeButtonResponse *testFailureResponse = [[SDLUnsubscribeButtonResponse alloc] init];
+                testFailureResponse.success = @NO;
+                NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
+                [testConnectionManager respondToLastRequestWithResponse:testFailureResponse error:testError];
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler1Error).to(equal(testError));
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(1));
+                expect((id)observers[0].updateBlock).to(equal((id)testUpdateHandler1));
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(2));
+                expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
             });
         });
 
         describe(@"should unsubscribe with an observer/selector", ^{
-            beforeEach(^{
+            __block SDLButtonName testButtonName = nil;
 
+            __block TestSubscribeButtonObserver *testSubscribeButtonObserver1 = nil;
+            __block SEL testSelector1 = @selector(buttonPressEvent);
+            __block SDLSubscribeButtonUpdateCompletionHandler testCompletionHandler1 = nil;
+            __block BOOL testCompletionHandler1Called = NO;
+            __block NSError *testCompletionHandler1Error = nil;
+
+            __block TestSubscribeButtonObserver *testSubscribeButtonObserver2 = nil;
+            __block SEL testSelector2 = @selector(buttonPressEvent);
+            __block SDLSubscribeButtonUpdateCompletionHandler testCompletionHandler2 = nil;
+            __block BOOL testCompletionHandler2Called = NO;
+            __block NSError *testCompletionHandler2Error = nil;
+
+            beforeEach(^{
+                testButtonName = SDLButtonNamePlayPause;
+
+                testSubscribeButtonObserver1 = [[TestSubscribeButtonObserver alloc] init];
+                testCompletionHandler1 = ^(NSError *__nullable error) {
+                    testCompletionHandler1Called = YES;
+                    testCompletionHandler1Error = error;
+                };
+                testSelector1 = @selector(buttonPressEvent);
+                testCompletionHandler1Called = NO;
+                testCompletionHandler2Error = nil;
+
+                testSubscribeButtonObserver2 = [[TestSubscribeButtonObserver alloc] init];
+                testSelector2 = @selector(buttonPressEventWithButtonName:error:);
+                testCompletionHandler2 = ^(NSError *__nullable error) {
+                    testCompletionHandler2Called = YES;
+                    testCompletionHandler2Error = error;
+                };
+                testCompletionHandler2Called = NO;
+                testCompletionHandler2Error = nil;
+            });
+
+            it(@"should unsubscribe the observer if there are multiple observers subscribed to the button", ^{
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector1];
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver2 selector:testSelector2];
+
+                [testManager unsubscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 withCompletionHandler:testCompletionHandler1];
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(1));
+                expect(NSStringFromSelector(observers[0].selector)).to(equal(NSStringFromSelector(testSelector2)));
+                expect((id)observers[0].observer).to(equal((id)testSubscribeButtonObserver2));
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler2Called).to(beFalse());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(1));
+                expect(testConnectionManager.receivedRequests.firstObject).to(beAKindOf(SDLSubscribeButton.class));
+            });
+
+            it(@"should send an unsubscribe button request when the last observer is removed and it should notify the observer that the unsubscribe request succeeded", ^{
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector1];
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver2 selector:testSelector2];
+
+                [testManager unsubscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 withCompletionHandler:testCompletionHandler1];
+                [testManager unsubscribeButton:testButtonName withObserver:testSubscribeButtonObserver2 withCompletionHandler:testCompletionHandler2];
+
+                SDLUnsubscribeButtonResponse *testSuccessResponse = [[SDLUnsubscribeButtonResponse alloc] init];
+                testSuccessResponse.success = @YES;
+                [testConnectionManager respondToLastRequestWithResponse:testSuccessResponse];
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler1Error).to(beNil());
+                expect(testCompletionHandler2Called).to(beTrue());
+                expect(testCompletionHandler2Error).to(beNil());
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers).to(beNil());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(2));
+                expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
+            });
+
+            it(@"should notify the observer with the error when a failure response is recieved for the unsubscribe button request and it should not remove the observer", ^{
+                [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector1];
+
+                [testManager unsubscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 withCompletionHandler:testCompletionHandler1];
+
+                SDLUnsubscribeButtonResponse *testFailureResponse = [[SDLUnsubscribeButtonResponse alloc] init];
+                testFailureResponse.success = @NO;
+                NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
+                [testConnectionManager respondToLastRequestWithResponse:testFailureResponse error:testError];
+
+                expect(testCompletionHandler1Called).to(beTrue());
+                expect(testCompletionHandler1Error).to(equal(testError));
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers.count).to(equal(1));
+                expect(NSStringFromSelector(observers[0].selector)).to(equal(NSStringFromSelector(testSelector1)));
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(2));
+                expect([testConnectionManager.receivedRequests[1] isKindOfClass:SDLUnsubscribeButton.class]);
             });
         });
     });
 });
 
 QuickSpecEnd
-

@@ -97,11 +97,51 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
 
-    if (self.subscribeButtonObservers[buttonName] == nil) {
+    if (self.subscribeButtonObservers[buttonName] == nil || ![self sdl_isSubscribedObserver:observer forButtonName:buttonName]) {
         SDLLogE(@"Attempting to unsubscribe to the %@ subscribe button which is not currently subscribed", buttonName);
         return completionHandler(nil);
     }
 
+    if (self.subscribeButtonObservers[buttonName].count > 1) {
+        [self sdl_removeSubscribedObserver:observer forButtonName:buttonName];
+        return completionHandler(nil);
+    }
+
+    SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
+    __weak typeof(self) weakSelf = self;
+    [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLUnsubscribeButtonResponse *unsubscribeButtonResponse = (SDLUnsubscribeButtonResponse *)response;
+        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success.boolValue == NO) {
+            SDLLogE(@"Attempt to unsubscribe to subscribe button named %@ failed", buttonName);
+            return completionHandler(error);
+        }
+
+        SDLLogD(@"Successfully unsubscribed to subscribe button named %@", buttonName);
+        [strongSelf sdl_removeSubscribedObserver:observer forButtonName:buttonName];
+        return completionHandler(error);
+    }];
+}
+
+/// Helper method for checking if the observer is currently subscribed to the button
+/// @param observer The observer
+/// @param buttonName The name of the button
+/// @return True if the observer is currently subscribed to the button; false if not
+- (BOOL)sdl_isSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
+    BOOL isSubscribedObserver = NO;
+    for (SDLSubscribeButtonObserver *subscribedObserver in self.subscribeButtonObservers[buttonName]) {
+        if (subscribedObserver.observer != observer ) { continue; }
+        isSubscribedObserver = YES;
+        break;
+    }
+
+    return isSubscribedObserver;
+}
+
+/// Helper method for removing an observer for the button
+/// @param observer The observer
+/// @param buttonName The name of the button
+- (void)sdl_removeSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
     NSMutableArray *subscribedObservers = self.subscribeButtonObservers[buttonName];
     for (uint i = 0; i < subscribedObservers.count; i += 1) {
         SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)subscribedObservers[i];
@@ -109,24 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
         [subscribedObservers removeObjectAtIndex:i];
         break;
     }
-
     self.subscribeButtonObservers[buttonName] = (subscribedObservers.count > 0) ? subscribedObservers : nil;
-
-    // [self.subscribeButtonObservers[buttonName] removeObject:observer];
-    if (self.subscribeButtonObservers[buttonName].count > 0) {
-        return completionHandler(nil);
-    }
-
-    SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
-    [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        SDLUnsubscribeButtonResponse *unsubscribeButtonResponse = (SDLUnsubscribeButtonResponse *)response;
-        if (unsubscribeButtonResponse == nil || unsubscribeButtonResponse.success.boolValue == NO) {
-            SDLLogE(@"Attempt to unsubscribe to subscribe button named %@ failed", buttonName);
-        }
-
-        SDLLogD(@"Successfully unsubscribed to subscribe button named %@", buttonName);
-        return completionHandler(error);
-    }];
 }
 
 #pragma mark - Helpers
