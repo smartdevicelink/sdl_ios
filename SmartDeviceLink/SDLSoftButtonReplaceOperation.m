@@ -123,6 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
     }
+
     [self sdl_uploadImages:otherStatesToBeUploaded forStateName:@"Other" completionHandler:handler];
 }
 
