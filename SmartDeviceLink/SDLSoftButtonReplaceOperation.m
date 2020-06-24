@@ -64,20 +64,21 @@ NS_ASSUME_NONNULL_BEGIN
             [weakself finishOperation];
         }];
     } else if (![self sdl_allStateImagesAreUploaded]) {
-        // If there are images that aren't uploaded
-        // Send text buttons if all the soft buttons have text
+        // If there are images in the first soft button state that have not yet been uploaded, send a text-only version of the soft buttons (this will only happen if all the first button states have text)
         [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {}];
 
-        // Upload initial images
-        __weak typeof(self) weakself = self;
+        // Upload images used in the first soft button state
+        __weak typeof(self) weakSelf = self;
         [self sdl_uploadInitialStateImagesWithCompletionHandler:^{
-            // Send initial soft buttons w/ images
-            [weakself sdl_sendCurrentStateSoftButtonsWithCompletionHandler:^{
-                // Upload other images
-                [weakself sdl_uploadOtherStateImagesWithCompletionHandler:^{
-                    __strong typeof(weakself) strongself = weakself;
+            // Now that the images have been uploaded, send the soft buttons with images
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf sdl_sendCurrentStateSoftButtonsWithCompletionHandler:^{
+                // Finally, upload the images used in the other button states
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [strongSelf sdl_uploadOtherStateImagesWithCompletionHandler:^{
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
                     SDLLogV(@"Finished sending other images for soft buttons");
-                    [strongself finishOperation];
+                    [strongSelf finishOperation];
                 }];
             }];
         }];
