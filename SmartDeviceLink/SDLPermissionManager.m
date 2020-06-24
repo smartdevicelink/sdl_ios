@@ -159,7 +159,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionElementsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
+
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:[self sdl_createPermissionElementFromRPCNames:rpcNames] groupType:groupType observer:handler];
 
     // Store the filter for later use
@@ -172,7 +173,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionElementsChangedHandler)handler {
-//    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
