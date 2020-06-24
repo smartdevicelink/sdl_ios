@@ -26,7 +26,7 @@
 
 QuickSpecBegin(SDLLifecycleSyncPDataHandlerSpec)
 
-fdescribe(@"Test SDLLifecycleSyncPDataHandler", ^{
+describe(@"Test SDLLifecycleSyncPDataHandler", ^{
     __block SDLLifecycleSyncPDataHandler *testHandler = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block NSURLSession *mockSession = nil;

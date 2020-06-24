@@ -56,7 +56,6 @@
     }
 
     SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
-
     hmiStatus.audioStreamingState = SDLAudioStreamingStateNotAudible;
     hmiStatus.systemContext = SDLSystemContextMain;
 
