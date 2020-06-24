@@ -40,12 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (self.presetButtonSubscriptionIDs.count > 0) {
-        SDLLogW(@"The app is already subscribed to preset buttons");
-        return;
-    }
-
     for (SDLButtonName buttonName in [self.class presetButtons]) {
+        if (self.presetButtonSubscriptionIDs[buttonName] != nil) {
+            SDLLogW(@"The app is already subscribed to the %@ button", buttonName);
+            return;
+        }
+
         __weak typeof(self) weakSelf = self;
         NSObject *subscriptionID = [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
             if (error != nil || buttonPress == nil) { return; }
@@ -72,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"The app is not subscribed to preset buttons");
         return;
     }
-
 
     for (SDLButtonName buttonName in self.presetButtonSubscriptionIDs.allKeys) {
         NSObject *subscriptionId = self.presetButtonSubscriptionIDs[buttonName];
