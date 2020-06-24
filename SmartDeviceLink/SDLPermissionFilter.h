@@ -31,11 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) SDLPermissionGroupType groupType;
 
-///**
-// *  The block that will be called on status changes to this filter group.
-// */
-//@property (copy, nonatomic, readonly) SDLPermissionsChangedHandler handler;
-
 /**
  *  The block that will be called on status changes to this filter group.
  */

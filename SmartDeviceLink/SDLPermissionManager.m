@@ -160,7 +160,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Add Observers
 
 - (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
-
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:[self sdl_createPermissionElementFromRPCNames:rpcNames] groupType:groupType observer:handler];
 
     // Store the filter for later use
@@ -306,16 +305,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return permissionElements;
-}
-
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)sdl_convertPermissionElementsDictionary:(NSDictionary<SDLPermissionElement*, NSNumber *> *)permissionElementsDictionary {
-    NSMutableDictionary *rpcNameDictionary = [[NSMutableDictionary alloc] init];
-    for (SDLPermissionElement *key in permissionElementsDictionary.allKeys) {
-        SDLPermissionRPCName rpcName = key.rpcName;
-        [rpcNameDictionary setObject:permissionElementsDictionary[key] forKey:rpcName];
-    }
-
-    return rpcNameDictionary;
 }
 
 /**
