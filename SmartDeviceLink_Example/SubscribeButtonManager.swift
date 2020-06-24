@@ -15,7 +15,6 @@ class SubscribeButtonManager {
     let presetButtons: [SDLButtonName] = [.preset0, .preset1, .preset2, .preset3, .preset4, .preset5, .preset6, .preset7]
     fileprivate var presetButtonSubscriptionIDs = [SDLButtonName: Any]()
 
-
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager
     }
@@ -29,7 +28,7 @@ class SubscribeButtonManager {
 
         presetButtons.forEach { buttonName in
             guard presetButtonSubscriptionIDs[buttonName] == nil else {
-                SDLLog.w("The app is already subscribed to the \(buttonName) preset buttons")
+                SDLLog.w("The app is already subscribed to the \(buttonName) button")
                 return
             }
 
