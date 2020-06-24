@@ -32,9 +32,9 @@ describe(@"Test SDLLifecycleSyncPDataHandler", ^{
     __block NSURLSession *mockSession = nil;
 
     beforeEach(^{
-        NSData *receivedData = [NSJSONSerialization dataWithJSONObject:@{@"data": @[@"1234"]} options:kNilOptions error:nil];
-
         mockSession = OCMClassMock([NSURLSession class]);
+
+        NSData *receivedData = [NSJSONSerialization dataWithJSONObject:@{@"data": @[@"1234"]} options:kNilOptions error:nil];
         OCMStub([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:receivedData, [[NSURLResponse alloc] init], [NSNull null], nil])]);
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
