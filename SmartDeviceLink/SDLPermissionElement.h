@@ -29,8 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLParameterPermissions *parameterPermissions;
 
-
-
+/**
+ *  Create a new permission element.
+ *
+ *  @param rpcName  The names of the RPC.
+ *  @param parameterPermissions The parameter permissions associated with the RPC.
+ *
+ *  @return An instance of `SDLPermissionElement`.
+ */
 - (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(nullable SDLParameterPermissions *)parameterPermissions;
 
 - (SDLRPCFunctionName)getRPCName;

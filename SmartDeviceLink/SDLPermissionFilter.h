@@ -22,11 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLPermissionObserverIdentifier identifier;
 
 /**
- *  All of the RPC names in this filter group.
- */
-@property (copy, nonatomic, readonly) NSArray<SDLPermissionRPCName> *rpcNames;
-
-/**
  *  The type of this filter group.
  */
 @property (assign, nonatomic, readonly) SDLPermissionGroupType groupType;
@@ -34,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The block that will be called on status changes to this filter group.
  */
-@property (copy, nonatomic, readonly) SDLPermissionElementsChangedHandler handler;
+@property (copy, nonatomic, readonly) SDLPermissionElementsChangedHandler permissionsChangedHandler;
 
 /**
  *  All of the permission elements in this filter group.
@@ -71,6 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return YES if this filter is equivalent with `otherFilter`, NO otherwise.
  */
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
+
+// to do update
+- (NSArray<SDLPermissionRPCName> *)getRPCNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
 
 @end
 
