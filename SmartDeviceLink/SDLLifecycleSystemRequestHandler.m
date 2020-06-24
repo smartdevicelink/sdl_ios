@@ -32,6 +32,8 @@ static const float DefaultConnectionTimeout = 45.0;
 @property (strong, nonatomic) SDLCacheFileManager *cacheFileManager;
 @property (strong, nonatomic) NSURLSession *urlSession;
 
+@property (strong, nonatomic) SDLPolicyDataParser *policyDataParser;
+
 @end
 
 @implementation SDLLifecycleSystemRequestHandler
@@ -49,6 +51,8 @@ static const float DefaultConnectionTimeout = 45.0;
     configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
     configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
     _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+
+    _policyDataParser = [[SDLPolicyDataParser alloc] init];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemRequestReceived:) name:SDLDidReceiveSystemRequestNotification object:nil];
 
@@ -101,10 +105,9 @@ static const float DefaultConnectionTimeout = 45.0;
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 
     // Parse and display the policy data.
-    SDLPolicyDataParser *pdp = [[SDLPolicyDataParser alloc] init];
-    NSData *policyData = [pdp unwrap:bodyData];
+    NSData *policyData = [self.policyDataParser unwrap:bodyData];
     if (policyData != nil) {
-        [pdp parsePolicyData:policyData];
+        [self.policyDataParser parsePolicyData:policyData];
         SDLLogV(@"Policy data received");
     }
 
@@ -119,7 +122,6 @@ static const float DefaultConnectionTimeout = 45.0;
             SDLLogW(@"OnSystemRequest HTTP response error: %@", error);
             return;
         }
-
         if (data == nil || data.length == 0) {
             SDLLogW(@"OnSystemRequest HTTP response error: no data received");
             return;
@@ -132,11 +134,10 @@ static const float DefaultConnectionTimeout = 45.0;
         request.bulkData = data;
 
         // Parse and display the policy data.
-        SDLPolicyDataParser *pdp = [[SDLPolicyDataParser alloc] init];
-        NSData *policyData = [pdp unwrap:data];
+        NSData *policyData = [strongSelf.policyDataParser unwrap:data];
         if (policyData) {
-            [pdp parsePolicyData:policyData];
-            SDLLogV(@"Cloud policy data: %@", pdp);
+            [strongSelf.policyDataParser parsePolicyData:policyData];
+            SDLLogV(@"Cloud policy data: %@", policyData);
         }
 
         // Send the RPC Request

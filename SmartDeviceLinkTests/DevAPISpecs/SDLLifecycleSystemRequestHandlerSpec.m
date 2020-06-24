@@ -15,6 +15,7 @@
 #import "SDLLifecycleSystemRequestHandler.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnSystemRequest.h"
+#import "SDLPolicyDataParser.h"
 #import "SDLPutFile.h"
 #import "SDLRequestType.h"
 #import "SDLRPCNotificationNotification.h"
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) SDLCacheFileManager *cacheFileManager;
 @property (strong, nonatomic) NSURLSession *urlSession;
 
+@property (strong, nonatomic) SDLPolicyDataParser *policyDataParser;
+
 @end
 
 QuickSpecBegin(SDLLifecycleSystemRequestHandlerSpec)
@@ -36,10 +39,13 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
     __block SDLLifecycleSystemRequestHandler *testManager = nil;
     __block id mockSession = nil;
     __block id mockCacheManager = nil;
+    __block id mockPolicyParser = nil;
 
     beforeEach(^{
         mockCacheManager = OCMClassMock([SDLCacheFileManager class]);
         mockSession = OCMStrictClassMock([NSURLSession class]);
+        mockPolicyParser = OCMClassMock([SDLPolicyDataParser class]);
+
         mockConnectionManager = [[TestConnectionManager alloc] init];
 
         testManager = [[SDLLifecycleSystemRequestHandler alloc] initWithConnectionManager:mockConnectionManager];
@@ -56,9 +62,14 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
         context(@"of type PROPRIETARY", ^{
             beforeEach(^{
                 receivedSystemRequest.requestType = SDLRequestTypeProprietary;
+                receivedSystemRequest.url = @"https://www.google.com";
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should send a SystemRequest", ^{
+
             });
         });
 
