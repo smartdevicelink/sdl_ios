@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
             [weakself finishOperation];
         }];
-    } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
+    } else if (![self sdl_allStateImagesAreUploaded]) {
         // If there are images that aren't uploaded
         // Send text buttons if all the soft buttons have text
         [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {}];
@@ -261,10 +261,11 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-- (BOOL)sdl_allCurrentStateImagesAreUploaded {
+- (BOOL)sdl_allStateImagesAreUploaded {
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
-        SDLArtwork *artwork = button.currentState.artwork;
-        if ([self sdl_artworkNeedsUpload:artwork]) {
+        for (SDLSoftButtonState *state in button.states) {
+            SDLArtwork *artwork = state.artwork;
+            if (![self sdl_artworkNeedsUpload:artwork]) { continue; }
             return NO;
         }
     }
