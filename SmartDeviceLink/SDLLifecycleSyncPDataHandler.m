@@ -17,8 +17,6 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCParameterNames.h"
 
-static const int PoliciesCorrelationId = 65535;
-
 @interface SDLLifecycleSyncPDataHandler ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> manager;
@@ -92,16 +90,18 @@ static const int PoliciesCorrelationId = 65535;
     // Convert data to RPCRequest
     NSError *JSONConversionError = nil;
     NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
-    if (!JSONConversionError) {
+    if (JSONConversionError) {
+        SDLLogE(@"Error converting EncodedSyncPData response dictionary: %@", JSONConversionError);
+        return;
+    }
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
+    SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
 #pragma clang diagnostic pop
-        request.correlationID = @(PoliciesCorrelationId);
-        request.data = responseDictionary[@"data"];
+    request.data = responseDictionary[@"data"];
 
-        [self.manager sendConnectionManagerRequest:request withResponseHandler:nil];
-    }
+    [self.manager sendConnectionManagerRequest:request withResponseHandler:nil];
 }
 
 
