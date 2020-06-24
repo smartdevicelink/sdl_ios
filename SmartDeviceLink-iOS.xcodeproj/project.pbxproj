@@ -428,6 +428,7 @@
 		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A457DD324A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */; };
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
+		4A457DD724A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */; };
 		4A4AD8A424894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4AD8A324894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m */; };
 		4A4AD8A724894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4AD8A624894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.m */; };
 		4A99D00E247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */; };
@@ -2156,6 +2157,7 @@
 		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSyncPDataHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSyncPDataHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
+		4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSystemRequestHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSystemRequestHandlerSpec.m; sourceTree = "<group>"; };
 		4A4AD8A224894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestOldConfigurationUpdateManagerDelegate.h; path = DevAPISpecs/TestOldConfigurationUpdateManagerDelegate.h; sourceTree = "<group>"; };
 		4A4AD8A324894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestOldConfigurationUpdateManagerDelegate.m; path = DevAPISpecs/TestOldConfigurationUpdateManagerDelegate.m; sourceTree = "<group>"; };
 		4A4AD8A524894270008FC414 /* TestNewConfigurationUpdateManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestNewConfigurationUpdateManagerDelegate.h; sourceTree = "<group>"; };
@@ -4210,6 +4212,7 @@
 				4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */,
 				4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */,
 				4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */,
+				4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */,
 			);
 			name = Lifecycle;
 			sourceTree = "<group>";
@@ -8336,6 +8339,7 @@
 				162E82D61A9BDE8A00906325 /* SDLComponentVolumeStatusSpec.m in Sources */,
 				162E835C1A9BDE8B00906325 /* SDLPutFileResponseSpec.m in Sources */,
 				1EE8C43E1F347F0500FDC2CF /* SDLVentilationModeSpec.m in Sources */,
+				4A457DD724A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m in Sources */,
 				88B58DC922204C9E0011B063 /* SDLNavigationActionSpec.m in Sources */,
 				5DB202271F5F2D030061D189 /* SDLImageResolutionSpec.m in Sources */,
 				DA9F7EAA1DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m in Sources */,

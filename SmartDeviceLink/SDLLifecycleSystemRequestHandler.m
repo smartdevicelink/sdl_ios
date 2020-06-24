@@ -24,7 +24,6 @@
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-static const int PoliciesCorrelationId = 65535;
 static const float DefaultConnectionTimeout = 45.0;
 
 @interface SDLLifecycleSystemRequestHandler ()
@@ -117,7 +116,6 @@ static const float DefaultConnectionTimeout = 45.0;
         // Create the SystemRequest RPC to send to module.
         SDLLogV(@"OnSystemRequest HTTP response");
         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
-        request.correlationID = @(PoliciesCorrelationId);
         request.requestType = SDLRequestTypeProprietary;
         request.bulkData = data;
 
@@ -197,7 +195,6 @@ static const float DefaultConnectionTimeout = 45.0;
         // Create the PutFile RPC to send to module.
         SDLPutFile *putFile = [[SDLPutFile alloc] init];
         putFile.fileType = SDLFileTypeJSON;
-        putFile.correlationID = @(PoliciesCorrelationId);
         putFile.syncFileName = @"response_data";
         putFile.bulkData = data;
 

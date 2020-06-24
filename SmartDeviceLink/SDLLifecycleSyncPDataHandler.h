@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLifecycleSyncPDataHandler : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager;
 
 - (void)stop;
