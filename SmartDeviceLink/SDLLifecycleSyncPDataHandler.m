@@ -17,6 +17,8 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCParameterNames.h"
 
+static const float DefaultConnectionTimeout = 45.0;
+
 @interface SDLLifecycleSyncPDataHandler ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> manager;
@@ -32,6 +34,11 @@
 
     _manager = manager;
 
+    NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
+    configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+    _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_encodedSyncPDataReceived:) name:SDLDidReceiveEncodedDataNotification object:nil];
@@ -41,7 +48,19 @@
 }
 
 - (void)stop {
-    [self.urlSession invalidateAndCancel];
+    [self.urlSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        for (NSURLSessionTask *task in dataTasks) {
+            [task cancel];
+        }
+
+        for (NSURLSessionTask *task in uploadTasks) {
+            [task cancel];
+        }
+
+        for (NSURLSessionTask *task in downloadTasks) {
+            [task cancel];
+        }
+    }];
 }
 
 #pragma mark - Utilities

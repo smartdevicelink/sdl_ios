@@ -44,7 +44,7 @@ static const float DefaultConnectionTimeout = 45.0;
 
     _cacheFileManager = [[SDLCacheFileManager alloc] init];
 
-    NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
     configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
     configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -56,7 +56,19 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)stop {
-    [self.urlSession invalidateAndCancel];
+    [self.urlSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        for (NSURLSessionTask *task in dataTasks) {
+            [task cancel];
+        }
+
+        for (NSURLSessionTask *task in uploadTasks) {
+            [task cancel];
+        }
+
+        for (NSURLSessionTask *task in downloadTasks) {
+            [task cancel];
+        }
+    }];
 }
 
 #pragma mark - Handle OnSystemRequest
@@ -79,7 +91,7 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)sdl_handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
-    NSDictionary<NSString *, id> *jsonDict = [self sdl_validateAndParseSystemRequest:request];
+    NSDictionary<NSString *, id> *jsonDict = [self sdl_validateAndParseProprietarySystemRequest:request];
     if (jsonDict == nil || request.url == nil) {
         return;
     }
@@ -286,7 +298,7 @@ static const float DefaultConnectionTimeout = 45.0;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (nullable NSDictionary<NSString *, id> *)sdl_validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (nullable NSDictionary<NSString *, id> *)sdl_validateAndParseProprietarySystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
     SDLFileType fileType = request.fileType;
 
@@ -328,9 +340,13 @@ static const float DefaultConnectionTimeout = 45.0;
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:onSystemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if ([NSThread isMainThread]) {
             [self sdl_handleSystemRequestLaunchApp:onSystemRequest];
-        });
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self sdl_handleSystemRequestLaunchApp:onSystemRequest];
+            });
+        }
     }
 }
 
