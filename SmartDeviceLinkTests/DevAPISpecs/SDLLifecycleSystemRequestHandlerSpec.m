@@ -36,7 +36,6 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
     __block SDLLifecycleSystemRequestHandler *testManager = nil;
     __block id mockSession = nil;
     __block id mockCacheManager = nil;
-    __block id mockPolicyParser = nil;
 
     beforeEach(^{
         mockCacheManager = OCMClassMock([SDLCacheFileManager class]);

@@ -65,7 +65,7 @@ static const float StartSessionTime = 10.0;
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
 - (void)onProtocolOpened {
-    [self sdl_postNotificationName:SDLTransportDidConnect infoObject:nil];
+    [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:startServicePayload.data];
@@ -83,11 +83,11 @@ static const float StartSessionTime = 10.0;
 
 /// Called when the transport is closed.
 - (void)onProtocolClosed {
-    [self sdl_postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+    [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
 - (void)onTransportError:(NSError *)error {
-    [self sdl_postNotificationName:SDLTransportConnectError infoObject:error];
+    [self.notificationDispatcher postNotificationName:SDLTransportConnectError infoObject:error];
 }
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
@@ -95,7 +95,7 @@ static const float StartSessionTime = 10.0;
     SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
-        [self sdl_postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
+        [self.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
     }
 }
 
@@ -104,7 +104,7 @@ static const float StartSessionTime = 10.0;
     SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
 
     if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
-        [self sdl_postNotificationName:SDLRPCServiceConnectionDidError infoObject:nil];
+        [self.notificationDispatcher postNotificationName:SDLRPCServiceConnectionDidError infoObject:nil];
     }
 }
 
@@ -113,7 +113,7 @@ static const float StartSessionTime = 10.0;
     SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
     if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
-        [self sdl_postNotificationName:SDLRPCServiceDidDisconnect infoObject:nil];
+        [self.notificationDispatcher postNotificationName:SDLRPCServiceDidDisconnect infoObject:nil];
     }
 }
 
@@ -174,15 +174,6 @@ static const float StartSessionTime = 10.0;
     }
 
     return functionName;
-}
-
-- (void)sdl_postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
-    NSDictionary<NSString *, id> *userInfo = nil;
-    if (infoObject != nil) {
-        userInfo = @{SDLNotificationUserInfoObject: infoObject};
-    }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 @end
