@@ -133,6 +133,8 @@ static const float StartSessionTime = 10.0;
     }
 }
 
+#pragma mark - Utilities
+
 - (void)sdl_sendCallbackForMessage:(SDLRPCMessage *)message {
     // Log the RPC message
     SDLLogV(@"Message received: %@", message);
@@ -146,8 +148,6 @@ static const float StartSessionTime = 10.0;
         [self.notificationDispatcher postRPCNotificationNotification:notificationName notification:(SDLRPCNotification *)message];
     }
 }
-
-#pragma mark - Utilities
 
 - (SDLNotificationName)sdl_notificationNameForMessage:(SDLRPCMessage *)message {
     NSString *messageName = message.name;
