@@ -48,7 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 
         __weak typeof(self) weakSelf = self;
         NSObject *subscriptionID = [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
-            if (error != nil || buttonPress == nil) { return; }
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (error != nil || buttonPress == nil) {
+                strongSelf.presetButtonSubscriptionIDs[buttonName] = nil;
+                return;
+            }
 
             NSString *alertMessage;
             if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
@@ -58,8 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil];
-            
-            __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.sdlManager sendRPC:alert];
         }];
 
@@ -78,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         [self.sdlManager.screenManager unsubscribeButton:buttonName withObserver:subscriptionId withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
-                SDLLogE(@"The %@ button was not unsubscribed", buttonName);
+                SDLLogE(@"The %@ button was not unsubscribed successfully", buttonName);
                 return;
             }
 

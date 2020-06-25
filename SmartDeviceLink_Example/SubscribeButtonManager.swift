@@ -28,12 +28,17 @@ class SubscribeButtonManager {
 
         presetButtons.forEach { buttonName in
             guard presetButtonSubscriptionIDs[buttonName] == nil else {
-                SDLLog.w("The app is already subscribed to the \(buttonName) button")
+                SDLLog.w("The app is already subscribed to the \(buttonName.rawValue.rawValue) button")
                 return
             }
 
             let subscriptionID = sdlManager.screenManager.subscribeButton(buttonName) { [weak self] (press, event, error) in
-                guard error == nil, let press = press else { return }
+                guard error == nil, let press = press else {
+                    SDLLog.e("Error subscribing to the \(buttonName.rawValue.rawValue) button")
+                    self?.presetButtonSubscriptionIDs[buttonName] = nil;
+                    return
+                }
+
                 let alert: SDLAlert
                 if press.buttonPressMode == .short {
                     alert = AlertManager.alertWithMessageAndCloseButton("\(press.buttonName.rawValue.rawValue) pressed")
@@ -59,11 +64,11 @@ class SubscribeButtonManager {
             guard let subscriptionID  = subscriptionID as? NSObject else { continue }
             sdlManager.screenManager.unsubscribeButton(buttonName, withObserver: subscriptionID) { [weak self] (error) in
                 guard error == nil else {
-                    SDLLog.e("The \(buttonName) button was not unsubscribed")
+                    SDLLog.e("The \(buttonName.rawValue.rawValue) button was not unsubscribed successfully")
                     return
                 }
 
-                SDLLog.d("The \(buttonName) button was successfully unsubscribed")
+                SDLLog.d("The \(buttonName.rawValue.rawValue) button was successfully unsubscribed")
                 self?.presetButtonSubscriptionIDs[buttonName] = nil
             }
         }
