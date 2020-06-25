@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Check if soft buttons have images and, if so, if the images need to be uploaded
     if (![self sdl_supportsSoftButtonImages]) {
-        // The modules does not support images
+        // The module does not support images
         SDLLogW(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
 
         // Send text-only buttons if all current states for the soft buttons have text
@@ -231,6 +231,8 @@ NS_ASSUME_NONNULL_BEGIN
     return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && self.softButtonCapabilities.imageSupported.boolValue && !artwork.isStaticIcon);
 }
 
+/// Checks all the button states for images that need to be uploaded.
+/// @return True if all images have been uploaded; false at least one image needs to be uploaded
 - (BOOL)sdl_allStateImagesAreUploaded {
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
         for (SDLSoftButtonState *state in button.states) {
