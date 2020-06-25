@@ -84,7 +84,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 - (void)start;
 
 /// Stops the connected transport
-- (void)stop;
+- (void)stopWithCompletionHandler:(void (^)(void))disconnectCompletionHandler;
 
 #pragma mark - Sending
 

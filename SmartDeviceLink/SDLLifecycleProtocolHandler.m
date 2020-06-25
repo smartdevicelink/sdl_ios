@@ -56,8 +56,10 @@ static const float StartSessionTime = 10.0;
     [self.protocol start];
 }
 
-- (void)stop {
-    [self.protocol stop];
+- (void)stopWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    [self.protocol stopWithCompletionHandler:^{
+        disconnectCompletionHandler();
+    }];
 }
 
 

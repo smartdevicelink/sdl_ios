@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithProtocol:(SDLProtocol *)protocol notificationDispatcher:(SDLNotificationDispatcher *)notificationDispatcher configuration:(SDLConfiguration *)configuration;
 
 - (void)start;
-- (void)stop;
+- (void)stopWithCompletionHandler:(void (^)(void))disconnectCompletionHandler;
 
 @end
 

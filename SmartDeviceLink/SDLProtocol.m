@@ -83,9 +83,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self.transport connect];
 }
 
-- (void)stop {
+- (void)stopWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     [self.securityManager stop];
-    [self.transport disconnect];
+    [self.transport disconnectWithCompletionHandler:^{
+        disconnectCompletionHandler();
+    }];
 }
 
 #pragma mark - Service metadata
@@ -243,6 +245,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Register Secondary Transport
 
 - (void)registerSecondaryTransport {
+    SDLLogV(@"Attempting to register the secondary transport");
+
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = SDLServiceTypeControl;

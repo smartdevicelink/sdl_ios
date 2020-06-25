@@ -65,8 +65,8 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
     describe(@"when stopped", ^{
         beforeEach(^{
-            OCMExpect([(SDLProtocol *)mockProtocol stop]);
-            [testHandler stop];
+            OCMExpect([(SDLProtocol *)mockProtocol stopWithCompletionHandler:[OCMArg any]]);
+            [testHandler stopWithCompletionHandler:^{}];
         });
 
         it(@"should stop the protocol", ^{
