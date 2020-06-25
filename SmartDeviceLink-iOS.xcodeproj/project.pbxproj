@@ -834,8 +834,6 @@
 		5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB411A84238B00846EE7 /* SDLPermissionItem.m */; };
 		5D61FD2F1A84238C00846EE7 /* SDLPermissionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB421A84238B00846EE7 /* SDLPermissionStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD301A84238C00846EE7 /* SDLPermissionStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB431A84238B00846EE7 /* SDLPermissionStatus.m */; };
-		5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB441A84238B00846EE7 /* SDLPolicyDataParser.h */; };
-		5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB451A84238B00846EE7 /* SDLPolicyDataParser.m */; };
 		5D61FD331A84238C00846EE7 /* SDLPowerModeQualificationStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB461A84238B00846EE7 /* SDLPowerModeQualificationStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD341A84238C00846EE7 /* SDLPowerModeQualificationStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB471A84238B00846EE7 /* SDLPowerModeQualificationStatus.m */; };
 		5D61FD351A84238C00846EE7 /* SDLPowerModeStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB481A84238B00846EE7 /* SDLPowerModeStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2605,8 +2603,6 @@
 		5D61FB411A84238B00846EE7 /* SDLPermissionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionItem.m; sourceTree = "<group>"; };
 		5D61FB421A84238B00846EE7 /* SDLPermissionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionStatus.h; sourceTree = "<group>"; };
 		5D61FB431A84238B00846EE7 /* SDLPermissionStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionStatus.m; sourceTree = "<group>"; };
-		5D61FB441A84238B00846EE7 /* SDLPolicyDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPolicyDataParser.h; sourceTree = "<group>"; };
-		5D61FB451A84238B00846EE7 /* SDLPolicyDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPolicyDataParser.m; sourceTree = "<group>"; };
 		5D61FB461A84238B00846EE7 /* SDLPowerModeQualificationStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPowerModeQualificationStatus.h; sourceTree = "<group>"; };
 		5D61FB471A84238B00846EE7 /* SDLPowerModeQualificationStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPowerModeQualificationStatus.m; sourceTree = "<group>"; };
 		5D61FB481A84238B00846EE7 /* SDLPowerModeStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPowerModeStatus.h; sourceTree = "<group>"; };
@@ -4091,15 +4087,6 @@
 			name = "Status Manager";
 			sourceTree = "<group>";
 		};
-		4A9D02C12497F9C400FBE99B /* Policy Data Parser */ = {
-			isa = PBXGroup;
-			children = (
-				5D61FB441A84238B00846EE7 /* SDLPolicyDataParser.h */,
-				5D61FB451A84238B00846EE7 /* SDLPolicyDataParser.m */,
-			);
-			name = "Policy Data Parser";
-			sourceTree = "<group>";
-		};
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -4223,7 +4210,6 @@
 				5D0A7378203F0CB10001595D /* Configuration */,
 				4A9D02BB2497EEB400FBE99B /* Custom RPC Adapters */,
 				4A3BA4E324900962003E56B8 /* Custom RPC Handlers */,
-				4A9D02C12497F9C400FBE99B /* Policy Data Parser */,
 				4A3BA4E9249147E6003E56B8 /* Protocol Delegate Handler */,
 				5D07C0342044AD1900D1ECDC /* Request Operations */,
 				5D1654581D3E7A1600554D93 /* SDLLifecycleManager.h */,
@@ -7209,7 +7195,6 @@
 				5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */,
 				5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */,
 				5D61FCF01A84238C00846EE7 /* SDLLockScreenStatusManager.h in Headers */,
-				5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7868,7 +7853,6 @@
 				5D61FD5C1A84238C00846EE7 /* SDLReadDIDResponse.m in Sources */,
 				884AF950220B488900E22928 /* SDLOnSystemCapabilityUpdated.m in Sources */,
 				1EB59CB4202D9B5F00343A61 /* SDLSeatMemoryActionType.m in Sources */,
-				5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */,
 				5D61FC621A84238C00846EE7 /* SDLChoice.m in Sources */,
 				1E5AD0811F20B73E0029B8AF /* SDLButtonPress.m in Sources */,
 				5D92937520B5EEA200FCC775 /* SDLPreloadChoicesOperation.m in Sources */,

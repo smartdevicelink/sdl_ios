@@ -16,7 +16,6 @@
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnSystemRequest.h"
-#import "SDLPolicyDataParser.h"
 #import "SDLPutFile.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSystemRequest.h"
@@ -31,8 +30,6 @@ static const float DefaultConnectionTimeout = 45.0;
 @property (weak, nonatomic) id<SDLConnectionManagerType> manager;
 @property (strong, nonatomic) SDLCacheFileManager *cacheFileManager;
 @property (strong, nonatomic) NSURLSession *urlSession;
-
-@property (strong, nonatomic) SDLPolicyDataParser *policyDataParser;
 
 @end
 
@@ -51,8 +48,6 @@ static const float DefaultConnectionTimeout = 45.0;
     configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
     configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
     _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-
-    _policyDataParser = [[SDLPolicyDataParser alloc] init];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemRequestReceived:) name:SDLDidReceiveSystemRequestNotification object:nil];
 
@@ -98,17 +93,6 @@ static const float DefaultConnectionTimeout = 45.0;
     NSDictionary<NSString *, id> *jsonDict = [self sdl_validateAndParseProprietarySystemRequest:request];
     if (jsonDict == nil || request.url == nil) {
         return;
-    }
-
-    NSDictionary<NSString *, id> *requestData = jsonDict[@"HTTPRequest"];
-    NSString *bodyString = requestData[@"body"];
-    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-
-    // Parse and display the policy data.
-    NSData *policyData = [self.policyDataParser unwrap:bodyData];
-    if (policyData != nil) {
-        [self.policyDataParser parsePolicyData:policyData];
-        SDLLogV(@"Policy data received");
     }
 
     // Send the HTTP Request

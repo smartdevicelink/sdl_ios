@@ -15,7 +15,6 @@
 #import "SDLLifecycleSystemRequestHandler.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnSystemRequest.h"
-#import "SDLPolicyDataParser.h"
 #import "SDLPutFile.h"
 #import "SDLRequestType.h"
 #import "SDLRPCNotificationNotification.h"
@@ -27,8 +26,6 @@
 
 @property (strong, nonatomic) SDLCacheFileManager *cacheFileManager;
 @property (strong, nonatomic) NSURLSession *urlSession;
-
-@property (strong, nonatomic) SDLPolicyDataParser *policyDataParser;
 
 @end
 
@@ -44,7 +41,6 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
     beforeEach(^{
         mockCacheManager = OCMClassMock([SDLCacheFileManager class]);
         mockSession = OCMStrictClassMock([NSURLSession class]);
-        mockPolicyParser = OCMClassMock([SDLPolicyDataParser class]);
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
 
@@ -59,7 +55,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
             receivedSystemRequest = [[SDLOnSystemRequest alloc] init];
         });
 
-        fcontext(@"of type PROPRIETARY", ^{
+        context(@"of type PROPRIETARY", ^{
             __block NSData *urlReceivedData = nil;
 
             beforeEach(^{
@@ -70,7 +66,6 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 urlReceivedData = [@"5678" dataUsingEncoding:NSASCIIStringEncoding];
                 receivedSystemRequest.bulkData = [NSJSONSerialization dataWithJSONObject:@{@"data": @"1234"} options:kNilOptions error:nil];
 
-                OCMStub([mockPolicyParser unwrap:[OCMArg any]]).andReturn(@"1234");
                 OCMStub([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:urlReceivedData, [[NSURLResponse alloc] init], [NSNull null], nil])]).andReturn(nil);
             });
 
@@ -87,9 +82,9 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 });
             });
 
-            context(@"when the url is malformed", ^{
+            context(@"when the url is nil", ^{
                 beforeEach(^{
-                    receivedSystemRequest.url = @"google";
+                    receivedSystemRequest.url = nil;
 
                     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
