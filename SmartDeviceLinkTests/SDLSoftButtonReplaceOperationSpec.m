@@ -101,8 +101,6 @@ describe(@"a soft button replace operation", ^{
         object2State2 = [[SDLSoftButtonState alloc] initWithStateName:object2State2Name text:object2State2Text artwork:object2State2Art];
         buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
 
-        //[[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
-
         object3State1Art = [[SDLArtwork alloc] initWithStaticIcon:object3State1IconName];
         object3State1 = [[SDLSoftButtonState alloc] initWithStateName:object3State1Name text:object3State1Text artwork:object3State1Art];
         buttonWithTextAndStaticImage = [[SDLSoftButtonObject alloc] initWithName:object3Name state:object3State1 handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
