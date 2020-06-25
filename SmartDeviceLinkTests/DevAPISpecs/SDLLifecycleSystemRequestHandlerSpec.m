@@ -59,17 +59,72 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
             receivedSystemRequest = [[SDLOnSystemRequest alloc] init];
         });
 
-        context(@"of type PROPRIETARY", ^{
+        fcontext(@"of type PROPRIETARY", ^{
+            __block NSData *urlReceivedData = nil;
+
             beforeEach(^{
                 receivedSystemRequest.requestType = SDLRequestTypeProprietary;
                 receivedSystemRequest.url = @"https://www.google.com";
+                receivedSystemRequest.fileType = SDLFileTypeJSON;
 
-                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                urlReceivedData = [@"5678" dataUsingEncoding:NSASCIIStringEncoding];
+                receivedSystemRequest.bulkData = [NSJSONSerialization dataWithJSONObject:@{@"data": @"1234"} options:kNilOptions error:nil];
+
+                OCMStub([mockPolicyParser unwrap:[OCMArg any]]).andReturn(@"1234");
+                OCMStub([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:urlReceivedData, [[NSURLResponse alloc] init], [NSNull null], nil])]).andReturn(nil);
             });
 
-            it(@"should send a SystemRequest", ^{
+            context(@"when the file type is not JSON", ^{
+                beforeEach(^{
+                    receivedSystemRequest.fileType = SDLFileTypeBMP;
 
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should not send a SystemRequest", ^{
+                    expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                });
+            });
+
+            context(@"when the url is malformed", ^{
+                beforeEach(^{
+                    receivedSystemRequest.url = @"google";
+
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should not send a SystemRequest", ^{
+                    expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                });
+            });
+
+            context(@"when the bulkdata is not JSON", ^{
+                beforeEach(^{
+                    receivedSystemRequest.bulkData = [@"1234" dataUsingEncoding:NSASCIIStringEncoding];
+
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should not send a SystemRequest", ^{
+                    expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                });
+            });
+
+            context(@"when formed correctly", ^{
+                beforeEach(^{
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should send a SystemRequest", ^{
+                    expect(mockConnectionManager.receivedRequests).to(haveCount(1));
+                    expect(mockConnectionManager.receivedRequests[0]).to(beAnInstanceOf([SDLSystemRequest class]));
+                    expect(((SDLSystemRequest *)mockConnectionManager.receivedRequests[0]).requestType).to(equal(SDLRequestTypeProprietary));
+                    expect(((SDLSystemRequest *)mockConnectionManager.receivedRequests[0]).bulkData).to(equal([@"5678" dataUsingEncoding:NSASCIIStringEncoding]));
+                });
             });
         });
 

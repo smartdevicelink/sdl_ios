@@ -133,13 +133,6 @@ static const float DefaultConnectionTimeout = 45.0;
         request.requestType = SDLRequestTypeProprietary;
         request.bulkData = data;
 
-        // Parse and display the policy data.
-        NSData *policyData = [strongSelf.policyDataParser unwrap:data];
-        if (policyData) {
-            [strongSelf.policyDataParser parsePolicyData:policyData];
-            SDLLogV(@"Cloud policy data: %@", policyData);
-        }
-
         // Send the RPC Request
         [strongSelf.manager sendConnectionManagerRequest:request withResponseHandler:nil];
     }];
@@ -308,7 +301,6 @@ static const float DefaultConnectionTimeout = 45.0;
         SDLLogW(@"OnSystemRequest validation failure: URL is nil");
         return nil;
     }
-
     if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
         SDLLogW(@"OnSystemRequest validation failure: file type is not JSON");
         return nil;
