@@ -39,7 +39,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
 
     beforeEach(^{
         mockCacheManager = OCMClassMock([SDLCacheFileManager class]);
-        mockSession = OCMStrictClassMock([NSURLSession class]);
+        mockSession = OCMClassMock([NSURLSession class]);
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
 
