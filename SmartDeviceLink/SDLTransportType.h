@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, weak, nonatomic) id<SDLTransportDelegate> delegate;
 
 - (void)connect;
-- (void)disconnect;
+- (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler;
 - (void)sendData:(NSData *)dataToSend;
 
 @end

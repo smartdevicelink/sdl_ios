@@ -255,6 +255,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Register Secondary Transport
 
 - (void)registerSecondaryTransport {
+    SDLLogV(@"Attempting to register the secondary transport");
+
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = SDLServiceTypeControl;
