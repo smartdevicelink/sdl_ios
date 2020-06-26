@@ -12,6 +12,10 @@
 
 #import "SDLDisplayCapabilities.h"
 #import "SDLConfiguration.h"
+#import "SDLEncryptionConfiguration.h"
+#import "SDLEncryptionLifecycleManager.h"
+#import "SDLEncryptionManagerConstants.h"
+#import "SDLFakeSecurityManager.h"
 #import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLOnHMIStatus.h"
@@ -20,16 +24,14 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
-#import "SDLEncryptionConfiguration.h"
-#import "SDLEncryptionLifecycleManager.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLVehicleType.h"
 #import "TestConnectionManager.h"
-#import "SDLFakeSecurityManager.h"
-#import "SDLEncryptionManagerConstants.h"
 
 @interface SDLEncryptionLifecycleManager()
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, Class> *securityManagers;
 @end
 
 QuickSpecBegin(SDLEncryptionLifecycleManagerSpec)
@@ -44,6 +46,7 @@ describe(@"the encryption lifecycle manager", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
+
         SDLEncryptionConfiguration *encryptionConfig = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
         SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test" fullAppId:@"1234"];
         testConfiguration = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil encryption:encryptionConfig];
@@ -53,7 +56,8 @@ describe(@"the encryption lifecycle manager", ^{
     });
     
     it(@"should initialize properties", ^{
-        expect(@(encryptionLifecycleManager.isEncryptionReady)).to(equal(@NO));
+        expect(encryptionLifecycleManager.isEncryptionReady).to(beFalse());
+        expect(encryptionLifecycleManager.securityManagers).toNot(beEmpty());
     });
     
     describe(@"when started", ^{
@@ -69,8 +73,8 @@ describe(@"the encryption lifecycle manager", ^{
             [encryptionLifecycleManager startWithProtocol:protocolMock];
         });
         
-        it(@"should not be ready to stream", ^{
-            expect(@(encryptionLifecycleManager.isEncryptionReady)).to(equal(@NO));
+        it(@"should not be ready to encrypt", ^{
+            expect(encryptionLifecycleManager.isEncryptionReady).to(beFalse());
         });
         
         describe(@"after receiving an RPC Start ACK", ^{
@@ -159,6 +163,22 @@ describe(@"the encryption lifecycle manager", ^{
             
             it(@"should have set all the right properties", ^{
                 expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+            });
+        });
+
+        describe(@"when a register app interface response is received", ^{
+            beforeEach(^{
+                OCMExpect([protocolMock setSecurityManager:[OCMArg any]]);
+
+                SDLRegisterAppInterfaceResponse *rair = [[SDLRegisterAppInterfaceResponse alloc] init];
+                rair.vehicleType = [[SDLVehicleType alloc] init];
+                rair.vehicleType.make = @"SDL";
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:nil rpcResponse:rair];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should set the protocol's security manager", ^{
+                OCMVerifyAll((id)protocolMock);
             });
         });
     });

@@ -248,7 +248,6 @@ typedef NSString SDLVehicleMake;
     if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) { return; }
     
     SDLOnHMIStatus *hmiStatus = notification.notification;
-    
     self.currentHMILevel = hmiStatus.hmiLevel;
     
     // if startWithProtocol has not been called yet, abort here
