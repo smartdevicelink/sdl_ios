@@ -40,7 +40,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should change it to an OK message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                     expect(((SDLSubscribeButton *)result[0]).buttonName).to(equal(SDLButtonNameOk));
@@ -53,7 +53,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should not do anything to the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                 });
@@ -71,7 +71,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional PlayPause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLSubscribeButton *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -84,7 +84,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should not do anything to the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                 });
@@ -105,7 +105,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should change it to an OK message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                     expect(((SDLUnsubscribeButton *)result[0]).buttonName).to(equal(SDLButtonNameOk));
@@ -118,7 +118,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should not do anything to the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                 });
@@ -136,7 +136,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional PlayPause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLUnsubscribeButton *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -149,7 +149,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should not do anything to the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionOutgoing];
 
                     expect(result).to(haveCount(1));
                 });
@@ -170,7 +170,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should drop the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(beEmpty());
                 });
@@ -182,7 +182,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional play-pause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonPress *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -201,7 +201,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional PlayPause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonPress *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -214,7 +214,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional OK message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonPress *)result[1]).buttonName).to(equal(SDLButtonNameOk));
@@ -236,7 +236,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should drop the message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(beEmpty());
                 });
@@ -248,7 +248,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional play-pause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonEvent *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -267,7 +267,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional PlayPause message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonEvent *)result[1]).buttonName).to(equal(SDLButtonNamePlayPause));
@@ -280,7 +280,7 @@ describe(@"the lifecycle RPC adapter", ^{
                 });
 
                 it(@"should create an additional OK message", ^{
-                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+                    NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
                     expect(result).to(haveCount(2));
                     expect(((SDLOnButtonEvent *)result[1]).buttonName).to(equal(SDLButtonNameOk));
@@ -296,7 +296,7 @@ describe(@"the lifecycle RPC adapter", ^{
         });
 
         it(@"should not do anything to the RPC", ^{
-            NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC];
+            NSArray<SDLRPCMessage *> *result = [SDLLifecycleRPCAdapter adaptRPC:testRPC direction:SDLRPCDirectionIncoming];
 
             expect(result).to(haveCount(1));
         });

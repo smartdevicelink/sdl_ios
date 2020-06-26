@@ -19,15 +19,22 @@
 
 @implementation SDLLifecycleRPCAdapter
 
-+ (NSArray<SDLRPCMessage *> *)adaptRPC:(SDLRPCMessage *)message {
-    if ([message.name isEqualToEnum:SDLRPCFunctionNameSubscribeButton]) {
-        return [self adaptSubscribeButton:(SDLSubscribeButton *)message];
-    } else if ([message.name isEqualToEnum:SDLRPCFunctionNameUnsubscribeButton]) {
-        return [self adaptUnsubscribeButton:(SDLUnsubscribeButton *)message];
-    } else if ([message.name isEqualToEnum:SDLRPCFunctionNameOnButtonPress]) {
-        return [self adaptOnButtonPress:(SDLOnButtonPress *)message];
-    } else if ([message.name isEqualToEnum:SDLRPCFunctionNameOnButtonEvent]) {
-        return [self adaptOnButtonEvent:(SDLOnButtonEvent *)message];
++ (NSArray<SDLRPCMessage *> *)adaptRPC:(SDLRPCMessage *)message direction:(SDLRPCDirection)direction {
+    switch (direction) {
+        case SDLRPCDirectionIncoming:
+            if ([message.name isEqualToEnum:SDLRPCFunctionNameOnButtonPress]) {
+                return [self adaptOnButtonPress:(SDLOnButtonPress *)message];
+            } else if ([message.name isEqualToEnum:SDLRPCFunctionNameOnButtonEvent]) {
+                return [self adaptOnButtonEvent:(SDLOnButtonEvent *)message];
+            }
+            break;
+        case SDLRPCDirectionOutgoing:
+            if ([message.name isEqualToEnum:SDLRPCFunctionNameSubscribeButton]) {
+                return [self adaptSubscribeButton:(SDLSubscribeButton *)message];
+            } else if ([message.name isEqualToEnum:SDLRPCFunctionNameUnsubscribeButton]) {
+                return [self adaptUnsubscribeButton:(SDLUnsubscribeButton *)message];
+            }
+            break;
     }
 
     return @[message];
@@ -35,49 +42,7 @@
 
 #pragma mark - Individual RPC Adaptations
 
-#pragma mark Requests
-
-// See table here https://github.com/smartdevicelink/sdl_java_suite/pull/864
-+ (NSArray<SDLRPCMessage *> *)adaptSubscribeButton:(SDLSubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            SDLSubscribeButton *playPauseMessage = [message copy];
-            playPauseMessage.buttonName = SDLButtonNamePlayPause;
-
-            return @[message, playPauseMessage];
-        }
-    } else { // Major version < 5
-        if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            SDLSubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            return @[okMessage];
-        }
-    }
-
-    return @[message];
-}
-
-// https://github.com/smartdevicelink/sdl_java_suite/pull/864
-+ (NSArray<SDLRPCMessage *> *)adaptUnsubscribeButton:(SDLUnsubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
-        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-            SDLUnsubscribeButton *playPauseMessage = [message copy];
-            playPauseMessage.buttonName = SDLButtonNamePlayPause;
-
-            return @[message, playPauseMessage];
-        }
-    } else { // Major version < 5
-        if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
-            SDLUnsubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            return @[okMessage];
-        }
-    }
-
-    return @[message];
-}
+#pragma mark Incoming
 
 #pragma mark Notifications
 
@@ -140,6 +105,52 @@
            // Drop
            return @[];
        }
+    }
+
+    return @[message];
+}
+
+#pragma mark Outgoing
+
+#pragma mark Requests
+
+// See table here https://github.com/smartdevicelink/sdl_java_suite/pull/864
++ (NSArray<SDLRPCMessage *> *)adaptSubscribeButton:(SDLSubscribeButton *)message {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            SDLSubscribeButton *playPauseMessage = [message copy];
+            playPauseMessage.buttonName = SDLButtonNamePlayPause;
+
+            return @[message, playPauseMessage];
+        }
+    } else { // Major version < 5
+        if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            SDLSubscribeButton *okMessage = [message copy];
+            okMessage.buttonName = SDLButtonNameOk;
+
+            return @[okMessage];
+        }
+    }
+
+    return @[message];
+}
+
+// https://github.com/smartdevicelink/sdl_java_suite/pull/864
++ (NSArray<SDLRPCMessage *> *)adaptUnsubscribeButton:(SDLUnsubscribeButton *)message {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
+        if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
+            SDLUnsubscribeButton *playPauseMessage = [message copy];
+            playPauseMessage.buttonName = SDLButtonNamePlayPause;
+
+            return @[message, playPauseMessage];
+        }
+    } else { // Major version < 5
+        if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
+            SDLUnsubscribeButton *okMessage = [message copy];
+            okMessage.buttonName = SDLButtonNameOk;
+
+            return @[okMessage];
+        }
     }
 
     return @[message];

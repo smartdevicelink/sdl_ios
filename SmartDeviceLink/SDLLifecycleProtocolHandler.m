@@ -129,7 +129,7 @@ static const float StartSessionTime = 10.0;
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:rpcMessageAsDictionary];
 
     // Adapt the incoming message then call the callback
-    NSArray<SDLRPCMessage *> *adaptedMessages = [SDLLifecycleRPCAdapter adaptRPC:newMessage];
+    NSArray<SDLRPCMessage *> *adaptedMessages = [SDLLifecycleRPCAdapter adaptRPC:newMessage direction:SDLRPCDirectionIncoming];
     for (SDLRPCMessage *message in adaptedMessages) {
         [self sdl_sendCallbackForMessage:message];
     }

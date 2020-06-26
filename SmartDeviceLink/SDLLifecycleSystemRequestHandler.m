@@ -185,7 +185,7 @@ static const float DefaultConnectionTimeout = 45.0;
         // Create the PutFile RPC to send to module.
         SDLPutFile *putFile = [[SDLPutFile alloc] init];
         putFile.fileType = SDLFileTypeJSON;
-        putFile.syncFileName = @"response_data";
+        putFile.sdlFileName = @"response_data";
         putFile.bulkData = data;
 
         // Send RPC Request

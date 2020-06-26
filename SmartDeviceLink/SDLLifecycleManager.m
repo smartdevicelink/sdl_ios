@@ -785,7 +785,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
-    NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request];
+    NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request direction:SDLRPCDirectionOutgoing];
     for (SDLRPCMessage *message in messages) {
         if ([request isKindOfClass:SDLRPCRequest.class]) {
             // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
