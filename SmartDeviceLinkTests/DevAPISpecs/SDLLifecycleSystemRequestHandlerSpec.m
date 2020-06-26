@@ -132,7 +132,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 OCMStub([mockCacheManager retrieveImageForRequest:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
 
                 lockScreenIconObserver = OCMObserverMock();
-                [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidReceiveLockScreenIcon object:nil];
+                [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidReceiveLockScreenIcon object:[OCMArg any]];
                 [[lockScreenIconObserver expect] notificationWithName:SDLDidReceiveLockScreenIcon object:[OCMArg any] userInfo:[OCMArg any]];
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
