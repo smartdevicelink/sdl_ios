@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     return [self initWithRPCNames:@[]
                         groupType:SDLPermissionGroupTypeAny
-                         observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
+                         observer:^(NSDictionary<SDLPermissionElement *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
                          }];
 }
 
