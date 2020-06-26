@@ -134,7 +134,7 @@ static const float DefaultConnectionTimeout = 45.0;
         if (image != nil) {
             userInfo = @{SDLNotificationUserInfoObject: image};
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:self userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:userInfo];
     }];
 }
 
