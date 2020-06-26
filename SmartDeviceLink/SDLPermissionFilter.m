@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
                          }];
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)observer {
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
@@ -32,12 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
     _identifier = [NSUUID UUID];
     _permissionElements = rpcNames;
     _groupType = groupType;
-    _permissionsChangedHandler = observer;
+    _handler = observer;
 
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)observer {
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 

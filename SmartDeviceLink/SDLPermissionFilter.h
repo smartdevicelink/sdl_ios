@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The block that will be called on status changes to this filter group.
  */
-@property (copy, nonatomic, readonly) SDLPermissionElementsChangedHandler permissionsChangedHandler;
+@property (copy, nonatomic, readonly) SDLPermissionsChangedHandler handler;
 
 /**
  *  All of the permission elements in this filter group.
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create a new permission filter group.
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionElementsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
 
 /**
  *  Whether the current filter is equivalent with another filter or not.

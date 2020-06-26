@@ -410,7 +410,6 @@ fdescribe(@"SDLPermissionsManager", ^{
     
     describe(@"checking the status of RPCs", ^{
         __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
-        __block NSDictionary<SDLPermissionElement *, NSNumber *> *testResultPermissionElementStatusDict = nil;
         context(@"with no permissions data", ^{
             context(@"deprecated statusOfRPCs: method", ^{
                 beforeEach(^{
@@ -428,7 +427,7 @@ fdescribe(@"SDLPermissionsManager", ^{
 
             context(@"statusesOfRPCNames: method", ^{
                 beforeEach(^{
-                    testResultPermissionElementStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
@@ -460,7 +459,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultPermissionElementStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return correct permission statuses", ^{
