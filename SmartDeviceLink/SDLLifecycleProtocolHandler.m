@@ -67,6 +67,7 @@ static const float StartSessionTime = 10.0;
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
 - (void)onProtocolOpened {
+    SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
@@ -85,10 +86,13 @@ static const float StartSessionTime = 10.0;
 
 /// Called when the transport is closed.
 - (void)onProtocolClosed {
+    SDLLogW(@"Transport disconnected");
     [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
 - (void)onTransportError:(NSError *)error {
+    SDLLogW(@"Transport error: %@", error);
+
     [self.notificationDispatcher postNotificationName:SDLTransportConnectError infoObject:error];
 }
 
@@ -139,7 +143,7 @@ static const float StartSessionTime = 10.0;
 
 - (void)sdl_sendCallbackForMessage:(SDLRPCMessage *)message {
     // Log the RPC message
-    SDLLogV(@"Message received: %@", message);
+    SDLLogV(@"Sending callback for RPC message: %@", message);
 
     SDLNotificationName notificationName = [self sdl_notificationNameForMessage:message];
     if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameResponse]) {
