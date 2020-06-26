@@ -34,7 +34,7 @@
 
 QuickSpecBegin(SDLStreamingMediaManagerSpec)
 
-fdescribe(@"the streaming media manager", ^{
+describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaManager *testStreamingMediaManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLConfiguration *testConfiguration = nil;

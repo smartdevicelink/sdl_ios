@@ -105,6 +105,7 @@ describe(@"a lifecycle manager", ^{
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
     __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
+    __block id secondaryTransportManagerMock = OCMClassMock([SDLSecondaryTransportManager class]);
 
     void (^transitionToState)(SDLState *) = ^(SDLState *state) {
         dispatch_sync(testManager.lifecycleQueue, ^{
@@ -134,6 +135,7 @@ describe(@"a lifecycle manager", ^{
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
         testManager.systemCapabilityManager = systemCapabilityMock;
+        testManager.secondaryTransportManager = secondaryTransportManagerMock;
 
         [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
@@ -328,11 +330,14 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"after receiving a disconnect notification", ^{
                 beforeEach(^{
+                    OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
+                    OCMStub([secondaryTransportManagerMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+                    [NSThread sleepForTimeInterval:1.0];
                 });
                 
                 it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStarted));
                 });
             });
             
@@ -342,7 +347,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should enter the stopped state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
                 });
             });
         });

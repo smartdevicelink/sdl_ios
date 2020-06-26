@@ -195,7 +195,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:nil];
 
-    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName: BackgroundTaskTransportName];
+    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskTransportName];
 
     return self;
 }
@@ -875,19 +875,19 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_transportDidDisconnect {
     SDLLogD(@"Transport Disconnected");
 
-    dispatch_async(self.lifecycleQueue, ^{
+    [self sdl_runOnProcessingQueue:^{
         if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
             [self sdl_transitionToState:SDLLifecycleStateStopped];
         } else {
             [self sdl_transitionToState:SDLLifecycleStateReconnecting];
         }
-    });
+    }];
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    dispatch_async(self.lifecycleQueue, ^{
+    [self sdl_runOnProcessingQueue:^{
         [self sdl_hmiStatusDidChange:notification];
-    });
+    }];
 }
 
 - (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
@@ -962,9 +962,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    dispatch_async(self.lifecycleQueue, ^{
+    [self sdl_runOnProcessingQueue:^{
         [self sdl_remoteHardwareDidUnregister:notification];
-    });
+    }];
 }
 
 - (void)sdl_remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
