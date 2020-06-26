@@ -247,7 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_appRequiresEncryption {
-    if (self.requiresEncryption && [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
+    if (self.requiresEncryption || [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
         return YES;
     }
     return NO;
