@@ -89,7 +89,7 @@
 }
 
 + (SDLLogFileModule *)sdl_lockscreenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager", @"SDLLockScreenViewController", @"SDLLockScreenPresenter", @"SDLCacheFileManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager", @"SDLLockScreenViewController", @"SDLLockScreenPresenter", @"SDLCacheFileManager", @"SDLLockScreenStatusManager"]]];
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {

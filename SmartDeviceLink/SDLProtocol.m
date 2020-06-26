@@ -63,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTransport:(id<SDLTransportType>)transport encryptionManager:(nullable SDLEncryptionLifecycleManager *)encryptionManager {
     self = [super init];
     if (!self) { return nil; }
+
+    SDLLogV(@"Initializing protocol with transport: %@, encryption manager: %@", transport, encryptionManager);
     _messageID = 0;
     _hashId = SDLControlFrameInt32NotFound;
     _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -80,10 +82,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    SDLLogD(@"Starting protocol: %@", self);
     [self.transport connect];
 }
 
 - (void)stopWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    SDLLogD(@"Stopping protocol: %@, disconnecting transport and stopping security manager", self);
     [self.securityManager stop];
     [self.transport disconnectWithCompletionHandler:^{
         disconnectCompletionHandler();
@@ -118,6 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLTransportDelegate
 
 - (void)onTransportConnected {
+    SDLLogV(@"Transport connected, opening protocol");
     NSArray<id<SDLProtocolDelegate>> *listeners;
     @synchronized(self.protocolDelegateTable) {
         listeners = self.protocolDelegateTable.allObjects;
@@ -130,6 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onTransportDisconnected {
+    SDLLogV(@"Transport disconnected, closing protocol");
     NSArray<id<SDLProtocolDelegate>> *listeners;
     @synchronized(self.protocolDelegateTable) {
         listeners = self.protocolDelegateTable.allObjects;
@@ -146,6 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onError:(NSError *)error {
+    SDLLogV(@"Transport received an error: %@", error);
     for (id<SDLProtocolDelegate> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onTransportError:)]) {
             [listener onTransportError:error];
@@ -158,10 +165,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {
     // No encryption, just build and send the message synchronously
     SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
+    SDLLogD(@"Sending start service: %@", message);
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler {
+    SDLLogD(@"Attempting to start TLS for service type: %hhu", serviceType);
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
@@ -171,6 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // TLS initialization succeeded. Build and send the message.
         SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
+        SDLLogD(@"TLS initialized, sending start service for message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
@@ -201,6 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    SDLLogD(@"Telling security manager to initialize");
     [self.securityManager initializeWithAppId:self.appId completionHandler:^(NSError *_Nullable error) {
         if (error) {
             SDLLogE(@"Security Manager failed to initialize with error: %@", error);
@@ -238,6 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+    SDLLogD(@"Sending end service: %@", message);
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
@@ -257,6 +269,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    SDLLogD(@"Sending register secondary transport: %@", message);
     [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeControl];
 }
 
@@ -285,7 +298,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     NSData *messagePayload = nil;
-    SDLLogV(@"Send RPC %@", message);
+    SDLLogV(@"Sending RPC: %@", message);
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
@@ -471,10 +484,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-        SDLLogV(@"Protocol message received: %@", message);
     } else {
         // Need to wait for more bytes.
-        SDLLogV(@" protocol header complete, message incomplete, waiting for %ld more bytes. Header: %@", (long)(messageSize - self.receiveBuffer.length), header);
+        SDLLogV(@"Protocol header complete, message incomplete, waiting for %ld more bytes. Header: %@", (long)(messageSize - self.receiveBuffer.length), header);
         return;
     }
 
@@ -490,10 +502,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+
 #pragma mark - SDLProtocolDelegate from SDLReceivedProtocolMessageRouter
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    // V5 Packet
+    SDLLogD(@"Received start service ACK: %@", startServiceACK);
+
+    // V5+ Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
@@ -515,8 +530,7 @@ NS_ASSUME_NONNULL_BEGIN
             default:
                 break;
         }
-    } else {
-        // V4 and below packet
+    } else { // V4 and below packet
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
                 [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
@@ -550,6 +564,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+    SDLLogD(@"End service ACK: %@", endServiceACK);
     // Remove the session id
     [self.serviceHeaders removeObjectForKey:@(endServiceACK.header.serviceType)];
 
@@ -573,6 +588,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
+    SDLLogD(@"Register Secondary Transport ACK: %@", registerSecondaryTransportACK);
+
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
@@ -593,6 +610,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {
+    SDLLogV(@"Received a heartbeat");
+
     // Respond with a heartbeat ACK
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major];
     header.frameType = SDLFrameTypeControl;
@@ -611,6 +630,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleHeartbeatACK {
+    SDLLogV(@"Received a heartbeat ACK");
+
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
@@ -620,6 +641,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+    SDLLogD(@"Received a transport event update: %@", transportEventUpdate);
+
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
@@ -635,28 +658,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    SDLLogV(@"Other protocol message received: %@", msg);
+
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
             [listener onProtocolMessageReceived:msg];
-        }
-    }
-}
-
-- (void)onProtocolOpened {
-    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
-            [listener onProtocolOpened];
-        }
-    }
-}
-
-- (void)onProtocolClosed {
-    NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
-            [listener onProtocolClosed];
         }
     }
 }
@@ -668,17 +675,16 @@ NS_ASSUME_NONNULL_BEGIN
             if (nakMessage.header.version >= 5) {
                 SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
                 NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
-                if (rejectedParams.count > 0) {
-                    SDLLogE(@"%@ service NAK'd, service type: %@, rejectedParams: %@", (nakMessage.header.frameData == SDLFrameInfoStartServiceNACK) ? @"Start" : @"End", @(nakMessage.header.serviceType), rejectedParams);
-                }
+                SDLLogE(@"%@ service NAK'd, service type: %@, rejectedParams: %@", (nakMessage.header.frameData == SDLFrameInfoStartServiceNACK) ? @"Start" : @"End", @(nakMessage.header.serviceType), rejectedParams);
+            } else {
+                SDLLogE(@"NAK received message: %@", nakMessage);
             }
         } break;
         case SDLFrameInfoRegisterSecondaryTransportNACK: {
             SDLControlFramePayloadRegisterSecondaryTransportNak *payload = [[SDLControlFramePayloadRegisterSecondaryTransportNak alloc] initWithData:nakMessage.payload];
             SDLLogE(@"Register Secondary Transport NAK'd, reason: %@", payload.reason);
         } break;
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -693,14 +699,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: These should be split out to a separate class to be tested properly
 - (void)sdl_processSecurityMessage:(SDLProtocolMessage *)clientHandshakeMessage {
+    SDLLogD(@"Received a security message: %@", clientHandshakeMessage);
+
     if (self.securityManager == nil) {
-        SDLLogE(@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage);
+        SDLLogE(@"Failed to process security message because no security manager is set.");
         return;
     }
 
     // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
-        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage);
+        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header.");
     }
 
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
@@ -723,6 +731,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Send the response or error message. If it's an error message, the module will ACK the Start Service without encryption. If it's a TLS handshake message, the module will ACK with encryption
+    SDLLogD(@"Sending security message: %@", serverSecurityMessage);
     [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceTypeControl];
 }
 

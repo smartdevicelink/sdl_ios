@@ -6,6 +6,7 @@
 #import "SDLLockScreenStatusManager.h"
 
 #import "SDLLockScreenStatus.h"
+#import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLOnHMIStatus.h"
@@ -140,6 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:self rpcNotification:statusNotification];
 #pragma clang diagnostic pop
 
+    SDLLogD(@"Lock screen status changed. Sending new notification: %@", notification);
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
