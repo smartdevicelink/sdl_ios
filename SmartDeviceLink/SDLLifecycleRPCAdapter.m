@@ -9,6 +9,7 @@
 #import "SDLLifecycleRPCAdapter.h"
 
 #import "SDLGlobals.h"
+#import "SDLLogMacros.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLRPCFunctionNames.h"
@@ -48,6 +49,7 @@
 
 // https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptOnButtonPress:(SDLOnButtonPress *)message {
+    SDLLogD(@"Adapting onButtonPress message: %@", message);
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             // Force receive PlayPause & OK notifications
@@ -80,6 +82,7 @@
 
 // https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptOnButtonEvent:(SDLOnButtonEvent *)message {
+    SDLLogD(@"Adapting onButtonEvent message: %@", message);
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             // Force receive PlayPause & OK notifications
@@ -116,6 +119,7 @@
 
 // See table here https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptSubscribeButton:(SDLSubscribeButton *)message {
+    SDLLogD(@"Adapting SubscribeButton message: %@", message);
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLSubscribeButton *playPauseMessage = [message copy];
@@ -137,6 +141,7 @@
 
 // https://github.com/smartdevicelink/sdl_java_suite/pull/864
 + (NSArray<SDLRPCMessage *> *)adaptUnsubscribeButton:(SDLUnsubscribeButton *)message {
+    SDLLogD(@"Adapting UnsubscribeButton message: %@", message);
     if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLUnsubscribeButton *playPauseMessage = [message copy];

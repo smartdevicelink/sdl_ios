@@ -81,7 +81,7 @@
 }
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager", @"SDLAsynchronousOperation", @"SDLBackgroundTaskManager", @"SDLPolicyDataParser", @"SDLLifecycleProtocolHandler"]]];
+    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager", @"SDLAsynchronousOperation", @"SDLBackgroundTaskManager", @"SDLPolicyDataParser", @"SDLLifecycleProtocolHandler", @"SDLLifecycleRPCAdapter", @"SDLLifecycleSyncPDataHandler", @"SDLLifecycleSystemRequestHandler"]]];
 }
 
 + (SDLLogFileModule *)sdl_systemCapabilityModule {

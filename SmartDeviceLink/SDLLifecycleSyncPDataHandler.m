@@ -32,6 +32,7 @@ static const float DefaultConnectionTimeout = 45.0;
     self = [super init];
     if (!self) { return nil; }
 
+    SDLLogV(@"Initializing SyncPData handler");
     _manager = manager;
 
     NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -48,6 +49,7 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)stop {
+    SDLLogV(@"Stopping SyncPData handler and stopping all URL session tasks");
     [self.urlSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         for (NSURLSessionTask *task in dataTasks) {
             [task cancel];
