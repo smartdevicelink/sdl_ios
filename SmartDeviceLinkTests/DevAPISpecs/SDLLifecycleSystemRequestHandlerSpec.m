@@ -142,6 +142,10 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
             it(@"should pass the url to the cache manager and then send a notification", ^{
                 OCMVerifyAll(lockScreenIconObserver);
             });
+
+            afterEach(^{
+                lockScreenIconObserver = nil;
+            });
         });
 
         context(@"of type ICON_URL", ^{

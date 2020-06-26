@@ -412,7 +412,6 @@ describe(@"the secondary transport manager ", ^{
                     // audio and video services will not start until secondary transport is established
                     OCMReject([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:[OCMArg any] fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:[OCMArg any]]);
 
-                    expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConnecting));
                     [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
 
@@ -450,7 +449,6 @@ describe(@"the secondary transport manager ", ^{
                     // audio and video services will not start until secondary transport is established
                     OCMReject([testStreamingProtocolDelegate didUpdateFromOldVideoProtocol:[OCMArg any] toNewVideoProtocol:[OCMArg any] fromOldAudioProtocol:[OCMArg any] toNewAudioProtocol:[OCMArg any]]);
 
-                    expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionTCP));
                     [testPrimaryProtocol onDataReceived:testTransportEventUpdateMessage.data];
                     [testPrimaryProtocol onDataReceived:testStartServiceACKMessage.data];
 

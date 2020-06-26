@@ -236,7 +236,7 @@ describe(@"the streaming media manager", ^{
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                [testStreamingMediaManager startSecondaryTransportWithProtocol:mockNewProtocol];
+                [testStreamingMediaManager startWithProtocol:mockNewProtocol];
 
                 OCMVerifyAllWithDelay(mockAudioLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
