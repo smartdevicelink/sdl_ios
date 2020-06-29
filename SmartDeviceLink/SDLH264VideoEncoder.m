@@ -62,57 +62,9 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _dimensions = dimensions;
     
     _delegate = delegate;
-    
-    OSStatus status;
-    
-    // Create a compression session
-    status = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
-    
-    if (status != noErr) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:@"Compression session could not be created"}];
-        }
-        
+
+    if (![self sdl_setCompressionSessionWithError:error]) {
         return nil;
-    }
-    
-    CFRelease(_sdl_pixelBufferOptions);
-    _sdl_pixelBufferOptions = nil;
-    
-    // Validate that the video encoder properties are valid.
-    CFDictionaryRef supportedProperties;
-    status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
-    if (status != noErr) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
-        }
-        
-        return nil;
-    }
-    
-    NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
-    for (NSString *key in videoEncoderKeys) {
-        if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
-            if (error != NULL) {
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" is not a supported key.", key]}];
-            }
-            CFRelease(supportedProperties);
-            return nil;
-        }
-    }
-    CFRelease(supportedProperties);
-    
-    // Populate the video encoder settings from provided dictionary.
-    for (NSString *key in videoEncoderKeys) {
-        id value = self.videoEncoderSettings[key];
-        
-        status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
-        if (status != noErr) {
-            if (error != NULL) {
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Setting key failed \"%@\"", key]}];
-            }
-            return nil;
-        }
     }
 
     if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRAW]) {
@@ -126,14 +78,15 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         return nil;
     }
 
-    _timestampOffset = 0.0;
-
     return self;
 }
 
 - (void)stop {
     _currentFrameNumber = 0;
     _timestampOffset = 0.0;
+
+    CFRelease(_sdl_pixelBufferOptions);
+    _sdl_pixelBufferOptions = nil;
 
     [self sdl_invalidateCompressionSession];
 }
@@ -158,7 +111,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     // HAX: [#1620](https://github.com/smartdevicelink/sdl_ios/issues/1620) On some older iPhones VTCompressionSessionEncodeFrame fails with a kVTInvalidSessionErr when the device is locked. Attempt to fix this by recreating the compression session.
     if (status == kVTInvalidSessionErr) {
         VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
-        [self sdl_resetCompressionSession];
+        [self sdl_setCompressionSessionWithError:NULL];
     }
 
     return (status == noErr);
@@ -186,7 +139,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
     // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool and/or the compression session to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
     if (_pixelBufferPool == NULL) {
-        BOOL success = [self sdl_resetCompressionSession];
+        BOOL success = [self sdl_setCompressionSessionWithError:NULL];
         if (!success) {
             return NULL;
         }
@@ -332,8 +285,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
-    
-    
+
     return nalUnits;
 }
 
@@ -347,13 +299,73 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     self.compressionSession = NULL;
 }
 
-/// Attempts to create a new VTCompressionSession using the dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
-- (BOOL)sdl_resetCompressionSession {
+/// Creates a VTCompressionSession using the dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
+- (BOOL)sdl_setCompressionSessionWithError:(NSError **)error {
     // Destroy the current compression session before attempting to create a new one. Otherwise the attempt to create a new compression session sometimes fails.
     [self sdl_invalidateCompressionSession];
 
     OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+
+    if (status != noErr) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:@"Compression session could not be created"}];
+        }
+
+        return NO;
+    }
+
+    // Set the video encoding properties after creating the compression session
+    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:error]) {
+        return NO;
+    }
+
     return (status == noErr);
+}
+
+/// Sets the video encoding properties on the video toolbox session.
+/// @param compressionSession The compression session on which to set the video encoding properties
+/// @param error Error set if the properties were not successfully set on the video toolbox session
+/// @return True if the video encoding properties were set successfully; false if not
+- (BOOL)sdl_setPropertiesOnCompressionSession:(VTCompressionSessionRef)compressionSession withError:(NSError **)error {
+    OSStatus status;
+
+    // Validate that the video encoder properties are valid.
+    CFDictionaryRef supportedProperties;
+    status = VTSessionCopySupportedPropertyDictionary(compressionSession, &supportedProperties);
+    if (status != noErr) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus":@(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" are not supported properties.", supportedProperties]}];
+        }
+        return NO;
+    }
+
+    NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
+    for (NSString *key in videoEncoderKeys) {
+        if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"\"%@\" is not a supported key.", key]}];
+            }
+            CFRelease(supportedProperties);
+            return NO;
+        }
+    }
+    CFRelease(supportedProperties);
+
+    for (NSString *key in videoEncoderKeys) {
+        id value = self.videoEncoderSettings[key];
+        status = VTSessionSetProperty(compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
+        if (status != noErr) {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status), NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Setting key failed \"%@\"", key]}];
+            }
+            return NO;
+        }
+    }
+
+    self.currentFrameNumber = 0;
+    self.timestampOffset = 0.0;
+
+    return YES;
 }
 
 @end
