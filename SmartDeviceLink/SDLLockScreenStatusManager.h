@@ -8,6 +8,7 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 
+@class SDLNotificationDispatcher;
 @class SDLOnLockScreenStatus;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLLockScreenStatus lockScreenStatus;
 @property (strong, nonatomic, readonly) SDLOnLockScreenStatus *lockScreenStatusNotification;
 #pragma clang diagnostic pop
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher;
 
 @end
 

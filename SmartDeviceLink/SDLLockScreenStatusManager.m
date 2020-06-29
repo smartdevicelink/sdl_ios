@@ -8,6 +8,7 @@
 #import "SDLLockScreenStatus.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
+#import "SDLNotificationDispatcher.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnLockScreenStatus.h"
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
+- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher {
     self = [super init];
     if (!self) { return nil; }
 
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
     _driverDistracted = NO;
     _haveDriverDistractionStatus = NO;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionDidUpdate:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
 }

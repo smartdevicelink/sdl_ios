@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     _config = config;
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
-    _statusManager = [[SDLLockScreenStatusManager alloc] init];
+    _statusManager = [[SDLLockScreenStatusManager alloc] initWithNotificationDispatcher:dispatcher];
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
