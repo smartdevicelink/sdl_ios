@@ -641,7 +641,7 @@ describe(@"the secondary transport manager ", ^{
             it(@"should send out Register Secondary Transport frame", ^{
                 OCMExpect([testSecondaryProtocolMock registerSecondaryTransport]);
 
-                [testSecondaryProtocolMock onProtocolOpened];
+                [testSecondaryProtocolMock onTransportConnected];
 
                 OCMVerifyAllWithDelay(testSecondaryProtocolMock, 0.5);
             });
@@ -711,7 +711,7 @@ describe(@"the secondary transport manager ", ^{
                         [manager.stateMachine setToState:SDLSecondaryTransportStateConnecting fromOldState:nil callEnterTransition:NO];
                     });
 
-                    [testSecondaryProtocolMock onProtocolOpened];
+                    [testSecondaryProtocolMock onTransportConnected];
 
                     OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
@@ -730,7 +730,7 @@ describe(@"the secondary transport manager ", ^{
                         [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:NO];
                     });
 
-                    [testSecondaryProtocolMock onProtocolOpened];
+                    [testSecondaryProtocolMock onTransportConnected];
 
                     // Wait for the timer to elapse
                     float waitTime = RegisterTransportTime;
@@ -746,7 +746,7 @@ describe(@"the secondary transport manager ", ^{
             it(@"should transition to Reconnecting state", ^{
                 OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
-                [testSecondaryProtocolMock onProtocolClosed];
+                [testSecondaryProtocolMock onTransportDisconnected];
 
                 expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
                 OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
@@ -945,7 +945,7 @@ describe(@"the secondary transport manager ", ^{
             it(@"should transition to Reconnecting state", ^{
                 OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
-                [testSecondaryProtocolMock onProtocolClosed];
+                [testSecondaryProtocolMock onTransportDisconnected];
 
                 expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
                 OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
@@ -1263,7 +1263,7 @@ describe(@"the secondary transport manager ", ^{
 
             OCMExpect([testStreamingProtocolDelegate transportClosed]);
             
-            [testSecondaryProtocolMock onProtocolClosed];
+            [testSecondaryProtocolMock onTransportDisconnected];
             
             OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
             expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
@@ -1276,7 +1276,7 @@ describe(@"the secondary transport manager ", ^{
 
             OCMExpect([testStreamingProtocolDelegate transportClosed]);
             
-            [testSecondaryProtocolMock onProtocolClosed];
+            [testSecondaryProtocolMock onTransportDisconnected];
             
             OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
             expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
@@ -1289,7 +1289,7 @@ describe(@"the secondary transport manager ", ^{
 
             OCMReject([testStreamingProtocolDelegate transportClosed]);
 
-            [testSecondaryProtocolMock onProtocolClosed];
+            [testSecondaryProtocolMock onTransportDisconnected];
 
             OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
             expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConfigured));
