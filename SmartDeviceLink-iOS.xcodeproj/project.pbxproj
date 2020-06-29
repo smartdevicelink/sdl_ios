@@ -38,9 +38,12 @@
 		00E22CED22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
+		106187B924AA75540045C4EC /* SDLRPCPermissionStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */; };
+		106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 106982A824AA3B4700B1F649 /* SDLRPCPermissionStatus.h */; };
 		106412C6249FB80B0069A97A /* SDLPermissionElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 106412C4249FB80B0069A97A /* SDLPermissionElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		106412C7249FB80B0069A97A /* SDLPermissionElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 106412C5249FB80B0069A97A /* SDLPermissionElement.m */; };
 		106412C824A13F160069A97A /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8204241BCEA8A600D0A41B /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		106982AB24AA3B4700B1F649 /* SDLRPCPermissionStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 106982A924AA3B4700B1F649 /* SDLRPCPermissionStatus.m */; };
 		10893C162417D78300BA347E /* SDLIconArchiveFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C142417D78300BA347E /* SDLIconArchiveFile.h */; };
 		10893C172417D78300BA347E /* SDLIconArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 10893C152417D78300BA347E /* SDLIconArchiveFile.m */; };
 		10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 10893C182418188600BA347E /* SDLCacheFileManager.h */; };
@@ -1758,8 +1761,11 @@
 		00E22CEB22C2F1B300BC6B08 /* SDLEncryptionConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLEncryptionConfiguration.h; sourceTree = "<group>"; };
 		00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfigurationSpec.m; sourceTree = "<group>"; };
+		106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCPermissionStatusSpec.m; sourceTree = "<group>"; };
 		106412C4249FB80B0069A97A /* SDLPermissionElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPermissionElement.h; sourceTree = "<group>"; };
 		106412C5249FB80B0069A97A /* SDLPermissionElement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionElement.m; sourceTree = "<group>"; };
+		106982A824AA3B4700B1F649 /* SDLRPCPermissionStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRPCPermissionStatus.h; sourceTree = "<group>"; };
+		106982A924AA3B4700B1F649 /* SDLRPCPermissionStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCPermissionStatus.m; sourceTree = "<group>"; };
 		10893C142417D78300BA347E /* SDLIconArchiveFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIconArchiveFile.h; sourceTree = "<group>"; };
 		10893C152417D78300BA347E /* SDLIconArchiveFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIconArchiveFile.m; sourceTree = "<group>"; };
 		10893C182418188600BA347E /* SDLCacheFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCacheFileManager.h; sourceTree = "<group>"; };
@@ -5589,6 +5595,8 @@
 				5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */,
 				106412C4249FB80B0069A97A /* SDLPermissionElement.h */,
 				106412C5249FB80B0069A97A /* SDLPermissionElement.m */,
+				106982A824AA3B4700B1F649 /* SDLRPCPermissionStatus.h */,
+				106982A924AA3B4700B1F649 /* SDLRPCPermissionStatus.m */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -5679,6 +5687,7 @@
 				5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */,
 				5DB1BCD71D243AA6002FFC37 /* SDLPermissionFilterSpec.m */,
 				1098F03724A39699004F53CC /* SDLPermissionElementSpec.m */,
+				106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -7026,6 +7035,7 @@
 				1E5AD04C1F1F79640029B8AF /* SDLDefrostZone.h in Headers */,
 				1E5AD0601F207AB10029B8AF /* SDLRadioState.h in Headers */,
 				1E5AD0801F20B73E0029B8AF /* SDLButtonPress.h in Headers */,
+				106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */,
 				884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */,
 				8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */,
 				1E5AD05C1F2064A80029B8AF /* SDLRDSData.h in Headers */,
@@ -7550,6 +7560,7 @@
 				5D61FDB21A84238C00846EE7 /* SDLSubscribeVehicleData.m in Sources */,
 				5D61FC991A84238C00846EE7 /* SDLECallInfo.m in Sources */,
 				5D61FD601A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.m in Sources */,
+				106982AB24AA3B4700B1F649 /* SDLRPCPermissionStatus.m in Sources */,
 				5DB996581F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.m in Sources */,
 				DAC572621D10C5020004288B /* SDLPinchGesture.m in Sources */,
 				1EAA471A203406B2000FE74B /* SDLSISData.m in Sources */,
@@ -8048,6 +8059,7 @@
 				162E83281A9BDE8B00906325 /* SDLDeleteCommandSpec.m in Sources */,
 				88A81F6C2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m in Sources */,
 				162E83531A9BDE8B00906325 /* SDLDiagnosticMessageResponseSpec.m in Sources */,
+				106187B924AA75540045C4EC /* SDLRPCPermissionStatusSpec.m in Sources */,
 				8881AFB52225E37800EA870B /* SDLSetCloudAppPropertiesResponseSpec.m in Sources */,
 				162E83671A9BDE8B00906325 /* SDLSliderResponseSpec.m in Sources */,
 				8877F5F11F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m in Sources */,

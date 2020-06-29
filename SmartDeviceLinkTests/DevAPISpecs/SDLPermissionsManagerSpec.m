@@ -26,7 +26,7 @@
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
-fdescribe(@"SDLPermissionsManager", ^{
+describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
 
     __block NSString *testRPCNameAllAllowed = nil;
