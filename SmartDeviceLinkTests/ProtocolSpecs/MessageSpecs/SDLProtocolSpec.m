@@ -658,7 +658,7 @@ describe(@"OnProtocolOpened Tests", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onProtocolOpened];
+        [testProtocol onTransportConnected];
         
         OCMExpect([delegateMock onProtocolOpened]);
     });
@@ -677,7 +677,7 @@ describe(@"OnProtocolClosed Tests", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onProtocolClosed];
+        [testProtocol onTransportDisconnected];
         
         OCMExpect([delegateMock onProtocolClosed]);
     });
