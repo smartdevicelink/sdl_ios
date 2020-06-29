@@ -60,10 +60,17 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _currentFrameNumber = 0;
     _videoEncoderSettings = properties;
     _dimensions = dimensions;
-    
     _delegate = delegate;
 
-    if (![self sdl_setCompressionSessionWithError:error]) {
+    if (![self sdl_createCompressionSessionWithError:error]) {
+        return nil;
+    }
+
+    if (![self sdl_validateVideoEncoderPropertiesOnCompressionSession:self.compressionSession withError:error]) {
+        return nil;
+    }
+
+    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:error]) {
         return nil;
     }
 
@@ -110,8 +117,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
     // HAX: [#1620](https://github.com/smartdevicelink/sdl_ios/issues/1620) On some older iPhones VTCompressionSessionEncodeFrame fails with a kVTInvalidSessionErr when the device is locked. Attempt to fix this by recreating the compression session.
     if (status == kVTInvalidSessionErr) {
-        VTCompressionSessionCompleteFrames(_compressionSession, presentationTimestamp);
-        [self sdl_setCompressionSessionWithError:NULL];
+        [self sdl_resetCompressionSession];
     }
 
     return (status == noErr);
@@ -139,7 +145,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 - (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
     // HAX: When the app is backgrounded, sometimes the compression session gets invalidated (this can happen the first time the app is backgrounded or the tenth). This causes the pool and/or the compression session to fail when the app is foregrounded and video frames are sent again. Attempt to fix this by recreating the compression session.
     if (_pixelBufferPool == NULL) {
-        BOOL success = [self sdl_setCompressionSessionWithError:NULL];
+        BOOL success = [self sdl_resetCompressionSession];
         if (!success) {
             return NULL;
         }
@@ -299,11 +305,30 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     self.compressionSession = NULL;
 }
 
-/// Creates a VTCompressionSession using the dimensions passed when the video encoder was created and returns whether or not creating the new compression session was created successfully.
-- (BOOL)sdl_setCompressionSessionWithError:(NSError **)error {
+/// Recreates a compression session and sets the video encoder properties on the session after an error occurs.
+/// @return True if the compression session was created successfully; false if not
+- (BOOL)sdl_resetCompressionSession {
     // Destroy the current compression session before attempting to create a new one. Otherwise the attempt to create a new compression session sometimes fails.
     [self sdl_invalidateCompressionSession];
 
+    NSError *error = nil;
+    if (![self sdl_createCompressionSessionWithError:&error]) {
+        SDLLogE(@"Error creating the compression session: %@", error.localizedDescription);
+        return NO;
+    }
+
+    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:&error]) {
+        SDLLogE(@"Error setting the properties on the compression session: %@", error.localizedDescription);
+        return NO;
+    }
+
+    return YES;
+}
+
+/// Creates a compression session using the dimensions passed when the video encoder was created.
+/// @param error Error set if the compression session was not created successfully
+/// @return True if the compression session was created successfully; false if not
+- (BOOL)sdl_createCompressionSessionWithError:(NSError **)error {
     OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
@@ -314,19 +339,14 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         return NO;
     }
 
-    // Set the video encoding properties after creating the compression session
-    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:error]) {
-        return NO;
-    }
-
     return (status == noErr);
 }
 
-/// Sets the video encoding properties on the video toolbox session.
-/// @param compressionSession The compression session on which to set the video encoding properties
-/// @param error Error set if the properties were not successfully set on the video toolbox session
-/// @return True if the video encoding properties were set successfully; false if not
-- (BOOL)sdl_setPropertiesOnCompressionSession:(VTCompressionSessionRef)compressionSession withError:(NSError **)error {
+/// Validates the video encoder properties.
+/// @param compressionSession The compression session on which the video encoder properties will be set
+/// @param error Error set if the video encoder properties are not valid
+/// @return True if the video encoder properties are valid; false if not
+- (BOOL)sdl_validateVideoEncoderPropertiesOnCompressionSession:(VTCompressionSessionRef)compressionSession withError:(NSError **)error {
     OSStatus status;
 
     // Validate that the video encoder properties are valid.
@@ -351,6 +371,17 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     }
     CFRelease(supportedProperties);
 
+    return YES;
+}
+
+/// Sets the video encoding properties on the compression session.
+/// @param compressionSession The compression session on which to set the video encoding properties
+/// @param error Error set if the properties were not successfully set on the video toolbox session
+/// @return True if the video encoding properties were set successfully; false if not
+- (BOOL)sdl_setPropertiesOnCompressionSession:(VTCompressionSessionRef)compressionSession withError:(NSError **)error {
+    OSStatus status;
+
+    NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
     for (NSString *key in videoEncoderKeys) {
         id value = self.videoEncoderSettings[key];
         status = VTSessionSetProperty(compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
