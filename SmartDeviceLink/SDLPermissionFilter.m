@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<SDLPermissionRPCName> *)getRPCNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements {
     NSMutableArray *rpcNames = [NSMutableArray new];
     for (SDLPermissionElement *element in permissionElements) {
-        [rpcNames addObject:element];
+        [rpcNames addObject:element.rpcName];
     }
 
     return rpcNames;

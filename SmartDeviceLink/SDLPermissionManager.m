@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
     NSMutableDictionary<SDLRPCFunctionName, NSNumber *> *permissionAllowedDict = [NSMutableDictionary dictionary];
-    
+
     for (SDLPermissionElement *permissionElement in rpcNames) {
         permissionAllowedDict[permissionElement.rpcName] = @([self isRPCNameAllowed:permissionElement.rpcName]);
     }
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
     return filter.identifier;
 }
 
-- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionElementsChangedHandler)handler {
+- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
@@ -262,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
         return;
     }
-    
+
     SDLHMILevel oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
