@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(nullable SDLPermissionsChangedHandler)handler rpcPermissionStatusHandler:(nullable SDLRPCPermissionStatusChangedHandler)permissionStatusHandler NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)handler rpcPermissionStatusHandler:(nullable SDLRPCPermissionStatusChangedHandler)permissionStatusHandler NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create a new permission filter group.
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(nullable SDLPermissionsChangedHandler)handler rpcPermissionStatusHandler:(nullable SDLRPCPermissionStatusChangedHandler)permissionStatusHandler NS_SWIFT_UNAVAILABLE("Use the initializer");
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)handler rpcPermissionStatusHandler:(nullable SDLRPCPermissionStatusChangedHandler)permissionStatusHandler NS_SWIFT_UNAVAILABLE("Use the initializer");
 
 /**
  *  Whether the current filter is equivalent with another filter or not.
@@ -72,7 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
 
-// to do update
+/**
+ *  Converts an array of SDLPermissionElement objects to and array of SDLPermissionRPCName objects
+ *
+ *  @param permissionElements The permission elements to convert.
+ *
+ *  @return An array of SDLPermissionRPCName objects
+ */
 - (NSArray<SDLPermissionRPCName> *)getRPCNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
 
 @end

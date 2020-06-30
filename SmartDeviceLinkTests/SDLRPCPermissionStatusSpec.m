@@ -29,7 +29,7 @@ describe(@"A rpc permission status", ^{
         __block SDLRPCPermissionStatus *testSDLRPCPermissionStatusSpec = nil;
 
         beforeEach(^{
-            testSDLRPCPermissionStatusSpec = [[SDLRPCPermissionStatus alloc] initWithRPCName:testRPCName isRPCAllowed:isRPCAllowed allowedParameters:allowedParameters];
+            testSDLRPCPermissionStatusSpec = [[SDLRPCPermissionStatus alloc] initWithRPCName:testRPCName isRPCAllowed:isRPCAllowed rpcParameters:allowedParameters];
         });
 
         it(@"should set the rpcName correctly", ^{
@@ -41,7 +41,7 @@ describe(@"A rpc permission status", ^{
         });
 
         it(@"should set the parameter permissions correctly", ^{
-            expect(testSDLRPCPermissionStatusSpec.allowedParameters[testParameterName]).to(equal(@NO));
+            expect(testSDLRPCPermissionStatusSpec.rpcParameters[testParameterName]).to(equal(@NO));
         });
     });
 });

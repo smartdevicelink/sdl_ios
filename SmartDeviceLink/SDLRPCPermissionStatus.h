@@ -29,10 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Holds a dictionary of RPC parameters and their permission status
  */
-@property (strong, nonatomic, nullable, readonly) NSMutableDictionary<NSString *, NSNumber *> *allowedParameters;
+@property (strong, nonatomic, nullable, readonly) NSMutableDictionary<NSString *, NSNumber *> *rpcParameters;
 
-// to do add description
-- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed allowedParameters:(nullable NSDictionary<NSString *, NSNumber *> *)allowedParameters;
+/**
+ *  Initializes a SDLRPCPermissionStatus object.
+ *
+ *  @param rpcName The name of the RPC.
+ *  @param isRPCAllowed The permission status for the RPC.
+ *  @param rpcParameters A dictionary that containers parameter permission status information.
+ *
+ *  @return An instance of the SDLRPCPermissionStatus class.
+ */
+- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSDictionary<NSString *, NSNumber *> *)rpcParameters;
 
 @end
 

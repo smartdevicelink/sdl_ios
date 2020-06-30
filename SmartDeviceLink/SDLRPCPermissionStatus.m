@@ -10,10 +10,10 @@
 
 @implementation SDLRPCPermissionStatus
 
-- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed allowedParameters:(nullable NSMutableDictionary<NSString *,NSNumber *> *)allowedParameters {
+- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSMutableDictionary<NSString *,NSNumber *> *)rpcParameters {
     _rpcName = rpcName;
     _rpcAllowed = isRPCAllowed;
-    _allowedParameters = allowedParameters;
+    _rpcParameters = rpcParameters;
 
     return self;
 }
