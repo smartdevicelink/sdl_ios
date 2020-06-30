@@ -16,14 +16,13 @@ QuickSpecBegin(SDLPermissionElementSpec)
 
 describe(@"A permission element", ^{
     __block NSString *testRPCName1 = nil;
-    __block SDLParameterPermissions *parameterPermissions = nil;
+    __block NSArray<NSString *> *parameterPermissions = nil;
     __block NSString *testParameterRPCName = nil;
 
     beforeEach(^{
         testRPCName1 = @"testRPCName1";
         testParameterRPCName = @"testParameterRPCName";
-        parameterPermissions = [[SDLParameterPermissions alloc] init];
-        parameterPermissions.allowed = @[testParameterRPCName];
+        parameterPermissions = @[testParameterRPCName];
     });
 
     describe(@"it should initialize correctly", ^{

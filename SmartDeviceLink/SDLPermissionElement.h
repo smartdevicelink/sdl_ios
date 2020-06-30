@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPermissionElement : NSObject <NSCopying>
 
 /**
- Name of the individual RPC in the policy table.
+ Name of the individual RPC.
 
  Required
  */
@@ -30,18 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<NSString *> *parameterPermissions;
 
 /**
- *  Create a new permission element.
+ *  Creates a new permission element.
  *
- *  @param rpcName  The names of the RPC.
- *  @param parameterPermissions The parameter permissions associated with the RPC.
+ *  @param rpcName  The name of the RPC.
+ *  @param parameterPermissions An array parameters for the RPC.
  *
  *  @return An instance of `SDLPermissionElement`.
  */
 - (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(nullable NSArray<NSString *> *)parameterPermissions;
-
-- (SDLRPCFunctionName)getRPCName;
-
-- (NSArray<NSString *> *)getParameters;
 
 @end
 

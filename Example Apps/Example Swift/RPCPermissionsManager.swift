@@ -20,11 +20,16 @@ class RPCPermissionsManager {
         _ = checkCurrentPermission(with: manager, rpcName: showRPCName)
 
         // Checks if all the RPCs need to create menus are allowed right at this moment
-        let menuRPCNames = [SDLRPCFunctionName.addCommand, SDLRPCFunctionName.createInteractionChoiceSet, SDLRPCFunctionName.performInteraction]
+        let addCommandPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.addCommand, parameterPermissions: nil)
+        let createInteractionPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.createInteractionChoiceSet, parameterPermissions: nil)
+        let performInteractionPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.performInteraction, parameterPermissions: nil)
+        let menuRPCNames = [addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement]
         _ = checkCurrentGroupPermissions(with: manager, rpcNames: menuRPCNames)
 
         // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
-        let mediaTemplateRPCs = [SDLRPCFunctionName.setMediaClockTimer, SDLRPCFunctionName.subscribeButton]
+        let setMediaClockPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.setMediaClockTimer, parameterPermissions: nil)
+        let subscribeButtonPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.subscribeButton, parameterPermissions: nil)
+        let mediaTemplateRPCs = [setMediaClockPermissionElement, subscribeButtonPermissionElement]
         let allAllowedObserverId = subscribeGroupPermissions(with: manager, rpcNames: mediaTemplateRPCs, groupType: .allAllowed)
 
         // Stop observing permissions changes for the media template releated RPCs
@@ -61,7 +66,7 @@ private extension RPCPermissionsManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
-    class func checkCurrentGroupPermissions(with manager: SDLManager, rpcNames: [SDLRPCFunctionName]) -> SDLPermissionGroupStatus {
+    class func checkCurrentGroupPermissions(with manager: SDLManager, rpcNames: [SDLPermissionElement]) -> SDLPermissionGroupStatus {
         let groupPermissionStatus = manager.permissionManager.groupStatus(ofRPCNames: rpcNames)
         let individualPermissionStatuses = manager.permissionManager.statuses(ofRPCNames: rpcNames)
         logRPCGroupPermissions(rpcNames: rpcNames, groupPermissionStatus: groupPermissionStatus, individualPermissionStatuses: individualPermissionStatuses)
@@ -74,7 +79,7 @@ private extension RPCPermissionsManager {
     ///   - manager: The SDL Manager
     ///   - groupType: The type of changes to get notified about
     /// - Returns: A unique id assigned to observer. Use the id to unsubscribe to notifications
-    class func subscribeGroupPermissions(with manager: SDLManager, rpcNames: [SDLRPCFunctionName], groupType: SDLPermissionGroupType) -> UUID {
+    class func subscribeGroupPermissions(with manager: SDLManager, rpcNames: [SDLPermissionElement], groupType: SDLPermissionGroupType) -> UUID {
         let permissionAllAllowedObserverId = manager.permissionManager.subscribe(toRPCNames: rpcNames, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in
             self.logRPCGroupPermissions(rpcNames: rpcNames, groupPermissionStatus: groupStatus, individualPermissionStatuses: individualStatuses)
         })
@@ -110,10 +115,10 @@ private extension RPCPermissionsManager {
     ///   - rpcNames: The names of the RPCs
     ///   - groupPermissionStatus: The permission status for all RPCs in the group
     ///   - individualPermissionStatuses: The permission status for each of the RPCs in the group
-    class func logRPCGroupPermissions(rpcNames: [SDLRPCFunctionName], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [SDLRPCFunctionName:NSNumber]) {
-        SDLLog.d("The group status for \(rpcNames.map { $0.rawValue.rawValue } ) has changed to: \(groupPermissionStatus.rawValue)")
+    class func logRPCGroupPermissions(rpcNames: [SDLPermissionElement], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [SDLRPCFunctionName:SDLRPCPermissionStatus]) {
+        SDLLog.d("The group status for \(rpcNames.map { $0.rpcName.rawValue } ) has changed to: \(groupPermissionStatus.rawValue)")
         for (rpcName, rpcAllowed) in individualPermissionStatuses {
-            logRPCPermission(rpcName: rpcName, isRPCAllowed: rpcAllowed.boolValue)
+            logRPCPermission(rpcName: rpcName, isRPCAllowed: rpcAllowed.isRPCAllowed)
         }
     }
 }

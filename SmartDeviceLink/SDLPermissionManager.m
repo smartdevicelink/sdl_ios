@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         NSMutableDictionary<NSString *, NSNumber *> *allowedParameters = [NSMutableDictionary dictionary];
-        if (permissionElement.getParameters != nil) {
+        if (permissionElement.parameterPermissions != nil) {
             for (NSString *permissionParameter in permissionElement.parameterPermissions) {
                 BOOL isParameterAllowed = [self isPermissionParameterAllowed:permissionElement.rpcName parameter:permissionParameter];
                 [allowedParameters setObject:@(isParameterAllowed) forKey:permissionParameter];

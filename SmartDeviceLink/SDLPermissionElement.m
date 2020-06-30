@@ -20,14 +20,6 @@
     return self;
 }
 
-- (SDLRPCFunctionName)getRPCName {
-    return self.rpcName;
-}
-
-- (NSArray<NSString *> *)getParameters {
-    return self.parameterPermissions;
-}
-
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
