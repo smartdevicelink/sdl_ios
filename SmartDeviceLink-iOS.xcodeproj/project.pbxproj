@@ -39,7 +39,7 @@
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
 		106187B924AA75540045C4EC /* SDLRPCPermissionStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */; };
-		106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 106982A824AA3B4700B1F649 /* SDLRPCPermissionStatus.h */; };
+		106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 106982A824AA3B4700B1F649 /* SDLRPCPermissionStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		106412C6249FB80B0069A97A /* SDLPermissionElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 106412C4249FB80B0069A97A /* SDLPermissionElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		106412C7249FB80B0069A97A /* SDLPermissionElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 106412C5249FB80B0069A97A /* SDLPermissionElement.m */; };
 		106412C824A13F160069A97A /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8204241BCEA8A600D0A41B /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -6601,6 +6601,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */,
 				106412C824A13F160069A97A /* SDLPermissionManager.h in Headers */,
 				106412C6249FB80B0069A97A /* SDLPermissionElement.h in Headers */,
 				9F425AD222DD980200BE3245 /* SDLWindowCapability.h in Headers */,
@@ -7035,7 +7036,6 @@
 				1E5AD04C1F1F79640029B8AF /* SDLDefrostZone.h in Headers */,
 				1E5AD0601F207AB10029B8AF /* SDLRadioState.h in Headers */,
 				1E5AD0801F20B73E0029B8AF /* SDLButtonPress.h in Headers */,
-				106187BA24AA76550045C4EC /* SDLRPCPermissionStatus.h in Headers */,
 				884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */,
 				8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */,
 				1E5AD05C1F2064A80029B8AF /* SDLRDSData.h in Headers */,

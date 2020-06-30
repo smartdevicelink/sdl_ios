@@ -10,7 +10,7 @@
 
 @implementation SDLPermissionElement
 
-- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(SDLParameterPermissions *)parameterPermissions {
+- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(NSArray<NSString *> *)parameterPermissions {
     self = [super init];
     if (!self) { return nil; }
 
@@ -24,7 +24,7 @@
     return self.rpcName;
 }
 
-- (SDLParameterPermissions *)getParameters {
+- (NSArray<NSString *> *)getParameters {
     return self.parameterPermissions;
 }
 

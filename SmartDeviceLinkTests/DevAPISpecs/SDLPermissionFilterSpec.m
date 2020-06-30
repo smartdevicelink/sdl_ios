@@ -34,9 +34,12 @@ describe(@"A filter", ^{
 
         context(@"using initWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testPermissionElements groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    testObserverReturnChangedDict = changedDict;
-                }];
+//                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testPermissionElements groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+//
+//                } rpcPermissionStatusHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
+//
+//                }];
+                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testPermissionElements groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) { testObserverReturnChangedDict = change; } rpcPermissionStatusHandler:nil];
             });
 
             it(@"should set the rpcNames array correctly", ^{
@@ -71,9 +74,7 @@ describe(@"A filter", ^{
 
         context(@"using filterWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [SDLPermissionFilter filterWithRPCNames:testPermissionElements groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    testObserverReturnChangedDict = changedDict;
-                }];
+                testFilter = [SDLPermissionFilter filterWithRPCNames:testPermissionElements groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) { testObserverReturnChangedDict = change; } rpcPermissionStatusHandler:nil];
             });
 
             it(@"should set the rpcNames array correctly", ^{
@@ -112,7 +113,7 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testCopiedFilter = nil;
 
         beforeEach(^{
-            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
             testCopiedFilter = [testFilter copy];
         });
 
@@ -139,10 +140,10 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testDifferentFilter = nil;
 
         beforeEach(^{
-            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
             testSameFilter2 = [testSameFilter1 copy];
 
-            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
         });
 
         it(@"should say copied filters are the same", ^{

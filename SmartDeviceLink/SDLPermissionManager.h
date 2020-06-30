@@ -11,6 +11,7 @@
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCPermissionStatus.h"
 
 @class SDLPermissionItem;
 @class SDLRPCMessage;
@@ -89,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A dictionary specifying if the passed in RPC names are currently allowed or not
 */
-- (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames;
+- (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -117,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLRPCPermissionStatusChangedHandler)handler;
 
 /**
  *  Remove every current observer

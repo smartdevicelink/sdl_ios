@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Required
  */
-@property (strong, nonatomic) SDLParameterPermissions *parameterPermissions;
+@property (strong, nonatomic) NSArray<NSString *> *parameterPermissions;
 
 /**
  *  Create a new permission element.
@@ -37,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionElement`.
  */
-- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(nullable SDLParameterPermissions *)parameterPermissions;
+- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName parameterPermissions:(nullable NSArray<NSString *> *)parameterPermissions;
 
 - (SDLRPCFunctionName)getRPCName;
 
-- (SDLParameterPermissions*)getParameters;
+- (NSArray<NSString *> *)getParameters;
 
 @end
 
