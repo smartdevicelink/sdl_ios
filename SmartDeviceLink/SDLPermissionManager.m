@@ -143,20 +143,18 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *permissionAllowedDict = [NSMutableDictionary dictionary];
 
     for (SDLPermissionElement *permissionElement in rpcNames) {
-        if (permissionElement == nil) {
-            continue;
-        }
+        if (permissionElement == nil) { continue; }
 
         NSMutableDictionary<NSString *, NSNumber *> *rpcParameters = [NSMutableDictionary dictionary];
         if (permissionElement.parameterPermissions != nil) {
             for (NSString *permissionParameter in permissionElement.parameterPermissions) {
                 BOOL isParameterAllowed = [self isPermissionParameterAllowed:permissionElement.rpcName parameter:permissionParameter];
-                [rpcParameters setObject:@(isParameterAllowed) forKey:permissionParameter];
+                rpcParameters[permissionParameter] = @(isParameterAllowed);
             }
         }
 
         SDLRPCPermissionStatus *permissionStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:permissionElement.rpcName isRPCAllowed:[self isRPCNameAllowed:permissionElement.rpcName] rpcParameters:rpcParameters];
-        [permissionAllowedDict setObject:permissionStatus forKey:permissionElement.rpcName];
+        permissionAllowedDict[permissionElement.rpcName] = permissionStatus;
     }
 
     return [permissionAllowedDict copy];
@@ -320,7 +318,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A  <SDLPermissionRPCName, NSNumber *> dictionary.
  */
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)sdl_convertPermissionsDictionary:(NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus*> *)permissionStatusDictionary {
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)sdl_convertPermissionsStatusDictionaryToPermissionsBoolDictionary:(NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus*> *)permissionStatusDictionary {
     NSMutableDictionary *rpcNameDictionary = [[NSMutableDictionary alloc] init];
     [permissionStatusDictionary enumerateKeysAndObjectsUsingBlock:^(SDLRPCFunctionName _Nonnull key, SDLRPCPermissionStatus * _Nonnull obj, BOOL * _Nonnull stop) {
         [rpcNameDictionary setObject:@(obj.rpcAllowed) forKey:key];
@@ -343,7 +341,7 @@ NS_ASSUME_NONNULL_BEGIN
         [permissionElements addObject:permissionElement];
     }
 
-    return permissionElements;
+    return [permissionElements copy];
 }
 
 /**
@@ -469,7 +467,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {
-
     SDLPermissionItem *permissionItem = permissionItems[rpcName];
     if (permissionItem == nil || ![self isRPCNameAllowed:rpcName] || permissionItem.parameterPermissions == nil || permissionItem.parameterPermissions.allowed == nil) {
         return NO;

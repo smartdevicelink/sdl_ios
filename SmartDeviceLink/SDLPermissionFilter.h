@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An array of SDLPermissionRPCName objects
  */
-- (NSArray<SDLPermissionRPCName> *)getRPCNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
+- (NSArray<SDLPermissionRPCName> *)rpcNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
 
 @end
 

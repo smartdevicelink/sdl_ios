@@ -27,13 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPermissionElement *addCommandPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAddCommand parameterPermissions:nil];
     SDLPermissionElement *createInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameCreateInteractionChoiceSet parameterPermissions:nil];
     SDLPermissionElement *performInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNamePerformInteraction parameterPermissions:nil];
-    NSArray<SDLPermissionElement *> *menuRPCNames = @[addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement];
+    NSArray<SDLPermissionElement *> *menuRPCPermissions = @[addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement];
     [self sdlex_checkCurrentGroupPermissionsWithManager:manager rpcNames:menuRPCNames];
 
     // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
     SDLPermissionElement *setMediaClockPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSetMediaClockTimer parameterPermissions:nil];
     SDLPermissionElement *subscribeButtonPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSubscribeButton parameterPermissions:nil];
-    NSArray<SDLPermissionElement *> *mediaTemplateRPCs = @[setMediaClockPermissionElement, subscribeButtonPermissionElement];
+    NSArray<SDLPermissionElement *> *mediaTemplateRPCPermissions = @[setMediaClockPermissionElement, subscribeButtonPermissionElement];
     SDLPermissionObserverIdentifier allAllowedObserverId = [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCs groupType:SDLPermissionGroupTypeAllAllowed];
 
     // Stop observing permissions changes for the media template releated RPCs

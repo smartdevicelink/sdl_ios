@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLRPCPermissionStatusChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCPermissions:(NSArray<SDLPermissionElement *> *)permissionElements groupType:(SDLPermissionGroupType)groupType withHandler:(SDLRPCPermissionStatusChangedHandler)handler;
 
 /**
  *  Remove every current observer
@@ -148,9 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
  *
- * @param parameter  The name of the parameter to be tested, for example, rpm
+ * @param parameter The name of the parameter to be tested, for example, rpm
  */
-- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString*)parameter;
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameterName;
 
 @end
 

@@ -22,7 +22,7 @@ describe(@"A rpc permission status", ^{
     beforeEach(^{
         testRPCName = @"testRPCName";
         testParameterName = @"testParameterRPCName";
-        allowedParameters = [@{testParameterName:@0} mutableCopy];
+        allowedParameters = [@{ testParameterName: @0 } mutableCopy];
     });
 
     describe(@"it should initialize correctly", ^{

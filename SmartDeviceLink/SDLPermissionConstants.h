@@ -72,8 +72,8 @@ typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, 
 /**
  *  The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change. // to do update
  *
- *  @param change  A dictionary of permission changes containing <key(String): SDLPermissionRPCName, object(SDLRPCPermissionStatus)>
- *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
+ *  @param change A dictionary of permission changes containing <key(String): SDLPermissionRPCName, object(SDLRPCPermissionStatus)>
+ *  @param status The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
 typedef void (^SDLRPCPermissionStatusChangedHandler)(NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *_Nonnull change, SDLPermissionGroupStatus status);
 

@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"identifier: %@, group type: %@, rpcs: %@", self.identifier, @(self.groupType), [self getRPCNamesFromPermissionElements:self.permissionElements]];
+    return [NSString stringWithFormat:@"identifier: %@, group type: %@, rpcs: %@", self.identifier, @(self.groupType), self.permissionElements];
 }
 
 #pragma mark - Helpers
