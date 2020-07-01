@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLPermissionsChangedHandler handler;
 
 /**
- *  The block that will be called on status changes to RPC Permissions
+ *  The block that will be called on status changes to RPC permission status objects
  */
 @property (copy, nonatomic, readonly) SDLRPCPermissionStatusChangedHandler rpcPermissionStatusHandler;
 

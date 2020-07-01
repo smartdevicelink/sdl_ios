@@ -134,6 +134,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
     NSArray *permissionElementsArray = [self sdl_createPermissionElementFromRPCNames:rpcNames];
+
+    // Convert the dictionary returned from statusesOfRPCNames: to the correct return type
     return [self sdl_convertPermissionsDictionary:[self statusesOfRPCNames:permissionElementsArray]];
 }
 
@@ -145,15 +147,15 @@ NS_ASSUME_NONNULL_BEGIN
             continue;
         }
 
-        NSMutableDictionary<NSString *, NSNumber *> *allowedParameters = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, NSNumber *> *rpcParameters = [NSMutableDictionary dictionary];
         if (permissionElement.parameterPermissions != nil) {
             for (NSString *permissionParameter in permissionElement.parameterPermissions) {
                 BOOL isParameterAllowed = [self isPermissionParameterAllowed:permissionElement.rpcName parameter:permissionParameter];
-                [allowedParameters setObject:@(isParameterAllowed) forKey:permissionParameter];
+                [rpcParameters setObject:@(isParameterAllowed) forKey:permissionParameter];
             }
         }
 
-        SDLRPCPermissionStatus *permissionStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:permissionElement.rpcName isRPCAllowed:[self isRPCNameAllowed:permissionElement.rpcName] rpcParameters:allowedParameters];
+        SDLRPCPermissionStatus *permissionStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:permissionElement.rpcName isRPCAllowed:[self isRPCNameAllowed:permissionElement.rpcName] rpcParameters:rpcParameters];
         [permissionAllowedDict setObject:permissionStatus forKey:permissionElement.rpcName];
     }
 
@@ -335,7 +337,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An array of permission elements.
  */
 - (NSArray<SDLPermissionElement *> *)sdl_createPermissionElementFromRPCNames:(NSArray<NSString *> *)rpcNames {
-    NSMutableArray *permissionElements = [NSMutableArray new];
+    NSMutableArray *permissionElements = [[NSMutableArray alloc] init];
     for (NSString *rpcName in rpcNames) {
         SDLPermissionElement *permissionElement = [[SDLPermissionElement alloc] initWithRPCName:rpcName parameterPermissions:nil];
         [permissionElements addObject:permissionElement];

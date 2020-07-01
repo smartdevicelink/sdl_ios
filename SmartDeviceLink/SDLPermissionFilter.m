@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     return [self initWithRPCNames:@[]
                         groupType:SDLPermissionGroupTypeAny
-                         permissionsHandler:^(NSDictionary<SDLPermissionElement *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){ } rpcPermissionStatusHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) { }];
+                         permissionsHandler:^(NSDictionary<SDLPermissionElement *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){ } rpcPermissionStatusHandler:^(NSDictionary<SDLPermissionRPCName, SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) { }];
 }
 
 - (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)observer rpcPermissionStatusHandler:(nullable SDLRPCPermissionStatusChangedHandler)permissionStatusHandler {
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Helpers
 
 - (NSArray<SDLPermissionRPCName> *)getRPCNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements {
-    NSMutableArray *rpcNames = [NSMutableArray new];
+    NSMutableArray *rpcNames = [[NSMutableArray alloc] init];
     for (SDLPermissionElement *element in permissionElements) {
         [rpcNames addObject:element.rpcName];
     }

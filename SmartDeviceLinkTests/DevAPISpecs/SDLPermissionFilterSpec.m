@@ -76,7 +76,7 @@ describe(@"A filter", ^{
                     }];
                 });
 
-                it(@"should set the rpcNames array correctly", ^{
+                it(@"should set the permission elements array correctly", ^{
                     expect(testFilter.permissionElements).to(equal(testPermissionElements));
                 });
 
@@ -150,7 +150,7 @@ describe(@"A filter", ^{
                     }];
                 });
 
-                it(@"should set the rpcNames array correctly", ^{
+                it(@"should set the permission elements array correctly", ^{
                     expect(testFilter.permissionElements).to(equal(testPermissionElements));
                 });
 

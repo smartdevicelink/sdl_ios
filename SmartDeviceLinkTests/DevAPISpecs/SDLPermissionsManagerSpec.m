@@ -37,7 +37,6 @@ describe(@"SDLPermissionsManager", ^{
     __block NSString *testRPCParameterNameAllAllowed = nil;
     __block NSString *testRPCParameterNameAllDisallowed = nil;
     __block NSString *testRPCParameterNameFullLimitedAllowed = nil;
-    __block NSString *testRPCParameterNameFullLimitedBackgroundAllowed = nil;
 
     __block SDLParameterPermissions *testParameterPermissionAllowed = nil;
     __block SDLParameterPermissions *testParameterPermissionUserDisallowed = nil;
@@ -78,7 +77,6 @@ describe(@"SDLPermissionsManager", ^{
         testRPCParameterNameAllAllowed = @"AllAllowed";
         testRPCParameterNameAllDisallowed = @"AllDisallowed";
         testRPCParameterNameFullLimitedAllowed = @"FullAndLimitedAllowed";
-        testRPCParameterNameFullLimitedBackgroundAllowed = @"FullAndLimitedAndBackgroundAllowed";
 
         // Create a manager
         testPermissionsManager = [[SDLPermissionManager alloc] init];
@@ -152,6 +150,7 @@ describe(@"SDLPermissionsManager", ^{
         backgroundHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testBackgroundHMIStatus];
         noneHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testNoneHMIStatus];
 
+        // Permission Elements
         testPermissionElementAllAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllAllowed parameterPermissions:@[testRPCParameterNameAllAllowed]];
         testPermissionElementFullLimitedAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedAllowed parameterPermissions:@[testRPCParameterNameFullLimitedAllowed]];
         testPermissionElementDisallowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllDisallowed    parameterPermissions:@[testRPCParameterNameAllDisallowed]];

@@ -16,16 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPermissionElement : NSObject <NSCopying>
 
 /**
- Name of the individual RPC.
-
- Required
+ * Name of the individual RPC.
+ * Required
  */
 @property (strong, nonatomic) SDLRPCFunctionName rpcName;
 
 /**
- RPC parameters for the individual RPC
-
- Required
+ * RPC parameters for the individual RPC
  */
 @property (strong, nonatomic) NSArray<NSString *> *parameterPermissions;
 

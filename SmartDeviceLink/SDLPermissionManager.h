@@ -86,9 +86,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
  *
- * @param rpcNames An array of RPC names to check
+ * @param rpcNames An array of permission elements to check
  *
- * @return A dictionary specifying if the passed in RPC names are currently allowed or not
+ * @return A dictionary with specific RPC info contained in a SDLRPCPermissionStatus
 */
 - (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames;
 
@@ -142,7 +142,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Check whether or not an RPC needs encryption.
  */
 - (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName;
-
 
 /**
  * Check whether a parameter of an RPC is allowed
