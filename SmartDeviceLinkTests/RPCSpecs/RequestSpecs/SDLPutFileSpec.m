@@ -34,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.length = @123456789;
         testRequest.crc = @0xffffffff;
         
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
+        expect(testRequest.sdlFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
@@ -64,7 +64,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
         
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
+        expect(testRequest.sdlFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
