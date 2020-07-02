@@ -206,11 +206,10 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
-                [NSThread sleepForTimeInterval:0.5];
             });
 
             it(@"should have attempted to open the URL", ^{
-                OCMVerifyAll(mockedApplication);
+                OCMVerifyAllWithDelay(mockedApplication, 0.5);
             });
 
             afterEach(^{
@@ -221,10 +220,13 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
         context(@"of another type", ^{
             beforeEach(^{
                 receivedSystemRequest.requestType = SDLRequestTypeFOTA;
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
             it(@"should do nothing", ^{
-                // TODO
+                OCMReject([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:[OCMArg any]]).andReturn(nil);
             });
         });
     });

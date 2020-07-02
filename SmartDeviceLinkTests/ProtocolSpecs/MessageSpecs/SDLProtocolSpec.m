@@ -429,10 +429,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
 
                 expect(testProtocol.authToken).to(equal(testAuthToken));
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.2.0"));
@@ -450,10 +453,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
 
                 expect(testProtocol.authToken).to(beNil());
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.1.0"));
@@ -471,10 +477,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
 
                 expect(testProtocol.authToken).to(beNil());
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.0.0"));
@@ -494,10 +503,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
 
                 // Should keep their default values
                 expect(testProtocol.authToken).to(beNil());
@@ -520,10 +532,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
 
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"3.1.0"));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"3.1.0"));
@@ -542,14 +557,16 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.sessionID = 0x93;
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
-                [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
 
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
 
                 // Should keep their default values
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
             });
         });
     });
@@ -575,10 +592,13 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         testHeader.messageID = 2;
         testHeader.bytesInPayload = 0;
 
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolRegisterSecondaryTransportACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+        SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:nil];
+        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportACKMessage:ackMessage]);
 
-        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        [testProtocol handleProtocolRegisterSecondaryTransportACKMessage:ackMessage];
+
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 
     it(@"Should pass information along to delegate when NAKed", ^ {
@@ -594,92 +614,102 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         SDLControlFramePayloadRegisterSecondaryTransportNak *payload = [[SDLControlFramePayloadRegisterSecondaryTransportNak alloc] initWithReason:@"Sample reason"];
         NSData *payloadData = payload.data;
 
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolRegisterSecondaryTransportACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:payloadData]];
+        SDLProtocolMessage *nakMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:payloadData];
+        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage]);
 
-        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportNAKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:payloadData]]);
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        [testProtocol handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage];
+
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
 describe(@"HandleHeartbeatForSession Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
+    __block id delegateMock = nil;
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
-    });
 
-    // TODO: Test automatically sending data to head unit (dependency injection?)
-    it(@"Should pass information along to delegate", ^ {
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        
+        delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
+        OCMExpect([delegateMock handleHeartbeatForSession:0x44]);
+
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol handleHeartbeatForSession:0x44];
-        
-        OCMExpect([delegateMock handleHeartbeatForSession:0]);
+    });
+
+    it(@"Should pass information along to delegate", ^ {
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
 describe(@"OnProtocolMessageReceived Tests", ^ {
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
+    __block id delegateMock = nil;
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
-    });
 
-    it(@"Should pass information along to delegate", ^ {
         SDLProtocolMessage *testMessage = [[SDLProtocolMessage alloc] init];
         SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:3];
         testHeader.serviceType = SDLServiceTypeRPC;
         testMessage.header = testHeader;
-        
+
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        
+        OCMExpect([delegateMock onProtocolMessageReceived:[OCMArg any]]);
+
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onProtocolMessageReceived:testMessage];
-        
-        OCMExpect([delegateMock onProtocolMessageReceived:[OCMArg any]]);
+    });
+
+    it(@"Should pass information along to delegate", ^ {
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
 describe(@"OnProtocolOpened Tests", ^ {
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
+    __block id delegateMock = nil;
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
+
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
+        OCMExpect([delegateMock onProtocolOpened]);
+
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        [testProtocol onTransportConnected];
     });
 
     it(@"Should pass information along to delegate", ^ {
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onTransportConnected];
-        
-        OCMExpect([delegateMock onProtocolOpened]);
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
 describe(@"OnProtocolClosed Tests", ^ {
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
+    __block id delegateMock = nil;
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
+
+        delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
+        OCMExpect([delegateMock onProtocolClosed]);
+
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        [testProtocol onTransportDisconnected];
     });
 
     it(@"Should pass information along to delegate", ^ {
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onTransportDisconnected];
-        
-        OCMExpect([delegateMock onProtocolClosed]);
+        OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 

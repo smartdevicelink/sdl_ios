@@ -578,9 +578,7 @@ describe(@"a lifecycle manager", ^{
                 OCMExpect([protocolMock sendRPC:testShow]);
                 [testManager sendRPC:testShow];
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerifyAll(protocolMock);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"can send an RPC of type Response", ^{
@@ -592,9 +590,7 @@ describe(@"a lifecycle manager", ^{
                 testResponse.resultCode = SDLResultSuccess;
                 testResponse.info = @"testResponse info";
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerifyAll(protocolMock);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"can send an RPC of type Notification", ^{
@@ -602,9 +598,7 @@ describe(@"a lifecycle manager", ^{
                 OCMExpect([protocolMock sendRPC:testNotification]);
                 [testManager sendRPC:testNotification];
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerifyAll(protocolMock);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
