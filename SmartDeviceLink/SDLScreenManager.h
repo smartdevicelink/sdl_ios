@@ -272,15 +272,15 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 ///
 /// 1. A selector with no parameters. The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
 ///
-/// 2. A selector with one parameter, (SDLButtonName). The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
+/// 2. A selector with one parameter: (SDLButtonName). The observer will be notified when a button press occurs (both a short and long press will trigger the selector, but it will not be able to distinguish between them). It will not be notified of button events.
 ///
-/// 3. A selector with two parameters, (SDLButtonName, NSError). The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).
+/// 3. A selector with two parameters: (SDLButtonName, NSError). The observer will be notified when a button press occurs (both a short and long press will trigger the selector, but it will not be able to distinguish between them). It will not be notified of button events.
 ///
-/// 4. A selector with three parameters, (SDLButtonName, NSError, SDLOnButtonPress). The observer will be notified when a long or short button press occurs, but not a button event.
+/// 4. A selector with three parameters: (SDLButtonName, NSError, SDLOnButtonPress). The observer will be notified when a long or short button press occurs (and can distinguish between a short or long press), but will not be notified of individual button events.
 ///
-/// 5. A selector with four parameters, (SDLButtonName, NSError, SDLOnButtonPress, SDLOnButtonEvent). The observer will be notified when any button press or any button event occurs.
+/// 5. A selector with four parameters: (SDLButtonName, NSError, SDLOnButtonPress, SDLOnButtonEvent). The observer will be notified when any button press or any button event occurs (and can distinguish between them).
 ///
-/// To unsubscribe to the hard button, please call `unsubscribeButton:withObserver:withCompletionHandler:`.
+/// To unsubscribe from the hard button, call `unsubscribeButton:withObserver:withCompletionHandler:`.
 ///
 /// @param buttonName The name of the hard button to subscribe to
 /// @param observer The object that will have `selector` called whenever the button has been selected

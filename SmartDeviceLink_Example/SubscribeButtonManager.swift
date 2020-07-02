@@ -11,9 +11,9 @@ import SmartDeviceLink
 import SmartDeviceLinkSwift
 
 class SubscribeButtonManager {
-    fileprivate let sdlManager: SDLManager!
-    let presetButtons: [SDLButtonName] = [.preset0, .preset1, .preset2, .preset3, .preset4, .preset5, .preset6, .preset7]
-    fileprivate var presetButtonSubscriptionIDs = [SDLButtonName: Any]()
+    private let sdlManager: SDLManager!
+    private let presetButtons: [SDLButtonName] = [.preset0, .preset1, .preset2, .preset3, .preset4, .preset5, .preset6, .preset7]
+    private var presetButtonSubscriptionIDs = [SDLButtonName: Any]()
 
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager

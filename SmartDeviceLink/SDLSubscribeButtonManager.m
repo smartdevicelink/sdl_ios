@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector; {
-    SDLLogV(@"Subscribing to subscribe button with name: %@, with observer: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
+    SDLLogD(@"Subscribing to subscribe button with name: %@, with observer: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
 
     NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
     if (numberOfParametersInSelector > 4) {
@@ -106,7 +106,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
-
     if (self.subscribeButtonObservers[buttonName] == nil || ![self sdl_isSubscribedObserver:observer forButtonName:buttonName]) {
         SDLLogE(@"Attempting to unsubscribe to the %@ subscribe button which is not currently subscribed", buttonName);
         return completionHandler(nil);
@@ -121,11 +120,11 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (response.success.boolValue == NO) {
-            SDLLogE(@"Attempt to unsubscribe to subscribe button named %@ failed", buttonName);
+            SDLLogE(@"Attempt to unsubscribe from subscribe button %@ failed", buttonName);
             return completionHandler(error);
         }
 
-        SDLLogD(@"Successfully unsubscribed to subscribe button named %@", buttonName);
+        SDLLogD(@"Successfully unsubscribed from subscribe button named %@", buttonName);
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_removeSubscribedObserver:observer forButtonName:buttonName];
         return completionHandler(error);
@@ -154,9 +153,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param buttonName The name of the button
 - (void)sdl_removeSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
     NSMutableArray *subscribedObservers = self.subscribeButtonObservers[buttonName];
-    for (uint i = 0; i < subscribedObservers.count; i += 1) {
+    for (NSUInteger i = 0; i < subscribedObservers.count; i++) {
         SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)subscribedObservers[i];
-        if (subscribedObserver.observer != observer ) { continue; }
+        if (subscribedObserver.observer != observer) { continue; }
+        // Okay to mutate because we will break immediately afterward
         [subscribedObservers removeObjectAtIndex:i];
         break;
     }
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.subscribeButtonObservers[buttonName] == nil) {
             SDLLogV(@"Adding first subscriber for button: %@", buttonName);
-            strongSelf.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithArray:@[subscribedObserver]];
+            strongSelf.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithObject:subscribedObserver];
         } else {
             SDLLogV(@"Adding another subscriber for button: %@", buttonName);
             [strongSelf.subscribeButtonObservers[buttonName] addObject:subscribedObserver];
@@ -191,10 +191,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_subscribeToButtonNamed:(SDLButtonName)buttonName withObserverObject:(SDLSubscribeButtonObserver *)observerObject {
     SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:nil];
     __weak typeof(self) weakSelf = self;
+
     [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         // Check if the request was successful. If a subscription request got sent for a button that is already subscribed then the module will respond with `IGNORED` so just act as if subscription succeeded.
-        if (response.success.boolValue == NO && ![response.resultCode isEqualToEnum:SDLResultIgnored]) {
+        if (!response.success.boolValue && ![response.resultCode isEqualToEnum:SDLResultIgnored]) {
             [strongSelf sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
             return;
         }

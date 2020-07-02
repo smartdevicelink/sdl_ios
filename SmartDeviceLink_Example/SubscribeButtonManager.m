@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-+ (NSArray<SDLButtonName> *)presetButtons {
++ (NSArray<SDLButtonName> *)sdlex_allPresetButtons {
     return @[SDLButtonNamePreset0, SDLButtonNamePreset1, SDLButtonNamePreset2, SDLButtonNamePreset3, SDLButtonNamePreset4, SDLButtonNamePreset5, SDLButtonNamePreset6, SDLButtonNamePreset7];
 }
 

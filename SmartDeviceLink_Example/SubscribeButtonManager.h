@@ -18,10 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithManager:(SDLManager *)manager;
 
 /// Subscribe to all available preset buttons. An alert will be shown when a preset button is short pressed or long pressed.
-- (void)subscribeToPresetButtons;
+- (void)subscribeToAllPresetButtons;
 
 /// Unsubscribes to all subscribed preset buttons
-- (void)unsubscribeToPresetButtons;
+- (void)unsubscribeFromAllPresetButtons;
 
 @end
 
