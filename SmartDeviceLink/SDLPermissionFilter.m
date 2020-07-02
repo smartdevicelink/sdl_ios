@@ -17,12 +17,19 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    return [self initWithRPCNames:@[]
-                        groupType:SDLPermissionGroupTypeAny
-                         permissionsHandler:^(NSDictionary<SDLPermissionElement *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){ }];
+    self = [super init];
+    if (!self) { return nil; }
+
+    _identifier = [NSUUID UUID];
+    _permissionElements = @[];
+    _groupType = SDLPermissionGroupTypeAny;
+    _handler = nil;
+    _rpcPermissionStatusHandler = nil;
+
+    return self;
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)observer {
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
@@ -32,15 +39,23 @@ NS_ASSUME_NONNULL_BEGIN
     _permissionElements = rpcNames;
     _groupType = groupType;
     _handler = observer;
-//    _rpcPermissionStatusHandler = permissionStatusHandler;
 
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)observer {
-    return [[self alloc] initWithRPCNames:rpcNames groupType:groupType permissionsHandler:observer];
-}
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionStatusHandler:(SDLRPCPermissionStatusChangedHandler)permissionStatusHandler {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
 
+    _identifier = [NSUUID UUID];
+    _permissionElements = rpcNames;
+    _groupType = groupType;
+    _rpcPermissionStatusHandler = permissionStatusHandler;
+
+    return self;
+}
 
 #pragma mark - Helpers
 
@@ -57,8 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_permissionElements copyWithZone:zone] groupType:_groupType permissionsHandler:[_handler copyWithZone:zone]];
+    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithPermissions:[_permissionElements copyWithZone:zone] groupType:_groupType permissionsHandler:[_handler copyWithZone:zone]];
     newFilter->_identifier = _identifier;
+    newFilter->_rpcPermissionStatusHandler = _rpcPermissionStatusHandler;
 
     return newFilter;
 }

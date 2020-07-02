@@ -34,9 +34,11 @@ describe(@"A filter", ^{
         });
 
         context(@"using initWithRPCNames:changeType:permissionsHandler:rpcPermissionStatusHandler", ^{
-            context(@"and the rpcPermissionStatusHandler is nil", ^{
+            context(@"using SDLPermissionsChangedHandler init", ^{
                 beforeEach(^{
-                    testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testPermissionElements groupType:testGroupType permissionsHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) { testObserverReturnChangedDict = change; } :nil];
+                    testFilter = [[SDLPermissionFilter alloc] initWithPermissions:testPermissionElements groupType:testGroupType permissionsHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        testObserverReturnChangedDict = change;
+                    }];
                 });
 
                 it(@"should set the rpcNames array correctly", ^{
@@ -69,83 +71,9 @@ describe(@"A filter", ^{
                 });
             });
 
-            context(@"and the permissionsHandler is nil", ^{
+            context(@"using the SDLRPCPermissionStatusChangedHandler init", ^{
                 beforeEach(^{
-                    testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testPermissionElements groupType:testGroupType permissionsHandler:nil :^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                        testRPCPermissionStatusReturnChangedDict = change;
-                    }];
-                });
-
-                it(@"should set the permission elements array correctly", ^{
-                    expect(testFilter.permissionElements).to(equal(testPermissionElements));
-                });
-
-                describe(@"it should set up the observer correctly", ^{
-                    __block NSDictionary<SDLPermissionRPCName, SDLRPCPermissionStatus *> *testObserverChangedDict = nil;
-                    __block SDLRPCPermissionStatus *rpcPermissionStatus1 = nil;
-                    __block SDLRPCPermissionStatus *rpcPermissionStatus2 = nil;
-                    __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
-
-                    beforeEach(^{
-                        rpcPermissionStatus1 = [[SDLRPCPermissionStatus alloc] initWithRPCName:testRPCName1 isRPCAllowed:YES rpcParameters:nil];
-                        rpcPermissionStatus2 = [[SDLRPCPermissionStatus alloc] initWithRPCName:testRPCName2 isRPCAllowed:NO rpcParameters:nil];
-                        testObserverChangedDict = @{testRPCName1: rpcPermissionStatus1,
-                                                    testRPCName2: rpcPermissionStatus2};
-                        testObserverGroupStatus = SDLPermissionGroupStatusMixed;
-
-                        testFilter.rpcPermissionStatusHandler(testObserverChangedDict, testObserverGroupStatus);
-                    });
-
-                    it(@"should call the changedDict correctly", ^{
-                        expect(testRPCPermissionStatusReturnChangedDict).to(equal(testObserverChangedDict));
-                    });
-
-                    it(@"should call the status correctly", ^{
-                        expect(@(testObserverGroupStatus)).to(equal(@(testObserverGroupStatus)));
-                    });
-                });
-            });
-        });
-
-        context(@"using filterWithRPCNames:changeType:observer:", ^{
-            context(@"and the rpcPermissionStatusHandler is nil", ^{
-                beforeEach(^{
-                    testFilter = [SDLPermissionFilter filterWithRPCNames:testPermissionElements groupType:testGroupType permissionsHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) { testObserverReturnChangedDict = change; } rpcPermissionStatusHandler:nil];
-                });
-
-                it(@"should set the rpcNames array correctly", ^{
-                    expect(testFilter.permissionElements).to(equal(testPermissionElements));
-                });
-
-                describe(@"it should set up the observer correctly", ^{
-                    __block NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *testObserverChangedDict = nil;
-                    __block NSNumber<SDLBool> *testRPCName1Bool = nil;
-                    __block NSNumber<SDLBool> *testRPCName2Bool = nil;
-                    __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
-
-                    beforeEach(^{
-                        testRPCName1Bool = @YES;
-                        testRPCName2Bool = @NO;
-                        testObserverChangedDict = @{testRPCName1: testRPCName1Bool,
-                                                    testRPCName2: testRPCName2Bool};
-                        testObserverGroupStatus = SDLPermissionGroupStatusMixed;
-
-                        testFilter.handler(testObserverChangedDict, testObserverGroupStatus);
-                    });
-
-                    it(@"should call the changedDict correctly", ^{
-                        expect(testObserverReturnChangedDict).to(equal(testObserverChangedDict));
-                    });
-
-                    it(@"should call the status correctly", ^{
-                        expect(@(testObserverGroupStatus)).to(equal(@(testObserverGroupStatus)));
-                    });
-                });
-            });
-
-            context(@"and the permissionsHandler is nil", ^{
-                beforeEach(^{
-                    testFilter = [SDLPermissionFilter filterWithRPCNames:testPermissionElements groupType:testGroupType permissionsHandler:nil rpcPermissionStatusHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    testFilter = [[SDLPermissionFilter alloc] initWithPermissions:testPermissionElements groupType:testGroupType permissionStatusHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testRPCPermissionStatusReturnChangedDict = change;
                     }];
                 });
@@ -187,7 +115,7 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testCopiedFilter = nil;
 
         beforeEach(^{
-            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
+            testFilter = [[SDLPermissionFilter alloc] initWithPermissions:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {}];
             testCopiedFilter = [testFilter copy];
         });
 
@@ -214,10 +142,10 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testDifferentFilter = nil;
 
         beforeEach(^{
-            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
+            testSameFilter1 = [[SDLPermissionFilter alloc] initWithPermissions:@[testPermissionElement1] groupType:(SDLPermissionGroupType)SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {}];
             testSameFilter2 = [testSameFilter1 copy];
 
-            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testPermissionElement1] groupType:SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionElement *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {} rpcPermissionStatusHandler:nil];
+            testDifferentFilter = [[SDLPermissionFilter alloc] initWithPermissions:@[testPermissionElement1] groupType:(SDLPermissionGroupType)SDLPermissionGroupTypeAny permissionsHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {}];
         });
 
         it(@"should say copied filters are the same", ^{

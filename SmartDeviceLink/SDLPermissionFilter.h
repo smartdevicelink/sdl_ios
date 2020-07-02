@@ -42,17 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSArray<SDLPermissionElement *> *permissionElements;
 
 /**
- *  Create a new permission filter group.
- *
- *  @param rpcNames  The names of the RPCs to watch permissions of.
- *  @param groupType The type of notifications to be sent for this filter group.
- *  @param handler  The block observer to be called when changes occur.
- *
- *  @return An instance of `SDLPermissionFilter`.
- */
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)handler;
-
-/**
  *  Create a new permission filter group with a SDLPermissionsChangedHandler.
  *
  *  @param rpcNames  The names of the RPCs to watch permissions of.
@@ -61,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(nullable SDLPermissionsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(SDLPermissionsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
 
 /**
  *  Create a new permission filter group with a SDLRPCPermissionStatusChangedHandler.
@@ -72,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionStatusHandler:(SDLRPCPermissionStatusChangedHandler)permissionStatusHandler; 
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionStatusHandler:(SDLRPCPermissionStatusChangedHandler)permissionStatusHandler; 
 
 /**
  *  Whether the current filter is equivalent with another filter or not.
