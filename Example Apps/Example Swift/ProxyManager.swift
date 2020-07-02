@@ -182,15 +182,9 @@ extension ProxyManager: SDLManagerDelegate {
             // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
             showInitialData()
             subscribeButtonManager.subscribeToPresetButtons()
-        case .limited:
-            // An active NAV or MEDIA SDL app is in the background
-            break
-        case .background:
-            // The SDL app is not in the foreground
-            break
-        case .none:
-            // The SDL app is not yet running
-            break
+        case .limited: break // An active NAV or MEDIA SDL app is in the background
+        case .background: break // The SDL app is not in the foreground
+        case .none: break // The SDL app is not yet running
         default: break
         }
     }
