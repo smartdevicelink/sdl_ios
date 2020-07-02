@@ -88,10 +88,10 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLPermissionGroupStatusUnknown;
     }
 
-    return [self.class sdl_groupStatusOfRPCPermissions:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
+    return [self sdl_groupStatusOfRPCPermissions:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
-+ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
+- (SDLPermissionGroupStatus)sdl_groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
     // If we don't have an HMI level, then just say everything is disallowed
     if (hmiLevel == nil) {
         return SDLPermissionGroupStatusUnknown;
@@ -120,6 +120,16 @@ NS_ASSUME_NONNULL_BEGIN
             hasAllowed = YES;
         } else {
             hasDisallowed = YES;
+        }
+
+        if (permissionElement.parameterPermissions != nil) {
+            for (NSString *parameter in permissionElement.parameterPermissions) {
+                if ([self isPermissionParameterAllowed:permissionElement.rpcName parameter:parameter]) {
+                    hasAllowed = true;
+                } else {
+                    hasDisallowed = true;
+                }
+            }
         }
     }
 
