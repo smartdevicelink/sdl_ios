@@ -152,9 +152,7 @@ private extension ProxyManager {
 
 extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection beween this app and the module has closed.
-    func managerDidDisconnect() {
-        subscribeButtonManager.unsubscribeToPresetButtons()
-        
+    func managerDidDisconnect() {        
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
         }
@@ -172,7 +170,7 @@ extension ProxyManager: SDLManagerDelegate {
             // This is our first time in a non-NONE state
             firstHMILevelState = newLevel
 
-            // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
+            // Send static menu items.
             createMenuAndGlobalVoiceCommands()
 
             // Subscribe to vehicle data.
@@ -189,7 +187,7 @@ extension ProxyManager: SDLManagerDelegate {
             break
         case .background:
             // The SDL app is not in the foreground
-            subscribeButtonManager.unsubscribeToPresetButtons()
+            break
         case .none:
             // The SDL app is not yet running
             break

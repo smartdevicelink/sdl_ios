@@ -245,7 +245,7 @@ NS_ASSUME_NONNULL_BEGIN
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
-        // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
+        // Send static menu items.
         [self sdlex_createMenus];
 
         // Subscribe to vehicle data.
@@ -260,7 +260,6 @@ NS_ASSUME_NONNULL_BEGIN
         // An active NAV or MEDIA SDL app is in the background
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
         // The SDL app is not in the foreground
-        [self.subscribeButtonManager unsubscribeToPresetButtons];
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
         // The SDL app is not yet running
     }
