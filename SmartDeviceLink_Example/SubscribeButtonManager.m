@@ -42,14 +42,17 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (error != nil || buttonPress == nil) {
+            if (error != nil) {
+                SDLLogE(@"There was an error subscribing to the preset button: %@" error.localizedDescription);
                 return;
             }
+
+            if (buttonPress == nil) { return; }
 
             NSString *alertMessage;
             NSString *buttonName = buttonPress.buttonName;
             if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
-                alertMessage = [NSString stringWithFormat:@"%@ pressed", buttonName];
+                alertMessage = [NSString stringWithFormat:@"%@ short pressed", buttonName];
             } else {
                 alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonName];
             }

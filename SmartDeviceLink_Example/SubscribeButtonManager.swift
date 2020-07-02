@@ -27,16 +27,18 @@ class SubscribeButtonManager {
 
         presetButtons.forEach { buttonName in
             _ = sdlManager.screenManager.subscribeButton(buttonName) { [weak self] (press, event, error) in
-                guard error == nil, let buttonPress = press else {
-                    SDLLog.e("Error subscribing to the \(buttonName.rawValue.rawValue) button")
+                guard error == nil else {
+                    SDLLog.e("There was an error subscribing to the preset button: \(error!.localizedDescription)")
                     return
                 }
+
+                guard let buttonPress = press else { return }
 
                 let alert: SDLAlert
                 let buttonName = buttonPress.buttonName.rawValue.rawValue
                 switch buttonPress.buttonPressMode {
                 case .short:
-                    alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) pressed")
+                    alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) short pressed")
                 case .long:
                      alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) long pressed")
                 default: fatalError()
