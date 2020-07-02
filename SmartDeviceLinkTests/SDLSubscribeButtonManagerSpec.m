@@ -87,7 +87,7 @@ describe(@"subscribe button manager", ^{
             [testManager start];
         });
 
-        describe(@"should subscribe with an update handler", ^{
+        describe(@"should subscribe with an update block handler", ^{
             __block SDLButtonName testButtonName = nil;
             __block SDLSubscribeButtonUpdateHandler testUpdateHandler1 = nil;
             __block BOOL testHandler1Called = NO;
@@ -223,14 +223,14 @@ describe(@"subscribe button manager", ^{
                 expect([testConnectionManager.receivedRequests[0] isKindOfClass:SDLSubscribeButton.class]);
             });
 
-            it(@"should not notify the observer when a success response is recieved for the subscribe button request", ^{
+            it(@"should not notify the observer when a success response is received for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector1];
                 [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 expect(testSubscribeButtonObserver1.selectorCalledCount).to(equal(0));
             });
 
-            it(@"should notify the observer with the error and remove the observer when a failure response is recieved for the subscribe button request", ^{
+            it(@"should notify the observer with the error and remove the observer when a failure response is received for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector2];
                 NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
                 [testConnectionManager respondToLastRequestWithResponse:testSubscribeFailureResponse error:testError];
@@ -322,7 +322,7 @@ describe(@"subscribe button manager", ^{
                 [testManager subscribeButton:testButtonName withObserver:testObserver2 selector:testSelector2];
             });
 
-            it(@"should notify all observers when a button event notification is recieved", ^{
+            it(@"should notify all observers when a button event notification is received", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
                 expect(testHandler1Called).toEventually(beTrue());
