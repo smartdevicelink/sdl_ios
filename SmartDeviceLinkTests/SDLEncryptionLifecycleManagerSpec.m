@@ -182,6 +182,32 @@ describe(@"the encryption lifecycle manager", ^{
             });
         });
     });
+
+    describe(@"when stopped", ^{
+        it(@"if the encryption manager is ready it should transition to the stopped state", ^{
+            [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateReady  fromOldState:nil callEnterTransition:NO];
+
+            [encryptionLifecycleManager stop];
+
+            expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+        });
+
+        it(@"if the encryption manager is starting it should stay in the stopped state", ^{
+            [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStarting fromOldState:nil callEnterTransition:NO];
+
+            [encryptionLifecycleManager stop];
+
+            expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+        });
+
+        it(@"if the encryption manager is stopped it should stay in the stopped state", ^{
+            [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStopped  fromOldState:nil callEnterTransition:NO];
+
+            [encryptionLifecycleManager stop];
+
+            expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+        });
+    });
 });
 
 QuickSpecEnd

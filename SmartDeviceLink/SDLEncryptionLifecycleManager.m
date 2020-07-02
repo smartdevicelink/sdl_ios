@@ -87,6 +87,8 @@ typedef NSString SDLVehicleMake;
     return self;
 }
 
+#pragma mark - Lifecycle
+
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     SDLLogD(@"Starting encryption manager");
     _protocol = protocol;
@@ -99,12 +101,14 @@ typedef NSString SDLVehicleMake;
 }
 
 - (void)stop {
+    SDLLogD(@"Stopping encryption manager");
+
     _permissions = nil;
     _protocol = nil;
     _currentHMILevel = nil;
     _requiresEncryption = NO;
 
-    SDLLogD(@"Stopping encryption manager");
+    [self.encryptionStateMachine transitionToState:SDLEncryptionLifecycleManagerStateStopped];
 }
 
 - (BOOL)isEncryptionReady {
@@ -144,7 +148,8 @@ typedef NSString SDLVehicleMake;
     }];
 }
 
-#pragma mark Encryption
+#pragma mark - State Machine
+
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_encryptionStateTransitionDictionary {
     return @{
              SDLEncryptionLifecycleManagerStateStopped : @[SDLEncryptionLifecycleManagerStateStarting],
@@ -153,7 +158,6 @@ typedef NSString SDLVehicleMake;
             };
 }
 
-#pragma mark - State Machine
 - (void)didEnterStateEncryptionStarting {
     SDLLogD(@"Encryption manager is starting");
     [self sdl_sendEncryptionStartService];
@@ -232,7 +236,7 @@ typedef NSString SDLVehicleMake;
     }
 }
 
-#pragma mark - SDL RPC Notification callbacks
+#pragma mark - Notifications
 
 - (void)sdl_registerAppInterfaceResponseReceived:(SDLRPCResponseNotification *)notification {
     if (![notification isResponseMemberOfClass:[SDLRegisterAppInterfaceResponse class]]) { return; }
@@ -292,6 +296,8 @@ typedef NSString SDLVehicleMake;
 
     return nil;
 }
+
+#pragma mark Encryption Status
 
 - (BOOL)sdl_appRequiresEncryption {
     if (self.requiresEncryption && [self sdl_containsAtLeastOneRPCThatRequiresEncryption]) {
