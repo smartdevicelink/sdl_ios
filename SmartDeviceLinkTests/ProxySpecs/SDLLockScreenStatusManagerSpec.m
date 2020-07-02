@@ -327,7 +327,7 @@ describe(@"the lockscreen status manager", ^{
         });
     });
 
-    describe(@"when receiving an HMI status", ^{
+    describe(@"when receiving a driver distraction status", ^{
         __block id lockScreenIconObserver = nil;
         beforeEach(^{
             SDLOnDriverDistraction *driverDistraction = [[SDLOnDriverDistraction alloc] init];

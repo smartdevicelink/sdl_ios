@@ -191,12 +191,12 @@ NS_ASSUME_NONNULL_BEGIN
  /**
   *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithNewProtocol: instead");
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
  /**
   *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithNewProtocol: instead");
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
 
 @end

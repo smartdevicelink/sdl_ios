@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, SDLRPCDirection) {
 
 @interface SDLLifecycleRPCAdapter : NSObject
 
-/// Takes an RPC message (request, response, or notification) and adapts it based on the current version. This may need to happen before being sent or received.
+/// Takes an RPC message (request, response, or notification) and adapts for the negotiated RPC spec version. This may need to happen before being sent or received.
 /// @param message The message to be adapted
 /// @return The message or messages to be sent or recieved
 + (NSArray<SDLRPCMessage *> *)adaptRPC:(SDLRPCMessage *)message direction:(SDLRPCDirection)direction;

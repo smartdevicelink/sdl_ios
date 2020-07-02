@@ -143,7 +143,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [SDLLogManager setConfiguration:_configuration.loggingConfig];
 
     SDLLogD(@"Initializing Lifecycle Manager");
-    SDLLogE(@"SDL iOS Library Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"CFBundleShortVersionString"]);
+    SDLLogD(@"SDL iOS Library Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"CFBundleShortVersionString"]);
     SDLLogD(@"iOS Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"DTPlatformVersion"]);
     SDLLogD(@"SDK Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"DTSDKName"]);
     SDLLogD(@"Minimum OS Version: %@", [NSBundle bundleForClass:self.class].infoDictionary[@"MinimumOSVersion"]);
@@ -982,7 +982,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else if (appUnregisteredNotification.reason != nil
                && ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]
                    || [appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonProtocolViolation])) {
-        // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {
         [self sdl_transitionToState:SDLLifecycleStateReconnecting];

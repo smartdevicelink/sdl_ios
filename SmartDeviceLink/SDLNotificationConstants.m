@@ -94,7 +94,7 @@ SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.
 
 #pragma mark - RPC Requests
 SDLNotificationName const SDLDidReceiveAddCommandRequest = @"com.sdl.request.AddCommand";
-SDLNotificationName const SDLDidReceiveAddSubMenuRequest = @"com.sdl.request.addSubMenu";
+SDLNotificationName const SDLDidReceiveAddSubMenuRequest = @"com.sdl.request.AddSubMenu";
 SDLNotificationName const SDLDidReceiveAlertRequest = @"com.sdl.request.Alert";
 SDLNotificationName const SDLDidReceiveAlertManeuverRequest = @"com.sdl.request.AlertManeuver";
 SDLNotificationName const SDLDidReceiveButtonPressRequest = @"com.sdl.request.ButtonPress";

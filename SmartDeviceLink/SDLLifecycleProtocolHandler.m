@@ -10,6 +10,7 @@
 
 #import "SDLConfiguration.h"
 #import "SDLControlFramePayloadRPCStartService.h"
+#import "SDLError.h"
 #import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleRPCAdapter.h"
@@ -25,6 +26,8 @@
 #import "SDLTimer.h"
 
 static const float StartSessionTime = 10.0;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLifecycleProtocolHandler ()
 
@@ -77,7 +80,7 @@ static const float StartSessionTime = 10.0;
         self.rpcStartServiceTimeoutTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
-            SDLLogE(@"Start session timed out after %f, closing the connection.", StartSessionTime);
+            SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
             [weakSelf performSelector:@selector(onProtocolClosed) withObject:nil afterDelay:0.1];
         };
     }
@@ -97,29 +100,36 @@ static const float StartSessionTime = 10.0;
 }
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    [self.rpcStartServiceTimeoutTimer cancel];
     SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
+        [self.rpcStartServiceTimeoutTimer cancel];
         [self.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
     }
 }
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    [self.rpcStartServiceTimeoutTimer cancel];
     SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
 
     if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
+        [self.rpcStartServiceTimeoutTimer cancel];
         [self.notificationDispatcher postNotificationName:SDLRPCServiceConnectionDidError infoObject:nil];
     }
 }
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    [self.rpcStartServiceTimeoutTimer cancel];
     SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
     if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
+        [self.rpcStartServiceTimeoutTimer cancel];
         [self.notificationDispatcher postNotificationName:SDLRPCServiceDidDisconnect infoObject:nil];
+    }
+}
+
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+    if (endServiceNAK.header.serviceType == SDLServiceTypeRPC) {
+        NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:@"RPC Service failed to stop" andReason:nil];
+        [self.notificationDispatcher postNotificationName:SDLRPCServiceConnectionDidError infoObject:error];
     }
 }
 
@@ -150,7 +160,7 @@ static const float StartSessionTime = 10.0;
         [self.notificationDispatcher postRPCResponseNotification:notificationName response:(SDLRPCResponse *)message];
     } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameRequest]) {
         [self.notificationDispatcher postRPCRequestNotification:notificationName request:(SDLRPCRequest *)message];
-    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification]) { // TODO: This won't always work, some are "didChange"
+    } else if ([message.messageType isEqualToEnum:SDLRPCMessageTypeNameNotification]) {
         [self.notificationDispatcher postRPCNotificationNotification:notificationName notification:(SDLRPCNotification *)message];
     }
 }
@@ -183,3 +193,5 @@ static const float StartSessionTime = 10.0;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

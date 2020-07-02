@@ -20,10 +20,12 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSystemRequest.h"
 
+static const float DefaultConnectionTimeout = 45.0;
+
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
-
-static const float DefaultConnectionTimeout = 45.0;
 
 @interface SDLLifecycleSystemRequestHandler ()
 
@@ -56,7 +58,7 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)stop {
-    SDLLogV(@"Stopping SyncPData handler and stopping all URL session tasks");
+    SDLLogV(@"Stopping SystemRequest handler and stopping all URL session tasks");
     [self.urlSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         for (NSURLSessionTask *task in dataTasks) {
             [task cancel];
@@ -330,3 +332,5 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -53,7 +53,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 @property (nullable, nonatomic, strong) id<SDLSecurityType> securityManager;
 
 /// The encryption manager for sending encrypted data
-@property (nonatomic, weak) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
+@property (nullable, nonatomic, weak) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 
 /**
  *  The app's id

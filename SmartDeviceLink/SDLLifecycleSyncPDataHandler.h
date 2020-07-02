@@ -12,11 +12,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLConnectionManagerType;
 
+/// Handles decoding OnSyncPData RPCs, then performing network requests and creating a SyncPData RPC request for legacy head units.
 @interface SDLLifecycleSyncPDataHandler : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
+
+/// Initialize the object
+/// @param manager The connection manager to send RPCs through
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager;
 
+/// Stops the manager cancels all URL session tasks
 - (void)stop;
 
 @end

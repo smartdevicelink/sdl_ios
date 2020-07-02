@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
     if (header == nil) {
-        // The first time the service type is created, there's no header, so we don't need to warn.
+        // The first time the RPC service type is created, there's no header, so we don't need to warn.
         if (serviceType != SDLServiceTypeRPC) {
             SDLLogW(@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type.", serviceType);
         }

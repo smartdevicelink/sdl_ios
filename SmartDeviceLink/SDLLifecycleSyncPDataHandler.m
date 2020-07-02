@@ -19,6 +19,8 @@
 
 static const float DefaultConnectionTimeout = 45.0;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLifecycleSyncPDataHandler ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> manager;
@@ -147,3 +149,5 @@ static const float DefaultConnectionTimeout = 45.0;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

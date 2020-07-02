@@ -18,6 +18,8 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLMsgVersion.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLifecycleMobileHMIStateHandler ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -88,3 +90,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

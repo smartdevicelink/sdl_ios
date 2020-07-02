@@ -103,7 +103,7 @@ typedef NSString SDLVehicleMake;
 - (void)stop {
     SDLLogD(@"Stopping encryption manager");
 
-    _permissions = nil;
+    [_permissions removeAllObjects];
     _protocol = nil;
     _currentHMILevel = nil;
     _requiresEncryption = NO;

@@ -15,8 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLifecycleMobileHMIStateHandler : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
+
+/// Initialize the object
+/// @param connectionManager The connection manager to send RPCs
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
+/// Stops the manager from checking for app background / foreground notifications.
 - (void)stop;
 
 @end
