@@ -575,15 +575,17 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
+                OCMExpect([protocolMock sendRPC:testShow]);
                 [testManager sendRPC:testShow];
 
                 [NSThread sleepForTimeInterval:0.1];
 
-//                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class]]);
+                OCMVerifyAll(protocolMock);
             });
 
             it(@"can send an RPC of type Response", ^{
                 SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
+                OCMExpect([protocolMock sendRPC:testResponse]);
                 [testManager sendRPC:testResponse];
                 testResponse.correlationID = @(2);
                 testResponse.success = @(true);
@@ -592,16 +594,17 @@ describe(@"a lifecycle manager", ^{
 
                 [NSThread sleepForTimeInterval:0.1];
 
-//                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class]]);
+                OCMVerifyAll(protocolMock);
             });
 
             it(@"can send an RPC of type Notification", ^{
                 SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
+                OCMExpect([protocolMock sendRPC:testNotification]);
                 [testManager sendRPC:testNotification];
 
                 [NSThread sleepForTimeInterval:0.1];
 
-//                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class]]);
+                OCMVerifyAll(protocolMock);
             });
 
             it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
