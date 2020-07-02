@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil) {
-                SDLLogE(@"There was an error subscribing to the preset button: %@" error.localizedDescription);
+                SDLLogE(@"There was an error subscribing to the preset button: %@",  error.localizedDescription);
                 return;
             }
 
