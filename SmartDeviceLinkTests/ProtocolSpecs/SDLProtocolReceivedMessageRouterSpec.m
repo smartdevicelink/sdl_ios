@@ -16,14 +16,13 @@
 
 QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 
-// TODO: This should be rewritten using an actual mock (i.e. SDLProtocolListenerDelegateMock class to avoid OCMock)
 describe(@"HandleReceivedMessage Tests", ^ {
-    xcontext(@"When handling control message", ^ {
+    context(@"When handling control message", ^ {
         it(@"Should route message correctly", ^ {
             id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
-            SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
-            SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
+            SDLV2ProtocolMessage *testMessage = [[SDLV2ProtocolMessage alloc] init];
+            SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] init];
             
             testHeader.frameType = SDLFrameTypeControl;
             testHeader.serviceType = SDLServiceTypeRPC;
@@ -42,7 +41,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
         });
     });
     
-    xcontext(@"When handling single frame message", ^ {
+    context(@"When handling single frame message", ^ {
         it(@"Should route message correctly", ^ {
             id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
@@ -81,7 +80,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
         });
     });
     
-    xcontext(@"When handling multi-frame message", ^ {
+    context(@"When handling multi-frame message", ^ {
         it(@"Should route message correctly", ^ {
             //Allocate 2000 bytes and use it as test data
             const NSUInteger dataLength = 2000;
