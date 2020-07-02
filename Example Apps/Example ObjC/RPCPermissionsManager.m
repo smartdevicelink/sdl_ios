@@ -28,19 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPermissionElement *createInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameCreateInteractionChoiceSet parameterPermissions:nil];
     SDLPermissionElement *performInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNamePerformInteraction parameterPermissions:nil];
     NSArray<SDLPermissionElement *> *menuRPCPermissions = @[addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement];
-    [self sdlex_checkCurrentGroupPermissionsWithManager:manager rpcNames:menuRPCNames];
+    [self sdlex_checkCurrentGroupPermissionsWithManager:manager rpcNames:menuRPCPermissions];
 
     // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
     SDLPermissionElement *setMediaClockPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSetMediaClockTimer parameterPermissions:nil];
     SDLPermissionElement *subscribeButtonPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSubscribeButton parameterPermissions:nil];
     NSArray<SDLPermissionElement *> *mediaTemplateRPCPermissions = @[setMediaClockPermissionElement, subscribeButtonPermissionElement];
-    SDLPermissionObserverIdentifier allAllowedObserverId = [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCs groupType:SDLPermissionGroupTypeAllAllowed];
+    SDLPermissionObserverIdentifier allAllowedObserverId = [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCPermissions groupType:SDLPermissionGroupTypeAllAllowed];
 
     // Stop observing permissions changes for the media template releated RPCs
     [self sdlex_unsubscribeGroupPermissionsWithManager:manager observerId:allAllowedObserverId];
 
     // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to any, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
-    [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCs groupType:SDLPermissionGroupTypeAny];
+    [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCPermissions groupType:SDLPermissionGroupTypeAny];
 }
 
 /**
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLPermissionElement *> *)rpcNames {
     SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCNames:rpcNames];
-    NSDictionary<NSString *, SDLRPCPermissionStatus *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCNames:rpcNames];
+    NSDictionary<NSString *, SDLRPCPermissionStatus *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCPermissions:rpcNames];
     [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
     return groupPermissionStatus;
 }
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             A unique identifier for the subscription. This can be used to later to unsubscribe from the notifications.
  */
 + (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType {
-    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCNames:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
+    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCPermissions:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
         [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:status individualPermissionStatuses:change];
     }];
     return observerId;

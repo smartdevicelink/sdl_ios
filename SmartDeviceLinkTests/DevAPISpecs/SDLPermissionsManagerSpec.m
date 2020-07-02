@@ -435,7 +435,7 @@ describe(@"SDLPermissionsManager", ^{
 
             context(@"statusesOfRPCNames: method", ^{
                 beforeEach(^{
-                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                     allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
                     disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
 
@@ -479,7 +479,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
 
                     allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
                     disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
@@ -632,7 +632,7 @@ describe(@"SDLPermissionsManager", ^{
 
                 beforeEach(^{
                     testObserverCalled = NO;
-                    [testPermissionsManager subscribeToRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -654,7 +654,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
-                    [testPermissionsManager subscribeToRPCNames:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });

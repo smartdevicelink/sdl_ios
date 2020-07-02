@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A dictionary with specific RPC info contained in a SDLRPCPermissionStatus
 */
-- (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames;
+- (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
  *
- *  @param rpcNames The RPCs to be observed
+ *  @param permissionElements The permission elements to be observed
  *  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.
  *  @param handler The block that will be called whenever permissions change.
  *
@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
  *
- * @param parameter The name of the parameter to be tested, for example, rpm
+ * @param parameterName The name of the parameter to be tested, for example, rpm
  */
 - (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameterName;
 

@@ -32,11 +32,8 @@ describe(@"A permission element", ^{
             testPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:testRPCName1 parameterPermissions:parameterPermissions];
         });
 
-        it(@"should set the rpcName correctly", ^{
+        it(@"should set the rpcName and parameterPermissions correctly", ^{
             expect(testPermissionElement.rpcName).to(equal(testRPCName1));
-        });
-
-        it(@"should set the parameterPermissions correctly", ^{
             expect(testPermissionElement.parameterPermissions).to(equal(parameterPermissions));
         });
     });
@@ -50,15 +47,9 @@ describe(@"A permission element", ^{
             testPermissionElementCopy = [testPermissionElement copy];
         });
 
-        it(@"should say copied filters are not the same instance", ^{
+        it(@"should copy correctly", ^{
             expect(testPermissionElementCopy).toNot(beIdenticalTo(testPermissionElement));
-        });
-
-        it(@"should copy the rpc name correctly", ^{
             expect(testPermissionElementCopy.rpcName).to(equal(testPermissionElement.rpcName));
-        });
-
-        it(@"should copy the parameter permissions correctly", ^{
             expect(testPermissionElementCopy.parameterPermissions).to(equal(testPermissionElement.parameterPermissions));
         });
     });

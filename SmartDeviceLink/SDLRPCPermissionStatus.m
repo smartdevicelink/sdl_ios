@@ -11,6 +11,9 @@
 @implementation SDLRPCPermissionStatus
 
 - (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSMutableDictionary<NSString *,NSNumber *> *)rpcParameters {
+    self = [super init];
+    if (!self) { return nil; }
+    
     _rpcName = rpcName;
     _rpcAllowed = isRPCAllowed;
     _rpcParameters = rpcParameters;

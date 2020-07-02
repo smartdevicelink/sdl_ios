@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isRPCAllowed) BOOL rpcAllowed;
 
 /**
- * Holds a dictionary of RPC parameters and their permission status
+ * Holds a dictionary of RPC parameters and objects of an NSNumber<BOOL> specifying if that RPC parameter is currently allowed
  */
 @property (strong, nonatomic, nullable, readonly) NSDictionary<SDLRPCParameterName, NSNumber *> *rpcParameters;
 

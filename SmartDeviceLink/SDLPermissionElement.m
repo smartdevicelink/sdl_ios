@@ -28,4 +28,10 @@
     return newElement;
 }
 
+#pragma mark - Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"rpc name: %@, parameter permissions: %@", self.rpcName, self.parameterPermissions];
+}
+
 @end
