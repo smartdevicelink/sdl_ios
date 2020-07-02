@@ -645,7 +645,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should attempt to unregister", ^{
-//                    OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
                 
