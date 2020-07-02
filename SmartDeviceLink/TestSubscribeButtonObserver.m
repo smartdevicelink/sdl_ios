@@ -43,6 +43,10 @@
     [self sdl_saveButtonName:buttonName buttonError:error buttonPress:buttonPress buttonEvent:buttonEvent];
 }
 
+- (void)buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress buttonEvent:(SDLOnButtonEvent *)buttonEvent extraParameter:(BOOL)extraParameter {
+    [self sdl_saveButtonName:buttonName buttonError:error buttonPress:buttonPress buttonEvent:buttonEvent];
+}
+
 - (void)sdl_saveButtonName:(nullable SDLButtonName)buttonName buttonError:(nullable NSError *)buttonError buttonPress:(nullable SDLOnButtonPress *)buttonPress buttonEvent:(nullable SDLOnButtonEvent *)buttonEvent {
     self.selectorCalledCount++;
 

@@ -512,7 +512,10 @@ describe(@"subscribe button manager", ^{
 
             it(@"should throw an assert if the selector does not exist for the observer", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
                 SEL testInvalidSelector = @selector(invalidSelector:);
+#pragma GCC diagnostic pop
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testInvalidSelector];
 
                 expectAction(^{
