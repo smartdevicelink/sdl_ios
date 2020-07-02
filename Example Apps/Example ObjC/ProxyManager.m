@@ -255,7 +255,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
         [self sdlex_showInitialData];
-        [self.subscribeButtonManager subscribeToPresetButtons];
+        [self.subscribeButtonManager subscribeToAllPresetButtons];
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
         // An active NAV or MEDIA SDL app is in the background
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {

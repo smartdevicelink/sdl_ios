@@ -158,14 +158,14 @@ describe(@"subscribe button manager", ^{
                 expect(testConnectionManager.receivedRequests[1]).toEventually(beAKindOf(SDLSubscribeButton.class));
             });
 
-            it(@"should not notify the observer when a success response is recieved for the subscribe button request", ^{
+            it(@"should not notify the observer when a success response is received for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
                 [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 expect(testHandler1Called).to(beFalse());
             });
 
-            it(@"should notify the observer with the error and remove the observer when a failure response is recieved for the subscribe button request", ^{
+            it(@"should notify the observer with the error and remove the observer when a failure response is received for the subscribe button request", ^{
                 [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
 
                 NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{@"subscribe button error":@"error 2"}];
@@ -346,7 +346,7 @@ describe(@"subscribe button manager", ^{
                 expect(testObserver2.buttonEventsReceived[0]).to(equal(testButtonEvent));
             });
 
-            it(@"should notify all observers when a button press notification is recieved", ^{
+            it(@"should notify all observers when a button press notification is received", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
                 expect(testHandler1Called).toEventually(beTrue());
@@ -594,7 +594,7 @@ describe(@"subscribe button manager", ^{
                 expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
             });
 
-            it(@"should notify the observer with the error when a failure response is recieved for the unsubscribe button request and it should not remove the observer", ^{
+            it(@"should notify the observer with the error when a failure response is received for the unsubscribe button request and it should not remove the observer", ^{
                 id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
                 [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
@@ -691,7 +691,7 @@ describe(@"subscribe button manager", ^{
                 expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
             });
 
-            it(@"should notify the observer with the error when a failure response is recieved for the unsubscribe button request and it should not remove the observer", ^{
+            it(@"should notify the observer with the error when a failure response is received for the unsubscribe button request and it should not remove the observer", ^{
                 [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testSelector1];
                 [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 

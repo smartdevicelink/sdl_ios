@@ -20,9 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Subscribe to all available preset buttons. An alert will be shown when a preset button is short pressed or long pressed.
 - (void)subscribeToAllPresetButtons;
 
-/// Unsubscribes to all subscribed preset buttons
-- (void)unsubscribeFromAllPresetButtons;
-
 @end
 
 NS_ASSUME_NONNULL_END

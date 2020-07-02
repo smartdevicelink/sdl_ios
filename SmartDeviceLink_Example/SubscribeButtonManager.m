@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SubscribeButtonManager()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
-@property (strong, nonatomic) NSMutableDictionary<SDLButtonName, NSObject *> *presetButtonSubscriptionIDs;
 
 @end
 
@@ -29,64 +28,34 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _sdlManager = manager;
-    _presetButtonSubscriptionIDs = [NSMutableDictionary dictionary];
 
     return self;
 }
 
-- (void)subscribeToPresetButtons {
+- (void)subscribeToAllPresetButtons {
     if (self.sdlManager.systemCapabilityManager.defaultMainWindowCapability.numCustomPresetsAvailable.intValue == 0) {
         SDLLogW(@"The module does not support preset buttons");
         return;
     }
 
-    for (SDLButtonName buttonName in [self.class presetButtons]) {
-        if (self.presetButtonSubscriptionIDs[buttonName] != nil) {
-            SDLLogW(@"The app is already subscribed to the %@ button", buttonName);
-            return;
-        }
-
+    for (SDLButtonName buttonName in [self.class sdlex_allPresetButtons]) {
         __weak typeof(self) weakSelf = self;
-        NSObject *subscriptionID = [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
+        [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil || buttonPress == nil) {
-                strongSelf.presetButtonSubscriptionIDs[buttonName] = nil;
                 return;
             }
 
             NSString *alertMessage;
+            NSString *buttonName = buttonPress.buttonName;
             if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
-                alertMessage = [NSString stringWithFormat:@"%@ pressed", buttonPress.buttonName];
+                alertMessage = [NSString stringWithFormat:@"%@ pressed", buttonName];
             } else {
-                alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonPress.buttonName];
+                alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonName];
             }
 
             SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil];
             [strongSelf.sdlManager sendRPC:alert];
-        }];
-
-        self.presetButtonSubscriptionIDs[buttonName] = subscriptionID;
-    }
-}
-
-- (void)unsubscribeToPresetButtons {
-    if (self.presetButtonSubscriptionIDs.count == 0) {
-        SDLLogW(@"The app is not subscribed to preset buttons");
-        return;
-    }
-
-    for (SDLButtonName buttonName in self.presetButtonSubscriptionIDs.allKeys) {
-        NSObject *subscriptionId = self.presetButtonSubscriptionIDs[buttonName];
-        __weak typeof(self) weakSelf = self;
-        [self.sdlManager.screenManager unsubscribeButton:buttonName withObserver:subscriptionId withCompletionHandler:^(NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"The %@ button was not unsubscribed successfully", buttonName);
-                return;
-            }
-
-            SDLLogD(@"The %@ button was successfully unsubscribed", buttonName);
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf.presetButtonSubscriptionIDs[buttonName] = nil;
         }];
     }
 }
