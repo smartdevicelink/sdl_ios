@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
 */
-- (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames;
+- (SDLPermissionGroupStatus)groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -147,10 +147,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Check whether a parameter of an RPC is allowed
  *
  * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
+ * @param parameter The name of the parameter to be tested, for example, rpm
+ * @param permissionItems The current permissions to test against
+ * @param hmiLevel The current HMI level
  *
- * @param parameterName The name of the parameter to be tested, for example, rpm
+ * @return BOOL
  */
-- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameterName;
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel;
 
 @end
 

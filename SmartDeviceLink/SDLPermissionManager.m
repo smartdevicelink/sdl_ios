@@ -80,10 +80,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    return [self groupStatusOfRPCNames:[self sdl_createPermissionElementsFromRPCNames:rpcNames]];
+    return [self groupStatusOfRPCPermissions:[self sdl_createPermissionElementsFromRPCNames:rpcNames]];
 }
 
-- (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLPermissionElement *> *)rpcNames {
+- (SDLPermissionGroupStatus)groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames {
     if (self.currentHMILevel == nil) {
         return SDLPermissionGroupStatusUnknown;
     }
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (permissionElement.parameterPermissions != nil) {
             for (NSString *parameter in permissionElement.parameterPermissions) {
-                if ([self isPermissionParameterAllowed:permissionElement.rpcName parameter:parameter]) {
+                if ([self isPermissionParameterAllowed:permissionElement.rpcName parameter:parameter permissionItems:self.permissions hmiLevel:self.currentHMILevel]) {
                     hasAllowed = true;
                 } else {
                     hasDisallowed = true;
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSMutableDictionary<NSString *, NSNumber *> *rpcParameters = [NSMutableDictionary dictionary];
         if (permissionElement.parameterPermissions != nil) {
             for (NSString *permissionParameter in permissionElement.parameterPermissions) {
-                BOOL isParameterAllowed = [self isPermissionParameterAllowed:permissionElement.rpcName parameter:permissionParameter];
+                BOOL isParameterAllowed = [self isPermissionParameterAllowed:permissionElement.rpcName parameter:permissionParameter permissionItems:self.permissions hmiLevel:self.currentHMILevel];
                 rpcParameters[permissionParameter] = @(isParameterAllowed);
             }
         }
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.filters addObject:filter];
 
     // Check permission status and group type to see if we need to call handler immediately after setting the observer
-    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.permissionElements];
+    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCPermissions:filter.permissionElements];
     if ((groupType == SDLPermissionGroupTypeAny) || (groupType == SDLPermissionGroupTypeAllAllowed && permissionStatus == SDLPermissionGroupStatusAllowed)) {
         [self sdl_callFilterObserver:filter];
     }
@@ -204,13 +204,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     if (filter.rpcPermissionStatusHandler != nil) {
-        SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.permissionElements];
+        SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCPermissions:filter.permissionElements];
         NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *allowedDict = [self statusesOfRPCPermissions:filter.permissionElements];
         filter.rpcPermissionStatusHandler(allowedDict, permissionStatus);
     }
 
     if (filter.handler != nil) {
-        SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCNames:filter.permissionElements];
+        SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCPermissions:filter.permissionElements];
         NSDictionary<SDLRPCFunctionName, NSNumber *> *allowedDict = [self sdl_convertPermissionsStatusDictionaryToPermissionsBoolDictionary:[self statusesOfRPCPermissions:filter.permissionElements]];
         filter.handler(allowedDict, permissionStatus);
     }
@@ -263,7 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLPermissionFilter *filter in modifiedFilters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
             SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter.identifier] unsignedIntegerValue];
-            SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCNames:filter.permissionElements];
+            SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCPermissions:filter.permissionElements];
 
             // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
             if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
@@ -382,8 +382,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // This is only for the All Allowed group type. Unlike with the Any group type, we need to know if the group status has changed
     if (changed) {
-        SDLPermissionGroupStatus oldStatus = [self.class sdl_groupStatusOfRPCPermissions:filter.permissionElements withPermissions:self.permissions hmiLevel:oldHMILevel];
-        SDLPermissionGroupStatus newStatus = [self.class sdl_groupStatusOfRPCPermissions:filter.permissionElements withPermissions:self.permissions hmiLevel:newHMILevel];
+        SDLPermissionGroupStatus oldStatus = [self sdl_groupStatusOfRPCPermissions:filter.permissionElements withPermissions:self.permissions hmiLevel:oldHMILevel];
+        SDLPermissionGroupStatus newStatus = [self sdl_groupStatusOfRPCPermissions:filter.permissionElements withPermissions:self.permissions hmiLevel:newHMILevel];
 
         // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
         if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
@@ -406,7 +406,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *filtersWithStatus = [NSMutableDictionary dictionary];
     for (SDLPermissionFilter *filter in filters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
-            filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCNames:filter.permissionElements]);
+            filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCPermissions:filter.permissionElements]);
         }
     }
 
@@ -469,10 +469,6 @@ NS_ASSUME_NONNULL_BEGIN
         return self.permissions[rpcName].requireEncryption.boolValue;
     }
     return NO;
-}
-
-- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter {
-    return [self isPermissionParameterAllowed:rpcName parameter:parameter permissionItems:self.permissions hmiLevel:self.currentHMILevel];
 }
 
 - (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {

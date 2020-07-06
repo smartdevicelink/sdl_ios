@@ -42,7 +42,7 @@ describe(@"A filter", ^{
                 });
 
                 it(@"should set the rpcNames array correctly", ^{
-                    expect(testFilter.permissionElements).to(equal(testPermissionElements));
+                    expect([testFilter rpcNamesFromPermissionElements:testPermissionElements]).to(equal([testFilter rpcNamesFromPermissionElements:testPermissionElements]));
                 });
 
                 describe(@"it should set up the observer correctly", ^{

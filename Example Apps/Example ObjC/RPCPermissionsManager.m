@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return         The current permission status for all the RPCs in the group
  */
 + (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLPermissionElement *> *)rpcNames {
-    SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCNames:rpcNames];
+    SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCPermissions:rpcNames];
     NSDictionary<NSString *, SDLRPCPermissionStatus *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCPermissions:rpcNames];
     [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
     return groupPermissionStatus;
