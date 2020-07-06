@@ -267,6 +267,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * To indicate whether driver hands are off the steering wheel
  *
+ *
+ * Optional.
  * @since SDL 6.2.0
  */
 @property (nullable, strong, nonatomic) SDLVehicleDataResult *handsOffSteering;

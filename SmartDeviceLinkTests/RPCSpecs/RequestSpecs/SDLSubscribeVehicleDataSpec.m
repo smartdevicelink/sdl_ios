@@ -313,8 +313,8 @@ context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformat
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
         it(@"all set", ^{
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
         });
     });
 });
