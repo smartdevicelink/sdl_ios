@@ -432,7 +432,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"statusesOfRPCPermissions: method", ^{statusesOfRPCPermissions
+            context(@"statusesOfRPCPermissions: method", ^{
                 beforeEach(^{
                     testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                     allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
