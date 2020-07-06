@@ -118,7 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                                    SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
-                                                                   @"handsOffSteering":vehicleDataResult
+                                                                   SDLRPCParameterNameHandsOffSteering:vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -159,7 +159,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.gps).to(beNil());
         expect(testResponse.speed).to(beNil());

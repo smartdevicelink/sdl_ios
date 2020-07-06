@@ -16,7 +16,7 @@ QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@NO,
                                                            SDLRPCParameterNameWiperStatus:@NO,
-                                                           @"handsOffSteering":@YES
+                                                           SDLRPCParameterNameHandsOffSteering:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -156,7 +156,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         it(@"all set", ^{
             expect(testRequest.accPedalPosition).to(beNil());

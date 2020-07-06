@@ -112,7 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
-        expect(testResponse.handsOffSteering).to(beTrue());
+        expect(testResponse.handsOffSteering).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -149,7 +149,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
                                                      SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh,
-                                                     @"handsOffSteering":@YES
+                                                     SDLRPCParameterNameHandsOffSteering:@YES
                                                  },
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
@@ -187,7 +187,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
-        expect(testResponse.handsOffSteering).to(beTrue());
+        expect(testResponse.handsOffSteering).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {

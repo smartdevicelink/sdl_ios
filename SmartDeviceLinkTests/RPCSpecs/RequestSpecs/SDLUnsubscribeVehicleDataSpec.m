@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@YES,
                                                            SDLRPCParameterNameWiperStatus:@YES,
-                                                           @"handsOffSteering":@YES
+                                                           SDLRPCParameterNameHandsOffSteering:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -312,8 +312,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
         it(@"all set", ^{
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
         });
     });
 });

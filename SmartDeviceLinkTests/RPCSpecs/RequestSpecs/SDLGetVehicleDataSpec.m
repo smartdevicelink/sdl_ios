@@ -16,7 +16,7 @@ QuickSpecBegin(SDLGetVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -78,7 +78,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.tirePressure).to(equal(@NO));
         expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@NO));
-        expect(testRequest.handsOffSteering).to(beTrue());
+        expect(testRequest.handsOffSteering).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameTirePressure:@YES,
                                                                    SDLRPCParameterNameTurnSignal:@NO,
                                                                    SDLRPCParameterNameWiperStatus:@YES,
-                                                                   @"handsOffSteering":@YES
+                                                                   SDLRPCParameterNameHandsOffSteering:@YES
                                                                  },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
@@ -150,7 +150,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.tirePressure).to(equal(@YES));
         expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
-        expect(testRequest.handsOffSteering).to(beTrue());
+        expect(testRequest.handsOffSteering).to(equal(@YES));
     });
 });
 
@@ -374,7 +374,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(beTrue());
+            expect(testRequest.handsOffSteering).to(equal(@YES));
         });
     });
 
@@ -385,8 +385,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
 
         it(@"all set", ^{
-            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
         });
     });
 });
