@@ -4,14 +4,13 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SmartDeviceLink.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLRPCFunctionNames.h"
 #import "SDLGearStatus.h"
+#import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SmartDeviceLink.h"
 
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
@@ -46,7 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         myKey = [[SDLMyKey alloc] init];
         fuelRange = [[SDLFuelRange alloc] init];
         cloudAppVehicleID = @"testCloudAppVehicleID";
-        gearStatus = [SDLGearStatus new];
+        gearStatus = [[SDLGearStatus alloc] init];
     });
 
     it(@"should correctly initialize with init", ^ {
@@ -74,7 +73,10 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.instantFuelConsumption = @4000.63;
         testNotification.myKey = myKey;
         testNotification.odometer = @100050;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testNotification.prndl = SDLPRNDLDrive;
+#pragma clang diagnostic pop
         testNotification.gearStatus = gearStatus;
         testNotification.rpm = @4242;
         testNotification.speed = @70.1;
@@ -106,7 +108,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.myKey).to(equal(myKey));
         expect(testNotification.odometer).to(equal(@100050));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
+#pragma clang diagnostic pop
         expect(testNotification.gearStatus).to(equal(gearStatus));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.speed).to(equal(@70.1));
@@ -143,7 +148,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameMyKey:myKey,
                                            SDLRPCParameterNameOdometer:@100050,
                                            SDLRPCParameterNamePRNDL:SDLPRNDLDrive,
-                                           @"gearStatus":gearStatus,
+                                           SDLRPCParameterNameGearStatus:gearStatus,
                                            SDLRPCParameterNameRPM:@4242,
                                            SDLRPCParameterNameSpeed:@70.1,
                                            SDLRPCParameterNameSteeringWheelAngle:@0.000000001,
@@ -179,7 +184,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.myKey).to(equal(myKey));
         expect(testNotification.odometer).to(equal(@100050));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
+#pragma clang diagnostic pop
         expect(testNotification.gearStatus).to(equal(gearStatus));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.speed).to(equal(@70.1));
@@ -215,7 +223,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.instantFuelConsumption).to(beNil());
         expect(testNotification.myKey).to(beNil());
         expect(testNotification.odometer).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testNotification.prndl).to(beNil());
+#pragma clang diagnostic pop
         expect(testNotification.gearStatus).to(beNil());
         expect(testNotification.rpm).to(beNil());
         expect(testNotification.speed).to(beNil());

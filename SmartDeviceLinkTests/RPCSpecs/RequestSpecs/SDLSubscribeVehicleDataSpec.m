@@ -4,19 +4,18 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLSubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLSubscribeVehicleData.h"
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -119,7 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@NO,
                                                            SDLRPCParameterNameWiperStatus:@NO,
-                                                           @"gearStatus":@YES
+                                                           SDLRPCParameterNameGearStatus:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -165,7 +164,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         expect(testRequest.accPedalPosition).to(beNil());
         expect(testRequest.airbagStatus).to(beNil());
@@ -309,7 +308,7 @@ describe(@"initializers", ^{
         expect(testRequest.odometer).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.prndl).to(beTrue());
+        expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(equal(@YES));
@@ -327,8 +326,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
 
     });
 });

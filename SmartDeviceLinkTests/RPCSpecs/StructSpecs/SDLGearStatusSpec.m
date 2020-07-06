@@ -20,9 +20,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary<NSString *, id> *dict = @{@"userSelectedGear":SDLPRNDLNinth,
-                                                @"actualGear":SDLPRNDLTenth,
-                                                @"transmissionType":SDLTransmissionTypeAutomatic};
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameUserSelectedGear:SDLPRNDLNinth,
+                                                SDLRPCParameterNameActualGear:SDLPRNDLTenth,
+                                                SDLRPCParameterNameTransmissionType:SDLTransmissionTypeAutomatic};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGearStatus* testStruct = [[SDLGearStatus alloc] initWithDictionary:dict];
@@ -34,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should return nil if not set", ^ {
-        SDLGearStatus* testStruct = [SDLGearStatus new];
+        SDLGearStatus* testStruct = [[SDLGearStatus alloc] init];
 
         expect(testStruct.userSelectedGear).to(beNil());
         expect(testStruct.actualGear).to(beNil());

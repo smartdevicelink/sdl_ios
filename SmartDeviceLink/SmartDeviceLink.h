@@ -202,6 +202,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEmergencyEvent.h"
 #import "SDLFuelRange.h"
 #import "SDLEqualizerSettings.h"
+#import "SDLGearStatus.h"
 #import "SDLGPSData.h"
 #import "SDLGrid.h"
 #import "SDLHapticRect.h"
@@ -268,6 +269,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchEventCapabilities.h"
+#import "SDLTransmissionType.h"
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
@@ -280,8 +282,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWeatherServiceManifest.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowTypeCapabilities.h"
-#import "SDLGearStatus.h"
-#import "SDLTransmissionType.h"
 
 // Enums
 #import "SDLAmbientLightStatus.h"

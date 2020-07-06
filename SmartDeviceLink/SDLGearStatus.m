@@ -30,11 +30,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLGearStatus.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLGearStatus.h"
 #import "SDLPRNDL.h"
-#import "SDLTransmissionType.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLTransmissionType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

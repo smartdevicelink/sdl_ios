@@ -4,19 +4,18 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleData.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLUnsubscribeVehicleData* testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @YES;
@@ -119,7 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@YES,
                                                            SDLRPCParameterNameWiperStatus:@YES,
-                                                           @"gearStatus":@YES
+                                                           SDLRPCParameterNameGearStatus:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -275,7 +274,7 @@ describe(@"initializers", ^{
         expect(testRequest.odometer).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.prndl).to(beTrue());
+        expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(equal(@YES));
@@ -318,7 +317,7 @@ describe(@"initializers", ^{
         expect(testRequest.odometer).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.prndl).to(beTrue());
+        expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
         expect(testRequest.gearStatus).to(beNil());
         expect(testRequest.rpm).to(equal(@YES));
@@ -335,8 +334,8 @@ describe(@"initializers", ^{
     [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
     [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
     it(@"all set", ^{
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+        expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
     });
 });
 });

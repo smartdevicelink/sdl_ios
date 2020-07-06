@@ -31,7 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.fuelRange = vehicleDataResult;
         testResponse.instantFuelConsumption = vehicleDataResult;
         testResponse.externalTemperature = vehicleDataResult;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testResponse.prndl = vehicleDataResult;
+#pragma clang diagnostic pop
         testResponse.gearStatus = vehicleDataResult;
         testResponse.tirePressure = vehicleDataResult;
         testResponse.odometer = vehicleDataResult;
@@ -62,7 +65,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+#pragma clang diagnostic pop
         expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
@@ -118,7 +124,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                                    SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
-                                                                   @"gearStatus":vehicleDataResult
+                                                                   SDLRPCParameterNameGearStatus:vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -134,7 +140,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testResponse.prndl).to(equal(vehicleDataResult));
+#pragma clang diagnostic pop
         expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
@@ -169,7 +178,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelRange).to(beNil());
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.externalTemperature).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testResponse.prndl).to(beNil());
+#pragma clang diagnostic pop
         expect(testResponse.gearStatus).to(beNil());
         expect(testResponse.tirePressure).to(beNil());
         expect(testResponse.odometer).to(beNil());

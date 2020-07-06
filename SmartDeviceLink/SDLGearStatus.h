@@ -51,16 +51,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Gear position selected by the user i.e. Park, Drive, Reverse
+ *
+ * Optional.
  */
 @property (nullable, strong, nonatomic) SDLPRNDL userSelectedGear;
 
 /**
  * Actual Gear in use by the transmission
+ *
+ * Optional.
  */
 @property (nullable, strong, nonatomic) SDLPRNDL actualGear;
 
 /**
  * Tells the transmission type
+ *
+ * Optional.
  */
 @property (nullable, strong, nonatomic) SDLTransmissionType transmissionType;
 

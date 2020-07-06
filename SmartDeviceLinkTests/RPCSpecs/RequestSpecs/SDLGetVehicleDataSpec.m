@@ -4,19 +4,18 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SDLGetVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLGetVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -119,7 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameTirePressure:@YES,
                                                                    SDLRPCParameterNameTurnSignal:@NO,
                                                                    SDLRPCParameterNameWiperStatus:@YES,
-                                                                   @"gearStatus":@YES
+                                                                   SDLRPCParameterNameGearStatus:@YES
                                                                  },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
@@ -165,7 +164,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
 
         expect(testRequest.accPedalPosition).to(beNil());
         expect(testRequest.airbagStatus).to(beNil());
@@ -330,8 +329,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
 
-        expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(beFalse());
-        expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(beTrue());
+        expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
+        expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
     });
 });
 

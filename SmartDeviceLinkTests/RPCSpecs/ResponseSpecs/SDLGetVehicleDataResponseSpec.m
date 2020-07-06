@@ -4,14 +4,13 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SmartDeviceLink.h"
+#import "SDLGearStatus.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-#import "SDLGearStatus.h"
+#import "SmartDeviceLink.h"
 
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
@@ -48,11 +47,11 @@ describe(@"Getter/Setter Tests", ^ {
         fuelRange = [[SDLFuelRange alloc] init];
         vin = @"6574839201a";
         cloudAppVehicleID = @"cloudAppVehicleID";
-        gearStatus = [SDLGearStatus new];
+        gearStatus = [[SDLGearStatus alloc] init];
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleDataResponse* testResponse = [SDLGetVehicleDataResponse new];
+        SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
 
         testResponse.accPedalPosition = @0;
         testResponse.airbagStatus = airbag;
@@ -159,7 +158,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
                                                      SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh,
-                                                     @"gearStatus":gearStatus
+                                                     SDLRPCParameterNameGearStatus:gearStatus
                                                  },
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
