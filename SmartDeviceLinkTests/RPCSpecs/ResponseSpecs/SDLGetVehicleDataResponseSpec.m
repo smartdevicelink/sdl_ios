@@ -8,8 +8,8 @@
 #import <Quick/Quick.h>
 
 #import "SDLGearStatus.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SmartDeviceLink.h"
 
 
@@ -242,11 +242,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
+        SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+        [testResponse setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
         
-        expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+        expect([testResponse getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
     });
 });
 

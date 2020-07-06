@@ -54,21 +54,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional.
  */
-@property (nullable, strong, nonatomic) SDLPRNDL userSelectedGear;
+@property (strong, nonatomic, nullable) SDLPRNDL userSelectedGear;
 
 /**
  * Actual Gear in use by the transmission
  *
  * Optional.
  */
-@property (nullable, strong, nonatomic) SDLPRNDL actualGear;
+@property (strong, nonatomic, nullable) SDLPRNDL actualGear;
 
 /**
  * Tells the transmission type
  *
  * Optional.
  */
-@property (nullable, strong, nonatomic) SDLTransmissionType transmissionType;
+@property (strong, nonatomic, nullable) SDLTransmissionType transmissionType;
 
 @end
 

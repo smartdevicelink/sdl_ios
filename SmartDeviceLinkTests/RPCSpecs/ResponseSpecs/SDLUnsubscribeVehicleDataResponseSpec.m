@@ -4,13 +4,12 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleDataResponse.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
@@ -206,11 +205,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
+        SDLUnsubscribeVehicleDataResponse *testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
-        [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
+        [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
-        expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
+        expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
     });
 });
 

@@ -40,24 +40,9 @@
 typedef SDLEnum SDLTransmissionType SDL_SWIFT_ENUM;
 
 /**
- * Manual transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeManual;
-
-/**
  * Automatic transmission.
  */
 extern SDLTransmissionType const SDLTransmissionTypeAutomatic;
-
-/**
- * Semi automatic transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeSemiAutomatic;
-
-/**
- * Dual clutch transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
 
 /**
  * Continuously variable transmission(CVT).
@@ -65,9 +50,14 @@ extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
 extern SDLTransmissionType const SDLTransmissionTypeContinuouslyVariable;
 
 /**
- * Infinitely variable transmission.
+ * Direct drive between engine and wheels.
  */
-extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
+extern SDLTransmissionType const SDLTransmissionTypeDirectDrive;
+
+/**
+ * Dual clutch transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
 
 /**
  * Electric variable transmission.
@@ -75,7 +65,17 @@ extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
 extern SDLTransmissionType const SDLTransmissionTypeElectricVariable;
 
 /**
- * Direct drive between engine and wheels.
+ * Infinitely variable transmission.
  */
-extern SDLTransmissionType const SDLTransmissionTypeDirectDrive;
+extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
+
+/**
+ * Manual transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeManual;
+
+/**
+ * Semi automatic transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeSemiAutomatic;
 

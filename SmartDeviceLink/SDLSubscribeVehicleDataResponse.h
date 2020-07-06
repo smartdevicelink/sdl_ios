@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *gearStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gearStatus;
 
 /**
  * See PRNDL
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @deprecated
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead");
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead");
 
 /**
  The result of requesting to subscribe to the tireStatus.

@@ -100,14 +100,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * See GearStatus
  *
+ * Optional.
+ *
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *gearStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gearStatus;
 
 /**
  The result of requesting to unsubscribe to the PRNDL status.
 
  Optional
+
  * @deprecated
  * @since SDL 6.2.0
  */

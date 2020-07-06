@@ -40,6 +40,52 @@
 typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
 
 /**
+ *  @abstract: Drive gear
+ */
+extern SDLPRNDL const SDLPRNDLDrive;
+
+/**
+ * Eighth gear
+ */
+extern SDLPRNDL const SDLPRNDLEighth;
+
+/**
+ * Fault
+ */
+extern SDLPRNDL const SDLPRNDLFault;
+
+/**
+ * Fifth gear
+ */
+extern SDLPRNDL const SDLPRNDLFifth;
+
+/**
+ * First gear
+ */
+extern SDLPRNDL const SDLPRNDLFirst;
+
+/**
+ * Fourth gear
+ */
+extern SDLPRNDL const SDLPRNDLFourth;
+
+/**
+ * 1st gear hold
+ */
+extern SDLPRNDL const SDLPRNDLLowGear;
+
+/**
+ *  No gear
+ */
+extern SDLPRNDL const SDLPRNDLNeutral;
+
+/**
+ * Ninth gear
+ * @since SDL 6.2.0
+ */
+extern SDLPRNDL const SDLPRNDLNinth;
+
+/**
  *  Park
  */
 extern SDLPRNDL const SDLPRNDLPark;
@@ -50,49 +96,14 @@ extern SDLPRNDL const SDLPRNDLPark;
 extern SDLPRNDL const SDLPRNDLReverse;
 
 /**
- *  No gear
- */
-extern SDLPRNDL const SDLPRNDLNeutral;
-
-/**
- *  @abstract: Drive gear
- */
-extern SDLPRNDL const SDLPRNDLDrive;
-
-/**
  * Drive Sport mode
  */
 extern SDLPRNDL const SDLPRNDLSport;
 
 /**
- * 1st gear hold
- */
-extern SDLPRNDL const SDLPRNDLLowGear;
-
-/**
- * First gear
- */
-extern SDLPRNDL const SDLPRNDLFirst;
-
-/**
  * Second gear
  */
 extern SDLPRNDL const SDLPRNDLSecond;
-
-/**
- * Third gear
- */
-extern SDLPRNDL const SDLPRNDLThird;
-
-/**
- * Fourth gear
- */
-extern SDLPRNDL const SDLPRNDLFourth;
-
-/**
- * Fifth gear
- */
-extern SDLPRNDL const SDLPRNDLFifth;
 
 /**
  * Sixth gear
@@ -105,28 +116,17 @@ extern SDLPRNDL const SDLPRNDLSixth;
 extern SDLPRNDL const SDLPRNDLSeventh;
 
 /**
- * Eighth gear
- */
-extern SDLPRNDL const SDLPRNDLEighth;
-
-/**
- * Ninth gear
- * @since SDL 6.2.0
- */
-extern SDLPRNDL const SDLPRNDLNinth;
-
-/**
  * Tenth gear
  * @since SDL 6.2.0
  */
 extern SDLPRNDL const SDLPRNDLTenth;
 
 /**
+ * Third gear
+ */
+extern SDLPRNDL const SDLPRNDLThird;
+
+/**
  * Unknown
  */
 extern SDLPRNDL const SDLPRNDLUnknown;
-
-/**
- * Fault
- */
-extern SDLPRNDL const SDLPRNDLFault;

@@ -32,11 +32,11 @@
 
 #import "SDLTransmissionType.h"
 
-SDLTransmissionType const SDLTransmissionTypeManual = @"MANUAL";
 SDLTransmissionType const SDLTransmissionTypeAutomatic = @"AUTOMATIC";
-SDLTransmissionType const SDLTransmissionTypeSemiAutomatic = @"SEMI_AUTOMATIC";
-SDLTransmissionType const SDLTransmissionTypeDualClutch = @"DUAL_CLUTCH";
 SDLTransmissionType const SDLTransmissionTypeContinuouslyVariable = @"CONTINUOUSLY_VARIABLE";
-SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable = @"INFINITELY_VARIABLE";
-SDLTransmissionType const SDLTransmissionTypeElectricVariable = @"ELECTRIC_VARIABLE";
 SDLTransmissionType const SDLTransmissionTypeDirectDrive = @"DIRECT_DRIVE";
+SDLTransmissionType const SDLTransmissionTypeDualClutch = @"DUAL_CLUTCH";
+SDLTransmissionType const SDLTransmissionTypeElectricVariable = @"ELECTRIC_VARIABLE";
+SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable = @"INFINITELY_VARIABLE";
+SDLTransmissionType const SDLTransmissionTypeManual = @"MANUAL";
+SDLTransmissionType const SDLTransmissionTypeSemiAutomatic = @"SEMI_AUTOMATIC";
