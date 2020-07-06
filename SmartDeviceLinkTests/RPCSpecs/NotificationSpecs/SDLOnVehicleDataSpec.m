@@ -7,10 +7,10 @@
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLWindowStatus.h"
+#import "SmartDeviceLink.h"
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
 
@@ -44,7 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
         myKey = [[SDLMyKey alloc] init];
         fuelRange = [[SDLFuelRange alloc] init];
         cloudAppVehicleID = @"testCloudAppVehicleID";
-        windowStatus = @[[SDLWindowStatus new], [SDLWindowStatus new], [SDLWindowStatus new]];
+        windowStatus = @[[[SDLWindowStatus alloc] init], [[SDLWindowStatus alloc] init], [[SDLWindowStatus alloc] init]];
     });
 
     it(@"should correctly initialize with init", ^ {
@@ -148,7 +148,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                            SDLRPCParameterNameVIN:@"222222222722",
                                            SDLRPCParameterNameWiperStatus:SDLWiperStatusStalled,
-                                           @"windowStatus":windowStatus
+                                           SDLRPCParameterNameWindowStatus:windowStatus
                                          },
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnVehicleData}};
 #pragma clang diagnostic push
@@ -190,7 +190,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLOnVehicleData* testNotification = [SDLOnVehicleData new];
+        SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] init];
         
         expect(testNotification.accPedalPosition).to(beNil());
         expect(testNotification.airbagStatus).to(beNil());
@@ -226,7 +226,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get generic Network Signal Data", ^{
-        SDLOnVehicleData *testRequest = [SDLOnVehicleData new];
+        SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));

@@ -4,8 +4,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
+#import "SDLRPCParameterNames.h"
 #import "SDLWindowState.h"
 
 QuickSpecBegin(SDLWindowStateSpec)
@@ -22,8 +23,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{@"deviation":@(deviation),
-                                @"approximatePosition":@(approximatePosition)
+        NSDictionary *dict = @{SDLRPCParameterNameDeviation:@(deviation),
+                                SDLRPCParameterNameApproximatePosition:@(approximatePosition)
                                 };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -35,7 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should return nil if not set", ^ {
-        SDLWindowState *testStruct = [SDLWindowState new];
+        SDLWindowState *testStruct = [[SDLWindowState alloc] init];
 
         expect(testStruct.approximatePosition).to(beNil());
         expect(testStruct.deviation).to(beNil());

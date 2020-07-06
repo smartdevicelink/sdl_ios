@@ -4,19 +4,18 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleData.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLUnsubscribeVehicleData* testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @YES;
@@ -113,7 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@YES,
                                                            SDLRPCParameterNameWiperStatus:@YES,
-                                                           @"windowStatus":@YES
+                                                           SDLRPCParameterNameWindowStatus:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -156,7 +155,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     it(@"init", ^{
-        SDLUnsubscribeVehicleData *testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
 
         expect(testRequest.accPedalPosition).to(beNil());
         expect(testRequest.airbagStatus).to(beNil());
@@ -304,13 +303,13 @@ describe(@"initializers", ^{
     });
 
     context(@"Should set and get Generic Network Signal Data", ^{
-        SDLUnsubscribeVehicleData *testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
         it(@"all set", ^{
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
             expect(testRequest.windowStatus).to(beNil());
         });
     });

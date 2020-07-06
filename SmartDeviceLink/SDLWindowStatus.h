@@ -32,8 +32,8 @@
 
 #import "SDLRPCStruct.h"
 
-@class SDLWindowState;
 @class SDLGrid;
+@class SDLWindowState;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -48,16 +48,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * The approximate percentage that the window is open - 0 being fully closed, 100 being fully open
- * {"default_value": null, "max_value": 100, "min_value": 0}
+ *
+ *  Optional, Integer, 0 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLUInt> *approximatePosition;
+@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *approximatePosition;
 
 /**
  * The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is
  * 10, then the window's location is somewhere between 40 and 60.
- * {"default_value": null, "max_value": 100, "min_value": 0}
+ *
+ *  Optional, Integer, 0 - 100
  */
-@property (strong, nonatomic) NSNumber<SDLUInt> *deviation;
+@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *deviation;
 
 @end
 

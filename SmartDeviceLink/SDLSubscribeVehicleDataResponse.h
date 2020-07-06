@@ -267,9 +267,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * See WindowStatus
  *
+ * Optional.
+ *
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *windowStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *windowStatus;
 
 @end
 

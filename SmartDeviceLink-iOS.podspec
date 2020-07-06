@@ -450,6 +450,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLWindowCapability.h',
 'SmartDeviceLink/SDLWindowType.h',
 'SmartDeviceLink/SDLWindowTypeCapabilities.h',
+'SmartDeviceLink/SDLWindowStatus.h',
+'SmartDeviceLink/SDLWindowState.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]
 end

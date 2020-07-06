@@ -4,12 +4,11 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
@@ -119,7 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameTirePressure:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                                    SDLRPCParameterNameWiperStatus:vehicleDataResult,
-                                                                   @"windowStatus":vehicleDataResult
+                                                                   SDLRPCParameterNameWindowStatus:vehicleDataResult
                                                                  },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -160,7 +159,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLSubscribeVehicleDataResponse* testResponse = [SDLSubscribeVehicleDataResponse new];
+        SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.airbagStatus).to(beNil());
@@ -195,7 +194,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLSubscribeVehicleDataResponse* testResponse = [SDLSubscribeVehicleDataResponse new];
+        SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
         expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));

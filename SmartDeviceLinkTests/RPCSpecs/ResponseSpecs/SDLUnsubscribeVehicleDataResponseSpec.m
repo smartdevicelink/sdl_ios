@@ -4,13 +4,12 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleDataResponse.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
@@ -118,7 +117,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                                    SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
-                                                                   @"windowStatus":vehicleDataResult
+                                                                   SDLRPCParameterNameWindowStatus:vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -159,7 +158,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.gps).to(beNil());
         expect(testResponse.speed).to(beNil());
@@ -194,7 +193,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLUnsubscribeVehicleDataResponse* testResponse = [SDLUnsubscribeVehicleDataResponse new];
+        SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
         expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
