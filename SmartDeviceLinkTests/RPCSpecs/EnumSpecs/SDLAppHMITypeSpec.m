@@ -26,6 +26,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLAppHMITypeTesting).to(equal(@"TESTING"));
         expect(SDLAppHMITypeSystem).to(equal(@"SYSTEM"));
         expect(SDLAppHMITypeRemoteControl).to(equal(@"REMOTE_CONTROL"));
+        expect(SDLAppHMITypeWebView).to(equal(@"WEB_VIEW"));
     });
 });
 

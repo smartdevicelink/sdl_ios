@@ -73,3 +73,9 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
 ///
 /// @since RPC 4.1
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource;
+
+
+/// By getting this value, SDL should unregister the application to allow the HMI to close the application.
+///
+/// @since RPC 6.0
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonResourceConstraint;
