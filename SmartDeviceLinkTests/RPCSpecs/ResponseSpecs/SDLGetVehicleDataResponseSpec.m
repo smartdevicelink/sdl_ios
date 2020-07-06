@@ -4,9 +4,8 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
@@ -194,7 +193,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLGetVehicleDataResponse* testResponse = [SDLGetVehicleDataResponse new];
+        SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
         
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.airbagStatus).to(beNil());
@@ -230,7 +229,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{
-        SDLGetVehicleDataResponse *testRequest = [SDLGetVehicleDataResponse new];
+        SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
         
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));

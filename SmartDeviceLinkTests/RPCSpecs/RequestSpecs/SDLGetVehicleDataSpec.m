@@ -16,7 +16,7 @@ QuickSpecBegin(SDLGetVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -156,7 +156,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLGetVehicleData* testRequest = [SDLGetVehicleData new];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
 
         it(@"all set", ^{
             expect(testRequest.accPedalPosition).to(beNil());
@@ -228,7 +228,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.stabilityControlsStatus).to(beFalse());
+            expect(testRequest.stabilityControlsStatus).to(equal(@NO));
         });
     });
 
@@ -312,14 +312,14 @@ describe(@"initializers", ^{
     });
 
          context(@"Should set and get Generic Network Signal Data", ^{
-            SDLGetVehicleData *testRequest = [SDLGetVehicleData new];
+            SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
 
             [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];
             [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
 
             it (@"all set", ^{
-                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(beFalse());
-                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(beTrue());
+                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
+                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
                 expect(testRequest.stabilityControlsStatus).to(beNil());
             });
         });

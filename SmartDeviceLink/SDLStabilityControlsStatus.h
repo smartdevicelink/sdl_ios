@@ -50,12 +50,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * true if vehicle stability control is ON, else false
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataStatus escSystem;
+@property (strong, nonatomic, nullable) SDLVehicleDataStatus escSystem;
 
 /**
  * true if vehicle trailer sway control is ON, else false
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataStatus trailerSwayControl;
+@property (strong, nonatomic, nullable) SDLVehicleDataStatus trailerSwayControl;
 
 @end
 

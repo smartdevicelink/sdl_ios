@@ -16,7 +16,7 @@ QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLUnsubscribeVehicleData* testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @YES;
@@ -156,7 +156,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLUnsubscribeVehicleData *testRequest = [SDLUnsubscribeVehicleData new];
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
 
         it(@"all set", ^{
             expect(testRequest.accPedalPosition).to(beNil());
@@ -311,8 +311,8 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
         it(@"", ^{
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
             expect(testRequest.stabilityControlsStatus).to(beNil());
         });
     });

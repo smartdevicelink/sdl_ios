@@ -191,7 +191,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLOnVehicleData* testNotification = [SDLOnVehicleData new];
+        SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] init];
         
         expect(testNotification.accPedalPosition).to(beNil());
         expect(testNotification.airbagStatus).to(beNil());
@@ -227,7 +227,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get generic Network Signal Data", ^{
-        SDLOnVehicleData *testRequest = [SDLOnVehicleData new];
+        SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));

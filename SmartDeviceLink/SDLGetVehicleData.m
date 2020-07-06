@@ -30,8 +30,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLGetVehicleData.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLGetVehicleData.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
 

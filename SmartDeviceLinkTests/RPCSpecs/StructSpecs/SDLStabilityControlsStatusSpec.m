@@ -4,9 +4,8 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SDLStabilityControlsStatus.h"
 #import "SDLRPCParameterNames.h"
@@ -17,7 +16,7 @@ QuickSpecBegin(SDLStabilityControlsStatusSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly (On)", ^ {
-        SDLStabilityControlsStatus* testStruct = [SDLStabilityControlsStatus new];
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] init];
         testStruct.escSystem = SDLVehicleDataStatusOn;
         testStruct.trailerSwayControl = SDLVehicleDataStatusOn;
         expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOn));
@@ -25,7 +24,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly (Off)", ^ {
-        SDLStabilityControlsStatus* testStruct = [SDLStabilityControlsStatus new];
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] init];
         testStruct.escSystem = SDLVehicleDataStatusOff;
         testStruct.trailerSwayControl = SDLVehicleDataStatusOff;
         expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOff));
@@ -33,8 +32,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
         it(@"Should get correctly when initialized with a dict (On)", ^ {
-            NSDictionary* dict = @{@"escSystem":SDLVehicleDataStatusOn,
-                                   @"trailerSwayControl":SDLVehicleDataStatusOn};
+            NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOn,
+                                   SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOn};
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -46,8 +45,8 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
     it(@"Should get correctly when initialized with a dict (Off)", ^ {
-        NSDictionary* dict = @{@"escSystem":SDLVehicleDataStatusOff,
-                               @"trailerSwayControl":SDLVehicleDataStatusOff};
+        NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOff,
+                               SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOff};
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -59,7 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLStabilityControlsStatus* testStruct = [SDLStabilityControlsStatus new];
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] init];
         expect(testStruct.escSystem).to(beNil());
         expect(testStruct.trailerSwayControl).to(beNil());
     });

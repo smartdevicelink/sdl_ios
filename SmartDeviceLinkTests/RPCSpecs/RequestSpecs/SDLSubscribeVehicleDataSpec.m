@@ -16,7 +16,7 @@ QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @NO;
@@ -155,7 +155,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLSubscribeVehicleData* testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         it(@"all set", ^{
             expect(testRequest.accPedalPosition).to(beNil());
@@ -307,13 +307,13 @@ describe(@"initializers", ^{
     });
 
     context(@"Should set and get Generic Network Signal Data", ^{
-        SDLSubscribeVehicleData *testRequest = [SDLSubscribeVehicleData new];
+        SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
         it(@"all set", ^{
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(beFalse());
-            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(beTrue());
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
             expect(testRequest.stabilityControlsStatus).to(beNil());
         });
     });

@@ -46,293 +46,353 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for subscribing to all possible vehicle data items.
  *
- *  @param accelerationPedalPosition    Subscribe to accelerationPedalPosition
- *  @param airbagStatus                 Subscribe to airbagStatus
- *  @param beltStatus                   Subscribe to beltStatus
- *  @param bodyInformation              Subscribe to bodyInformation
- *  @param clusterModeStatus            Subscribe to clusterModeStatus
- *  @param deviceStatus                 Subscribe to deviceStatus
- *  @param driverBraking                Subscribe to driverBraking
- *  @param eCallInfo                    Subscribe to eCallInfo
- *  @param emergencyEvent               Subscribe to emergencyEvent
- *  @param engineTorque                 Subscribe to engineTorque
- *  @param externalTemperature          Subscribe to externalTemperature
- *  @param fuelLevel                    Subscribe to fuelLevel
- *  @param fuelLevelState               Subscribe to fuelLevelState
- *  @param gps                          Subscribe to gps
- *  @param headLampStatus               Subscribe to headLampStatus
- *  @param instantFuelConsumption       Subscribe to instantFuelConsumption
- *  @param myKey                        Subscribe to myKey
- *  @param odometer                     Subscribe to odometer
- *  @param prndl                        Subscribe to prndl
- *  @param rpm                          Subscribe to rpm
- *  @param speed                        Subscribe to speed
- *  @param steeringWheelAngle           Subscribe to steeringWheelAngle
- *  @param tirePressure                 Subscribe to tirePressure
- *  @param wiperStatus                  Subscribe to wiperStatus
- *  @return                             A SDLSubscribeVehicleData object
+ *  @param accelerationPedalPosition Subscribe to accelerationPedalPosition
+ *  @param airbagStatus Subscribe to airbagStatus
+ *  @param beltStatus Subscribe to beltStatus
+ *  @param bodyInformation Subscribe to bodyInformation
+ *  @param clusterModeStatus Subscribe to clusterModeStatus
+ *  @param deviceStatus Subscribe to deviceStatus
+ *  @param driverBraking Subscribe to driverBraking
+ *  @param eCallInfo Subscribe to eCallInfo
+ *  @param emergencyEvent Subscribe to emergencyEvent
+ *  @param engineTorque Subscribe to engineTorque
+ *  @param externalTemperature Subscribe to externalTemperature
+ *  @param fuelLevel Subscribe to fuelLevel
+ *  @param fuelLevelState Subscribe to fuelLevelState
+ *  @param gps Subscribe to gps
+ *  @param headLampStatus Subscribe to headLampStatus
+ *  @param instantFuelConsumption Subscribe to instantFuelConsumption
+ *  @param myKey Subscribe to myKey
+ *  @param odometer Subscribe to odometer
+ *  @param prndl Subscribe to prndl
+ *  @param rpm Subscribe to rpm
+ *  @param speed Subscribe to speed
+ *  @param steeringWheelAngle Subscribe to steeringWheelAngle
+ *  @param tirePressure Subscribe to tirePressure
+ *  @param wiperStatus Subscribe to wiperStatus
+ *  @return A SDLSubscribeVehicleData object
  */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus: instead");
 
 /**
  *  Convenience init for subscribing to all possible vehicle data items.
  *
- *  @param accelerationPedalPosition    Subscribe to accelerationPedalPosition
- *  @param airbagStatus                 Subscribe to airbagStatus
- *  @param beltStatus                   Subscribe to beltStatus
- *  @param bodyInformation              Subscribe to bodyInformation
- *  @param clusterModeStatus            Subscribe to clusterModeStatus
- *  @param deviceStatus                 Subscribe to deviceStatus
- *  @param driverBraking                Subscribe to driverBraking
- *  @param eCallInfo                    Subscribe to eCallInfo
- *  @param electronicParkBrakeStatus    Subscribe to electronicParkBrakeStatus
- *  @param emergencyEvent               Subscribe to emergencyEvent
- *  @param engineOilLife                Subscribe to engineOilLife
- *  @param engineTorque                 Subscribe to engineTorque
- *  @param externalTemperature          Subscribe to externalTemperature
- *  @param fuelLevel                    Subscribe to fuelLevel
- *  @param fuelLevelState               Subscribe to fuelLevelState
- *  @param fuelRange                    Subscribe to fuelRange
- *  @param gps                          Subscribe to gps
- *  @param headLampStatus               Subscribe to headLampStatus
- *  @param instantFuelConsumption       Subscribe to instantFuelConsumption
- *  @param myKey                        Subscribe to myKey
- *  @param odometer                     Subscribe to odometer
- *  @param prndl                        Subscribe to prndl
- *  @param rpm                          Subscribe to rpm
- *  @param speed                        Subscribe to speed
- *  @param steeringWheelAngle           Subscribe to steeringWheelAngle
- *  @param tirePressure                 Subscribe to tirePressure
- *  @param turnSignal                   Subscribe to turnSignal
- *  @param wiperStatus                  Subscribe to wiperStatus
- *  @return                             A SDLSubscribeVehicleData object
+ *  @param accelerationPedalPosition Subscribe to accelerationPedalPosition
+ *  @param airbagStatus Subscribe to airbagStatus
+ *  @param beltStatus Subscribe to beltStatus
+ *  @param bodyInformation Subscribe to bodyInformation
+ *  @param clusterModeStatus Subscribe to clusterModeStatus
+ *  @param deviceStatus Subscribe to deviceStatus
+ *  @param driverBraking Subscribe to driverBraking
+ *  @param eCallInfo Subscribe to eCallInfo
+ *  @param electronicParkBrakeStatus Subscribe to electronicParkBrakeStatus
+ *  @param emergencyEvent Subscribe to emergencyEvent
+ *  @param engineOilLife Subscribe to engineOilLife
+ *  @param engineTorque Subscribe to engineTorque
+ *  @param externalTemperature Subscribe to externalTemperature
+ *  @param fuelLevel Subscribe to fuelLevel
+ *  @param fuelLevelState Subscribe to fuelLevelState
+ *  @param fuelRange Subscribe to fuelRange
+ *  @param gps Subscribe to gps
+ *  @param headLampStatus Subscribe to headLampStatus
+ *  @param instantFuelConsumption Subscribe to instantFuelConsumption
+ *  @param myKey Subscribe to myKey
+ *  @param odometer Subscribe to odometer
+ *  @param prndl Subscribe to prndl
+ *  @param rpm Subscribe to rpm
+ *  @param speed Subscribe to speed
+ *  @param steeringWheelAngle Subscribe to steeringWheelAngle
+ *  @param tirePressure Subscribe to tirePressure
+ *  @param turnSignal Subscribe to turnSignal
+ *  @param wiperStatus Subscribe to wiperStatus
+ *  @return A SDLSubscribeVehicleData object
  */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus: instead");
 
 /**
  *  Convenience init for subscribing to all possible vehicle data items.
  *
- *  @param accelerationPedalPosition    Subscribe to accelerationPedalPosition
- *  @param airbagStatus                 Subscribe to airbagStatus
- *  @param beltStatus                   Subscribe to beltStatus
- *  @param bodyInformation              Subscribe to bodyInformation
- *  @param cloudAppVehicleID            Subscribe to cloudAppVehicleID
- *  @param clusterModeStatus            Subscribe to clusterModeStatus
- *  @param deviceStatus                 Subscribe to deviceStatus
- *  @param driverBraking                Subscribe to driverBraking
- *  @param eCallInfo                    Subscribe to eCallInfo
- *  @param electronicParkBrakeStatus    Subscribe to electronicParkBrakeStatus
- *  @param emergencyEvent               Subscribe to emergencyEvent
- *  @param engineOilLife                Subscribe to engineOilLife
- *  @param engineTorque                 Subscribe to engineTorque
- *  @param externalTemperature          Subscribe to externalTemperature
- *  @param fuelLevel                    Subscribe to fuelLevel
- *  @param fuelLevelState               Subscribe to fuelLevelState
- *  @param fuelRange                    Subscribe to fuelRange
- *  @param gps                          Subscribe to gps
- *  @param headLampStatus               Subscribe to headLampStatus
- *  @param instantFuelConsumption       Subscribe to instantFuelConsumption
- *  @param myKey                        Subscribe to myKey
- *  @param odometer                     Subscribe to odometer
- *  @param prndl                        Subscribe to prndl
- *  @param rpm                          Subscribe to rpm
- *  @param speed                        Subscribe to speed
- *  @param steeringWheelAngle           Subscribe to steeringWheelAngle
- *  @param tirePressure                 Subscribe to tirePressure
- *  @param turnSignal                   Subscribe to turnSignal
- *  @param wiperStatus                  Subscribe to wiperStatus
- *  @return                             A SDLSubscribeVehicleData object
+ *  @param accelerationPedalPosition Subscribe to accelerationPedalPosition
+ *  @param airbagStatus Subscribe to airbagStatus
+ *  @param beltStatus Subscribe to beltStatus
+ *  @param bodyInformation Subscribe to bodyInformation
+ *  @param cloudAppVehicleID Subscribe to cloudAppVehicleID
+ *  @param clusterModeStatus Subscribe to clusterModeStatus
+ *  @param deviceStatus Subscribe to deviceStatus
+ *  @param driverBraking Subscribe to driverBraking
+ *  @param eCallInfo Subscribe to eCallInfo
+ *  @param electronicParkBrakeStatus Subscribe to electronicParkBrakeStatus
+ *  @param emergencyEvent Subscribe to emergencyEvent
+ *  @param engineOilLife Subscribe to engineOilLife
+ *  @param engineTorque Subscribe to engineTorque
+ *  @param externalTemperature Subscribe to externalTemperature
+ *  @param fuelLevel Subscribe to fuelLevel
+ *  @param fuelLevelState Subscribe to fuelLevelState
+ *  @param fuelRange Subscribe to fuelRange
+ *  @param gps Subscribe to gps
+ *  @param headLampStatus Subscribe to headLampStatus
+ *  @param instantFuelConsumption Subscribe to instantFuelConsumption
+ *  @param myKey Subscribe to myKey
+ *  @param odometer Subscribe to odometer
+ *  @param prndl Subscribe to prndl
+ *  @param rpm Subscribe to rpm
+ *  @param speed Subscribe to speed
+ *  @param steeringWheelAngle Subscribe to steeringWheelAngle
+ *  @param tirePressure Subscribe to tirePressure
+ *  @param turnSignal Subscribe to turnSignal
+ *  @param wiperStatus Subscribe to wiperStatus
+ *  @return A SDLSubscribeVehicleData object
  */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus;
 
 /**
  *  Convenience init for subscribing to all possible vehicle data items.
  *
- *  @param accelerationPedalPosition    Subscribe to accelerationPedalPosition
- *  @param airbagStatus                 Subscribe to airbagStatus
- *  @param beltStatus                   Subscribe to beltStatus
- *  @param bodyInformation              Subscribe to bodyInformation
- *  @param cloudAppVehicleID            Subscribe to cloudAppVehicleID
- *  @param clusterModeStatus            Subscribe to clusterModeStatus
- *  @param deviceStatus                 Subscribe to deviceStatus
- *  @param driverBraking                Subscribe to driverBraking
- *  @param eCallInfo                    Subscribe to eCallInfo
- *  @param electronicParkBrakeStatus    Subscribe to electronicParkBrakeStatus
- *  @param emergencyEvent               Subscribe to emergencyEvent
- *  @param engineOilLife                Subscribe to engineOilLife
- *  @param engineTorque                 Subscribe to engineTorque
- *  @param externalTemperature          Subscribe to externalTemperature
- *  @param fuelLevel                    Subscribe to fuelLevel
- *  @param fuelLevelState               Subscribe to fuelLevelState
- *  @param fuelRange                    Subscribe to fuelRange
- *  @param gps                          Subscribe to gps
- *  @param headLampStatus               Subscribe to headLampStatus
- *  @param instantFuelConsumption       Subscribe to instantFuelConsumption
- *  @param myKey                        Subscribe to myKey
- *  @param odometer                     Subscribe to odometer
- *  @param prndl                        Subscribe to prndl
- *  @param rpm                          Subscribe to rpm
- *  @param speed                        Subscribe to speed
- *  @param steeringWheelAngle           Subscribe to steeringWheelAngle
- *  @param tirePressure                 Subscribe to tirePressure
- *  @param turnSignal                   Subscribe to turnSignal
- *  @param wiperStatus                  Subscribe to wiperStatus
- *  @param stabilityControlsStatus                  Subscribe for stabilityControlsStatus
- *  @return                             A SDLSubscribeVehicleData object
+ *  @param accelerationPedalPosition Subscribe to accelerationPedalPosition
+ *  @param airbagStatus Subscribe to airbagStatus
+ *  @param beltStatus Subscribe to beltStatus
+ *  @param bodyInformation Subscribe to bodyInformation
+ *  @param cloudAppVehicleID Subscribe to cloudAppVehicleID
+ *  @param clusterModeStatus Subscribe to clusterModeStatus
+ *  @param deviceStatus Subscribe to deviceStatus
+ *  @param driverBraking Subscribe to driverBraking
+ *  @param eCallInfo Subscribe to eCallInfo
+ *  @param electronicParkBrakeStatus Subscribe to electronicParkBrakeStatus
+ *  @param emergencyEvent Subscribe to emergencyEvent
+ *  @param engineOilLife Subscribe to engineOilLife
+ *  @param engineTorque Subscribe to engineTorque
+ *  @param externalTemperature Subscribe to externalTemperature
+ *  @param fuelLevel Subscribe to fuelLevel
+ *  @param fuelLevelState Subscribe to fuelLevelState
+ *  @param fuelRange Subscribe to fuelRange
+ *  @param gps Subscribe to gps
+ *  @param headLampStatus Subscribe to headLampStatus
+ *  @param instantFuelConsumption Subscribe to instantFuelConsumption
+ *  @param myKey Subscribe to myKey
+ *  @param odometer Subscribe to odometer
+ *  @param prndl Subscribe to prndl
+ *  @param rpm Subscribe to rpm
+ *  @param speed Subscribe to speed
+ *  @param steeringWheelAngle Subscribe to steeringWheelAngle
+ *  @param tirePressure Subscribe to tirePressure
+ *  @param turnSignal Subscribe to turnSignal
+ *  @param wiperStatus Subscribe to wiperStatus
+ *  @param stabilityControlsStatus Subscribe for stabilityControlsStatus
+ *  @return A SDLSubscribeVehicleData object
  */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus stabilityControlsStatus:(BOOL)stabilityControlsStatus;
 
 /**
  * A boolean value. If true, subscribes GPS data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
 
 /**
  * A boolean value. If true, subscribes Speed data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
 
 /**
  * A boolean value. If true, subscribes RPM data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
 
 /**
  * A boolean value. If true, subscribes Fuel Level data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel;
 
 /**
  * A boolean value. If true, subscribes Fuel Level State data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
  * A boolean value. If true, subscribes Fuel Range data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelRange;
 
 /**
  * A boolean value. If true, subscribes Instant Fuel Consumption data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * A boolean value. If true, subscribes External Temperature data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * A boolean value. If true, subscribes PRNDL data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *prndl;
 
 /**
  * A boolean value. If true, subscribes Tire Pressure status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
 
 /**
  * A boolean value. If true, subscribes Odometer data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *odometer;
 
 /**
  * A boolean value. If true, subscribes Belt Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
 
 /**
  * A boolean value. If true, subscribes Body Information data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
 
 /**
  * A boolean value. If true, subscribes Device Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
 
 /**
  * A boolean value. If true, subscribes Driver Braking data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
 
 /**
  * A boolean value. If true, subscribes Wiper Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
 
 /**
  * A boolean value. If true, subscribes Head Lamp Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
 
 /**
  * A boolean value. If true, subscribes to Engine Oil Life data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
 
 /**
  * A boolean value. If true, subscribes Engine Torque data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
 
 /**
  * A boolean value. If true, subscribes Acc Pedal Position data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
 
 /**
  * A boolean value. If true, subscribes Steering Wheel Angle data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
 
 /**
  * A boolean value. If true, subscribes eCall Info data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
 
 /**
  * A boolean value. If true, subscribes Airbag Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
 
 /**
  * A boolean value. If true, subscribes Emergency Event data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
 
 /**
  * A boolean value. If true, subscribes Cluster Mode Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
 
 /**
  * A boolean value. If true, subscribes myKey data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 /**
  * A boolean value. If true, subscribes to the electronic parking brake status.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
 
 /**
  * A boolean value. If true, subscribes to the turn signal status.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *turnSignal;
 
 /**
  * A boolean value. If true, subscribes to the cloud app vehicle ID.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
 
 /**
  * See StabilityControlsStatus
  *
+ * Optional.
+ *
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *stabilityControlsStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *stabilityControlsStatus;
 
 /**
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.

@@ -17,7 +17,7 @@
 
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 
-SDLVehicleDataResult* vehicleDataResult = [SDLVehicleDataResult new];
+SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
 
@@ -161,7 +161,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLSubscribeVehicleDataResponse* testResponse = [SDLSubscribeVehicleDataResponse new];
+        SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.airbagStatus).to(beNil());

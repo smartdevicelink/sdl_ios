@@ -249,7 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 6.2.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *stabilityControlsStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *stabilityControlsStatus;
 
 /**
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.

@@ -363,6 +363,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSpeak.h',
 'SmartDeviceLink/SDLSpeakResponse.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
+'SmartDeviceLink/SDLStabilityControlsStatus.h',
 'SmartDeviceLink/SDLStartTime.h',
 'SmartDeviceLink/SDLStaticIconName.h',
 'SmartDeviceLink/SDLStationIDNumber.h',
