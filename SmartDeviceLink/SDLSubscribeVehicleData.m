@@ -30,10 +30,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLSubscribeVehicleData.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLSubscribeVehicleData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

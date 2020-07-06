@@ -30,11 +30,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLWindowStatus.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLWindowState.h"
 #import "SDLGrid.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLWindowState.h"
+#import "SDLWindowStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
