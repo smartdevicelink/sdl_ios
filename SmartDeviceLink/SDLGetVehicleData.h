@@ -186,156 +186,218 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value. If true, requests GPS data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
 
 /**
  * A boolean value. If true, requests Speed data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
 
 /**
  * A boolean value. If true, requests RPM data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
 
 /**
  * A boolean value. If true, requests Fuel Level data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel;
 
 /**
  * A boolean value. If true, requests Fuel Level State data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
  * A boolean value. If true, requests Fuel Range data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelRange;
 
 /**
  * A boolean value. If true, requests Instant Fuel Consumption data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * A boolean value. If true, requests External Temperature data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * A boolean value. If true, requests the Vehicle Identification Number.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *vin;
 
 /**
  * A boolean value. If true, requests PRNDL data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *prndl;
 
 /**
  * A boolean value. If true, requests Tire Pressure data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
 
 /**
  * A boolean value. If true, requests Odometer data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *odometer;
 
 /**
  * A boolean value. If true, requests Belt Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
 
 /**
  * A boolean value. If true, requests Body Information data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
 
 /**
  * A boolean value. If true, requests Device Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
 
 /**
  * A boolean value. If true, requests Driver Braking data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
 
 /**
  * A boolean value. If true, requests Wiper Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
 
 /**
  * A boolean value. If true, requests Head Lamp Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
 
 /**
  * A boolean value. If true, requests Engine Oil Life data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
 
 /**
  * A boolean value. If true, requests Engine Torque data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
 
 /**
  * A boolean value. If true, requests Acc Pedal Position data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
 
 /**
  * A boolean value. If true, requests Steering Wheel Angle data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
 
 /**
  * A boolean value. If true, requests Emergency Call Info data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
 
 /**
  * A boolean value. If true, requests Air Bag Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
 
 /**
  * A boolean value. If true, requests Emergency Event (if it occurred) data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
 
 /**
  * A boolean value. If true, requests Cluster Mode Status data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
 
 /**
  * A boolean value. If true, requests MyKey data.
+ *
+ * Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 /**
  A boolean value. If true, requests Electronic Parking Brake status data.
+
+ Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
 
 /**
  A boolean value. If true, requests Turn Signal data.
+
+ Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *turnSignal;
 
 /**
  A boolean value. If true, requests the Cloud App Vehicle ID.
+
+ Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
 
 /**
  * See StabilityControlsStatus
+ *
+ * Optional.
  *
  * @since SDL 6.2.0
  */

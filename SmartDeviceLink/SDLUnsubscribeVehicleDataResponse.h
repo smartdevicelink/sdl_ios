@@ -247,6 +247,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * See StabilityControlsStatus
  *
+ * Optional.
+ *
  * @since SDL 6.2.0
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *stabilityControlsStatus;

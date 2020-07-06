@@ -151,7 +151,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
                                                      SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh,
-                                                     @"stabilityControlsStatus":stabilityControlsStatus
+                                                     SDLRPCParameterNameStabilityControlsStatus:stabilityControlsStatus
                                                  },
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push

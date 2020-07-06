@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@YES,
                                                            SDLRPCParameterNameWiperStatus:@YES,
-                                                           @"stabilityControlsStatus":@YES
+                                                           SDLRPCParameterNameStabilityControlsStatus:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push

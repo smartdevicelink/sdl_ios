@@ -4,13 +4,12 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SDLGetVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLGetVehicleDataSpec)
 
@@ -113,7 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameTirePressure:@YES,
                                                                    SDLRPCParameterNameTurnSignal:@NO,
                                                                    SDLRPCParameterNameWiperStatus:@YES,
-                                                                   @"stabilityControlsStatus":@YES
+                                                                   SDLRPCParameterNameStabilityControlsStatus:@YES
                                                                  },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push

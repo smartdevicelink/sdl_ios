@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@NO,
                                                            SDLRPCParameterNameWiperStatus:@NO,
-                                                           @"stabilityControlsStatus":@YES},
+                                                           SDLRPCParameterNameStabilityControlsStatus:@YES},
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

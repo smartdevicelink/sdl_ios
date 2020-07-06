@@ -117,7 +117,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                                    SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
-                                                                   @"stabilityControlsStatus":vehicleDataResult
+                                                                   SDLRPCParameterNameStabilityControlsStatus:vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
 #pragma clang diagnostic push
