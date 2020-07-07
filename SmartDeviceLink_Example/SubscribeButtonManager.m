@@ -39,28 +39,27 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     for (SDLButtonName buttonName in [self.class sdlex_allPresetButtons]) {
-        __weak typeof(self) weakSelf = self;
-        [self.sdlManager.screenManager subscribeButton:buttonName withUpdateHandler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent, NSError * _Nullable error) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (error != nil) {
-                SDLLogE(@"There was an error subscribing to the preset button: %@",  error.localizedDescription);
-                return;
-            }
-
-            if (buttonPress == nil) { return; }
-
-            NSString *alertMessage;
-            NSString *buttonName = buttonPress.buttonName;
-            if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
-                alertMessage = [NSString stringWithFormat:@"%@ short pressed", buttonName];
-            } else {
-                alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonName];
-            }
-
-            SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil];
-            [strongSelf.sdlManager sendRPC:alert];
-        }];
+        [self.sdlManager.screenManager subscribeButton:buttonName withObserver:self selector:@selector(sdlex_buttonPressEventWithButtonName:error:buttonPress:buttonEvent:)];
     }
+}
+
+- (void)sdlex_buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress buttonEvent:(SDLOnButtonEvent *)buttonEvent {
+    if (error != nil) {
+        SDLLogE(@"There was an error subscribing to the preset button: %@",  error.localizedDescription);
+        return;
+    }
+
+    if (buttonPress == nil) { return; }
+
+    NSString *alertMessage;
+    if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
+        alertMessage = [NSString stringWithFormat:@"%@ short pressed", buttonName];
+    } else {
+        alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonName];
+    }
+
+    SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil];
+    [self.sdlManager sendRPC:alert];
 }
 
 + (NSArray<SDLButtonName> *)sdlex_allPresetButtons {

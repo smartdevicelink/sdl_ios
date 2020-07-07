@@ -10,7 +10,7 @@ import Foundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
-class SubscribeButtonManager {
+class SubscribeButtonManager: NSObject {
     private let sdlManager: SDLManager!
     private let presetButtons: [SDLButtonName] = [.preset0, .preset1, .preset2, .preset3, .preset4, .preset5, .preset6, .preset7]
 
@@ -26,26 +26,28 @@ class SubscribeButtonManager {
         }
 
         presetButtons.forEach { buttonName in
-            _ = sdlManager.screenManager.subscribeButton(buttonName) { [weak self] (press, event, error) in
-                guard error == nil else {
-                    SDLLog.e("There was an error subscribing to the preset button: \(error!.localizedDescription)")
-                    return
-                }
-
-                guard let buttonPress = press else { return }
-
-                let alert: SDLAlert
-                let buttonName = buttonPress.buttonName.rawValue.rawValue
-                switch buttonPress.buttonPressMode {
-                case .short:
-                    alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) short pressed")
-                case .long:
-                     alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) long pressed")
-                default: fatalError()
-                }
-
-                self?.sdlManager.send(alert)
-            }
+            sdlManager.screenManager.subscribeButton(buttonName, withObserver: self, selector: #selector(buttonPressEvent(buttonName:error:buttonPress:buttonEvent:)))
         }
+    }
+
+    @objc private func buttonPressEvent(buttonName: SDLButtonName, error: Error?, buttonPress: SDLOnButtonPress?, buttonEvent: SDLOnButtonEvent?) {
+        guard error == nil else {
+            SDLLog.e("There was an error subscribing to the preset button: \(error!.localizedDescription)")
+            return
+        }
+
+        guard let buttonPress = buttonPress else { return }
+
+        let alert: SDLAlert
+        let buttonName = buttonName.rawValue.rawValue
+        switch buttonPress.buttonPressMode {
+        case .short:
+            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) short pressed")
+        case .long:
+            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) long pressed")
+        default: fatalError()
+        }
+
+        sdlManager.send(alert)
     }
 }
