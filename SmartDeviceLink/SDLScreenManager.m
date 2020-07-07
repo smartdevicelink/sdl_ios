@@ -222,10 +222,6 @@ NS_ASSUME_NONNULL_BEGIN
     return _softButtonManager.softButtonObjects;
 }
 
-- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
-    return [self.softButtonManager softButtonObjectNamed:name];
-}
-
 - (SDLMenuConfiguration *)menuConfiguration {
     return _menuManager.menuConfiguration;
 }
@@ -264,7 +260,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
 }
 
-#pragma mark Subscribe Buttons
+#pragma mark - Subscribe Buttons
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler {
     return [self.subscribeButtonManager subscribeButton:buttonName withUpdateHandler:updateHandler];
@@ -276,6 +272,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler {
     [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:completionHandler];
+}
+
+#pragma mark - Soft Buttons
+
+- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
+    return [self.softButtonManager softButtonObjectNamed:name];
 }
 
 #pragma mark - Choice Sets
