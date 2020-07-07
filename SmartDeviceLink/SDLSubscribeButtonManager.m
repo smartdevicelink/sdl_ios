@@ -247,7 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
         observer.updateBlock(buttonPress, buttonEvent, error);
     } else {
         if (![observer.observer respondsToSelector:observer.selector]) {
-            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+            @throw [NSException sdl_invalidSubscribeButtonSelectorExceptionWithSelector:observer.selector];
         }
 
         NSUInteger numberOfParametersInSelector = [NSStringFromSelector(observer.selector) componentsSeparatedByString:@":"].count - 1;
@@ -274,7 +274,7 @@ NS_ASSUME_NONNULL_BEGIN
             [invocation setArgument:&buttonEvent atIndex:5];
         }
         if (numberOfParametersInSelector >= 5) {
-            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+            @throw [NSException sdl_invalidSubscribeButtonSelectorExceptionWithSelector:observer.selector];
         }
 
         [invocation invoke];

@@ -450,6 +450,12 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
                                  userInfo:nil];
 }
 
++ (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector {
+    return [NSException exceptionWithName:@"com.sdl.subscribeButtonManager.selectorException"
+                                   reason:[NSString stringWithFormat:@"Subscribe button observation selector: %@ does not match possible selectors, which must have between 0 and 4 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
+                                 userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

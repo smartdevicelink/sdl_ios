@@ -117,6 +117,7 @@ extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;
 + (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector;
 
 @end
 

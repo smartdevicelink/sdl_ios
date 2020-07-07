@@ -561,7 +561,7 @@ describe(@"subscribe button manager", ^{
 
                 expectAction(^{
                     [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
-                }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+                }).to(raiseException().named([NSException sdl_invalidSubscribeButtonSelectorExceptionWithSelector:testInvalidSelector].name));
             });
 
             it(@"should throw an assert if the selector has too many parameters", ^{
@@ -573,7 +573,7 @@ describe(@"subscribe button manager", ^{
 
                 expectAction(^{
                     [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
-                }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+                }).to(raiseException().named([NSException sdl_invalidSubscribeButtonSelectorExceptionWithSelector:testInvalidSelector].name));
             });
 
             afterEach(^{
