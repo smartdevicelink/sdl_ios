@@ -60,7 +60,6 @@ describe(@"subscribe button manager", ^{
 
         testConnectionManager = [[TestConnectionManager alloc] init];
         testManager = [[SDLSubscribeButtonManager alloc] initWithConnectionManager:testConnectionManager];
-
     });
 
     it(@"should instantiate correctly with initWithConnectionManager:", ^{
@@ -76,7 +75,7 @@ describe(@"subscribe button manager", ^{
         expect(testManager.subscribeButtonObservers.count).to(equal(0));
     });
 
-    it(@"should clear (but not destroy) the list of observers when Stop is called", ^{
+    it(@"should clear, but not destroy, the list of observers when Stop is called", ^{
         SDLSubscribeButtonUpdateHandler testUpdateBlock = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {};
         testManager.subscribeButtonObservers[SDLButtonNameTuneUp] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:testUpdateBlock]];
         expect(testManager.subscribeButtonObservers.count).to(equal(1));
@@ -391,6 +390,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEvent);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
@@ -405,6 +405,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
@@ -419,6 +420,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
@@ -433,6 +435,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
@@ -447,6 +450,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
@@ -463,6 +467,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEvent);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
@@ -477,6 +482,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
@@ -491,6 +497,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
@@ -505,6 +512,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
@@ -519,6 +527,7 @@ describe(@"subscribe button manager", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
                 SEL testSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:);
                 [testManager subscribeButton:testButtonName withObserver:testObserver selector:testSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
@@ -530,30 +539,33 @@ describe(@"subscribe button manager", ^{
             });
         });
 
-        it(@"should throw an assert if the selector does not exist for the observer", ^{
-            TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+        describe(@"Handling invalid selectors", ^{
+            it(@"should throw an exception if the selector does not exist for the observer", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wundeclared-selector"
-            SEL testInvalidSelector = @selector(invalidSelector:);
+                SEL testInvalidSelector = @selector(invalidSelector:);
 #pragma GCC diagnostic pop
-            [testManager subscribeButton:testButtonName withObserver:testObserver selector:testInvalidSelector];
+                [testManager subscribeButton:testButtonName withObserver:testObserver selector:testInvalidSelector];
+                [testConnectionManager respondToLastRequestWithResponse:testSubscribeSuccessResponse];
 
-            expectAction(^{
-                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
-            }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
-        });
+                expectAction(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+            });
 
-        it(@"should throw an assert if the selector has too many parameters", ^{
-            TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
-            SEL testInvalidSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:extraParameter:);
+            it(@"should throw an assert if the selector has too many parameters", ^{
+                TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
+                SEL testInvalidSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:extraParameter:);
 
-            // Set the invalid selector manually as using `subscribeButton:withObserver:selector:` will not add an invalid selector to the list of `subscribeButtonObservers`
-            testManager.subscribeButtonObservers[testButtonName] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:testObserver selector:testInvalidSelector]];
-            expect(testManager.subscribeButtonObservers.count).to(equal(1));
+                // Set the invalid selector manually as using `subscribeButton:withObserver:selector:` will not add an invalid selector to the list of `subscribeButtonObservers`
+                testManager.subscribeButtonObservers[SDLButtonNameOk] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:testObserver selector:testInvalidSelector]];
+                expect(testManager.subscribeButtonObservers.count).to(equal(1));
 
-            expectAction(^{
-                [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
-            }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+                expectAction(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+            });
         });
     });
 
