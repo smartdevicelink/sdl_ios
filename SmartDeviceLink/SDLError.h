@@ -62,9 +62,10 @@ extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 + (NSError *)sdl_fileManager_dataMissingError;
 + (NSError *)sdl_fileManager_staticIconError;
 
-#pragma mark Show Managers
+#pragma mark Screen Managers
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
++ (NSError *)sdl_subscribeButtonManager_notSubscribed;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
 
 #pragma mark Menu Manager

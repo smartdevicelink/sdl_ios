@@ -119,11 +119,19 @@ typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
 };
 
 /**
- Errors associated with the ScreenManager class
+ Errors associated with the Soft Button Manager class
  */
 typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
     /// A pending update was superseded by a newer requested update. The old update will not be sent
     SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
+};
+
+/**
+ Errors associated with the Subscribe Button Manager class
+ */
+typedef NS_ENUM(NSInteger, SDLSubscribeButtonManagerError) {
+    /// Attempting to unsubscribe to a subscribe button that has not yet been subscribed to yet.
+    SDLSubscribeButtonManagerErrorNotSubscribed = -1
 };
 
 /**

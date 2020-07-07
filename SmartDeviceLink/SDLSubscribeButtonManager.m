@@ -71,14 +71,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribe
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
+    SDLLogD(@"Subscribing to subscribe button with name: %@, with update handler", buttonName);
+
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:updateHandler];
 
     if (self.subscribeButtonObservers[buttonName].count > 0) {
+        // The app has already subscribed to the button, simply add the observer to the list of observers for the button name.
         [self sdl_addSubscribedObserver:observerObject forButtonName:buttonName];
-        return observerObject.observer;
+    } else {
+        // The app has not yet subscribed to the button, send the `SubscribeButton` request for the button name.
+        [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
     }
 
-    [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
     return observerObject.observer;
 }
 
@@ -165,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
     if (self.subscribeButtonObservers[buttonName] == nil || ![self sdl_isSubscribedObserver:observer forButtonName:buttonName]) {
         SDLLogE(@"Attempting to unsubscribe to the %@ subscribe button which is not currently subscribed", buttonName);
-        return completionHandler(nil);
+        return completionHandler([NSError sdl_subscribeButtonManager_notSubscribed]);
     }
 
     if (self.subscribeButtonObservers[buttonName].count > 1) {

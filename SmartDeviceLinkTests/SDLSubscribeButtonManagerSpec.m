@@ -540,6 +540,16 @@ describe(@"subscribe button manager", ^{
         });
 
         describe(@"Handling invalid selectors", ^{
+        __block SDLRPCNotificationNotification *buttonPressNotification = nil;
+
+            beforeEach(^{
+                testButtonName = SDLButtonNameOk;
+                testButtonPress = [[SDLOnButtonPress alloc] init];
+                testButtonPress.buttonPressMode = SDLButtonPressModeLong;
+                testButtonPress.buttonName = testButtonName;
+                buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+            });
+
             it(@"should throw an exception if the selector does not exist for the observer", ^{
                 TestSubscribeButtonObserver *testObserver = [[TestSubscribeButtonObserver alloc] init];
 #pragma GCC diagnostic push
@@ -559,12 +569,15 @@ describe(@"subscribe button manager", ^{
                 SEL testInvalidSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:extraParameter:);
 
                 // Set the invalid selector manually as using `subscribeButton:withObserver:selector:` will not add an invalid selector to the list of `subscribeButtonObservers`
-                testManager.subscribeButtonObservers[SDLButtonNameOk] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:testObserver selector:testInvalidSelector]];
-                expect(testManager.subscribeButtonObservers.count).to(equal(1));
+                testManager.subscribeButtonObservers[testButtonName] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:testObserver selector:testInvalidSelector]];
 
                 expectAction(^{
                     [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                 }).to(raiseException().named([NSException sdl_invalidSelectorExceptionWithSelector:testInvalidSelector].name));
+            });
+
+            afterEach(^{
+                [testManager.subscribeButtonObservers removeAllObjects];
             });
         });
     });
@@ -659,6 +672,17 @@ describe(@"subscribe button manager", ^{
 
             expect(testConnectionManager.receivedRequests.count).to(equal(2));
             expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
+        });
+
+        it(@"should return an error if the observer is not subscribed to the button", ^{
+            [testManager unsubscribeButton:testButtonName withObserver:[[NSObject alloc] init] withCompletionHandler:testCompletionHandler1];
+
+            expect(testCompletionHandler1Called).to(beTrue());
+            expect(testCompletionHandler1Error).to(equal([NSError sdl_subscribeButtonManager_notSubscribed]));
+
+            NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+            expect(observers).to(beNil());
+            expect(testConnectionManager.receivedRequests).to(beEmpty());
         });
     });
 

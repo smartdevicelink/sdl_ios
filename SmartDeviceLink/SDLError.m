@@ -19,6 +19,7 @@ SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager = @"com.sdl.encry
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
+SDLErrorDomain *const SDLErrorDomainSubscribeButtonManager = @"com.sdl.subscribebuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
 SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
@@ -256,6 +257,10 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
     return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
+
++ (NSError *)sdl_subscribeButtonManager_notSubscribed {
+    return [NSError errorWithDomain:SDLErrorDomainSubscribeButtonManager code:SDLSubscribeButtonManagerErrorNotSubscribed userInfo:nil];
 }
 
 #pragma mark Menu Manager
