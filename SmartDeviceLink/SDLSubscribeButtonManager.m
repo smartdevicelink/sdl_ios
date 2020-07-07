@@ -180,13 +180,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (response.success.boolValue == NO) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!response.success.boolValue) {
             SDLLogE(@"Attempt to unsubscribe from subscribe button %@ failed", buttonName);
             return completionHandler(error);
         }
 
         SDLLogD(@"Successfully unsubscribed from subscribe button named %@", buttonName);
-        __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_removeSubscribedObserver:observer forButtonName:buttonName];
         return completionHandler(error);
     }];
