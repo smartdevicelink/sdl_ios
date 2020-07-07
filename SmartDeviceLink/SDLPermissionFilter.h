@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, readonly) NSArray<SDLPermissionElement *> *permissionElements;
 
+/// Initializer unavailable
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
  *  Create a new permission filter group with a SDLPermissionsChangedHandler.
  *

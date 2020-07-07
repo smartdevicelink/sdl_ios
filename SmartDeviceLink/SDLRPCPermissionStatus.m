@@ -21,4 +21,10 @@
     return self;
 }
 
+#pragma mark - Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"RPC name: %@, allowed: %@, RPC parameters %@", self.rpcName, (self.isRPCAllowed ? @"YES" : @"NO"), self.rpcParameters];
+}
+
 @end

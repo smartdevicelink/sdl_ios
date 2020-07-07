@@ -11,23 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @implementation SDLPermissionFilter
 
 #pragma mark - Lifecycle
-
-- (instancetype)init {
-    self = [super init];
-    if (!self) { return nil; }
-
-    _identifier = [NSUUID UUID];
-    _permissionElements = @[];
-    _groupType = SDLPermissionGroupTypeAny;
-    _handler = nil;
-    _rpcPermissionStatusHandler = nil;
-
-    return self;
-}
 
 - (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(SDLPermissionsChangedHandler)observer {
     self = [super init];

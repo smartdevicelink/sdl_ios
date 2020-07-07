@@ -148,12 +148,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
  * @param parameter The name of the parameter to be tested, for example, rpm
- * @param permissionItems The current permissions to test against
- * @param hmiLevel The current HMI level
  *
- * @return BOOL
+ * @return True if the parameter is allowed, false if it is not
  */
-- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel;
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter;
 
 @end
 
