@@ -196,19 +196,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param observer The observer
 /// @param buttonName The name of the button
 - (void)sdl_removeSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
-    NSMutableArray *subscribedObservers = self.subscribeButtonObservers[buttonName];
-    for (NSUInteger i = 0; i < subscribedObservers.count; i++) {
-        SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)subscribedObservers[i];
-        if (subscribedObserver.observer != observer) { continue; }
-        // Okay to mutate because we will break immediately afterward
-        [subscribedObservers removeObjectAtIndex:i];
-        break;
-    }
-
     __weak typeof(self) weakSelf = self;
     [self sdl_runSyncOnQueue:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.subscribeButtonObservers[buttonName] = (subscribedObservers.count > 0) ? subscribedObservers : nil;
+        for (NSUInteger i = 0; i < strongSelf.subscribeButtonObservers[buttonName].count; i++) {
+            SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)strongSelf.subscribeButtonObservers[buttonName][i];
+            if (subscribedObserver.observer != observer) { continue; }
+            // Okay to mutate because we will break immediately afterward
+            [strongSelf.subscribeButtonObservers[buttonName] removeObjectAtIndex:i];
+            break;
+        }
     }];
 }
 

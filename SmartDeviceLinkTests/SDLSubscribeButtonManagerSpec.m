@@ -649,7 +649,7 @@ describe(@"subscribe button manager", ^{
             expect(testCompletionHandler2Error).to(beNil());
 
             NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-            expect(observers).to(beNil());
+            expect(observers).to(beEmpty());
 
             expect(testConnectionManager.receivedRequests.count).to(equal(2));
             expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
@@ -757,7 +757,7 @@ describe(@"subscribe button manager", ^{
             expect(testCompletionHandler2Error).to(beNil());
 
             NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-            expect(observers).to(beNil());
+            expect(observers).to(beEmpty());
 
             expect(testConnectionManager.receivedRequests.count).to(equal(2));
             expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLUnsubscribeButton.class));
