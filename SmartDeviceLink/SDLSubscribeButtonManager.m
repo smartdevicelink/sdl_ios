@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - Subscriptions
+#pragma mark - Subscribe
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:updateHandler];
@@ -105,6 +105,63 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
 }
 
+/// Helper method for checking if the observer is currently subscribed to the button
+/// @param observer The observer
+/// @param buttonName The name of the button
+/// @return True if the observer is currently subscribed to the button; false if not
+- (BOOL)sdl_isSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
+    BOOL isSubscribedObserver = NO;
+    for (SDLSubscribeButtonObserver *subscribedObserver in self.subscribeButtonObservers[buttonName]) {
+        if (subscribedObserver.observer != observer ) { continue; }
+        isSubscribedObserver = YES;
+        break;
+    }
+
+    return isSubscribedObserver;
+}
+
+/// Helper method for adding an observer for the button
+/// @param subscribedObserver The observer
+/// @param buttonName The name of the button
+- (void)sdl_addSubscribedObserver:(SDLSubscribeButtonObserver *)subscribedObserver forButtonName:(SDLButtonName)buttonName {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runSyncOnQueue:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.subscribeButtonObservers[buttonName] == nil) {
+            SDLLogV(@"Adding first subscriber for button: %@", buttonName);
+            strongSelf.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithObject:subscribedObserver];
+        } else {
+            SDLLogV(@"Adding another subscriber for button: %@", buttonName);
+            [strongSelf.subscribeButtonObservers[buttonName] addObject:subscribedObserver];
+        }
+    }];
+}
+
+#pragma mark Send Subscribe Request
+
+/// Helper method for sending a `SubscribeButton` request and notifying subscribers of button events.
+/// @param buttonName The name of the subscribe button
+/// @param observerObject The observer object
+- (void)sdl_subscribeToButtonNamed:(SDLButtonName)buttonName withObserverObject:(SDLSubscribeButtonObserver *)observerObject {
+    SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:nil];
+    __weak typeof(self) weakSelf = self;
+
+    [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Check if the request was successful. If a subscription request got sent for a button that is already subscribed then the module will respond with `IGNORED` so just act as if subscription succeeded.
+        if (!response.success.boolValue && ![response.resultCode isEqualToEnum:SDLResultIgnored]) {
+            [strongSelf sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
+            return;
+        }
+
+        [strongSelf sdl_addSubscribedObserver:observerObject forButtonName:buttonName];
+    }];
+}
+
+#pragma mark - Unsubscribe
+
+#pragma mark Send Unsubscribe Request
+
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
     if (self.subscribeButtonObservers[buttonName] == nil || ![self sdl_isSubscribedObserver:observer forButtonName:buttonName]) {
         SDLLogE(@"Attempting to unsubscribe to the %@ subscribe button which is not currently subscribed", buttonName);
@@ -131,23 +188,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - Helpers
-
-/// Helper method for checking if the observer is currently subscribed to the button
-/// @param observer The observer
-/// @param buttonName The name of the button
-/// @return True if the observer is currently subscribed to the button; false if not
-- (BOOL)sdl_isSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
-    BOOL isSubscribedObserver = NO;
-    for (SDLSubscribeButtonObserver *subscribedObserver in self.subscribeButtonObservers[buttonName]) {
-        if (subscribedObserver.observer != observer ) { continue; }
-        isSubscribedObserver = YES;
-        break;
-    }
-
-    return isSubscribedObserver;
-}
-
 /// Helper method for removing an observer for the button
 /// @param observer The observer
 /// @param buttonName The name of the button
@@ -168,40 +208,30 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-/// Helper method for adding an observer for the button
-/// @param subscribedObserver The observer
-/// @param buttonName The name of the button
-- (void)sdl_addSubscribedObserver:(SDLSubscribeButtonObserver *)subscribedObserver forButtonName:(SDLButtonName)buttonName {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.subscribeButtonObservers[buttonName] == nil) {
-            SDLLogV(@"Adding first subscriber for button: %@", buttonName);
-            strongSelf.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithObject:subscribedObserver];
-        } else {
-            SDLLogV(@"Adding another subscriber for button: %@", buttonName);
-            [strongSelf.subscribeButtonObservers[buttonName] addObject:subscribedObserver];
-        }
-    }];
+#pragma mark - Notifications
+
+/// Button event notification from the module
+/// @param notification Information about the button event
+- (void)sdl_handleButtonEvent:(SDLRPCNotificationNotification *)notification {
+    SDLOnButtonEvent *buttonEvent = (SDLOnButtonEvent *)notification.notification;
+    if (buttonEvent == nil) { return; }
+
+    SDLButtonName buttonName = buttonEvent.buttonName;
+    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
+        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:nil buttonEvent:buttonEvent error:nil];
+    }
 }
 
-/// Helper method for sending a `SubscribeButton` request and notifying subscribers of button events.
-/// @param buttonName The name of the subscribe button
-/// @param observerObject The observer object
-- (void)sdl_subscribeToButtonNamed:(SDLButtonName)buttonName withObserverObject:(SDLSubscribeButtonObserver *)observerObject {
-    SDLSubscribeButton *subscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:buttonName handler:nil];
-    __weak typeof(self) weakSelf = self;
+/// Button press notification from the module
+/// @param notification Information about the button press
+- (void)sdl_handleButtonPress:(SDLRPCNotificationNotification *)notification {
+    SDLOnButtonPress *buttonPress = (SDLOnButtonPress *)notification.notification;
+    if (buttonPress == nil) { return; }
 
-    [self.connectionManager sendConnectionRequest:subscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        // Check if the request was successful. If a subscription request got sent for a button that is already subscribed then the module will respond with `IGNORED` so just act as if subscription succeeded.
-        if (!response.success.boolValue && ![response.resultCode isEqualToEnum:SDLResultIgnored]) {
-            [strongSelf sdl_invokeObserver:observerObject withButtonName:buttonName buttonPress:nil buttonEvent:nil error:error];
-            return;
-        }
-
-        [strongSelf sdl_addSubscribedObserver:observerObject forButtonName:buttonName];
-    }];
+    SDLButtonName buttonName = buttonPress.buttonName;
+    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
+        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:nil error:nil];
+    }
 }
 
 /// Helper method for notifying subscribers of button events.
@@ -246,32 +276,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         [invocation invoke];
-    }
-}
-
-#pragma mark - Notifications
-
-/// Button event notification from the module
-/// @param notification Information about the button event
-- (void)sdl_handleButtonEvent:(SDLRPCNotificationNotification *)notification {
-    SDLOnButtonEvent *buttonEvent = (SDLOnButtonEvent *)notification.notification;
-    if (buttonEvent == nil) { return; }
-
-    SDLButtonName buttonName = buttonEvent.buttonName;
-    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
-        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:nil buttonEvent:buttonEvent error:nil];
-    }
-}
-
-/// Button press notification from the module
-/// @param notification Information about the button press
-- (void)sdl_handleButtonPress:(SDLRPCNotificationNotification *)notification {
-    SDLOnButtonPress *buttonPress = (SDLOnButtonPress *)notification.notification;
-    if (buttonPress == nil) { return; }
-
-    SDLButtonName buttonName = buttonPress.buttonName;
-    for (SDLSubscribeButtonObserver *subscribeButtonObserver in self.subscribeButtonObservers[buttonName]) {
-        [self sdl_invokeObserver:subscribeButtonObserver withButtonName:buttonName buttonPress:buttonPress buttonEvent:nil error:nil];
     }
 }
 
