@@ -318,6 +318,9 @@ extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
 /// Name for a SyncPData response RPC
 extern SDLNotificationName const SDLDidReceiveSyncPDataResponse __deprecated;
 
+/// Name for a SystemRequest response RPC
+extern SDLNotificationName const SDLDidReceiveSystemRequestResponse;
+
 /// Name for an UpdateTurnList response RPC
 extern SDLNotificationName const SDLDidReceiveUpdateTurnListResponse;
 
