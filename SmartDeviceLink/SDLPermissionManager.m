@@ -125,9 +125,9 @@ NS_ASSUME_NONNULL_BEGIN
         if (permissionElement.parameterPermissions != nil) {
             for (NSString *parameter in permissionElement.parameterPermissions) {
                 if ([self isPermissionParameterAllowed:permissionElement.rpcName parameter:parameter permissionItems:self.permissions hmiLevel:self.currentHMILevel]) {
-                    hasAllowed = true;
+                    hasAllowed = YES;
                 } else {
-                    hasDisallowed = true;
+                    hasDisallowed = YES;
                 }
             }
         }

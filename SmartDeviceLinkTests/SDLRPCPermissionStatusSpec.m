@@ -32,7 +32,7 @@ describe(@"A rpc permission status", ^{
             testSDLRPCPermissionStatusSpec = [[SDLRPCPermissionStatus alloc] initWithRPCName:testRPCName isRPCAllowed:isRPCAllowed rpcParameters:allowedParameters];
         });
 
-        it(@"should set rpcName, isRPCAllowed, rpcPArameters correctly", ^{
+        it(@"should set rpcName, isRPCAllowed, rpcParameters correctly", ^{
             expect(testSDLRPCPermissionStatusSpec.rpcName).to(equal(testRPCName));
             expect(testSDLRPCPermissionStatusSpec.isRPCAllowed).to(equal(isRPCAllowed));
             expect(testSDLRPCPermissionStatusSpec.rpcParameters[testParameterName]).to(equal(@NO));

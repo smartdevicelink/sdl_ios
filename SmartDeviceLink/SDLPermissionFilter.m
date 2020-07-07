@@ -45,9 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionStatusHandler:(SDLRPCPermissionStatusChangedHandler)permissionStatusHandler {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
     _identifier = [NSUUID UUID];
     _permissionElements = rpcNames;
@@ -65,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
         [rpcNames addObject:element.rpcName];
     }
 
-    return rpcNames;
+    return [rpcNames copy];
 }
 
 
@@ -102,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"identifier: %@, group type: %@, rpcs: %@", self.identifier, @(self.groupType), self.permissionElements];
+    return [NSString stringWithFormat:@"Permission Filter Identifier: %@, group type: %@, RPCs: %@", self.identifier, @(self.groupType), self.permissionElements];
 }
 
 @end

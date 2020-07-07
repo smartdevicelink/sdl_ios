@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param rpcNames The names of the RPCs
  *  @return         The current permission status for all the RPCs in the group
  */
-+ (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLPermissionElement *> *)rpcNames {
++ (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager permissionElements:(NSArray<SDLPermissionElement *> *)permissionElements {
     SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCPermissions:rpcNames];
     NSDictionary<NSString *, SDLRPCPermissionStatus *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCPermissions:rpcNames];
     [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param groupType    The type of changes you want to be notified about for the group
  *  @return             A unique identifier for the subscription. This can be used to later to unsubscribe from the notifications.
  */
-+ (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType {
++ (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager permissionElements:(NSArray<SDLPermissionElement *> *)permissionElements groupType:(SDLPermissionGroupType)groupType {
     SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCPermissions:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
         [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:status individualPermissionStatuses:change];
     }];

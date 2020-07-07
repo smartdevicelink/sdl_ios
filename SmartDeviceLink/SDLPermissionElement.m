@@ -31,7 +31,7 @@
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"rpc name: %@, parameter permissions: %@", self.rpcName, self.parameterPermissions];
+    return [NSString stringWithFormat:@"RPC name: %@, parameter permissions: %@", self.rpcName, self.parameterPermissions];
 }
 
 @end
