@@ -48,20 +48,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setApproximatePosition:(NSNumber<SDLUInt> *)approximatePosition {
+- (void)setApproximatePosition:(NSNumber<SDLUInt> *__nullable)approximatePosition {
     [self.store sdl_setObject:approximatePosition forName:SDLRPCParameterNameApproximatePosition];
 }
 
-- (NSNumber<SDLUInt> *)approximatePosition {
+- (NSNumber<SDLUInt> *__nullable)approximatePosition {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameApproximatePosition ofClass:NSNumber.class error:&error];
 }
 
-- (void)setDeviation:(NSNumber<SDLUInt> *)deviation {
+- (void)setDeviation:(NSNumber<SDLUInt> *__nullable)deviation {
     [self.store sdl_setObject:deviation forName:SDLRPCParameterNameDeviation];
 }
 
-- (NSNumber<SDLUInt> *)deviation {
+- (NSNumber<SDLUInt> *__nullable)deviation {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameDeviation ofClass:NSNumber.class error:&error];
 }
