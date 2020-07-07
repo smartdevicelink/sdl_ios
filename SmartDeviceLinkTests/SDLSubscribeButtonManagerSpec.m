@@ -68,14 +68,24 @@ describe(@"subscribe button manager", ^{
         it(@"should instantiate correctly with initWithConnectionManager:", ^{
             expect(testManager.connectionManager).to(equal(testConnectionManager));
             expect(testManager.subscribeButtonObservers).toNot(beNil());
+            expect(testManager.subscribeButtonObservers.count).to(equal(0));
         });
 
         it(@"should do nothing when Start is called", ^{
             [testManager start];
+
+            expect(testManager.subscribeButtonObservers).toNot(beNil());
+            expect(testManager.subscribeButtonObservers.count).to(equal(0));
         });
 
-        it(@"should clear the list of observers when Stop is called", ^{
+        it(@"should clear (but not destroy) the list of observers when Stop is called", ^{
+            SDLSubscribeButtonUpdateHandler testUpdateBlock = ^(SDLOnButtonPress *_Nullable buttonPress, SDLOnButtonEvent *_Nullable buttonEvent, NSError *_Nullable error) {};
+            testManager.subscribeButtonObservers[SDLButtonNameTuneUp] = [NSMutableArray arrayWithObject:[[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:testUpdateBlock]];
+            expect(testManager.subscribeButtonObservers.count).to(equal(1));
+
             [testManager stop];
+
+            expect(testManager.subscribeButtonObservers).toNot(beNil());
             expect(testManager.subscribeButtonObservers.count).to(equal(0));
         });
     });
@@ -134,7 +144,7 @@ describe(@"subscribe button manager", ^{
                 expect(testConnectionManager.receivedRequests[0]).toEventually(beAKindOf(SDLSubscribeButton.class));
             });
 
-            it(@"should send two subscription request for the same button name to the module if the second request is sent before the module responsed to the first request and it should add both observers even though the second request will fail", ^{
+            it(@"should send two subscription request for the same button name to the module if the second request is sent before the module responds to the first request and it should add both observers if the second request fails with a result code of IGNORED", ^{
                 id subscriptionID1 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler1];
                 id subscriptionID2 = [testManager subscribeButton:testButtonName withUpdateHandler:testUpdateHandler2];
                 expect(subscriptionID1).toNot(beNil());
@@ -247,6 +257,20 @@ describe(@"subscribe button manager", ^{
             it(@"should ignore a subscription attempt with an invalid selector - selector has too many parameters", ^{
                 SEL testInvalidSelector = @selector(buttonPressEventWithButtonName:error:buttonPress:buttonEvent:extraParameter:);
                 [testManager subscribeButton:testButtonName withObserver:testSubscribeButtonObserver1 selector:testInvalidSelector];
+
+                NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
+                expect(observers).to(beNil());
+
+                expect(testConnectionManager.receivedRequests.count).to(equal(0));
+            });
+
+            it(@"should ignore a subscription attempt with an nil observer", ^{
+                SEL testValidSelector = @selector(buttonPressEventWithButtonName:error:);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnonnull"
+                [testManager subscribeButton:testButtonName withObserver:nil selector:testValidSelector];
+#pragma GCC diagnostic pop
 
                 NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
                 expect(observers).to(beNil());
