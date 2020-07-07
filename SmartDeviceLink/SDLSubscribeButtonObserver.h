@@ -17,7 +17,7 @@ typedef void (^SDLSubscribeButtonUpdateHandler)(SDLOnButtonPress *_Nullable butt
 @interface SDLSubscribeButtonObserver : NSObject
 
 /// The object that will be used to call the selector if available, and to unsubscribe this observer
-@property (strong, nonatomic) id<NSObject> observer;
+@property (weak, nonatomic) id<NSObject> observer;
 
 /// A selector called when the observer is triggered
 @property (assign, nonatomic) SEL selector;

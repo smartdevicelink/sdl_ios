@@ -73,7 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
     SDLLogD(@"Subscribing to subscribe button with name: %@, with update handler", buttonName);
 
-    SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:updateHandler];
+    NSObject *observer = [[NSObject alloc] init];
+    SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer updateHandler:updateHandler];
 
     if (self.subscribeButtonObservers[buttonName].count > 0) {
         // The app has already subscribed to the button, simply add the observer to the list of observers for the button name.
@@ -83,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_subscribeToButtonNamed:buttonName withObserverObject:observerObject];
     }
 
-    return observerObject.observer;
+    return observer;
 }
 
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector; {
