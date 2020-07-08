@@ -156,7 +156,9 @@ cd ../
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, run:
 
 ```bash
-xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test
+xcodebuild build-for-testing -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink
+
+set -o pipefail && xcodebuild test-without-building -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
 ```
 
 You can optionally pipe the result to [xcpretty](https://github.com/supermarin/xcpretty).
