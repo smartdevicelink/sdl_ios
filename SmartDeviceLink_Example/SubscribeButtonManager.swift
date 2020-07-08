@@ -26,13 +26,13 @@ class SubscribeButtonManager: NSObject {
         }
 
         presetButtons.forEach { buttonName in
-            sdlManager.screenManager.subscribeButton(buttonName, withObserver: self, selector: #selector(buttonPressEvent(buttonName:error:buttonPress:buttonEvent:)))
+            sdlManager.screenManager.subscribeButton(buttonName, withObserver: self, selector: #selector(buttonPressEvent(buttonName:error:buttonPress:)))
         }
     }
 
-    @objc private func buttonPressEvent(buttonName: SDLButtonName, error: Error?, buttonPress: SDLOnButtonPress?, buttonEvent: SDLOnButtonEvent?) {
-        guard error == nil else {
-            SDLLog.e("There was an error subscribing to the preset button: \(error!.localizedDescription)")
+    @objc private func buttonPressEvent(buttonName: SDLButtonName, error: Error?, buttonPress: SDLOnButtonPress?) {
+        if let error = error {
+            SDLLog.e("There was an error subscribing to the preset button: \(error)")
             return
         }
 
@@ -42,9 +42,9 @@ class SubscribeButtonManager: NSObject {
         let buttonNameString = buttonName.rawValue.rawValue
         switch buttonPress.buttonPressMode {
         case .short:
-            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) short pressed")
+            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonNameString) short pressed")
         case .long:
-            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) long pressed")
+            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonNameString) long pressed")
         default: fatalError()
         }
 

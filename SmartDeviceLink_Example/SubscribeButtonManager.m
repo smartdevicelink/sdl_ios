@@ -39,17 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     for (SDLButtonName buttonName in [self.class sdlex_allPresetButtons]) {
-        [self.sdlManager.screenManager subscribeButton:buttonName withObserver:self selector:@selector(sdlex_buttonPressEventWithButtonName:error:buttonPress:buttonEvent:)];
+        [self.sdlManager.screenManager subscribeButton:buttonName withObserver:self selector:@selector(sdlex_buttonPressEventWithButtonName:error:buttonPress:)];
     }
 }
 
-- (void)sdlex_buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress buttonEvent:(SDLOnButtonEvent *)buttonEvent {
+- (void)sdlex_buttonPressEventWithButtonName:(SDLButtonName)buttonName error:(NSError *)error buttonPress:(SDLOnButtonPress *)buttonPress {
     if (error != nil) {
         SDLLogE(@"There was an error subscribing to the preset button: %@",  error.localizedDescription);
         return;
     }
-
-    if (buttonPress == nil) { return; }
 
     NSString *alertMessage = nil;
     if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
