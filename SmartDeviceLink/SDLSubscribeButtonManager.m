@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribe
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(nullable SDLSubscribeButtonUpdateHandler)updateHandler {
-    SDLLogD(@"Subscribing to subscribe button with name: %@, with update handler", buttonName);
+    SDLLogD(@"Subscribing to subscribe button with name: %@, with block", buttonName);
 
     NSObject *observer = [[NSObject alloc] init];
     SDLSubscribeButtonObserver *observerObject = [[SDLSubscribeButtonObserver alloc] initWithObserver:observer updateHandler:updateHandler];
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector; {
-    SDLLogD(@"Subscribing to subscribe button with name: %@, with observer: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
+    SDLLogD(@"Subscribing to subscribe button with name: %@, observer object: %@, selector: %@", buttonName, observer, NSStringFromSelector(selector));
 
     NSUInteger numberOfParametersInSelector = [NSStringFromSelector(selector) componentsSeparatedByString:@":"].count - 1;
     if (numberOfParametersInSelector > 4) {
@@ -164,7 +164,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Unsubscribe
-
 #pragma mark Send Unsubscribe Request
 
 - (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(nullable SDLSubscribeButtonUpdateCompletionHandler)completionHandler {
@@ -173,11 +172,13 @@ NS_ASSUME_NONNULL_BEGIN
         return completionHandler([NSError sdl_subscribeButtonManager_notSubscribed]);
     }
 
+    // If we have more than one observer, just remove this observer
     if (self.subscribeButtonObservers[buttonName].count > 1) {
         [self sdl_removeSubscribedObserver:observer forButtonName:buttonName];
         return completionHandler(nil);
     }
 
+    // If there's only one observer, unsubscribe from the button
     SDLUnsubscribeButton *unsubscribeButton = [[SDLUnsubscribeButton alloc] initWithButtonName:buttonName];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:unsubscribeButton withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {

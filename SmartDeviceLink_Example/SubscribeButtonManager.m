@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (buttonPress == nil) { return; }
 
-    NSString *alertMessage;
+    NSString *alertMessage = nil;
     if ([buttonPress.buttonPressMode isEqualToEnum:SDLButtonPressModeShort]) {
         alertMessage = [NSString stringWithFormat:@"%@ short pressed", buttonName];
     } else {

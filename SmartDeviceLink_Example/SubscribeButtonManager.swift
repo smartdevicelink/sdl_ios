@@ -39,7 +39,7 @@ class SubscribeButtonManager: NSObject {
         guard let buttonPress = buttonPress else { return }
 
         let alert: SDLAlert
-        let buttonName = buttonName.rawValue.rawValue
+        let buttonNameString = buttonName.rawValue.rawValue
         switch buttonPress.buttonPressMode {
         case .short:
             alert = AlertManager.alertWithMessageAndCloseButton("\(buttonName) short pressed")
