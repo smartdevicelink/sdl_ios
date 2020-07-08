@@ -212,9 +212,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (filter.rpcPermissionStatusHandler != nil) {
         NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *allowedDict = [self statusesOfRPCPermissions:filter.permissionElements];
         filter.rpcPermissionStatusHandler(allowedDict, permissionStatus);
-    }
-
-    if (filter.handler != nil) {
+    } else if (filter.handler != nil) {
         NSDictionary<SDLRPCFunctionName, NSNumber *> *allowedDict = [self sdl_convertPermissionsStatusDictionaryToPermissionsBoolDictionary:[self statusesOfRPCPermissions:filter.permissionElements]];
         filter.handler(allowedDict, permissionStatus);
     }
