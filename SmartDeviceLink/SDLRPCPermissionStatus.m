@@ -10,7 +10,7 @@
 
 @implementation SDLRPCPermissionStatus
 
-- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSMutableDictionary<NSString *,NSNumber *> *)rpcParameters {
+- (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSDictionary<NSString *,NSNumber *> *)rpcParameters {
     self = [super init];
     if (!self) { return nil; }
     
@@ -24,7 +24,7 @@
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"RPC name: %@, allowed: %@, RPC parameters %@", self.rpcName, (self.isRPCAllowed ? @"YES" : @"NO"), self.rpcParameters];
+    return [NSString stringWithFormat:@"RPC Permission status, RPC name: %@, allowed: %@, RPC parameters %@", self.rpcName, (self.isRPCAllowed ? @"YES" : @"NO"), self.rpcParameters];
 }
 
 @end

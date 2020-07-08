@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Creates a new permission element.
  *
  *  @param rpcName  The name of the RPC.
- *  @param parameterPermissions An array parameters for the RPC.
+ *  @param parameterPermissions An array parameters for the RPC that should be checked if they are allowed. Note that not all head units may provide this data. If no parameter data is received, we assume that the parameter is not allowed.
  *
  *  @return An instance of `SDLPermissionElement`.
  */

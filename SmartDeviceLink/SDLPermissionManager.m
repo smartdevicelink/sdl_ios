@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.class isRPCNameAllowed:rpcName permissions:self.permissions hmiLevel:self.currentHMILevel];
 }
 
-+ (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName permissions:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
++ (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName permissions:(NSDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
     if (permissions[rpcName] == nil || hmiLevel == nil) {
         return NO;
     }
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.class sdl_groupStatusOfRPCPermissions:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
-+ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames withPermissions:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
++ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
     // If we don't have an HMI level, then just say everything is disallowed
     if (hmiLevel == nil) {
         return SDLPermissionGroupStatusUnknown;
@@ -477,7 +477,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.class sdl_isPermissionParameterAllowed:rpcName parameter:parameter permissionItems:self.permissions hmiLevel:self.currentHMILevel];
 }
 
-+ (BOOL)sdl_isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {
++ (BOOL)sdl_isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter permissionItems:(NSDictionary<SDLPermissionRPCName, SDLPermissionItem *> *)permissionItems hmiLevel:(SDLHMILevel)hmiLevel {
     SDLPermissionItem *permissionItem = permissionItems[rpcName];
     if (permissionItem == nil || ![self isRPCNameAllowed:rpcName permissions:permissionItems hmiLevel:hmiLevel] || permissionItem.parameterPermissions == nil || permissionItem.parameterPermissions.allowed == nil) {
         return NO;

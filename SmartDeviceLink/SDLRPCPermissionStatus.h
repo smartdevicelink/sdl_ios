@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Holds a dictionary of RPC parameters and objects of an NSNumber<BOOL> specifying if that RPC parameter is currently allowed
  */
-@property (strong, nonatomic, nullable, readonly) NSDictionary<SDLRPCParameterName, NSNumber *> *rpcParameters;
+@property (strong, nonatomic, nullable, readonly) NSDictionary<NSString *, NSNumber *> *rpcParameters;
 
 /**
  *  Initializes a SDLRPCPermissionStatus object.
