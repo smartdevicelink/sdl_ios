@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLHMILevel.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
@@ -25,7 +25,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
+@interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolDelegate, SDLStreamingAudioManagerType>
 
 @property (nonatomic, strong, readonly) SDLAudioStreamManager *audioTranscodingManager;
 

@@ -17,6 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// The time between calling `start` and when the elapsed block will be called
 @property (assign, nonatomic) NSTimeInterval duration;
 
+/// Whether or not the timer is currently running
+@property (assign, nonatomic) BOOL timerRunning;
+
+/// Whether or not the timer will repeat after it completes
+@property (assign, nonatomic) BOOL repeat;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Initialize a timer with a specified duration on the main run loop without repeating

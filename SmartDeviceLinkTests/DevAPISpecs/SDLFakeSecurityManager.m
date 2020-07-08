@@ -31,7 +31,7 @@
 }
 
 + (NSSet<NSString *> *)availableMakes {
-    return [NSSet set];
+    return [NSSet setWithObject:@"SDL"];
 }
 
 @end

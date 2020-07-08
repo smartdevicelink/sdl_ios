@@ -471,9 +471,8 @@ struct TransportProtocolUpdated {
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] init];
     transport.hostName = self.ipAddress;
     transport.portNumber = [NSString stringWithFormat:@"%d", self.tcpPort];
-    SDLProtocol *protocol = [[SDLProtocol alloc] init];
-    transport.delegate = protocol;
-    protocol.transport = transport;
+
+    SDLProtocol *protocol = [[SDLProtocol alloc] initWithTransport:transport encryptionManager:self.primaryProtocol.encryptionLifecycleManager];
     protocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -496,9 +495,7 @@ struct TransportProtocolUpdated {
     SDLLogD(@"Starting Secondary Transport: iAP");
 
     SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
-    SDLProtocol *protocol = [[SDLProtocol alloc] init];
-    transport.delegate = protocol;
-    protocol.transport = transport;
+    SDLProtocol *protocol = [[SDLProtocol alloc] initWithTransport:transport encryptionManager:self.primaryProtocol.encryptionLifecycleManager];
     protocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;

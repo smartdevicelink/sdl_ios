@@ -4,90 +4,99 @@
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
+#import "SDLOnDriverDistraction.h"
 #import "SDLHMILevel.h"
-#import "SDLOnLockScreenStatus.h"
 #import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenStatus.h"
+#import "SDLNotificationConstants.h"
+#import "SDLNotificationDispatcher.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLOnLockScreenStatus.h"
+#import "SDLRPCNotificationNotification.h"
 
 
 QuickSpecBegin(SDLLockScreenStatusManagerSpec)
 
 describe(@"the lockscreen status manager", ^{
-    __block SDLLockScreenStatusManager *lockScreenManager;
+    __block SDLLockScreenStatusManager *testManager;
+    __block SDLNotificationDispatcher *mockDispatcher;
+
     beforeEach(^{
-        lockScreenManager = [[SDLLockScreenStatusManager alloc] init];
+        mockDispatcher = OCMClassMock([SDLNotificationDispatcher class]);
+        testManager = [[SDLLockScreenStatusManager alloc] initWithNotificationDispatcher:mockDispatcher];
     });
     
     it(@"should properly initialize user selected app boolean to false", ^{
-        expect(@(lockScreenManager.userSelected)).to(beFalse());
+        expect(@(testManager.userSelected)).to(beFalse());
     });
     
     it(@"should properly initialize driver is distracted boolean to false", ^{
-        expect(@(lockScreenManager.driverDistracted)).to(beFalse());
+        expect(@(testManager.driverDistracted)).to(beFalse());
     });
     
     it(@"should properly initialize hmi level object to nil", ^{
-        expect(lockScreenManager.hmiLevel).to(beNil());
+        expect(testManager.hmiLevel).to(beNil());
     });
     
     describe(@"when setting HMI level", ^{
         context(@"to FULL", ^{
             beforeEach(^{
-                lockScreenManager.userSelected = NO;
-                lockScreenManager.hmiLevel = SDLHMILevelFull;
+                testManager.userSelected = NO;
+                testManager.hmiLevel = SDLHMILevelFull;
             });
             
             it(@"should set user selected to true", ^{
-                expect(@(lockScreenManager.userSelected)).to(beTrue());
+                expect(@(testManager.userSelected)).to(beTrue());
             });
         });
         
         context(@"to LIMITED", ^{
             beforeEach(^{
-                lockScreenManager.userSelected = NO;
-                lockScreenManager.hmiLevel = SDLHMILevelLimited;
+                testManager.userSelected = NO;
+                testManager.hmiLevel = SDLHMILevelLimited;
             });
             
             it(@"should set user selected to true", ^{
-                expect(@(lockScreenManager.userSelected)).to(beTrue());
+                expect(@(testManager.userSelected)).to(beTrue());
             });
         });
         
         context(@"to BACKGROUND", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = SDLHMILevelBackground;
+                testManager.hmiLevel = SDLHMILevelBackground;
             });
             
             context(@"when user selected is false", ^{
                 beforeEach(^{
-                    lockScreenManager.userSelected = NO;
+                    testManager.userSelected = NO;
                 });
                 
                 it(@"should not alter the value", ^{
-                    expect(@(lockScreenManager.userSelected)).to(beFalse());
+                    expect(@(testManager.userSelected)).to(beFalse());
                 });
             });
             
             context(@"when user selected is true", ^{
                 beforeEach(^{
-                    lockScreenManager.userSelected = YES;
+                    testManager.userSelected = YES;
                 });
                 
                 it(@"should not alter the value", ^{
-                    expect(@(lockScreenManager.userSelected)).to(beTrue());
+                    expect(@(testManager.userSelected)).to(beTrue());
                 });
             });
         });
         
         context(@"to NONE", ^{
             beforeEach(^{
-                lockScreenManager.userSelected = YES;
-                lockScreenManager.hmiLevel = SDLHMILevelNone;
+                testManager.userSelected = YES;
+                testManager.hmiLevel = SDLHMILevelNone;
             });
             
             it(@"should set user selected to false", ^{
-                expect(@(lockScreenManager.userSelected)).to(beFalse());
+                expect(@(testManager.userSelected)).to(beFalse());
             });
         });
     });
@@ -95,71 +104,71 @@ describe(@"the lockscreen status manager", ^{
     describe(@"when getting lock screen status", ^{
         context(@"when HMI level is nil", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = nil;
+                testManager.hmiLevel = nil;
             });
             
             it(@"should return lock screen off", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
+                expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
 #pragma clang diagnostic pop
             });
         });
         
         context(@"when HMI level is NONE", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = SDLHMILevelNone;
+                testManager.hmiLevel = SDLHMILevelNone;
             });
             
             it(@"should return lock screen off", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
+                expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
 #pragma clang diagnostic pop
             });
         });
         
         context(@"when HMI level is BACKGROUND", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = SDLHMILevelBackground;
+                testManager.hmiLevel = SDLHMILevelBackground;
             });
             
             context(@"when user selected is true", ^{
                 beforeEach(^{
-                    lockScreenManager.userSelected = YES;
+                    testManager.userSelected = YES;
                 });
 
                 context(@"if we do not set the driver distraction state", ^{
                     it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                        expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                     });
                 });
 
                 context(@"if we set the driver distraction state to false", ^{
                     beforeEach(^{
-                        lockScreenManager.driverDistracted = NO;
+                        testManager.driverDistracted = NO;
                     });
 
                     it(@"should return lock screen optional", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
+                        expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
 #pragma clang diagnostic pop
                     });
                 });
 
                 context(@"if we set the driver distraction state to true", ^{
                     beforeEach(^{
-                        lockScreenManager.driverDistracted = YES;
+                        testManager.driverDistracted = YES;
                     });
 
                     it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                        expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                     });
                 });
@@ -167,13 +176,13 @@ describe(@"the lockscreen status manager", ^{
             
             context(@"when user selected is false", ^{
                 beforeEach(^{
-                    lockScreenManager.userSelected = NO;
+                    testManager.userSelected = NO;
                 });
                 
                 it(@"should return lock screen off", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
 #pragma clang diagnostic pop
                 });
             });
@@ -181,40 +190,40 @@ describe(@"the lockscreen status manager", ^{
         
         context(@"when HMI level is LIMITED", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = SDLHMILevelLimited;
+                testManager.hmiLevel = SDLHMILevelLimited;
             });
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                 });
             });
             
             context(@"if we set the driver distraction state to false", ^{
                 beforeEach(^{
-                    lockScreenManager.driverDistracted = NO;
+                    testManager.driverDistracted = NO;
                 });
                 
                 it(@"should return lock screen optional", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
 #pragma clang diagnostic pop
                 });
             });
             
             context(@"if we set the driver distraction state to true", ^{
                 beforeEach(^{
-                    lockScreenManager.driverDistracted = YES;
+                    testManager.driverDistracted = YES;
                 });
                 
                 it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                 });
             });
@@ -222,58 +231,58 @@ describe(@"the lockscreen status manager", ^{
         
         context(@"when HMI level is FULL", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = SDLHMILevelFull;
+                testManager.hmiLevel = SDLHMILevelFull;
             });
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                 });
             });
             
             context(@"if we set the driver distraction state to false", ^{
                 beforeEach(^{
-                    lockScreenManager.driverDistracted = NO;
+                    testManager.driverDistracted = NO;
                 });
                 
                 it(@"should return lock screen optional", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
 #pragma clang diagnostic pop
                 });
             });
             
             context(@"if we set the driver distraction state to true", ^{
                 beforeEach(^{
-                    lockScreenManager.driverDistracted = YES;
+                    testManager.driverDistracted = YES;
                 });
                 
                 it(@"should return lock screen required", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+                    expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
 #pragma clang diagnostic pop
                 });
             });
         });
     });
     
-    describe(@"when getting lock screen status notification", ^{
+    describe(@"when sending a lock screen status notification", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLOnLockScreenStatus *onLockScreenStatusNotification = nil;
 #pragma clang diagnostic pop
         
         beforeEach(^{
-            lockScreenManager.userSelected = YES;
-            lockScreenManager.driverDistracted = NO;
-            lockScreenManager.hmiLevel = SDLHMILevelLimited;
+            testManager.userSelected = YES;
+            testManager.driverDistracted = NO;
+            testManager.hmiLevel = SDLHMILevelLimited;
             
-            onLockScreenStatusNotification = lockScreenManager.lockScreenStatusNotification;
+            onLockScreenStatusNotification = testManager.lockScreenStatusNotification;
         });
         
         it(@"should properly return user selected", ^{
@@ -293,6 +302,51 @@ describe(@"the lockscreen status manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(onLockScreenStatusNotification.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
 #pragma clang diagnostic pop
+        });
+    });
+
+    describe(@"when receiving an HMI status", ^{
+        __block id lockScreenIconObserver = nil;
+        beforeEach(^{
+            SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateAudible videoStreamingState:nil windowID:nil];
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
+
+            lockScreenIconObserver = OCMObserverMock();
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
+            [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
+#pragma clang diagnostic pop
+
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should update the driver distraction status and send a notification", ^{
+            expect(testManager.hmiLevel).to(equal(SDLHMILevelFull));
+            OCMVerifyAll(lockScreenIconObserver);
+        });
+    });
+
+    describe(@"when receiving a driver distraction status", ^{
+        __block id lockScreenIconObserver = nil;
+        beforeEach(^{
+            SDLOnDriverDistraction *driverDistraction = [[SDLOnDriverDistraction alloc] init];
+            driverDistraction.state = SDLDriverDistractionStateOn;
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:mockDispatcher rpcNotification:driverDistraction];
+
+            lockScreenIconObserver = OCMObserverMock();
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
+            [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
+#pragma clang diagnostic pop
+
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should update the driver distraction status and send a notification", ^{
+            expect(testManager.driverDistracted).to(beTrue());
+            OCMVerifyAll(lockScreenIconObserver);
         });
     });
 });

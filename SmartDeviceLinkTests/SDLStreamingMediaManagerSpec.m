@@ -226,6 +226,7 @@ describe(@"the streaming media manager", ^{
 
             beforeEach(^{
                 mockNewProtocol = OCMClassMock([SDLProtocol class]);
+				[testStreamingMediaManager startWithProtocol:mockNewProtocol];
             });
 
             it(@"should start both the audio and video stream managers with the protocol", ^{
@@ -235,7 +236,7 @@ describe(@"the streaming media manager", ^{
                 OCMReject([mockAudioLifecycleManager endAudioServiceWithCompletionHandler:[OCMArg any]]);
                 OCMReject([mockVideoLifecycleManager endVideoServiceWithCompletionHandler:[OCMArg any]]);
 
-                [testStreamingMediaManager startSecondaryTransportWithProtocol:mockNewProtocol];
+                [testStreamingMediaManager startWithProtocol:mockNewProtocol];
 
                 OCMVerifyAllWithDelay(mockAudioLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);

@@ -84,7 +84,7 @@ describe(@"the streaming video manager", ^{
 
         testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
-        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfiguration lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:testConfiguration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
+        testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
 
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];

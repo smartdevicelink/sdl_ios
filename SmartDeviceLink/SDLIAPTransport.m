@@ -216,6 +216,7 @@ int const CreateSessionRetries = 3;
  *  Cleans up after a disconnected accessory by closing any open I/O streams.
  */
 - (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    SDLLogD(@"Disconnecting IAP transport");
     // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
     [self sdl_stopEventListening];
 

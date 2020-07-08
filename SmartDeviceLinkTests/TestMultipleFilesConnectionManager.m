@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if ([[request name] isEqualToString:SDLRPCFunctionNamePutFile]) {
         SDLPutFile *putfileRequest = (SDLPutFile *)request;
-        TestResponse *response = self.responses[putfileRequest.syncFileName];
+        TestResponse *response = self.responses[putfileRequest.sdlFileName];
 
         if (response == nil || handler == nil) { return; }
         handler(request, response.testResponse, response.testError);

@@ -68,14 +68,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  Size: min 1 max 100
  */
-@property (nullable, strong, nonatomic)  NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
  The number of soft buttons available on-window and the capabilities for each button.
  
  Size: min 1 max 100
  */
-@property (nullable, strong, nonatomic)  NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 
 /**
  An array of available menu layouts. If this parameter is not provided, only the `LIST` layout is assumed to be available.

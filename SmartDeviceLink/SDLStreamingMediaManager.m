@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Secondary Transport
 
-- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol {
+- (void)startWithProtocol:(SDLProtocol *)protocol {
      [self didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
 }
 
@@ -206,16 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)startWithProtocol:(SDLProtocol *)protocol {
-    self.audioProtocol = protocol;
-    self.videoProtocol = protocol;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self startAudioWithProtocol:protocol];
-    [self startVideoWithProtocol:protocol];
-#pragma clang diagnostic pop
-}
+#pragma mark Deprecated
 
  - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
     self.audioProtocol = protocol;

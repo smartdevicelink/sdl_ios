@@ -10,7 +10,7 @@
 #import <VideoToolbox/VideoToolbox.h>
 
 #import "SDLHMILevel.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingState.h"
@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolDelegate>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;

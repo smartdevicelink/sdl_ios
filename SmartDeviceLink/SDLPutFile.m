@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    self.syncFileName = fileName;
+    self.sdlFileName = fileName;
     self.fileType = fileType;
 
     return self;
@@ -91,6 +91,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)syncFileName {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
+}
+
+- (void)setSdlFileName:(NSString *)syncFileName {
+    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
+}
+
+- (NSString *)sdlFileName {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }

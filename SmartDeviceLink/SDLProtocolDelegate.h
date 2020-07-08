@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLProtocolListener <NSObject>
+@protocol SDLProtocolDelegate <NSObject>
 
 @optional
 
@@ -74,14 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Called when the message is a protocol closed message.
  */
 - (void)onProtocolClosed;
-
-/**
- *  Called when the message is an error message.
- *
- *  @param info The error info message
- *  @param e    The exception
- */
-- (void)onError:(NSString *)info exception:(NSException *)e;
 
 /**
  *  Called when an error is notified from transport.
