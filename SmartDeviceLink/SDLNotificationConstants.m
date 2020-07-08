@@ -249,6 +249,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
              SDLDidReceiveSyncPDataResponse,
 #pragma clang diagnostic pop
+             SDLDidReceiveSystemRequestResponse,
              SDLDidReceiveUpdateTurnListResponse,
              SDLDidReceiveUnpublishAppServiceResponse,
              SDLDidReceiveUnregisterAppInterfaceResponse,
