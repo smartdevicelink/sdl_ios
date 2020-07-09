@@ -342,7 +342,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     return (status == noErr);
 }
 
-/// Validates the video encoder properties.
+/// Validates the properties set by the developer into the encoder settings dictionary. If any are not available for use, the session will be cancelled.
 /// @param compressionSession The compression session on which the video encoder properties will be set
 /// @param error Error set if the video encoder properties are not valid
 /// @return True if the video encoder properties are valid; false if not
@@ -359,7 +359,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         return NO;
     }
 
-    NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
+    NSArray<NSString *> *videoEncoderKeys = self.videoEncoderSettings.allKeys;
     for (NSString *key in videoEncoderKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
             if (error != NULL) {
