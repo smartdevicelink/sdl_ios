@@ -651,7 +651,7 @@ typedef NSString * SDLServiceID;
         observer.updateBlock(capability, subscribed, error);
     } else {
         if (![observer.observer respondsToSelector:observer.selector]) {
-            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+            @throw [NSException sdl_invalidSystemCapabilitySelectorExceptionWithSelector:observer.selector];
         }
 
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[(NSObject *)observer.observer methodSignatureForSelector:observer.selector]];
@@ -669,7 +669,7 @@ typedef NSString * SDLServiceID;
             [invocation setArgument:&subscribed atIndex:4];
         }
         if (numberOfParametersInSelector >= 4) {
-            @throw [NSException sdl_invalidSelectorExceptionWithSelector:observer.selector];
+            @throw [NSException sdl_invalidSystemCapabilitySelectorExceptionWithSelector:observer.selector];
         }
 
         [invocation invoke];
