@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLPermissionElement *> *menuRPCPermissions = @[addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement];
     [self sdlex_checkCurrentGroupPermissionsWithManager:manager permissionElements:menuRPCPermissions];
 
-    // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
+    // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes to all-allowed or from all-allowed to some-not-allowed.
     SDLPermissionElement *setMediaClockPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSetMediaClockTimer parameterPermissions:nil];
     SDLPermissionElement *subscribeButtonPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSubscribeButton parameterPermissions:nil];
     NSArray<SDLPermissionElement *> *mediaTemplateRPCPermissions = @[setMediaClockPermissionElement, subscribeButtonPermissionElement];

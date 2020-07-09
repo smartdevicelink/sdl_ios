@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Create a new permission filter group with a SDLRPCPermissionStatusChangedHandler.
  *
- *  @param rpcNames  The names of the RPCs to watch permissions of.
+ *  @param rpcNames The names of the RPCs to watch permissions of.
  *  @param groupType The type of notifications to be sent for this filter group.
- *  @param permissionStatusHandler  The block observer to be called when changes occur.
+ *  @param permissionStatusHandler The block observer to be called when changes occur.
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
 
 /**
- *  Converts an array of SDLPermissionElement objects to and array of SDLPermissionRPCName objects
+ *  Converts an array of SDLPermissionElement objects to an array of SDLPermissionRPCName objects
  *
  *  @param permissionElements The permission elements to convert.
  *
