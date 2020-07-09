@@ -52,9 +52,10 @@ class RPCPermissionsManager {
 // MARK: - Check Permissions
 
 private extension RPCPermissionsManager {
-    /// Checks if the `Show` RPC is allowed right at this moment
+    /// Checks if the RPC is allowed at the time of the call
     ///
     /// - Parameter manager: The SDL Manager
+    /// - Parameter rpcName: The name of the RPC to check
     /// - Returns: true if allowed, false if not
     class func checkCurrentPermission(with manager: SDLManager, rpcName: SDLRPCFunctionName) -> Bool {
         let isRPCAllowed = manager.permissionManager.isRPCNameAllowed(rpcName)
@@ -62,10 +63,11 @@ private extension RPCPermissionsManager {
         return isRPCAllowed
     }
 
-    /// Checks if all the RPCs need to create menus are allowed right at this moment
+    /// Checks if all the given RPCs are allowed or not at the time of the call
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
+    /// - Parameter permissionElements: The RPCs and parameters to be checked
+    /// - Returns: The group permission status
     class func checkCurrentGroupPermissions(with manager: SDLManager, permissionElements: [SDLPermissionElement]) -> SDLPermissionGroupStatus {
         let groupPermissionStatus = manager.permissionManager.groupStatus(ofRPCPermissions: permissionElements)
         let individualPermissionStatuses = manager.permissionManager.statuses(ofRPCPermissions: permissionElements)
@@ -78,6 +80,7 @@ private extension RPCPermissionsManager {
     /// - Parameters:
     ///   - manager: The SDL Manager
     ///   - groupType: The type of changes to get notified about
+    ///   - permissionElements: The RPCs and parameters to be checked
     /// - Returns: A unique id assigned to observer. Use the id to unsubscribe to notifications
     class func subscribeGroupPermissions(with manager: SDLManager, permissionElements: [SDLPermissionElement], groupType: SDLPermissionGroupType) -> UUID {
         let permissionAllAllowedObserverId = manager.permissionManager.subscribe(toRPCPermissions: permissionElements, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in

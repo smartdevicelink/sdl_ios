@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param rpcName The name of the RPC.
  *  @param isRPCAllowed The permission status for the RPC.
- *  @param rpcParameters A dictionary that containers parameter permission status information.
+ *  @param rpcParameters A dictionary of RPC parameters and objects of an NSNumber<BOOL> specifying if that RPC parameter is currently allowed
  *
  *  @return An instance of the SDLRPCPermissionStatus class.
  */

@@ -773,7 +773,7 @@
 		5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0C1A84238A00846EE7 /* SDLMenuParams.m */; };
 		5D61FCFA1A84238C00846EE7 /* SDLMyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0D1A84238A00846EE7 /* SDLMyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCFB1A84238C00846EE7 /* SDLMyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0E1A84238A00846EE7 /* SDLMyKey.m */; };
-		5D61FCFC1A84238C00846EE7 /* SDLRPCParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLRPCParameterNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FCFC1A84238C00846EE7 /* SDLRPCParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLRPCParameterNames.h */; };
 		5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB101A84238A00846EE7 /* SDLObjectWithPriority.h */; };
 		5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB111A84238A00846EE7 /* SDLObjectWithPriority.m */; };
 		5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB121A84238B00846EE7 /* SDLOnAppInterfaceUnregistered.h */; settings = {ATTRIBUTES = (Public, ); }; };

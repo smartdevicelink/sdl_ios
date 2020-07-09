@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * RPC parameters for the individual RPC
  */
-@property (strong, nonatomic) NSArray<NSString *> *parameterPermissions;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *parameterPermissions;
 
 /**
  *  Creates a new permission element.

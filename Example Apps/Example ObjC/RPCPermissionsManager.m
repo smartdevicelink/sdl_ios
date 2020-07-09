@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Subscribe Permissions
 
 /**
- *  Sets up a block for observing permission changes for a group of RPCs. This block is called immediately when created and when the permission status changes for the group of RPCs being observed.
+ *  Sets up a block for observing permission changes for a group of RPCs. This block is called when the group permissions become all-allowed or from all-allowed to some-not-allowed.
  *
  *  @param manager      The SDL Manager
  *  @param rpcNames     The names of the RPCs to be subscribed

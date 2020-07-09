@@ -8,6 +8,8 @@
 
 #import "SDLRPCPermissionStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCPermissionStatus
 
 - (instancetype)initWithRPCName:(SDLRPCFunctionName)rpcName isRPCAllowed:(BOOL)isRPCAllowed rpcParameters:(nullable NSDictionary<NSString *,NSNumber *> *)rpcParameters {
@@ -28,3 +30,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
