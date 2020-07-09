@@ -260,7 +260,12 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
 }
 
 + (NSError *)sdl_subscribeButtonManager_notSubscribed {
-    return [NSError errorWithDomain:SDLErrorDomainSubscribeButtonManager code:SDLSubscribeButtonManagerErrorNotSubscribed userInfo:nil];
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+        NSLocalizedDescriptionKey: @"Subscribe Button Manager error",
+        NSLocalizedFailureReasonErrorKey: @"The subscribe button manager has not yet subscribed to the button being unsubscribed.",
+        NSLocalizedRecoverySuggestionErrorKey: @"Make sure you have used the Subscribe Button Manager to subscribe to the button name that you are attempting to unsubscribe."
+    };
+    return [NSError errorWithDomain:SDLErrorDomainSubscribeButtonManager code:SDLSubscribeButtonManagerErrorNotSubscribed userInfo:userInfo];
 }
 
 #pragma mark Menu Manager
@@ -444,7 +449,7 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
                                  userInfo:nil];
 }
 
-+ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
++ (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector {
     return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
                                    reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have between 0 and 3 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
                                  userInfo:nil];
