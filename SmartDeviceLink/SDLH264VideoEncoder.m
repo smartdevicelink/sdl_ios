@@ -22,7 +22,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @interface SDLH264VideoEncoder ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
-@property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
+@property (assign, nonatomic, nullable) CFDictionaryRef pixelBufferOptions;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 @property (assign, nonatomic) double timestampOffset;
 
@@ -62,15 +62,18 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _dimensions = dimensions;
     _delegate = delegate;
 
-    if (![self sdl_createCompressionSessionWithError:error]) {
+    BOOL compressionSessionCreated = [self sdl_createCompressionSessionWithError:error];
+    if (!compressionSessionCreated) {
         return nil;
     }
 
-    if (![self sdl_validateVideoEncoderPropertiesOnCompressionSession:self.compressionSession withError:error]) {
+    BOOL videoEncoderPropertiesValid = [self sdl_validateVideoEncoderPropertiesOnCompressionSession:self.compressionSession withError:error];
+    if (!videoEncoderPropertiesValid) {
         return nil;
     }
 
-    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:error]) {
+    BOOL propertiesSetOnCompressionSession = [self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:error];
+    if (!propertiesSetOnCompressionSession) {
         return nil;
     }
 
@@ -92,8 +95,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     _currentFrameNumber = 0;
     _timestampOffset = 0.0;
 
-    CFRelease(_sdl_pixelBufferOptions);
-    _sdl_pixelBufferOptions = nil;
+    CFRelease(_pixelBufferOptions);
+    _pixelBufferOptions = nil;
 
     [self sdl_invalidateCompressionSession];
 }
@@ -200,8 +203,8 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 }
 
 #pragma mark Getters
-- (CFDictionaryRef _Nullable)sdl_pixelBufferOptions {
-    if (_sdl_pixelBufferOptions == nil) {
+- (CFDictionaryRef _Nullable)pixelBufferOptions {
+    if (_pixelBufferOptions == nil) {
         CFMutableDictionaryRef pixelBufferOptions = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         
         OSType pixelFormatType = kCVPixelFormatType_32BGRA;
@@ -214,10 +217,10 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         
         CFRelease(pixelFormatNumberRef);
         
-        _sdl_pixelBufferOptions = pixelBufferOptions;
+        _pixelBufferOptions = pixelBufferOptions;
     }
 
-    return _sdl_pixelBufferOptions;
+    return _pixelBufferOptions;
 }
 
 #pragma mark Helpers
@@ -312,12 +315,14 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     [self sdl_invalidateCompressionSession];
 
     NSError *error = nil;
-    if (![self sdl_createCompressionSessionWithError:&error]) {
+    BOOL compressionSessionCreated = [self sdl_createCompressionSessionWithError:&error];
+    if (!compressionSessionCreated) {
         SDLLogE(@"Error creating the compression session: %@", error.localizedDescription);
         return NO;
     }
 
-    if (![self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:&error]) {
+    BOOL propertiesSetOnCompressionSession = [self sdl_setPropertiesOnCompressionSession:self.compressionSession withError:&error];
+    if (!propertiesSetOnCompressionSession) {
         SDLLogE(@"Error setting the properties on the compression session: %@", error.localizedDescription);
         return NO;
     }
@@ -329,7 +334,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 /// @param error Error set if the compression session was not created successfully
 /// @return True if the compression session was created successfully; false if not
 - (BOOL)sdl_createCompressionSessionWithError:(NSError **)error {
-    OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    OSStatus status = VTCompressionSessionCreate(NULL, (int32_t)self.dimensions.width, (int32_t)self.dimensions.height, kCMVideoCodecType_H264, NULL, self.pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         if (error != NULL) {
