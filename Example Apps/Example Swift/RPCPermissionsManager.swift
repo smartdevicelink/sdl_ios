@@ -26,7 +26,7 @@ class RPCPermissionsManager {
         let menuRPCPermissions = [addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement]
         _ = checkCurrentGroupPermissions(with: manager, permissionElements: menuRPCPermissions)
 
-        // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
+        // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes to all-allowed or from all-allowed to some-not-allowed.
         let setMediaClockPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.setMediaClockTimer, parameterPermissions: nil)
         let subscribeButtonPermissionElement = SDLPermissionElement(rpcName: SDLRPCFunctionName.subscribeButton, parameterPermissions: nil)
         let mediaTemplatePermissions = [setMediaClockPermissionElement, subscribeButtonPermissionElement]
@@ -62,7 +62,7 @@ private extension RPCPermissionsManager {
         return isRPCAllowed
     }
 
-    /// Checks if all the RPCs need to create menus are allowed right at this moment
+    /// Checks if a group of RPCs are currently allowed.
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
