@@ -435,6 +435,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // Permissions
 #import "SDLPermissionConstants.h"
+#import "SDLPermissionElement.h"
+#import "SDLRPCPermissionStatus.h"
 #import "SDLPermissionManager.h"
 
 // Screen

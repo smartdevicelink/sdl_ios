@@ -11,6 +11,7 @@
 #import "SDLHMILevel.h"
 #import "SDLPermissionConstants.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCPermissionStatus.h"
 
 @class SDLPermissionItem;
 @class SDLRPCMessage;
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
 */
-- (SDLPermissionGroupStatus)groupStatusOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
+- (SDLPermissionGroupStatus)groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -85,11 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
  *
- * @param rpcNames An array of RPC names to check
+ * @param rpcNames An array of permission elements to check
  *
- * @return A dictionary specifying if the passed in RPC names are currently allowed or not
+ * @return A dictionary with specific RPC info contained in a SDLRPCPermissionStatus
 */
-- (NSDictionary<SDLRPCFunctionName, NSNumber *> *)statusesOfRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames;
+- (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -111,13 +112,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
  *
- *  @param rpcNames The RPCs to be observed
+ *  @param permissionElements The permission elements to be observed
  *  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.
  *  @param handler The block that will be called whenever permissions change.
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)subscribeToRPCNames:(NSArray<SDLRPCFunctionName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLSubscribedPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)subscribeToRPCPermissions:(NSArray<SDLPermissionElement *> *)permissionElements groupType:(SDLPermissionGroupType)groupType withHandler:(SDLRPCPermissionStatusChangedHandler)handler;
 
 /**
  *  Remove every current observer
@@ -141,6 +142,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  Check whether or not an RPC needs encryption.
  */
 - (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName;
+
+/**
+ * Check whether a parameter of an RPC is allowed
+ *
+ * @param rpcName The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData
+ * @param parameter The name of the parameter to be tested, for example, rpm
+ *
+ * @return True if the parameter is allowed, false if it is not
+ */
+- (BOOL)isPermissionParameterAllowed:(SDLRPCFunctionName)rpcName parameter:(NSString *)parameter;
 
 @end
 
