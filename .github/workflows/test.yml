@@ -1,12 +1,7 @@
 name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
-on:
-    push:
-        # Runs the workflow when someone pushes to any repository branch.
-    pull_request:
-         # Runs the workflow only when someone opens a pull request (there are a bunch of activity types that can trigger a workflow that we don't want - like labeling, assigning, and locking the PR). The "push" trigger will generate a new workflow if a push is made to a pull request branch.
-        types: [opened]
+on: [push, pull_request]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
