@@ -387,7 +387,9 @@ typedef NSString * SDLServiceID;
         SDLLogD(@"GetSystemCapability response succeeded, type: %@, response: %@", type, getSystemCapabilityResponse);
 
         if (![weakself.subscriptionStatus[type] isEqualToNumber:subscribe] && weakself.supportsSubscriptions) {
-            weakself.subscriptionStatus[type] = subscribe;
+            [self sdl_runSyncOnQueue:^{
+                weakself.subscriptionStatus[type] = subscribe;
+            }];
         }
 
         [weakself sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
