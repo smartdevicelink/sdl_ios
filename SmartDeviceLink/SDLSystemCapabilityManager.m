@@ -462,15 +462,12 @@ typedef NSString * SDLServiceID;
 - (void)sdl_saveAppServicesCapabilitiesUpdate:(SDLAppServicesCapabilities *)newCapabilities {
     SDLLogV(@"Saving app services capability update with new capabilities: %@", newCapabilities);
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
-        if (capability.updateReason == nil) {
-            // First update, new capability
-            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = capability;
-        } else if ([capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved]) {
-            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = nil;
-        } else {
-            // Everything else involves adding or updating the existing service record
-            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = capability;
-        }
+
+        // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
+        SDLAppServiceCapability *newcapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
+        [self sdl_runSyncOnQueue:^{
+            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newcapability;
+        }];
     }
 }
 
@@ -819,8 +816,8 @@ typedef NSString * SDLServiceID;
     return dict;
 }
 
-- (NSMutableDictionary<SDLSystemCapabilityType,NSNumber<SDLBool> *> *)subscriptionStatus {
-    __block  NSMutableDictionary<SDLSystemCapabilityType,NSNumber<SDLBool> *> *dict = nil;
+- (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
+    __block  NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
     [self sdl_runSyncOnQueue:^{
         dict = self->_subscriptionStatus;
     }];
@@ -828,8 +825,8 @@ typedef NSString * SDLServiceID;
     return dict;
 }
 
-- (nullable NSMutableDictionary<SDLServiceID,SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
-    __block NSMutableDictionary<SDLServiceID,SDLAppServiceCapability *> *dict = nil;
+- (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
+    __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
     [self sdl_runSyncOnQueue:^{
         dict = self->_appServicesCapabilitiesDictionary;
     }];
