@@ -107,7 +107,7 @@ typedef NSString * SDLServiceID;
 
     _currentHMILevel = SDLHMILevelNone;
 
-    [self sdl_registerForNotifications];    
+    [self sdl_registerForNotifications];
 
     return self;
 }
@@ -119,33 +119,34 @@ typedef NSString * SDLServiceID;
  */
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
-    _displayCapabilities = nil;
-    _displays = nil;
-    _hmiCapabilities = nil;
-    _softButtonCapabilities = nil;
-    _buttonCapabilities = nil;
-    _presetBankCapabilities = nil;
-    _hmiZoneCapabilities = nil;
-    _speechCapabilities = nil;
-    _prerecordedSpeechCapabilities = nil;
-    _vrCapability = NO;
-    _audioPassThruCapabilities = nil;
-    _pcmStreamCapability = nil;
-    _navigationCapability = nil;
-    _phoneCapability = nil;
-    _videoStreamingCapability = nil;
-    _remoteControlCapability = nil;
-    _seatLocationCapability = nil;
-
-    _supportsSubscriptions = NO;
     [self sdl_runSyncOnQueue:^{
-        self->_appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
-        [self->_capabilityObservers removeAllObjects];
-        [self->_subscriptionStatus removeAllObjects];
-    }];
+        self.displayCapabilities = nil;
+        self.displays = nil;
+        self.hmiCapabilities = nil;
+        self.softButtonCapabilities = nil;
+        self.buttonCapabilities = nil;
+        self.presetBankCapabilities = nil;
+        self.hmiZoneCapabilities = nil;
+        self.speechCapabilities = nil;
+        self.prerecordedSpeechCapabilities = nil;
+        self.vrCapability = NO;
+        self.audioPassThruCapabilities = nil;
+        self.pcmStreamCapability = nil;
+        self.navigationCapability = nil;
+        self.phoneCapability = nil;
+        self.videoStreamingCapability = nil;
+        self.remoteControlCapability = nil;
+        self.seatLocationCapability = nil;
 
-    _currentHMILevel = SDLHMILevelNone;
-    _shouldConvertDeprecatedDisplayCapabilities = YES;
+        self.supportsSubscriptions = NO;
+
+        self.appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
+        [self.capabilityObservers removeAllObjects];
+        [self.subscriptionStatus removeAllObjects];
+
+        self.currentHMILevel = SDLHMILevelNone;
+        self.shouldConvertDeprecatedDisplayCapabilities = YES;
+    }];
 }
 
 #pragma mark - Getters
@@ -259,17 +260,17 @@ typedef NSString * SDLServiceID;
     
     // Create the deprecated capabilities for backward compatibility if developers try to access them
     SDLDisplayCapabilities *convertedCapabilities = [[SDLDisplayCapabilities alloc] init];
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated"
-        convertedCapabilities.displayType = SDLDisplayTypeGeneric; // deprecated but it is mandatory
-    #pragma clang diagnostic pop
-        convertedCapabilities.displayName = self.displays.firstObject.displayName;
-        convertedCapabilities.textFields = [defaultMainWindowCapabilities.textFields copy];
-        convertedCapabilities.imageFields = [defaultMainWindowCapabilities.imageFields copy];
-        convertedCapabilities.templatesAvailable = [defaultMainWindowCapabilities.templatesAvailable copy];
-        convertedCapabilities.numCustomPresetsAvailable = [defaultMainWindowCapabilities.numCustomPresetsAvailable copy];
-        convertedCapabilities.mediaClockFormats = @[]; // mandatory field but allows empty array
-        convertedCapabilities.graphicSupported = @([defaultMainWindowCapabilities.imageTypeSupported containsObject:SDLImageTypeDynamic]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    convertedCapabilities.displayType = SDLDisplayTypeGeneric; // deprecated but it is mandatory
+#pragma clang diagnostic pop
+    convertedCapabilities.displayName = self.displays.firstObject.displayName;
+    convertedCapabilities.textFields = [defaultMainWindowCapabilities.textFields copy];
+    convertedCapabilities.imageFields = [defaultMainWindowCapabilities.imageFields copy];
+    convertedCapabilities.templatesAvailable = [defaultMainWindowCapabilities.templatesAvailable copy];
+    convertedCapabilities.numCustomPresetsAvailable = [defaultMainWindowCapabilities.numCustomPresetsAvailable copy];
+    convertedCapabilities.mediaClockFormats = @[]; // mandatory field but allows empty array
+    convertedCapabilities.graphicSupported = @([defaultMainWindowCapabilities.imageTypeSupported containsObject:SDLImageTypeDynamic]);
 
     self.displayCapabilities = convertedCapabilities;
     self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
@@ -523,8 +524,8 @@ typedef NSString * SDLServiceID;
     SDLLogD(@"Subscribing to capability type: %@ with a handler (DEPRECATED)", type);
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
 
-     id<NSObject> subscribedObserver = [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
-     return subscribedObserver;
+    id<NSObject> subscribedObserver = [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
+    return subscribedObserver;
 }
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler {
