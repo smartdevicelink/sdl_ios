@@ -190,10 +190,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _mobileHMIStateHandler = [[SDLLifecycleMobileHMIStateHandler alloc] initWithConnectionManager:self];
 
     // Notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_rpcServiceDidConnect) name:SDLRPCServiceDidConnect object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect) name:SDLTransportDidDisconnect object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_rpcServiceDidConnect) name:SDLRPCServiceDidConnect object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskTransportName];
 

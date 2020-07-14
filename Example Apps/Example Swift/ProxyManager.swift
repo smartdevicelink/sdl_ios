@@ -21,13 +21,14 @@ enum ProxyState {
 }
 
 class ProxyManager: NSObject {
-    fileprivate var sdlManager: SDLManager!
-    fileprivate var buttonManager: ButtonManager!
-    fileprivate var subscribeButtonManager: SubscribeButtonManager!
-    fileprivate var vehicleDataManager: VehicleDataManager!
-    fileprivate var performInteractionManager: PerformInteractionManager!
-    fileprivate var firstHMILevelState: SDLHMILevel
+    private var sdlManager: SDLManager!
+    private var buttonManager: ButtonManager!
+    private var subscribeButtonManager: SubscribeButtonManager!
+    private var vehicleDataManager: VehicleDataManager!
+    private var performInteractionManager: PerformInteractionManager!
+    private var firstHMILevelState: SDLHMILevel
     weak var delegate: ProxyManagerDelegate?
+
 
     // Singleton
     static let sharedManager = ProxyManager()
@@ -44,12 +45,6 @@ extension ProxyManager {
     ///
     /// - Parameter connectionType: The type of transport layer to use.
     func start(with proxyTransportType: ProxyTransportType) {
-        guard sdlManager == nil else {
-            // Manager already created, just start it again.
-            startManager()
-            return
-        }
-
         delegate?.didChangeProxyState(ProxyState.searching)
         sdlManager = SDLManager(configuration: proxyTransportType == .iap ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
         startManager()
