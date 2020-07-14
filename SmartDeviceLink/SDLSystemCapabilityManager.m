@@ -466,7 +466,7 @@ typedef NSString * SDLServiceID;
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
         SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
         [self sdl_runSyncOnQueue:^{
-            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newcapability;
+            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
         }];
     }
 }
