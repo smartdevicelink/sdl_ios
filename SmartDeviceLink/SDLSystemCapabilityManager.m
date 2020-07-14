@@ -93,7 +93,7 @@ typedef NSString * SDLServiceID;
     }
 
     if (@available(iOS 10.0, *)) {
-        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.lifecycle.responseDispatcher", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.systemCapabilityManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     } else {
         _readWriteQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     }
@@ -462,9 +462,8 @@ typedef NSString * SDLServiceID;
 - (void)sdl_saveAppServicesCapabilitiesUpdate:(SDLAppServicesCapabilities *)newCapabilities {
     SDLLogV(@"Saving app services capability update with new capabilities: %@", newCapabilities);
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
-
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
-        SDLAppServiceCapability *newcapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
+        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
         [self sdl_runSyncOnQueue:^{
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newcapability;
         }];
@@ -817,7 +816,7 @@ typedef NSString * SDLServiceID;
 }
 
 - (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
-    __block  NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
+    __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
     [self sdl_runSyncOnQueue:^{
         dict = self->_subscriptionStatus;
     }];
