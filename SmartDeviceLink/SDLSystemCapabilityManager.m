@@ -558,6 +558,7 @@ typedef NSString * SDLServiceID;
 /// Helper method for subscribing to a system capability type
 /// @param type The SystemCapabilityType that will be subscribed
 /// @param observerObject An object that can be used to unsubscribe the block. If nil, the subscription was not succesful.
+/// @return The observer if the subscription was succesful; nil if not.
 - (nullable id<NSObject>)sdl_subscribeToCapabilityType:(SDLSystemCapabilityType)type observerObject:(SDLSystemCapabilityObserver *)observerObject {
     if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
         SDLLogE(@"Attempted to subscribe to type: %@ in HMI level NONE, which is not allowed. Please wait until you are in HMI BACKGROUND, LIMITED, or FULL before attempting to subscribe to any SystemCapabilityType other than DISPLAYS.", type);
@@ -612,19 +613,17 @@ typedef NSString * SDLServiceID;
     // Loop through our observers
     for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
         for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-            // If an observer object is nil, remove it
-            if (observer.observer == nil) {
-                [self sdl_runSyncOnQueue:^{
+            [self sdl_runSyncOnQueue:^{
+                // If an observer object is nil, remove it
+                if (observer.observer == nil) {
                     [self.capabilityObservers[key] removeObject:observer];
-                }];
-            }
+                }
 
-            // If we no longer have any observers for that type, remove the array
-            if (self.capabilityObservers[key].count == 0) {
-                [self sdl_runSyncOnQueue:^{
+                // If we no longer have any observers for that type, remove the array
+                if (self.capabilityObservers[key].count == 0) {
                     [self.capabilityObservers removeObjectForKey:key];
-                }];
-            }
+                }
+            }];
         }
     }
 
