@@ -201,9 +201,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
-    dispatch_sync(_lifecycleQueue, ^{
+    [self sdl_runOnProcessingQueue:^{
         [self sdl_startWithReadyHandler:readyHandler];
-    });
+    }];
 }
 
 - (void)sdl_startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
