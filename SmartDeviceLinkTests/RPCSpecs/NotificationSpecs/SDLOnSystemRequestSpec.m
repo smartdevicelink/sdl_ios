@@ -74,6 +74,45 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.offset).to(beNil());
         expect(testNotification.length).to(beNil());
     });
+
+    it(@"Should set and get url correctly (zero length url)", ^ {
+        SDLOnSystemRequest* testRequest = [[SDLOnSystemRequest alloc] init];
+        NSString *testURL = @"";
+        testRequest.url = testURL;
+        expect(testRequest.url).to(equal(testURL));
+    });
+
+    it(@"Should set and get url correctly (1000 sym long url)", ^ {
+        const int size = 1000;
+        SDLOnSystemRequest* testRequest = [[SDLOnSystemRequest alloc] init];
+        NSMutableString *testURL = [NSMutableString stringWithCapacity:1024];
+        [testURL setString:@"www.google.com"];
+        while(size > testURL.length) {
+            [testURL appendString:@"/testcomponent"];
+        }
+        if (size < testURL.length) {
+            const NSRange range = NSMakeRange(size, testURL.length - size);
+            [testURL deleteCharactersInRange:range];
+        }
+        testRequest.url = testURL;
+        expect(testRequest.url).to(equal(testURL));
+    });
+
+    it(@"Should set and get url correctly (extra long url)", ^ {
+        const int size = 1024 * 1024;
+        SDLOnSystemRequest* testRequest = [[SDLOnSystemRequest alloc] init];
+        NSMutableString *testURL = [NSMutableString stringWithCapacity:size + 20];
+        [testURL setString:@"www.google.com"];
+        while(size > testURL.length) {
+            [testURL appendString:@"/testcomponent"];
+        }
+        if (size < testURL.length) {
+            const NSRange range = NSMakeRange(size, testURL.length - size);
+            [testURL deleteCharactersInRange:range];
+        }
+        testRequest.url = testURL;
+        expect(testRequest.url).to(equal(testURL));
+    });
 });
 
 QuickSpecEnd
