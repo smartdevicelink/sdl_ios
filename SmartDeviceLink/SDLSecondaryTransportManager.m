@@ -540,6 +540,11 @@ struct TransportProtocolUpdated {
 
 // called on transport's thread, notifying that the transport is established
 - (void)onProtocolOpened {
+    if (self.secondaryProtocol == nil) {
+        // The primary transport opened
+        return;
+    }
+
     SDLLogD(@"Secondary transport connected");
 
     self.registerTransportTimer = [[SDLTimer alloc] initWithDuration:RegisterTransportTime repeat:NO];
