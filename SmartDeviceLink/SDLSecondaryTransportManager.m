@@ -536,7 +536,7 @@ struct TransportProtocolUpdated {
     return YES;
 }
 
-#pragma mark - SDLProtocolListener Implementation
+#pragma mark - SDLProtocolDelegate Implementation
 
 // called on transport's thread, notifying that the transport is established
 - (void)onProtocolOpened {

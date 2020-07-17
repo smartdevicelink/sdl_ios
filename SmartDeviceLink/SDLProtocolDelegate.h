@@ -1,4 +1,4 @@
-//  SDLProtocolListener.h
+//  SDLProtocolDelegate.h
 //
 
 #import "SDLProtocolHeader.h"

@@ -171,7 +171,7 @@ typedef NSString SDLVehicleMake;
     SDLLogD(@"Encryption manager stopped");
 }
 
-#pragma mark - SDLProtocolListener
+#pragma mark - SDLProtocolDelegate
 #pragma mark Encryption Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {

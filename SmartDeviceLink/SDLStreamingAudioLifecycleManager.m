@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
-#pragma mark - SDLProtocolListener
+#pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {

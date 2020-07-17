@@ -509,7 +509,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
-#pragma mark - SDLProtocolListener
+#pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
