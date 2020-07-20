@@ -57,6 +57,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param protocol The transport's protocol
 - (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate protocol:(SDLProtocol *)protocol;
 
+#pragma mark Deprecated Messages
+
+/// A ping packet that is sent to ensure the connection is still active and the service is still valid.
+/// @param session The session number
+- (void)handleHeartbeatForSession:(Byte)session;
+
+/// Called when the heartbeat message was recieved successfully.
+- (void)handleHeartbeatACK;
+
 #pragma mark - Transport Lifecycle
 
 /// Called when the transport opens.
@@ -73,14 +82,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param protocol The transport's protocol
 - (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol;
 
-#pragma mark - Deprecated Protocol Messages
-
-/// A ping packet that is sent to ensure the connection is still active and the service is still valid.
-/// @param session The session number
-- (void)handleHeartbeatForSession:(Byte)session;
-
-/// Called when the heartbeat message was recieved successfully.
-- (void)handleHeartbeatACK;
 
 @end
 
