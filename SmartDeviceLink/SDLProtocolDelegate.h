@@ -12,73 +12,75 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-#pragma mark - v4.7.0 protocol handlers
 
-/**
- *  Called when the message is a start service success message.
- *
- *  @param startServiceACK  A SDLProtocolMessage object
- */
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK;
+#pragma mark - Protocol Messages
 
-/**
- *  Called when the message is a start service failed message.
- *
- *  @param startServiceNAK  A SDLProtocolMessage object
- */
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK;
+/// Called when a protocol message is received.
+/// @param msg A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol;
 
-/**
- *  Called when the message is a end service success message.
- *
- *  @param endServiceACK   A SDLProtocolMessage object
- */
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK;
+/// Called when the start service request succeeds.
+/// @param startServiceACK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol;
 
-/**
- *  Called when the message is a end service failed message.
- *
- *  @param endServiceNAK   A SDLProtocolMessage object
- */
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK;
-- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK;
-- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK;
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate;
+/// Called when the start service request fails.
+/// @param startServiceNAK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol;
 
-#pragma mark - Older protocol handlers
+/// Called when the end service request succeeds.
+/// @param endServiceACK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol;
 
-/**
- *  Called when the message is a heartbeat message.
- *
- *  @param session Session number
- */
-- (void)handleHeartbeatForSession:(Byte)session;
+/// Called when the end service request fails.
+/// @param endServiceNAK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol;
 
-/**
- *  Called when the message is a heartbeat success message.
- */
-- (void)handleHeartbeatACK;
+#pragma mark Secondary Transport Messages
 
-/**
- *  Called when the message is protocol message.
- *
- *  @param msg A SDLProtocolMessage object
- */
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg;
+/// Called when the secondary transport registration succeeds.
+/// @param registerSecondaryTransportACK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK protocol:(SDLProtocol *)protocol;
 
-/// Called when the transport opens
+/// Called when the secondary transport registration fails.
+/// @param registerSecondaryTransportNAK A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK protocol:(SDLProtocol *)protocol;
+
+/// Called when the status or configuration of one or more transports has updated.
+/// @param transportEventUpdate A SDLProtocolMessage object
+/// @param protocol The transport's protocol
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate protocol:(SDLProtocol *)protocol;
+
+#pragma mark - Transport Lifecycle
+
+/// Called when the transport opens.
 /// @param protocol The transport's protocol
 - (void)onProtocolOpened:(SDLProtocol *)protocol;
 
-/// Called when the transport closes
+/// Called when the transport closes.
 /// @param protocol The transport's protocol
 - (void)onProtocolClosed:(SDLProtocol *)protocol;
 
 /// Called when the transport errors.
-/// @discussion Currently, this is used only by TCP transport.
+/// @discussion Currently only used by TCP transport.
 /// @param error The error
 /// @param protocol The transport's protocol
 - (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol;
+
+#pragma mark - Deprecated Protocol Messages
+
+/// A ping packet that is sent to ensure the connection is still active and the service is still valid.
+/// @param session The session number
+- (void)handleHeartbeatForSession:(Byte)session;
+
+/// Called when the heartbeat message was recieved successfully.
+- (void)handleHeartbeatACK;
 
 @end
 

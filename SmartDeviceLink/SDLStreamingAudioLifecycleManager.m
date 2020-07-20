@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
     if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     self.audioEncrypted = startServiceACK.header.encrypted;
@@ -208,27 +208,27 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
     if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
-    SDLLogE(@"Request to start audio service NAKed");
+    SDLLogE(@"Request to start audio service NAKed on transport %@", protocol.transport);
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 #pragma mark End Service ACK/NAK
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
-    SDLLogD(@"Request to end audio service ACKed");
+    SDLLogD(@"Request to end audio service ACKed on transport %@", protocol.transport);
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
-    SDLLogE(@"Request to end audio service NAKed with playlod: %@", nakPayload);
+    SDLLogE(@"Request to end audio service NAKed on transport %@, with playlod: %@", protocol.transport, nakPayload);
 
     /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];

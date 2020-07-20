@@ -26,60 +26,60 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)handleReceivedMessage:(SDLProtocolMessage *)message {
+- (void)handleReceivedMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
     SDLFrameType frameType = message.header.frameType;
 
     switch (frameType) {
         case SDLFrameTypeSingle: {
-            [self sdl_dispatchProtocolMessage:message];
+            [self sdl_dispatchProtocolMessage:message protocol:protocol];
         } break;
         case SDLFrameTypeControl: {
-            [self sdl_dispatchControlMessage:message];
+            [self sdl_dispatchControlMessage:message protocol:protocol];
         } break;
         case SDLFrameTypeFirst: // fallthrough
         case SDLFrameTypeConsecutive: {
-            [self sdl_dispatchMultiPartMessage:message];
+            [self sdl_dispatchMultiPartMessage:message protocol:protocol];
         } break;
         default: break;
     }
 }
 
-- (void)sdl_dispatchProtocolMessage:(SDLProtocolMessage *)message {
-    if ([self.delegate respondsToSelector:@selector(onProtocolMessageReceived:)]) {
-        [self.delegate onProtocolMessageReceived:message];
+- (void)sdl_dispatchProtocolMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
+    if ([self.delegate respondsToSelector:@selector(onProtocolMessageReceived:protocol:)]) {
+        [self.delegate onProtocolMessageReceived:message protocol:protocol];
     }
 }
 
-- (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message {
+- (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
     switch (message.header.frameData) {
         case SDLFrameInfoStartServiceACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
-                [self.delegate handleProtocolStartServiceACKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:protocol:)]) {
+                [self.delegate handleProtocolStartServiceACKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoStartServiceNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
-                [self.delegate handleProtocolStartServiceNAKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:protocol:)]) {
+                [self.delegate handleProtocolStartServiceNAKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoEndServiceACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
-                [self.delegate handleProtocolEndServiceACKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceACKMessage:protocol:)]) {
+                [self.delegate handleProtocolEndServiceACKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoEndServiceNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
-                [self.delegate handleProtocolEndServiceNAKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:protocol:)]) {
+                [self.delegate handleProtocolEndServiceNAKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoRegisterSecondaryTransportACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
-                [self.delegate handleProtocolRegisterSecondaryTransportACKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:protocol:)]) {
+                [self.delegate handleProtocolRegisterSecondaryTransportACKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoRegisterSecondaryTransportNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:)]) {
-                [self.delegate handleProtocolRegisterSecondaryTransportNAKMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:protocol:)]) {
+                [self.delegate handleProtocolRegisterSecondaryTransportNAKMessage:message protocol:protocol];
             }
         } break;
         case SDLFrameInfoHeartbeat: {
@@ -93,15 +93,15 @@ NS_ASSUME_NONNULL_BEGIN
             }
         } break;
         case SDLFrameInfoTransportEventUpdate: {
-            if ([self.delegate respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
-                [self.delegate handleTransportEventUpdateMessage:message];
+            if ([self.delegate respondsToSelector:@selector(handleTransportEventUpdateMessage:protocol:)]) {
+                [self.delegate handleTransportEventUpdateMessage:message protocol:protocol];
             }
         } break;
         default: break; // Other frame data is possible, but we don't care about them
     }
 }
 
-- (void)sdl_dispatchMultiPartMessage:(SDLProtocolMessage *)message {
+- (void)sdl_dispatchMultiPartMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
     // Pass multipart messages to an assembler and call delegate when done.
     NSNumber *sessionID = [NSNumber numberWithUnsignedChar:message.header.sessionID];
 
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLMessageAssemblyCompletionHandler completionHandler = ^void(BOOL done, SDLProtocolMessage *assembledMessage) {
         if (done) {
-            [self sdl_dispatchProtocolMessage:assembledMessage];
+            [self sdl_dispatchProtocolMessage:assembledMessage protocol:protocol];
         }
     };
     [assembler handleMessage:message withCompletionHandler:completionHandler];

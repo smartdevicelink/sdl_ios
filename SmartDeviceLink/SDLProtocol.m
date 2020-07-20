@@ -494,7 +494,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
 
     // Pass on the message to the message router.
-    [self.messageRouter handleReceivedMessage:message];
+    [self.messageRouter handleReceivedMessage:message protocol:self];
 
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
@@ -505,7 +505,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLProtocolDelegate from SDLReceivedProtocolMessageRouter
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
     SDLLogD(@"Received start service ACK: %@", startServiceACK);
 
     // V5+ Packet
@@ -546,65 +546,65 @@ NS_ASSUME_NONNULL_BEGIN
     // Pass along to all the listeners
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
-            [listener handleProtocolStartServiceACKMessage:startServiceACK];
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:protocol:)]) {
+            [listener handleProtocolStartServiceACKMessage:startServiceACK protocol:protocol];
         }
     }
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
     [self sdl_logControlNAKPayload:startServiceNAK];
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
-            [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:protocol:)]) {
+            [listener handleProtocolStartServiceNAKMessage:startServiceNAK protocol:protocol];
         }
     }
 }
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
     SDLLogD(@"End service ACK: %@", endServiceACK);
     // Remove the session id
     [self.serviceHeaders removeObjectForKey:@(endServiceACK.header.serviceType)];
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
-            [listener handleProtocolEndServiceACKMessage:endServiceACK];
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:protocol:)]) {
+            [listener handleProtocolEndServiceACKMessage:endServiceACK protocol:protocol];
         }
     }
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
     [self sdl_logControlNAKPayload:endServiceNAK];
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
-            [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:protocol:)]) {
+            [listener handleProtocolEndServiceNAKMessage:endServiceNAK protocol:protocol];
         }
     }
 }
 
-- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
+- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK protocol:(SDLProtocol *)protocol {
     SDLLogD(@"Register Secondary Transport ACK: %@", registerSecondaryTransportACK);
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
-            [listener handleProtocolRegisterSecondaryTransportACKMessage:registerSecondaryTransportACK];
+        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:protocol:)]) {
+            [listener handleProtocolRegisterSecondaryTransportACKMessage:registerSecondaryTransportACK protocol:protocol];
         }
     }
 }
 
-- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK {
+- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK protocol:(SDLProtocol *)protocol {
     [self sdl_logControlNAKPayload:registerSecondaryTransportNAK];
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:)]) {
-            [listener handleProtocolRegisterSecondaryTransportNAKMessage:registerSecondaryTransportNAK];
+        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:protocol:)]) {
+            [listener handleProtocolRegisterSecondaryTransportNAKMessage:registerSecondaryTransportNAK protocol:protocol];
         }
     }
 }
@@ -640,18 +640,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate protocol:(SDLProtocol *)protocol {
     SDLLogD(@"Received a transport event update: %@", transportEventUpdate);
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
-            [listener handleTransportEventUpdateMessage:transportEventUpdate];
+        if ([listener respondsToSelector:@selector(handleTransportEventUpdateMessage:protocol:)]) {
+            [listener handleTransportEventUpdateMessage:transportEventUpdate protocol:protocol];
         }
     }
 }
 
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol {
     // Control service (but not control frame type) messages are TLS handshake messages
     if (msg.header.serviceType == SDLServiceTypeControl) {
         [self sdl_processSecurityMessage:msg];
@@ -662,8 +662,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
-            [listener onProtocolMessageReceived:msg];
+        if ([listener respondsToSelector:@selector(onProtocolMessageReceived:protocol:)]) {
+            [listener onProtocolMessageReceived:msg protocol:self];
         }
     }
 }

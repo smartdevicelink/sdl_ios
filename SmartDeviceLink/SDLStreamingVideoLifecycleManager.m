@@ -512,14 +512,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     self.videoEncrypted = startServiceACK.header.encrypted;
 
     SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:startServiceACK.payload];
-    SDLLogD(@"Request to start video service ACKed with payload: %@", videoAckPayload);
-
+    SDLLogD(@"Request to start video service ACKed on transport %@, with payload: %@", protocol.transport, videoAckPayload);
 
     if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
@@ -546,11 +545,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
-    SDLLogE(@"Request to start video service NAKed with reason: %@", nakPayload.description);
+    SDLLogE(@"Request to start video service NAKed on transport %@, with reason: %@", protocol.transport, nakPayload.description);
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
@@ -574,18 +573,18 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 #pragma mark End Service ACK/NAK
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
-    SDLLogD(@"Request to end video service ACKed");
+    SDLLogD(@"Request to end video service ACKed on transport %@", protocol.transport);
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
-    SDLLogE(@"Request to end video service NAKed with payload: %@", nakPayload);
+    SDLLogE(@"Request to end video service NAKed on transport %@, with reason: %@", protocol.transport, nakPayload);
 
     /// Core will NAK the video end service control frame if video is not streaming or if video is streaming but the HMI does not recognize that video is streaming.
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
