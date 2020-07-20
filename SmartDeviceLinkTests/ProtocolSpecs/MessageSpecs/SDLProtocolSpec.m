@@ -702,7 +702,7 @@ describe(@"OnProtocolClosed Tests", ^ {
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
 
         delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        OCMExpect([delegateMock onProtocolClosed]);
+        OCMExpect([delegateMock onProtocolClosed:testProtocol]);
 
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onTransportDisconnected];

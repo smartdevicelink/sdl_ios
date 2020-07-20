@@ -70,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
 - (void)onProtocolOpened:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 
@@ -81,21 +83,24 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
             SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
-            [weakSelf performSelector:@selector(onProtocolClosed) withObject:nil afterDelay:0.1];
+            [weakSelf performSelector:@selector(onProtocolClosed:) withObject:nil afterDelay:0.1];
         };
     }
     [self.rpcStartServiceTimeoutTimer start];
 }
 
 /// Called when the transport is closed.
-- (void)onProtocolClosed {
+- (void)onProtocolClosed:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogW(@"Transport disconnected");
     [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
-- (void)onTransportError:(NSError *)error {
-    SDLLogW(@"Transport error: %@", error);
+- (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
 
+    SDLLogW(@"Transport error: %@", error);
     [self.notificationDispatcher postNotificationName:SDLTransportConnectError infoObject:error];
 }
 

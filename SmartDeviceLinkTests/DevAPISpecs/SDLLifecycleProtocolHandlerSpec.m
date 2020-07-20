@@ -93,7 +93,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
         context(@"of the transport closing", ^{
             beforeEach(^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidDisconnect] infoObject:[OCMArg isNil]]);
-                [testHandler onProtocolClosed];
+                [testHandler onProtocolClosed:mockProtocol];
             });
 
             it(@"should send a notification", ^{
@@ -104,7 +104,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
         context(@"of the transport erroring", ^{
             beforeEach(^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportConnectError] infoObject:[OCMArg isNotNil]]);
-                [testHandler onTransportError:[NSError errorWithDomain:@"test" code:1 userInfo:nil]];
+                [testHandler onTransportError:[NSError errorWithDomain:@"test" code:1 userInfo:nil] protocol:mockProtocol];
             });
 
             it(@"should send a notification", ^{

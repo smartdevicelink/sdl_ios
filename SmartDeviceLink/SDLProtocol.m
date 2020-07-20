@@ -141,8 +141,8 @@ NS_ASSUME_NONNULL_BEGIN
         listeners = self.protocolDelegateTable.allObjects;
     }
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
-            [listener onProtocolClosed];
+        if ([listener respondsToSelector:@selector(onProtocolClosed:)]) {
+            [listener onProtocolClosed:self];
         }
     }
 }
@@ -154,8 +154,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onError:(NSError *)error {
     SDLLogV(@"Transport received an error: %@", error);
     for (id<SDLProtocolDelegate> listener in self.protocolDelegateTable.allObjects) {
-        if ([listener respondsToSelector:@selector(onTransportError:)]) {
-            [listener onTransportError:error];
+        if ([listener respondsToSelector:@selector(onTransportError:protocol:)]) {
+            [listener onTransportError:error protocol:self];
         }
     }
 }

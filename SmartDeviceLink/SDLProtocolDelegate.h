@@ -66,24 +66,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg;
 
-/**
- *  Called when the message is a protocol opened message.
- */
+/// Called when the transport opens
+/// @param protocol The transport's protocol
 - (void)onProtocolOpened:(SDLProtocol *)protocol;
 
-/**
- *  Called when the message is a protocol closed message.
- */
-- (void)onProtocolClosed;
+/// Called when the transport closes
+/// @param protocol The transport's protocol
+- (void)onProtocolClosed:(SDLProtocol *)protocol;
 
-/**
- *  Called when an error is notified from transport.
- *
- *  Note: currently, this is used only by TCP transport.
- *
- *  @param error The type of the error
- */
-- (void)onTransportError:(NSError *)error;
+/// Called when the transport errors.
+/// @discussion Currently, this is used only by TCP transport.
+/// @param error The error
+/// @param protocol The transport's protocol
+- (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol;
 
 @end
 

@@ -569,16 +569,22 @@ struct TransportProtocolUpdated {
     [self.secondaryProtocol registerSecondaryTransport];
 }
 
-/// Called on the transport's thread, notifying that the transport has errored before a connection was established
+/// Called on the transport's thread, notifying that the transport has errored before a connection was established.
 /// @param error The error
-- (void)onTransportError:(NSError *)error {
+/// @param protocol The protocol
+- (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol {
+    if (protocol != self.secondaryProtocol) { return; }
+
     SDLLogE(@"The secondary transport errored.");
     [self sdl_transportClosed];
 }
 
-// Called on transport's thread, notifying that the transport is disconnected
-// (Note: when transport's disconnect method is called, this method will not be called)
-- (void)onProtocolClosed {
+/// Called on transport's thread, notifying that the transport is disconnected.
+/// @discussion When the transport's disconnect method is called, this method will not be called.
+/// @param protocol The protocol
+- (void)onProtocolClosed:(SDLProtocol *)protocol{
+    if (protocol != self.secondaryProtocol) { return; }
+
     SDLLogE(@"The secondary transport disconnected.");
     [self sdl_transportClosed];
 }
