@@ -73,5 +73,7 @@ extern SDLAppHMIType const SDLAppHMITypeRemoteControl;
 
 /**
  * WebEngine Projection mode
+ *
+ *  @since 7.0
  */
 extern SDLAppHMIType const SDLAppHMITypeWebView;
