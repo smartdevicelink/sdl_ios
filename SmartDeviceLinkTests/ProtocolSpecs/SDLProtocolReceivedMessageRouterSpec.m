@@ -17,41 +17,119 @@
 
 QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 
-describe(@"HandleReceivedMessage Tests", ^ {
+describe(@"HandleReceivedMessage Tests", ^{
+    __block SDLProtocolReceivedMessageRouter *router = nil;
+    __block id delegateMock = nil;
     __block SDLProtocol *mockProtocol = nil;
-
+    
     beforeEach(^{
+        router = [[SDLProtocolReceivedMessageRouter alloc] init];
+        delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
+        router.delegate = delegateMock;
         mockProtocol = OCMStrictClassMock([SDLProtocol class]);
     });
-
-    context(@"When handling control message", ^ {
-        it(@"Should route message correctly", ^ {
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-
-            SDLV2ProtocolMessage *testMessage = [[SDLV2ProtocolMessage alloc] init];
-            SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] init];
+    
+    context(@"When handling control message", ^{
+        __block SDLV2ProtocolMessage *testMessage = nil;
+        __block SDLV2ProtocolHeader *testHeader = nil;
+        
+        beforeEach(^{
+            testMessage = [[SDLV2ProtocolMessage alloc] init];
+            testMessage.payload = [NSData data];
             
             testHeader.frameType = SDLFrameTypeControl;
             testHeader.serviceType = SDLServiceTypeRPC;
-            testHeader.frameData = SDLFrameInfoStartServiceACK;
+            testHeader.frameData = SDLFrameInfoStartServiceNACK;
             testHeader.sessionID = 0x93;
             testHeader.bytesInPayload = 0;
-            
             testMessage.header = testHeader;
-            testMessage.payload = [NSData data];
+            testHeader = [[SDLV2ProtocolHeader alloc] init];
+        });
+        
+        it(@"Should route a start service ACK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoStartServiceACK;
+            testMessage.header = testHeader;
             
-            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
-            router.delegate = delegateMock;
             [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             OCMVerify([delegateMock handleProtocolStartServiceACKMessage:testMessage protocol:mockProtocol]);
         });
+        
+        it(@"Should route a start service NAK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoStartServiceNACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleProtocolStartServiceNAKMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route an end service ACK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoEndServiceACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleProtocolEndServiceACKMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route an end service NAK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoEndServiceNACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleProtocolEndServiceNAKMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route register secondary transport ACK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoRegisterSecondaryTransportACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleProtocolRegisterSecondaryTransportACKMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route register secondary transport NAK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoRegisterSecondaryTransportNACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleProtocolRegisterSecondaryTransportNAKMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route a transport event update message correctly", ^{
+            testHeader.frameData = SDLFrameInfoTransportEventUpdate;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleTransportEventUpdateMessage:testMessage protocol:mockProtocol]);
+        });
+        
+        it(@"Should route a heartbeat message correctly", ^{
+            testHeader.frameData = SDLFrameInfoHeartbeat;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleHeartbeatForSession:testHeader.sessionID]);
+        });
+        
+        it(@"Should route a heartbeat ACK message correctly", ^{
+            testHeader.frameData = SDLFrameInfoHeartbeatACK;
+            testMessage.header = testHeader;
+            
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
+            
+            OCMVerify([delegateMock handleHeartbeatACK]);
+        });
     });
     
-    context(@"When handling single frame message", ^ {
-        it(@"Should route message correctly", ^ {
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-
+    context(@"When handling single frame message", ^{
+        it(@"Should route message correctly", ^{
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
             
@@ -78,17 +156,14 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(messageReceived).to(beIdenticalTo(testMessage));
             }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any] protocol:mockProtocol];
             
-            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
-            router.delegate = delegateMock;
-            
             [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             expect(@(verified)).to(beTruthy());
         });
     });
     
-    context(@"When handling multi-frame message", ^ {
-        it(@"Should route message correctly", ^ {
+    context(@"When handling multi-frame message", ^{
+        it(@"Should route message correctly", ^{
             //Allocate 2000 bytes and use it as test data
             const NSUInteger dataLength = 2000;
             char dummyBytes[dataLength];
@@ -113,8 +188,6 @@ describe(@"HandleReceivedMessage Tests", ^ {
             const char firstPayload[8] = {(payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF, (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, ceil(payloadData.length / 500.0)};
             testMessage.payload = [NSData dataWithBytes:firstPayload length:8];
             
-            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
-            
             [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             testMessage.header.frameType = SDLFrameTypeConsecutive;
@@ -135,8 +208,6 @@ describe(@"HandleReceivedMessage Tests", ^ {
             //Final frame
             testMessage.header.frameData = 0;
             testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, payloadData.length - offset)];
-            
-            id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
             
             __block BOOL verified = NO;
             [[[delegateMock stub] andDo:^(NSInvocation* invocation) {
