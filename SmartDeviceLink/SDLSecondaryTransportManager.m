@@ -540,10 +540,8 @@ struct TransportProtocolUpdated {
 
 // called on transport's thread, notifying that the transport is established
 - (void)onProtocolOpened {
-    if (self.secondaryProtocol == nil) {
-        // The primary transport opened
-        return;
-    }
+    // The primary transport opened
+    if (self.secondaryProtocol == nil) { return; }
 
     SDLLogD(@"Secondary transport connected");
 
