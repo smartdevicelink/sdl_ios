@@ -14,6 +14,7 @@
 #import "SDLOnSystemRequest.h"
 #import "SDLRequestType.h"
 
+static NSString * const SDLTestURL = @"https://www.smartdevicelink.com";
 
 QuickSpecBegin(SDLOnSystemRequestSpec)
 
@@ -23,7 +24,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         testNotification.requestType = SDLRequestTypeFileResume;
         testNotification.requestSubType = @"subtype";
-        testNotification.url = @"www.google.com";
+        testNotification.url = SDLTestURL;
         testNotification.timeout = @52345;
         testNotification.fileType = SDLFileTypePNG;
         testNotification.offset = @2532678684;
@@ -31,7 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal(@"www.google.com"));
+        expect(testNotification.url).to(equal(SDLTestURL));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
@@ -43,7 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameRequestType:SDLRequestTypeFileResume,
                                                    SDLRPCParameterNameRequestSubType: @"subtype",
-                                                   SDLRPCParameterNameURL:@"www.google.com",
+                                                   SDLRPCParameterNameURL:SDLTestURL,
                                                    SDLRPCParameterNameTimeout:@52345,
                                                    SDLRPCParameterNameFileType:SDLFileTypePNG,
                                                    SDLRPCParameterNameOffset:@2532678684,
@@ -56,7 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal([@"www.google.com" mutableCopy]));
+        expect(testNotification.url).to(equal([SDLTestURL mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
@@ -86,7 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
         const int size = 1000;
         SDLOnSystemRequest* testRequest = [[SDLOnSystemRequest alloc] init];
         NSMutableString *testURL = [NSMutableString stringWithCapacity:1024];
-        [testURL setString:@"www.google.com"];
+        [testURL setString:SDLTestURL];
         while(size > testURL.length) {
             [testURL appendString:@"/testcomponent"];
         }
@@ -102,7 +103,7 @@ describe(@"Getter/Setter Tests", ^ {
         const int size = 1024 * 1024;
         SDLOnSystemRequest* testRequest = [[SDLOnSystemRequest alloc] init];
         NSMutableString *testURL = [NSMutableString stringWithCapacity:size + 20];
-        [testURL setString:@"www.google.com"];
+        [testURL setString:SDLTestURL];
         while(size > testURL.length) {
             [testURL appendString:@"/testcomponent"];
         }
