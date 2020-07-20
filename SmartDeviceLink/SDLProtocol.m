@@ -128,8 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
         listeners = self.protocolDelegateTable.allObjects;
     }
     for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
-            [listener onProtocolOpened];
+        if ([listener respondsToSelector:@selector(onProtocolOpened:)]) {
+            [listener onProtocolOpened:self];
         }
     }
 }

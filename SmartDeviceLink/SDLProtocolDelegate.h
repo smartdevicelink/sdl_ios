@@ -3,6 +3,7 @@
 
 #import "SDLProtocolHeader.h"
 
+@class SDLProtocol;
 @class SDLProtocolMessage;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -68,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Called when the message is a protocol opened message.
  */
-- (void)onProtocolOpened;
+- (void)onProtocolOpened:(SDLProtocol *)protocol;
 
 /**
  *  Called when the message is a protocol closed message.

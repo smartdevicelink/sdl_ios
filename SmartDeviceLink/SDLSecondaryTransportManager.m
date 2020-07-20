@@ -539,9 +539,9 @@ struct TransportProtocolUpdated {
 #pragma mark - SDLProtocolDelegate Implementation
 
 // called on transport's thread, notifying that the transport is established
-- (void)onProtocolOpened {
+- (void)onProtocolOpened:(SDLProtocol *)protocol {
     // The primary transport opened
-    if (self.secondaryProtocol == nil) { return; }
+    if (protocol != self.secondaryProtocol) { return; }
 
     SDLLogD(@"Secondary transport connected");
 

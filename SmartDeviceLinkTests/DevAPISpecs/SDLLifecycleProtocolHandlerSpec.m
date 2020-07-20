@@ -80,7 +80,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidConnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([mockProtocol startServiceWithType:0 payload:[OCMArg any]]).ignoringNonObjectArgs();
                 OCMExpect([(SDLTimer *)mockTimer start]);
-                [testHandler onProtocolOpened];
+                [testHandler onProtocolOpened:mockProtocol];
             });
 
             it(@"should set everything up", ^{

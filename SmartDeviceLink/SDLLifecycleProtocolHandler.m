@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLProtocolDelegate
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
-- (void)onProtocolOpened {
+- (void)onProtocolOpened:(SDLProtocol *)protocol {
     SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 

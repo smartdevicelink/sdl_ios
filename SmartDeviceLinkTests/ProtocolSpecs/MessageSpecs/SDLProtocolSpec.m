@@ -681,7 +681,7 @@ describe(@"OnProtocolOpened Tests", ^ {
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
 
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        OCMExpect([delegateMock onProtocolOpened]);
+        OCMExpect([delegateMock onProtocolOpened:testProtocol]);
 
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         [testProtocol onTransportConnected];
