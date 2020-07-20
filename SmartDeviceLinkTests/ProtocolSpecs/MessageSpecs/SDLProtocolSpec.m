@@ -129,7 +129,7 @@ describe(@"Send EndSession Tests", ^ {
             SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0x03;
-            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil] protocol:testProtocol];
             
             [testProtocol endServiceWithType:SDLServiceTypeRPC];
             
@@ -157,7 +157,7 @@ describe(@"Send EndSession Tests", ^ {
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0x61;
-            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil] protocol:testProtocol];
             
             [testProtocol endServiceWithType:SDLServiceTypeRPC];
             
@@ -188,7 +188,7 @@ describe(@"Send Register Secondary Transport Tests", ^ {
         refHeader.serviceType = SDLServiceTypeRPC;
         refHeader.frameData = SDLFrameInfoStartServiceACK;
         refHeader.sessionID = 0x11;
-        [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:refHeader andPayload:nil]];
+        [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:refHeader andPayload:nil] protocol:testProtocol];
 
         // store the header to apply Session ID value to Register Secondary Transport frame
         [testProtocol storeHeader:refHeader forServiceType:SDLServiceTypeControl];
@@ -233,7 +233,7 @@ describe(@"SendRPCRequest Tests", ^ {
             SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0xFF;
-            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil] protocol:testProtocol];
             
             [testProtocol sendRPC:mockRequest];
             
@@ -279,7 +279,7 @@ describe(@"SendRPCRequest Tests", ^ {
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0x01;
-            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil] protocol:testProtocol];
             
             [testProtocol sendRPC:mockRequest];
             
@@ -430,10 +430,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
@@ -454,10 +454,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
@@ -478,10 +478,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
@@ -504,10 +504,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
@@ -533,10 +533,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
@@ -558,10 +558,10 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 testHeader.bytesInPayload = (UInt32)testData.length;
 
                 SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
-                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage]);
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol]);
 
                 [testProtocol.protocolDelegateTable addObject:delegateMock];
-                [testProtocol handleProtocolStartServiceACKMessage:ackMessage];
+                [testProtocol handleProtocolStartServiceACKMessage:ackMessage protocol:testProtocol];
 
                 // Should keep their default values
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
@@ -593,10 +593,10 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         testHeader.bytesInPayload = 0;
 
         SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:nil];
-        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportACKMessage:ackMessage]);
+        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportACKMessage:ackMessage protocol:testProtocol]);
 
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolRegisterSecondaryTransportACKMessage:ackMessage];
+        [testProtocol handleProtocolRegisterSecondaryTransportACKMessage:ackMessage protocol:testProtocol];
 
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
@@ -615,10 +615,10 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         NSData *payloadData = payload.data;
 
         SDLProtocolMessage *nakMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:payloadData];
-        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage]);
+        OCMExpect([delegateMock handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage protocol:testProtocol]);
 
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage];
+        [testProtocol handleProtocolRegisterSecondaryTransportNAKMessage:nakMessage protocol:testProtocol];
 
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
@@ -660,10 +660,10 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
         testMessage.header = testHeader;
 
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-        OCMExpect([delegateMock onProtocolMessageReceived:[OCMArg any]]);
+        OCMExpect([delegateMock onProtocolMessageReceived:[OCMArg any] protocol:testProtocol]);
 
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol onProtocolMessageReceived:testMessage];
+        [testProtocol onProtocolMessageReceived:testMessage protocol:testProtocol];
     });
 
     it(@"Should pass information along to delegate", ^ {

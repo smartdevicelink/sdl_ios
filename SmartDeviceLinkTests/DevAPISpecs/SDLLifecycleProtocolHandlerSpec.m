@@ -122,7 +122,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidConnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolStartServiceACKMessage:message];
+                [testHandler handleProtocolStartServiceACKMessage:message protocol:mockProtocol];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -141,7 +141,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceConnectionDidError] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolStartServiceNAKMessage:message];
+                [testHandler handleProtocolStartServiceNAKMessage:message protocol:mockProtocol];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -160,7 +160,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidDisconnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolEndServiceACKMessage:message];
+                [testHandler handleProtocolEndServiceACKMessage:message protocol:mockProtocol];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -189,7 +189,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
                 OCMExpect([mockNotificationDispatcher postRPCRequestNotification:[OCMArg isEqual:SDLDidReceiveShowRequest] request:[OCMArg isNotNil]]);
 
-                [testHandler onProtocolMessageReceived:testMessage];
+                [testHandler onProtocolMessageReceived:testMessage protocol:mockProtocol];
             });
 
             it(@"should send the notification", ^{

@@ -9,18 +9,25 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLProtocol.h"
 #import "SDLProtocolReceivedMessageRouter.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
-#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 
 describe(@"HandleReceivedMessage Tests", ^ {
+    __block SDLProtocol *mockProtocol = nil;
+
+    beforeEach(^{
+        mockProtocol = OCMStrictClassMock([SDLProtocol class]);
+    });
+
     context(@"When handling control message", ^ {
         it(@"Should route message correctly", ^ {
             id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-            
+
             SDLV2ProtocolMessage *testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] init];
             
@@ -35,16 +42,16 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
-            [router handleReceivedMessage:testMessage];
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
-            OCMVerify([delegateMock handleProtocolStartServiceACKMessage:testMessage]);
+            OCMVerify([delegateMock handleProtocolStartServiceACKMessage:testMessage protocol:mockProtocol]);
         });
     });
     
     context(@"When handling single frame message", ^ {
         it(@"Should route message correctly", ^ {
             id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-            
+
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
             
@@ -69,12 +76,12 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 SDLV2ProtocolMessage* messageReceived = (SDLV2ProtocolMessage *)message;
                 
                 expect(messageReceived).to(beIdenticalTo(testMessage));
-            }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any]];
+            }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any] protocol:mockProtocol];
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
             
-            [router handleReceivedMessage:testMessage];
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             expect(@(verified)).to(beTruthy());
         });
@@ -108,7 +115,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             
-            [router handleReceivedMessage:testMessage];
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             testMessage.header.frameType = SDLFrameTypeConsecutive;
             testMessage.header.bytesInPayload = 500;
@@ -119,7 +126,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 //Consectutive frames
                 testMessage.header.frameData = frameNumber;
                 testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, 500)];
-                [router handleReceivedMessage:testMessage];
+                [router handleReceivedMessage:testMessage protocol:mockProtocol];
                 
                 frameNumber++;
                 offset += 500;
@@ -146,10 +153,10 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameInfoSingleFrame)));
                 expect(@(assembledMessage.header.sessionID)).to(equal(@0x33));
                 expect(@(assembledMessage.header.bytesInPayload)).to(equal(@(payloadData.length)));
-            }] onProtocolMessageReceived:[OCMArg any]];
+            }] onProtocolMessageReceived:[OCMArg any] protocol:mockProtocol];
             
             router.delegate = delegateMock;
-            [router handleReceivedMessage:testMessage];
+            [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
             expect(@(verified)).to(beTruthy());
         });

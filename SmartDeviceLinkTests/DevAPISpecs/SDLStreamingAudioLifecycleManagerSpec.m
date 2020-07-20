@@ -311,7 +311,7 @@ describe(@"the streaming audio manager", ^{
 
                 testAudioStartServicePayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:testAudioStartServicePayload.data];
-                [streamingLifecycleManager handleProtocolStartServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager handleProtocolStartServiceACKMessage:testAudioMessage protocol:protocolMock];
             });
 
             it(@"should have set all the right properties", ^{
@@ -335,7 +335,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage protocol:protocolMock];
             });
 
             it(@"should have set all the right properties", ^{
@@ -357,7 +357,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage protocol:protocolMock];
             });
 
             it(@"should have set all the right properties", ^{
@@ -379,7 +379,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+                [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage protocol:protocolMock];
             });
 
             it(@"should have set all the right properties", ^{
@@ -464,7 +464,7 @@ describe(@"the streaming audio manager", ^{
                     testAudioHeader.serviceType = SDLServiceTypeAudio;
                     testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage protocol:protocolMock];
                 });
 
                 it(@"should transistion to the stopped state", ^{
@@ -484,7 +484,7 @@ describe(@"the streaming audio manager", ^{
                     testAudioHeader.serviceType = SDLServiceTypeAudio;
                     testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage protocol:protocolMock];
                 });
 
                 it(@"should transistion to the stopped state", ^{
