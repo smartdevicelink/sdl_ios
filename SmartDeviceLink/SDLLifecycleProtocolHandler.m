@@ -83,10 +83,18 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
             SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
-            [weakSelf performSelector:@selector(onProtocolClosed:) withObject:nil afterDelay:0.1];
+            [weakSelf sdl_closeSessionWithDelay:(float)0.1];
         };
     }
     [self.rpcStartServiceTimeoutTimer start];
+}
+
+/// Helper method for closing the current session
+- (void)sdl_closeSessionWithDelay:(float)delay {
+    __weak typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [weakSelf onProtocolClosed:self.protocol];
+    });
 }
 
 /// Called when the transport is closed.
@@ -105,6 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
@@ -114,6 +124,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
 
     if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
@@ -123,6 +135,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
     if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
@@ -132,6 +146,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     if (endServiceNAK.header.serviceType == SDLServiceTypeRPC) {
         NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:@"RPC Service failed to stop" andReason:nil];
         [self.notificationDispatcher postNotificationName:SDLRPCServiceConnectionDidError infoObject:error];
@@ -139,6 +155,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];
     SDLRPCMessage *receivedMessage = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
     NSString *fullName = [self sdl_fullNameForMessage:receivedMessage];
