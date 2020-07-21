@@ -230,7 +230,97 @@ describe(@"Getter/Setter Tests", ^ {
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+    });
 
+    it(@"Should initialize an object correctly", ^{
+        const float speed = 123.45;
+        const NSUInteger rpm = 42;
+        const float fuelLevel = 10.3;
+        SDLComponentVolumeStatus fuelLevel_State = SDLComponentVolumeStatusAlert;
+        const float instantFuelConsumption = 4000.63;
+        NSArray *fuelRangeArray = @[fuelRange, fuelRange];
+        const float externalTemperature = -10.5;
+        NSString * const vin = @"222222222722";
+        SDLTurnSignal turnSignal = SDLTurnSignalOff;
+        SDLPRNDL prndl = SDLPRNDLDrive;
+        NSUInteger odometer = 100500;
+        SDLVehicleDataEventStatus driverBraking = SDLVehicleDataEventStatusYes;
+        SDLWiperStatus wiperStatus = SDLWiperStatusStalled;
+        const float engineTorque = -200.124;
+        const float accPedalPosition = 99.99999999;
+        const float steeringWheelAngle = M_PI_4;
+        const float engineOilLife = 34.45;
+        SDLElectronicParkBrakeStatus electronicParkBrakeStatus = SDLElectronicParkBrakeStatusDriveActive;
+        const BOOL handsOffSteering = YES;
+        NSString * const OEMCustomVehicleData = @"customVehicleData";
+        NSString * const OEMVehicleDataState = @"oemVehicleData";
+
+        SDLOnVehicleData *onVehicleData =
+    [[SDLOnVehicleData alloc] initWithGps:gps
+                                    speed:speed
+                                      rpm:@(rpm)
+                                fuelLevel:fuelLevel
+                          fuelLevel_State:fuelLevel_State
+                   instantFuelConsumption:instantFuelConsumption
+                                fuelRange:fuelRangeArray
+                      externalTemperature:externalTemperature
+                               turnSignal:turnSignal
+                                      vin:vin
+                                    prndl:prndl
+                             tirePressure:tires
+                                 odometer:@(odometer)
+                               beltStatus:belt
+                          bodyInformation:body
+                             deviceStatus:device
+                            driverBraking:driverBraking
+                              wiperStatus:wiperStatus
+                           headLampStatus:headLamp
+                             engineTorque:engineTorque
+                         accPedalPosition:accPedalPosition
+                       steeringWheelAngle:steeringWheelAngle
+                            engineOilLife:engineOilLife
+                electronicParkBrakeStatus:electronicParkBrakeStatus
+                        cloudAppVehicleID:cloudAppVehicleID
+                                eCallInfo:eCall
+                             airbagStatus:airbag
+                           emergencyEvent:event
+                        clusterModeStatus:clusterMode
+                                    myKey:myKey
+                         handsOffSteering:@(handsOffSteering)];
+        [onVehicleData setOEMCustomVehicleData:OEMCustomVehicleData withVehicleDataState:OEMVehicleDataState];
+
+        expect([onVehicleData getOEMCustomVehicleData:OEMCustomVehicleData]).to(equal(OEMVehicleDataState));
+        expect(onVehicleData.accPedalPosition).to(equal(@(accPedalPosition)));
+        expect(onVehicleData.airbagStatus).to(equal(airbag));
+        expect(onVehicleData.beltStatus).to(equal(belt));
+        expect(onVehicleData.bodyInformation).to(equal(body));
+        expect(onVehicleData.cloudAppVehicleID).to(equal(cloudAppVehicleID));
+        expect(onVehicleData.clusterModeStatus).to(equal(clusterMode));
+        expect(onVehicleData.deviceStatus).to(equal(device));
+        expect(onVehicleData.driverBraking).to(equal(driverBraking));
+        expect(onVehicleData.eCallInfo).to(equal(eCall));
+        expect(onVehicleData.electronicParkBrakeStatus).to(equal(electronicParkBrakeStatus));
+        expect(onVehicleData.emergencyEvent).to(equal(event));
+        expect(onVehicleData.engineOilLife).to(equal(@(engineOilLife)));
+        expect(onVehicleData.engineTorque).to(equal(@(engineTorque)));
+        expect(onVehicleData.externalTemperature).to(equal(@(externalTemperature)));
+        expect(onVehicleData.fuelLevel).to(equal(@(fuelLevel)));
+        expect(onVehicleData.fuelLevel_State).to(equal(fuelLevel_State));
+        expect(onVehicleData.fuelRange).to(equal(fuelRangeArray));
+        expect(onVehicleData.gps).to(equal(gps));
+        expect(onVehicleData.handsOffSteering).to(equal(@(handsOffSteering)));
+        expect(onVehicleData.headLampStatus).to(equal(headLamp));
+        expect(onVehicleData.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
+        expect(onVehicleData.myKey).to(equal(myKey));
+        expect(onVehicleData.odometer).to(equal(@(odometer)));
+        expect(onVehicleData.prndl).to(equal(prndl));
+        expect(onVehicleData.rpm).to(equal(@(rpm)));
+        expect(onVehicleData.speed).to(equal(@(speed)));
+        expect(onVehicleData.steeringWheelAngle).to(equal((steeringWheelAngle)));
+        expect(onVehicleData.tirePressure).to(equal(tires));
+        expect(onVehicleData.turnSignal).to(equal(turnSignal));
+        expect(onVehicleData.vin).to(equal(vin));
+        expect(onVehicleData.wiperStatus).to(equal(wiperStatus));
     });
 });
 

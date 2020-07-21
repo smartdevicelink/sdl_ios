@@ -30,28 +30,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLGetVehicleDataResponse.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLHeadLampStatus.h"
-#import "SDLBodyInformation.h"
-#import "SDLEmergencyEvent.h"
-#import "SDLTurnSignal.h"
-#import "SDLElectronicParkBrakeStatus.h"
-#import "SDLMyKey.h"
-#import "SDLTireStatus.h"
-#import "SDLWiperStatus.h"
-#import "SDLECallInfo.h"
-#import "SDLVehicleDataEventStatus.h"
-#import "SDLDeviceStatus.h"
-#import "SDLPRNDL.h"
-#import "SDLClusterModeStatus.h"
-#import "SDLBeltStatus.h"
 #import "SDLAirbagStatus.h"
-#import "SDLGPSData.h"
+#import "SDLBeltStatus.h"
+#import "SDLBodyInformation.h"
+#import "SDLClusterModeStatus.h"
 #import "SDLComponentVolumeStatus.h"
+#import "SDLDeviceStatus.h"
+#import "SDLECallInfo.h"
+#import "SDLElectronicParkBrakeStatus.h"
+#import "SDLEmergencyEvent.h"
 #import "SDLFuelRange.h"
+#import "SDLGPSData.h"
+#import "SDLGetVehicleDataResponse.h"
+#import "SDLHeadLampStatus.h"
+#import "SDLMyKey.h"
+#import "SDLPRNDL.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLTireStatus.h"
+#import "SDLTurnSignal.h"
+#import "SDLVehicleDataEventStatus.h"
+#import "SDLWiperStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,6 +67,47 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 #pragma clang diagnostic pop
+
+- (nullable instancetype)initWithAccPedalPosition:(float)accPedalPosition airbagStatus:(SDLAirbagStatus *)airbagStatus beltStatus:(SDLBeltStatus *)beltStatus bodyInformation:(SDLBodyInformation *)bodyInformation cloudAppVehicleID:(NSString *)cloudAppVehicleID clusterModeStatus:(SDLClusterModeStatus *)clusterModeStatus deviceStatus:(SDLDeviceStatus *)deviceStatus driverBraking:(SDLVehicleDataEventStatus)driverBraking eCallInfo:(SDLECallInfo *)eCallInfo electronicParkBrakeStatus:(SDLElectronicParkBrakeStatus)electronicParkBrakeStatus emergencyEvent:(SDLEmergencyEvent *)emergencyEvent engineOilLife:(float)engineOilLife engineTorque:(float)engineTorque externalTemperature:(float)externalTemperature fuelLevel:(float)fuelLevel fuelLevel_State:(SDLComponentVolumeStatus)fuelLevel_State fuelRange:(NSArray<SDLFuelRange *>*)fuelRange gps:(SDLGPSData *)gps handsOffSteering:(BOOL)handsOffSteering headLampStatus:(SDLHeadLampStatus *)headLampStatus instantFuelConsumption:(float)instantFuelConsumption myKey:(SDLMyKey *)myKey odometer:(NSInteger)odometer prndl:(SDLPRNDL)prndl rpm:(NSInteger)rpm speed:(float)speed steeringWheelAngle:(float)steeringWheelAngle tirePressure:(SDLTireStatus *)tirePressure turnSignal:(SDLTurnSignal)turnSignal vin:(NSString *)vin wiperStatus:(SDLWiperStatus)wiperStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.accPedalPosition = @(accPedalPosition);
+    self.airbagStatus = airbagStatus;
+    self.beltStatus = beltStatus;
+    self.bodyInformation = bodyInformation;
+    self.cloudAppVehicleID = cloudAppVehicleID;
+    self.clusterModeStatus = clusterModeStatus;
+    self.deviceStatus = deviceStatus;
+    self.driverBraking = driverBraking;
+    self.eCallInfo = eCallInfo;
+    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
+    self.emergencyEvent = emergencyEvent;
+    self.engineOilLife = @(engineOilLife);
+    self.engineTorque = @(engineTorque);
+    self.externalTemperature = @(externalTemperature);
+    self.fuelLevel = @(fuelLevel);
+    self.fuelLevel_State = fuelLevel_State;
+    self.fuelRange = fuelRange;
+    self.gps = gps;
+    self.handsOffSteering = @(handsOffSteering);
+    self.headLampStatus = headLampStatus;
+    self.instantFuelConsumption = @(instantFuelConsumption);
+    self.myKey = myKey;
+    self.odometer = @(odometer);
+    self.prndl = prndl;
+    self.rpm = @(rpm);
+    self.speed = @(speed);
+    self.steeringWheelAngle = @(steeringWheelAngle);
+    self.tirePressure = tirePressure;
+    self.turnSignal = turnSignal;
+    self.vin = vin;
+    self.wiperStatus = wiperStatus;
+
+    return self;
+}
 
 - (void)setGps:(nullable SDLGPSData *)gps {
     [self.parameters sdl_setObject:gps forName:SDLRPCParameterNameGPS];

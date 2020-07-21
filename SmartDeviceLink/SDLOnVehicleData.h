@@ -30,26 +30,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLTurnSignal.h"
+#import "SDLComponentVolumeStatus.h"
 #import "SDLElectronicParkBrakeStatus.h"
-#import "SDLWiperStatus.h"
-#import "SDLVehicleDataEventStatus.h"
 #import "SDLPRNDL.h"
 #import "SDLRPCNotification.h"
-#import "SDLComponentVolumeStatus.h"
+#import "SDLTurnSignal.h"
+#import "SDLVehicleDataEventStatus.h"
+#import "SDLWiperStatus.h"
 
-@class SDLHeadLampStatus;
-@class SDLBodyInformation;
-@class SDLMyKey;
-@class SDLTireStatus;
-@class SDLECallInfo;
-@class SDLDeviceStatus;
-@class SDLClusterModeStatus;
-@class SDLBeltStatus;
 @class SDLAirbagStatus;
-@class SDLGPSData;
+@class SDLBeltStatus;
+@class SDLBodyInformation;
+@class SDLClusterModeStatus;
+@class SDLDeviceStatus;
+@class SDLECallInfo;
 @class SDLEmergencyEvent;
 @class SDLFuelRange;
+@class SDLGPSData;
+@class SDLHeadLampStatus;
+@class SDLMyKey;
+@class SDLTireStatus;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,6 +59,44 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 2.0.0
  */
 @interface SDLOnVehicleData : SDLRPCNotification
+
+/**
+ * note: the method was generated with the RPC generator. If an update required then do it either in the xml file generator/rpc_spec/MOBILE_API.xml or in the generator itself.
+ * @param gps - gps
+ * @param speed - @(speed)
+ * @param rpm - rpm
+ * @param fuelLevel - @(fuelLevel)
+ * @param fuelLevel_State - fuelLevel_State
+ * @param instantFuelConsumption - @(instantFuelConsumption)
+ * @param fuelRange - fuelRange
+ * @param externalTemperature - @(externalTemperature)
+ * @param turnSignal - turnSignal
+ * @param vin - vin
+ * @param prndl - prndl
+ * @param tirePressure - tirePressure
+ * @param odometer - odometer
+ * @param beltStatus - beltStatus
+ * @param bodyInformation - bodyInformation
+ * @param deviceStatus - deviceStatus
+ * @param driverBraking - driverBraking
+ * @param wiperStatus - wiperStatus
+ * @param headLampStatus - headLampStatus
+ * @param engineTorque - @(engineTorque)
+ * @param accPedalPosition - @(accPedalPosition)
+ * @param steeringWheelAngle - @(steeringWheelAngle)
+ * @param engineOilLife - @(engineOilLife)
+ * @param electronicParkBrakeStatus - electronicParkBrakeStatus
+ * @param cloudAppVehicleID - cloudAppVehicleID
+ * @param eCallInfo - eCallInfo
+ * @param airbagStatus - airbagStatus
+ * @param emergencyEvent - emergencyEvent
+ * @param clusterModeStatus - clusterModeStatus
+ * @param myKey - myKey
+ * @param handsOffSteering - handsOffSteering
+ * @return A SDLOnVehicleData object
+ */
+
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm fuelLevel:(float)fuelLevel fuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering;
 
 /**
  The car current GPS coordinates
