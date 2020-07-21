@@ -24,25 +24,25 @@ NS_ASSUME_NONNULL_BEGIN
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param startServiceACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK;
 
 /// Called when the start service frame fails.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param startServiceNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK;
 
 /// Called when the end service frame succeeds.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param endServiceACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK;
 
 /// Called when the end service frame fails.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param endServiceNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK;
 
 #pragma mark Secondary Transport Messages
 
@@ -50,30 +50,19 @@ NS_ASSUME_NONNULL_BEGIN
 /// @discussion This frame is only sent on the secondary transport
 /// @param registerSecondaryTransportACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportACK:(SDLProtocolMessage *)registerSecondaryTransportACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportACK:(SDLProtocolMessage *)registerSecondaryTransportACK;
 
 /// Called when the secondary transport registration frame fails.
 /// @discussion This frame is only sent on the secondary transport
 /// @param registerSecondaryTransportNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportNAK:(SDLProtocolMessage *)registerSecondaryTransportNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportNAK:(SDLProtocolMessage *)registerSecondaryTransportNAK;
 
 /// Called when the status or configuration of one or more transports has updated.
 /// @discussion This frame is only sent on the primary transport
 /// @param transportEventUpdate A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)protocol:(SDLProtocol *)protocol didReceiveTransportEventUpdate:(SDLProtocolMessage *)transportEventUpdate {
-
-#pragma mark Deprecated Messages
-
-/// A ping packet that is sent to ensure the connection is still active and the service is still valid.
-/// @discussion Deprecated - requires protocol major version 3
-/// @param session The session number
-- (void)handleHeartbeatForSession:(Byte)session;
-
-/// Called when the heartbeat frame was recieved successfully.
-/// @discussion Deprecated - requires protocol major version 3
-- (void)handleHeartbeatACK;
+- (void)protocol:(SDLProtocol *)protocol didReceiveTransportEventUpdate:(SDLProtocolMessage *)transportEventUpdate;
 
 #pragma mark - Transport Lifecycle
 
@@ -90,6 +79,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param error The error
 /// @param protocol The transport's protocol
 - (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error;
+
+#pragma mark - Deprecated Protocol Messages
+
+/// A ping packet that is sent to ensure the connection is still active and the service is still valid.
+/// @discussion Deprecated - requires protocol major version 3
+/// @param session The session number
+- (void)handleHeartbeatForSession:(Byte)session;
+
+/// Called when the heartbeat frame was recieved successfully.
+/// @discussion Deprecated - requires protocol major version 3
+- (void)handleHeartbeatACK;
+
 
 
 @end

@@ -552,7 +552,7 @@ describe(@"the streaming video manager", ^{
                     beforeEach(^{
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                     });
 
                     it(@"should have set all the right properties", ^{
@@ -568,7 +568,7 @@ describe(@"the streaming video manager", ^{
                     beforeEach(^{
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                     });
 
                     it(@"should fall back correctly", ^{
@@ -589,7 +589,7 @@ describe(@"the streaming video manager", ^{
                     context(@"If no preferred resolutions were set in the data source", ^{
                         beforeEach(^{
                             streamingLifecycleManager.dataSource = nil;
-                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage protocol:protocolMock];
+                            [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                         });
                         it(@"should not replace the existing screen resolution", ^{
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(beTrue());
@@ -606,7 +606,7 @@ describe(@"the streaming video manager", ^{
                             streamingLifecycleManager.dataSource = testDataSource;
                             streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
 
-                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage protocol:protocolMock];
+                            [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                         });
                         it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
@@ -648,7 +648,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should have retried with new properties", ^{
@@ -670,7 +670,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should have retried with new properties", ^{
@@ -691,7 +691,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should end the service", ^{
@@ -706,7 +706,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage protocol:protocolMock];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should end the service", ^{
@@ -729,7 +729,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
 
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage protocol:protocolMock];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testVideoMessage];
                 });
 
                 it(@"should have set all the right properties", ^{
@@ -751,7 +751,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
 
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage protocol:protocolMock];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testVideoMessage];
                 });
 
                 it(@"should have set all the right properties", ^{
@@ -837,7 +837,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage protocol:protocolMock];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testVideoMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{
@@ -857,7 +857,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage protocol:protocolMock ];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testVideoMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{

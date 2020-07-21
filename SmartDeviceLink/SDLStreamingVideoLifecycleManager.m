@@ -512,7 +512,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     self.videoEncrypted = startServiceACK.header.encrypted;
@@ -545,7 +545,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
@@ -573,14 +573,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 #pragma mark End Service ACK/NAK
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeVideo) { return; }
     SDLLogD(@"Request to end video service ACKed on transport %@", protocol.transport);
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];

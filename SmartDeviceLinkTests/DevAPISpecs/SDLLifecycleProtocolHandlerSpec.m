@@ -80,7 +80,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidConnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([mockProtocol startServiceWithType:0 payload:[OCMArg any]]).ignoringNonObjectArgs();
                 OCMExpect([(SDLTimer *)mockTimer start]);
-                [testHandler onProtocolOpened:mockProtocol];
+                [testHandler protocolDidOpen:mockProtocol];
             });
 
             it(@"should set everything up", ^{
@@ -93,7 +93,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
         context(@"of the transport closing", ^{
             beforeEach(^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidDisconnect] infoObject:[OCMArg isNil]]);
-                [testHandler onProtocolClosed:mockProtocol];
+                [testHandler protocolDidClose:mockProtocol];
             });
 
             it(@"should send a notification", ^{
@@ -104,7 +104,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
         context(@"of the transport erroring", ^{
             beforeEach(^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportConnectError] infoObject:[OCMArg isNotNil]]);
-                [testHandler onTransportError:[NSError errorWithDomain:@"test" code:1 userInfo:nil] protocol:mockProtocol];
+                [testHandler protocol:mockProtocol transportDidError:[NSError errorWithDomain:@"test" code:1 userInfo:nil]];
             });
 
             it(@"should send a notification", ^{
@@ -122,7 +122,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidConnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolStartServiceACKMessage:message protocol:mockProtocol];
+                [testHandler protocol:mockProtocol didReceiveStartServiceACK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -141,7 +141,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceConnectionDidError] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolStartServiceNAKMessage:message protocol:mockProtocol];
+                [testHandler protocol:mockProtocol didReceiveStartServiceNAK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -158,7 +158,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
             it(@"should send a transport disconnected notification when the timer elapses", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidDisconnect] infoObject:[OCMArg isNil]]);
 
-                [testHandler onProtocolOpened:mockProtocol];
+                [testHandler protocolDidOpen:mockProtocol];
 
                 OCMVerifyAllWithDelay(mockNotificationDispatcher, 11.0);
             });
@@ -174,7 +174,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidDisconnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([(SDLTimer *)mockTimer cancel]);
 
-                [testHandler handleProtocolEndServiceACKMessage:message protocol:mockProtocol];
+                [testHandler protocol:mockProtocol didReceiveEndServiceACK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
@@ -192,7 +192,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceConnectionDidError] infoObject:[OCMArg any]]);
 
-                [testHandler handleProtocolEndServiceNAKMessage:message protocol:mockProtocol];
+                [testHandler protocol:mockProtocol didReceiveEndServiceNAK:message];
             });
 
             it(@"should send a RPC service connection error notification", ^{
@@ -220,7 +220,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
                 OCMExpect([mockNotificationDispatcher postRPCRequestNotification:[OCMArg isEqual:SDLDidReceiveShowRequest] request:[OCMArg isNotNil]]);
 
-                [testHandler onProtocolMessageReceived:testMessage protocol:mockProtocol];
+                [testHandler protocol:mockProtocol didReceiveMessage:testMessage];
             });
 
             it(@"should send the notification", ^{

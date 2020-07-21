@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLProtocolDelegate
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
-- (void)onProtocolOpened:(SDLProtocol *)protocol {
+- (void)protocolDidOpen:(SDLProtocol *)protocol {
     if (self.protocol != protocol) { return; }
 
     SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
@@ -93,26 +93,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_closeSessionWithDelay:(float)delay {
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [weakSelf onProtocolClosed:self.protocol];
+        [weakSelf protocolDidClose:self.protocol];
     });
 }
 
 /// Called when the transport is closed.
-- (void)onProtocolClosed:(SDLProtocol *)protocol {
+- (void)protocolDidClose:(SDLProtocol *)protocol {
     if (self.protocol != protocol) { return; }
 
     SDLLogW(@"Transport disconnected");
     [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
-- (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error {
     if (self.protocol != protocol) { return; }
 
     SDLLogW(@"Transport error: %@", error);
     [self.notificationDispatcher postNotificationName:SDLTransportConnectError infoObject:error];
 }
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
     if (self.protocol != protocol) { return; }
 
     SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
     if (self.protocol != protocol) { return; }
 
     SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
     if (self.protocol != protocol) { return; }
 
     SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
     if (self.protocol != protocol) { return; }
 
     if (endServiceNAK.header.serviceType == SDLServiceTypeRPC) {
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveMessage:(SDLProtocolMessage *)msg {
     if (self.protocol != protocol) { return; }
 
     NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];

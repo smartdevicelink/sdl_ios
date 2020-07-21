@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLProtocolDelegate
 #pragma mark Start Service ACK/NAK
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
     if (startServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     self.audioEncrypted = startServiceACK.header.encrypted;
@@ -208,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
     SDLLogE(@"Request to start audio service NAKed on transport %@", protocol.transport);
 
@@ -217,14 +217,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark End Service ACK/NAK
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
     if (endServiceACK.header.serviceType != SDLServiceTypeAudio) { return; }
     SDLLogD(@"Request to end audio service ACKed on transport %@", protocol.transport);
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];

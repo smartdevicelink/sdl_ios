@@ -45,41 +45,41 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_dispatchProtocolMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
-    if ([self.delegate respondsToSelector:@selector(onProtocolMessageReceived:protocol:)]) {
-        [self.delegate onProtocolMessageReceived:message protocol:protocol];
+    if ([self.delegate respondsToSelector:@selector(protocol:didReceiveMessage:)]) {
+        [self.delegate protocol:protocol didReceiveMessage:message];
     }
 }
 
 - (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol {
     switch (message.header.frameData) {
         case SDLFrameInfoStartServiceACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:protocol:)]) {
-                [self.delegate handleProtocolStartServiceACKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveStartServiceACK:)]) {
+                [self.delegate protocol:protocol didReceiveStartServiceACK:message];
             }
         } break;
         case SDLFrameInfoStartServiceNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:protocol:)]) {
-                [self.delegate handleProtocolStartServiceNAKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveStartServiceNAK:)]) {
+                [self.delegate protocol:protocol didReceiveStartServiceNAK:message];
             }
         } break;
         case SDLFrameInfoEndServiceACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceACKMessage:protocol:)]) {
-                [self.delegate handleProtocolEndServiceACKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveEndServiceACK:)]) {
+                [self.delegate protocol:protocol didReceiveEndServiceACK:message];
             }
         } break;
         case SDLFrameInfoEndServiceNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:protocol:)]) {
-                [self.delegate handleProtocolEndServiceNAKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveEndServiceNAK:)]) {
+                [self.delegate protocol:protocol didReceiveEndServiceNAK:message];
             }
         } break;
         case SDLFrameInfoRegisterSecondaryTransportACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:protocol:)]) {
-                [self.delegate handleProtocolRegisterSecondaryTransportACKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveRegisterSecondaryTransportACK:)]) {
+                [self.delegate protocol:protocol didReceiveRegisterSecondaryTransportACK:message];
             }
         } break;
         case SDLFrameInfoRegisterSecondaryTransportNACK: {
-            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:protocol:)]) {
-                [self.delegate handleProtocolRegisterSecondaryTransportNAKMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveRegisterSecondaryTransportNAK:)]) {
+                [self.delegate protocol:protocol didReceiveRegisterSecondaryTransportNAK:message];
             }
         } break;
         case SDLFrameInfoHeartbeat: {
@@ -93,8 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
             }
         } break;
         case SDLFrameInfoTransportEventUpdate: {
-            if ([self.delegate respondsToSelector:@selector(handleTransportEventUpdateMessage:protocol:)]) {
-                [self.delegate handleTransportEventUpdateMessage:message protocol:protocol];
+            if ([self.delegate respondsToSelector:@selector(protocol:didReceiveTransportEventUpdate:)]) {
+                [self.delegate protocol:protocol didReceiveTransportEventUpdate:message];
             }
         } break;
         default: break; // Other frame data is possible, but we don't care about them
