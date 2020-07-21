@@ -195,7 +195,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.handsOffSteering).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEMCustomVehicleData", ^{
         SDLSubscribeVehicleDataResponse *testRequest = [[SDLSubscribeVehicleDataResponse alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
@@ -205,7 +205,7 @@ describe(@"Getter/Setter Tests", ^ {
 });
 
 describe(@"Convenience init test", ^ {
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set all the params to vehicleDataResult", ^{
         SDLSubscribeVehicleDataResponse *testResponse =
     [[SDLSubscribeVehicleDataResponse alloc] initWithAccPedalPosition:vehicleDataResult
                                                          airbagStatus:vehicleDataResult
