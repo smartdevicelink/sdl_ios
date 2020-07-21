@@ -18,31 +18,31 @@ NS_ASSUME_NONNULL_BEGIN
 /// Called when a protocol frame is received.
 /// @param msg A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveMessage:(SDLProtocolMessage *)msg;
 
 /// Called when the start service frame succeeds.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param startServiceACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
 
 /// Called when the start service frame fails.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param startServiceNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
 
 /// Called when the end service frame succeeds.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param endServiceACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
 
 /// Called when the end service frame fails.
 /// @discussion This frame can be sent on both the primary and secondary transports
 /// @param endServiceNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
 
 #pragma mark Secondary Transport Messages
 
@@ -50,19 +50,19 @@ NS_ASSUME_NONNULL_BEGIN
 /// @discussion This frame is only sent on the secondary transport
 /// @param registerSecondaryTransportACK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportACK:(SDLProtocolMessage *)registerSecondaryTransportACK {
 
 /// Called when the secondary transport registration frame fails.
 /// @discussion This frame is only sent on the secondary transport
 /// @param registerSecondaryTransportNAK A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportNAK:(SDLProtocolMessage *)registerSecondaryTransportNAK {
 
 /// Called when the status or configuration of one or more transports has updated.
 /// @discussion This frame is only sent on the primary transport
 /// @param transportEventUpdate A SDLProtocolMessage object
 /// @param protocol The transport's protocol
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol didReceiveTransportEventUpdate:(SDLProtocolMessage *)transportEventUpdate {
 
 #pragma mark Deprecated Messages
 
@@ -79,17 +79,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Called when the transport opens.
 /// @param protocol The transport's protocol
-- (void)onProtocolOpened:(SDLProtocol *)protocol;
+- (void)protocolDidOpen:(SDLProtocol *)protocol;
 
 /// Called when the transport closes.
 /// @param protocol The transport's protocol
-- (void)onProtocolClosed:(SDLProtocol *)protocol;
+- (void)protocolDidClose:(SDLProtocol *)protocol;
 
 /// Called when the transport errors.
 /// @discussion Currently only used by TCP transport.
 /// @param error The error
 /// @param protocol The transport's protocol
-- (void)onTransportError:(NSError *)error protocol:(SDLProtocol *)protocol;
+- (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error;
 
 
 @end

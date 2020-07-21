@@ -228,7 +228,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (endServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
-    SDLLogE(@"Request to end audio service NAKed on transport %@, with playlod: %@", protocol.transport, nakPayload);
+    SDLLogE(@"Request to end audio service NAKed on transport %@, with payload: %@", protocol.transport, nakPayload);
 
     /// Core will NAK the audio end service control frame if audio is not streaming or if video is streaming but the HMI does not recognize that audio is streaming.
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
