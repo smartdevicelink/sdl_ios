@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protocol Messages
 
-/// Called when a protocol message is received.
+/// Called when a protocol frame is received.
 /// @param msg A SDLProtocolMessage object
 /// @param protocol The transport's protocol
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg protocol:(SDLProtocol *)protocol;
