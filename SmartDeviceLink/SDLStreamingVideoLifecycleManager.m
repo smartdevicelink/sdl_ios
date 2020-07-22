@@ -549,7 +549,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (startServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:startServiceNAK.payload];
-    SDLLogE(@"Request to start video service NAKed on transport %@, with reason: %@", protocol.transport, nakPayload.description);
+    SDLLogE(@"Request to start video service NAKed on transport %@, with payload: %@", protocol.transport, nakPayload);
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
@@ -584,7 +584,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (endServiceNAK.header.serviceType != SDLServiceTypeVideo) { return; }
 
     SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:endServiceNAK.payload];
-    SDLLogE(@"Request to end video service NAKed on transport %@, with reason: %@", protocol.transport, nakPayload);
+    SDLLogE(@"Request to end video service NAKed on transport %@, with payload: %@", protocol.transport, nakPayload);
 
     /// Core will NAK the video end service control frame if video is not streaming or if video is streaming but the HMI does not recognize that video is streaming.
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

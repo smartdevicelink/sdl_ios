@@ -83,19 +83,12 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
             SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
-            [weakSelf sdl_closeSessionWithDelay:(float)0.1];
+            [weakSelf.protocol stopWithCompletionHandler:^{}];
         };
     }
     [self.rpcStartServiceTimeoutTimer start];
 }
 
-/// Helper method for closing the current session
-- (void)sdl_closeSessionWithDelay:(float)delay {
-    __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [weakSelf protocolDidClose:self.protocol];
-    });
-}
 
 /// Called when the transport is closed.
 - (void)protocolDidClose:(SDLProtocol *)protocol {
