@@ -171,10 +171,10 @@ typedef NSString SDLVehicleMake;
     SDLLogD(@"Encryption manager stopped");
 }
 
-#pragma mark - SDLProtocolListener
+#pragma mark - SDLProtocolDelegate
 #pragma mark Encryption Start Service ACK
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
     switch (startServiceACK.header.serviceType) {
         case SDLServiceTypeRPC: {
             [self sdl_handleEncryptionStartServiceACK:startServiceACK];
@@ -197,7 +197,7 @@ typedef NSString SDLVehicleMake;
 
 #pragma mark Encryption Start Service NAK
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
             [self sdl_handleEncryptionStartServiceNAK:startServiceNAK];
@@ -214,7 +214,7 @@ typedef NSString SDLVehicleMake;
 
 #pragma mark Encryption End Service
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
     switch (endServiceACK.header.serviceType) {
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service ACK");
@@ -225,7 +225,7 @@ typedef NSString SDLVehicleMake;
     }
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
     switch (endServiceNAK.header.serviceType) {
         case SDLServiceTypeRPC: {
             SDLLogW(@"Encryption RPC service ended with end service NAK");

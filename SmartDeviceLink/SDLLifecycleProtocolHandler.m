@@ -69,7 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLProtocolDelegate
 
 /// Called when the transport is opened. We will send the RPC Start Service and wait for the RPC Start Service ACK
-- (void)onProtocolOpened {
+- (void)protocolDidOpen:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 
@@ -81,25 +83,30 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakSelf = self;
         self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
             SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
-            [weakSelf performSelector:@selector(onProtocolClosed) withObject:nil afterDelay:0.1];
+            [weakSelf.protocol stopWithCompletionHandler:^{}];
         };
     }
     [self.rpcStartServiceTimeoutTimer start];
 }
 
 /// Called when the transport is closed.
-- (void)onProtocolClosed {
+- (void)protocolDidClose:(SDLProtocol *)protocol {
+    if (self.protocol != protocol) { return; }
+
     SDLLogW(@"Transport disconnected");
     [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
-- (void)onTransportError:(NSError *)error {
-    SDLLogW(@"Transport error: %@", error);
+- (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error {
+    if (self.protocol != protocol) { return; }
 
+    SDLLogW(@"Transport error: %@", error);
     [self.notificationDispatcher postNotificationName:SDLTransportConnectError infoObject:error];
 }
 
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Start Service (ACK) SessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
     if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
@@ -108,7 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"Start Service (NAK): SessionId: %d for serviceType %d", startServiceNAK.header.sessionID, startServiceNAK.header.serviceType);
 
     if (startServiceNAK.header.serviceType == SDLServiceTypeRPC) {
@@ -117,7 +126,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceACK:(SDLProtocolMessage *)endServiceACK {
+    if (self.protocol != protocol) { return; }
+
     SDLLogD(@"End Service (ACK): SessionId: %d for serviceType %d", endServiceACK.header.sessionID, endServiceACK.header.serviceType);
 
     if (endServiceACK.header.serviceType == SDLServiceTypeRPC) {
@@ -126,14 +137,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+- (void)protocol:(SDLProtocol *)protocol didReceiveEndServiceNAK:(SDLProtocolMessage *)endServiceNAK {
+    if (self.protocol != protocol) { return; }
+
     if (endServiceNAK.header.serviceType == SDLServiceTypeRPC) {
         NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:@"RPC Service failed to stop" andReason:nil];
         [self.notificationDispatcher postNotificationName:SDLRPCServiceConnectionDidError infoObject:error];
     }
 }
 
-- (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+- (void)protocol:(SDLProtocol *)protocol didReceiveMessage:(SDLProtocolMessage *)msg {
+    if (self.protocol != protocol) { return; }
+
     NSDictionary<NSString *, id> *rpcMessageAsDictionary = [msg rpcDictionary];
     SDLRPCMessage *receivedMessage = [[SDLRPCMessage alloc] initWithDictionary:rpcMessageAsDictionary];
     NSString *fullName = [self sdl_fullNameForMessage:receivedMessage];

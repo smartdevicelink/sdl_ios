@@ -91,7 +91,7 @@ describe(@"the encryption lifecycle manager", ^{
                 testRPCHeader.serviceType = SDLServiceTypeRPC;
                 
                 testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager handleProtocolStartServiceACKMessage:testRPCMessage];
+                [encryptionLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testRPCMessage];
             });
             
             it(@"should have set all the right properties", ^{
@@ -114,7 +114,7 @@ describe(@"the encryption lifecycle manager", ^{
                 testRPCHeader.serviceType = SDLServiceTypeRPC;
                 
                 testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager handleProtocolEndServiceACKMessage:testRPCMessage];
+                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
             });
             
             it(@"should have set all the right properties", ^{
@@ -136,7 +136,7 @@ describe(@"the encryption lifecycle manager", ^{
                 testRPCHeader.serviceType = SDLServiceTypeRPC;
                 
                 testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager handleProtocolEndServiceACKMessage:testRPCMessage];
+                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
             });
             
             it(@"should have set all the right properties", ^{
@@ -158,7 +158,7 @@ describe(@"the encryption lifecycle manager", ^{
                 testRPCHeader.serviceType = SDLServiceTypeRPC;
                 
                 testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager handleProtocolEndServiceNAKMessage:testRPCMessage];
+                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testRPCMessage];
             });
             
             it(@"should have set all the right properties", ^{

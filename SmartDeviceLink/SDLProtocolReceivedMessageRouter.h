@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param message A SDLProtocolMessage object
  */
-- (void)handleReceivedMessage:(SDLProtocolMessage *)message;
+- (void)handleReceivedMessage:(SDLProtocolMessage *)message protocol:(SDLProtocol *)protocol;
 
 @end
 

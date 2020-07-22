@@ -401,9 +401,11 @@ struct TransportProtocolUpdated {
 #pragma mark - Transport management
 
 #pragma mark Primary transport
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    if (startServiceACK.header.serviceType != SDLServiceTypeRPC) { return; }
-    SDLLogV(@"Received Start Service ACK header of RPC service on primary transport");
+
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
+    if (startServiceACK.header.serviceType != SDLServiceTypeRPC || self.primaryProtocol != protocol) { return; }
+
+    SDLLogV(@"Received Start Service ACK header of RPC service on primary (%@) transport", protocol.transport);
 
     // Keep header to acquire Session ID
     self.primaryRPCHeader = startServiceACK.header;
@@ -413,9 +415,11 @@ struct TransportProtocolUpdated {
     [self sdl_onStartServiceAckReceived:payload];
 }
 
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+- (void)protocol:(SDLProtocol *)protocol didReceiveTransportEventUpdate:(SDLProtocolMessage *)transportEventUpdate {
+    if (self.primaryProtocol != protocol) { return; }
+
     SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
-    SDLLogV(@"Recieved transport event update on primary transport: %@", payload);
+    SDLLogV(@"Recieved transport event update on primary (%@) transport: %@", protocol.transport, payload);
 
     [self sdl_onTransportEventUpdateReceived:payload];
 }
@@ -536,10 +540,12 @@ struct TransportProtocolUpdated {
     return YES;
 }
 
-#pragma mark - SDLProtocolListener Implementation
+#pragma mark - SDLProtocolDelegate Implementation
 
 // called on transport's thread, notifying that the transport is established
-- (void)onProtocolOpened {
+- (void)protocolDidOpen:(SDLProtocol *)protocol {
+    if (self.secondaryProtocol != protocol) { return; }
+
     SDLLogD(@"Secondary transport connected");
 
     self.registerTransportTimer = [[SDLTimer alloc] initWithDuration:RegisterTransportTime repeat:NO];
@@ -566,16 +572,22 @@ struct TransportProtocolUpdated {
     [self.secondaryProtocol registerSecondaryTransport];
 }
 
-/// Called on the transport's thread, notifying that the transport has errored before a connection was established
+/// Called on the transport's thread, notifying that the transport has errored before a connection was established.
 /// @param error The error
-- (void)onTransportError:(NSError *)error {
+/// @param protocol The protocol
+- (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error {
+    if (self.secondaryProtocol != protocol) { return; }
+
     SDLLogE(@"The secondary transport errored.");
     [self sdl_transportClosed];
 }
 
-// Called on transport's thread, notifying that the transport is disconnected
-// (Note: when transport's disconnect method is called, this method will not be called)
-- (void)onProtocolClosed {
+/// Called on transport's thread, notifying that the transport is disconnected.
+/// @discussion When the transport's disconnect method is called, this method will not be called.
+/// @param protocol The protocol
+- (void)protocolDidClose:(SDLProtocol *)protocol {
+    if (self.secondaryProtocol != protocol) { return; }
+
     SDLLogE(@"The secondary transport disconnected.");
     [self sdl_transportClosed];
 }
@@ -594,9 +606,10 @@ struct TransportProtocolUpdated {
 }
 
 // called from SDLProtocol's _receiveQueue of secondary transport
-- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
-    SDLLogD(@"Received Register Secondary Transport ACK frame");
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportACK:(SDLProtocolMessage *)registerSecondaryTransportACK {
+    if (self.secondaryProtocol != protocol) { return; }
 
+    SDLLogD(@"Received Register Secondary Transport ACK on the secondary (%@) transport", protocol.transport);
     dispatch_async(self.stateMachineQueue, ^{
         // secondary transport is now ready
         [self.stateMachine transitionToState:SDLSecondaryTransportStateRegistered];
@@ -604,9 +617,10 @@ struct TransportProtocolUpdated {
 }
 
 // called from SDLProtocol's _receiveQueue of secondary transport
-- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK {
-    SDLLogW(@"Received Register Secondary Transport NAK frame");
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportNAK:(SDLProtocolMessage *)registerSecondaryTransportNAK {
+    if (self.secondaryProtocol != protocol) { return; }
 
+    SDLLogW(@"Received Register Secondary Transport NAK on the secondary (%@) transport", protocol.transport);
     dispatch_async(self.stateMachineQueue, ^{
         if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered]) {
             [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];

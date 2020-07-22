@@ -14,18 +14,18 @@
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
+#import "SDLFakeSecurityManager.h"
 #import "SDLHMILevel.h"
 #import "SDLIAPTransport.h"
 #import "SDLNotificationConstants.h"
-#import "SDLRPCNotificationNotification.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
+#import "SDLTimer.h"
 #import "SDLV2ProtocolMessage.h"
-#import "SDLFakeSecurityManager.h"
-#import "SDLHMILevel.h"
-#import "SDLOnHMIStatus.h"
 
 /* copied from SDLSecondaryTransportManager.m */
 typedef NSNumber SDLServiceTypeBox;
@@ -65,6 +65,7 @@ static const int TCPPortUnspecified = -1;
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (assign, nonatomic) UIApplicationState currentApplicationState;
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+@property (strong, nonatomic, nullable) SDLTimer *registerTransportTimer;
 
 - (nullable BOOL (^)(void))sdl_backgroundTaskEndedHandler;
 
@@ -209,6 +210,14 @@ describe(@"the secondary transport manager ", ^{
             dispatch_sync(testStateMachineQueue, ^{
                 [manager startWithPrimaryProtocol:testPrimaryProtocol];
             });
+        });
+
+        it(@"should ignore the primary transport being opened before the secondary transport is established", ^{
+            manager.secondaryProtocol = nil;
+
+            [testPrimaryProtocol onTransportConnected];
+
+            expect(manager.registerTransportTimer).to(beNil());
         });
 
         describe(@"when received Start Service ACK on primary transport", ^{
@@ -644,6 +653,8 @@ describe(@"the secondary transport manager ", ^{
                 [testSecondaryProtocolMock onTransportConnected];
 
                 OCMVerifyAllWithDelay(testSecondaryProtocolMock, 0.5);
+
+                expect(manager.registerTransportTimer).toNot(beNil());
             });
 
             describe(@"and Register Secondary Transport ACK is received", ^{
