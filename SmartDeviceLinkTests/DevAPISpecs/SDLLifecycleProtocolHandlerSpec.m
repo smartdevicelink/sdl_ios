@@ -156,11 +156,11 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
             });
 
             it(@"should send a transport disconnected notification when the timer elapses", ^{
-                OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidDisconnect] infoObject:[OCMArg isNil]]);
+                OCMExpect([mockProtocol stopWithCompletionHandler:[OCMArg any]]);
 
                 [testHandler protocolDidOpen:mockProtocol];
 
-                OCMVerifyAllWithDelay(mockNotificationDispatcher, 11.0);
+                OCMVerifyAllWithDelay(mockProtocol, 11.0);
             });
         });
 

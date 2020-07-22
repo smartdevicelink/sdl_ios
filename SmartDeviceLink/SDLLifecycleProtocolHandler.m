@@ -89,7 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.rpcStartServiceTimeoutTimer start];
 }
 
-
 /// Called when the transport is closed.
 - (void)protocolDidClose:(SDLProtocol *)protocol {
     if (self.protocol != protocol) { return; }
