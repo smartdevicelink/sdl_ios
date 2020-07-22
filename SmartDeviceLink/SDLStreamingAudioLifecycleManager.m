@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.audioEncrypted = startServiceACK.header.encrypted;
 
     SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
-    SDLLogD(@"Request to start audio service ACKed with payload: %@", audioAckPayload);
+    SDLLogD(@"Request to start audio service ACKed on transport %@, with payload: %@", protocol.transport, audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
@@ -210,7 +210,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
     if (startServiceNAK.header.serviceType != SDLServiceTypeAudio) { return; }
-    SDLLogE(@"Request to start audio service NAKed on transport %@", protocol.transport);
+    
+    SDLLogE(@"Request to start audio service NAKed on transport %@, with payload: %@", protocol.transport, startServiceNAK.payload);
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
