@@ -13,11 +13,9 @@
 
 * The [Core](https://github.com/smartdevicelink/sdl_core) component is the software which Vehicle Manufacturers (OEMs)  implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
 * The optional [SDL Server](https://github.com/smartdevicelink/sdl_server) can be used by Vehicle OEMs to update application policies and gather usage information for connected applications.
-* The [iOS](https://github.com/smartdevicelink/sdl_ios) and [Android](https://github.com/smartdevicelink/sdl_android) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
+* The [iOS](https://github.com/smartdevicelink/sdl_ios), [Android / Java Suite](https://github.com/smartdevicelink/sdl_android), and [JavaScript](https://github.com/smartdevicelink/sdl_javascript_suite) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
 * To suggest new features to SDL, including the iOS library, go to the [SDL Evolution](https://github.com/smartdevicelink/sdl_evolution) github project.
 * To understand if a contribution should be entered as an iOS Pull Request or Issue, or an SDL Evolution Proposal, please reference [this document](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals_versus_issues.md).
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=AzdQdSCS24M" target="_blank"><img src="http://i.imgur.com/nm8UujD.png?1" alt="SmartDeviceLink" border="10" /></a>
 
 
 ## SDL iOS App Library
