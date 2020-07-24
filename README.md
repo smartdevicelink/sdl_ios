@@ -62,7 +62,7 @@ To prepare the library for development, you will need to take a few steps:
 
 1. Clone this repository.
 1. Install submodules with `git submodule init` and `git submodule update`.
-1. Install testing dependencies (#running-tests).
+1. Install [testing dependencies](#running-tests).
 1. Ensure that you can run the [Hello SDL test app](#example-apps).
 
 #### Creating or Updating an RPC
@@ -94,7 +94,7 @@ If you need to change which simulator is used to generate the screenshots, or if
 1. Uncomment the following line:
 
 ```objc
-//    self.recordMode = YES;
+// self.recordMode = YES;
 ```
 
 2. Run unit tests on the simulator that you want to use to generate the screenshots. Tests should fail because record mode is on.
