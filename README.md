@@ -21,7 +21,7 @@
 ## SDL iOS App Library
 The mobile library component of SDL is meant to run on the end user’s smart-device from within SDL enabled apps. The library allows the apps to connect to SDL enabled head-units and hardware through bluetooth, USB, and TCP. Once the library establishes a connection between the smart device and head-unit through the preferred method of transport, the two devices are able to communicate using the SDL defined protocol. The app integrating this library project is then able to expose its functionality to the head-unit through text, media, and other interactive elements.
 
-You can find guides and documentation on how to use this library [at the SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). You can find the upcoming releases roadmap at the [SDL Evolution Github](https://github.com/smartdevicelink/sdl_evolution#recent-and-upcoming-releases).
+You can find guides and documentation on how to use this library at the [SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). You can find the upcoming releases roadmap at the [SDL Evolution Github](https://github.com/smartdevicelink/sdl_evolution#recent-and-upcoming-releases).
 
 ### Installing
 To install this library as a framework in your app, see the [Installation Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
