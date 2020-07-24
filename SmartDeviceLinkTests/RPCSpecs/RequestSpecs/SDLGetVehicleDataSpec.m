@@ -153,8 +153,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 });
 
-describe(@"initializers", ^{
-    it(@"init", ^{
+describe(@"Test initializers", ^{
+    it(@"expect all properties to be nil", ^{
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
 
         expect(testRequest.accPedalPosition).to(beNil());
@@ -194,7 +194,7 @@ describe(@"initializers", ^{
     SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -224,16 +224,16 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.windowStatus).to(beNil());
+            expect(testRequest.windowStatus).to(equal(@NO));
         });
     });
-         context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
+    context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -263,7 +263,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.windowStatus).to(beNil());
+            expect(testRequest.windowStatus).to(equal(@NO));
         });
     });
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
@@ -272,7 +272,7 @@ describe(@"initializers", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES cloudAppVehicleID:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -302,45 +302,13 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.windowStatus).to(beNil());
+            expect(testRequest.windowStatus).to(equal(@NO));
         });
     });
 
-
-context(@"INIT-4", ^{
-    SDLGetVehicleData *testRequest =
-    [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES
-                                                    airbagStatus:YES
-                                                      beltStatus:YES
-                                                 bodyInformation:YES
-                                               cloudAppVehicleID:YES
-                                               clusterModeStatus:YES
-                                                    deviceStatus:YES
-                                                   driverBraking:YES
-                                                       eCallInfo:YES
-                                       electronicParkBrakeStatus:YES
-                                                  emergencyEvent:YES
-                                                   engineOilLife:YES
-                                                    engineTorque:YES
-                                             externalTemperature:YES
-                                                       fuelLevel:YES
-                                                  fuelLevelState:YES
-                                                       fuelRange:YES
-                                                             gps:YES
-                                                  headLampStatus:YES
-                                          instantFuelConsumption:YES
-                                                           myKey:YES
-                                                        odometer:YES
-                                                           prndl:YES
-                                                             rpm:YES
-                                                           speed:YES
-                                              steeringWheelAngle:YES
-                                                    tirePressure:YES
-                                                      turnSignal:YES
-                                                             vin:YES
-                                                     wiperStatus:YES
-                                                    windowStatus:YES];
-        it(@"all props set to YES", ^{
+    context(@"Test initializer: initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:vin:windowStatus:wiperStatus:", ^{
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES cloudAppVehicleID:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES windowStatus:YES wiperStatus:YES];
+        it(@"expect all properties to be set to YES", ^{
              expect(testRequest.accPedalPosition).to(equal(@YES));
              expect(testRequest.airbagStatus).to(equal(@YES));
              expect(testRequest.beltStatus).to(equal(@YES));
@@ -372,42 +340,11 @@ context(@"INIT-4", ^{
              expect(testRequest.wiperStatus).to(equal(@YES));
              expect(testRequest.windowStatus).to(equal(@YES));
         });
-});
+    });
 
-         context(@"INIT-5", ^{
-             SDLGetVehicleData *testRequest =
-             [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:NO
-                                                             airbagStatus:NO
-                                                               beltStatus:NO
-                                                          bodyInformation:NO
-                                                        cloudAppVehicleID:NO
-                                                        clusterModeStatus:NO
-                                                             deviceStatus:NO
-                                                            driverBraking:NO
-                                                                eCallInfo:NO
-                                                electronicParkBrakeStatus:NO
-                                                           emergencyEvent:NO
-                                                            engineOilLife:NO
-                                                             engineTorque:NO
-                                                      externalTemperature:NO
-                                                                fuelLevel:NO
-                                                           fuelLevelState:NO
-                                                                fuelRange:NO
-                                                                      gps:NO
-                                                           headLampStatus:NO
-                                                   instantFuelConsumption:NO
-                                                                    myKey:NO
-                                                                 odometer:NO
-                                                                    prndl:NO
-                                                                      rpm:NO
-                                                                    speed:NO
-                                                       steeringWheelAngle:NO
-                                                             tirePressure:NO
-                                                               turnSignal:NO
-                                                                      vin:NO
-                                                              wiperStatus:NO
-                                                             windowStatus:NO];
-                 it(@"all props set to NO", ^{
+    context(@"Test initializer: initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:vin:windowStatus:wiperStatus:", ^{
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:NO airbagStatus:NO beltStatus:NO bodyInformation:NO cloudAppVehicleID:NO clusterModeStatus:NO deviceStatus:NO driverBraking:NO eCallInfo:NO electronicParkBrakeStatus:NO emergencyEvent:NO engineOilLife:NO engineTorque:NO externalTemperature:NO fuelLevel:NO fuelLevelState:NO fuelRange:NO gps:NO headLampStatus:NO instantFuelConsumption:NO myKey:NO odometer:NO prndl:NO rpm:NO speed:NO steeringWheelAngle:NO tirePressure:NO turnSignal:NO vin:NO windowStatus:NO wiperStatus:NO];
+        it(@"expect all properties to be set to NO", ^{
                       expect(testRequest.accPedalPosition).to(equal(@NO));
                       expect(testRequest.airbagStatus).to(equal(@NO));
                       expect(testRequest.beltStatus).to(equal(@NO));
@@ -438,15 +375,15 @@ context(@"INIT-4", ^{
                       expect(testRequest.turnSignal).to(equal(@NO));
                       expect(testRequest.wiperStatus).to(equal(@NO));
                       expect(testRequest.windowStatus).to(equal(@NO));
-                 });
-         });
+        });
+    });
 
-    context(@"Should set and get Generic Network Signal Data", ^{
+    context(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
 
-        it(@"all set", ^{
+        it(@"expect all properties to be set properly", ^{
             expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
             expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
             expect(testRequest.windowStatus).to(beNil());

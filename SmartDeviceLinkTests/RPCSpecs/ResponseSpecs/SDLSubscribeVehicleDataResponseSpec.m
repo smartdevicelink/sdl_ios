@@ -13,7 +13,6 @@
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
-
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
@@ -193,7 +192,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.windowStatus).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 

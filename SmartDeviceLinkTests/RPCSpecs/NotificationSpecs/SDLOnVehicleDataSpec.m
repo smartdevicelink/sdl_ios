@@ -2,13 +2,12 @@
 //  SDLOnVehicleDataSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import "SDLRPCParameterNames.h"
+#import <Quick/Quick.h>
+
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLWindowStatus.h"
 #import "SmartDeviceLink.h"
 
@@ -225,7 +224,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.windowStatus).to(beNil());
     });
 
-    it(@"Should set and get generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 

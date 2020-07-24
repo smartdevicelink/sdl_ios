@@ -35,13 +35,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @interface SDLWindowState : SDLRPCStruct
 
 /**
- * @param approximatePosition - @(approximatePosition)
- * @param deviation - @(deviation)
+ * @param approximatePosition - The approximate percentage that the window is open - 0 being fully closed, 100 being fully open
+ * @param deviation - The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.
  * @return A SDLWindowState object
  */
 - (instancetype)initWithApproximatePosition:(UInt8)approximatePosition deviation:(UInt8)deviation;
@@ -49,17 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The approximate percentage that the window is open - 0 being fully closed, 100 being fully open
  *
- *  Optional, Integer, 0 - 100
+ *  Mandatory, Integer, 0 - 100
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *approximatePosition;
+@property (strong, nonatomic) NSNumber<SDLUInt> *approximatePosition;
 
 /**
  * The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is
  * 10, then the window's location is somewhere between 40 and 60.
  *
- *  Optional, Integer, 0 - 100
+ *  Mandatory, Integer, 0 - 100
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *deviation;
+@property (strong, nonatomic) NSNumber<SDLUInt> *deviation;
 
 @end
 

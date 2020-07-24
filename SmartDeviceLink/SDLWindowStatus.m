@@ -55,8 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLGrid *)location {
-    NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLGrid.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLGrid.class error:NULL];
 }
 
 - (void)setState:(SDLWindowState *)state {
@@ -64,8 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLWindowState *)state {
-    NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameState ofClass:SDLWindowState.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameState ofClass:SDLWindowState.class error:NULL];
 }
 
 @end

@@ -62,6 +62,43 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnVehicleData : SDLRPCNotification
 
 /**
+ * note: RPC generator produced initializer
+ * @param gps - gps
+ * @param speed - @(speed)
+ * @param rpm - rpm
+ * @param fuelLevel - @(fuelLevel)
+ * @param fuelLevel_State - fuelLevel_State
+ * @param instantFuelConsumption - @(instantFuelConsumption)
+ * @param fuelRange - fuelRange
+ * @param externalTemperature - @(externalTemperature)
+ * @param turnSignal - turnSignal
+ * @param vin - vin
+ * @param prndl - prndl
+ * @param tirePressure - tirePressure
+ * @param odometer - odometer
+ * @param beltStatus - beltStatus
+ * @param bodyInformation - bodyInformation
+ * @param deviceStatus - deviceStatus
+ * @param driverBraking - driverBraking
+ * @param wiperStatus - wiperStatus
+ * @param headLampStatus - headLampStatus
+ * @param engineTorque - @(engineTorque)
+ * @param accPedalPosition - @(accPedalPosition)
+ * @param steeringWheelAngle - @(steeringWheelAngle)
+ * @param engineOilLife - @(engineOilLife)
+ * @param electronicParkBrakeStatus - electronicParkBrakeStatus
+ * @param cloudAppVehicleID - cloudAppVehicleID
+ * @param eCallInfo - eCallInfo
+ * @param airbagStatus - airbagStatus
+ * @param emergencyEvent - emergencyEvent
+ * @param clusterModeStatus - clusterModeStatus
+ * @param myKey - myKey
+ * @param windowStatus - windowStatus
+ * @return A SDLOnVehicleData object
+ */
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm fuelLevel:(float)fuelLevel fuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey windowStatus:(nullable NSArray<SDLWindowStatus *> *)windowStatus;
+
+/**
  The car current GPS coordinates
 
  Optional.
@@ -296,7 +333,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional.
  *
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) NSArray<SDLWindowStatus *> *windowStatus;
 

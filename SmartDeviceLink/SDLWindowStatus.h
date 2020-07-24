@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Describes the status of a window of a door/liftgate etc.
  *
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @interface SDLWindowStatus : SDLRPCStruct
 
@@ -51,8 +51,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithLocation:(SDLGrid *)location state:(SDLWindowState *)state;
 
+/**
+ * location
+ *
+ * Mandatory
+*/
 @property (strong, nonatomic) SDLGrid *location;
 
+/**
+ * state
+ *
+ * Mandatory
+*/
 @property (strong, nonatomic) SDLWindowState *state;
 
 @end

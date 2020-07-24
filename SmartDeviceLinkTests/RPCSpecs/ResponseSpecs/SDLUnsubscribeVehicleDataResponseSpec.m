@@ -192,7 +192,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.windowStatus).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEM Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 

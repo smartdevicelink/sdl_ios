@@ -30,9 +30,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLWindowState.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLWindowState.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,22 +48,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setApproximatePosition:(NSNumber<SDLUInt> *__nullable)approximatePosition {
+- (void)setApproximatePosition:(NSNumber<SDLUInt> *)approximatePosition {
     [self.store sdl_setObject:approximatePosition forName:SDLRPCParameterNameApproximatePosition];
 }
 
-- (NSNumber<SDLUInt> *__nullable)approximatePosition {
-    NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameApproximatePosition ofClass:NSNumber.class error:&error];
+- (NSNumber<SDLUInt> *)approximatePosition {
+    return [self.store sdl_objectForName:SDLRPCParameterNameApproximatePosition ofClass:NSNumber.class error:NULL];
 }
 
-- (void)setDeviation:(NSNumber<SDLUInt> *__nullable)deviation {
+- (void)setDeviation:(NSNumber<SDLUInt> *)deviation {
     [self.store sdl_setObject:deviation forName:SDLRPCParameterNameDeviation];
 }
 
-- (NSNumber<SDLUInt> *__nullable)deviation {
-    NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameDeviation ofClass:NSNumber.class error:&error];
+- (NSNumber<SDLUInt> *)deviation {
+    return [self.store sdl_objectForName:SDLRPCParameterNameDeviation ofClass:NSNumber.class error:NULL];
 }
 
 @end

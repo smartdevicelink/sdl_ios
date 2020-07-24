@@ -4,14 +4,12 @@
 
 
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SmartDeviceLink.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-
+#import "SDLRPCParameterNames.h"
+#import "SmartDeviceLink.h"
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
@@ -221,7 +219,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.wiperStatus).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
