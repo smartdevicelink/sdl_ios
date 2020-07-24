@@ -29,23 +29,23 @@ To install this library as a framework in your app, see the [Installation Guide]
 #### Adding a Dynamic Framework
 Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Strip the x64 and i386 portions first like so:**
 
-```
+```bash
 lipo -remove i386 -remove x86_64 -o SmartDeviceLink.framework/SmartDeviceLink SmartDeviceLink.framework/SmartDeviceLink`
 ```
 
 You can check the current architectures like so:
 
-```
+```bash
 lipo -info SmartDeviceLink.framework/SmartDeviceLink
 ```
 
 ### Getting Help
-If you have questions, first view our guides on [SmartDeviceLink.com](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
+If you have questions, first view our guides on the [SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
 
 If you see a bug, please post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
 
 ### Example Apps
-To use the Hello SDL example apps and have Cocoapods installed, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project, but you must then also retrieve the submodules by running `git submodule init` and `git submodule update` in your terminal while in the main directory of the project.
+If you'd like to use the Hello SDL example apps and have Cocoapods installed, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project.
 
 There are additional example apps available [in the example organization](https://github.com/smartdevicelink-examples/), these require Cocoapods to install dependencies.
 
@@ -60,12 +60,13 @@ We welcome contributors to the project, but it helps to know a few things about 
 #### Preparing for Development
 To prepare the library for development, you will need to take a few steps:
 
+1. Clone this repository.
 1. Install submodules with `git submodule init` and `git submodule update`.
-2. Install testing dependencies (#running-tests).
-3. Ensure that you can run the Hello SDL test app (#example-apps).
+1. Install testing dependencies (#running-tests).
+1. Ensure that you can run the [Hello SDL test app](#example-apps).
 
 #### Creating or Updating an RPC
-When creating or updating an RPC, you will need to install and use the RPC generator (https://github.com/smartdevicelink/sdl_ios/tree/master/generator). The generator must be used to ensure that the content is correct. To use the generator, the RPC must be updated on the [RPC spec repository](https://github.com/smartdevicelink/rpc_spec).
+When creating or updating an RPC, you will need to install and use the [RPC generator](https://github.com/smartdevicelink/sdl_ios/tree/master/generator). The generator must be used to ensure that the content is correct. To use the generator, the RPC must be updated on the [RPC spec repository](https://github.com/smartdevicelink/rpc_spec).
 
 #### Running Tests
 To run tests, you will need to bootstrap the Carthage testing libraries. To do so, first [install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
@@ -79,13 +80,13 @@ cd ../
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, run:
 
 ```bash
-xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test
+xcodebuild build-for-testing -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink
+
+set -o pipefail && xcodebuild test-without-building -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
 ```
 
-You can optionally pipe the result to [xcpretty](https://github.com/supermarin/xcpretty).
-
 ##### Lock Screen Screenshot Tests
-We run some additional tests using [FBSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 / iPhone XR simulator. If you run unit tests against those simulators, the tests should pass.
+We run some additional tests using [FBSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 simulator. If you run unit tests against those simulators, the tests should pass.
 
 ###### Re-Generating Lock Screen Screenshots
 If you need to change which simulator is used to generate the screenshots, or if you need to re-generate the screenshots for another reason, you can. Go to `SDLLockScreenViewControllerSnapshotTests.m` and take the following steps:
