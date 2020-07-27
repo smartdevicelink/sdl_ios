@@ -77,7 +77,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"should correctly initialize with initWithId:menuName:menuLayout:menuIcon:position:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithId:menuId menuName:menuName menuLayout:testLayout menuIcon:image position:position];
+        #pragma clang diagnostic pop
 
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));
