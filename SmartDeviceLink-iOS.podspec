@@ -110,6 +110,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLDisplayMode.h',
 'SmartDeviceLink/SDLDisplayType.h',
 'SmartDeviceLink/SDLDistanceUnit.h',
+'SmartDeviceLink/SDLDriverDistractionCapability.h',
 'SmartDeviceLink/SDLDriverDistractionState.h',
 'SmartDeviceLink/SDLECallConfirmationStatus.h',
 'SmartDeviceLink/SDLECallInfo.h',
