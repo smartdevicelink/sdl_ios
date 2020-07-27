@@ -47,7 +47,7 @@ If you see a bug, please post an issue on the appropriate repository. Please see
 ### Example Apps
 If you'd like to use the Hello SDL example apps and have Cocoapods installed, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project.
 
-There are additional example apps available [in the example organization](https://github.com/smartdevicelink-examples/), these require Cocoapods to install dependencies.
+There are additional example apps available [in the example organization](https://github.com/smartdevicelink-examples/), these require CocoaPods to install dependencies.
 
 ### Contributing to the Project
 We welcome contributors to the project, but it helps to know a few things about how the project is organized.
@@ -63,7 +63,7 @@ To prepare the library for development, you will need to take a few steps:
 1. Clone this repository.
 1. Install submodules with `git submodule init` and `git submodule update`.
 1. Install [testing dependencies](#running-tests).
-1. Ensure that you can run the [Hello SDL test app](#example-apps).
+1. Ensure that you can run the [Example test apps](#example-apps).
 
 #### Creating or Updating an RPC
 When creating or updating an RPC, you will need to install and use the [RPC generator](https://github.com/smartdevicelink/sdl_ios/tree/master/generator). The generator must be used to ensure that the content is correct. To use the generator, the RPC must be updated on the [RPC spec repository](https://github.com/smartdevicelink/rpc_spec).
