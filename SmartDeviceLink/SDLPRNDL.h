@@ -81,7 +81,7 @@ extern SDLPRNDL const SDLPRNDLNeutral;
 
 /**
  * Ninth gear
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 extern SDLPRNDL const SDLPRNDLNinth;
 
@@ -117,7 +117,7 @@ extern SDLPRNDL const SDLPRNDLSeventh;
 
 /**
  * Tenth gear
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 extern SDLPRNDL const SDLPRNDLTenth;
 

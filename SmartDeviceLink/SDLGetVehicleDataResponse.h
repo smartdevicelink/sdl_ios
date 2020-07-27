@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional.
  *
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) SDLGearStatus *gearStatus;
 
@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional.
  * @deprecated
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus instead");
 

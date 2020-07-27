@@ -2,11 +2,9 @@
 //  SDLVehicleDataTypeSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SDLVehicleDataType.h"
 
@@ -14,38 +12,38 @@ QuickSpecBegin(SDLVehicleDataTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
-        expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
-        expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
-        expect(SDLVehicleDataTypeFuelLevel).to(equal(@"VEHICLEDATA_FUELLEVEL"));
-        expect(SDLVehicleDataTypeFuelLevelState).to(equal(@"VEHICLEDATA_FUELLEVEL_STATE"));
-        expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
-        expect(SDLVehicleDataTypeFuelRange).to(equal(@"VEHICLEDATA_FUELRANGE"));
-        expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
-        expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
-        expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
-        expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
+        expect(SDLVehicleDataTypeAccelerationPedal).to(equal(@"VEHICLEDATA_ACCPEDAL"));
+        expect(SDLVehicleDataTypeAirbagStatus).to(equal(@"VEHICLEDATA_AIRBAGSTATUS"));
+        expect(SDLVehicleDataTypeBatteryVoltage).to(equal(@"VEHICLEDATA_BATTVOLTAGE"));
         expect(SDLVehicleDataTypeBeltStatus).to(equal(@"VEHICLEDATA_BELTSTATUS"));
         expect(SDLVehicleDataTypeBodyInfo).to(equal(@"VEHICLEDATA_BODYINFO"));
+        expect(SDLVehicleDataTypeBraking).to(equal(@"VEHICLEDATA_BRAKING"));
+        expect(SDLVehicleDataTypeCloudAppVehicleID).to(equal(@"VEHICLEDATA_CLOUDAPPVEHICLEID"));
+        expect(SDLVehicleDataTypeClusterModeStatus).to(equal(@"VEHICLEDATA_CLUSTERMODESTATUS"));
         expect(SDLVehicleDataTypeDeviceStatus).to(equal(@"VEHICLEDATA_DEVICESTATUS"));
         expect(SDLVehicleDataTypeECallInfo).to(equal(@"VEHICLEDATA_ECALLINFO"));
-        expect(SDLVehicleDataTypeAirbagStatus).to(equal(@"VEHICLEDATA_AIRBAGSTATUS"));
+        expect(SDLVehicleDataTypeElectronicParkBrakeStatus).to(equal(@"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS"));
         expect(SDLVehicleDataTypeEmergencyEvent).to(equal(@"VEHICLEDATA_EMERGENCYEVENT"));
-        expect(SDLVehicleDataTypeClusterModeStatus).to(equal(@"VEHICLEDATA_CLUSTERMODESTATUS"));
-        expect(SDLVehicleDataTypeMyKey).to(equal(@"VEHICLEDATA_MYKEY"));
-        expect(SDLVehicleDataTypeBraking).to(equal(@"VEHICLEDATA_BRAKING"));
-        expect(SDLVehicleDataTypeWiperStatus).to(equal(@"VEHICLEDATA_WIPERSTATUS"));
-        expect(SDLVehicleDataTypeHeadlampStatus).to(equal(@"VEHICLEDATA_HEADLAMPSTATUS"));
-        expect(SDLVehicleDataTypeBatteryVoltage).to(equal(@"VEHICLEDATA_BATTVOLTAGE"));
         expect(SDLVehicleDataTypeEngineOilLife).to(equal(@"VEHICLEDATA_ENGINEOILLIFE"));
         expect(SDLVehicleDataTypeEngineTorque).to(equal(@"VEHICLEDATA_ENGINETORQUE"));
-        expect(SDLVehicleDataTypeAccelerationPedal).to(equal(@"VEHICLEDATA_ACCPEDAL"));
-        expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
-        expect(SDLVehicleDataTypeElectronicParkBrakeStatus).to(equal(@"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS"));
-        expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
-        expect(SDLVehicleDataTypeCloudAppVehicleID).to(equal(@"VEHICLEDATA_CLOUDAPPVEHICLEID"));
-        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
+        expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
+        expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
+        expect(SDLVehicleDataTypeFuelLevel).to(equal(@"VEHICLEDATA_FUELLEVEL"));
+        expect(SDLVehicleDataTypeFuelLevelState).to(equal(@"VEHICLEDATA_FUELLEVEL_STATE"));
+        expect(SDLVehicleDataTypeFuelRange).to(equal(@"VEHICLEDATA_FUELRANGE"));
+        expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
         expect(SDLVehicleDataTypeGearStatus).to(equal(@"VEHICLEDATA_GEARSTATUS"));
+        expect(SDLVehicleDataTypeHeadlampStatus).to(equal(@"VEHICLEDATA_HEADLAMPSTATUS"));
+        expect(SDLVehicleDataTypeMyKey).to(equal(@"VEHICLEDATA_MYKEY"));
+        expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
+        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
+        expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
+        expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
+        expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
+        expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
+        expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
+        expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
+        expect(SDLVehicleDataTypeWiperStatus).to(equal(@"VEHICLEDATA_WIPERSTATUS"));
     });
 });
 

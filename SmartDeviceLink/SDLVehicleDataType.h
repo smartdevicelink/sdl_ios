@@ -85,9 +85,19 @@ extern SDLVehicleDataType const SDLVehicleDataTypeClusterModeStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 
 /**
+ Vehicle emergency call info data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
+
+/**
  Vehicle electronic parking brake status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus;
+
+/**
+ Vehicle emergency event info
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeEmergencyEvent;
 
 /**
  Vehicle engine oil life data
@@ -105,14 +115,9 @@ extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;
 extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature;
 
 /**
- Vehicle emergency call info data
+ Vehicle fuel consumption data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
-
-/**
- Vehicle emergency event info
- */
-extern SDLVehicleDataType const SDLVehicleDataTypeEmergencyEvent;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption;
 
 /**
  Vehicle fuel level data
@@ -125,25 +130,20 @@ extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
 extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
 
 /**
- Vehicle fuel consumption data
- */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption;
-
-/**
  Vehicle fuel range data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeFuelRange;
 
 /**
- * Vehicle Gear data
- * @since SDL 6.2.0
- */
-extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
-
-/**
  GPS vehicle data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
+
+/**
+ * Vehicle Gear data
+ * @since SDL 7.0.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
 
 /**
  Vehicle headlamp status
@@ -156,11 +156,6 @@ extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeMyKey;
 
 /**
- Vehicle odometer data
- */
-extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
-
-/**
  Custom OEM Vehicle data
 
  Added in SDL 6.0
@@ -168,12 +163,13 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
 extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
 
 /**
- Vehicle speed data
+ Vehicle odometer data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
+extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
 
 /**
- Vehicle PRNDL data
+ * Vehicle PRNDL data
+ * @deprecated since 7.0.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
 
@@ -181,6 +177,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
  Vehicle RPM data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
+
+/**
+ Vehicle speed data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
 
 /**
  Vehicle steering wheel data

@@ -12,7 +12,6 @@
 #import "SDLRPCParameterNames.h"
 #import "SmartDeviceLink.h"
 
-
 QuickSpecBegin(SDLOnVehicleDataSpec)
 
 describe(@"Getter/Setter Tests", ^ {
@@ -237,7 +236,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.wiperStatus).to(beNil());
     });
 
-    it(@"Should set and get generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];

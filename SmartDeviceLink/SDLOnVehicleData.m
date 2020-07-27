@@ -32,24 +32,24 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAirbagStatus.h"
-#import "SDLBodyInformation.h"
 #import "SDLBeltStatus.h"
+#import "SDLBodyInformation.h"
 #import "SDLClusterModeStatus.h"
 #import "SDLComponentVolumeStatus.h"
 #import "SDLDeviceStatus.h"
+#import "SDLECallInfo.h"
 #import "SDLElectronicParkBrakeStatus.h"
 #import "SDLEmergencyEvent.h"
-#import "SDLECallInfo.h"
 #import "SDLFuelRange.h"
-#import "SDLGearStatus.h"
 #import "SDLGPSData.h"
+#import "SDLGearStatus.h"
 #import "SDLHeadLampStatus.h"
-#import "SDLTireStatus.h"
 #import "SDLMyKey.h"
 #import "SDLOnVehicleData.h"
 #import "SDLPRNDL.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLTireStatus.h"
 #import "SDLTurnSignal.h"
 #import "SDLVehicleDataEventStatus.h"
 #import "SDLWiperStatus.h"
@@ -65,6 +65,48 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
+    return self;
+}
+#pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm fuelLevel:(float)fuelLevel fuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin gearStatus:(nullable SDLGearStatus *)gearStatus prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.gps = gps;
+    self.speed = @(speed);
+    self.rpm = rpm;
+    self.fuelLevel = @(fuelLevel);
+    self.fuelLevel_State = fuelLevel_State;
+    self.instantFuelConsumption = @(instantFuelConsumption);
+    self.fuelRange = fuelRange;
+    self.externalTemperature = @(externalTemperature);
+    self.turnSignal = turnSignal;
+    self.vin = vin;
+    self.gearStatus = gearStatus;
+    self.prndl = prndl;
+    self.tirePressure = tirePressure;
+    self.odometer = odometer;
+    self.beltStatus = beltStatus;
+    self.bodyInformation = bodyInformation;
+    self.deviceStatus = deviceStatus;
+    self.driverBraking = driverBraking;
+    self.wiperStatus = wiperStatus;
+    self.headLampStatus = headLampStatus;
+    self.engineTorque = @(engineTorque);
+    self.accPedalPosition = @(accPedalPosition);
+    self.steeringWheelAngle = @(steeringWheelAngle);
+    self.engineOilLife = @(engineOilLife);
+    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
+    self.cloudAppVehicleID = cloudAppVehicleID;
+    self.eCallInfo = eCallInfo;
+    self.airbagStatus = airbagStatus;
+    self.emergencyEvent = emergencyEvent;
+    self.clusterModeStatus = clusterModeStatus;
+    self.myKey = myKey;
     return self;
 }
 #pragma clang diagnostic pop
