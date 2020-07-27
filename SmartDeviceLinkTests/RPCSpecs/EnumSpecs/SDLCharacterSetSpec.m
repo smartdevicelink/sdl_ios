@@ -18,6 +18,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLCharacterSetType5).to(equal(@"TYPE5SET"));
         expect(SDLCharacterSetCID1).to(equal(@"CID1SET"));
         expect(SDLCharacterSetCID2).to(equal(@"CID2SET"));
+        expect(SDLCharacterSetAscii).to(equal(@"ASCII"));
+        expect(SDLCharacterSetIso88591).to(equal(@"ISO_8859_1"));
+        expect(SDLCharacterSetUtf8).to(equal(@"UTF_8"));
     });
 });
 
