@@ -2,7 +2,6 @@
 //  SDLUnsubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
@@ -192,7 +191,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse *testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];

@@ -274,7 +274,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional.
  *
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) SDLStabilityControlsStatus *stabilityControlsStatus;
 

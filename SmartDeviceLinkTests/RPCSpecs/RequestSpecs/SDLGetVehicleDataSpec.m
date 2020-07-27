@@ -2,7 +2,6 @@
 //  SDLGetVehicleDataSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
@@ -157,7 +156,7 @@ describe(@"initializers", ^{
     context(@"init", ^{
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(beNil());
             expect(testRequest.airbagStatus).to(beNil());
             expect(testRequest.beltStatus).to(beNil());
@@ -197,7 +196,7 @@ describe(@"initializers", ^{
     SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:NO beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@NO));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -237,7 +236,7 @@ describe(@"initializers", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -276,7 +275,7 @@ describe(@"initializers", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES cloudAppVehicleID:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -310,18 +309,18 @@ describe(@"initializers", ^{
         });
     });
 
-         context(@"Should set and get Generic Network Signal Data", ^{
-            SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
+    context(@"Should set and get OEM Custom Vehicle Data", ^{
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
 
-            [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];
-            [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
+        [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData" withVehicleDataState:NO];
+        [testRequest setOEMCustomVehicleData:@"OEMCustomVehicleData1" withVehicleDataState:YES];
 
-            it (@"all set", ^{
-                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
-                expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
-                expect(testRequest.stabilityControlsStatus).to(beNil());
-            });
+        it (@"expect all properties to set properly", ^{
+            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData"]).to(equal(@NO));
+            expect([testRequest getOEMCustomVehicleData:@"OEMCustomVehicleData1"]).to(equal(@YES));
+            expect(testRequest.stabilityControlsStatus).to(beNil());
         });
+    });
 });
 
 QuickSpecEnd

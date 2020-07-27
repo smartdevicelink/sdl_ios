@@ -36,7 +36,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @since SDL 6.2.0
+ * @since SDL 7.0.0
  */
 @interface SDLStabilityControlsStatus : SDLRPCStruct
 

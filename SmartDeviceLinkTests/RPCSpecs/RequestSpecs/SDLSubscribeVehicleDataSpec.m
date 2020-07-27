@@ -2,15 +2,13 @@
 //  SDLSubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLSubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLSubscribeVehicleData.h"
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
@@ -157,7 +155,7 @@ describe(@"initializers", ^{
     context(@"init", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
-        it(@"all set", ^{
+        it(@"expect all properties to be nil", ^{
             expect(testRequest.accPedalPosition).to(beNil());
             expect(testRequest.airbagStatus).to(beNil());
             expect(testRequest.beltStatus).to(beNil());
@@ -191,10 +189,10 @@ describe(@"initializers", ^{
         });
     });
 
-    context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus:", ^{
-    SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES cloudAppVehicleID:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES wiperStatus:YES stabilityControlsStatus:YES];
+    context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:stabilityControlsStatus:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:", ^{
+    SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES cloudAppVehicleID:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES stabilityControlsStatus:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES wiperStatus:YES];
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -233,7 +231,7 @@ describe(@"initializers", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -263,7 +261,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.stabilityControlsStatus).to(beNil());
+            expect(testRequest.stabilityControlsStatus).to(equal((@NO)));
         });
     });
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
@@ -272,7 +270,7 @@ describe(@"initializers", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:NO gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -302,16 +300,16 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.stabilityControlsStatus).to(beNil());
+            expect(testRequest.stabilityControlsStatus).to(equal((@NO)));
         });
     });
 
-    context(@"Should set and get Generic Network Signal Data", ^{
+    context(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
-        it(@"all set", ^{
+        it(@"expect all properties to set properly", ^{
             expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
             expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
             expect(testRequest.stabilityControlsStatus).to(beNil());

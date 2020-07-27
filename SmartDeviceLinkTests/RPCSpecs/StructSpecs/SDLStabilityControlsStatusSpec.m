@@ -2,15 +2,13 @@
 //  SDLStabilityControlsStatusSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
 
-#import "SDLStabilityControlsStatus.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLStabilityControlsStatus.h"
 #import "SDLVehicleDataStatus.h"
-
 
 QuickSpecBegin(SDLStabilityControlsStatusSpec)
 
@@ -31,9 +29,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOff));
     });
     
-        it(@"Should get correctly when initialized with a dict (On)", ^ {
-            NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOn,
-                                   SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOn};
+    it(@"Should get correctly when initialized with a dict (On)", ^ {
+        NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOn, SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOn};
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -45,8 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
     it(@"Should get correctly when initialized with a dict (Off)", ^ {
-        NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOff,
-                               SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOff};
+        NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOff, SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOff};
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
