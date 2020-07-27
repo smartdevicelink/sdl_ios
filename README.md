@@ -42,7 +42,7 @@ lipo -info SmartDeviceLink.framework/SmartDeviceLink
 ### Getting Help
 If you have questions, first view our guides on the [SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
 
-If you see a bug, please post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
+If you see a bug, please post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.com) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
 
 ### Example Apps
 If you'd like to use the Hello SDL example apps and have Cocoapods installed, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project.
@@ -86,7 +86,7 @@ set -o pipefail && xcodebuild test-without-building -project SmartDeviceLink-iOS
 ```
 
 ##### Lock Screen Screenshot Tests
-We run some additional tests using [FBSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 simulator. If you run unit tests against those simulators, the tests should pass.
+We run some additional tests using [iOSSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 simulator and if you run the unit tests on that simulator, the tests should pass by default.
 
 ###### Re-Generating Lock Screen Screenshots
 If you need to change which simulator is used to generate the screenshots, or if you need to re-generate the screenshots for another reason, you can. Go to `SDLLockScreenViewControllerSnapshotTests.m` and take the following steps:
