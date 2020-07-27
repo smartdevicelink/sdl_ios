@@ -45,7 +45,7 @@ If you have questions, first view our guides on the [SmartDeviceLink website](ht
 If you see a bug, please post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.com) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
 
 ### Example Apps
-If you'd like to use the Hello SDL example apps and have Cocoapods installed, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project.
+This library repository contains two example apps: one written in Objective-C and one in Swift. If you have CocoaPods installed, you can easily run one of the example apps by executing `pod try SmartDeviceLink` in your terminal. Alternatively, you can clone or download the project, but before attempting to build and run the example apps you must follow the [installation steps](#preparing-for-development).
 
 There are additional example apps available [in the example organization](https://github.com/smartdevicelink-examples/), these require CocoaPods to install dependencies.
 
