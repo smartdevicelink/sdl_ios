@@ -445,7 +445,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameOS;
 extern SDLRPCParameterName const SDLRPCParameterNameOSVersion;
 extern SDLRPCParameterName const SDLRPCParameterNameParameterPermissions;
 extern SDLRPCParameterName const SDLRPCParameterNameParameters;
-extern SDLRPCParameterName const SDLRPCParameterNameParentId;
+extern SDLRPCParameterName const SDLRPCParameterNameParentID;
 extern SDLRPCParameterName const SDLRPCParameterNameParkBrakeActive;
 extern SDLRPCParameterName const SDLRPCParameterNamePassengerAirbagDeployed;
 extern SDLRPCParameterName const SDLRPCParameterNamePassengerBeltDeployed;

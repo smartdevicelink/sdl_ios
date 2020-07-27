@@ -35,11 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setParentID:(nullable NSNumber<SDLInt> *)parentID {
-    [self.store sdl_setObject:parentID forName:SDLRPCParameterNameParentId];
+    [self.store sdl_setObject:parentID forName:SDLRPCParameterNameParentID];
 }
 
 - (nullable NSNumber<SDLInt> *)parentID {
-    return [self.store sdl_objectForName:SDLRPCParameterNameParentId ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameParentID ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
