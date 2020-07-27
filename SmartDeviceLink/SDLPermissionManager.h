@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */
-- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use groupStatusOfRPCNames: instead"));
+- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use groupStatusOfRPCPermissions: instead"));
 
 /**
  * Determine if all RPCs are allowed for the current HMI level
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use statusesOfRPCNames: instead"));
+- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames __deprecated_msg(("Use statusesOfRPCPermissions: instead"));
 
 /**
  * Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCNames:groupType:withHandler: instead"));
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler __deprecated_msg(("Use subscribeToRPCPermissions:groupType:withHandler: instead"));
 
 /**
  *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.
