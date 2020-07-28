@@ -95,6 +95,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)performInteraction NS_SWIFT_NAME(performInteraction());
 
 /**
+ Convenience init for dismissing the currently presented subtle alert.
+
+ @return A SDLCancelInteraction object
+ */
++ (instancetype)subtleAlert;
+
+/**
  The ID of the specific interaction to dismiss. If not set, the most recent of the RPC type set in functionID will be dismissed.
 
  Integer, Optional
@@ -104,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The ID of the type of interaction to dismiss.
 
- Only values 10 (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), and 26 (SliderID) are permitted.
+ The ID of the type of interaction the developer wants to dismiss. Only values 10, (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and 64 (SubtleAlertID) are permitted.
 
  Integer, Required
  */

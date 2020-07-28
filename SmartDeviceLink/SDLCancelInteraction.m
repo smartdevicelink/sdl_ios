@@ -81,6 +81,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
 }
 
++ (instancetype)subtleAlert {
+    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert].unsignedIntValue];
+}
+
 - (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
     [self.parameters sdl_setObject:cancelID forName:SDLRPCParameterNameCancelID];
 }
