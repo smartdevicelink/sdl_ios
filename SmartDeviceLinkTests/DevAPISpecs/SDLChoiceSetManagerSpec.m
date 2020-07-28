@@ -95,7 +95,7 @@ describe(@"choice set manager tests", ^{
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
 
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
-        enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetType5 width:500 rows:1]];
+        enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
         disabledWindowCapability = [[SDLWindowCapability alloc] init];
         disabledWindowCapability.textFields = @[];
         blankWindowCapability = [[SDLWindowCapability alloc] init];

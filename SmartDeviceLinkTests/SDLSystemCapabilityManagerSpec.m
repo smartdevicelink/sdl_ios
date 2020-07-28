@@ -104,7 +104,7 @@ describe(@"System capability manager", ^{
 #pragma clang diagnostic pop
         SDLTextField *textField = [[SDLTextField alloc] init];
         textField.name = SDLTextFieldNameMainField1;
-        textField.characterSet = SDLCharacterSetCID1;
+        textField.characterSet = SDLCharacterSetUtf8;
         textField.width = @(123);
         textField.rows = @(1);
         testDisplayCapabilities.textFields = @[textField];
