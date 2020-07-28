@@ -52,6 +52,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameOnLanguageChange = @"OnLanguageChange
 SDLRPCFunctionName const SDLRPCFunctionNameOnLockScreenStatus = @"OnLockScreenStatus";
 SDLRPCFunctionName const SDLRPCFunctionNameOnPermissionsChange = @"OnPermissionsChange";
 SDLRPCFunctionName const SDLRPCFunctionNameOnRCStatus = @"OnRCStatus";
+SDLRPCFunctionName const SDLRPCFunctionNameOnSubtleAlertPressed = @"OnSubtleAlertPressed";
 SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData = @"OnSyncPData";
 SDLRPCFunctionName const SDLRPCFunctionNameOnSystemCapabilityUpdated = @"OnSystemCapabilityUpdated";
 SDLRPCFunctionName const SDLRPCFunctionNameOnSystemRequest = @"OnSystemRequest";
