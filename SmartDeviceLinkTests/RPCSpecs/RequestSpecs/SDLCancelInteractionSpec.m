@@ -103,6 +103,13 @@ describe(@"Getter/Setter Tests", ^{
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
+        it(@"Should initialize correctly with initWithSubtleAlertCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithSubtleAlertCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert]));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
         it(@"Should initialize correctly with alert:", ^{
             testRequest = [SDLCancelInteraction alert];
 
@@ -128,6 +135,13 @@ describe(@"Getter/Setter Tests", ^{
             testRequest = [SDLCancelInteraction performInteraction];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
+            expect(testRequest.cancelID).to(beNil());
+        });
+
+        it(@"Should initialize correctly with subtleAlert:", ^{
+            testRequest = [SDLCancelInteraction subtleAlert];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert]));
             expect(testRequest.cancelID).to(beNil());
         });
     });

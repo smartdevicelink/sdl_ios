@@ -67,6 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID;
 
 /**
+ Convenience init for dismissing a subtle alert.
+
+ @param cancelID The ID of the specific subtle alert to dismiss
+ @return A SDLCancelInteraction object
+ */
+- (instancetype)initWithSubtleAlertCancelID:(UInt32)cancelID;
+
+/**
  Convenience init for dismissing the currently presented alert.
 
  @return A SDLCancelInteraction object
