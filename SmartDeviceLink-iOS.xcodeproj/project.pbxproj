@@ -1427,6 +1427,8 @@
 		889D0B9024D052FE008AD494 /* SDLSubtleAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 889D0B8E24D052FD008AD494 /* SDLSubtleAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		889D0B9324D05A0E008AD494 /* SDLSubtleAlertResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9124D05A0E008AD494 /* SDLSubtleAlertResponse.m */; };
 		889D0B9424D05A0E008AD494 /* SDLSubtleAlertResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 889D0B9224D05A0E008AD494 /* SDLSubtleAlertResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */; };
+		889D0B9824D06E52008AD494 /* SDLSubtleAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */; };
 		889E7BAF249CEE07002E4BE1 /* SubscribeButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E7BAD249CEDCF002E4BE1 /* SubscribeButtonManager.swift */; };
 		889E7BB2249D0877002E4BE1 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */; };
 		88A098AE2476F0C200A50005 /* SDLSubscribeButtonManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A098AC2476F0C200A50005 /* SDLSubscribeButtonManager.h */; };
@@ -3209,6 +3211,8 @@
 		889D0B8E24D052FD008AD494 /* SDLSubtleAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSubtleAlert.h; sourceTree = "<group>"; };
 		889D0B9124D05A0E008AD494 /* SDLSubtleAlertResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertResponse.m; sourceTree = "<group>"; };
 		889D0B9224D05A0E008AD494 /* SDLSubtleAlertResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSubtleAlertResponse.h; sourceTree = "<group>"; };
+		889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertResponseSpec.m; sourceTree = "<group>"; };
+		889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertSpec.m; sourceTree = "<group>"; };
 		889E7BAD249CEDCF002E4BE1 /* SubscribeButtonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButtonManager.swift; sourceTree = "<group>"; };
 		889E7BB0249D0877002E4BE1 /* SubscribeButtonManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubscribeButtonManager.h; sourceTree = "<group>"; };
 		889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubscribeButtonManager.m; sourceTree = "<group>"; };
@@ -3794,6 +3798,7 @@
 				162E825D1A9BDE8A00906325 /* SDLSubscribeButtonSpec.m */,
 				162E825E1A9BDE8A00906325 /* SDLSubscribeVehicleDataSpec.m */,
 				DA9F7EA31DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m */,
+				889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */,
 				162E825F1A9BDE8A00906325 /* SDLSyncPDataSpec.m */,
 				162E82601A9BDE8A00906325 /* SDLSystemRequestSpec.m */,
 				162E82611A9BDE8A00906325 /* SDLUnregisterAppInterfaceSpec.m */,
@@ -3868,6 +3873,7 @@
 				162E82861A9BDE8A00906325 /* SDLSubscribeButtonResponseSpec.m */,
 				162E82871A9BDE8A00906325 /* SDLSubscribeVehicleDataResponseSpec.m */,
 				DA9F7EA91DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m */,
+				889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */,
 				162E82881A9BDE8A00906325 /* SDLSyncPDataResponseSpec.m */,
 				162E82891A9BDE8A00906325 /* SDLSystemRequestResponseSpec.m */,
 				162E828A1A9BDE8A00906325 /* SDLUnregisterAppInterfaceResponseSpec.m */,
@@ -8325,6 +8331,7 @@
 				162E83761A9BDE8B00906325 /* SDLChoiceSpec.m in Sources */,
 				162E83571A9BDE8B00906325 /* SDLGetDTCsResponseSpec.m in Sources */,
 				5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */,
+				889D0B9824D06E52008AD494 /* SDLSubtleAlertSpec.m in Sources */,
 				88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */,
 				1EE8C4581F387ABD00FDC2CF /* SDLButtonPressResponseSpec.m in Sources */,
 				884554AF2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m in Sources */,
@@ -8346,6 +8353,7 @@
 				5D60DF26202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m in Sources */,
 				162E832C1A9BDE8B00906325 /* SDLDiagnosticMessageSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
+				889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
 				5D64FE6F20DA9E4300792F9F /* SDLStreamingVideoLifecycleManagerSpec.m in Sources */,
 				DA9F7EA41DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m in Sources */,

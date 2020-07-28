@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }
