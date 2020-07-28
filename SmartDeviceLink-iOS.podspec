@@ -378,6 +378,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSubscribeVehicleDataResponse.h',
 'SmartDeviceLink/SDLSubscribeWaypoints.h',
 'SmartDeviceLink/SDLSubscribeWaypointsResponse.h',
+'SmartDeviceLink/SDLSubtleAlert.h',
 'SmartDeviceLink/SDLSupportedSeat.h',
 'SmartDeviceLink/SDLSyncMsgVersion.h',
 'SmartDeviceLink/SDLMsgVersion.h',

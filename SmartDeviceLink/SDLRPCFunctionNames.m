@@ -86,6 +86,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameSpeak = @"Speak";
 SDLRPCFunctionName const SDLRPCFunctionNameSubscribeButton = @"SubscribeButton";
 SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData = @"SubscribeVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints = @"SubscribeWayPoints";
+SDLRPCFunctionName const SDLRPCFunctionNameSubtleAlert = @"SubtleAlert";
 SDLRPCFunctionName const SDLRPCFunctionNameSyncPData = @"SyncPData";
 SDLRPCFunctionName const SDLRPCFunctionNameSystemRequest = @"SystemRequest";
 SDLRPCFunctionName const SDLRPCFunctionNameUnpublishAppService = @"UnpublishAppService";

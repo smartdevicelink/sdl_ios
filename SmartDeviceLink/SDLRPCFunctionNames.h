@@ -247,6 +247,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData;
 /// Function name for a SubscribeWayPoints RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints;
 
+/// Function name for a SubtleAlert RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameSubtleAlert;
+
 /// Function name for a SyncPData RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameSyncPData __deprecated;
 

@@ -73,6 +73,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeVehicleData.h"
 #import "SDLSubscribeWayPoints.h"
+#import "SDLSubtleAlert.h"
 #import "SDLSyncPData.h"
 #import "SDLSystemRequest.h"
 #import "SDLUnpublishAppService.h"
