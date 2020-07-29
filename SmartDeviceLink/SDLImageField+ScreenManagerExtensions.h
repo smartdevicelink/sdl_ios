@@ -6,7 +6,7 @@
 //  Copyright © 2020 smartdevicelink. All rights reserved.
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLImageField.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
