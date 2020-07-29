@@ -163,11 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameVehicleType ofClass:SDLVehicleType.class error:nil];
 }
 
-- (void)setSupportedDiagModes:(nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {
+- (void)setSupportedDiagModes:(nullable NSArray<NSNumber *> *)supportedDiagModes {
     [self.parameters sdl_setObject:supportedDiagModes forName:SDLRPCParameterNameSupportedDiagnosticModes];
 }
 
-- (nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {
+- (nullable NSArray<NSNumber *> *)supportedDiagModes {
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameSupportedDiagnosticModes ofClass:NSNumber.class error:nil];
 }
 

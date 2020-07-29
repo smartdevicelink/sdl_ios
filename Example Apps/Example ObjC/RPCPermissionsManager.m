@@ -24,18 +24,23 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_checkCurrentPermissionWithManager:manager rpcName:showRPCName];
 
     // Checks if all the RPCs need to create menus are allowed right at this moment
-    NSArray<NSString *> *menuRPCNames = @[@"AddCommand", @"CreateInteractionChoiceSet", @"PerformInteraction"];
-    [self sdlex_checkCurrentGroupPermissionsWithManager:manager rpcNames:menuRPCNames];
+    SDLPermissionElement *addCommandPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAddCommand parameterPermissions:nil];
+    SDLPermissionElement *createInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameCreateInteractionChoiceSet parameterPermissions:nil];
+    SDLPermissionElement *performInteractionPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNamePerformInteraction parameterPermissions:nil];
+    NSArray<SDLPermissionElement *> *menuRPCPermissions = @[addCommandPermissionElement, createInteractionPermissionElement, performInteractionPermissionElement];
+    [self sdlex_checkCurrentGroupPermissionsWithManager:manager permissionElements:menuRPCPermissions];
 
-    // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
-    NSArray<NSString *> *mediaTemplateRPCs = @[@"SetMediaClockTimer", @"SubscribeButton"];
-    SDLPermissionObserverIdentifier allAllowedObserverId = [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCs groupType:SDLPermissionGroupTypeAllAllowed];
+    // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes to all-allowed or from all-allowed to some-not-allowed.
+    SDLPermissionElement *setMediaClockPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSetMediaClockTimer parameterPermissions:nil];
+    SDLPermissionElement *subscribeButtonPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameSubscribeButton parameterPermissions:nil];
+    NSArray<SDLPermissionElement *> *mediaTemplateRPCPermissions = @[setMediaClockPermissionElement, subscribeButtonPermissionElement];
+    SDLPermissionObserverIdentifier allAllowedObserverId = [self sdlex_subscribeGroupPermissionsWithManager:manager permissionElements:mediaTemplateRPCPermissions groupType:SDLPermissionGroupTypeAllAllowed];
 
     // Stop observing permissions changes for the media template releated RPCs
     [self sdlex_unsubscribeGroupPermissionsWithManager:manager observerId:allAllowedObserverId];
 
     // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to any, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
-    [self sdlex_subscribeGroupPermissionsWithManager:manager rpcNames:mediaTemplateRPCs groupType:SDLPermissionGroupTypeAny];
+    [self sdlex_subscribeGroupPermissionsWithManager:manager permissionElements:mediaTemplateRPCPermissions groupType:SDLPermissionGroupTypeAny];
 }
 
 /**
@@ -46,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)isDialNumberRPCAllowedWithManager:(SDLManager *)manager {
     SDLLogD(@"Checking if app has permission to dial a number");
-    return [self sdlex_checkCurrentPermissionWithManager:manager rpcName:@"DialNumber"];
+    return [self sdlex_checkCurrentPermissionWithManager:manager rpcName:SDLRPCFunctionNameDialNumber];
 }
 
 #pragma mark - Check Permissions
@@ -60,8 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param rpcName  The name of the RPC
  *  @return         True if the RPC can be sent to Core right now, false if not
  */
-+ (BOOL)sdlex_checkCurrentPermissionWithManager:(SDLManager *)manager rpcName:(NSString *)rpcName {
-    BOOL isRPCAllowed = [manager.permissionManager isRPCAllowed:rpcName];
++ (BOOL)sdlex_checkCurrentPermissionWithManager:(SDLManager *)manager rpcName:(SDLRPCFunctionName)rpcName {
+    BOOL isRPCAllowed = [manager.permissionManager isRPCNameAllowed:rpcName];
     [self sdlex_logRPCPermission:rpcName isRPCAllowed:isRPCAllowed];
     return isRPCAllowed;
 }
@@ -73,26 +78,26 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param rpcNames The names of the RPCs
  *  @return         The current permission status for all the RPCs in the group
  */
-+ (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<NSString *> *)rpcNames {
-    SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCs:rpcNames];
-    NSDictionary<NSString *, NSNumber *> *individualPermissionStatuses = [manager.permissionManager statusOfRPCs:rpcNames];
-    [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
++ (SDLPermissionGroupStatus)sdlex_checkCurrentGroupPermissionsWithManager:(SDLManager *)manager permissionElements:(NSArray<SDLPermissionElement *> *)permissionElements {
+    SDLPermissionGroupStatus groupPermissionStatus = [manager.permissionManager groupStatusOfRPCPermissions:permissionElements];
+    NSDictionary<NSString *, SDLRPCPermissionStatus *> *individualPermissionStatuses = [manager.permissionManager statusesOfRPCPermissions:permissionElements];
+    [self sdlex_logRPCGroupPermissions:permissionElements groupPermissionStatus:groupPermissionStatus individualPermissionStatuses:individualPermissionStatuses];
     return groupPermissionStatus;
 }
 
 #pragma mark Subscribe Permissions
 
 /**
- *  Sets up a block for observing permission changes for a group of RPCs. This block is called immediately when created and when the permission status changes for the group of RPCs being observed.
+ *  Sets up a block for observing permission changes for a group of RPCs. This block is called when the group permissions become all-allowed or from all-allowed to some-not-allowed.
  *
  *  @param manager      The SDL Manager
  *  @param rpcNames     The names of the RPCs to be subscribed
  *  @param groupType    The type of changes you want to be notified about for the group
  *  @return             A unique identifier for the subscription. This can be used to later to unsubscribe from the notifications.
  */
-+ (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager rpcNames:(NSArray<NSString *> *)rpcNames groupType:(SDLPermissionGroupType)groupType {
-    SDLPermissionObserverIdentifier observerId = [manager.permissionManager addObserverForRPCs:rpcNames groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
-        [self sdlex_logRPCGroupPermissions:rpcNames groupPermissionStatus:status individualPermissionStatuses:change];
++ (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager permissionElements:(NSArray<SDLPermissionElement *> *)permissionElements groupType:(SDLPermissionGroupType)groupType {
+    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCPermissions:permissionElements groupType:groupType withHandler:^(NSDictionary<SDLPermissionRPCName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
+        [self sdlex_logRPCGroupPermissions:permissionElements groupPermissionStatus:status individualPermissionStatuses:change];
     }];
     return observerId;
 }
@@ -126,10 +131,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param groupPermissionStatus           The permission status for all RPCs in the group
  *  @param individualPermissionStatuses    The permission status for each of the RPCs in the group
  */
-+ (void)sdlex_logRPCGroupPermissions:(NSArray<NSString *> *)rpcNames groupPermissionStatus:(SDLPermissionGroupStatus)groupPermissionStatus individualPermissionStatuses:(NSDictionary<NSString *, NSNumber *> *)individualPermissionStatuses {
++ (void)sdlex_logRPCGroupPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupPermissionStatus:(SDLPermissionGroupStatus)groupPermissionStatus individualPermissionStatuses:(NSDictionary<NSString *, SDLRPCPermissionStatus *> *)individualPermissionStatuses {
     SDLLogD(@"The group status for %@ has changed to: %lu", rpcNames, (unsigned long)groupPermissionStatus);
-    [individualPermissionStatuses enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSNumber * _Nonnull obj, BOOL * _Nonnull stop) {
-        [self sdlex_logRPCPermission:key isRPCAllowed:obj.boolValue];
+    [individualPermissionStatuses enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, SDLRPCPermissionStatus * _Nonnull obj, BOOL * _Nonnull stop) {
+        [self sdlex_logRPCPermission:key isRPCAllowed:obj.rpcAllowed];
     }];
 }
 

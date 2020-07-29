@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
-- (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
+- (void)setTimeStamp:(NSArray<NSNumber *> *)timeStamp {
     [self.store sdl_setObject:timeStamp forName:SDLRPCParameterNameTS];
 }
 
-- (NSArray<NSNumber<SDLInt> *> *)timeStamp {
+- (NSArray<NSNumber *> *)timeStamp {
     NSError *error = nil;
     return [self.store sdl_objectsForName:SDLRPCParameterNameTS ofClass:NSNumber.class error:&error];
 }

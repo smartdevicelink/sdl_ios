@@ -37,10 +37,24 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
+
+    self.buttonName = buttonName;
+    self.moduleType = moduleType;
+    self.moduleId = moduleId;
+
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName moduleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId buttonPressMode:(SDLButtonPressMode)buttonPressMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
     
     self.buttonName = buttonName;
     self.moduleType = moduleType;
     self.moduleId = moduleId;
+    self.buttonPressMode = buttonPressMode;
     
     return self;
 }

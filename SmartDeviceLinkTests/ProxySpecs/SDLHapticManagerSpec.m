@@ -367,27 +367,64 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
 
             viewRect2 = CGRectMake(201, 201, 50, 50);
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
+            UITextField *textField2 = [[UITextField alloc] initWithFrame:viewRect2];
             [uiViewController.view addSubview:textField2];
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
         });
 
-        it(@"should have two views", ^{
-            int expectedCount = 2;
-            expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+        context(@"when not started", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
+            });
 
-            if(sentHapticRequest.hapticRectData.count == expectedCount) {
-                NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;
-                SDLHapticRect *sdlhapticRect1 = hapticRectData[0];
-                SDLRectangle *sdlRect1 = sdlhapticRect1.rect;
+            it(@"should have one view", ^{
+                int expectedCount = 1;
+                expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
 
-                SDLHapticRect *sdlhapticRect2 = hapticRectData[1];
-                SDLRectangle *sdlRect2 = sdlhapticRect2.rect;
+                if(sentHapticRequest.hapticRectData.count == expectedCount) {
+                    NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;
+                    SDLHapticRect *sdlhapticRect1 = hapticRectData[0];
+                    SDLRectangle *sdlRect1 = sdlhapticRect1.rect;
 
-                compareRectangle(sdlRect1, viewRect2);
-                compareRectangle(sdlRect2, viewRect1);
-            }
+                    compareRectangle(sdlRect1, viewRect1);
+                }
+            });
+        });
+
+        context(@"when started", ^{
+            beforeEach(^{
+                [hapticManager start];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
+            });
+
+            it(@"should have two views", ^{
+                int expectedCount = 2;
+                expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+
+                if(sentHapticRequest.hapticRectData.count == expectedCount) {
+                    NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;
+                    SDLHapticRect *sdlhapticRect1 = hapticRectData[0];
+                    SDLRectangle *sdlRect1 = sdlhapticRect1.rect;
+
+                    SDLHapticRect *sdlhapticRect2 = hapticRectData[1];
+                    SDLRectangle *sdlRect2 = sdlhapticRect2.rect;
+
+                    compareRectangle(sdlRect1, viewRect2);
+                    compareRectangle(sdlRect2, viewRect1);
+                }
+            });
+
+            context(@"when stopped", ^{
+                beforeEach(^{
+                    [hapticManager stop];
+                    for (UIView *subview in uiViewController.view.subviews) { [subview removeFromSuperview]; }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidUpdateProjectionView object:nil];
+                });
+
+                it(@"should have two views", ^{
+                    int expectedCount = 2;
+                    expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+                });
+            });
         });
     });
 

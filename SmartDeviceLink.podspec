@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "6.6.0"
+s.version      = "6.7.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -10,7 +10,7 @@ s.platform     = :ios, "8.0"
 s.dependency     'BiSON', '~> 1.2.0'
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
 s.requires_arc = true
-s.swift_version = '5.1'
+s.swift_version = '5.2'
 
 s.default_subspec = 'Default'
 
@@ -268,6 +268,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLPerformInteraction.h',
 'SmartDeviceLink/SDLPerformInteractionResponse.h',
 'SmartDeviceLink/SDLPermissionConstants.h',
+'SmartDeviceLink/SDLPermissionElement.h',
 'SmartDeviceLink/SDLPermissionItem.h',
 'SmartDeviceLink/SDLPermissionManager.h',
 'SmartDeviceLink/SDLPermissionStatus.h',
@@ -310,6 +311,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLRPCMessageType.h',
 'SmartDeviceLink/SDLRPCNotification.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
+'SmartDeviceLink/SDLRPCPermissionStatus.h',
 'SmartDeviceLink/SDLRPCRequest.h',
 'SmartDeviceLink/SDLRPCRequestNotification.h',
 'SmartDeviceLink/SDLRPCResponse.h',

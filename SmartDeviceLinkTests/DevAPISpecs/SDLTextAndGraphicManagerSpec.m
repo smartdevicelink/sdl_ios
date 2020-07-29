@@ -6,6 +6,7 @@
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImage.h"
+#import "SDLImageField.h"
 #import "SDLMetadataTags.h"
 #import "SDLPutFileResponse.h"
 #import "SDLShow.h"
@@ -36,6 +37,8 @@
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic) BOOL isDirty;
+
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
 
 @end
 
@@ -375,7 +378,7 @@ describe(@"text and graphic manager", ^{
                 testManager.windowCapability = [[SDLWindowCapability alloc] init];
             });
 
-            it(@"should send everything", ^{
+            it(@"should send nothing", ^{
                 testManager.mediaTrackTextField = textMediaTrack;
                 testManager.title = textTitle;
                 testManager.textField1 = textLine1;
@@ -386,12 +389,12 @@ describe(@"text and graphic manager", ^{
                 testManager.batchUpdates = NO;
                 [testManager updateWithCompletionHandler:nil];
 
-                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
+                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
+                expect(testManager.inProgressUpdate.mainField1).toNot(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).toNot(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).toNot(equal(textLine3));
+                expect(testManager.inProgressUpdate.mainField4).toNot(equal(textLine4));
             });
         });
 
@@ -863,8 +866,36 @@ describe(@"text and graphic manager", ^{
             __block NSString *testTextFieldText = @"mainFieldText";
 
             beforeEach(^{
+                testManager.windowCapability = [[SDLWindowCapability alloc] init];
+                SDLImageField *primaryImageField = [[SDLImageField alloc] init];
+                primaryImageField.name = SDLImageFieldNameGraphic;
+                SDLImageField *secondaryImageField = [[SDLImageField alloc] init];
+                secondaryImageField.name = SDLImageFieldNameSecondaryGraphic;
+                testManager.windowCapability.imageFields = @[primaryImageField, secondaryImageField];
+
+                SDLTextField *lineOneField = [[SDLTextField alloc] init];
+                lineOneField.name = SDLTextFieldNameMainField1;
+                testManager.windowCapability.textFields = @[lineOneField];
+
                 testManager.batchUpdates = YES;
                 testManager.textField1 = testTextFieldText;
+            });
+
+            context(@"when imageFields are nil", ^{
+                beforeEach(^{
+                    testManager.windowCapability.imageFields = nil;
+                });
+
+                it(@"should send nothing", ^{
+                    testManager.primaryGraphic = testArtwork;
+                    testManager.secondaryGraphic = testArtwork;
+                    testManager.batchUpdates = NO;
+                    [testManager updateWithCompletionHandler:nil];
+
+                    expect(testManager.inProgressUpdate.graphic).to(beNil());
+                    expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                });
             });
 
             context(@"when the image is already on the head unit", ^{
@@ -881,23 +912,6 @@ describe(@"text and graphic manager", ^{
                     expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                });
-
-                context(@"when imageFields are nil", ^{
-                    beforeEach(^{
-                        testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                    });
-
-                    it(@"should send everything", ^{
-                        testManager.primaryGraphic = testArtwork;
-                        testManager.secondaryGraphic = testArtwork;
-                        testManager.batchUpdates = NO;
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
-                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
-                        expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                    });
                 });
             });
 

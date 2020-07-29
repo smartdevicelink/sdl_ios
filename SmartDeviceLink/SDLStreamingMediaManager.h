@@ -135,6 +135,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
+ *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startWithProtocol:(SDLProtocol *)protocol;
+
+/**
  *  Stop the manager. This method is used internally.
  */
 - (void)stop;
@@ -181,22 +186,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)sendAudioData:(NSData *)audioData;
 
-#pragma mark - Secondary Transport Specific
-
-/**
- *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
- */
-- (void)startWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
+#pragma mark - Deprecated Methods
 
  /**
   *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
  /**
   *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
   */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startSecondaryTransportWithProtocol: instead");
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
 
 @end

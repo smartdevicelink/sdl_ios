@@ -72,8 +72,6 @@ describe(@"the streaming video manager", ^{
         hmiStatus.videoStreamingState = streamState;
         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:self rpcNotification:hmiStatus];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-        [NSThread sleepForTimeInterval:0.3];
     };
 
     beforeEach(^{
@@ -86,7 +84,7 @@ describe(@"the streaming video manager", ^{
 
         testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
-        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfiguration lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:testConfiguration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
+        testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
 
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
@@ -183,12 +181,11 @@ describe(@"the streaming video manager", ^{
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
                 });
 
                 it(@"should save the connected vehicle make but not the screen size", ^{
-                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
+                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).toEventually(equal(@YES));
+                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
 
@@ -213,11 +210,10 @@ describe(@"the streaming video manager", ^{
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    [NSThread sleepForTimeInterval:0.1];
                 });
 
                 it(@"should save the connected vehicle make and the screen size", ^{
-                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
+                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).toEventually(equal(@YES));
                     expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
@@ -250,7 +246,7 @@ describe(@"the streaming video manager", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -260,7 +256,7 @@ describe(@"the streaming video manager", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -270,7 +266,7 @@ describe(@"the streaming video manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
                             });
                         });
 
@@ -280,7 +276,7 @@ describe(@"the streaming video manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
                             });
                         });
 
@@ -290,7 +286,7 @@ describe(@"the streaming video manager", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
                     });
@@ -319,7 +315,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should close the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -329,7 +325,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -339,7 +335,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
                         });
                     });
 
@@ -349,7 +345,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
                         });
                     });
 
@@ -359,7 +355,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -370,7 +366,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -381,7 +377,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
                 });
@@ -403,7 +399,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
 
@@ -413,7 +409,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
 
@@ -423,7 +419,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStarting));
                         });
                     });
 
@@ -433,7 +429,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStarting));
                         });
                     });
 
@@ -443,7 +439,7 @@ describe(@"the streaming video manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
                 });
@@ -556,7 +552,7 @@ describe(@"the streaming video manager", ^{
                     beforeEach(^{
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                     });
 
                     it(@"should have set all the right properties", ^{
@@ -572,7 +568,7 @@ describe(@"the streaming video manager", ^{
                     beforeEach(^{
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                     });
 
                     it(@"should fall back correctly", ^{
@@ -593,7 +589,7 @@ describe(@"the streaming video manager", ^{
                     context(@"If no preferred resolutions were set in the data source", ^{
                         beforeEach(^{
                             streamingLifecycleManager.dataSource = nil;
-                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                            [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                         });
                         it(@"should not replace the existing screen resolution", ^{
                             expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(beTrue());
@@ -610,7 +606,7 @@ describe(@"the streaming video manager", ^{
                             streamingLifecycleManager.dataSource = testDataSource;
                             streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
 
-                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                            [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                         });
                         it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
@@ -652,7 +648,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should have retried with new properties", ^{
@@ -674,7 +670,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should have retried with new properties", ^{
@@ -695,7 +691,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should end the service", ^{
@@ -710,7 +706,7 @@ describe(@"the streaming video manager", ^{
 
                         testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
-                        [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
 
                     it(@"should end the service", ^{
@@ -733,7 +729,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
 
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testVideoMessage];
                 });
 
                 it(@"should have set all the right properties", ^{
@@ -755,7 +751,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
 
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testVideoMessage];
                 });
 
                 it(@"should have set all the right properties", ^{
@@ -766,7 +762,7 @@ describe(@"the streaming video manager", ^{
     });
 
     describe(@"stopping the manager", ^{
-        __block BOOL handlerCalled = nil;
+        __block BOOL handlerCalled = NO;
 
         beforeEach(^{
             handlerCalled = NO;
@@ -841,7 +837,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testVideoMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{
@@ -861,7 +857,7 @@ describe(@"the streaming video manager", ^{
                     testVideoHeader.serviceType = SDLServiceTypeVideo;
                     testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testVideoMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{

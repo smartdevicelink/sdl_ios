@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "NSNumber+NumberType.h"
+#import "SDLRPCFunctionNames.h"
+#import "SDLPermissionElement.h"
+#import "SDLRPCPermissionStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,11 +62,19 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
 };
 
 /**
- *  The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.
+ *  This is a block that is passed in to some methods that will be stored and called when specified permissions change.
  *
- *  @param change  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
- *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
+ *  @param updatedPermissionStatuses A dictionary of the new current status of all subscription items; containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
+ *  @param status The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, NSNumber *> *_Nonnull change, SDLPermissionGroupStatus status);
+typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, NSNumber *> *_Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status);
+
+/**
+ *  A block that will be called when specified permissions change. It will return whether each RPC and its parameters are allowed as well as the permission group status of all the RPCs.
+ *
+ *  @param updatedPermissionStatuses A dictionary of the new current status of all subscription items; containing <key(String): SDLPermissionRPCName, object(SDLRPCPermissionStatus)>
+ *  @param status The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
+ */
+typedef void (^SDLRPCPermissionStatusChangedHandler)(NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *_Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status);
 
 NS_ASSUME_NONNULL_END

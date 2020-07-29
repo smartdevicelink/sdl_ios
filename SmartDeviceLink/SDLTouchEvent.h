@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Required, array size 1-1000, contains integer value 0-2000000000
  */
-@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *timeStamp;
+@property (strong, nonatomic) NSArray<NSNumber *> *timeStamp;
 
 /**
  The touch's coordinate

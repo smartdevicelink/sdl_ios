@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @since SDL 1.0
  */
-@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
+@property (strong, nonatomic) NSArray<NSNumber *> *interactionChoiceSetIDList;
 
 /**
  Help text. This is the spoken text when a user speaks "help" while the interaction is occurring.

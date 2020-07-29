@@ -10,6 +10,7 @@
   <li><a href="#section--initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:">-initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:</a></li>
   <li><a href="#section--initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:">-initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:</a></li>
   <li><a href="#section-syncFileName">syncFileName</a></li>
+  <li><a href="#section-sdlFileName">sdlFileName</a></li>
   <li><a href="#section-fileType">fileType</a></li>
   <li><a href="#section-persistentFile">persistentFile</a></li>
   <li><a href="#section-systemFile">systemFile</a></li>
@@ -259,11 +260,31 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">syncFileName</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"use sdlFileName instead"</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">syncFileName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">syncFileName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-sdlFileName">
+      sdlFileName
+  </h3>
+  
+  <p>File reference name</p>
+
+<p>Required, max length 255 characters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">sdlFileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sdlFileName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

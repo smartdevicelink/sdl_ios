@@ -36,6 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager;
 
+/// Start observing updates
+- (void)start;
+
+/// Stop observing updates and clear data
+- (void)stop;
+
 /**
  updateInterfaceLayout crawls through the view hierarchy, updates and keep tracks of views to be reported through Haptic RPC. This function is automatically called when SDLDidUpdateProjectionView notification is sent by the application.
  */

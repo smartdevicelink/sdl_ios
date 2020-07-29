@@ -12,6 +12,7 @@
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLifecycleProtocolHandler.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLogConfiguration.h"
@@ -23,7 +24,6 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformAppServiceInteractionResponse.h"
 #import "SDLPermissionManager.h"
-#import "SDLProxy.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -42,6 +42,9 @@
 #import "SDLVersion.h"
 #import "SDLVideoStreamingState.h"
 
+#import "TestOldConfigurationUpdateManagerDelegate.h"
+#import "TestNewConfigurationUpdateManagerDelegate.h"
+
 
 // Ignore the deprecated proxy methods
 #pragma clang diagnostic push
@@ -58,6 +61,7 @@
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
+@property (strong, nonatomic) SDLLanguage currentVRLanguage;
 @end
 
 QuickConfigurationBegin(SendingRPCsConfiguration)
@@ -77,10 +81,15 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
 
 QuickConfigurationEnd
 
+@interface SDLGlobals ()
+@property (copy, nonatomic, readwrite) SDLVersion *protocolVersion;
+@end
+
 
 @interface SDLLifecycleManager ()
 // reach the private property for testing
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+@property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
 @end
 
 
@@ -91,13 +100,13 @@ describe(@"a lifecycle manager", ^{
     __block SDLConfiguration *testConfig = nil;
     
     __block id protocolMock = OCMClassMock([SDLProtocol class]);
-    __block id proxyMock = OCMClassMock([SDLProxy class]);
     __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
     __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
     __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
-    
+    __block id secondaryTransportManagerMock = OCMClassMock([SDLSecondaryTransportManager class]);
+
     void (^transitionToState)(SDLState *) = ^(SDLState *state) {
         dispatch_sync(testManager.lifecycleQueue, ^{
             [testManager.lifecycleStateMachine transitionToState:state];
@@ -111,9 +120,6 @@ describe(@"a lifecycle manager", ^{
     };
 
     beforeEach(^{
-        OCMStub([proxyMock iapProxyWithListener:[OCMArg any] secondaryTransportManager:[OCMArg any] encryptionLifecycleManager:[OCMArg any]]).andReturn(proxyMock);
-        OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
-        
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];
         testLifecycleConfig.shortAppName = @"Short Name";
         testLifecycleConfig.appType = SDLAppHMITypeNavigation;
@@ -121,12 +127,18 @@ describe(@"a lifecycle manager", ^{
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
+        testConfig.lifecycleConfig.minimumProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
+        testConfig.lifecycleConfig.minimumRPCVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:OCMProtocolMock(@protocol(SDLManagerDelegate))];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
         testManager.systemCapabilityManager = systemCapabilityMock;
+        testManager.secondaryTransportManager = secondaryTransportManagerMock;
+
+        [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
+        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
     });
     
     it(@"should initialize properties", ^{
@@ -137,7 +149,6 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
         expect(testManager.streamManager).toNot(beNil());
-        expect(testManager.proxy).to(beNil());
         expect(testManager.registerResponse).to(beNil());
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
@@ -147,6 +158,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.rpcOperationQueue).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
         expect(testManager.authToken).to(beNil());
+        expect(testManager.currentVRLanguage).toNot(beNil());
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -222,31 +234,27 @@ describe(@"a lifecycle manager", ^{
                 readyHandlerSuccess = success;
                 readyHandlerError = error;
             }];
+
+            testManager.protocolHandler.protocol = protocolMock;
         });
         
-        it(@"should initialize the proxy property", ^{
-            expect(testManager.proxy).toNot(beNil());
+        it(@"should initialize enter the started state and start the secondary transport", ^{
             expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
-        });
 
-        it(@"should initialize secondary transport manager if not in tcpDebugMode", ^{
-            if (!testManager.configuration.lifecycleConfig.tcpDebugMode) {
-                expect(testManager.secondaryTransportManager).toNot(beNil());
-            }
+            expect(testManager.secondaryTransportManager).toNot(beNil());
         });
 
         describe(@"after receiving a connect notification", ^{
             beforeEach(^{
                 // When we connect, we should be creating an sending an RAI
-                OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
+                OCMExpect([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
                 
-                [testManager.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
-                [NSThread sleepForTimeInterval:0.1];
+                [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
             });
             
             it(@"should send a register app interface request and be in the connected state", ^{
-                OCMVerifyAllWithDelay(proxyMock, 0.5);
-                expect(testManager.lifecycleState).to(match(SDLLifecycleStateConnected));
+                OCMVerifyAllWithDelay(protocolMock, 1.0);
+                expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateConnected));
             });
             
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -258,7 +266,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateReconnecting));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReconnecting));
                 });
             });
             
@@ -266,16 +274,15 @@ describe(@"a lifecycle manager", ^{
                 it(@"should simply stop", ^{
                     [testManager stop];
                     
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
                 });
             });
         });
 
         describe(@"in the connected state when the minimum protocol version is in effect", ^{
             beforeEach(^{
-                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock protocolVersion]).andReturn(oldVersion);
+                [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
+
                 OCMExpect([protocolMock endServiceWithType:SDLServiceTypeRPC]);
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:YES];
             });
@@ -299,7 +306,7 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     if (testConfig.lifecycleConfig.tcpDebugMode) {
-                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:proxyMock]);
+                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:protocolMock]);
                     }
 
                     // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
@@ -323,11 +330,14 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"after receiving a disconnect notification", ^{
                 beforeEach(^{
+                    OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
+                    OCMStub([secondaryTransportManagerMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+                    [NSThread sleepForTimeInterval:1.0];
                 });
                 
                 it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStarted));
                 });
             });
             
@@ -337,16 +347,14 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should enter the stopped state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
                 });
             });
         });
 
         describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
             beforeEach(^{
-                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
 
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
             });
@@ -425,57 +433,137 @@ describe(@"a lifecycle manager", ^{
             });
             
             context(@"when the register response returns different language than the one passed with the lifecycle configuration", ^{
-                beforeEach(^{
-                     expect(testManager.configuration.lifecycleConfig.appName).to(equal(testConfig.lifecycleConfig.appName));
-                     expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(testConfig.lifecycleConfig.shortAppName));
-                     expect(testManager.configuration.lifecycleConfig.ttsName).to(beNil());
-                     expect(testManager.configuration.lifecycleConfig.language).to(equal(testConfig.lifecycleConfig.language));
-                     expect(testManager.configuration.lifecycleConfig.languagesSupported).to(equal(testConfig.lifecycleConfig.languagesSupported));
-                 });
+                context(@"using the deprecated delegate method", ^{
+                    __block TestOldConfigurationUpdateManagerDelegate *oldDelegate = nil;
+                    beforeEach(^{
+                        oldDelegate = OCMClassMock([TestOldConfigurationUpdateManagerDelegate class]);
+                        testManager.delegate = oldDelegate;
+                    });
 
-                it(@"should should update the configuration when the app supports the head unit language", ^{
-                    SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    registerAppInterfaceResponse.success = @YES;
-                    registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
-                    registerAppInterfaceResponse.info = @"Language mismatch";
-                    registerAppInterfaceResponse.language = SDLLanguageEnGb;
-                    testManager.registerResponse = registerAppInterfaceResponse;
+                    it(@"should should update the configuration when the app supports the head unit language", ^{
+                        SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        registerAppInterfaceResponse.success = @YES;
+                        registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
+                        registerAppInterfaceResponse.info = @"Language mismatch";
+                        registerAppInterfaceResponse.language = SDLLanguageEnGb;
+                        registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageEnGb;
+                        testManager.registerResponse = registerAppInterfaceResponse;
 
-                    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"E" ttsName:[SDLTTSChunk textChunksFromString:@"EnGb ttsName"] voiceRecognitionCommandNames:nil];
-                    OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
+                        SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"E" ttsName:[SDLTTSChunk textChunksFromString:@"EnGb ttsName"] voiceRecognitionCommandNames:nil];
+                        OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
 
-                    setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
-                    // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
+                        setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
+                        // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
-                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
-                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
+                        expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
+                        expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
+                        expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
+                        expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
 
-                    OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
+                        OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
+                    });
+
+                    it(@"should not update the configuration when the app does not support the head unit language", ^{
+                        SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        registerAppInterfaceResponse.success = @YES;
+                        registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
+                        registerAppInterfaceResponse.info = @"Language mismatch";
+                        registerAppInterfaceResponse.language = SDLLanguageDeDe;
+                        registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageDeDe;
+                        testManager.registerResponse = registerAppInterfaceResponse;
+
+                        OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(nil);
+
+                        setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
+                        // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
+
+                        expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
+                        expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
+                        expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
+                        expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+
+                        OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
+                    });
                 });
 
-                it(@"should not update the configuration when the app does not support the head unit language", ^{
-                    SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    registerAppInterfaceResponse.success = @YES;
-                    registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
-                    registerAppInterfaceResponse.info = @"Language mismatch";
-                    registerAppInterfaceResponse.language = SDLLanguageDeDe;
-                    testManager.registerResponse = registerAppInterfaceResponse;
+                context(@"using the updated delegate method", ^{
+                    __block TestNewConfigurationUpdateManagerDelegate *newDelegate = nil;
+                    beforeEach(^{
+                        newDelegate = OCMClassMock([TestNewConfigurationUpdateManagerDelegate class]);
+                        testManager.delegate = newDelegate;
+                    });
 
-                    OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(nil);
+                    it(@"should should update the configuration when the app supports the head unit language", ^{
+                        SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        registerAppInterfaceResponse.success = @YES;
+                        registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
+                        registerAppInterfaceResponse.info = @"Language mismatch";
+                        registerAppInterfaceResponse.language = SDLLanguageEnGb;
+                        registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageEnGb;
+                        testManager.registerResponse = registerAppInterfaceResponse;
 
-                    setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
-                    // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
+                        SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"E" ttsName:[SDLTTSChunk textChunksFromString:@"EnGb ttsName"] voiceRecognitionCommandNames:nil];
+                        OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]).andReturn(update);
 
-                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
-                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+                        setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
+                        // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
-                    OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
+                        expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
+                        expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
+                        expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
+                        expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
+
+                        OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]);
+                    });
+
+                    it(@"should not update the configuration when the app does not support the head unit language", ^{
+                        SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        registerAppInterfaceResponse.success = @YES;
+                        registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
+                        registerAppInterfaceResponse.info = @"Language mismatch";
+                        registerAppInterfaceResponse.language = SDLLanguageDeDe;
+                        registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageDeDe;
+                        testManager.registerResponse = registerAppInterfaceResponse;
+
+                        OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]).andReturn(nil);
+
+                        setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
+                        // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
+
+                        expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
+                        expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
+                        expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
+                        expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+
+                        OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]);
+                    });
+
+                    it(@"should update if the hmi display language changes", ^{
+                        SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                        registerAppInterfaceResponse.success = @YES;
+                        registerAppInterfaceResponse.resultCode = SDLResultWrongLanguage;
+                        registerAppInterfaceResponse.info = @"Language mismatch";
+                        registerAppInterfaceResponse.language = SDLLanguageEnUs;
+                        registerAppInterfaceResponse.hmiDisplayLanguage = SDLLanguageEnGb;
+                        testManager.registerResponse = registerAppInterfaceResponse;
+
+                        OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]).andReturn(nil);
+
+                        setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
+                        // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
+
+                        expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
+                        expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
+                        expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
+                        expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+
+                        OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any] hmiLanguage:[OCMArg any]]);
+                    });
                 });
             });
         });
@@ -487,33 +575,30 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
+                OCMExpect([protocolMock sendRPC:testShow]);
                 [testManager sendRPC:testShow];
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class]]);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"can send an RPC of type Response", ^{
                 SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
+                OCMExpect([protocolMock sendRPC:testResponse]);
                 [testManager sendRPC:testResponse];
                 testResponse.correlationID = @(2);
                 testResponse.success = @(true);
                 testResponse.resultCode = SDLResultSuccess;
                 testResponse.info = @"testResponse info";
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class]]);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"can send an RPC of type Notification", ^{
                 SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
+                OCMExpect([protocolMock sendRPC:testNotification]);
                 [testManager sendRPC:testNotification];
 
-                [NSThread sleepForTimeInterval:0.1];
-
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class]]);
+                OCMVerifyAllWithDelay(protocolMock, 0.1);
             });
 
             it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
@@ -554,7 +639,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should attempt to unregister", ^{
-                    OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
                 

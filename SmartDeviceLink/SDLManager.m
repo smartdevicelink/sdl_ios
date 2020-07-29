@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[[SDLConfiguration alloc] initWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -117,13 +117,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<__kindof NSOperation *> *)pendingRPCTransactions {
     return self.lifecycleManager.rpcOperationQueue.operations;
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (nullable SDLProxy *)proxy {
-    return self.lifecycleManager.proxy;
-}
-#pragma clang diagnostic pop
 
 
 #pragma mark SDLConnectionManager Protocol

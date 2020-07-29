@@ -180,6 +180,7 @@
   <li><a href="#section-SDLPerformAudioPassThruResponse">SDLPerformAudioPassThruResponse</a></li>
   <li><a href="#section-SDLPerformInteraction">SDLPerformInteraction</a></li>
   <li><a href="#section-SDLPerformInteractionResponse">SDLPerformInteractionResponse</a></li>
+  <li><a href="#section-SDLPermissionElement">SDLPermissionElement</a></li>
   <li><a href="#section-SDLPermissionItem">SDLPermissionItem</a></li>
   <li><a href="#section-SDLPermissionManager">SDLPermissionManager</a></li>
   <li><a href="#section-SDLPhoneCapability">SDLPhoneCapability</a></li>
@@ -194,6 +195,7 @@
   <li><a href="#section-SDLRPCMessage">SDLRPCMessage</a></li>
   <li><a href="#section-SDLRPCNotification">SDLRPCNotification</a></li>
   <li><a href="#section-SDLRPCNotificationNotification">SDLRPCNotificationNotification</a></li>
+  <li><a href="#section-SDLRPCPermissionStatus">SDLRPCPermissionStatus</a></li>
   <li><a href="#section-SDLRPCRequest">SDLRPCRequest</a></li>
   <li><a href="#section-SDLRPCRequestNotification">SDLRPCRequestNotification</a></li>
   <li><a href="#section-SDLRPCResponse">SDLRPCResponse</a></li>
@@ -4046,6 +4048,25 @@ A keyboard can be used for searches. For example, the user could be asked to ent
   
   
   
+  <h3 id="section-SDLPermissionElement">
+      SDLPermissionElement
+  </h3>
+  
+  <p>An object containing the RPC name and its parameter names that should be checked when checking permissions</p>
+
+  <a href="Classes/SDLPermissionElement.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLPermissionElement</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLPermissionElement</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLPermissionItem">
       SDLPermissionItem
   </h3>
@@ -4325,6 +4346,25 @@ Subsequent calls with the same service type will update the manifest for that se
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRPCNotificationNotification</span> <span class="p">:</span> <span class="kt">NSNotification</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCPermissionStatus">
+      SDLRPCPermissionStatus
+  </h3>
+  
+  <p>An object containing the result status of a permission element request</p>
+
+  <a href="Classes/SDLRPCPermissionStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCPermissionStatus</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRPCPermissionStatus</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
   
   

@@ -31,7 +31,7 @@
 
         expect(putFile.offset).to(equal(@(index * mtuSize)));
         expect(putFile.persistentFile).to(equal(@NO));
-        expect(putFile.syncFileName).to(equal(testFile.name));
+        expect(putFile.sdlFileName).to(equal(testFile.name));
         expect(putFile.bulkData).to(equal(testBulkFileData));
         expect(putFile.crc).to(equal([NSNumber numberWithUnsignedLong:testBulkFileDataCrc]));
 

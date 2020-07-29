@@ -16,7 +16,7 @@
 #import "SDLMutableDataQueue.h"
 
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
-NSTimeInterval const IOStreamThreadWaitSecs = 1.0;
+NSTimeInterval const IOStreamThreadCanceledSemaphoreWaitSecs = 1.0;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,26 +25,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSThread *ioStreamThread;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
-@property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
+/// A semaphore used to block the current thread until we know that the I/O streams have been shutdown on the ioStreamThread
+@property (nonatomic, strong) dispatch_semaphore_t ioStreamThreadCancelledSemaphore;
 
 @end
 
 @implementation SDLIAPDataSession
 
-#pragma mark - Session lifecycle
+#pragma mark - Lifecycle
 
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol; {
-    SDLLogV(@"SDLIAPDataSession init");
+    SDLLogV(@"iAP data session init for accessory: %@", accessory);
 
     self = [super initWithAccessory:accessory forProtocol:protocol];
     if (!self) { return nil; }
 
     _delegate = delegate;
     _sendDataQueue = [[SDLMutableDataQueue alloc] init];
-    _canceledSemaphore = dispatch_semaphore_create(0);
+    _ioStreamThreadCancelledSemaphore = dispatch_semaphore_create(0);
 
     return self;
 }
+
 
 #pragma mark Start
 
@@ -58,9 +60,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (![super createSession]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
-            [self destroySession];
-            if (self.delegate == nil) { return; }
-            [self.delegate dataSessionShouldRetry];
+            __weak typeof(self) weakSelf = self;
+            [self destroySessionWithCompletionHandler:^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate dataSessionShouldRetry];
+            }];
         }
 
         if (self.eaSession != nil) {
@@ -73,65 +78,55 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Stop
 
-- (void)destroySession {
+/// Waits for the ioStreamThread to close and destroy the I/O streams.
+/// @param disconnectCompletionHandler Handler called when the session has disconnected
+- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
-    [self sdl_destroySession];
-    [self.sendDataQueue removeAllObjects];
-}
-
-/**
- *  Makes sure the session is closed and destroyed on the main thread.
- */
-- (void)sdl_destroySession {
-    if ([NSThread isMainThread]) {
-        [self sdl_stopAndDestroySession];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySession];
-        });
-    }
-}
-
-/**
- *  Waits for the session streams to close on the I/O Thread and then destroys the session.
- */
-- (void)sdl_stopAndDestroySession {
-    NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.ioStreamThread == nil) {
-        SDLLogV(@"Stopping data session but no thread established.");
+        SDLLogV(@"No data session established");
         [super cleanupClosedSession];
-        return;
+        return disconnectCompletionHandler();
     }
 
-    [self.ioStreamThread cancel];
+    // Tell the ioStreamThread to shutdown the I/O streams. The I/O streams must be opened and closed on the same thread; if they are not, random crashes can occur. Dispatch this task to the main queue to ensure that this task is performed on the Main Thread. We are using the Main Thread for ease since we don't want to create a separate thread just to wait on closing the I/O streams. Using the Main Thread ensures that semaphore wait is not called from ioStreamThread, which would block the ioStreamThread and prevent shutdown.
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
-    // Waiting for the I/O streams of the data session to close
-    [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
-        if (success == NO) {
-            SDLLogE(@"Destroying thread (IOStreamThread) for data session when I/O streams have not yet closed.");
+        // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
+        [strongSelf.ioStreamThread cancel];
+        [strongSelf performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
+
+        // Block the thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
+        BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCancelled];
+        if (!cancelledSuccessfully) {
+            SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
         }
-        self.ioStreamThread = nil;
-        [super cleanupClosedSession];
-    }];
+
+        [strongSelf.sendDataQueue removeAllObjects];
+
+        disconnectCompletionHandler();
+    });
 }
 
-/**
- *  Wait for the data session to detroy its input and output streams. The data EASession can not be destroyed until both streams have closed.
- *
- *  @param canceledSemaphore When the canceled semaphore is released, the data session's input and output streams have been destroyed.
- *  @param completionHandler Returns whether or not the data session's I/O streams were closed successfully.
- */
-- (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
-    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadWaitSecs * NSEC_PER_SEC)));
+/// Wait for the ioStreamThread to destroy the I/O streams. Make sure this method is not called on the ioStreamThread, as it will block the thread until the timeout occurs.
+/// @return Whether or not the session's I/O streams were closed successfully.
+- (BOOL)sdl_isIOThreadCancelled {
+    NSAssert(![NSThread.currentThread.name isEqualToString:IOStreamThreadName], @"%@ must not be called from the ioStreamThread!", NSStringFromSelector(_cmd));
+
+    long lWait = dispatch_semaphore_wait(self.ioStreamThreadCancelledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadCanceledSemaphoreWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
-        SDLLogD(@"Stream thread canceled successfully");
-        return completionHandler(YES);
-    } else {
-        SDLLogE(@"Failed to cancel stream thread");
-        return completionHandler(NO);
+        SDLLogD(@"ioStreamThread cancelled successfully");
+        return YES;
     }
+
+    SDLLogE(@"Failed to cancel ioStreamThread within %.1f seconds", IOStreamThreadCanceledSemaphoreWaitSecs);
+    return NO;
 }
+
+/// Helper method for waking up the ioStreamThread.
+- (void)sdl_doNothing {}
 
 #pragma mark - Sending data
 
@@ -256,10 +251,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     // The handler will be called on the I/O thread, but the session stop method must be called on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self destroySession];
-
-        if (self.delegate == nil) { return; }
-        [self.delegate dataSessionShouldRetry];
+        __weak typeof(self) weakSelf = self;
+        [self destroySessionWithCompletionHandler:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf.delegate == nil) { return; }
+            [strongSelf.delegate dataSessionShouldRetry];
+        }];
     });
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
@@ -308,11 +305,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     // To prevent deadlocks the handler must return to the runloop and not block the thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self destroySession];
-        if (![self.protocolString isEqualToString:LegacyProtocolString]) {
-            if (self.delegate == nil) { return; }
-            [self.delegate dataSessionShouldRetry];
-        }
+        __weak typeof(self) weakSelf = self;
+        [self destroySessionWithCompletionHandler:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (![strongSelf.protocolString isEqualToString:LegacyProtocolString]) {
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate dataSessionShouldRetry];
+            }
+        }];
     });
 }
 
@@ -331,17 +331,19 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        while (!self.ioStreamThread.cancelled) {
+        while (self.ioStreamThread != nil && !self.ioStreamThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         }
 
         SDLLogD(@"Closing the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        // Close I/O streams of the data session. When the streams are closed. Notify the thread that it can close
+        // Close I/O streams
         [self sdl_closeSession];
+        [super cleanupClosedSession];
 
-        dispatch_semaphore_signal(self.canceledSemaphore);
+        // If a thread is blocked waiting on the I/O streams to shutdown, let the thread know that shutdown has completed.
+        dispatch_semaphore_signal(self.ioStreamThreadCancelledSemaphore);
     }
 }
 
@@ -367,12 +369,6 @@ NS_ASSUME_NONNULL_BEGIN
     [super stopStream:stream];
 }
 
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    SDLLogV(@"SDLIAPDataSession dealloc");
-    [self destroySession];
-}
 
 @end
 

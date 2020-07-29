@@ -16,7 +16,6 @@
   <li><a href="#section-authToken">authToken</a></li>
   <li><a href="#section-delegate">delegate</a></li>
   <li><a href="#section-pendingRPCTransactions">pendingRPCTransactions</a></li>
-  <li><a href="#section-proxy">proxy</a></li>
   <li><a href="#section--initWithConfiguration:delegate:">-initWithConfiguration:delegate:</a></li>
   <li><a href="#section--startWithReadyHandler:">-startWithReadyHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
@@ -264,25 +263,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">pendingRPCTransactions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Operation</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-proxy">
-      proxy
-  </h3>
-  
-  <p>Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
-All the other functionality exists on managers in sdl_ios 4.3+.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">SDLProxy</span> <span class="o">*</span><span class="n">proxy</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">proxy</span><span class="p">:</span> <span class="kt">SDLProxy</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
