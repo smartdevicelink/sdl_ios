@@ -12,12 +12,9 @@ s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :ta
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
 
-s.default_subspecs = 'Default'
+s.source_files = 'SmartDeviceLink/*.{h,m}'
 
-s.subspec 'Default' do |ss|
-ss.source_files = 'SmartDeviceLink/*.{h,m}'
-
-ss.public_header_files = [
+s.public_header_files = [
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAddCommand.h',
 'SmartDeviceLink/SDLAddCommandResponse.h',
@@ -454,6 +451,5 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLWindowTypeCapabilities.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]
-end
 
 end
