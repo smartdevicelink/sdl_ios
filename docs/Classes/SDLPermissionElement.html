@@ -1,0 +1,85 @@
+<h1>SDLPermissionElement Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-rpcName">rpcName</a></li>
+  <li><a href="#section-parameterPermissions">parameterPermissions</a></li>
+  <li><a href="#section--initWithRPCName:parameterPermissions:">-initWithRPCName:parameterPermissions:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>An object containing the RPC name and its parameter names that should be checked when checking permissions</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-rpcName">
+      rpcName
+  </h3>
+  
+  <p>Name of the individual RPC.
+Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">_Nonnull</span> <span class="n">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-parameterPermissions">
+      parameterPermissions
+  </h3>
+  
+  <p>RPC parameters for the individual RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">parameterPermissions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">parameterPermissions</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithRPCName:parameterPermissions:">
+      -initWithRPCName:parameterPermissions:
+  </h3>
+  
+  <p>Creates a new permission element.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRPCName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">rpcName</span>
+                   <span class="nf">parameterPermissions</span><span class="p">:</span>
+                       <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">parameterPermissions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">rpcName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">,</span> <span class="nv">parameterPermissions</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcName</dt>
+      <dd><p>The name of the RPC.</p></dd>
+      <dt>parameterPermissions</dt>
+      <dd><p>An array parameters for the RPC that should be checked if they are allowed. Note that not all head units may provide this data. If no parameter data is received, we assume that the parameter is not allowed.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of <code>SDLPermissionElement</code>.</p>
+  </div>
+  
+</section>

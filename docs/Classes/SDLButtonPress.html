@@ -5,6 +5,7 @@
 <ul>
   <li><a href="#section--initWithButtonName:moduleType:">-initWithButtonName:moduleType:</a></li>
   <li><a href="#section--initWithButtonName:moduleType:moduleId:">-initWithButtonName:moduleType:moduleId:</a></li>
+  <li><a href="#section--initWithButtonName:moduleType:moduleId:buttonPressMode:">-initWithButtonName:moduleType:moduleId:buttonPressMode:</a></li>
   <li><a href="#section-moduleType">moduleType</a></li>
   <li><a href="#section-moduleId">moduleId</a></li>
   <li><a href="#section-buttonName">buttonName</a></li>
@@ -76,6 +77,43 @@
       <dd><p>the module where the button should be pressed</p></dd>
       <dt>moduleId</dt>
       <dd><p>the id of the module</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLButtonPress class.</p>
+  </div>
+  
+  <h3 id="section--initWithButtonName:moduleType:moduleId:buttonPressMode:">
+      -initWithButtonName:moduleType:moduleId:buttonPressMode:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLButtonPress object with the given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithButtonName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span>
+                                <span class="nf">moduleType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span>
+                                  <span class="nf">moduleId</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleId</span>
+                           <span class="nf">buttonPressMode</span><span class="p">:</span>
+                               <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonPressMode.h@T@SDLButtonPressMode">SDLButtonPressMode</a></span><span class="p">)</span><span class="nv">buttonPressMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">,</span> <span class="nv">moduleId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">buttonPressMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonPressMode.h@T@SDLButtonPressMode">SDLButtonPressMode</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonName</dt>
+      <dd><p>the name of the button</p></dd>
+      <dt>moduleType</dt>
+      <dd><p>the module where the button should be pressed</p></dd>
+      <dt>moduleId</dt>
+      <dd><p>the id of the module</p></dd>
+      <dt>buttonPressMode</dt>
+      <dd><p>indicates LONG or SHORT button press event</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>

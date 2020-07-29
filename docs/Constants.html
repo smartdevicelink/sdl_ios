@@ -38,7 +38,6 @@
   <li><a href="#section-SDLAppServiceTypeMedia">SDLAppServiceTypeMedia</a></li>
   <li><a href="#section-SDLAppServiceTypeWeather">SDLAppServiceTypeWeather</a></li>
   <li><a href="#section-SDLAppServiceTypeNavigation">SDLAppServiceTypeNavigation</a></li>
-  <li><a href="#section-SDLErrorDomainAudioStreamManager">SDLErrorDomainAudioStreamManager</a></li>
   <li><a href="#section-SDLAudioStreamingIndicatorPlayPause">SDLAudioStreamingIndicatorPlayPause</a></li>
   <li><a href="#section-SDLAudioStreamingIndicatorPlay">SDLAudioStreamingIndicatorPlay</a></li>
   <li><a href="#section-SDLAudioStreamingIndicatorPause">SDLAudioStreamingIndicatorPause</a></li>
@@ -419,10 +418,14 @@
   <li><a href="#section-SDLTransportDidDisconnect">SDLTransportDidDisconnect</a></li>
   <li><a href="#section-SDLTransportDidConnect">SDLTransportDidConnect</a></li>
   <li><a href="#section-SDLTransportConnectError">SDLTransportConnectError</a></li>
+  <li><a href="#section-SDLRPCServiceDidDisconnect">SDLRPCServiceDidDisconnect</a></li>
+  <li><a href="#section-SDLRPCServiceDidConnect">SDLRPCServiceDidConnect</a></li>
+  <li><a href="#section-SDLRPCServiceConnectionDidError">SDLRPCServiceConnectionDidError</a></li>
   <li><a href="#section-SDLDidReceiveError">SDLDidReceiveError</a></li>
   <li><a href="#section-SDLDidReceiveLockScreenIcon">SDLDidReceiveLockScreenIcon</a></li>
   <li><a href="#section-SDLDidBecomeReady">SDLDidBecomeReady</a></li>
   <li><a href="#section-SDLDidUpdateProjectionView">SDLDidUpdateProjectionView</a></li>
+  <li><a href="#section-SDLDidChangeLockScreenStatusNotification">SDLDidChangeLockScreenStatusNotification</a></li>
   <li><a href="#section-SDLDidReceiveAddCommandResponse">SDLDidReceiveAddCommandResponse</a></li>
   <li><a href="#section-SDLDidReceiveAddSubMenuResponse">SDLDidReceiveAddSubMenuResponse</a></li>
   <li><a href="#section-SDLDidReceiveAlertResponse">SDLDidReceiveAlertResponse</a></li>
@@ -480,6 +483,7 @@
   <li><a href="#section-SDLDidReceiveSubscribeVehicleDataResponse">SDLDidReceiveSubscribeVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeWaypointsResponse">SDLDidReceiveSubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataResponse">SDLDidReceiveSyncPDataResponse</a></li>
+  <li><a href="#section-SDLDidReceiveSystemRequestResponse">SDLDidReceiveSystemRequestResponse</a></li>
   <li><a href="#section-SDLDidReceiveUpdateTurnListResponse">SDLDidReceiveUpdateTurnListResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnpublishAppServiceResponse">SDLDidReceiveUnpublishAppServiceResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnregisterAppInterfaceResponse">SDLDidReceiveUnregisterAppInterfaceResponse</a></li>
@@ -561,7 +565,6 @@
   <li><a href="#section-SDLDidReceiveInteriorVehicleDataNotification">SDLDidReceiveInteriorVehicleDataNotification</a></li>
   <li><a href="#section-SDLDidReceiveKeyboardInputNotification">SDLDidReceiveKeyboardInputNotification</a></li>
   <li><a href="#section-SDLDidChangeLanguageNotification">SDLDidChangeLanguageNotification</a></li>
-  <li><a href="#section-SDLDidChangeLockScreenStatusNotification">SDLDidChangeLockScreenStatusNotification</a></li>
   <li><a href="#section-SDLDidReceiveNewHashNotification">SDLDidReceiveNewHashNotification</a></li>
   <li><a href="#section-SDLDidReceiveVehicleIconNotification">SDLDidReceiveVehicleIconNotification</a></li>
   <li><a href="#section-SDLDidChangePermissionsNotification">SDLDidChangePermissionsNotification</a></li>
@@ -731,6 +734,9 @@
   <li><a href="#section-SDLRPCFunctionNameUpdateTurnList">SDLRPCFunctionNameUpdateTurnList</a></li>
   <li><a href="#section-SDLRPCFunctionNameCreateWindow">SDLRPCFunctionNameCreateWindow</a></li>
   <li><a href="#section-SDLRPCFunctionNameDeleteWindow">SDLRPCFunctionNameDeleteWindow</a></li>
+  <li><a href="#section-SDLRPCMessageTypeNameRequest">SDLRPCMessageTypeNameRequest</a></li>
+  <li><a href="#section-SDLRPCMessageTypeNameResponse">SDLRPCMessageTypeNameResponse</a></li>
+  <li><a href="#section-SDLRPCMessageTypeNameNotification">SDLRPCMessageTypeNameNotification</a></li>
   <li><a href="#section-SDLRadioBandAM">SDLRadioBandAM</a></li>
   <li><a href="#section-SDLRadioBandFM">SDLRadioBandFM</a></li>
   <li><a href="#section-SDLRadioBandXM">SDLRadioBandXM</a></li>
@@ -1855,24 +1861,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLErrorDomainAudioStreamManager">
-      SDLErrorDomainAudioStreamManager
-  </h3>
-  
-  <p>Error relates to AudioStreamManager</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">SDLErrorDomainAudioStreamManager</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainAudioStreamManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
   
   
@@ -8830,6 +8818,60 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCServiceDidDisconnect">
+      SDLRPCServiceDidDisconnect
+  </h3>
+  
+  <p>Name for a disconnection notification</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLRPCServiceDidDisconnect</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLRPCServiceDidDisconnect</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCServiceDidConnect">
+      SDLRPCServiceDidConnect
+  </h3>
+  
+  <p>Name for a connection notification</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLRPCServiceDidConnect</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLRPCServiceDidConnect</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCServiceConnectionDidError">
+      SDLRPCServiceConnectionDidError
+  </h3>
+  
+  <p>Name for a error during connection notification</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLRPCServiceConnectionDidError</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLRPCServiceConnectionDidError</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveError">
       SDLDidReceiveError
   </h3>
@@ -8898,6 +8940,26 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidUpdateProjectionView</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidChangeLockScreenStatusNotification">
+      SDLDidChangeLockScreenStatusNotification
+  </h3>
+  
+  <p>Name for a LockScreenStatus notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n">__deprecated_msg</span><span class="p">(</span>
+    <span class="s">"This will be replaced in a future version where a fake RPC is not sent"</span><span class="p">)</span>
+    <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">SDLDidChangeLockScreenStatusNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidChangeLockScreenStatus</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -9925,6 +9987,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSyncPDataResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSystemRequestResponse">
+      SDLDidReceiveSystemRequestResponse
+  </h3>
+  
+  <p>Name for a SystemRequest response RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveSystemRequestResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSystemRequestResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -11320,7 +11400,7 @@ For example, right puddle lights and spot lights.</p>
       SDLDidReceiveEncodedDataNotification
   </h3>
   
-  <p>Name for a EncodedData notification RPC</p>
+  <p>Name for a EncodedSyncPData notification RPC</p>
 
   
   
@@ -11385,25 +11465,6 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidChangeLanguage</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLDidChangeLockScreenStatusNotification">
-      SDLDidChangeLockScreenStatusNotification
-  </h3>
-  
-  <p>Name for a LockScreenStatus notification RPC</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n">__deprecated</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span>
-    <span class="n">SDLDidChangeLockScreenStatusNotification</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidChangeLockScreenStatus</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -14452,6 +14513,60 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteWindow</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCMessageTypeNameRequest">
+      SDLRPCMessageTypeNameRequest
+  </h3>
+  
+  <p>A request that will require a response</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span> <span class="n">SDLRPCMessageTypeNameRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCMessageTypeNameResponse">
+      SDLRPCMessageTypeNameResponse
+  </h3>
+  
+  <p>A response to a request</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span> <span class="n">SDLRPCMessageTypeNameResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">response</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCMessageTypeNameNotification">
+      SDLRPCMessageTypeNameNotification
+  </h3>
+  
+  <p>A message that does not have a response</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span> <span class="n">SDLRPCMessageTypeNameNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLRPCMessageTypeName</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></span></code></pre>
 
   
   

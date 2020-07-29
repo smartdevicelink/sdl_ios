@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// An object containing the RPC name and its parameter names that should be checked when checking permissions
 @interface SDLPermissionElement : NSObject <NSCopying>
 
 /**

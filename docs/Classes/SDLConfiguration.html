@@ -9,16 +9,16 @@
   <li><a href="#section-streamingMediaConfig">streamingMediaConfig</a></li>
   <li><a href="#section-fileManagerConfig">fileManagerConfig</a></li>
   <li><a href="#section-encryptionConfig">encryptionConfig</a></li>
+  <li><a href="#section--initWithLifecycle:lockScreen:logging:fileManager:encryption:">-initWithLifecycle:lockScreen:logging:fileManager:encryption:</a></li>
+  <li><a href="#section--initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:">-initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:</a></li>
   <li><a href="#section--initWithLifecycle:lockScreen:logging:">-initWithLifecycle:lockScreen:logging:</a></li>
   <li><a href="#section--initWithLifecycle:lockScreen:logging:fileManager:">-initWithLifecycle:lockScreen:logging:fileManager:</a></li>
-  <li><a href="#section--initWithLifecycle:lockScreen:logging:fileManager:encryption:">-initWithLifecycle:lockScreen:logging:fileManager:encryption:</a></li>
-  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:">+configurationWithLifecycle:lockScreen:logging:</a></li>
-  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:fileManager:">+configurationWithLifecycle:lockScreen:logging:fileManager:</a></li>
   <li><a href="#section--initWithLifecycle:lockScreen:logging:streamingMedia:">-initWithLifecycle:lockScreen:logging:streamingMedia:</a></li>
   <li><a href="#section--initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:">-initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:</a></li>
-  <li><a href="#section--initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:">-initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:</a></li>
-  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:streamingMedia:">+configurationWithLifecycle:lockScreen:logging:streamingMedia:</a></li>
+  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:fileManager:">+configurationWithLifecycle:lockScreen:logging:fileManager:</a></li>
   <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:">+configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:</a></li>
+  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:streamingMedia:">+configurationWithLifecycle:lockScreen:logging:streamingMedia:</a></li>
+  <li><a href="#section-+configurationWithLifecycle:lockScreen:logging:">+configurationWithLifecycle:lockScreen:logging:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -90,11 +90,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">streamingMediaConfig</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="n">streamingMediaConfig</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">streamingMediaConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">streamingMediaConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -134,6 +134,90 @@
 
   
   
+  
+  <h3 id="section--initWithLifecycle:lockScreen:logging:fileManager:encryption:">
+      -initWithLifecycle:lockScreen:logging:fileManager:encryption:
+  </h3>
+  
+  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, file manager and encryption configurations.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span>
+           <span class="nf">encryption</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">encryptionConfig</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">?,</span> <span class="n">logging</span> <span class="nv">logConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">?,</span> <span class="n">fileManager</span> <span class="nv">fileManagerConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span><span class="p">?,</span> <span class="n">encryption</span> <span class="nv">encryptionConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfig</dt>
+      <dd><p>The lifecycle configuration to be used.</p></dd>
+      <dt>lockScreenConfig</dt>
+      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
+      <dt>logConfig</dt>
+      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
+      <dt>fileManagerConfig</dt>
+      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
+      <dt>encryptionConfig</dt>
+      <dd><p>The encryption configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section--initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:">
+      -initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:
+  </h3>
+  
+  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media, file manager and encryption configurations.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+       <span class="nf">streamingMedia</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span>
+          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span>
+           <span class="nf">encryption</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">encryptionConfig</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">?,</span> <span class="n">logging</span> <span class="nv">logConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">?,</span> <span class="n">streamingMedia</span> <span class="nv">streamingMediaConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span><span class="p">?,</span> <span class="n">fileManager</span> <span class="nv">fileManagerConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span><span class="p">?,</span> <span class="n">encryption</span> <span class="nv">encryptionConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfig</dt>
+      <dd><p>The lifecycle configuration to be used.</p></dd>
+      <dt>lockScreenConfig</dt>
+      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
+      <dt>logConfig</dt>
+      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
+      <dt>streamingMediaConfig</dt>
+      <dd><p>The streaming media configuration to be used or nil if not used.</p></dd>
+      <dt>fileManagerConfig</dt>
+      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
+      <dt>encryptionConfig</dt>
+      <dd><p>The encryption configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
   
   <h3 id="section--initWithLifecycle:lockScreen:logging:">
       -initWithLifecycle:lockScreen:logging:
@@ -188,116 +272,6 @@
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">?,</span> <span class="n">logging</span> <span class="nv">logConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">?,</span> <span class="n">fileManager</span> <span class="nv">fileManagerConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span><span class="p">?)</span></code></pre>
 
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>lifecycleConfig</dt>
-      <dd><p>The lifecycle configuration to be used.</p></dd>
-      <dt>lockScreenConfig</dt>
-      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
-      <dt>logConfig</dt>
-      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
-      <dt>fileManagerConfig</dt>
-      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section--initWithLifecycle:lockScreen:logging:fileManager:encryption:">
-      -initWithLifecycle:lockScreen:logging:fileManager:encryption:
-  </h3>
-  
-  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, file manager and encryption configurations.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span>
-           <span class="nf">encryption</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">encryptionConfig</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">?,</span> <span class="n">logging</span> <span class="nv">logConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">?,</span> <span class="n">fileManager</span> <span class="nv">fileManagerConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span><span class="p">?,</span> <span class="n">encryption</span> <span class="nv">encryptionConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span><span class="p">?)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>lifecycleConfig</dt>
-      <dd><p>The lifecycle configuration to be used.</p></dd>
-      <dt>lockScreenConfig</dt>
-      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
-      <dt>logConfig</dt>
-      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
-      <dt>fileManagerConfig</dt>
-      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
-      <dt>encryptionConfig</dt>
-      <dd><p>The encryption configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:">
-      +configurationWithLifecycle:lockScreen:logging:
-  </h3>
-  
-  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                    <span class="nf">lockScreen</span><span class="p">:</span>
-                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>lifecycleConfig</dt>
-      <dd><p>The lifecycle configuration to be used.</p></dd>
-      <dt>lockScreenConfig</dt>
-      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
-      <dt>logConfig</dt>
-      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:fileManager:">
-      +configurationWithLifecycle:lockScreen:logging:fileManager:
-  </h3>
-  
-  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and file manager configurations.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-                    <span class="nf">lockScreen</span><span class="p">:</span>
-                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-                   <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
-                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
-
-  
   
   
   <h4>Parameters</h4>
@@ -395,28 +369,64 @@
     <p>The configuration</p>
   </div>
   
-  <h3 id="section--initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:">
-      -initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:encryption:
+  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:fileManager:">
+      +configurationWithLifecycle:lockScreen:logging:fileManager:
   </h3>
   
-  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media, file manager and encryption configurations.</p>
+  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and file manager configurations.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
-           <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-              <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-       <span class="nf">streamingMedia</span><span class="p">:</span>
-           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span>
-          <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span>
-           <span class="nf">encryption</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">encryptionConfig</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+                   <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">?,</span> <span class="n">logging</span> <span class="nv">logConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">?,</span> <span class="n">streamingMedia</span> <span class="nv">streamingMediaConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span><span class="p">?,</span> <span class="n">fileManager</span> <span class="nv">fileManagerConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span><span class="p">?,</span> <span class="n">encryption</span> <span class="nv">encryptionConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLEncryptionConfiguration.html">SDLEncryptionConfiguration</a></span><span class="p">?)</span></code></pre>
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfig</dt>
+      <dd><p>The lifecycle configuration to be used.</p></dd>
+      <dt>lockScreenConfig</dt>
+      <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
+      <dt>logConfig</dt>
+      <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
+      <dt>fileManagerConfig</dt>
+      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:">
+      +configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:
+  </h3>
+  
+  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media and file manager configurations.</p>
 
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">configurationWithLifecycle</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                    <span class="nf">lockScreen</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
+                <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)streamingMediaConfig">streamingMediaConfig</a></span>
+                   <span class="n">fileManager</span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
+                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
+
+  
   
   
   <h4>Parameters</h4>
@@ -431,8 +441,6 @@
       <dd><p>The streaming media configuration to be used or nil if not used.</p></dd>
       <dt>fileManagerConfig</dt>
       <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
-      <dt>encryptionConfig</dt>
-      <dd><p>The encryption configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -476,11 +484,11 @@
     <p>The configuration</p>
   </div>
   
-  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:">
-      +configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:
+  <h3 id="section-+configurationWithLifecycle:lockScreen:logging:">
+      +configurationWithLifecycle:lockScreen:logging:
   </h3>
   
-  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media and file manager configurations.</p>
+  <p>Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.</p>
 
   
   
@@ -490,11 +498,7 @@
         <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
                     <span class="nf">lockScreen</span><span class="p">:</span>
                         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span>
-                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span>
-                <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
-                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)streamingMediaConfig">streamingMediaConfig</a></span>
-                   <span class="n">fileManager</span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span>
-                                   <span class="n"><a href="../Classes/SDLConfiguration.html#/c:objc(cs)SDLConfiguration(py)fileManagerConfig">fileManagerConfig</a></span><span class="p">;</span></code></pre>
+                       <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span></code></pre>
 
   
   
@@ -507,10 +511,6 @@
       <dd><p>The lockscreen configuration to be used. If nil, the <code>enabledConfiguration</code> will be used.</p></dd>
       <dt>logConfig</dt>
       <dd><p>The logging configuration to be used. If nil, the <code>defaultConfiguration</code> will be used.</p></dd>
-      <dt>streamingMediaConfig</dt>
-      <dd><p>The streaming media configuration to be used or nil if not used.</p></dd>
-      <dt>fileManagerConfig</dt>
-      <dd><p>The file manager configuration to be used or <code>defaultConfiguration</code> if nil.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
