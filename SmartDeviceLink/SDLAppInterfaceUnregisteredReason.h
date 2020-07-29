@@ -73,3 +73,9 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
 ///
 /// @since RPC 4.1
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource;
+
+
+/// The application is unregistered due to hardware resource constraints. The system will shortly close the application to free up hardware resources.
+///
+/// @since RPC 7.0
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonResourceConstraint;
