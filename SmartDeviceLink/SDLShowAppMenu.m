@@ -35,12 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(nullable NSNumber<SDLInt> *)menuID {
-    [self.parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
+    [self.parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuID];
 }
 
 - (nullable NSNumber<SDLInt> *)menuID {
     NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMenuID ofClass:NSNumber.class error:&error];
 }
 
 @end

@@ -160,6 +160,12 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameOnTBTClientState;
 /// Function name for an OnTouchEvent notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnTouchEvent;
 
+/// Function name for an OnUpdateFile notification RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnUpdateFile;
+
+/// Function name for an OnUpdateSubMenu notification RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnUpdateSubMenu;
+
 /// Function name for an OnVehicleData notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnVehicleData;
 

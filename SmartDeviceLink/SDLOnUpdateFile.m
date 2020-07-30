@@ -30,21 +30,45 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
+#import "SDLOnUpdateFile.h"
 
-#import "SDLImageFieldName.h"
+#import "NSMutableDictionary+Store.h"
+#import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 
-SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
-SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
-SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
-SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
-SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
-SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
-SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
-SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
-SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
-SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
-SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
-SDLImageFieldName const SDLImageFieldNameSubMenuIcon = @"subMenuIcon";
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLOnUpdateFile
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (instancetype)init {
+    self = [super initWithName:SDLRPCFunctionNameOnUpdateFile];
+    if (!self) {
+        return nil;
+    }
+    return self;
+}
+#pragma clang diagnostic pop
+
+- (instancetype)initWithFileName:(NSString *)fileName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.fileName = fileName;
+    return self;
+}
+
+- (void)setFileName:(NSString *)fileName {
+    [self.parameters sdl_setObject:fileName forName:SDLRPCParameterNameFileName];
+}
+
+- (NSString *)fileName {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFileName ofClass:NSString.class error:&error];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END
