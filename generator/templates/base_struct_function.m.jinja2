@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 {%- endif %}
 - (instancetype)initWith{{c.init}} {
-    self = [{{ 'self' if c.self else 'super' }} init{{ 'With' + c.self if c.self and c.self is string }}];
+    self = [self init{{ 'With' + c.self if c.self and c.self is string }}];
     if (!self) {
         return nil;
     }
