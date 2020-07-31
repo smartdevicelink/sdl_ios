@@ -78,39 +78,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @return an initialized objectof the class SDLSubscribeVehicleDataResponse
  */
 
-- (nullable instancetype)initWithAccPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition
-                                     airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus
-                                       beltStatus:(nullable SDLVehicleDataResult *)beltStatus
-                                  bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation
-                                cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID
-                                     clusterModes:(nullable SDLVehicleDataResult *)clusterModes
-                                     deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus
-                                    driverBraking:(nullable SDLVehicleDataResult *)driverBraking
-                                        eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo
-                        electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus
-                                   emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent
-                                    engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife
-                                     engineTorque:(nullable SDLVehicleDataResult *)engineTorque
-                              externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature
-                                        fuelLevel:(nullable SDLVehicleDataResult *)fuelLevel
-                                  fuelLevel_State:(nullable SDLVehicleDataResult *)fuelLevel_State
-                                        fuelRange:(nullable SDLVehicleDataResult *)fuelRange
-                                              gps:(nullable SDLVehicleDataResult *)gps
-                                 handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering
-                                   headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus
-                           instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption
-                                            myKey:(nullable SDLVehicleDataResult *)myKey
-                                         odometer:(nullable SDLVehicleDataResult *)odometer
-                                            prndl:(nullable SDLVehicleDataResult *)prndl
-                                              rpm:(nullable SDLVehicleDataResult *)rpm
-                                            speed:(nullable SDLVehicleDataResult *)speed
-                               steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle
-                                     tirePressure:(nullable SDLVehicleDataResult *)tirePressure
-                                       turnSignal:(nullable SDLVehicleDataResult *)turnSignal
-                                      wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus;
+- (instancetype)initWithAccPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID clusterModes:(nullable SDLVehicleDataResult *)clusterModes deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife engineTorque:(nullable SDLVehicleDataResult *)engineTorque externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature fuelLevel:(nullable SDLVehicleDataResult *)fuelLevel fuelLevel_State:(nullable SDLVehicleDataResult *)fuelLevel_State fuelRange:(nullable SDLVehicleDataResult *)fuelRange gps:(nullable SDLVehicleDataResult *)gps handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption myKey:(nullable SDLVehicleDataResult *)myKey odometer:(nullable SDLVehicleDataResult *)odometer prndl:(nullable SDLVehicleDataResult *)prndl rpm:(nullable SDLVehicleDataResult *)rpm speed:(nullable SDLVehicleDataResult *)speed steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle tirePressure:(nullable SDLVehicleDataResult *)tirePressure turnSignal:(nullable SDLVehicleDataResult *)turnSignal wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus;
 
 /**
- * note: auto generated initializer in comparision with the manually created one (see above)
+ * Convenience initializer, initializes a new allocated object of the class SDLSubscribeVehicleDataResponse
  * @param gps - gps
  * @param speed - speed
  * @param rpm - rpm

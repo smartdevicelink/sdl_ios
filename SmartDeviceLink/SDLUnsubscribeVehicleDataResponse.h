@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLUnsubscribeVehicleDataResponse : SDLRPCResponse
 
 /**
- * note: script generated initializer
+ * Convenience initializer, initializes a new allocated object of the class SDLUnsubscribeVehicleDataResponse
  * @param gps - gps
  * @param speed - speed
  * @param rpm - rpm

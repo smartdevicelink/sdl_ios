@@ -2,15 +2,13 @@
 //  SDLSubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLSubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLSubscribeVehicleData.h"
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
@@ -264,7 +262,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(beNil());
+            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
@@ -273,7 +271,7 @@ describe(@"initializers", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:NO gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"all set", ^{
+        it(@"should set all the parameters properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -303,11 +301,11 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(beNil());
+            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
 
-    context(@"Should set and get Generic Network Signal Data", ^{
+    context(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];

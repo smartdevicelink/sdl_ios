@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (nullable instancetype)init {
+- (instancetype)init {
     self = [super initWithName:SDLRPCFunctionNameSubscribeVehicleData];
     if (!self) {
         return nil;
@@ -51,78 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (nullable instancetype)initWithAccPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition
-                                     airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus
-                                       beltStatus:(nullable SDLVehicleDataResult *)beltStatus
-                                  bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation
-                                cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID
-                                     clusterModes:(nullable SDLVehicleDataResult *)clusterModes
-                                     deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus
-                                    driverBraking:(nullable SDLVehicleDataResult *)driverBraking
-                                        eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo
-                        electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus
-                                   emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent
-                                    engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife
-                                     engineTorque:(nullable SDLVehicleDataResult *)engineTorque
-                              externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature
-                                        fuelLevel:(nullable SDLVehicleDataResult *)fuelLevel
-                                  fuelLevel_State:(nullable SDLVehicleDataResult *)fuelLevel_State
-                                        fuelRange:(nullable SDLVehicleDataResult *)fuelRange
-                                              gps:(nullable SDLVehicleDataResult *)gps
-                                 handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering
-                                   headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus
-                           instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption
-                                            myKey:(nullable SDLVehicleDataResult *)myKey
-                                         odometer:(nullable SDLVehicleDataResult *)odometer
-                                            prndl:(nullable SDLVehicleDataResult *)prndl
-                                              rpm:(nullable SDLVehicleDataResult *)rpm
-                                            speed:(nullable SDLVehicleDataResult *)speed
-                               steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle
-                                     tirePressure:(nullable SDLVehicleDataResult *)tirePressure
-                                       turnSignal:(nullable SDLVehicleDataResult *)turnSignal
-                                      wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus
-{
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.accPedalPosition = accPedalPosition;
-    self.airbagStatus = airbagStatus;
-    self.beltStatus = beltStatus;
-    self.bodyInformation = bodyInformation;
-    self.cloudAppVehicleID = cloudAppVehicleID;
-    self.clusterModes = clusterModes;
-    self.deviceStatus = deviceStatus;
-    self.driverBraking = driverBraking;
-    self.eCallInfo = eCallInfo;
-    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
-    self.emergencyEvent = emergencyEvent;
-    self.engineOilLife = engineOilLife;
-    self.engineTorque = engineTorque;
-    self.externalTemperature = externalTemperature;
-    self.fuelLevel = fuelLevel;
-    self.fuelLevel_State = fuelLevel_State;
-    self.fuelRange = fuelRange;
-    self.gps = gps;
-    self.handsOffSteering = handsOffSteering;
-    self.headLampStatus = headLampStatus;
-    self.instantFuelConsumption = instantFuelConsumption;
-    self.myKey = myKey;
-    self.odometer = odometer;
-    self.prndl = prndl;
-    self.rpm = rpm;
-    self.speed = speed;
-    self.steeringWheelAngle = steeringWheelAngle;
-    self.tirePressure = tirePressure;
-    self.turnSignal = turnSignal;
-    self.wiperStatus = wiperStatus;
-
-    return self;
+- (instancetype)initWithAccPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID clusterModes:(nullable SDLVehicleDataResult *)clusterModes deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife engineTorque:(nullable SDLVehicleDataResult *)engineTorque externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature fuelLevel:(nullable SDLVehicleDataResult *)fuelLevel fuelLevel_State:(nullable SDLVehicleDataResult *)fuelLevel_State fuelRange:(nullable SDLVehicleDataResult *)fuelRange gps:(nullable SDLVehicleDataResult *)gps handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption myKey:(nullable SDLVehicleDataResult *)myKey odometer:(nullable SDLVehicleDataResult *)odometer prndl:(nullable SDLVehicleDataResult *)prndl rpm:(nullable SDLVehicleDataResult *)rpm speed:(nullable SDLVehicleDataResult *)speed steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle tirePressure:(nullable SDLVehicleDataResult *)tirePressure turnSignal:(nullable SDLVehicleDataResult *)turnSignal wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus {
+    return [self initWithGps:gps speed:speed rpm:rpm fuelLevel:fuelLevel fuelLevel_State:fuelLevel_State instantFuelConsumption:instantFuelConsumption fuelRange:fuelRange externalTemperature:externalTemperature turnSignal:turnSignal prndl:prndl tirePressure:tirePressure odometer:odometer beltStatus:beltStatus bodyInformation:bodyInformation deviceStatus:deviceStatus driverBraking:driverBraking wiperStatus:wiperStatus headLampStatus:headLampStatus engineTorque:engineTorque accPedalPosition:accPedalPosition steeringWheelAngle:steeringWheelAngle engineOilLife:engineOilLife electronicParkBrakeStatus:electronicParkBrakeStatus cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCallInfo airbagStatus:airbagStatus emergencyEvent:emergencyEvent clusterModes:clusterModes myKey:myKey handsOffSteering:handsOffSteering];
 }
 
 - (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm fuelLevel:(nullable SDLVehicleDataResult *)fuelLevel fuelLevel_State:(nullable SDLVehicleDataResult *)fuelLevel_State instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal prndl:(nullable SDLVehicleDataResult *)prndl tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }

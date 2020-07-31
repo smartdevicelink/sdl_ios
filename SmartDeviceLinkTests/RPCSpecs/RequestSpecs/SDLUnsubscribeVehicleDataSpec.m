@@ -2,15 +2,13 @@
 //  SDLUnsubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleData.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleData.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
@@ -263,7 +261,7 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(beNil());
+            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
 
@@ -302,11 +300,11 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(beNil());
+            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
 
-    context(@"Should set and get Generic Network Signal Data", ^{
+    context(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];

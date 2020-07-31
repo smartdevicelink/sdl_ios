@@ -2,15 +2,13 @@
 //  SDLUnsubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLUnsubscribeVehicleDataResponse.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLUnsubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
@@ -193,7 +191,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.handsOffSteering).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    it(@"Should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
