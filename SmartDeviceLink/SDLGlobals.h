@@ -43,6 +43,8 @@ extern void *const SDLConcurrentQueueName;
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType;
 - (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType;
 
++ (void)runSyncOnSerialSubQueue:(dispatch_queue_t)queue block:(void (^)(void))block;
+
 @end
 
 NS_ASSUME_NONNULL_END

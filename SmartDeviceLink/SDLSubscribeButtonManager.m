@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         __strong typeof(weakSelf) strongself = weakSelf;
         [strongself->_subscribeButtonObservers removeAllObjects];
     }];
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param buttonName The name of the button
 - (void)sdl_addSubscribedObserver:(SDLSubscribeButtonObserver *)subscribedObserver forButtonName:(SDLButtonName)buttonName {
     __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.subscribeButtonObservers[buttonName] == nil) {
             SDLLogV(@"Adding first subscriber for button: %@", buttonName);
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param buttonName The name of the button
 - (void)sdl_removeSubscribedObserver:(id<NSObject>)observer forButtonName:(SDLButtonName)buttonName {
     __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         for (NSUInteger i = 0; i < strongSelf.subscribeButtonObservers[buttonName].count; i++) {
             SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)strongSelf.subscribeButtonObservers[buttonName][i];
@@ -282,24 +282,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark - Utilities
-
-/// Checks if we are already on the serial readWrite queue. If so, the block is added to the queue; if not, the block is dispatched to the readWrite queue.
-/// @discussion Used to ensure atomic access to global properties.
-/// @param block The block to be executed.
-- (void)sdl_runSyncOnQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.readWriteQueue, block);
-    }
-}
-
 #pragma mark - Getters
 
 - (NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *)subscribeButtonObservers {
     __block NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_subscribeButtonObservers;
     }];
 

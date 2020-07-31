@@ -71,6 +71,13 @@ typedef NSNumber *MTUBox;
     return self;
 }
 
++ (void)runSyncOnSerialSubQueue:(dispatch_queue_t)queue block:(void (^)(void))block {
+    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
+        block();
+    } else {
+        dispatch_sync(queue, block);
+    }
+}
 
 #pragma mark - Custom Getters / Setters
 
