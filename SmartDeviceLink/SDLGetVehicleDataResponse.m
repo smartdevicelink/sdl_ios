@@ -68,44 +68,42 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithAccPedalPosition:(float)accPedalPosition airbagStatus:(SDLAirbagStatus *)airbagStatus beltStatus:(SDLBeltStatus *)beltStatus bodyInformation:(SDLBodyInformation *)bodyInformation cloudAppVehicleID:(NSString *)cloudAppVehicleID clusterModeStatus:(SDLClusterModeStatus *)clusterModeStatus deviceStatus:(SDLDeviceStatus *)deviceStatus driverBraking:(SDLVehicleDataEventStatus)driverBraking eCallInfo:(SDLECallInfo *)eCallInfo electronicParkBrakeStatus:(SDLElectronicParkBrakeStatus)electronicParkBrakeStatus emergencyEvent:(SDLEmergencyEvent *)emergencyEvent engineOilLife:(float)engineOilLife engineTorque:(float)engineTorque externalTemperature:(float)externalTemperature fuelLevel:(float)fuelLevel fuelLevel_State:(SDLComponentVolumeStatus)fuelLevel_State fuelRange:(NSArray<SDLFuelRange *>*)fuelRange gps:(SDLGPSData *)gps handsOffSteering:(BOOL)handsOffSteering headLampStatus:(SDLHeadLampStatus *)headLampStatus instantFuelConsumption:(float)instantFuelConsumption myKey:(SDLMyKey *)myKey odometer:(NSInteger)odometer prndl:(SDLPRNDL)prndl rpm:(NSInteger)rpm speed:(float)speed steeringWheelAngle:(float)steeringWheelAngle tirePressure:(SDLTireStatus *)tirePressure turnSignal:(SDLTurnSignal)turnSignal vin:(NSString *)vin wiperStatus:(SDLWiperStatus)wiperStatus {
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm fuelLevel:(float)fuelLevel fuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering {
     self = [self init];
     if (!self) {
         return nil;
     }
-
-    self.accPedalPosition = @(accPedalPosition);
-    self.airbagStatus = airbagStatus;
-    self.beltStatus = beltStatus;
-    self.bodyInformation = bodyInformation;
-    self.cloudAppVehicleID = cloudAppVehicleID;
-    self.clusterModeStatus = clusterModeStatus;
-    self.deviceStatus = deviceStatus;
-    self.driverBraking = driverBraking;
-    self.eCallInfo = eCallInfo;
-    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
-    self.emergencyEvent = emergencyEvent;
-    self.engineOilLife = @(engineOilLife);
-    self.engineTorque = @(engineTorque);
-    self.externalTemperature = @(externalTemperature);
+    self.gps = gps;
+    self.speed = @(speed);
+    self.rpm = rpm;
     self.fuelLevel = @(fuelLevel);
     self.fuelLevel_State = fuelLevel_State;
-    self.fuelRange = fuelRange;
-    self.gps = gps;
-    self.handsOffSteering = @(handsOffSteering);
-    self.headLampStatus = headLampStatus;
     self.instantFuelConsumption = @(instantFuelConsumption);
-    self.myKey = myKey;
-    self.odometer = @(odometer);
-    self.prndl = prndl;
-    self.rpm = @(rpm);
-    self.speed = @(speed);
-    self.steeringWheelAngle = @(steeringWheelAngle);
-    self.tirePressure = tirePressure;
+    self.fuelRange = fuelRange;
+    self.externalTemperature = @(externalTemperature);
     self.turnSignal = turnSignal;
     self.vin = vin;
+    self.prndl = prndl;
+    self.tirePressure = tirePressure;
+    self.odometer = odometer;
+    self.beltStatus = beltStatus;
+    self.bodyInformation = bodyInformation;
+    self.deviceStatus = deviceStatus;
+    self.driverBraking = driverBraking;
     self.wiperStatus = wiperStatus;
-
+    self.headLampStatus = headLampStatus;
+    self.engineTorque = @(engineTorque);
+    self.accPedalPosition = @(accPedalPosition);
+    self.steeringWheelAngle = @(steeringWheelAngle);
+    self.engineOilLife = @(engineOilLife);
+    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
+    self.cloudAppVehicleID = cloudAppVehicleID;
+    self.eCallInfo = eCallInfo;
+    self.airbagStatus = airbagStatus;
+    self.emergencyEvent = emergencyEvent;
+    self.clusterModeStatus = clusterModeStatus;
+    self.myKey = myKey;
+    self.handsOffSteering = handsOffSteering;
     return self;
 }
 
