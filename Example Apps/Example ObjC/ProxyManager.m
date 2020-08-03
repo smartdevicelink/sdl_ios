@@ -241,6 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Send AddCommands
         [self sdlex_createMenus];
         [self.vehicleDataManager subscribeToVehicleOdometer];
+        [self.vehicleDataManager subscribeForHandsOffSteering];
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {

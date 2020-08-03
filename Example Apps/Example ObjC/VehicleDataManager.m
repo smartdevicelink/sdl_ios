@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLManager *sdlManager;
 @property (copy, nonatomic, readwrite) NSString *vehicleOdometerData;
+@property (copy, nonatomic, readwrite, nullable) NSString *vehicleHandsOffSteeringData;
 @property (copy, nonatomic, nullable) RefreshUIHandler refreshUIHandler;
 
 @end
@@ -37,9 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
     _sdlManager = manager;
     _refreshUIHandler = refreshUIHandler;
     _vehicleOdometerData = @"";
+    _vehicleHandsOffSteeringData = @"";
 
     [_sdlManager subscribeToRPC:SDLDidReceiveVehicleDataNotification withObserver:self selector:@selector(vehicleDataNotification:)];
     [self sdlex_resetOdometer];
+    [self sdlex_resetHandsOffSteering];
 
     return self;
 }
@@ -103,6 +106,63 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
+ *  Subscribes for hands off steering data. One must subscribe for a notification with name `SDLDidReceiveVehicleData` to get the new data when the hands off steering data changes.
+*/
+- (void)subscribeForHandsOffSteering {
+    SDLLogD(@"Subscribing for hands off steering vehicle data");
+    SDLSubscribeVehicleData *subscribeRequest = [[SDLSubscribeVehicleData alloc] init];
+    subscribeRequest.handsOffSteering = @YES;
+    [self.sdlManager sendRequest:subscribeRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error || ![response isKindOfClass:SDLSubscribeVehicleDataResponse.class]) {
+            SDLLogE(@"Error sending Get Vehicle Data RPC: %@", error);
+        }
+
+        SDLGetVehicleDataResponse* getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
+        SDLResult resultCode = getVehicleDataResponse.resultCode;
+
+        NSMutableString *message = [NSMutableString stringWithFormat:@"%@: ", VehicleDataHandsOffSteering];
+        if ([resultCode isEqualToEnum:SDLResultSuccess]) {
+            SDLLogD(@"Subscribed for vehicle hands off steering data");
+            [message appendString:@"Subscribed"];
+        } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
+            SDLLogD(@"Access to vehicle data disallowed");
+            [message appendString:@"Disallowed"];
+        } else if ([resultCode isEqualToEnum:SDLResultUserDisallowed]) {
+            SDLLogD(@"Vehicle user disabled access to vehicle data");
+            [message appendString:@"Disabled"];
+        } else if ([resultCode isEqualToEnum:SDLResultIgnored]) {
+            SDLLogD(@"Already subscribed to hands off steering data");
+            [message appendString:@"Subscribed"];
+        } else if ([resultCode isEqualToEnum:SDLResultDataNotAvailable]) {
+            SDLLogD(@"You granted permission to access to vehicle data, but the vehicle you are connected to did not provide any");
+            [message appendString:@"Unknown"];
+        } else {
+            SDLLogE(@"Unknown reason for failure to get vehicle data: %@", error != nil ? error.localizedDescription : @"no error message");
+            [message appendString:@"Unsubscribed"];
+        }
+
+        self.vehicleHandsOffSteeringData = message;
+
+        if (self.refreshUIHandler && (nil != self.refreshUIHandler)) {
+            self.refreshUIHandler();
+        }
+    }];
+}
+
+/**
+ *  Unsubscribes from vehicle hands off steering data.
+*/
+- (void)unsubscribeFromHandsOffSteering {
+    SDLUnsubscribeVehicleData *unsubscribeRequest = [[SDLUnsubscribeVehicleData alloc] init];
+    unsubscribeRequest.handsOffSteering = @YES;
+    [self.sdlManager sendRequest:unsubscribeRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (response.success.boolValue) {
+            [self sdlex_resetHandsOffSteering];
+        }
+    }];
+}
+
+/**
  *  Notification containing the updated vehicle data.
  *
  *  @param notification A SDLOnVehicleData notification
@@ -114,9 +174,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ km", VehicleDataOdometerName, onVehicleData.odometer];
+    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@", VehicleDataHandsOffSteering, onVehicleData.handsOffSteering.boolValue ? @"YES" : @"NO"];
 
-    if (!self.refreshUIHandler) { return; }
-    self.refreshUIHandler();
+    if (self.refreshUIHandler && (nil != self.refreshUIHandler)) {
+        self.refreshUIHandler();
+    }
 }
 
 /**
@@ -124,6 +186,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdlex_resetOdometer {
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@: Unsubscribed", VehicleDataOdometerName];
+}
+
+/**
+ *  Resets the hands off steering data
+ */
+- (void)sdlex_resetHandsOffSteering {
+    self.vehicleHandsOffSteeringData = [NSString stringWithFormat:@"%@: Unsubscribed", VehicleDataHandsOffSteering];
 }
 
 #pragma mark - Get Vehicle Data
@@ -144,10 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
-#pragma clang diagnostic pop
+    SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES fuelLevel:@YES fuelLevel_State:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES vin:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
 
     [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
