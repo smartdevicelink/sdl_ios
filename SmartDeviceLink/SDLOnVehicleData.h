@@ -248,6 +248,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *instantFuelConsumption;
 
 /**
+ * The current gear shift state of the user's vehicle
+ *
+ * Optional.
+ * @deprecated
+ * @since SDL 7.0.0
+ */
+@property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus instead");
+
+/**
  Information related to the MyKey feature
 
  Optional.
@@ -260,15 +269,6 @@ NS_ASSUME_NONNULL_BEGIN
  Optional.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *odometer;
-
-/**
- * The current gear shift state of the user's vehicle
- *
- * Optional.
- * @deprecated
- * @since SDL 7.0.0
- */
-@property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus instead");
 
 /**
  The number of revolutions per minute of the engine.
@@ -320,16 +320,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLWiperStatus wiperStatus;
 
 /**
- Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
- 
- @param vehicleDataName The name of the OEM custom vehicle data item.
- @param vehicleDataState An object containing the OEM custom vehicle data item.
-
- Added in SmartDeviceLink 6.0
- */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
-
-/**
  Gets the OEM custom vehicle data item for any given OEM custom vehicle data name.
  
  @param vehicleDataName The name of the OEM custom vehicle data item.
@@ -338,6 +328,16 @@ NS_ASSUME_NONNULL_BEGIN
  Added in SmartDeviceLink 6.0
  */
 - (nullable NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+
+/**
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState An object containing the OEM custom vehicle data item.
+
+ Added in SmartDeviceLink 6.0
+ */
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 @end
 

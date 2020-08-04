@@ -60,25 +60,102 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetVehicleDataResponse : SDLRPCResponse
 
 /**
-  The car current GPS coordinates
+ Accelerator pedal position (percentage depressed)
 
-  Optional.
+ Optional.
  */
-@property (strong, nonatomic, nullable) SDLGPSData *gps;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *accPedalPosition;
 
 /**
- The vehicle speed in kilometers per hour
+ The status of the air bags
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLAirbagStatus *airbagStatus;
+
+/**
+ The status of the seat belts
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLBeltStatus *beltStatus;
+
+/**
+ The body information including power modes
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLBodyInformation *bodyInformation;
+
+/**
+ The cloud app vehicle ID
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) NSString *cloudAppVehicleID;
+
+/**
+ The status modes of the cluster
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLClusterModeStatus *clusterModeStatus;
+
+/**
+ The IVI system status including signal and battery strength
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLDeviceStatus *deviceStatus;
+
+/**
+ The status of the brake pedal
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataEventStatus driverBraking;
+
+/**
+ Emergency Call notification and confirmation data
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLECallInfo *eCallInfo;
+
+/**
+ The status of the electronic parking brake
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLElectronicParkBrakeStatus electronicParkBrakeStatus;
+
+/**
+ Information related to an emergency event (and if it occurred)
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLEmergencyEvent *emergencyEvent;
+
+/**
+ The estimated percentage (0% - 100%) of remaining oil life of the engine
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *engineOilLife;
+
+/**
+ Torque value for engine (in Nm) on non-diesel variants
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *engineTorque;
+
+/**
+ The external temperature in degrees celsius.
 
  Optional
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *speed;
-
-/**
- The number of revolutions per minute of the engine.
-
- Optional
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLInt> *rpm;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *externalTemperature;
 
 /**
  The fuel level in the tank (percentage)
@@ -102,27 +179,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSArray<SDLFuelRange *> *fuelRange;
 
 /**
- The instantaneous fuel consumption in microlitres
-
- Optional
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *instantFuelConsumption;
-
-/**
- The external temperature in degrees celsius.
-
- Optional
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *externalTemperature;
-
-/**
- The Vehicle Identification Number
-
- Optional
- */
-@property (strong, nonatomic, nullable) NSString *vin;
-
-/**
  * See GearStatus
  *
  * Optional.
@@ -130,6 +186,27 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) SDLGearStatus *gearStatus;
+
+/**
+  The car current GPS coordinates
+
+  Optional.
+ */
+@property (strong, nonatomic, nullable) SDLGPSData *gps;
+
+/**
+ Status of the head lamps
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) SDLHeadLampStatus *headLampStatus;
+
+/**
+ The instantaneous fuel consumption in microlitres
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *instantFuelConsumption;
 
 /**
  * The current gear shift state of the user's vehicle
@@ -141,11 +218,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus instead");
 
 /**
- The current pressure warnings for the user's vehicle
+ Information related to the MyKey feature
 
  Optional.
  */
-@property (strong, nonatomic, nullable) SDLTireStatus *tirePressure;
+@property (strong, nonatomic, nullable) SDLMyKey *myKey;
 
 /**
  Odometer reading in km
@@ -155,67 +232,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *odometer;
 
 /**
- The status of the seat belts
+ The number of revolutions per minute of the engine.
 
- Optional.
+ Optional
  */
-@property (strong, nonatomic, nullable) SDLBeltStatus *beltStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *rpm;
 
 /**
- The body information including power modes
+ The vehicle speed in kilometers per hour
 
- Optional.
+ Optional
  */
-@property (strong, nonatomic, nullable) SDLBodyInformation *bodyInformation;
-
-/**
- The IVI system status including signal and battery strength
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLDeviceStatus *deviceStatus;
-
-/**
- The status of the brake pedal
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLVehicleDataEventStatus driverBraking;
-
-/**
- The status of the wipers
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLWiperStatus wiperStatus;
-
-/**
- Status of the head lamps
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLHeadLampStatus *headLampStatus;
-
-/**
- The estimated percentage (0% - 100%) of remaining oil life of the engine
-
- Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *engineOilLife;
-
-/**
- Torque value for engine (in Nm) on non-diesel variants
-
- Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *engineTorque;
-
-/**
- Accelerator pedal position (percentage depressed)
-
- Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *accPedalPosition;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *speed;
 
 /**
  Current angle of the steering wheel (in deg)
@@ -225,46 +253,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *steeringWheelAngle;
 
 /**
- Emergency Call notification and confirmation data
+ The current pressure warnings for the user's vehicle
 
  Optional.
  */
-@property (strong, nonatomic, nullable) SDLECallInfo *eCallInfo;
-
-/**
- The status of the air bags
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLAirbagStatus *airbagStatus;
-
-/**
- Information related to an emergency event (and if it occurred)
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLEmergencyEvent *emergencyEvent;
-
-/**
- The status modes of the cluster
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLClusterModeStatus *clusterModeStatus;
-
-/**
- Information related to the MyKey feature
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLMyKey *myKey;
-
-/**
- The status of the electronic parking brake
-
- Optional.
- */
-@property (strong, nonatomic, nullable) SDLElectronicParkBrakeStatus electronicParkBrakeStatus;
+@property (strong, nonatomic, nullable) SDLTireStatus *tirePressure;
 
 /**
  The status of the turn signal
@@ -274,21 +267,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLTurnSignal turnSignal;
 
 /**
- The cloud app vehicle ID
+ The Vehicle Identification Number
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) NSString *vin;
+
+/**
+ The status of the wipers
 
  Optional.
  */
-@property (strong, nonatomic, nullable) NSString *cloudAppVehicleID;
-
-/**
- Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
- 
- @param vehicleDataName The name of the OEM custom vehicle data item.
- @param vehicleDataState An object containing the OEM custom vehicle data item.
-
-  Added in SmartDeviceLink 6.0
- */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
+@property (strong, nonatomic, nullable) SDLWiperStatus wiperStatus;
 
 /**
  Gets the OEM custom vehicle data item for any given OEM custom vehicle data name.
@@ -299,6 +289,16 @@ NS_ASSUME_NONNULL_BEGIN
   Added in SmartDeviceLink 6.0
  */
 - (nullable NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+
+/**
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState An object containing the OEM custom vehicle data item.
+
+  Added in SmartDeviceLink 6.0
+ */
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 @end
 

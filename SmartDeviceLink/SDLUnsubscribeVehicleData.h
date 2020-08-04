@@ -180,25 +180,102 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithGps:(nullable NSNumber<SDLBool> *)gps speed:(nullable NSNumber<SDLBool> *)speed rpm:(nullable NSNumber<SDLBool> *)rpm fuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel fuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State instantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption fuelRange:(nullable NSNumber<SDLBool> *)fuelRange externalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature turnSignal:(nullable NSNumber<SDLBool> *)turnSignal gearStatus:(nullable NSNumber<SDLBool> *)gearStatus tirePressure:(nullable NSNumber<SDLBool> *)tirePressure odometer:(nullable NSNumber<SDLBool> *)odometer beltStatus:(nullable NSNumber<SDLBool> *)beltStatus bodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation deviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus driverBraking:(nullable NSNumber<SDLBool> *)driverBraking wiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus headLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus engineTorque:(nullable NSNumber<SDLBool> *)engineTorque accPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition steeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle engineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife electronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID eCallInfo:(nullable NSNumber<SDLBool> *)eCallInfo airbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus emergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent clusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus myKey:(nullable NSNumber<SDLBool> *)myKey;
 
 /**
- * If true, unsubscribes from GPS
+ * If true, unsubscribes from Acc Pedal Position
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
 
 /**
- * If true, unsubscribes from Speed
+ * If true, unsubscribes from Airbag Status
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
 
 /**
- * If true, unsubscribes from RPM
+ * If true, unsubscribes from Belt Status
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
+
+/**
+ * If true, unsubscribes from Body Information
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
+
+/**
+ A boolean value. If true, unsubscribes to the Cloud App Vehicle ID
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
+
+/**
+ * If true, unsubscribes from Cluster Mode Status
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
+
+/**
+ * If true, unsubscribes from Device Status
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
+
+/**
+ * If true, unsubscribes from Driver Braking
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
+
+/**
+ * If true, unsubscribes from eCallInfo
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
+
+/**
+ A boolean value. If true, unsubscribes to the Electronic Parking Brake Status
+
+ Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
+
+/**
+ * If true, unsubscribes from Emergency Event
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
+
+/**
+ * If true, unsubscribes from Engine Oil Life
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
+
+/**
+ * If true, unsubscribes from Engine Torque
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
+
+/**
+ * If true, unsubscribes from External Temperature
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * If true, unsubscribes from Fuel Level
@@ -222,20 +299,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelRange;
 
 /**
- * If true, unsubscribes from Instant Fuel Consumption
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
-
-/**
- * If true, unsubscribes from External Temperature
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
-
-/**
  * See GearStatus
  *
  * Optional.
@@ -243,6 +306,27 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 7.0.0
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *gearStatus;
+
+/**
+ * If true, unsubscribes from GPS
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
+
+/**
+ * If true, unsubscribes from Head Lamp Status
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
+
+/**
+ * If true, unsubscribes from Instant Fuel Consumption
+ *
+ * Optional.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * If true, unsubscribes from PRNDL
@@ -255,11 +339,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *prndl __deprecated_msg("use gearStatus instead");
 
 /**
- * If true, unsubscribes from Tire Pressure
+ * If true, unsubscribes from My Key
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 /**
  * If true, unsubscribes from Odometer
@@ -269,67 +353,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *odometer;
 
 /**
- * If true, unsubscribes from Belt Status
+ * If true, unsubscribes from RPM
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
 
 /**
- * If true, unsubscribes from Body Information
+ * If true, unsubscribes from Speed
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
-
-/**
- * If true, unsubscribes from Device Status
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
-
-/**
- * If true, unsubscribes from Driver Braking
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
-
-/**
- * If true, unsubscribes from Wiper Status
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
-
-/**
- * If true, unsubscribes from Head Lamp Status
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
-
-/**
- * If true, unsubscribes from Engine Oil Life
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
-
-/**
- * If true, unsubscribes from Engine Torque
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
-
-/**
- * If true, unsubscribes from Acc Pedal Position
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
 
 /**
  * If true, unsubscribes from Steering Wheel Angle data
@@ -339,46 +374,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
 
 /**
- * If true, unsubscribes from eCallInfo
+ * If true, unsubscribes from Tire Pressure
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
-
-/**
- * If true, unsubscribes from Airbag Status
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
-
-/**
- * If true, unsubscribes from Emergency Event
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
-
-/**
- * If true, unsubscribes from Cluster Mode Status
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
-
-/**
- * If true, unsubscribes from My Key
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
-
-/**
- A boolean value. If true, unsubscribes to the Electronic Parking Brake Status
-
- Optional.
- */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
 
 /**
  A boolean value. If true, unsubscribes to the Turn Signal
@@ -388,21 +388,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *turnSignal;
 
 /**
- A boolean value. If true, unsubscribes to the Cloud App Vehicle ID
-
- Optional.
+ * If true, unsubscribes from Wiper Status
+ *
+ * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
-
-/**
- Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
- 
- @param vehicleDataName The name of the OEM custom vehicle data item.
- @param vehicleDataState A boolean value.  If true, requests an unsubscribes of the OEM custom vehicle data item.
-
-  Added SmartDeviceLink 6.0
- */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
 
 /**
  Gets the OEM custom vehicle data state for any given OEM custom vehicle data name.
@@ -413,6 +403,16 @@ NS_ASSUME_NONNULL_BEGIN
   Added SmartDeviceLink 6.0
  */
 - (nullable NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+
+/**
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState A boolean value.  If true, requests an unsubscribes of the OEM custom vehicle data item.
+
+  Added SmartDeviceLink 6.0
+ */
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 @end
 
