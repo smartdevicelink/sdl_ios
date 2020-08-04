@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnVehicleData : SDLRPCNotification
 
 /**
- * note: RPC generator produced initializer
+ * Convenience init for setting all possible values on vehicle data items.
  * @param gps - gps
  * @param speed - @(speed)
  * @param rpm - rpm
@@ -318,16 +318,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLWiperStatus wiperStatus;
 
 /**
- Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
- 
- @param vehicleDataName The name of the OEM custom vehicle data item.
- @param vehicleDataState An object containing the OEM custom vehicle data item.
-
-  Added in SmartDeviceLink 6.0
- */
-- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
-
-/**
  Gets the OEM custom vehicle data item for any given OEM custom vehicle data name.
  
  @param vehicleDataName The name of the OEM custom vehicle data item.
@@ -336,6 +326,16 @@ NS_ASSUME_NONNULL_BEGIN
   Added in SmartDeviceLink 6.0
  */
 - (nullable NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
+
+/**
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+ 
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState An object containing the OEM custom vehicle data item.
+
+  Added in SmartDeviceLink 6.0
+ */
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(NSObject *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
 
 @end
 
