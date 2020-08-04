@@ -2,24 +2,20 @@
 //  SDLSubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
-
 
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
-
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -47,7 +43,6 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.instantFuelConsumption = vehicleDataResult;
         testResponse.myKey = vehicleDataResult;
         testResponse.odometer = vehicleDataResult;
-        testResponse.prndl = vehicleDataResult;
         testResponse.gearStatus = vehicleDataResult;
         testResponse.rpm = vehicleDataResult;
         testResponse.speed = vehicleDataResult;
@@ -55,6 +50,10 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.tirePressure = vehicleDataResult;
         testResponse.turnSignal = vehicleDataResult;
         testResponse.wiperStatus = vehicleDataResult;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testResponse.prndl = vehicleDataResult;
+#pragma clang diagnostic pop
 
         expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
         expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
@@ -78,7 +77,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
-        expect(testResponse.prndl).to(equal(vehicleDataResult));
         expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -86,6 +84,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testResponse.prndl).to(equal(vehicleDataResult));
+#pragma clang diagnostic pop
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -150,7 +152,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.odometer).to(equal(vehicleDataResult));
-        expect(testResponse.prndl).to(equal(vehicleDataResult));
         expect(testResponse.gearStatus).to(equal(vehicleDataResult));
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -158,6 +159,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.tirePressure).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
         expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testResponse.prndl).to(equal(vehicleDataResult));
+#pragma clang diagnostic pop
     });
     
     it(@"Should return nil if not set", ^ {
@@ -185,7 +190,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.myKey).to(beNil());
         expect(testResponse.odometer).to(beNil());
-        expect(testResponse.prndl).to(beNil());
         expect(testResponse.gearStatus).to(beNil());
         expect(testResponse.rpm).to(beNil());
         expect(testResponse.speed).to(beNil());
@@ -193,6 +197,50 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.tirePressure).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testResponse.prndl).to(beNil());
+#pragma clang diagnostic pop
+    });
+
+    context (@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:", ^{
+        SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult fuelLevel:vehicleDataResult fuelLevel_State:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult];
+
+        it(@"Expect all properties to be set properly", ^{
+             expect(testResponse.gps).to(equal(vehicleDataResult));
+             expect(testResponse.speed).to(equal(vehicleDataResult));
+             expect(testResponse.rpm).to(equal(vehicleDataResult));
+             expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
+             expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+             expect(testResponse.fuelRange).to(equal(vehicleDataResult));
+             expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
+             expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
+             expect(testResponse.gearStatus).to(equal(vehicleDataResult));
+             expect(testResponse.tirePressure).to(equal(vehicleDataResult));
+             expect(testResponse.odometer).to(equal(vehicleDataResult));
+             expect(testResponse.beltStatus).to(equal(vehicleDataResult));
+             expect(testResponse.bodyInformation).to(equal(vehicleDataResult));
+             expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
+             expect(testResponse.driverBraking).to(equal(vehicleDataResult));
+             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+             expect(testResponse.headLampStatus).to(equal(vehicleDataResult));
+             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
+             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
+             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
+             expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
+             expect(testResponse.eCallInfo).to(equal(vehicleDataResult));
+             expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
+             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
+             expect(testResponse.clusterModes).to(equal(vehicleDataResult));
+             expect(testResponse.myKey).to(equal(vehicleDataResult));
+             expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+             expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+             expect(testResponse.prndl).to(beNil());
+ #pragma clang diagnostic pop
+        });
     });
 
     it(@"Should set and get Generic Network Signal Data", ^{

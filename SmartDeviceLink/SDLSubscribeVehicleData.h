@@ -148,41 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for subscribing to all possible vehicle data items.
  *
- *  @param accelerationPedalPosition Subscribe to accelerationPedalPosition
- *  @param airbagStatus Subscribe to airbagStatus
- *  @param beltStatus Subscribe to beltStatus
- *  @param bodyInformation Subscribe to bodyInformation
- *  @param cloudAppVehicleID Subscribe to cloudAppVehicleID
- *  @param clusterModeStatus Subscribe to clusterModeStatus
- *  @param deviceStatus Subscribe to deviceStatus
- *  @param driverBraking Subscribe to driverBraking
- *  @param eCallInfo Subscribe to eCallInfo
- *  @param electronicParkBrakeStatus Subscribe to electronicParkBrakeStatus
- *  @param emergencyEvent Subscribe to emergencyEvent
- *  @param engineOilLife Subscribe to engineOilLife
- *  @param engineTorque Subscribe to engineTorque
- *  @param externalTemperature Subscribe to externalTemperature
- *  @param fuelLevel Subscribe to fuelLevel
- *  @param fuelLevelState Subscribe to fuelLevelState
- *  @param fuelRange Subscribe to fuelRange
- *  @param gearStatus Subscribe to gearStatus
- *  @param gps Subscribe to gps
- *  @param headLampStatus Subscribe to headLampStatus
- *  @param instantFuelConsumption Subscribe to instantFuelConsumption
- *  @param myKey Subscribe to myKey
- *  @param odometer Subscribe to odometer
- *  @param rpm Subscribe to rpm
- *  @param speed Subscribe to speed
- *  @param steeringWheelAngle Subscribe to steeringWheelAngle
- *  @param tirePressure Subscribe to tirePressure
- *  @param turnSignal Subscribe to turnSignal
- *  @param wiperStatus Subscribe to wiperStatus
- *  @return A SDLSubscribeVehicleData object
- */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gearStatus:(BOOL)gearStatus gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus;
-
-/**
- * note: RPC generator produced initializer
  * @param gps - gps
  * @param speed - speed
  * @param rpm - rpm
@@ -193,7 +158,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param externalTemperature - externalTemperature
  * @param turnSignal - turnSignal
  * @param gearStatus - gearStatus
- * @param prndl - prndl
  * @param tirePressure - tirePressure
  * @param odometer - odometer
  * @param beltStatus - beltStatus
@@ -215,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param myKey - myKey
  * @return A SDLSubscribeVehicleData object
  */
-- (instancetype)initWithGps:(nullable NSNumber<SDLBool> *)gps speed:(nullable NSNumber<SDLBool> *)speed rpm:(nullable NSNumber<SDLBool> *)rpm fuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel fuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State instantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption fuelRange:(nullable NSNumber<SDLBool> *)fuelRange externalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature turnSignal:(nullable NSNumber<SDLBool> *)turnSignal gearStatus:(nullable NSNumber<SDLBool> *)gearStatus prndl:(nullable NSNumber<SDLBool> *)prndl tirePressure:(nullable NSNumber<SDLBool> *)tirePressure odometer:(nullable NSNumber<SDLBool> *)odometer beltStatus:(nullable NSNumber<SDLBool> *)beltStatus bodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation deviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus driverBraking:(nullable NSNumber<SDLBool> *)driverBraking wiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus headLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus engineTorque:(nullable NSNumber<SDLBool> *)engineTorque accPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition steeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle engineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife electronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID eCallInfo:(nullable NSNumber<SDLBool> *)eCallInfo airbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus emergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent clusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus myKey:(nullable NSNumber<SDLBool> *)myKey;
+- (instancetype)initWithGps:(nullable NSNumber<SDLBool> *)gps speed:(nullable NSNumber<SDLBool> *)speed rpm:(nullable NSNumber<SDLBool> *)rpm fuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel fuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State instantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption fuelRange:(nullable NSNumber<SDLBool> *)fuelRange externalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature turnSignal:(nullable NSNumber<SDLBool> *)turnSignal gearStatus:(nullable NSNumber<SDLBool> *)gearStatus tirePressure:(nullable NSNumber<SDLBool> *)tirePressure odometer:(nullable NSNumber<SDLBool> *)odometer beltStatus:(nullable NSNumber<SDLBool> *)beltStatus bodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation deviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus driverBraking:(nullable NSNumber<SDLBool> *)driverBraking wiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus headLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus engineTorque:(nullable NSNumber<SDLBool> *)engineTorque accPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition steeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle engineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife electronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID eCallInfo:(nullable NSNumber<SDLBool> *)eCallInfo airbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus emergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent clusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus myKey:(nullable NSNumber<SDLBool> *)myKey;
 
 /**
  * A boolean value. If true, subscribes GPS data.
