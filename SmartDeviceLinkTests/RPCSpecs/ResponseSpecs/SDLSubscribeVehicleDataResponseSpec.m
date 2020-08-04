@@ -2,7 +2,6 @@
 //  SDLSubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
 #import <Nimble/Nimble.h>
 #import <Quick/Quick.h>
@@ -190,6 +189,42 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
         expect(testResponse.windowStatus).to(beNil());
+    });
+
+    context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:", ^{
+        SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult fuelLevel:vehicleDataResult fuelLevel_State:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult prndl:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult windowStatus:vehicleDataResult];
+        it(@"Expect all properties to be set properly", ^{
+            expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
+            expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
+            expect(testResponse.beltStatus).to(equal(vehicleDataResult));
+            expect(testResponse.bodyInformation).to(equal(vehicleDataResult));
+            expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+            expect(testResponse.clusterModes).to(equal(vehicleDataResult));
+            expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
+            expect(testResponse.driverBraking).to(equal(vehicleDataResult));
+            expect(testResponse.eCallInfo).to(equal(vehicleDataResult));
+            expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+            expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
+            expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
+            expect(testResponse.engineTorque).to(equal(vehicleDataResult));
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
+            expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
+            expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+            expect(testResponse.fuelRange).to(equal(vehicleDataResult));
+            expect(testResponse.gps).to(equal(vehicleDataResult));
+            expect(testResponse.headLampStatus).to(equal(vehicleDataResult));
+            expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
+            expect(testResponse.myKey).to(equal(vehicleDataResult));
+            expect(testResponse.odometer).to(equal(vehicleDataResult));
+            expect(testResponse.prndl).to(equal(vehicleDataResult));
+            expect(testResponse.rpm).to(equal(vehicleDataResult));
+            expect(testResponse.speed).to(equal(vehicleDataResult));
+            expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
+            expect(testResponse.tirePressure).to(equal(vehicleDataResult));
+            expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+            expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+            expect(testResponse.windowStatus).to(equal(vehicleDataResult));
+        });
     });
 
     it(@"Should set and get OEM Custom Vehicle Data", ^{

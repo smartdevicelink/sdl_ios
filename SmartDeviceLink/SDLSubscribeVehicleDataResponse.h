@@ -42,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSubscribeVehicleDataResponse : SDLRPCResponse
 
 /**
- * note: RPC generator produced initializer
+ * Convenience init for setting all possible values on vehicle data items.
+ *
  * @param gps - gps
  * @param speed - speed
  * @param rpm - rpm
