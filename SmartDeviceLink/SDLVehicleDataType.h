@@ -171,7 +171,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
  * Vehicle PRNDL data
  * @deprecated since 7.0.0
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
+extern SDLVehicleDataType const SDLVehicleDataTypePrndl __deprecated_msg("deprecated since 7.0.0");
 
 /**
  Vehicle RPM data

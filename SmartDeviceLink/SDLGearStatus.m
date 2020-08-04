@@ -56,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLPRNDL)userSelectedGear {
-    return [self.store sdl_enumForName:SDLRPCParameterNameUserSelectedGear error:nil];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameUserSelectedGear error:&error];
 }
 
 - (void)setActualGear:(nullable SDLPRNDL)actualGear {
@@ -64,7 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLPRNDL)actualGear {
-    return [self.store sdl_enumForName:SDLRPCParameterNameActualGear error:nil];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameActualGear error:&error];
 }
 
 - (void)setTransmissionType:(nullable SDLTransmissionType)transmissionType {
@@ -72,7 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTransmissionType)transmissionType {
-    return [self.store sdl_enumForName:SDLRPCParameterNameTransmissionType error:nil];
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameTransmissionType error:&error];
 }
 
 @end

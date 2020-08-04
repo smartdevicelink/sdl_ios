@@ -11,12 +11,13 @@
 QuickSpecBegin(SDLGearStatusSpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
-    SDLGearStatus* testStruct = [[SDLGearStatus alloc] initWithUserSelectedGear:SDLPRNDLNinth actualGear:SDLPRNDLTenth transmissionType:SDLTransmissionTypeAutomatic];
-
-        expect(testStruct.userSelectedGear).to(equal(SDLPRNDLNinth));
-        expect(testStruct.actualGear).to(equal(SDLPRNDLTenth));
-        expect(testStruct.transmissionType).to(equal(SDLTransmissionTypeAutomatic));
+    context(@"initWithUserSelectedGear:actualGear:transmissionType:", ^{
+        SDLGearStatus* testStruct = [[SDLGearStatus alloc] initWithUserSelectedGear:SDLPRNDLNinth actualGear:SDLPRNDLTenth transmissionType:SDLTransmissionTypeAutomatic];
+        it(@"Expect all properties to be set properly", ^ {
+            expect(testStruct.userSelectedGear).to(equal(SDLPRNDLNinth));
+            expect(testStruct.actualGear).to(equal(SDLPRNDLTenth));
+            expect(testStruct.transmissionType).to(equal(SDLTransmissionTypeAutomatic));
+        });
     });
 
     it(@"Should get correctly when initialized", ^ {
