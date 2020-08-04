@@ -58,6 +58,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.escSystem).to(beNil());
         expect(testStruct.trailerSwayControl).to(beNil());
     });
+
+    context(@"initWithEscSystem:trailerSwayControl:", ^{
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithEscSystem:SDLVehicleDataStatusOff trailerSwayControl:SDLVehicleDataStatusOff];
+        it(@"Expect all properties to be set properly", ^ {
+            expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOff));
+            expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOff));
+        });
+    });
 });
 
 QuickSpecEnd
