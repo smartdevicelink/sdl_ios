@@ -153,7 +153,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)gps {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameGPS ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameGPS ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSpeed:(nullable NSNumber<SDLBool> *)speed {
@@ -161,7 +162,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)speed {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameSpeed ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSpeed ofClass:NSNumber.class error:&error];
 }
 
 - (void)setRpm:(nullable NSNumber<SDLBool> *)rpm {
@@ -169,7 +171,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rpm {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameRPM ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameRPM ofClass:NSNumber.class error:&error];
 }
 
 - (void)setFuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel {
@@ -177,7 +180,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)fuelLevel {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelLevel ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelLevel ofClass:NSNumber.class error:&error];
 }
 
 - (void)setFuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State {
@@ -185,7 +189,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)fuelLevel_State {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelLevelState ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelLevelState ofClass:NSNumber.class error:&error];
 }
 
 - (void)setFuelRange:(nullable NSNumber<SDLBool> *)fuelRange {
@@ -193,7 +198,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)fuelRange {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelRange ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFuelRange ofClass:NSNumber.class error:&error];
 }
 
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption {
@@ -201,7 +207,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)instantFuelConsumption {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameInstantFuelConsumption ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameInstantFuelConsumption ofClass:NSNumber.class error:&error];
 }
 
 - (void)setExternalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature {
@@ -209,7 +216,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)externalTemperature {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:NSNumber.class error:&error];
 }
 
 - (void)setGearStatus:(nullable NSNumber<SDLBool> *)gearStatus {
@@ -217,7 +225,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)gearStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPrndl:(nullable NSNumber<SDLBool> *)prndl {
@@ -225,7 +234,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)prndl {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNamePRNDL ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNamePRNDL ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTirePressure:(nullable NSNumber<SDLBool> *)tirePressure {
@@ -233,7 +243,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)tirePressure {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameTirePressure ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTirePressure ofClass:NSNumber.class error:&error];
 }
 
 - (void)setOdometer:(nullable NSNumber<SDLBool> *)odometer {
@@ -241,7 +252,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)odometer {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameOdometer ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameOdometer ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBeltStatus:(nullable NSNumber<SDLBool> *)beltStatus {
@@ -249,7 +261,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)beltStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameBeltStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameBeltStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation {
@@ -257,7 +270,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)bodyInformation {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameBodyInformation ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameBodyInformation ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDeviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus {
@@ -265,7 +279,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)deviceStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameDeviceStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDeviceStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDriverBraking:(nullable NSNumber<SDLBool> *)driverBraking {
@@ -273,7 +288,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)driverBraking {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameDriverBraking ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDriverBraking ofClass:NSNumber.class error:&error];
 }
 
 - (void)setWiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus {
@@ -281,7 +297,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)wiperStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameWiperStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWiperStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHeadLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus {
@@ -289,7 +306,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)headLampStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameHeadLampStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHeadLampStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setEngineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife {
@@ -297,7 +315,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)engineOilLife {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife ofClass:NSNumber.class error:&error];
 }
 
 - (void)setEngineTorque:(nullable NSNumber<SDLBool> *)engineTorque {
@@ -305,7 +324,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)engineTorque {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameEngineTorque ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameEngineTorque ofClass:NSNumber.class error:&error];
 }
 
 - (void)setAccPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition {
@@ -313,7 +333,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)accPedalPosition {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameAccelerationPedalPosition ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAccelerationPedalPosition ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSteeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle {
@@ -321,7 +342,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)steeringWheelAngle {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameSteeringWheelAngle ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSteeringWheelAngle ofClass:NSNumber.class error:&error];
 }
 
 - (void)setECallInfo:(nullable NSNumber<SDLBool> *)eCallInfo {
@@ -329,7 +351,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)eCallInfo {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameECallInfo ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameECallInfo ofClass:NSNumber.class error:&error];
 }
 
 - (void)setAirbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus {
@@ -337,7 +360,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)airbagStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameAirbagStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAirbagStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setEmergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent {
@@ -345,7 +369,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)emergencyEvent {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameEmergencyEvent ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameEmergencyEvent ofClass:NSNumber.class error:&error];
 }
 
 - (void)setClusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus {
@@ -353,7 +378,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)clusterModeStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameClusterModeStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameClusterModeStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMyKey:(nullable NSNumber<SDLBool> *)myKey {
@@ -361,7 +387,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)myKey {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameMyKey ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameMyKey ofClass:NSNumber.class error:&error];
 }
 
 - (void)setElectronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus {
@@ -369,7 +396,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)electronicParkBrakeStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameElectronicParkBrakeStatus ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameElectronicParkBrakeStatus ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTurnSignal:(nullable NSNumber<SDLBool> *)turnSignal {
@@ -377,7 +405,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)turnSignal {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameTurnSignal ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTurnSignal ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID {
@@ -385,7 +414,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)cloudAppVehicleID {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:&error];
 }
 
 - (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(BOOL)vehicleDataState {
@@ -393,7 +423,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
-    return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:nil];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSNumber.class error:&error];
 }
 
 @end
