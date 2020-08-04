@@ -3830,7 +3830,6 @@
 		162E828E1A9BDE8A00906325 /* StructSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E7724A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m */,
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
@@ -3907,6 +3906,7 @@
 				1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */,
 				162E82A91A9BDE8A00906325 /* SDLSoftButtonCapabilitiesSpec.m */,
 				162E82AA1A9BDE8A00906325 /* SDLSoftButtonSpec.m */,
+				B38D8E7724A0CAA100B977D0 /* SDLStabilityControlsStatusSpec.m */,
 				1EAA477F2036C2C9000FE74B /* SDLStationIDNumberSpec.m */,
 				162E82AB1A9BDE8A00906325 /* SDLStartTimeSpec.m */,
 				162E82AC1A9BDE8A00906325 /* SDLSyncMsgVersionSpec.m */,
@@ -4725,8 +4725,6 @@
 		5D5934F31A85164500687FB9 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E7324A0441100B977D0 /* SDLStabilityControlsStatus.h */,
-				B38D8E7424A0441100B977D0 /* SDLStabilityControlsStatus.m */,
 				5D61FA481A84238A00846EE7 /* SDLAirbagStatus.h */,
 				5D61FA491A84238A00846EE7 /* SDLAirbagStatus.m */,
 				332A913C1CED87F80043824C /* SDLAppInfo.h */,
@@ -4881,6 +4879,8 @@
 				5D61FBB31A84238B00846EE7 /* SDLSoftButton.m */,
 				5D61FBB41A84238B00846EE7 /* SDLSoftButtonCapabilities.h */,
 				5D61FBB51A84238B00846EE7 /* SDLSoftButtonCapabilities.m */,
+				B38D8E7324A0441100B977D0 /* SDLStabilityControlsStatus.h */,
+				B38D8E7424A0441100B977D0 /* SDLStabilityControlsStatus.m */,
 				5D61FBBE1A84238B00846EE7 /* SDLStartTime.h */,
 				5D61FBBF1A84238B00846EE7 /* SDLStartTime.m */,
 				1EAA470F2033FE80000FE74B /* SDLStationIDNumber.h */,
