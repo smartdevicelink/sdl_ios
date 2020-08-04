@@ -53,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLUInt> *)approximatePosition {
-    return [self.store sdl_objectForName:SDLRPCParameterNameApproximatePosition ofClass:NSNumber.class error:NULL];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameApproximatePosition ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDeviation:(NSNumber<SDLUInt> *)deviation {
@@ -61,7 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLUInt> *)deviation {
-    return [self.store sdl_objectForName:SDLRPCParameterNameDeviation ofClass:NSNumber.class error:NULL];
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameDeviation ofClass:NSNumber.class error:&error];
 }
 
 @end

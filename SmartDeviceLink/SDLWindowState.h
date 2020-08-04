@@ -54,8 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLUInt> *approximatePosition;
 
 /**
- * The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is
- * 10, then the window's location is somewhere between 40 and 60.
+ * The percentage deviation of the approximatePosition. e.g. If the approximatePosition is 50 and the deviation is 10, then the window's location is somewhere between 40 and 60.
  *
  *  Mandatory, Integer, 0 - 100
  */
