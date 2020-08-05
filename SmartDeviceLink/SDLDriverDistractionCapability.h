@@ -53,8 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *menuLength;
 
 /**
- * The depth of submenus allowed when the driver is distracted. e.g. 3 == top level menu -> submenu -> submenu; 1 ==
- * top level menu only
+ * The depth of submenus allowed when the driver is distracted. e.g. 3 == top level menu -> submenu -> submenu; 1 == top level menu only
  * {"default_value": null, "max_value": null, "min_value": 1}
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *subMenuDepth;
