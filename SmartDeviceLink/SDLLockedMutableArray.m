@@ -19,6 +19,7 @@
 
 @implementation SDLLockedMutableArray
 
+#pragma mark - Initializers
 - (instancetype)initWithSerialQueue:(dispatch_queue_t)queue {
     self = [super init];
     if (!self) { return nil; }
@@ -48,6 +49,18 @@
 }
 
 #pragma mark - Getting / Setting
+
+#pragma mark Retrieving information
+- (NSUInteger)count {
+    __block NSUInteger retVal = 0;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalArray.count;
+    }];
+
+    return retVal;
+}
+
+#pragma mark Adding Objects
 - (void)addObject:(id)object {
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{

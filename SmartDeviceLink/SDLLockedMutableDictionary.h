@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Create a new locked mutable dictionary with a given dispatch queue. All calls will be reader/writer locked on the queue so that only one operation will occur at a time.
-/// If the 
+///
 /// @param queue The queue to use. It can be either a serial or concurrent queue.
 - (instancetype)initWithQueue:(dispatch_queue_t)queue;
 
