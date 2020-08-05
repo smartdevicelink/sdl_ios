@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSeatLocationCapability:(SDLSeatLocationCapability *)capability;
 
 /// Convenience init for a Driver Distraction capability
-/// @param capability Information about
+/// @param capability Describes capabilities when the driver is distracted
 /// @return A SDLSystemCapability object
 - (instancetype)initWithDriverDistractionCapability:(SDLDriverDistractionCapability *)capability;
 
