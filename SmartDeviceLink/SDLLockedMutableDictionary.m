@@ -65,12 +65,31 @@
 }
 
 #pragma mark Subscripting
-- (id)objectAtIndexedSubscript:(id<NSCopying>)key {
-    return [self objectForKey:key];
+- (id)objectForKeyedSubscript:(id<NSCopying>)key {
+    __block id retVal = nil;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalDict[key];
+    }];
+
+    return retVal;
 }
 
-- (void)setObject:(id)object atIndexedSubscript:(id<NSCopying>)key {
-    [self setObject:object forKey:key];
+- (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)key {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runAsyncWithBlock:^{
+        weakSelf.internalDict[key] = object;
+    }];
+}
+
+#pragma mark Retrieving Information
+
+- (NSUInteger)count {
+    __block NSUInteger retVal = 0;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalDict.count;
+    }];
+
+    return retVal;
 }
 
 

@@ -20,7 +20,7 @@
 @implementation SDLLockedMutableArray
 
 #pragma mark - Initializers
-- (instancetype)initWithSerialQueue:(dispatch_queue_t)queue {
+- (instancetype)initWithQueue:(dispatch_queue_t)queue {
     self = [super init];
     if (!self) { return nil; }
 
@@ -64,14 +64,14 @@
 - (void)addObject:(id)object {
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{
-        [weakSelf addObject:object];
+        [weakSelf.internalArray addObject:object];
     }];
 }
 
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{
-        [weakSelf insertObject:anObject atIndex:index];
+        [weakSelf.internalArray insertObject:anObject atIndex:index];
     }];
 }
 
@@ -88,7 +88,7 @@
 - (void)setObject:(id)object atIndexedSubscript:(NSUInteger)idx {
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{
-        weakSelf[idx] = object;
+        weakSelf.internalArray[idx] = object;
     }];
 }
 

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Create a new locked mutable array with a given dispatch queue. All calls will be reader/writer locked on the queue so that only one operation will occur at a time.
 ///
 /// @param queue The queue to use. It can be either a serial or concurrent queue.
-- (instancetype)initWithSerialQueue:(dispatch_queue_t)queue;
+- (instancetype)initWithQueue:(dispatch_queue_t)queue;
 
 #pragma mark - Removing
 /// Empties the array of its entries.

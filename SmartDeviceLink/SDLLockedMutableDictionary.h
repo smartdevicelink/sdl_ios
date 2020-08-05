@@ -52,8 +52,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setObject:(ObjectType)object forKey:(KeyType<NSCopying>)key;
 
 #pragma mark Subscripting
-- (void)setObject:(ObjectType)object atIndexedSubscript:(KeyType<NSCopying>)key;
-- (ObjectType)objectAtIndexedSubscript:(KeyType<NSCopying>)key;
+- (void)setObject:(nullable ObjectType)object forKeyedSubscript:(KeyType<NSCopying>)key;
+- (nullable ObjectType)objectForKeyedSubscript:(KeyType<NSCopying>)key;
+
+/// The number of objects in the dictionary.
+///
+/// This will occur synchronously and will not return until the operation completes.
+/// @return The number of objects in the dictionary.
+- (NSUInteger)count;
 
 @end
 
