@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSerialQueue:(dispatch_queue_t)queue;
 
 #pragma mark - Removing
-- (void)removeLastObject;
+- (void)removeAllObjects;
 - (void)removeObjectAtIndex:(NSUInteger)index;
 
 #pragma mark - Getting / Setting
