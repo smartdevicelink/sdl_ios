@@ -77,8 +77,7 @@ extern SDLCharacterSet const SDLCharacterSetCID2 __deprecated_msg("Use Ascii, Is
 #pragma clang diagnostic pop
 
 /**
- * ASCII as defined in https://en.wikipedia.org/wiki/ASCII as defined in codes 0-127. Non-printable characters such
- * as tabs and back spaces are ignored.
+ * ASCII as defined in https://en.wikipedia.org/wiki/ASCII as defined in codes 0-127. Non-printable characters such as tabs and back spaces are ignored.
  *
  * @since SDL 7.0.0
  */
@@ -92,10 +91,8 @@ extern SDLCharacterSet const SDLCharacterSetAscii;
 extern SDLCharacterSet const SDLCharacterSetIso88591;
 
 /**
- * The UTF-8 character set that uses variable bytes per code point. See https://en.wikipedia.org/wiki/UTF-8 for more
- * details. This is the preferred character set.
+ * The UTF-8 character set that uses variable bytes per code point. See https://en.wikipedia.org/wiki/UTF-8 for more details. This is the preferred character set.
  *
  * @since SDL 7.0.0
  */
 extern SDLCharacterSet const SDLCharacterSetUtf8;
-
