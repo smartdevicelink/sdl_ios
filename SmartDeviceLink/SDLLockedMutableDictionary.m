@@ -17,7 +17,7 @@
 
 @implementation SDLLockedMutableDictionary
 
-- (instancetype)initWithSerialQueue:(dispatch_queue_t)queue {
+- (instancetype)initWithQueue:(dispatch_queue_t)queue {
     self = [super init];
     if (!self) { return nil; }
 
@@ -30,14 +30,14 @@
 #pragma mark - Removing
 - (void)removeAllObjects {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(_internalQueue, ^{
+    dispatch_barrier_async(_internalQueue, ^{
         [weakSelf.internalDict removeAllObjects];
     });
 }
 
 - (void)removeObjectForKey:(id<NSCopying>)key {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(_internalQueue, ^{
+    dispatch_barrier_async(_internalQueue, ^{
         [weakSelf.internalDict removeObjectForKey:key];
     });
 }
@@ -46,7 +46,7 @@
 - (id)objectForKey:(id<NSCopying>)key {
     __block id retVal = nil;
     dispatch_sync(_internalQueue, ^{
-        retVal = _internalDict[key];
+        retVal = [_internalDict objectForKey:key];
     });
 
     return retVal;
@@ -54,8 +54,8 @@
 
 - (void)setObject:(id)object forKey:(id<NSCopying>)key {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(_internalQueue, ^{
-        weakSelf.internalDict[key] = object;
+    dispatch_barrier_async(_internalQueue, ^{
+        [weakSelf.internalDict setObject:object forKey:key];
     });
 }
 
