@@ -17,8 +17,8 @@ QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+describe(@"getter/setter tests", ^ {
+    it(@"should set and get correctly", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         testResponse.gps = vehicleDataResult;
@@ -84,7 +84,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.stabilityControlsStatus).to(equal(vehicleDataResult));
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameGPS:vehicleDataResult,
@@ -156,7 +156,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.stabilityControlsStatus).to(equal(vehicleDataResult));
     });
     
-    it(@"Should return nil if not set", ^ {
+    it(@"should return nil if not set", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.gps).to(beNil());
@@ -191,13 +191,49 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 
-    it(@"Should set and get OEM Custom Vehicle Data", ^{
+    context (@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:", ^{
+         SDLUnsubscribeVehicleDataResponse *testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult fuelLevel:vehicleDataResult fuelLevel_State:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult prndl:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult stabilityControlsStatus:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult];
+
+         it(@"expect all properties to set properly", ^{
+             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
+             expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
+             expect(testResponse.beltStatus).to(equal(vehicleDataResult));
+             expect(testResponse.bodyInformation).to(equal(vehicleDataResult));
+             expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
+             expect(testResponse.clusterModes).to(equal(vehicleDataResult));
+             expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
+             expect(testResponse.driverBraking).to(equal(vehicleDataResult));
+             expect(testResponse.eCallInfo).to(equal(vehicleDataResult));
+             expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
+             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
+             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
+             expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
+             expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
+             expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+             expect(testResponse.fuelRange).to(equal(vehicleDataResult));
+             expect(testResponse.gps).to(equal(vehicleDataResult));
+             expect(testResponse.headLampStatus).to(equal(vehicleDataResult));
+             expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
+             expect(testResponse.myKey).to(equal(vehicleDataResult));
+             expect(testResponse.odometer).to(equal(vehicleDataResult));
+             expect(testResponse.prndl).to(equal(vehicleDataResult));
+             expect(testResponse.rpm).to(equal(vehicleDataResult));
+             expect(testResponse.speed).to(equal(vehicleDataResult));
+             expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
+             expect(testResponse.tirePressure).to(equal(vehicleDataResult));
+             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+             expect(testResponse.stabilityControlsStatus).to(equal(vehicleDataResult));
+         });
+     });
+
+    it(@"should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse *testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
         expect([testResponse getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));
-        expect(testResponse.stabilityControlsStatus).to(beNil());
     });
 });
 

@@ -32,6 +32,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLFuelRange;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -71,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param wiperStatus Get wiperStatus data
  *  @return A SDLGetVehicleData object
  */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus: instead");
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey: instead");
 
 /**
  *  Convenience init for getting data for all possible vehicle data items.
@@ -107,44 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param wiperStatus Get wiperStatus data
  *  @return A SDLGetVehicleData object
  */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus: instead");
-
-/**
- *  Convenience init for getting data for all possible vehicle data items.
- *
- *  @param accelerationPedalPosition Get accelerationPedalPosition data
- *  @param airbagStatus Get airbagStatus data
- *  @param beltStatus Get beltStatus data
- *  @param bodyInformation Get bodyInformation data
- *  @param cloudAppVehicleID Get cloudAppVehicleID data
- *  @param clusterModeStatus Get clusterModeStatus data
- *  @param deviceStatus Get deviceStatus data
- *  @param driverBraking Get driverBraking data
- *  @param eCallInfo Get eCallInfo data
- *  @param electronicParkBrakeStatus Get electronicParkBrakeStatus data
- *  @param emergencyEvent Get emergencyEvent data
- *  @param engineOilLife Get engineOilLife data
- *  @param engineTorque Get engineTorque data
- *  @param externalTemperature Get externalTemperature data
- *  @param fuelLevel Get fuelLevel data
- *  @param fuelLevelState Get fuelLevelState data
- *  @param fuelRange Get fuelRange data
- *  @param gps Get gps data
- *  @param headLampStatus Get headLampStatus data
- *  @param instantFuelConsumption Get instantFuelConsumption data
- *  @param myKey Get myKey data
- *  @param odometer Get odometer data
- *  @param prndl Get prndl data
- *  @param rpm Get rpm data
- *  @param speed Get speed data
- *  @param steeringWheelAngle Get steeringWheelAngle data
- *  @param tirePressure Get tirePressure data
- *  @param turnSignal Get turnSignal data
- *  @param vin Get vin data
- *  @param wiperStatus Get wiperStatus data
- *  @return A SDLGetVehicleData object
- */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:stabilityControlsStatus: instead");
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey: instead");
 
 /**
  *  Convenience init for getting data for all possible vehicle data items.
@@ -174,7 +139,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param prndl Get prndl data
  *  @param rpm Get rpm data
  *  @param speed Get speed data
- *  @param stabilityControlsStatus Get stabilityControlsStatus data
  *  @param steeringWheelAngle Get steeringWheelAngle data
  *  @param tirePressure Get tirePressure data
  *  @param turnSignal Get turnSignal data
@@ -182,18 +146,19 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param wiperStatus Get wiperStatus data
  *  @return A SDLGetVehicleData object
  */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed stabilityControlsStatus:(BOOL)stabilityControlsStatus steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus;
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey: instead");
 
 /**
- * note: RPC generator produced initializer
+ *  Convenience init for getting data for all possible vehicle data items.
+ *
  * @param gps - gps
- * @param speed - speed
+ * @param speed - @(speed)
  * @param rpm - rpm
- * @param fuelLevel - fuelLevel
+ * @param fuelLevel - @(fuelLevel)
  * @param fuelLevel_State - fuelLevel_State
- * @param instantFuelConsumption - instantFuelConsumption
+ * @param instantFuelConsumption - @(instantFuelConsumption)
  * @param fuelRange - fuelRange
- * @param externalTemperature - externalTemperature
+ * @param externalTemperature - @(externalTemperature)
  * @param turnSignal - turnSignal
  * @param vin - vin
  * @param prndl - prndl
@@ -205,239 +170,238 @@ NS_ASSUME_NONNULL_BEGIN
  * @param driverBraking - driverBraking
  * @param wiperStatus - wiperStatus
  * @param headLampStatus - headLampStatus
- * @param engineTorque - engineTorque
- * @param accPedalPosition - accPedalPosition
- * @param steeringWheelAngle - steeringWheelAngle
- * @param engineOilLife - engineOilLife
+ * @param engineTorque - @(engineTorque)
+ * @param accPedalPosition - @(accPedalPosition)
+ * @param steeringWheelAngle - @(steeringWheelAngle)
+ * @param engineOilLife - @(engineOilLife)
  * @param electronicParkBrakeStatus - electronicParkBrakeStatus
  * @param cloudAppVehicleID - cloudAppVehicleID
+ * @param stabilityControlsStatus - stabilityControlsStatus
  * @param eCallInfo - eCallInfo
  * @param airbagStatus - airbagStatus
  * @param emergencyEvent - emergencyEvent
  * @param clusterModeStatus - clusterModeStatus
  * @param myKey - myKey
- * @return A SDLGetVehicleData object
+ * @return A SDLOnVehicleData object
  */
-- (instancetype)initWithGps:(nullable NSNumber<SDLBool> *)gps speed:(nullable NSNumber<SDLBool> *)speed rpm:(nullable NSNumber<SDLBool> *)rpm fuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel fuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State instantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption fuelRange:(nullable NSNumber<SDLBool> *)fuelRange externalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature turnSignal:(nullable NSNumber<SDLBool> *)turnSignal vin:(nullable NSNumber<SDLBool> *)vin prndl:(nullable NSNumber<SDLBool> *)prndl tirePressure:(nullable NSNumber<SDLBool> *)tirePressure odometer:(nullable NSNumber<SDLBool> *)odometer beltStatus:(nullable NSNumber<SDLBool> *)beltStatus bodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation deviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus driverBraking:(nullable NSNumber<SDLBool> *)driverBraking wiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus headLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus engineTorque:(nullable NSNumber<SDLBool> *)engineTorque accPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition steeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle engineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife electronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID eCallInfo:(nullable NSNumber<SDLBool> *)eCallInfo airbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus emergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent clusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus myKey:(nullable NSNumber<SDLBool> *)myKey;
+- (instancetype)initWithGps:(nullable NSNumber<SDLBool> *)gps speed:(nullable NSNumber<SDLBool> *)speed rpm:(nullable NSNumber<SDLBool> *)rpm fuelLevel:(nullable NSNumber<SDLBool> *)fuelLevel fuelLevel_State:(nullable NSNumber<SDLBool> *)fuelLevel_State instantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption fuelRange:(nullable NSNumber<SDLBool> *)fuelRange externalTemperature:(nullable NSNumber<SDLBool> *)externalTemperature turnSignal:(nullable NSNumber<SDLBool> *)turnSignal vin:(nullable NSNumber<SDLBool> *)vin prndl:(nullable NSNumber<SDLBool> *)prndl tirePressure:(nullable NSNumber<SDLBool> *)tirePressure odometer:(nullable NSNumber<SDLBool> *)odometer beltStatus:(nullable NSNumber<SDLBool> *)beltStatus bodyInformation:(nullable NSNumber<SDLBool> *)bodyInformation deviceStatus:(nullable NSNumber<SDLBool> *)deviceStatus driverBraking:(nullable NSNumber<SDLBool> *)driverBraking wiperStatus:(nullable NSNumber<SDLBool> *)wiperStatus headLampStatus:(nullable NSNumber<SDLBool> *)headLampStatus engineTorque:(nullable NSNumber<SDLBool> *)engineTorque accPedalPosition:(nullable NSNumber<SDLBool> *)accPedalPosition steeringWheelAngle:(nullable NSNumber<SDLBool> *)steeringWheelAngle engineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife electronicParkBrakeStatus:(nullable NSNumber<SDLBool> *)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID stabilityControlsStatus:(nullable NSNumber<SDLBool> *)stabilityControlsStatus eCallInfo:(nullable NSNumber<SDLBool> *)eCallInfo airbagStatus:(nullable NSNumber<SDLBool> *)airbagStatus emergencyEvent:(nullable NSNumber<SDLBool> *)emergencyEvent clusterModeStatus:(nullable NSNumber<SDLBool> *)clusterModeStatus myKey:(nullable NSNumber<SDLBool> *)myKey;
 
 /**
  * A boolean value. If true, requests GPS data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *gps;
 
 /**
  * A boolean value. If true, requests Speed data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *speed;
 
 /**
  * A boolean value. If true, requests RPM data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rpm;
 
 /**
  * A boolean value. If true, requests Fuel Level data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *fuelLevel;
 
 /**
  * A boolean value. If true, requests Fuel Level State data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
  * A boolean value. If true, requests Fuel Range data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelRange;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *fuelRange;
 
 /**
  * A boolean value. If true, requests Instant Fuel Consumption data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * A boolean value. If true, requests External Temperature data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * A boolean value. If true, requests the Vehicle Identification Number.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *vin;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *vin;
 
 /**
  * A boolean value. If true, requests PRNDL data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *prndl;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *prndl;
 
 /**
  * A boolean value. If true, requests Tire Pressure data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *tirePressure;
 
 /**
  * A boolean value. If true, requests Odometer data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *odometer;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *odometer;
 
 /**
  * A boolean value. If true, requests Belt Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *beltStatus;
 
 /**
  * A boolean value. If true, requests Body Information data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *bodyInformation;
 
 /**
  * A boolean value. If true, requests Device Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *deviceStatus;
 
 /**
  * A boolean value. If true, requests Driver Braking data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *driverBraking;
 
 /**
  * A boolean value. If true, requests Wiper Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *wiperStatus;
 
 /**
  * A boolean value. If true, requests Head Lamp Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *headLampStatus;
 
 /**
  * A boolean value. If true, requests Engine Oil Life data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *engineOilLife;
 
 /**
  * A boolean value. If true, requests Engine Torque data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *engineTorque;
 
 /**
  * A boolean value. If true, requests Acc Pedal Position data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *accPedalPosition;
 
 /**
  * A boolean value. If true, requests Steering Wheel Angle data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *steeringWheelAngle;
 
 /**
  * A boolean value. If true, requests Emergency Call Info data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *eCallInfo;
 
 /**
  * A boolean value. If true, requests Air Bag Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *airbagStatus;
 
 /**
  * A boolean value. If true, requests Emergency Event (if it occurred) data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *emergencyEvent;
 
 /**
  * A boolean value. If true, requests Cluster Mode Status data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *clusterModeStatus;
 
 /**
  * A boolean value. If true, requests MyKey data.
  *
  * Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *myKey;
 
 /**
  A boolean value. If true, requests Electronic Parking Brake status data.
 
  Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *electronicParkBrakeStatus;
 
 /**
  A boolean value. If true, requests Turn Signal data.
 
  Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *turnSignal;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *turnSignal;
 
 /**
  A boolean value. If true, requests the Cloud App Vehicle ID.
 
  Optional.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *cloudAppVehicleID;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *cloudAppVehicleID;
 
 /**
- * See StabilityControlsStatus
- *
- * Optional.
+ * A boolean value. If true, requests StabilityControlsStatus data.
  *
  * @since SDL 7.0.0
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *stabilityControlsStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *stabilityControlsStatus;
 
 /**
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
