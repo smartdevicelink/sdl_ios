@@ -14,6 +14,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDriverDistractionCapability.h"
 #import "SDLError.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -68,6 +69,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -137,6 +139,7 @@ typedef NSString * SDLServiceID;
         self.videoStreamingCapability = nil;
         self.remoteControlCapability = nil;
         self.seatLocationCapability = nil;
+        self.driverDistractionCapability = nil;
 
         self.supportsSubscriptions = NO;
 
@@ -292,6 +295,8 @@ typedef NSString * SDLServiceID;
         return self.hmiCapabilities.remoteControl.boolValue;
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
         return self.hmiCapabilities.seatLocation.boolValue;
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction]) {
+        return self.hmiCapabilities.driverDistraction.boolValue;
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
         //This is a corner case that the param was not available in 5.1.0, but the app services feature was available. We have to say it's available because we don't know.
         if ([[SDLGlobals sharedGlobals].rpcVersion isEqualToVersion:[SDLVersion versionWithString:@"5.1.0"]]) {
@@ -325,6 +330,8 @@ typedef NSString * SDLServiceID;
         return [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation] && self.seatLocationCapability != nil) {
         return [[SDLSystemCapability alloc] initWithSeatLocationCapability:self.seatLocationCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction] && self.driverDistractionCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithDriverDistractionCapability:self.driverDistractionCapability];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl] && self.remoteControlCapability != nil) {
         return [[SDLSystemCapability alloc] initWithRemoteControlCapability:self.remoteControlCapability];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming] && self.videoStreamingCapability != nil) {
@@ -435,6 +442,12 @@ typedef NSString * SDLServiceID;
             return NO;
         }
         self.seatLocationCapability = systemCapability.seatLocationCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction]) {
+        if ([self.driverDistractionCapability isEqual:systemCapability.driverDistractionCapability]) {
+            [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
+            return NO;
+        }
+        self.driverDistractionCapability = systemCapability.driverDistractionCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) {
             [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
