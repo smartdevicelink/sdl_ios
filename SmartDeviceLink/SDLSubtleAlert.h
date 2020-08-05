@@ -60,53 +60,41 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The first line of the alert text field
  * {"default_value": null, "max_length": 500, "min_length": 1}
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) NSString *alertText1;
 
 /**
  * The second line of the alert text field
  * {"default_value": null, "max_length": 500, "min_length": 1}
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) NSString *alertText2;
 
 /**
  * Image to be displayed for the corresponding alert. See Image. If omitted on supported displays, no (or the default if applicable) icon should be displayed.
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) SDLImage *alertIcon;
 
 /**
  * An array of text chunks of type TTSChunk. See TTSChunk. The array must have at least one item.
- *
- * Optional
+ * {"default_value": null, "max_size": 100, "min_size": 1}
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 /**
  * Timeout in milliseconds. Typical timeouts are 3-5 seconds. If omitted, timeout is set to 5s.
  * {"default_value": 5000, "max_value": 10000, "min_value": 3000}
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *duration;
 
 /**
  * App defined SoftButtons. If omitted on supported displays, the displayed alert shall not have any SoftButtons.
- *
- * Optional
+ * {"default_value": null, "max_size": 2, "min_size": 0}
  */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
 /**
  * An ID for this specific alert to allow cancellation through the `CancelInteraction` RPC.
  * {"default_value": null, "max_value": null, "min_value": null}
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *cancelID;
 
