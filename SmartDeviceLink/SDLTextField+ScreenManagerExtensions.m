@@ -17,7 +17,7 @@
 + (NSArray<SDLTextField *> *)allTextFields {
     NSMutableArray<SDLTextField *> *tempTextFields = [NSMutableArray array];
     for (SDLTextFieldName fieldName in [self sdl_allTextFieldNames]) {
-        [tempTextFields addObject:[[SDLTextField alloc] initWithName:fieldName characterSet:SDLCharacterSetCID1 width:500 rows:8]];
+        [tempTextFields addObject:[[SDLTextField alloc] initWithName:fieldName characterSet:SDLCharacterSetUtf8 width:500 rows:8]];
     }
 
     return tempTextFields;

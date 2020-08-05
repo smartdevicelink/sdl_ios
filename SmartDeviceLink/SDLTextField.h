@@ -26,11 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLTextFieldName name;
 
 /**
- * The character set that is supported in this field.
- *
- * @see SDLCharacterSet
- *
- * Required
+ * The set of characters that are supported by this text field. All text is sent in UTF-8 format, but not all systems may support all of the characters expressed by UTF-8. All systems will support at least ASCII, but they may support more, either the LATIN-1 character set, or the full UTF-8 character set.
  */
 @property (strong, nonatomic) SDLCharacterSet characterSet;
 
