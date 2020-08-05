@@ -152,8 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLMenuLayout menuLayout;
 
 /**
- * unique ID of the sub menu, the command will be added to. If not provided or 0, it will be provided to the top
- * level of the in application menu.
+ * Unique ID of the sub menu the command will be added to. If not provided or 0, it will be provided to the top level of the in application menu.
  * {"default_value": 0, "max_value": 2000000000, "min_value": 0}
  *
  * @since SDL 7.0.0
