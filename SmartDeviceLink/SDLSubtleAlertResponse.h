@@ -46,10 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime;
 
 /**
- * Amount of time (in seconds) that an app must wait before resending an alert. If provided, another system event or overlay currently has a higher priority than this alert. An app must not send an alert without waiting at least the amount of time dictated.
+ * Amount of time (in milliseconds) that an app must wait before resending an alert. If provided, another system event or overlay currently has a higher priority than this alert. An app must not send an alert without waiting at least the amount of time dictated.
  * {"default_value": null, "max_value": 2000000000, "min_value": 0}
- *
- * Optional
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *tryAgainTime;
 
