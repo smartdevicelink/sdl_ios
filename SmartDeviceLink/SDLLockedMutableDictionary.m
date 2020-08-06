@@ -43,7 +43,9 @@
 - (void)removeObjectForKey:(id<NSCopying>)key {
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{
-        [weakSelf.internalDict removeObjectForKey:key];
+        if ([weakSelf objectForKey:key] != nil) {
+            [weakSelf.internalDict removeObjectForKey:key];
+        }
     }];
 }
 
@@ -93,7 +95,9 @@
     return retVal;
 }
 
+
 #pragma mark Subscripting
+
 - (id)objectForKeyedSubscript:(id<NSCopying>)key {
     __block id retVal = nil;
     [self sdl_runSyncWithBlock:^{
@@ -112,6 +116,7 @@
 
 
 # pragma mark - Utilities
+
 - (void)sdl_runSyncWithBlock:(void (^)(void))block {
     if (dispatch_get_specific(_internalQueueID) != NULL) {
         block();

@@ -450,6 +450,8 @@
 		4A8F465324DB439A003BDAE4 /* SDLLockedMutableArraySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465224DB439A003BDAE4 /* SDLLockedMutableArraySpec.m */; };
 		4A8F465624DC408B003BDAE4 /* SDLLockedMapTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */; };
 		4A8F465724DC408B003BDAE4 /* SDLLockedMapTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */; };
+		4A8F465A24DC95C6003BDAE4 /* SDLLockedMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8F465824DC95C6003BDAE4 /* SDLLockedMutableSet.h */; };
+		4A8F465B24DC95C6003BDAE4 /* SDLLockedMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465924DC95C6003BDAE4 /* SDLLockedMutableSet.m */; };
 		4A99D00E247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */; };
 		4A99D00F247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */; };
 		4A99D0122475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */; };
@@ -2205,6 +2207,8 @@
 		4A8F465224DB439A003BDAE4 /* SDLLockedMutableArraySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableArraySpec.m; sourceTree = "<group>"; };
 		4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLockedMapTable.h; sourceTree = "<group>"; };
 		4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMapTable.m; sourceTree = "<group>"; };
+		4A8F465824DC95C6003BDAE4 /* SDLLockedMutableSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLockedMutableSet.h; sourceTree = "<group>"; };
+		4A8F465924DC95C6003BDAE4 /* SDLLockedMutableSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableSet.m; sourceTree = "<group>"; };
 		4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLTextField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
 		4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLTextField+ScreenManagerExtensions.m"; sourceTree = "<group>"; };
 		4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLImageField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
@@ -4140,12 +4144,14 @@
 		4A8F463F24D9F39D003BDAE4 /* Locked Collections */ = {
 			isa = PBXGroup;
 			children = (
+				4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */,
+				4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */,
 				4A8F464A24DA0019003BDAE4 /* SDLLockedMutableArray.h */,
 				4A8F464B24DA0019003BDAE4 /* SDLLockedMutableArray.m */,
 				4A8F464624D9F581003BDAE4 /* SDLLockedMutableDictionary.h */,
 				4A8F464724D9F581003BDAE4 /* SDLLockedMutableDictionary.m */,
-				4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */,
-				4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */,
+				4A8F465824DC95C6003BDAE4 /* SDLLockedMutableSet.h */,
+				4A8F465924DC95C6003BDAE4 /* SDLLockedMutableSet.m */,
 			);
 			name = "Locked Collections";
 			sourceTree = "<group>";
@@ -7232,6 +7238,7 @@
 				4A3BA4E724901794003E56B8 /* SDLLifecycleMobileHMIStateHandler.h in Headers */,
 				5D61FD5D1A84238C00846EE7 /* SDLRegisterAppInterface.h in Headers */,
 				5D61FC9A1A84238C00846EE7 /* SDLEmergencyEvent.h in Headers */,
+				4A8F465A24DC95C6003BDAE4 /* SDLLockedMutableSet.h in Headers */,
 				5D61FC651A84238C00846EE7 /* SDLCompassDirection.h in Headers */,
 				5D61FC8E1A84238C00846EE7 /* SDLDimension.h in Headers */,
 				5D61FD6B1A84238C00846EE7 /* SDLRPCMessageType.h in Headers */,
@@ -8015,6 +8022,7 @@
 				DA4F47961E771AA100FC809E /* SDLEnum.m in Sources */,
 				5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */,
 				5DA49CE61F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m in Sources */,
+				4A8F465B24DC95C6003BDAE4 /* SDLLockedMutableSet.m in Sources */,
 				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
 				5DD60D99221C5D7D00A82A4F /* SDLVersion.m in Sources */,
 				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,
