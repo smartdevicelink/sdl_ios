@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 
 @property (strong, nonatomic, readwrite) NSMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *rpcResponseHandlerMap;
-@property (strong, nonatomic, readwrite) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic, readwrite) SDLLockedMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
 @property (strong, nonatomic, readwrite) NSMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *commandHandlerMap;
 @property (strong, nonatomic, readwrite) NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
 @property (strong, nonatomic, readwrite) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-    _rpcRequestDictionary = [NSMutableDictionary dictionary];
+    _rpcRequestDictionary = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];

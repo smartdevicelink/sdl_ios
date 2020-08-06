@@ -64,6 +64,35 @@
     }];
 }
 
+#pragma mark Retrieving Information
+
+- (NSArray<id<NSCopying>> *)allKeys {
+    __block NSArray<id<NSCopying>> *retVal = nil;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalDict.allKeys;
+    }];
+
+    return retVal;
+}
+
+- (NSArray<id> *)allValues {
+    __block NSArray<id> *retVal = nil;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalDict.allValues;
+    }];
+
+    return retVal;
+}
+
+- (NSUInteger)count {
+    __block NSUInteger retVal = 0;
+    [self sdl_runSyncWithBlock:^{
+        retVal = self.internalDict.count;
+    }];
+
+    return retVal;
+}
+
 #pragma mark Subscripting
 - (id)objectForKeyedSubscript:(id<NSCopying>)key {
     __block id retVal = nil;
@@ -79,17 +108,6 @@
     [self sdl_runAsyncWithBlock:^{
         weakSelf.internalDict[key] = object;
     }];
-}
-
-#pragma mark Retrieving Information
-
-- (NSUInteger)count {
-    __block NSUInteger retVal = 0;
-    [self sdl_runSyncWithBlock:^{
-        retVal = self.internalDict.count;
-    }];
-
-    return retVal;
 }
 
 

@@ -22,6 +22,7 @@
 #import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageField+ScreenManagerExtensions.h"
+#import "SDLLockedMutableDictionary.h"
 #import "SDLLogMacros.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
@@ -71,11 +72,11 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
-@property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
+@property (nullable, strong, nonatomic) SDLLockedMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
 @property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
-@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
-@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
+@property (strong, nonatomic) SDLLockedMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
+@property (strong, nonatomic) SDLLockedMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
 
 @property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
 @property (strong, nonatomic) SDLHMILevel currentHMILevel;
@@ -102,10 +103,10 @@ typedef NSString * SDLServiceID;
 
     _connectionManager = manager;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
-    _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
+    _appServicesCapabilitiesDictionary = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
 
-    _capabilityObservers = [NSMutableDictionary dictionary];
-    _subscriptionStatus = [NSMutableDictionary dictionary];
+    _capabilityObservers = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
+    _subscriptionStatus = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
 
     _currentHMILevel = SDLHMILevelNone;
 
@@ -143,7 +144,7 @@ typedef NSString * SDLServiceID;
 
         self.supportsSubscriptions = NO;
 
-        self.appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
+        [self.appServicesCapabilitiesDictionary removeAllObjects];
         [self.capabilityObservers removeAllObjects];
         [self.subscriptionStatus removeAllObjects];
 
@@ -815,35 +816,6 @@ typedef NSString * SDLServiceID;
     } else {
         dispatch_sync(self.readWriteQueue, block);
     }
-}
-
-#pragma mark Getters
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *)capabilityObservers {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_capabilityObservers;
-    }];
-
-    return dict;
-}
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_subscriptionStatus;
-    }];
-
-    return dict;
-}
-
-- (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
-    __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_appServicesCapabilitiesDictionary;
-    }];
-
-    return dict;
 }
 
 @end

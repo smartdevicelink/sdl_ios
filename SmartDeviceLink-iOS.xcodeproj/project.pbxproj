@@ -448,6 +448,8 @@
 		4A8F464D24DA0019003BDAE4 /* SDLLockedMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F464B24DA0019003BDAE4 /* SDLLockedMutableArray.m */; };
 		4A8F465124DB37CC003BDAE4 /* SDLLockedMutableDictionarySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465024DB37CC003BDAE4 /* SDLLockedMutableDictionarySpec.m */; };
 		4A8F465324DB439A003BDAE4 /* SDLLockedMutableArraySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465224DB439A003BDAE4 /* SDLLockedMutableArraySpec.m */; };
+		4A8F465624DC408B003BDAE4 /* SDLLockedMapTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */; };
+		4A8F465724DC408B003BDAE4 /* SDLLockedMapTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */; };
 		4A99D00E247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */; };
 		4A99D00F247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */; };
 		4A99D0122475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */; };
@@ -2201,6 +2203,8 @@
 		4A8F464B24DA0019003BDAE4 /* SDLLockedMutableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableArray.m; sourceTree = "<group>"; };
 		4A8F465024DB37CC003BDAE4 /* SDLLockedMutableDictionarySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableDictionarySpec.m; sourceTree = "<group>"; };
 		4A8F465224DB439A003BDAE4 /* SDLLockedMutableArraySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableArraySpec.m; sourceTree = "<group>"; };
+		4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLockedMapTable.h; sourceTree = "<group>"; };
+		4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMapTable.m; sourceTree = "<group>"; };
 		4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLTextField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
 		4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLTextField+ScreenManagerExtensions.m"; sourceTree = "<group>"; };
 		4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLImageField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
@@ -4136,10 +4140,12 @@
 		4A8F463F24D9F39D003BDAE4 /* Locked Collections */ = {
 			isa = PBXGroup;
 			children = (
-				4A8F464624D9F581003BDAE4 /* SDLLockedMutableDictionary.h */,
-				4A8F464724D9F581003BDAE4 /* SDLLockedMutableDictionary.m */,
 				4A8F464A24DA0019003BDAE4 /* SDLLockedMutableArray.h */,
 				4A8F464B24DA0019003BDAE4 /* SDLLockedMutableArray.m */,
+				4A8F464624D9F581003BDAE4 /* SDLLockedMutableDictionary.h */,
+				4A8F464724D9F581003BDAE4 /* SDLLockedMutableDictionary.m */,
+				4A8F465424DC408B003BDAE4 /* SDLLockedMapTable.h */,
+				4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */,
 			);
 			name = "Locked Collections";
 			sourceTree = "<group>";
@@ -7316,6 +7322,7 @@
 				5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */,
 				4A3BA4E1248EB133003E56B8 /* SDLLifecycleSyncPDataHandler.h in Headers */,
 				88EF8EBD22D8FE5800CB06C2 /* SDLCancelInteractionResponse.h in Headers */,
+				4A8F465624DC408B003BDAE4 /* SDLLockedMapTable.h in Headers */,
 				888DBAEF22D528DE002A0AE2 /* SDLCloseApplicationResponse.h in Headers */,
 				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
@@ -7919,6 +7926,7 @@
 				88EF8EBE22D8FE5800CB06C2 /* SDLCancelInteractionResponse.m in Sources */,
 				5DE372A21ACB2ED300849FAA /* SDLHMICapabilities.m in Sources */,
 				5D61FDD41A84238C00846EE7 /* SDLTouchEvent.m in Sources */,
+				4A8F465724DC408B003BDAE4 /* SDLLockedMapTable.m in Sources */,
 				5D61FD881A84238C00846EE7 /* SDLSetGlobalProperties.m in Sources */,
 				5D61FC7F1A84238C00846EE7 /* SDLDeleteSubMenu.m in Sources */,
 				5D61FCE91A84238C00846EE7 /* SDLLanguage.m in Sources */,

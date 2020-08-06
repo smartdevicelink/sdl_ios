@@ -51,15 +51,29 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param key The key for value. The key is copied (using copyWithZone:; keys must conform to the NSCopying protocol). If aKey already exists in the dictionary, anObject takes its place.
 - (void)setObject:(ObjectType)object forKey:(KeyType<NSCopying>)key;
 
-#pragma mark Subscripting
-- (void)setObject:(nullable ObjectType)object forKeyedSubscript:(KeyType<NSCopying>)key;
-- (nullable ObjectType)objectForKeyedSubscript:(KeyType<NSCopying>)key;
+#pragma mark Retrieving Information
+
+/// An array of the keys in the dictionary
+///
+/// This will occur synchronously and will not return until the operation completes.
+/// @return An array of the key objects in the dictionary
+- (NSArray<KeyType<NSCopying>> *)allKeys;
+
+/// An array of the values in the dictionary
+///
+/// This will occur synchronously and will not return until the operation completes.
+/// @return An array of the value objects in the dictionary
+- (NSArray<ObjectType> *)allValues;
 
 /// The number of objects in the dictionary.
 ///
 /// This will occur synchronously and will not return until the operation completes.
 /// @return The number of objects in the dictionary.
 - (NSUInteger)count;
+
+#pragma mark Subscripting
+- (void)setObject:(nullable ObjectType)object forKeyedSubscript:(KeyType<NSCopying>)key;
+- (nullable ObjectType)objectForKeyedSubscript:(KeyType<NSCopying>)key;
 
 @end
 

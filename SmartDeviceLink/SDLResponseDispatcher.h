@@ -11,6 +11,8 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLNotificationConstants.h"
 
+#import "SDLLockedMutableDictionary.h"
+
 
 typedef NSNumber SDLRPCCorrelationId;
 typedef NSNumber SDLAddCommandCommandId;
@@ -33,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Holds a dictionary of RPC request correlation ids and their corresponding RPC request.
  */
-@property (strong, nonatomic, readonly) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic, readonly) SDLLockedMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
 
 /**
  *  Holds a map of command ids and their corresponding blocks.
