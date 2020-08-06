@@ -28,8 +28,26 @@ describe(@"getter/setter tests", ^ {
     SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
     SDLMyKey* myKey = [[SDLMyKey alloc] init];
     SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
-    NSString* vin = @"6574839201a";
-    NSString* cloudAppVehicleID = @"cloudAppVehicleID";
+    NSString *const vin = @"6574839201a";
+    NSString *const cloudAppVehicleID = @"cloudAppVehicleID";
+    const float speed = 123.45;
+    const NSUInteger rpm = 42;
+    const float fuelLevel = 10.3;
+    SDLComponentVolumeStatus fuelLevel_State = SDLComponentVolumeStatusAlert;
+    const float instantFuelConsumption = 4000.63;
+    NSArray *fuelRangeArray = @[fuelRange, fuelRange];
+    const float externalTemperature = -10.5;
+    SDLTurnSignal turnSignal = SDLTurnSignalOff;
+    SDLPRNDL prndl = SDLPRNDLDrive;
+    NSUInteger odometer = 100500;
+    SDLVehicleDataEventStatus driverBraking = SDLVehicleDataEventStatusYes;
+    SDLWiperStatus wiperStatus = SDLWiperStatusStalled;
+    const float engineTorque = -200.124;
+    const float accPedalPosition = 99.99999999;
+    const float steeringWheelAngle = M_PI_4;
+    const float engineOilLife = 34.45;
+    SDLElectronicParkBrakeStatus electronicParkBrakeStatus = SDLElectronicParkBrakeStatusDriveActive;
+    const BOOL handsOffSteering = YES;
 
     it(@"should set and get correctly", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
@@ -211,41 +229,39 @@ describe(@"getter/setter tests", ^ {
     });
 
     context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
-
-        SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] initWithGps:gps speed:100.0 rpm:@3 fuelLevel:99.9999 fuelLevel_State:SDLComponentVolumeStatusFault instantFuelConsumption:40.7 fuelRange:@[fuelRange] externalTemperature:0.5 turnSignal:SDLTurnSignalOff vin:vin prndl:SDLPRNDLPark tirePressure:tires odometer:@7000 beltStatus:belt bodyInformation:body deviceStatus:device driverBraking:SDLVehicleDataEventStatusNoEvent wiperStatus:SDLWiperStatusAutomaticHigh headLampStatus:headLamp engineTorque:630.4 accPedalPosition:0.5 steeringWheelAngle:-1500.0 engineOilLife:23.22 electronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCall airbagStatus:airbag emergencyEvent:event clusterModeStatus:clusterMode myKey:myKey handsOffSteering:@YES];
-
+        SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] initWithGps:gps speed:speed rpm:@(rpm) fuelLevel:fuelLevel fuelLevel_State:fuelLevel_State instantFuelConsumption:instantFuelConsumption fuelRange:fuelRangeArray externalTemperature:externalTemperature turnSignal:turnSignal vin:vin prndl:prndl tirePressure:tires odometer:@(odometer) beltStatus:belt bodyInformation:body deviceStatus:device driverBraking:driverBraking wiperStatus:wiperStatus headLampStatus:headLamp engineTorque:engineTorque accPedalPosition:accPedalPosition steeringWheelAngle:steeringWheelAngle engineOilLife:engineOilLife electronicParkBrakeStatus:electronicParkBrakeStatus cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCall airbagStatus:airbag emergencyEvent:event clusterModeStatus:clusterMode myKey:myKey handsOffSteering:@(handsOffSteering)];
         it(@"should get correctly when initialized", ^{
-            expect(testResponse.accPedalPosition).to(equal(@0.5));
+            expect(testResponse.accPedalPosition).to(equal(@(accPedalPosition)));
             expect(testResponse.airbagStatus).to(equal(airbag));
             expect(testResponse.beltStatus).to(equal(belt));
             expect(testResponse.bodyInformation).to(equal(body));
             expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
             expect(testResponse.clusterModeStatus).to(equal(clusterMode));
             expect(testResponse.deviceStatus).to(equal(device));
-            expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
+            expect(testResponse.driverBraking).to(equal(driverBraking));
             expect(testResponse.eCallInfo).to(equal(eCall));
-            expect(testResponse.electronicParkBrakeStatus).to(equal(SDLElectronicParkBrakeStatusDriveActive));
+            expect(testResponse.electronicParkBrakeStatus).to(equal(electronicParkBrakeStatus));
             expect(testResponse.emergencyEvent).to(equal(event));
-            expect(testResponse.engineOilLife).to(equal(@(23.22f)));
-            expect(testResponse.engineTorque).to(equal(@(630.4f)));
-            expect(testResponse.externalTemperature).to(equal(@0.5));
-            expect(testResponse.fuelLevel).to(equal(@(99.9999f)));
-            expect(testResponse.fuelLevel_State).to(equal(SDLComponentVolumeStatusFault));
-            expect(testResponse.fuelRange).to(equal(@[fuelRange]));
+            expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
+            expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
+            expect(testResponse.fuelLevel).to(equal(@(fuelLevel)));
+            expect(testResponse.fuelLevel_State).to(equal(fuelLevel_State));
+            expect(testResponse.fuelRange).to(equal(fuelRangeArray));
             expect(testResponse.gps).to(equal(gps));
+            expect(testResponse.handsOffSteering).to(equal(@(handsOffSteering)));
             expect(testResponse.headLampStatus).to(equal(headLamp));
-            expect(testResponse.instantFuelConsumption).to(equal(@(40.7f)));
+            expect(testResponse.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
             expect(testResponse.myKey).to(equal(myKey));
-            expect(testResponse.odometer).to(equal(@(7000.0f)));
-            expect(testResponse.prndl).to(equal(SDLPRNDLPark));
-            expect(testResponse.rpm).to(equal(@3));
-            expect(testResponse.speed).to(equal(@100));
-            expect(testResponse.steeringWheelAngle).to(equal(@-1500));
+            expect(testResponse.odometer).to(equal(@(odometer)));
+            expect(testResponse.prndl).to(equal(prndl));
+            expect(testResponse.rpm).to(equal(@(rpm)));
+            expect(testResponse.speed).to(equal(@(speed)));
+            expect(testResponse.steeringWheelAngle).to(equal((steeringWheelAngle)));
             expect(testResponse.tirePressure).to(equal(tires));
-            expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
+            expect(testResponse.turnSignal).to(equal(turnSignal));
             expect(testResponse.vin).to(equal(vin));
-            expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
-            expect(testResponse.handsOffSteering).to(equal(@YES));
+            expect(testResponse.wiperStatus).to(equal(wiperStatus));
         });
     });
 
