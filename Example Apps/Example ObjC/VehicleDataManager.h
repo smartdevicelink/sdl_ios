@@ -19,16 +19,12 @@ typedef void(^RefreshUIHandler)(void);
 @interface VehicleDataManager : NSObject
 
 @property (copy, nonatomic, readonly) NSString *vehicleOdometerData;
-@property (copy, nonatomic, readonly, nullable) NSString *vehicleHandsOffSteeringData;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithManager:(SDLManager *)manager refreshUIHandler:(RefreshUIHandler)refreshUIHandler;
 
 - (void)subscribeToVehicleOdometer;
 - (void)unsubscribeToVehicleOdometer;
-
-- (void)subscribeForHandsOffSteering;
-- (void)unsubscribeFromHandsOffSteering;
 
 + (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType;
 + (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber;

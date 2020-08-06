@@ -112,7 +112,6 @@ NSString * const ACTurnSignalMenuName = @"Turn Signal";
 NSString * const ACVINMenuName = @"VIN";
 NSString * const ACWiperStatusMenuName = @"Wiper Status";
 
-
 #pragma mark - SDL Image Names
 NSString * const AlertBWIconName = @"alert";
 NSString * const CarBWIconImageName = @"car";
@@ -129,7 +128,6 @@ NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";
 NSString * const ExampleAppNameFrench = @"SDL Exemple App";
 
 #pragma mark - SDL Vehicle Data
-NSString * const VehicleDataHandsOffSteering = @"Hands off Steering";
 NSString * const VehicleDataOdometerName = @"Odometer";
 NSString * const VehicleDataSpeedName = @"Speed";
 

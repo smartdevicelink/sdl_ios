@@ -131,7 +131,6 @@ extern NSString * const ExampleAppNameSpanish;
 extern NSString * const ExampleAppNameFrench;
 
 #pragma mark - SDL Vehicle Data
-extern NSString * const VehicleDataHandsOffSteering;
 extern NSString * const VehicleDataOdometerName;
 extern NSString * const VehicleDataSpeedName;
 
