@@ -120,6 +120,12 @@ extern SDLVehicleDataType const SDLVehicleDataTypeBraking;
 extern SDLVehicleDataType const SDLVehicleDataTypeWiperStatus;
 
 /**
+ To indicate whether driver hands are off the steering wheel
+ Added in SDL 7.0.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeHandsOffSteering;
+
+/**
  Vehicle headlamp status
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
