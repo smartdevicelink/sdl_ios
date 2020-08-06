@@ -30,28 +30,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLCharacterSet.h"
+#import "SDLRPCStruct.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType2 = @"TYPE2SET";
-#pragma clang diagnostic pop
+NS_ASSUME_NONNULL_BEGIN
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType5 = @"TYPE5SET";
-#pragma clang diagnostic pop
+/**
+ * @since SDL 7.0.0
+ */
+@interface SDLDriverDistractionCapability : SDLRPCStruct
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID1 = @"CID1SET";
-#pragma clang diagnostic pop
+/**
+ * @param menuLength - menuLength
+ * @param subMenuDepth - subMenuDepth
+ * @return A SDLDriverDistractionCapability object
+ */
+- (instancetype)initWithMenuLength:(nullable NSNumber<SDLInt> *)menuLength subMenuDepth:(nullable NSNumber<SDLUInt> *)subMenuDepth;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID2 = @"CID2SET";
-#pragma clang diagnostic pop
+/**
+ * The number of items allowed in a Choice Set or Command menu while the driver is distracted
+ * {"default_value": null, "max_value": null, "min_value": null}
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *menuLength;
 
-SDLCharacterSet const SDLCharacterSetAscii = @"ASCII";
-SDLCharacterSet const SDLCharacterSetIso88591 = @"ISO_8859_1";
-SDLCharacterSet const SDLCharacterSetUtf8 = @"UTF_8";
+/**
+ * The depth of submenus allowed when the driver is distracted. e.g. 3 == top level menu -> submenu -> submenu; 1 == top level menu only
+ * {"default_value": null, "max_value": null, "min_value": 1}
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *subMenuDepth;
+
+@end
+
+NS_ASSUME_NONNULL_END

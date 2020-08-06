@@ -27,9 +27,9 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"should properly initialize initWithDictionary", ^{
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameParentId:@(testParentId),
+        NSDictionary *dict = @{SDLRPCParameterNameParentID:@(testParentId),
                                        SDLRPCParameterNamePosition:@(testPosition),
-                                       SDLRPCParameterNameMenuName:testMenuName} mutableCopy];
+                                       SDLRPCParameterNameMenuName:testMenuName};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMenuParams* testStruct = [[SDLMenuParams alloc] initWithDictionary:dict];

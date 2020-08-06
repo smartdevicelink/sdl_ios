@@ -49,9 +49,9 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLTemplateColorScheme *colorScheme = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0];
+    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:7 minorVersion:0 patchVersion:0];
 #pragma clang diagnostic pop
-    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0];
+    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:7 minorVersion:0 patchVersion:0];
 
     beforeEach(^{
         testRegisterAppInterface = nil;
@@ -116,7 +116,7 @@ describe(@"RegisterAppInterface Tests", ^{
          dict = @{SDLRPCParameterNameRequest:
                       @{SDLRPCParameterNameParameters:
                             @{SDLRPCParameterNameSyncMessageVersion:@{
-                                      SDLRPCParameterNameMajorVersion: @6,
+                                      SDLRPCParameterNameMajorVersion: @7,
                                       SDLRPCParameterNameMinorVersion: @0,
                                       SDLRPCParameterNamePatchVersion: @0
                                       },
