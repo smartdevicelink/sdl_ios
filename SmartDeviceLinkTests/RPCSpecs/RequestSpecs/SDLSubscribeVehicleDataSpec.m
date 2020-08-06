@@ -2,18 +2,20 @@
 //  SDLSubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SDLSubscribeVehicleData.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+describe(@"getter/setter tests", ^ {
+    it(@"should set and get correctly", ^ {
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         testRequest.accPedalPosition = @YES;
@@ -79,7 +81,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.handsOffSteering).to(equal(@YES));
     });
     
-    it(@"Should get correctly when initialized with a dictionary", ^ {
+    it(@"should get correctly when initialized with a dictionary", ^ {
         NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
                                                    @{SDLRPCParameterNameParameters:
                                                          @{SDLRPCParameterNameAccelerationPedalPosition:@YES,
@@ -137,6 +139,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.fuelLevel_State).to(equal(@YES));
         expect(testRequest.fuelRange).to(equal(@YES));
         expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.handsOffSteering).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@YES));
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
@@ -148,7 +151,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.tirePressure).to(equal(@YES));
         expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@NO));
-        expect(testRequest.handsOffSteering).to(equal(@YES));
     });
 });
 
@@ -175,6 +177,7 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(beNil());
             expect(testRequest.fuelRange).to(beNil());
             expect(testRequest.gps).to(beNil());
+            expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(beNil());
             expect(testRequest.instantFuelConsumption).to(beNil());
             expect(testRequest.myKey).to(beNil());
@@ -186,7 +189,6 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(beNil());
             expect(testRequest.turnSignal).to(beNil());
             expect(testRequest.wiperStatus).to(beNil());
-            expect(testRequest.handsOffSteering).to(beNil());
         });
     });
 
@@ -215,6 +217,7 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@YES));
             expect(testRequest.fuelRange).to(equal(@YES));
             expect(testRequest.gps).to(equal(@YES));
+            expect(testRequest.handsOffSteering).to(equal(@NO));
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
@@ -226,7 +229,6 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
@@ -254,6 +256,7 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@NO));
             expect(testRequest.fuelRange).to(equal(@NO));
             expect(testRequest.gps).to(equal(@YES));
+            expect(testRequest.handsOffSteering).to(equal(@NO));
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
@@ -265,7 +268,6 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@NO));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(equal(@NO));
         });
     });
 
@@ -291,6 +293,7 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@YES));
             expect(testRequest.fuelRange).to(equal(@YES));
             expect(testRequest.gps).to(equal(@YES));
+            expect(testRequest.handsOffSteering).to(equal(@YES));
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
@@ -302,11 +305,10 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(equal(@YES));
         });
     });
 
-    context(@"Should set and get OEM Custom Vehicle Data", ^{
+    context(@"should set and get OEM Custom Vehicle Data", ^{
         SDLSubscribeVehicleData *testRequest = [[SDLSubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];

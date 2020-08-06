@@ -2,13 +2,15 @@
 //  SDLUnsubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SDLUnsubscribeVehicleDataResponse.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
@@ -17,8 +19,8 @@ QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+describe(@"getter/setter tests", ^ {
+    it(@"should set and get correctly", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         testResponse.gps = vehicleDataResult;
@@ -84,7 +86,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.handsOffSteering).to(equal(vehicleDataResult));
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"should get correctly when initialized", ^ {
         NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameGPS:vehicleDataResult,
@@ -156,7 +158,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.handsOffSteering).to(equal(vehicleDataResult));
     });
     
-    it(@"Should return nil if not set", ^ {
+    it(@"should return nil if not set", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.gps).to(beNil());
@@ -192,7 +194,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:", ^{
-        it(@"Expect all properties to be vehicleDataResult", ^ {
+        it(@"expect all properties to be vehicleDataResult", ^ {
             SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult fuelLevel:vehicleDataResult fuelLevel_State:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult prndl:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult handsOffSteering:vehicleDataResult];
 
             expect(testResponse.gps).to(equal(vehicleDataResult));
@@ -228,7 +230,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
     });
 
-    it(@"Should set and get OEM Custom Vehicle Data", ^{
+    it(@"should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse *testRequest = [[SDLUnsubscribeVehicleDataResponse alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
