@@ -2,13 +2,15 @@
 //  SDLSubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SDLSubscribeVehicleData.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 

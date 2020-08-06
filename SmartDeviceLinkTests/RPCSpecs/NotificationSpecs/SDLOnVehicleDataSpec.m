@@ -2,14 +2,16 @@
 //  SDLOnVehicleDataSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLStabilityControlsStatus.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SmartDeviceLink.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
+
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
 
@@ -265,9 +267,11 @@ describe(@"getter/setter tests", ^ {
 
     it(@"should set and get OEM Custom Vehicle Data", ^{
         SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
+
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
         expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
+
     });
 });
 

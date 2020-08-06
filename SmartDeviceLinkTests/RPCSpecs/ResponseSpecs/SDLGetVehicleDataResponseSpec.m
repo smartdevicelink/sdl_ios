@@ -4,8 +4,9 @@
 
 
 #import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
+
 #import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
 #import "SDLRPCParameterNames.h"
@@ -265,7 +266,7 @@ describe(@"getter/setter tests", ^ {
          });
      });
 
-    it(@"should set and get Generic Network Signal Data", ^{
+    it(@"should set and get OEM Custom Vehicle Data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
         
