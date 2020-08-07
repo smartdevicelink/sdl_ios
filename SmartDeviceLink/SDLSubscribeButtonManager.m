@@ -11,6 +11,7 @@
 #import "SDLError.h"
 #import "SDLGlobals.h"
 #import "SDLHMIPermissions.h"
+#import "SDLLockedMutableDictionary.h"
 #import "SDLLogMacros.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnHMIStatus.h"
@@ -30,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSubscribeButtonManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic) NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *subscribeButtonObservers;
+@property (strong, nonatomic) SDLLockedMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *subscribeButtonObservers;
 @property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 
 @end
@@ -50,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _connectionManager = connectionManager;
-    _subscribeButtonObservers = [NSMutableDictionary dictionary];
+    _subscribeButtonObservers = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_handleButtonEvent:) name:SDLDidReceiveButtonEventNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_handleButtonPress:) name:SDLDidReceiveButtonPressNotification object:nil];
@@ -61,11 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start { }
 
 - (void)stop {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
-        __strong typeof(weakSelf) strongself = weakSelf;
-        [strongself->_subscribeButtonObservers removeAllObjects];
-    }];
+    [self.subscribeButtonObservers removeAllObjects];
 }
 
 #pragma mark - Subscribe
@@ -129,17 +126,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param subscribedObserver The observer
 /// @param buttonName The name of the button
 - (void)sdl_addSubscribedObserver:(SDLSubscribeButtonObserver *)subscribedObserver forButtonName:(SDLButtonName)buttonName {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_runSyncOnQueue:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.subscribeButtonObservers[buttonName] == nil) {
-            SDLLogV(@"Adding first subscriber for button: %@", buttonName);
-            strongSelf.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithObject:subscribedObserver];
-        } else {
-            SDLLogV(@"Adding another subscriber for button: %@", buttonName);
-            [strongSelf.subscribeButtonObservers[buttonName] addObject:subscribedObserver];
-        }
-    }];
+    if (self.subscribeButtonObservers[buttonName] == nil) {
+        SDLLogV(@"Adding first subscriber for button: %@", buttonName);
+        self.subscribeButtonObservers[buttonName] = [NSMutableArray arrayWithObject:subscribedObserver];
+    } else {
+        SDLLogV(@"Adding another subscriber for button: %@", buttonName);
+        [self.subscribeButtonObservers[buttonName] addObject:subscribedObserver];
+    }
 }
 
 #pragma mark Send Subscribe Request
@@ -204,6 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
         for (NSUInteger i = 0; i < strongSelf.subscribeButtonObservers[buttonName].count; i++) {
             SDLSubscribeButtonObserver *subscribedObserver = (SDLSubscribeButtonObserver *)strongSelf.subscribeButtonObservers[buttonName][i];
             if (subscribedObserver.observer != observer) { continue; }
+
             // Okay to mutate because we will break immediately afterward
             [strongSelf.subscribeButtonObservers[buttonName] removeObjectAtIndex:i];
             break;
@@ -293,17 +287,6 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         dispatch_sync(self.readWriteQueue, block);
     }
-}
-
-#pragma mark - Getters
-
-- (NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *)subscribeButtonObservers {
-    __block NSMutableDictionary<SDLButtonName, NSMutableArray<SDLSubscribeButtonObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_subscribeButtonObservers;
-    }];
-
-    return dict;
 }
 
 @end

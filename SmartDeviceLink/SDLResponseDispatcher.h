@@ -10,6 +10,8 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLNotificationConstants.h"
+#import "SDLLockedMutableDictionary.h"
+#import "SDLLockedMapTable.h"
 
 
 typedef NSNumber SDLRPCCorrelationId;
@@ -28,27 +30,27 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Holds a map of RPC request correlation ids and corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *rpcResponseHandlerMap;
+@property (strong, nonatomic, readonly) SDLLockedMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *rpcResponseHandlerMap;
 
 /**
  *  Holds a dictionary of RPC request correlation ids and their corresponding RPC request.
  */
-@property (strong, nonatomic, readonly) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic, readonly) SDLLockedMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
 
 /**
  *  Holds a map of command ids and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *commandHandlerMap;
+@property (strong, nonatomic, readonly) SDLLockedMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *commandHandlerMap;
 
 /**
  *  Holds a map of button names and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
+@property (strong, nonatomic, readonly) SDLLockedMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
 
 /**
  *  Holds a map of soft button ids and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
+@property (strong, nonatomic, readonly) SDLLockedMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
 
 /**
  *  Holds an audio pass thru block.

@@ -22,6 +22,7 @@
 #import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageField+ScreenManagerExtensions.h"
+#import "SDLLockedMutableDictionary.h"
 #import "SDLLogMacros.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
@@ -71,11 +72,11 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
-@property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
+@property (nullable, strong, nonatomic) SDLLockedMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
 @property (assign, nonatomic, readwrite) BOOL supportsSubscriptions;
-@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
-@property (strong, nonatomic) NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
+@property (strong, nonatomic) SDLLockedMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers;
+@property (strong, nonatomic) SDLLockedMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *subscriptionStatus;
 
 @property (assign, nonatomic) BOOL shouldConvertDeprecatedDisplayCapabilities;
 @property (strong, nonatomic) SDLHMILevel currentHMILevel;
@@ -102,10 +103,10 @@ typedef NSString * SDLServiceID;
 
     _connectionManager = manager;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
-    _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
+    _appServicesCapabilitiesDictionary = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
 
-    _capabilityObservers = [NSMutableDictionary dictionary];
-    _subscriptionStatus = [NSMutableDictionary dictionary];
+    _capabilityObservers = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
+    _subscriptionStatus = [[SDLLockedMutableDictionary alloc] initWithQueue:_readWriteQueue];
 
     _currentHMILevel = SDLHMILevelNone;
 
@@ -121,35 +122,33 @@ typedef NSString * SDLServiceID;
  */
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
-    [self sdl_runSyncOnQueue:^{
-        self.displayCapabilities = nil;
-        self.displays = nil;
-        self.hmiCapabilities = nil;
-        self.softButtonCapabilities = nil;
-        self.buttonCapabilities = nil;
-        self.presetBankCapabilities = nil;
-        self.hmiZoneCapabilities = nil;
-        self.speechCapabilities = nil;
-        self.prerecordedSpeechCapabilities = nil;
-        self.vrCapability = NO;
-        self.audioPassThruCapabilities = nil;
-        self.pcmStreamCapability = nil;
-        self.navigationCapability = nil;
-        self.phoneCapability = nil;
-        self.videoStreamingCapability = nil;
-        self.remoteControlCapability = nil;
-        self.seatLocationCapability = nil;
-        self.driverDistractionCapability = nil;
+    self.displayCapabilities = nil;
+    self.displays = nil;
+    self.hmiCapabilities = nil;
+    self.softButtonCapabilities = nil;
+    self.buttonCapabilities = nil;
+    self.presetBankCapabilities = nil;
+    self.hmiZoneCapabilities = nil;
+    self.speechCapabilities = nil;
+    self.prerecordedSpeechCapabilities = nil;
+    self.vrCapability = NO;
+    self.audioPassThruCapabilities = nil;
+    self.pcmStreamCapability = nil;
+    self.navigationCapability = nil;
+    self.phoneCapability = nil;
+    self.videoStreamingCapability = nil;
+    self.remoteControlCapability = nil;
+    self.seatLocationCapability = nil;
+    self.driverDistractionCapability = nil;
 
-        self.supportsSubscriptions = NO;
+    self.supportsSubscriptions = NO;
 
-        self.appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
-        [self.capabilityObservers removeAllObjects];
-        [self.subscriptionStatus removeAllObjects];
+    [self.appServicesCapabilitiesDictionary removeAllObjects];
+    [self.capabilityObservers removeAllObjects];
+    [self.subscriptionStatus removeAllObjects];
 
-        self.currentHMILevel = SDLHMILevelNone;
-        self.shouldConvertDeprecatedDisplayCapabilities = YES;
-    }];
+    self.currentHMILevel = SDLHMILevelNone;
+    self.shouldConvertDeprecatedDisplayCapabilities = YES;
 }
 
 #pragma mark - Getters
@@ -395,9 +394,7 @@ typedef NSString * SDLServiceID;
         SDLLogD(@"GetSystemCapability response succeeded, type: %@, response: %@", type, getSystemCapabilityResponse);
 
         if (![weakself.subscriptionStatus[type] isEqualToNumber:subscribe] && weakself.supportsSubscriptions) {
-            [self sdl_runSyncOnQueue:^{
-                weakself.subscriptionStatus[type] = subscribe;
-            }];
+            weakself.subscriptionStatus[type] = subscribe;
         }
 
         [weakself sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
@@ -475,13 +472,14 @@ typedef NSString * SDLServiceID;
 
 - (void)sdl_saveAppServicesCapabilitiesUpdate:(SDLAppServicesCapabilities *)newCapabilities {
     SDLLogV(@"Saving app services capability update with new capabilities: %@", newCapabilities);
-    for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
-        // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
-        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
-        [self sdl_runSyncOnQueue:^{
+    [self sdl_runSyncOnQueue:^{
+        for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
+            // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
+            SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
+
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
-        }];
-    }
+        }
+    }];
 }
 
 /// Save a new new-style `DisplayCapability` update (only contains the delta) that was received by merging it with the existing version.
@@ -581,10 +579,7 @@ typedef NSString * SDLServiceID;
 
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
-
-        [self sdl_runSyncOnQueue:^{
-            self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
-        }];
+        self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
@@ -595,10 +590,7 @@ typedef NSString * SDLServiceID;
         }
     } else {
         // Store the observer and call it immediately with the cached value
-        [self sdl_runSyncOnQueue:^{
-            [self.capabilityObservers[type] addObject:observerObject];
-        }];
-
+        [self.capabilityObservers[type] addObject:observerObject];
         [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
     }
 
@@ -609,24 +601,23 @@ typedef NSString * SDLServiceID;
 
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
     SDLLogD(@"Unsubscribing from capability type: %@", type);
-    for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
-        if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
-            [self sdl_runSyncOnQueue:^{
+    [self sdl_runSyncOnQueue:^{
+        for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
+            if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
                 [self.capabilityObservers[type] removeObject:capabilityObserver];
-            }];
-
-            [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
-            break;
+                [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
+                break;
+            }
         }
-    }
+    }];
 }
 
 - (void)sdl_removeNilObserversAndUnsubscribeIfNecessary {
     SDLLogV(@"Checking for nil observers and removing them, then checking for subscriptions we don't need and unsubscribing.");
     // Loop through our observers
-    for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
-        for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-            [self sdl_runSyncOnQueue:^{
+    [self sdl_runSyncOnQueue:^{
+        for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
+            for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
                 // If an observer object is nil, remove it
                 if (observer.observer == nil) {
                     [self.capabilityObservers[key] removeObject:observer];
@@ -636,9 +627,10 @@ typedef NSString * SDLServiceID;
                 if (self.capabilityObservers[key].count == 0) {
                     [self.capabilityObservers removeObjectForKey:key];
                 }
-            }];
+
+            }
         }
-    }
+    }];
 
     // If we don't support subscriptions, we don't want to unsubscribe by sending an RPC below
     if (!self.supportsSubscriptions) {
@@ -815,35 +807,6 @@ typedef NSString * SDLServiceID;
     } else {
         dispatch_sync(self.readWriteQueue, block);
     }
-}
-
-#pragma mark Getters
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *)capabilityObservers {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_capabilityObservers;
-    }];
-
-    return dict;
-}
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_subscriptionStatus;
-    }];
-
-    return dict;
-}
-
-- (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
-    __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
-        dict = self->_appServicesCapabilitiesDictionary;
-    }];
-
-    return dict;
 }
 
 @end
