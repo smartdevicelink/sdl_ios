@@ -452,6 +452,8 @@
 		4A8F465724DC408B003BDAE4 /* SDLLockedMapTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */; };
 		4A8F465A24DC95C6003BDAE4 /* SDLLockedMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8F465824DC95C6003BDAE4 /* SDLLockedMutableSet.h */; };
 		4A8F465B24DC95C6003BDAE4 /* SDLLockedMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F465924DC95C6003BDAE4 /* SDLLockedMutableSet.m */; };
+		4A8F466524DD92B3003BDAE4 /* SDLLockedMutableSetSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F466424DD92B3003BDAE4 /* SDLLockedMutableSetSpec.m */; };
+		4A8F466724DD92C7003BDAE4 /* SDLLockedMapTableSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8F466624DD92C7003BDAE4 /* SDLLockedMapTableSpec.m */; };
 		4A99D00E247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */; };
 		4A99D00F247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */; };
 		4A99D0122475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */; };
@@ -2209,6 +2211,8 @@
 		4A8F465524DC408B003BDAE4 /* SDLLockedMapTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMapTable.m; sourceTree = "<group>"; };
 		4A8F465824DC95C6003BDAE4 /* SDLLockedMutableSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLockedMutableSet.h; sourceTree = "<group>"; };
 		4A8F465924DC95C6003BDAE4 /* SDLLockedMutableSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMutableSet.m; sourceTree = "<group>"; };
+		4A8F466424DD92B3003BDAE4 /* SDLLockedMutableSetSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLockedMutableSetSpec.m; path = UtilitiesSpecs/SDLLockedMutableSetSpec.m; sourceTree = "<group>"; };
+		4A8F466624DD92C7003BDAE4 /* SDLLockedMapTableSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLockedMapTableSpec.m; sourceTree = "<group>"; };
 		4A99D00C247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLTextField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
 		4A99D00D247576B7009B43E6 /* SDLTextField+ScreenManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLTextField+ScreenManagerExtensions.m"; sourceTree = "<group>"; };
 		4A99D0102475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLImageField+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
@@ -4168,8 +4172,10 @@
 		4A8F464F24DB379F003BDAE4 /* Locked Collections */ = {
 			isa = PBXGroup;
 			children = (
+				4A8F466624DD92C7003BDAE4 /* SDLLockedMapTableSpec.m */,
 				4A8F465024DB37CC003BDAE4 /* SDLLockedMutableDictionarySpec.m */,
 				4A8F465224DB439A003BDAE4 /* SDLLockedMutableArraySpec.m */,
+				4A8F466424DD92B3003BDAE4 /* SDLLockedMutableSetSpec.m */,
 			);
 			name = "Locked Collections";
 			sourceTree = "<group>";
@@ -8452,6 +8458,7 @@
 				162E834C1A9BDE8B00906325 /* SDLAlertResponseSpec.m in Sources */,
 				1680B11B1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m in Sources */,
 				5DB1BCDA1D243D85002FFC37 /* SDLStateMachineSpec.m in Sources */,
+				4A8F466524DD92B3003BDAE4 /* SDLLockedMutableSetSpec.m in Sources */,
 				7538765622DCAF5400FE8484 /* SDLShowAppMenuSpec.m in Sources */,
 				8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */,
 				5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */,
@@ -8495,6 +8502,7 @@
 				162E835F1A9BDE8B00906325 /* SDLResetGlobalPropertiesResponseSpec.m in Sources */,
 				1EE8C4381F347C7300FDC2CF /* SDLRadioBandSpec.m in Sources */,
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
+				4A8F466724DD92C7003BDAE4 /* SDLLockedMapTableSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
 				883468FA234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,

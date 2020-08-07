@@ -23,6 +23,7 @@
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLKeyboardProperties.h"
+#import "SDLLockedMutableSet.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
@@ -69,9 +70,9 @@ typedef NSNumber * SDLChoiceId;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
+@property (strong, nonatomic) SDLLockedMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
+@property (strong, nonatomic) SDLLockedMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
@@ -104,8 +105,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         _readWriteQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
     }
 
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    _preloadedMutableChoices = [[SDLLockedMutableSet alloc] initWithQueue:_readWriteQueue];
+    _pendingMutablePreloadChoices = [[SDLLockedMutableSet alloc] initWithQueue:_readWriteQueue];
 
     _nextChoiceId = ChoiceCellIdMin;
     _nextCancelId = ChoiceCellCancelIdMin;
@@ -181,8 +182,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    [_preloadedMutableChoices removeAllObjects];
+    [_pendingMutablePreloadChoices removeAllObjects];
     _pendingPresentationSet = nil;
 
     _vrOptional = YES;
@@ -230,11 +231,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
-
-    [self sdl_runSyncOnQueue:^{
-        [choicesToUpload minusSet:self.preloadedMutableChoices];
-        [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
-    }];
+    [choicesToUpload minusSet:self.preloadedMutableChoices.immutableSet];
+    [choicesToUpload minusSet:self.pendingMutablePreloadChoices.immutableSet];
 
     if (choicesToUpload.count == 0) {
         SDLLogD(@"All choices already preloaded. No need to perform a preload");
@@ -248,9 +246,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
-    [self sdl_runSyncOnQueue:^{
-        [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
-    }];
+    [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
 
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
@@ -275,11 +271,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
-        [strongSelf sdl_runSyncOnQueue:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
-        }];
+        [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
+        [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
     };
     [self.transactionQueue addOperation:preloadOp];
 }
@@ -307,9 +300,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     // Remove the cells from pending and delete choices
-    [self sdl_runSyncOnQueue:^{
-        [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
-    }];
+    [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
 
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
         if (![op isMemberOfClass:[SDLPreloadChoicesOperation class]]) { continue; }
@@ -341,10 +332,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
-        [strongSelf sdl_runSyncOnQueue:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
-        }];
+        [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
     };
     [self.transactionQueue addOperation:deleteOp];
 }
@@ -521,21 +509,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark - Getters
 
 - (NSSet<SDLChoiceCell *> *)preloadedChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
-        set = [self->_preloadedMutableChoices copy];
-    }];
-
-    return set;
+    return self.preloadedMutableChoices.immutableSet;
 }
 
 - (NSSet<SDLChoiceCell *> *)pendingPreloadChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
-        set = [self->_pendingMutablePreloadChoices copy];
-    }];
-
-    return set;
+    return self.pendingMutablePreloadChoices.immutableSet;
 }
 
 - (UInt16)nextChoiceId {

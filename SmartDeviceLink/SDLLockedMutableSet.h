@@ -19,24 +19,41 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getting / Setting
 
-#pragma mark Retrieving information
+#pragma mark - Removing
 
-/// The number of objects in the array.
-///
-/// This will occur synchronously and will not return until the operation completes.
-/// @return The number of objects in the array
-- (NSUInteger)count;
-
-#pragma mark Adding Objects
-/// Inserts a given object at the end of the array.
+/// Empties the set of its entries.
 ///
 /// This will occur asynchronously and may return before the operation completes.
-/// @param object The object to add to the end of the array’s content. This value must not be nil.
-- (void)addObject:(ObjectType)object;
+- (void)removeAllObjects;
 
-#pragma mark Subscripting
-- (void)setObject:(ObjectType)object atIndexedSubscript:(NSUInteger)idx;
-- (ObjectType)objectAtIndexedSubscript:(NSUInteger)idx;
+#pragma mark Retrieving information
+
+/// The number of objects in the set.
+///
+/// This will occur synchronously and will not return until the operation completes.
+/// @return The number of objects in the set
+- (NSUInteger)count;
+
+/// Retrieve an immutable set version of this mutable set at the current point.
+- (NSSet<ObjectType> *)immutableSet;
+
+#pragma mark Modifications
+
+/// Adds each object in another given set to the receiving set, if not present.
+/// @param otherSet The set of objects to add to the receiving set.
+- (void)unionSet:(NSSet<ObjectType> *)otherSet;
+
+/// Removes each object in another given set from the receiving set, if present.
+/// @param otherSet The set of objects to remove from the receiving set.
+- (void)minusSet:(NSSet<ObjectType> *)otherSet;
+
+#pragma mark Adding Objects
+
+/// Inserts a given object into the set.
+///
+/// This will occur asynchronously and may return before the operation completes.
+/// @param object The object to add to set. This value must not be nil.
+- (void)addObject:(ObjectType)object;
 
 @end
 

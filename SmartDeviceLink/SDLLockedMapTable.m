@@ -73,11 +73,11 @@
 #pragma mark Subscripting
 
 - (id)objectForKeyedSubscript:(id<NSCopying>)key {
-    return [self objectForKey:key];
+    return [self.internalMapTable objectForKey:key];
 }
 
 - (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)key {
-    [self setObject:object forKeyedSubscript:key];
+    [self.internalMapTable setObject:object forKey:key];
 }
 
 #pragma mark Retrieving Information

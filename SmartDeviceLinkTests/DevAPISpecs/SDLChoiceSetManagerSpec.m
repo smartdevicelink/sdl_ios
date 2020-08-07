@@ -15,6 +15,7 @@
 #import "SDLHMILevel.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
+#import "SDLLockedMutableSet.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPreloadChoicesOperation.h"
@@ -48,14 +49,15 @@
 
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
+@property (strong, nonatomic) SDLLockedMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
+@property (strong, nonatomic) SDLLockedMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
@@ -219,8 +221,8 @@ describe(@"choice set manager tests", ^{
                 expect(testManager.vrOptional).to(beTrue());
                 expect(testManager.currentHMILevel).to(equal(SDLHMILevelNone));
                 expect(testManager.pendingPresentationSet).to(beNil());
-                expect(testManager.preloadedMutableChoices).to(beEmpty());
-                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                expect(testManager.preloadedMutableChoices.count).to(equal(0));
+                expect(testManager.pendingMutablePreloadChoices.count).to(equal(0));
             });
         });
     });
@@ -233,7 +235,8 @@ describe(@"choice set manager tests", ^{
         describe(@"preloading choices", ^{
             context(@"when some choices are already uploaded", ^{
                 beforeEach(^{
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.preloadedMutableChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.preloadedMutableChoices addObject:testCell1];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
@@ -257,7 +260,8 @@ describe(@"choice set manager tests", ^{
 
             context(@"when some choices are already pending", ^{
                 beforeEach(^{
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.pendingMutablePreloadChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.pendingMutablePreloadChoices addObject:testCell1];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
@@ -281,10 +285,10 @@ describe(@"choice set manager tests", ^{
 
             context(@"when the manager shuts down during preloading", ^{
                 beforeEach(^{
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.pendingMutablePreloadChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.pendingMutablePreloadChoices addObject:testCell1];
 
-                    [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
-                    }];
+                    [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {}];
                 });
 
                 it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
@@ -294,8 +298,8 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
 
                     [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                    [testManager.pendingMutablePreloadChoices removeAllObjects];
+                    [testManager.preloadedMutableChoices removeAllObjects];
 
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
                     testOp.completionBlock();
@@ -320,7 +324,8 @@ describe(@"choice set manager tests", ^{
                     testManager.pendingPresentOperation = pendingPresentOp;
                     testManager.pendingPresentationSet = [[SDLChoiceSet alloc] initWithTitle:@"Test" delegate:choiceDelegate choices:@[testCell1]];
 
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.preloadedMutableChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.preloadedMutableChoices addObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -341,10 +346,10 @@ describe(@"choice set manager tests", ^{
 
                 beforeEach(^{
                     pendingPreloadOp = [[SDLPreloadChoicesOperation alloc] init];
-
                     [testManager.transactionQueue addOperation:pendingPreloadOp];
 
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.pendingMutablePreloadChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.pendingMutablePreloadChoices addObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -365,7 +370,8 @@ describe(@"choice set manager tests", ^{
                     OCMStub(pendingPresentOp.choiceSet.choices).andReturn([NSSet setWithArray:@[testCell1]]);
                     testManager.pendingPresentOperation = pendingPresentOp;
                     testManager.pendingPresentationSet = [[SDLChoiceSet alloc] initWithTitle:@"Test" delegate:choiceDelegate choices:@[testCell1]];
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.preloadedMutableChoices = [[SDLLockedMutableSet alloc] initWithQueue:testManager.readWriteQueue];
+                    [testManager.preloadedMutableChoices addObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -377,8 +383,8 @@ describe(@"choice set manager tests", ^{
                     OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
 
                     [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                    [testManager.pendingMutablePreloadChoices removeAllObjects];
+                    [testManager.preloadedMutableChoices removeAllObjects];
 
                     testManager.transactionQueue.operations.lastObject.completionBlock();
 
@@ -480,8 +486,8 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
 
                     [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                    [testManager.pendingMutablePreloadChoices removeAllObjects];
+                    [testManager.preloadedMutableChoices removeAllObjects];
 
                     testManager.transactionQueue.operations.lastObject.completionBlock();
 

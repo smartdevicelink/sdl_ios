@@ -62,8 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertObject:(ObjectType)anObject atIndex:(NSUInteger)index;
 
 #pragma mark Subscripting
-- (void)setObject:(ObjectType)object atIndexedSubscript:(NSUInteger)idx;
-- (ObjectType)objectAtIndexedSubscript:(NSUInteger)idx;
+- (void)setObject:(__kindof ObjectType)object atIndexedSubscript:(NSUInteger)idx;
+- (__kindof ObjectType)objectAtIndexedSubscript:(NSUInteger)idx;
 
 @end
 

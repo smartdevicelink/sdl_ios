@@ -37,6 +37,14 @@
 
 #pragma mark - Getting / Setting
 
+#pragma mark - Removing
+- (void)removeAllObjects {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runAsyncWithBlock:^{
+        [weakSelf.internalSet removeAllObjects];
+    }];
+}
+
 #pragma mark Retrieving information
 - (NSUInteger)count {
     __block NSUInteger retVal = 0;
@@ -47,12 +55,13 @@
     return retVal;
 }
 
-#pragma mark Adding Objects
-- (void)addObject:(id)object {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_runAsyncWithBlock:^{
-        [weakSelf.internalSet addObject:object];
+- (NSSet<id> *)immutableSet {
+    __block NSSet<id> *retVal = nil;
+    [self sdl_runSyncWithBlock:^{
+        retVal = [self.internalSet copy];
     }];
+
+    return retVal;
 }
 
 #pragma mark Modifications
@@ -60,6 +69,21 @@
     __weak typeof(self) weakSelf = self;
     [self sdl_runAsyncWithBlock:^{
         [weakSelf.internalSet unionSet:otherSet];
+    }];
+}
+
+- (void)minusSet:(NSSet *)otherSet {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runAsyncWithBlock:^{
+        [weakSelf.internalSet minusSet:otherSet];
+    }];
+}
+
+#pragma mark Adding Objects
+- (void)addObject:(id)object {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_runAsyncWithBlock:^{
+        [weakSelf.internalSet addObject:object];
     }];
 }
 
