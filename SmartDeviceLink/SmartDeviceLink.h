@@ -279,9 +279,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWeatherServiceData.h"
 #import "SDLWeatherServiceManifest.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowTypeCapabilities.h"
 #import "SDLWindowStatus.h"
 #import "SDLWindowState.h"
+#import "SDLWindowTypeCapabilities.h"
 
 // Enums
 #import "SDLAmbientLightStatus.h"

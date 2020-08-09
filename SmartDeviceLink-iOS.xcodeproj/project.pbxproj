@@ -4732,10 +4732,6 @@
 		5D5934F31A85164500687FB9 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E6724A02A4700B977D0 /* SDLWindowState.h */,
-				B38D8E6824A02A4800B977D0 /* SDLWindowState.m */,
-				B38D8E6424A029F700B977D0 /* SDLWindowStatus.h */,
-				B38D8E6324A029F700B977D0 /* SDLWindowStatus.m */,
 				5D61FA481A84238A00846EE7 /* SDLAirbagStatus.h */,
 				5D61FA491A84238A00846EE7 /* SDLAirbagStatus.m */,
 				332A913C1CED87F80043824C /* SDLAppInfo.h */,
@@ -4946,6 +4942,10 @@
 				0055413122D75A7B003194D3 /* SDLSeatLocationCapability.m */,
 				9F425AD022DD980200BE3245 /* SDLWindowCapability.h */,
 				9F425AD122DD980200BE3245 /* SDLWindowCapability.m */,
+				B38D8E6724A02A4700B977D0 /* SDLWindowState.h */,
+				B38D8E6824A02A4800B977D0 /* SDLWindowState.m */,
+				B38D8E6424A029F700B977D0 /* SDLWindowStatus.h */,
+				B38D8E6324A029F700B977D0 /* SDLWindowStatus.m */,
 				9F425AD422DD981E00BE3245 /* SDLWindowTypeCapabilities.h */,
 				9F425AD522DD981E00BE3245 /* SDLWindowTypeCapabilities.m */,
 			);
