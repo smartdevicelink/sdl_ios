@@ -173,6 +173,5 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
 
 /**
  * Describes the status of a window of a door/liftgate etc.
- * @since SDL 7.0.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeWindowStatus;
