@@ -307,7 +307,7 @@ describe(@"Test initializers", ^{
         });
     });
 
-    context(@"Test initializer: initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:windowStatus:", ^{
+    context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:windowStatus:", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES fuelLevel:@YES fuelLevel_State:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES vin:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES windowStatus:@YES];
         it(@"expect all properties to be set to YES", ^{
              expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -342,7 +342,6 @@ describe(@"Test initializers", ^{
              expect(testRequest.windowStatus).to(equal(@YES));
         });
     });
-
 
     context(@"should set and get OEM Custom Vehicle Data", ^{
         SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] init];
