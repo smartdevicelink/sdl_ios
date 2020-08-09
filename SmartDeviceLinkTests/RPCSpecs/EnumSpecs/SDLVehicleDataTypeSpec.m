@@ -4,8 +4,9 @@
 
 
 #import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
+
 #import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
 
 #import "SDLVehicleDataType.h"
 

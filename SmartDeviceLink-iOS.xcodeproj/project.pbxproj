@@ -3836,8 +3836,6 @@
 		162E828E1A9BDE8A00906325 /* StructSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E7A24A0E11C00B977D0 /* SDLWindowStateSpec.m */,
-				B38D8E7924A0E11C00B977D0 /* SDLWindowStatusSpec.m */,
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
@@ -3940,6 +3938,8 @@
 				000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */,
 				000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */,
 				9FA0CFFF22DF06A0009CF344 /* SDLWindowCapabilitySpec.m */,
+				B38D8E7A24A0E11C00B977D0 /* SDLWindowStateSpec.m */,
+				B38D8E7924A0E11C00B977D0 /* SDLWindowStatusSpec.m */,
 				9FA0D00222DF06B9009CF344 /* SDLWindowTypeCapabilitiesSpec.m */,
 			);
 			path = StructSpecs;

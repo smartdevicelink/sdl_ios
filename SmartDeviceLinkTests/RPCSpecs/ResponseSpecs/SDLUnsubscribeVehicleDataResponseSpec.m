@@ -2,13 +2,15 @@
 //  SDLUnsubscribeVehicleDataResponseSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SDLUnsubscribeVehicleDataResponse.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 
@@ -17,8 +19,8 @@ QuickSpecBegin(SDLUnsubscribeVehicleDataResponseSpec)
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+describe(@"getter/setter tests", ^ {
+    it(@"should set and get correctly", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         testResponse.gps = vehicleDataResult;
@@ -84,7 +86,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.windowStatus).to(equal(vehicleDataResult));
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"should get correctly when initialized", ^ {
         NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameGPS:vehicleDataResult,
@@ -156,7 +158,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.windowStatus).to(equal(vehicleDataResult));
     });
     
-    it(@"Should return nil if not set", ^ {
+    it(@"should return nil if not set", ^ {
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         
         expect(testResponse.gps).to(beNil());
@@ -227,7 +229,7 @@ describe(@"Getter/Setter Tests", ^ {
         });
     });
 
-    it(@"Should set and get OEM Vehicle Data", ^{
+    it(@"should set and get OEM Vehicle Data", ^{
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 

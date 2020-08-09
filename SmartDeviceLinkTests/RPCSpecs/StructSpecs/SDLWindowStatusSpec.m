@@ -16,13 +16,13 @@ const UInt8 deviation = 42;
 
 QuickSpecBegin(SDLWindowStatusSpec)
 
-describe(@"Getter/Setter Tests", ^ {
+describe(@"getter/setter tests", ^ {
     context(@"initWithLocation:state", ^{
         SDLWindowState *state = [[SDLWindowState alloc] initWithApproximatePosition:approximatePosition deviation:deviation];
         SDLGrid *location = [[SDLGrid alloc] init];
         SDLWindowStatus *testStruct = [[SDLWindowStatus alloc] initWithLocation:location state:state];
 
-        it(@"Expect all properties to be set properly", ^ {
+        it(@"expect all properties to be set properly", ^ {
             expect(testStruct.location).to(equal(location));
             expect(testStruct.state).to(equal(state));
         });
@@ -36,7 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWindowStatus *testStruct = [[SDLWindowStatus alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-        it(@"Expect all properties to be set properly", ^ {
+        it(@"expect all properties to be set properly", ^ {
             expect(testStruct.location).to(equal(location));
             expect(testStruct.state).to(equal(state));
         });
@@ -44,7 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
 
     context(@"init", ^{
         SDLWindowStatus *testStruct = [[SDLWindowStatus alloc] init];
-        it(@"Should return nil if not set", ^ {
+        it(@"should return nil if not set", ^ {
             expect(testStruct.location).to(beNil());
             expect(testStruct.state).to(beNil());
         });

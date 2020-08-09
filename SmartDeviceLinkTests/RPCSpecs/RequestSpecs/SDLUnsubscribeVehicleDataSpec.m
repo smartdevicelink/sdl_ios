@@ -2,18 +2,20 @@
 //  SDLUnsubscribeVehicleDataSpec.m
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
 
-#import "SDLRPCFunctionNames.h"
-#import "SDLRPCParameterNames.h"
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+describe(@"getter/setter tests", ^ {
+    it(@"should set and get correctly", ^ {
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         
         testRequest.accPedalPosition = @YES;
@@ -43,7 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.speed = @YES;
         testRequest.steeringWheelAngle = @YES;
         testRequest.tirePressure = @YES;
-        testRequest.turnSignal = @NO;
+        testRequest.turnSignal = @YES;
         testRequest.wiperStatus = @YES;
         testRequest.windowStatus = @YES;
 
@@ -74,12 +76,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
-        expect(testRequest.turnSignal).to(equal(@NO));
+        expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@YES));
         expect(testRequest.windowStatus).to(equal(@YES));
     });
     
-    it(@"Should get correctly when initialized with a dictionary", ^ {
+    it(@"should get correctly when initialized with a dictionary", ^ {
         NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
                                                    @{SDLRPCParameterNameParameters:
                                                          @{SDLRPCParameterNameAccelerationPedalPosition:@YES,
@@ -229,7 +231,7 @@ describe(@"Test initializers", ^{
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:NO instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
         it(@"expect all properties to be set to YES", ^{
@@ -250,7 +252,7 @@ describe(@"Test initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@YES));
             expect(testRequest.fuelRange).to(beNil());
             expect(testRequest.gps).to(equal(@YES));
-            expect(testRequest.headLampStatus).to(equal(@NO));
+            expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
             expect(testRequest.odometer).to(equal(@YES));
@@ -267,7 +269,7 @@ describe(@"Test initializers", ^{
 
     context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:windowStatus:", ^{
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES fuelLevel:@YES fuelLevel_State:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES windowStatus:@YES];
-        it(@"Expect all properties to be YES", ^{
+        it(@"expect all properties to be YES", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -301,43 +303,8 @@ describe(@"Test initializers", ^{
         });
     });
 
-    context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:windowStatus:", ^{
-        SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithGps:@NO speed:@NO rpm:@NO fuelLevel:@NO fuelLevel_State:@NO instantFuelConsumption:@NO fuelRange:@NO externalTemperature:@NO turnSignal:@NO prndl:@NO tirePressure:@NO odometer:@NO beltStatus:@NO bodyInformation:@NO deviceStatus:@NO driverBraking:@NO wiperStatus:@NO headLampStatus:@NO engineTorque:@NO accPedalPosition:@NO steeringWheelAngle:@NO engineOilLife:@NO electronicParkBrakeStatus:@NO cloudAppVehicleID:@NO eCallInfo:@NO airbagStatus:@NO emergencyEvent:@NO clusterModeStatus:@NO myKey:@NO windowStatus:@NO];
-        it(@"Expect all properties to be NO", ^{
-            expect(testRequest.accPedalPosition).to(equal(@NO));
-            expect(testRequest.airbagStatus).to(equal(@NO));
-            expect(testRequest.beltStatus).to(equal(@NO));
-            expect(testRequest.bodyInformation).to(equal(@NO));
-            expect(testRequest.cloudAppVehicleID).to(equal(@NO));
-            expect(testRequest.clusterModeStatus).to(equal(@NO));
-            expect(testRequest.deviceStatus).to(equal(@NO));
-            expect(testRequest.driverBraking).to(equal(@NO));
-            expect(testRequest.eCallInfo).to(equal(@NO));
-            expect(testRequest.electronicParkBrakeStatus).to(equal(@NO));
-            expect(testRequest.emergencyEvent).to(equal(@NO));
-            expect(testRequest.engineOilLife).to(equal(@NO));
-            expect(testRequest.engineTorque).to(equal(@NO));
-            expect(testRequest.externalTemperature).to(equal(@NO));
-            expect(testRequest.fuelLevel).to(equal(@NO));
-            expect(testRequest.fuelLevel_State).to(equal(@NO));
-            expect(testRequest.fuelRange).to(equal(@NO));
-            expect(testRequest.gps).to(equal(@NO));
-            expect(testRequest.headLampStatus).to(equal(@NO));
-            expect(testRequest.instantFuelConsumption).to(equal(@NO));
-            expect(testRequest.myKey).to(equal(@NO));
-            expect(testRequest.odometer).to(equal(@NO));
-            expect(testRequest.prndl).to(equal(@NO));
-            expect(testRequest.rpm).to(equal(@NO));
-            expect(testRequest.speed).to(equal(@NO));
-            expect(testRequest.steeringWheelAngle).to(equal(@NO));
-            expect(testRequest.tirePressure).to(equal(@NO));
-            expect(testRequest.turnSignal).to(equal(@NO));
-            expect(testRequest.wiperStatus).to(equal(@NO));
-            expect(testRequest.windowStatus).to(equal(@NO));
-        });
-    });
 
-    context(@"Should set and get OEM Custom Vehicle Data", ^{
+    context(@"should set and get OEM Custom Vehicle Data", ^{
         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
