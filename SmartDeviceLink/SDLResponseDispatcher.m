@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     __block NSArray<SDLResponseHandler> *handlers = nil;
     __block NSArray<SDLRPCRequest *> *requests = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         __strong typeof(weakself) strongself = weakself;
         NSMutableArray *handlerArray = [NSMutableArray array];
         NSMutableArray *requestArray = [NSMutableArray array];
@@ -236,7 +236,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     __block SDLResponseHandler handler = nil;
     __block SDLRPCRequest *request = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         handler = self->_rpcResponseHandlerMap[response.correlationID];
         request = self->_rpcRequestDictionary[response.correlationID];
     }];
@@ -336,14 +336,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Utilities
 
-- (void)sdl_runSyncOnQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.readWriteQueue, block);
-    }
-}
-
 - (void)sdl_runAsyncOnQueue:(void (^)(void))block {
     if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
         block();
@@ -356,7 +348,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *)rpcResponseHandlerMap {
     __block NSMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *map = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         map = self->_rpcResponseHandlerMap;
     }];
 
@@ -365,7 +357,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *)rpcRequestDictionary {
     __block NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_rpcRequestDictionary;
     }];
 
@@ -374,7 +366,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *)commandHandlerMap {
     __block NSMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *map = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         map = self->_commandHandlerMap;
     }];
 
@@ -383,7 +375,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *)buttonHandlerMap {
     __block NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *map = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         map = self->_buttonHandlerMap;
     }];
 
@@ -392,7 +384,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *)customButtonHandlerMap {
     __block NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *map = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         map = self->_customButtonHandlerMap;
     }];
 
@@ -401,7 +393,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLAudioPassThruHandler)audioPassThruHandler {
     __block SDLAudioPassThruHandler audioPassThruHandler = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         audioPassThruHandler = self->_audioPassThruHandler;
     }];
 

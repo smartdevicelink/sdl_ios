@@ -121,7 +121,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         self.displayCapabilities = nil;
         self.displays = nil;
         self.hmiCapabilities = nil;
@@ -395,7 +395,7 @@ typedef NSString * SDLServiceID;
         SDLLogD(@"GetSystemCapability response succeeded, type: %@, response: %@", type, getSystemCapabilityResponse);
 
         if (![weakself.subscriptionStatus[type] isEqualToNumber:subscribe] && weakself.supportsSubscriptions) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 weakself.subscriptionStatus[type] = subscribe;
             }];
         }
@@ -478,7 +478,7 @@ typedef NSString * SDLServiceID;
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
         SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
         }];
     }
@@ -582,7 +582,7 @@ typedef NSString * SDLServiceID;
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
 
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
         }];
 
@@ -595,7 +595,7 @@ typedef NSString * SDLServiceID;
         }
     } else {
         // Store the observer and call it immediately with the cached value
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             [self.capabilityObservers[type] addObject:observerObject];
         }];
 
@@ -611,7 +611,7 @@ typedef NSString * SDLServiceID;
     SDLLogD(@"Unsubscribing from capability type: %@", type);
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
         if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 [self.capabilityObservers[type] removeObject:capabilityObserver];
             }];
 
@@ -626,7 +626,7 @@ typedef NSString * SDLServiceID;
     // Loop through our observers
     for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
         for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 // If an observer object is nil, remove it
                 if (observer.observer == nil) {
                     [self.capabilityObservers[key] removeObject:observer];
@@ -804,24 +804,12 @@ typedef NSString * SDLServiceID;
     self.currentHMILevel = onHMIStatus.hmiLevel;
 }
 
-#pragma mark Utilities
-
-/// Checks if we are already on the serial readWrite queue. If so, the block is added to the queue; if not, the block is dispatched to the readWrite queue.
-/// @discussion Used to ensure atomic access to global properties.
-/// @param block The block to be executed.
-- (void)sdl_runSyncOnQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.readWriteQueue, block);
-    }
-}
 
 #pragma mark Getters
 
 - (NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *)capabilityObservers {
     __block NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_capabilityObservers;
     }];
 
@@ -830,7 +818,7 @@ typedef NSString * SDLServiceID;
 
 - (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
     __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_subscriptionStatus;
     }];
 
@@ -839,7 +827,7 @@ typedef NSString * SDLServiceID;
 
 - (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
     __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_appServicesCapabilitiesDictionary;
     }];
 
