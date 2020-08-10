@@ -27,12 +27,12 @@ extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 /**
  Vehicle fuel level data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel __deprecated;
 
 /**
  Vehicle fuel level state data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState __deprecated;
 
 /**
  Vehicle fuel consumption data

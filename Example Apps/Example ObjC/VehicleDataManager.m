@@ -219,9 +219,13 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([vehicleDataType isEqualToString:ACExternalTemperatureMenuName]) {
         vehicleDataDescription = vehicleData.externalTemperature.description;
     } else if ([vehicleDataType isEqualToString:ACFuelLevelMenuName]) {
-        vehicleDataDescription = vehicleData.fuelLevel.description;
+        vehicleDataDescription = [[vehicleData.fuelRange filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(SDLFuelRange *evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return evaluatedObject.level;
+        }]] componentsJoinedByString:@", "];
     } else if ([vehicleDataType isEqualToString:ACFuelLevelStateMenuName]) {
-        vehicleDataDescription = vehicleData.fuelLevel_State.description;
+        vehicleDataDescription = [[vehicleData.fuelRange filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(SDLFuelRange *evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return evaluatedObject.levelState;
+        }]] componentsJoinedByString:@", "];
     } else if ([vehicleDataType isEqualToString:ACFuelRangeMenuName]) {
         vehicleDataDescription = vehicleData.fuelRange.description;
     } else if ([vehicleDataType isEqualToString:ACGPSMenuName]) {

@@ -149,7 +149,6 @@
 		162E832C1A9BDE8B00906325 /* SDLDiagnosticMessageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82481A9BDE8A00906325 /* SDLDiagnosticMessageSpec.m */; };
 		162E832D1A9BDE8B00906325 /* SDLEncodedSyncPDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82491A9BDE8A00906325 /* SDLEncodedSyncPDataSpec.m */; };
 		162E832E1A9BDE8B00906325 /* SDLEndAudioPassThruSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824A1A9BDE8A00906325 /* SDLEndAudioPassThruSpec.m */; };
-		162E83301A9BDE8B00906325 /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		162E83311A9BDE8B00906325 /* SDLListFilesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824D1A9BDE8A00906325 /* SDLListFilesSpec.m */; };
 		162E83321A9BDE8B00906325 /* SDLPerformAudioPassThruSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824E1A9BDE8A00906325 /* SDLPerformAudioPassThruSpec.m */; };
 		162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824F1A9BDE8A00906325 /* SDLPerformInteractionSpec.m */; };
@@ -1572,6 +1571,10 @@
 		9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471322D77AD500F8D2FC /* SDLWindowType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B38D8E61249FE28500B977D0 /* SDLCapacityUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B38D8E62249FE28500B977D0 /* SDLCapacityUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */; };
+		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3359,6 +3362,9 @@
 		9FE2471322D77AD500F8D2FC /* SDLWindowType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWindowType.h; sourceTree = "<group>"; };
 		9FE2471422D77AD500F8D2FC /* SDLWindowType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowType.m; sourceTree = "<group>"; };
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
+		B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCapacityUnit.h; sourceTree = "<group>"; };
+		B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnit.m; sourceTree = "<group>"; };
+		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -3607,6 +3613,7 @@
 				162E81E81A9BDE8A00906325 /* SDLButtonEventModeSpec.m */,
 				162E81E91A9BDE8A00906325 /* SDLButtonNameSpec.m */,
 				162E81EA1A9BDE8A00906325 /* SDLButtonPressModeSpec.m */,
+				B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */,
 				162E81EB1A9BDE8A00906325 /* SDLCarModeStatusSpec.m */,
 				162E81EC1A9BDE8A00906325 /* SDLCharacterSetSpec.m */,
 				162E81ED1A9BDE8A00906325 /* SDLCompassDirectionSpec.m */,
@@ -5083,6 +5090,8 @@
 				5D61FA691A84238A00846EE7 /* SDLButtonName.m */,
 				5D61FA6A1A84238A00846EE7 /* SDLButtonPressMode.h */,
 				5D61FA6B1A84238A00846EE7 /* SDLButtonPressMode.m */,
+				B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */,
+				B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */,
 				5D61FA6C1A84238A00846EE7 /* SDLCarModeStatus.h */,
 				5D61FA6D1A84238A00846EE7 /* SDLCarModeStatus.m */,
 				5D61FA721A84238A00846EE7 /* SDLCharacterSet.h */,
@@ -7040,6 +7049,7 @@
 				5D0A738A203F24320001595D /* SDLSoftButtonObject.h in Headers */,
 				5D61FDB31A84238C00846EE7 /* SDLSubscribeVehicleDataResponse.h in Headers */,
 				5D92935A20B33D4F00FCC775 /* SDLChoiceCell.h in Headers */,
+				B38D8E61249FE28500B977D0 /* SDLCapacityUnit.h in Headers */,
 				5D61FC961A84238C00846EE7 /* SDLECallConfirmationStatus.h in Headers */,
 				5D4D67AC1D2ED37A00468B4A /* SDLNotificationDispatcher.h in Headers */,
 				5D61FDA51A84238C00846EE7 /* SDLSpeak.h in Headers */,
@@ -7773,6 +7783,7 @@
 				5D61FD661A84238C00846EE7 /* SDLResetGlobalPropertiesResponse.m in Sources */,
 				4A99D0132475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.m in Sources */,
 				5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */,
+				B38D8E62249FE28500B977D0 /* SDLCapacityUnit.m in Sources */,
 				5D92937D20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m in Sources */,
 				9FD334E122DC6E7500F62736 /* SDLCreateWindow.m in Sources */,
 				5DBF06241E64A83F00A5CF03 /* SDLLogManager.m in Sources */,
@@ -8108,6 +8119,7 @@
 				4A4AD8A424894260008FC414 /* TestOldConfigurationUpdateManagerDelegate.m in Sources */,
 				162E838A1A9BDE8B00906325 /* SDLSingleTireStatusSpec.m in Sources */,
 				5D6EB4CC1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m in Sources */,
+				B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */,
 				88F37A4D226F84BE00DF119B /* SDLIAPDataSessionSpec.m in Sources */,
 				9FA0D00322DF06B9009CF344 /* SDLWindowTypeCapabilitiesSpec.m in Sources */,
 				162E83051A9BDE8B00906325 /* SDLVehicleDataActiveStatusSpec.m in Sources */,
@@ -8170,6 +8182,7 @@
 				88B58DBD222042500011B063 /* SDLDirectionSpec.m in Sources */,
 				162E83721A9BDE8B00906325 /* SDLAudioPassThruCapabilitiesSpec.m in Sources */,
 				162E83681A9BDE8B00906325 /* SDLSpeakResponseSpec.m in Sources */,
+				B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */,
 				1EB59CD8202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m in Sources */,
 				162E83661A9BDE8B00906325 /* SDLShowResponseSpec.m in Sources */,
 				5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */,
@@ -8438,7 +8451,6 @@
 				162E82E71A9BDE8B00906325 /* SDLKeyboardEventSpec.m in Sources */,
 				162E834E1A9BDE8B00906325 /* SDLCreateInteractionChoiceSetResponseSpec.m in Sources */,
 				DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */,
-				162E83301A9BDE8B00906325 /* SDLGetVehicleDataSpec.m in Sources */,
 				162E833F1A9BDE8B00906325 /* SDLSliderSpec.m in Sources */,
 				162E838C1A9BDE8B00906325 /* SDLSoftButtonSpec.m in Sources */,
 				5DA23FF81F2FAF2D009C0313 /* SDLControlFramePayloadRPCStartServiceAckSpec.m in Sources */,
