@@ -34,40 +34,8 @@
 
 /**
  * Type of transmission used in the vehicle.
- *
- * @since SDL 7.0.0
  */
 typedef SDLEnum SDLTransmissionType SDL_SWIFT_ENUM;
-
-/**
- * Automatic transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeAutomatic;
-
-/**
- * Continuously variable transmission(CVT).
- */
-extern SDLTransmissionType const SDLTransmissionTypeContinuouslyVariable;
-
-/**
- * Direct drive between engine and wheels.
- */
-extern SDLTransmissionType const SDLTransmissionTypeDirectDrive;
-
-/**
- * Dual clutch transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
-
-/**
- * Electric variable transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeElectricVariable;
-
-/**
- * Infinitely variable transmission.
- */
-extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
 
 /**
  * Manual transmission.
@@ -75,7 +43,37 @@ extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
 extern SDLTransmissionType const SDLTransmissionTypeManual;
 
 /**
+ * Automatic transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeAutomatic;
+
+/**
  * Semi automatic transmission.
  */
 extern SDLTransmissionType const SDLTransmissionTypeSemiAutomatic;
+
+/**
+ * Dual clutch transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeDualClutch;
+
+/**
+ * Continuously variable transmission(CVT).
+ */
+extern SDLTransmissionType const SDLTransmissionTypeContinuouslyVariable;
+
+/**
+ * Infinitely variable transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeInfinitelyVariable;
+
+/**
+ * Electric variable transmission.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeElectricVariable;
+
+/**
+ * Direct drive between engine and wheels.
+ */
+extern SDLTransmissionType const SDLTransmissionTypeDirectDrive;
 

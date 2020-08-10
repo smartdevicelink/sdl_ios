@@ -9,8 +9,8 @@
 
 QuickSpecBegin(SDLTransmissionTypeSpec)
 
-describe(@"Individual Enum Value Tests", ^ {
-    it(@"Should match internal values", ^ {
+describe(@"individual enum value tests", ^{
+    it(@"should match internal values", ^{
         expect(SDLTransmissionTypeAutomatic).to(equal(@"AUTOMATIC"));
         expect(SDLTransmissionTypeContinuouslyVariable).to(equal(@"CONTINUOUSLY_VARIABLE"));
         expect(SDLTransmissionTypeDirectDrive).to(equal(@"DIRECT_DRIVE"));

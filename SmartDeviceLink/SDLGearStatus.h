@@ -36,12 +36,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @since SDL 7.0.0
- */
 @interface SDLGearStatus : SDLRPCStruct
 
 /**
+ * Convenience initializer to assign all object properties
+ *
  * @param userSelectedGear - userSelectedGear
  * @param actualGear - actualGear
  * @param transmissionType - transmissionType
@@ -50,25 +49,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithUserSelectedGear:(nullable SDLPRNDL)userSelectedGear actualGear:(nullable SDLPRNDL)actualGear transmissionType:(nullable SDLTransmissionType)transmissionType;
 
 /**
+ * Gear position selected by the user i.e. Park, Drive, Reverse
+ */
+@property (strong, nonatomic, nullable) SDLPRNDL userSelectedGear;
+
+/**
  * Actual Gear in use by the transmission
- *
- * Optional.
  */
 @property (strong, nonatomic, nullable) SDLPRNDL actualGear;
 
 /**
  * Tells the transmission type
- *
- * Optional.
  */
 @property (strong, nonatomic, nullable) SDLTransmissionType transmissionType;
-
-/**
- * Gear position selected by the user i.e. Park, Drive, Reverse
- *
- * Optional.
- */
-@property (strong, nonatomic, nullable) SDLPRNDL userSelectedGear;
 
 @end
 

@@ -3629,6 +3629,7 @@
 				162E82181A9BDE8A00906325 /* SDLTextFieldNameSpec.m */,
 				162E82191A9BDE8A00906325 /* SDLTimerModeSpec.m */,
 				162E821A1A9BDE8A00906325 /* SDLTouchTypeSpec.m */,
+				B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */,
 				162E821B1A9BDE8A00906325 /* SDLTriggerSource.m */,
 				8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */,
 				162E821C1A9BDE8A00906325 /* SDLUpdateModeSpec.m */,
@@ -3649,7 +3650,6 @@
 				1EE8C43D1F347F0500FDC2CF /* SDLVentilationModeSpec.m */,
 				5D64FE6C20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m */,
 				9FA0CFF622DF0632009CF344 /* SDLWindowTypeSpec.m */,
-				B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */,
 			);
 			path = EnumSpecs;
 			sourceTree = "<group>";
@@ -3837,7 +3837,6 @@
 		162E828E1A9BDE8A00906325 /* StructSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */,
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
@@ -3866,6 +3865,7 @@
 				162E829B1A9BDE8A00906325 /* SDLEmergencyEventSpec.m */,
 				88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */,
 				1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */,
+				B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */,
 				162E829C1A9BDE8A00906325 /* SDLGPSDataSpec.m */,
 				88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */,
 				162E829D1A9BDE8A00906325 /* SDLHeadLampStatusSpec.m */,
@@ -4732,8 +4732,6 @@
 		5D5934F31A85164500687FB9 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */,
-				B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */,
 				5D61FA481A84238A00846EE7 /* SDLAirbagStatus.h */,
 				5D61FA491A84238A00846EE7 /* SDLAirbagStatus.m */,
 				332A913C1CED87F80043824C /* SDLAppInfo.h */,
@@ -4790,6 +4788,8 @@
 				88B3BF9B20DA8BBC00943565 /* SDLFuelRange.m */,
 				1EAA4723203416D3000FE74B /* SDLEqualizerSettings.h */,
 				1EAA4724203416D3000FE74B /* SDLEqualizerSettings.m */,
+				B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */,
+				B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */,
 				5D61FACE1A84238A00846EE7 /* SDLGPSData.h */,
 				5D61FACF1A84238A00846EE7 /* SDLGPSData.m */,
 				88EED8361F33AE1700E6C42E /* SDLHapticRect.h */,
@@ -4953,8 +4953,6 @@
 		5D5934F41A85165E00687FB9 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */,
-				B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */,
 				5D61FA521A84238A00846EE7 /* SDLAmbientLightStatus.h */,
 				5D61FA531A84238A00846EE7 /* SDLAmbientLightStatus.m */,
 				5D61FA541A84238A00846EE7 /* SDLAppHMIType.h */,
@@ -5129,6 +5127,8 @@
 				5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */,
 				5D3E420820EAAD6500D8C622 /* SDLTPMS.h */,
 				5D3E420920EAAD6500D8C622 /* SDLTPMS.m */,
+				B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */,
+				B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */,
 				5D61FBEE1A84238C00846EE7 /* SDLTriggerSource.h */,
 				5D61FBEF1A84238C00846EE7 /* SDLTriggerSource.m */,
 				8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */,

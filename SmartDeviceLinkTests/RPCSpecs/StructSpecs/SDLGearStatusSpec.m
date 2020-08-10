@@ -10,17 +10,17 @@
 
 QuickSpecBegin(SDLGearStatusSpec)
 
-describe(@"Getter/Setter Tests", ^ {
+describe(@"getter/setter tests", ^{
     context(@"initWithUserSelectedGear:actualGear:transmissionType:", ^{
         SDLGearStatus* testStruct = [[SDLGearStatus alloc] initWithUserSelectedGear:SDLPRNDLNinth actualGear:SDLPRNDLTenth transmissionType:SDLTransmissionTypeAutomatic];
-        it(@"Expect all properties to be set properly", ^ {
+        it(@"expect all properties to be set properly", ^{
             expect(testStruct.userSelectedGear).to(equal(SDLPRNDLNinth));
             expect(testStruct.actualGear).to(equal(SDLPRNDLTenth));
             expect(testStruct.transmissionType).to(equal(SDLTransmissionTypeAutomatic));
         });
     });
 
-    it(@"Should get correctly when initialized", ^ {
+    context(@"initWithDictionary", ^{
         NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameUserSelectedGear:SDLPRNDLNinth,
                                                 SDLRPCParameterNameActualGear:SDLPRNDLTenth,
                                                 SDLRPCParameterNameTransmissionType:SDLTransmissionTypeAutomatic};
@@ -28,18 +28,20 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGearStatus* testStruct = [[SDLGearStatus alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-
-        expect(testStruct.userSelectedGear).to(equal(SDLPRNDLNinth));
-        expect(testStruct.actualGear).to(equal(SDLPRNDLTenth));
-        expect(testStruct.transmissionType).to(equal(SDLTransmissionTypeAutomatic));
+        it(@"should get correctly when initialized", ^{
+            expect(testStruct.userSelectedGear).to(equal(SDLPRNDLNinth));
+            expect(testStruct.actualGear).to(equal(SDLPRNDLTenth));
+            expect(testStruct.transmissionType).to(equal(SDLTransmissionTypeAutomatic));
+        });
     });
 
-    it(@"Should return nil if not set", ^ {
+    context(@"init", ^{
         SDLGearStatus* testStruct = [[SDLGearStatus alloc] init];
-
-        expect(testStruct.userSelectedGear).to(beNil());
-        expect(testStruct.actualGear).to(beNil());
-        expect(testStruct.transmissionType).to(beNil());
+        it(@"should return nil if not set", ^{
+            expect(testStruct.userSelectedGear).to(beNil());
+            expect(testStruct.actualGear).to(beNil());
+            expect(testStruct.transmissionType).to(beNil());
+        });
     });
 });
 
