@@ -89,12 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The fuel level in the tank (percentage)
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *fuelLevel __deprecated_msg("use fuelRange.level instead");
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *fuelLevel __deprecated_msg("use fuelRange.level instead on 7.0+ RPC version connections");
 
 /**
  The fuel level state
  */
-@property (strong, nonatomic, nullable) SDLComponentVolumeStatus fuelLevel_State __deprecated_msg("use fuelRange.levelState instead");
+@property (strong, nonatomic, nullable) SDLComponentVolumeStatus fuelLevel_State __deprecated_msg("use fuelRange.levelState instead on 7.0+ RPC version connections");
 
 /**
  The estimate range in KM the vehicle can travel based on fuel level and consumption

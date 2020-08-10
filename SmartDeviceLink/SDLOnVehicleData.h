@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnVehicleData : SDLRPCNotification
 
 /**
- * Convenience init for setting all data on vehicle data items.
+ * Initializes an instance of the SDLOnVehicleData class
  *
  * @param gps - gps
  * @param speed - @(speed)
@@ -88,12 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The fuel level in the tank (percentage)
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *fuelLevel __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *fuelLevel __deprecated_msg("use fuelRange.level instead on 7.0+ RPC version connections");
 
 /**
  The fuel level state
  */
-@property (strong, nonatomic, nullable) SDLComponentVolumeStatus fuelLevel_State __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) SDLComponentVolumeStatus fuelLevel_State __deprecated_msg("use fuelRange.levelState instead on 7.0+ RPC version connections");
 
 /**
  The estimate range in KM the vehicle can travel based on fuel level and consumption

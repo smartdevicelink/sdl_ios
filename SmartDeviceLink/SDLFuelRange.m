@@ -81,10 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_enumForName:SDLRPCParameterNameCapacityUnit error:&error];
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@:%p>{\n\tcapacity: %@, \n\tlevel: %@, \n\trange: %@, \n\tcapacityUnit: %@, \n\tlevelState: %@ }", NSStringFromClass(self.class), self, self.capacity, self.level, self.range, self.capacityUnit, self.levelState];
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -17,70 +17,77 @@
 QuickSpecBegin(SDLFuelRangeSpec)
 const float fuelLevel = 123.45f;
 const float fuelCapacity = 34.56f;
-const float range = 23.0;
+const float range = 23.0f;
+SDLFuelType type = SDLFuelTypeDiesel;
+SDLComponentVolumeStatus levelState = SDLComponentVolumeStatusAlert;
+SDLCapacityUnit capacityUnit = SDLCapacityUnitKilowatthours;
 
 describe(@"getter/setter tests", ^{
-    it(@"should set and get correctly", ^{
+    context(@"init and assign", ^{
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] init];
-
-        testStruct.type = SDLFuelTypeDiesel;
+        testStruct.type = type;
         testStruct.range = @(range);
         testStruct.level = @(fuelLevel);
-        testStruct.levelState = SDLComponentVolumeStatusAlert;
+        testStruct.levelState = levelState;
         testStruct.capacity = @(fuelCapacity);
-        testStruct.capacityUnit = SDLCapacityUnitKilowatthours;
-
-        expect(testStruct.type).to(equal(SDLFuelTypeDiesel));
-        expect(testStruct.range).to(equal(@(range)));
-        expect(testStruct.level).to(equal(fuelLevel));
-        expect(testStruct.levelState).to(equal(SDLComponentVolumeStatusAlert));
-        expect(testStruct.capacity).to(equal(fuelCapacity));
-        expect(testStruct.capacityUnit).to(equal(SDLCapacityUnitKilowatthours));
-
+        testStruct.capacityUnit = capacityUnit;
+    
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.type).to(equal(type));
+            expect(testStruct.range).to(equal(@(range)));
+            expect(testStruct.level).to(equal(fuelLevel));
+            expect(testStruct.levelState).to(equal(levelState));
+            expect(testStruct.capacity).to(equal(fuelCapacity));
+            expect(testStruct.capacityUnit).to(equal(capacityUnit));
+        });
     });
 
-    it(@"should get correctly when initialized with dictionary", ^{
-        NSDictionary *dict = @{SDLRPCParameterNameType:SDLFuelTypeLPG,
+    context(@"should get correctly when initialized with dictionary", ^{
+        NSDictionary *dict = @{SDLRPCParameterNameType:type,
                             SDLRPCParameterNameRange:@(range),
                             SDLRPCParameterNameLevel:@(fuelLevel),
-                            SDLRPCParameterNameLevelState:SDLComponentVolumeStatusAlert,
+                            SDLRPCParameterNameLevelState:levelState,
                             SDLRPCParameterNameCapacity:@(fuelCapacity),
-                            SDLRPCParameterNameCapacityUnit:SDLCapacityUnitKilowatthours
+                            SDLRPCParameterNameCapacityUnit:capacityUnit
                                 };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
-        expect(testStruct.type).to(equal(SDLFuelTypeLPG));
-        expect(testStruct.range).to(equal(@(range)));
-        expect(testStruct.level).to(equal(fuelLevel));
-        expect(testStruct.levelState).to(equal(SDLComponentVolumeStatusAlert));
-        expect(testStruct.capacity).to(equal(fuelCapacity));
-        expect(testStruct.capacityUnit).to(equal(SDLCapacityUnitKilowatthours));
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.type).to(equal(type));
+            expect(testStruct.range).to(equal(@(range)));
+            expect(testStruct.level).to(equal(fuelLevel));
+            expect(testStruct.levelState).to(equal(levelState));
+            expect(testStruct.capacity).to(equal(fuelCapacity));
+            expect(testStruct.capacityUnit).to(equal(capacityUnit));
+        });
     });
 
-    it(@"expect all properties to be nil", ^{
+    context(@"init", ^{
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] init];
 
-        expect(testStruct.type).to(beNil());
-        expect(testStruct.range).to(beNil());
-        expect(testStruct.level).to(beNil());
-        expect(testStruct.levelState).to(beNil());
-        expect(testStruct.capacity).to(beNil());
-        expect(testStruct.capacityUnit).to(beNil());
+        it(@"expect all properties to be nil", ^{
+            expect(testStruct.type).to(beNil());
+            expect(testStruct.range).to(beNil());
+            expect(testStruct.level).to(beNil());
+            expect(testStruct.levelState).to(beNil());
+            expect(testStruct.capacity).to(beNil());
+            expect(testStruct.capacityUnit).to(beNil());
+        });
     });
 
     context(@"initWithType:range:level:levelState:capacity:capacityUnit:", ^{
-        SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithType:SDLFuelTypeLPG range:range level:fuelLevel levelState:SDLComponentVolumeStatusAlert capacity:fuelCapacity capacityUnit:SDLCapacityUnitKilowatthours];
+        SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithType:type range:range level:fuelLevel levelState:levelState capacity:fuelCapacity capacityUnit:capacityUnit];
 
         it(@"expect all properties to be set properly", ^{
-            expect(testStruct.type).to(equal(SDLFuelTypeLPG));
+            expect(testStruct.type).to(equal(type));
             expect(testStruct.range).to(equal(@(range)));
             expect(testStruct.level).to(equal(fuelLevel));
-            expect(testStruct.levelState).to(equal(SDLComponentVolumeStatusAlert));
+            expect(testStruct.levelState).to(equal(levelState));
             expect(testStruct.capacity).to(equal(fuelCapacity));
-            expect(testStruct.capacityUnit).to(equal(SDLCapacityUnitKilowatthours));
+            expect(testStruct.capacityUnit).to(equal(capacityUnit));
         });
     });
 });

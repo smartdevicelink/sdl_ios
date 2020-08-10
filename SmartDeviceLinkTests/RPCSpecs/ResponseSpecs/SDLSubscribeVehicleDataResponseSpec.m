@@ -20,7 +20,6 @@ QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 SDLVehicleDataResult* vehicleDataResult = [[SDLVehicleDataResult alloc] init];
 SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc] initWithCustomOEMDataType:@"customOEMVehicleData" resultCode:SDLVehicleDataResultCodeSuccess];
 
-
 describe(@"Getter/Setter Tests", ^ {
     it(@"should set and get correctly", ^ {
         SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
@@ -249,7 +248,6 @@ describe(@"Getter/Setter Tests", ^ {
 
     it(@"should set and get OEM Custom Vehicle Data", ^{
          SDLSubscribeVehicleDataResponse *testRequest = [[SDLSubscribeVehicleDataResponse alloc] init];
-
          [testRequest setOEMCustomVehicleData:@"customOEMVehicleData" withVehicleDataState:customOEMvehicleDataResult];
 
          expect([testRequest getOEMCustomVehicleData:@"customOEMVehicleData"]).to(equal(customOEMvehicleDataResult));

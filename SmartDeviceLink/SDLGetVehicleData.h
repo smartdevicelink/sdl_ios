@@ -176,12 +176,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A boolean value. If true, requests Fuel Level data.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
 
 /**
  * A boolean value. If true, requests Fuel Level State data.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
 
 /**
  * A boolean value. If true, requests Fuel Range data.

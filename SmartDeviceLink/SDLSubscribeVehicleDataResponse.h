@@ -77,14 +77,14 @@ NS_ASSUME_NONNULL_BEGIN
 
  Optional
  */
-@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
 
 /**
  The result of requesting to subscribe to the fuel level state.
 
  Optional
  */
-@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State __deprecated_msg("use fuelRange instead");
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
 
 /**
  The result of requesting to subscribe to the fuel range.

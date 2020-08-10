@@ -279,7 +279,6 @@ describe(@"getter/setter tests", ^ {
 
         it(@"should set and get OEM Custom Vehicle Data", ^{
              SDLOnVehicleData *testRequest = [[SDLOnVehicleData alloc] init];
-
              [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
 
              expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
