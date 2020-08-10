@@ -29,6 +29,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLAppInterfaceUnregisteredReasonAppUnauthorized).to(equal(@"APP_UNAUTHORIZED"));
         expect(SDLAppInterfaceUnregisteredReasonProtocolViolation).to(equal(@"PROTOCOL_VIOLATION"));
         expect(SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource).to(equal(@"UNSUPPORTED_HMI_RESOURCE"));
+        expect(SDLAppInterfaceUnregisteredReasonResourceConstraint).to(equal(@"RESOURCE_CONSTRAINT"));
     });
 });
 

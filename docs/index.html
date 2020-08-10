@@ -358,6 +358,8 @@
       url: Classes/SDLPerformInteraction.html
     - name: SDLPerformInteractionResponse
       url: Classes/SDLPerformInteractionResponse.html
+    - name: SDLPermissionElement
+      url: Classes/SDLPermissionElement.html
     - name: SDLPermissionItem
       url: Classes/SDLPermissionItem.html
     - name: SDLPermissionManager
@@ -386,6 +388,8 @@
       url: Classes.html#/c:objc(cs)SDLRPCNotification
     - name: SDLRPCNotificationNotification
       url: Classes/SDLRPCNotificationNotification.html
+    - name: SDLRPCPermissionStatus
+      url: Classes/SDLRPCPermissionStatus.html
     - name: SDLRPCRequest
       url: Classes/SDLRPCRequest.html
     - name: SDLRPCRequestNotification
@@ -1172,6 +1176,8 @@
       url: Constants.html#/c:@SDLDidReceiveSystemRequestNotification
     - name: SDLDidReceiveSystemRequestRequest
       url: Constants.html#/c:@SDLDidReceiveSystemRequestRequest
+    - name: SDLDidReceiveSystemRequestResponse
+      url: Constants.html#/c:@SDLDidReceiveSystemRequestResponse
     - name: SDLDidReceiveTouchEventNotification
       url: Constants.html#/c:@SDLDidReceiveTouchEventNotification
     - name: SDLDidReceiveUnpublishAppServiceRequest
@@ -1290,8 +1296,6 @@
       url: Constants.html#/c:@SDLEmergencyEventTypeRollover
     - name: SDLEmergencyEventTypeSide
       url: Constants.html#/c:@SDLEmergencyEventTypeSide
-    - name: SDLErrorDomainAudioStreamManager
-      url: Constants.html#/c:@SDLErrorDomainAudioStreamManager
     - name: SDLFileTypeAAC
       url: Constants.html#/c:@SDLFileTypeAAC
     - name: SDLFileTypeBMP
@@ -2086,6 +2090,18 @@
       url: Constants.html#/c:@SDLRPCFunctionNameUnsubscribeWayPoints
     - name: SDLRPCFunctionNameUpdateTurnList
       url: Constants.html#/c:@SDLRPCFunctionNameUpdateTurnList
+    - name: SDLRPCMessageTypeNameNotification
+      url: Constants.html#/c:@SDLRPCMessageTypeNameNotification
+    - name: SDLRPCMessageTypeNameRequest
+      url: Constants.html#/c:@SDLRPCMessageTypeNameRequest
+    - name: SDLRPCMessageTypeNameResponse
+      url: Constants.html#/c:@SDLRPCMessageTypeNameResponse
+    - name: SDLRPCServiceConnectionDidError
+      url: Constants.html#/c:@SDLRPCServiceConnectionDidError
+    - name: SDLRPCServiceDidConnect
+      url: Constants.html#/c:@SDLRPCServiceDidConnect
+    - name: SDLRPCServiceDidDisconnect
+      url: Constants.html#/c:@SDLRPCServiceDidDisconnect
     - name: SDLRadioBandAM
       url: Constants.html#/c:@SDLRadioBandAM
     - name: SDLRadioBandFM
@@ -3070,10 +3086,14 @@
       url: Enums/SDLSoftButtonManagerError.html
     - name: SDLStreamingEncryptionFlag
       url: Enums/SDLStreamingEncryptionFlag.html
+    - name: SDLSubscribeButtonManagerError
+      url: Enums/SDLSubscribeButtonManagerError.html
     - name: SDLSystemCapabilityManagerError
       url: Enums/SDLSystemCapabilityManagerError.html
     - name: SDLTextAndGraphicManagerError
       url: Enums/SDLTextAndGraphicManagerError.html
+    - name: SDLTouchIdentifier
+      url: Enums/SDLTouchIdentifier.html
     - name: SDLTransportError
       url: Enums/SDLTransportError.html
 - name: Protocols
@@ -3310,6 +3330,10 @@
       url: Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCCommandNotificationHandler
     - name: SDLRPCFunctionName
       url: Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName
+    - name: SDLRPCMessageTypeName
+      url: Type%20Definitions.html#/c:SDLRPCMessageType.h@T@SDLRPCMessageTypeName
+    - name: SDLRPCPermissionStatusChangedHandler
+      url: Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLRPCPermissionStatusChangedHandler
     - name: SDLRPCUpdatedBlock
       url: Type%20Definitions.html#/c:SDLManager.h@T@SDLRPCUpdatedBlock
     - name: SDLRadioBand
@@ -3336,6 +3360,8 @@
       url: Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities
     - name: SDLStaticIconName
       url: Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName
+    - name: SDLSubscribeButtonHandler
+      url: Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLSubscribeButtonHandler
     - name: SDLSupportedSeat
       url: Type%20Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat
     - name: SDLSystemAction
@@ -3358,8 +3384,6 @@
       url: Type%20Definitions.html#/c:SDLTimerMode.h@T@SDLTimerMode
     - name: SDLTouchEventHandler
       url: Type%20Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler
-    - name: SDLTouchIdentifier
-      url: Type%20Definitions/SDLTouchIdentifier.html
     - name: SDLTouchType
       url: Type%20Definitions.html#/c:SDLTouchType.h@T@SDLTouchType
     - name: SDLTriggerSource

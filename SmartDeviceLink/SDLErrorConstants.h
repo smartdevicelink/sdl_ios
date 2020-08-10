@@ -160,9 +160,15 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorInvalidState = -5
 };
 
+/// Errors associated with the system capability manager
 typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
+    /// The connected head unit does not support any system capabilities
     SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1,
+
+    /// You must be in an HMI Level other than NONE to request or subscribe to capabilites other than DISPLAYS
     SDLSystemCapabilityManagerErrorHMINone = -2,
+
+    /// You may not update the system capability type DISPLAYS because it is always subscribed
     SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
 };
 
@@ -201,13 +207,13 @@ typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
     SDLRPCStoreErrorGetInvalidObject = -1,
 };
 
+/// Errors related to the cache file manager
 typedef NS_ENUM(NSInteger, SDLCacheFileManagerError) {
-    /**
-     *  Failed to update archive file
-     */
+    /// Failed to update archive file
     SDLCacheManagerErrorUpdateIconArchiveFileFailure = -1,
 };
 
+/// Errors related to the audio stream manager
 typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
     /// The audio stream is not currently connected
     SDLAudioStreamManagerErrorNotConnected = -1,

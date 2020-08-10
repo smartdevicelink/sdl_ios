@@ -1,61 +1,6 @@
 {
   "warnings": [
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 155,
-      "symbol": "SDLSystemCapabilityManagerError",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 155,
-      "symbol": "SDLSystemCapabilityManagerError",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 156,
-      "symbol": "SDLSystemCapabilityManagerError.SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 157,
-      "symbol": "SDLSystemCapabilityManagerError.SDLSystemCapabilityManagerErrorHMINone",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 158,
-      "symbol": "SDLSystemCapabilityManagerError.SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 196,
-      "symbol": "SDLCacheFileManagerError",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
-      "line": 196,
-      "symbol": "SDLCacheFileManagerError",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joelfischer/Development/livio/sdl/sdl_ios/SmartDeviceLink/SDLTouch.h",
-      "line": 14,
-      "symbol": "SDLTouchIdentifier",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    }
+
   ],
   "source_directory": "/Users/joelfischer/Development/livio/sdl/sdl_ios"
 }

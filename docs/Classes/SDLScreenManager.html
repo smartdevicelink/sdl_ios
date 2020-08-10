@@ -30,6 +30,9 @@
   <li><a href="#section--endUpdates">-endUpdates</a></li>
   <li><a href="#section--endUpdatesWithCompletionHandler:">-endUpdatesWithCompletionHandler:</a></li>
   <li><a href="#section--softButtonObjectNamed:">-softButtonObjectNamed:</a></li>
+  <li><a href="#section--subscribeButton:withUpdateHandler:">-subscribeButton:withUpdateHandler:</a></li>
+  <li><a href="#section--subscribeButton:withObserver:selector:">-subscribeButton:withObserver:selector:</a></li>
+  <li><a href="#section--unsubscribeButton:withObserver:withCompletionHandler:">-unsubscribeButton:withObserver:withCompletionHandler:</a></li>
   <li><a href="#section--preloadChoices:withCompletionHandler:">-preloadChoices:withCompletionHandler:</a></li>
   <li><a href="#section--deleteChoices:">-deleteChoices:</a></li>
   <li><a href="#section--presentChoiceSet:mode:">-presentChoiceSet:mode:</a></li>
@@ -609,6 +612,108 @@
   <dl>
       <dt>name</dt>
       <dd><p>The name of the button</p></dd>
+  </dl>
+  
+  <h3 id="section--subscribeButton:withUpdateHandler:">
+      -subscribeButton:withUpdateHandler:
+  </h3>
+  
+  <p>Subscribes to a subscribe button. The update handler will be called when the button has been selected. If there is an error subscribing to the subscribe button it will be returned in the <code>error</code> parameter of the updateHandler.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">subscribeButton</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span>
+                      <span class="nf">withUpdateHandler</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLSubscribeButtonHandler">SDLSubscribeButtonHandler</a></span><span class="p">)</span><span class="nv">updateHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribeButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="n">withUpdateHandler</span> <span class="nv">updateHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLSubscribeButtonHandler">SDLSubscribeButtonHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonName</dt>
+      <dd><p>The name of the hard button to subscribe to</p></dd>
+      <dt>updateHandler</dt>
+      <dd><p>The block run when the subscribe button is selected</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object that can be used to unsubscribe the block using <code>unsubscribeButtonWithObserver:withCompletionHandler:</code>.</p>
+  </div>
+  
+  <h3 id="section--subscribeButton:withObserver:selector:">
+      -subscribeButton:withObserver:selector:
+  </h3>
+  
+  <p>Subscribes to a subscribe button. The selector will be called when the button has been selected. If there is an error subscribing to the subscribe button it will be returned in the <code>error</code> parameter of the selector.</p>
+
+<p>The selector supports the following parameters:</p>
+
+<ol>
+<li><p>A selector with no parameters. The observer will be notified when a button press occurs (it will not know if a short or long press has occurred).</p></li>
+<li><p>A selector with one parameter: (SDLButtonName). The observer will be notified when a button press occurs (both a short and long press will trigger the selector, but it will not be able to distinguish between them). It will not be notified of button events.</p></li>
+<li><p>A selector with two parameters: (SDLButtonName, NSError). The observer will be notified when a button press occurs (both a short and long press will trigger the selector, but it will not be able to distinguish between them). It will not be notified of button events.</p></li>
+<li><p>A selector with three parameters: (SDLButtonName, NSError, SDLOnButtonPress). The observer will be notified when a long or short button press occurs (and can distinguish between a short or long press), but will not be notified of individual button events.</p></li>
+<li><p>A selector with four parameters: (SDLButtonName, NSError, SDLOnButtonPress, SDLOnButtonEvent). The observer will be notified when any button press or any button event occurs (and can distinguish between them).</p></li>
+</ol>
+
+<p>To unsubscribe from the hard button, call <code>unsubscribeButton:withObserver:withCompletionHandler:</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">subscribeButton</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span>
+           <span class="nf">withObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span>
+               <span class="nf">selector</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SEL</span><span class="p">)</span><span class="nv">selector</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribeButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">NSObjectProtocol</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kt">Selector</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonName</dt>
+      <dd><p>The name of the hard button to subscribe to</p></dd>
+      <dt>observer</dt>
+      <dd><p>The object that will have <code>selector</code> called whenever the button has been selected</p></dd>
+      <dt>selector</dt>
+      <dd><p>The selector on <code>observer</code> that will be called whenever the button has been selected</p></dd>
+  </dl>
+  
+  <h3 id="section--unsubscribeButton:withObserver:withCompletionHandler:">
+      -unsubscribeButton:withObserver:withCompletionHandler:
+  </h3>
+  
+  <p>Unsubscribes to a subscribe button. Please note that if a subscribe button has multiple subscribers the observer will no longer get notifications, however, the app will still be subscribed to the hard button until the last subscriber is removed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">unsubscribeButton</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">)</span><span class="nv">buttonName</span>
+             <span class="nf">withObserver</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">observer</span>
+    <span class="nf">withCompletionHandler</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribeButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">NSObjectProtocol</span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonName</dt>
+      <dd><p>The name of the hard button to subscribe to</p></dd>
+      <dt>observer</dt>
+      <dd><p>The object that will be unsubscribed. If a block was subscribed, the return value should be passed. If a selector was subscribed, the observer object should be passed</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A handler called when the observer has been unsubscribed to the hard button</p></dd>
   </dl>
   
   <h3 id="section--preloadChoices:withCompletionHandler:">

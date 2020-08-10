@@ -15,40 +15,41 @@
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
-describe(@"Getter/Setter Tests", ^ {
-    __block SDLGPSData* gps = nil;
-    __block SDLTireStatus* tires = nil;
-    __block SDLBeltStatus* belt = nil;
-    __block SDLBodyInformation* body = nil;
-    __block SDLDeviceStatus* device = nil;
-    __block SDLHeadLampStatus* headLamp = nil;
-    __block SDLECallInfo* eCall = nil;
-    __block SDLAirbagStatus* airbag = nil;
-    __block SDLEmergencyEvent* event = nil;
-    __block SDLClusterModeStatus* clusterMode = nil;
-    __block SDLMyKey* myKey = nil;
-    __block SDLFuelRange* fuelRange = nil;
-    __block NSString* vin = nil;
-    __block NSString* cloudAppVehicleID = nil;
+describe(@"getter/setter tests", ^ {
+    SDLGPSData* gps = [[SDLGPSData alloc] init];
+    SDLTireStatus* tires = [[SDLTireStatus alloc] init];
+    SDLBeltStatus* belt = [[SDLBeltStatus alloc] init];
+    SDLBodyInformation* body = [[SDLBodyInformation alloc] init];
+    SDLDeviceStatus* device = [[SDLDeviceStatus alloc] init];
+    SDLHeadLampStatus* headLamp = [[SDLHeadLampStatus alloc] init];
+    SDLECallInfo* eCall = [[SDLECallInfo alloc] init];
+    SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
+    SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
+    SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
+    SDLMyKey* myKey = [[SDLMyKey alloc] init];
+    SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
+    NSString *const vin = @"6574839201a";
+    NSString *const cloudAppVehicleID = @"cloudAppVehicleID";
+    const float speed = 123.45;
+    const NSUInteger rpm = 42;
+    const float fuelLevel = 10.3;
+    SDLComponentVolumeStatus fuelLevel_State = SDLComponentVolumeStatusAlert;
+    const float instantFuelConsumption = 4000.63;
+    NSArray *fuelRangeArray = @[fuelRange, fuelRange];
+    const float externalTemperature = -10.5;
+    SDLTurnSignal turnSignal = SDLTurnSignalOff;
+    SDLPRNDL prndl = SDLPRNDLDrive;
+    NSUInteger odometer = 100500;
+    SDLVehicleDataEventStatus driverBraking = SDLVehicleDataEventStatusYes;
+    SDLWiperStatus wiperStatus = SDLWiperStatusStalled;
+    const float engineTorque = -200.124;
+    const float accPedalPosition = 99.99999999;
+    const float steeringWheelAngle = M_PI_4;
+    const float engineOilLife = 34.45;
+    SDLElectronicParkBrakeStatus electronicParkBrakeStatus = SDLElectronicParkBrakeStatusDriveActive;
+    const BOOL handsOffSteering = YES;
 
-    beforeEach(^{
-        gps = [[SDLGPSData alloc] init];
-        tires = [[SDLTireStatus alloc] init];
-        belt = [[SDLBeltStatus alloc] init];
-        body = [[SDLBodyInformation alloc] init];
-        device = [[SDLDeviceStatus alloc] init];
-        headLamp = [[SDLHeadLampStatus alloc] init];
-        eCall = [[SDLECallInfo alloc] init];
-        airbag = [[SDLAirbagStatus alloc] init];
-        event = [[SDLEmergencyEvent alloc] init];
-        clusterMode = [[SDLClusterModeStatus alloc] init];
-        myKey = [[SDLMyKey alloc] init];
-        fuelRange = [[SDLFuelRange alloc] init];
-        vin = @"6574839201a";
-        cloudAppVehicleID = @"cloudAppVehicleID";
-    });
-
-    it(@"Should set and get correctly", ^ {
+    it(@"should set and get correctly", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
 
         testResponse.accPedalPosition = @0;
@@ -69,6 +70,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.fuelLevel_State = SDLComponentVolumeStatusFault;
         testResponse.fuelRange = @[fuelRange, fuelRange];
         testResponse.gps = gps;
+        testResponse.handsOffSteering = @YES;
         testResponse.headLampStatus = headLamp;
         testResponse.instantFuelConsumption = @40.7;
         testResponse.myKey = myKey;
@@ -100,6 +102,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelLevel_State).to(equal(SDLComponentVolumeStatusFault));
         expect(testResponse.fuelRange).to(equal(@[fuelRange, fuelRange]));
         expect(testResponse.gps).to(equal(gps));
+        expect(testResponse.handsOffSteering).to(equal(@YES));
         expect(testResponse.headLampStatus).to(equal(headLamp));
         expect(testResponse.instantFuelConsumption).to(equal(@40.7));
         expect(testResponse.myKey).to(equal(myKey));
@@ -114,8 +117,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
-    it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+    it(@"should get correctly when initialized", ^ {
+        NSDictionary* dict = @{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{
                                                      SDLRPCParameterNameAccelerationPedalPosition:@0,
@@ -147,8 +150,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameTirePressure:tires,
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
                                                      SDLRPCParameterNameVIN:vin,
-                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
+                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh,
+                                                     SDLRPCParameterNameHandsOffSteering:@YES
+                                                 },
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
@@ -172,6 +177,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelLevel_State).to(equal(SDLComponentVolumeStatusFault));
         expect(testResponse.fuelRange).to(equal(@[fuelRange]));
         expect(testResponse.gps).to(equal(gps));
+        expect(testResponse.handsOffSteering).to(equal(@YES));
         expect(testResponse.headLampStatus).to(equal(headLamp));
         expect(testResponse.instantFuelConsumption).to(equal(@40.7));
         expect(testResponse.myKey).to(equal(myKey));
@@ -186,7 +192,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
-    it(@"Should return nil if not set", ^ {
+    it(@"should return nil if not set", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
         
         expect(testResponse.accPedalPosition).to(beNil());
@@ -207,6 +213,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.fuelLevel_State).to(beNil());
         expect(testResponse.fuelRange).to(beNil());
         expect(testResponse.gps).to(beNil());
+        expect(testResponse.handsOffSteering).to(beNil());
         expect(testResponse.headLampStatus).to(beNil());
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.myKey).to(beNil());
@@ -221,7 +228,44 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.wiperStatus).to(beNil());
     });
 
-    it(@"Should set and get Generic Network Signal Data", ^{
+    context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
+        SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] initWithGps:gps speed:speed rpm:@(rpm) fuelLevel:fuelLevel fuelLevel_State:fuelLevel_State instantFuelConsumption:instantFuelConsumption fuelRange:fuelRangeArray externalTemperature:externalTemperature turnSignal:turnSignal vin:vin prndl:prndl tirePressure:tires odometer:@(odometer) beltStatus:belt bodyInformation:body deviceStatus:device driverBraking:driverBraking wiperStatus:wiperStatus headLampStatus:headLamp engineTorque:engineTorque accPedalPosition:accPedalPosition steeringWheelAngle:steeringWheelAngle engineOilLife:engineOilLife electronicParkBrakeStatus:electronicParkBrakeStatus cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCall airbagStatus:airbag emergencyEvent:event clusterModeStatus:clusterMode myKey:myKey handsOffSteering:@(handsOffSteering)];
+        it(@"should get correctly when initialized", ^{
+            expect(testResponse.accPedalPosition).to(equal(@(accPedalPosition)));
+            expect(testResponse.airbagStatus).to(equal(airbag));
+            expect(testResponse.beltStatus).to(equal(belt));
+            expect(testResponse.bodyInformation).to(equal(body));
+            expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
+            expect(testResponse.clusterModeStatus).to(equal(clusterMode));
+            expect(testResponse.deviceStatus).to(equal(device));
+            expect(testResponse.driverBraking).to(equal(driverBraking));
+            expect(testResponse.eCallInfo).to(equal(eCall));
+            expect(testResponse.electronicParkBrakeStatus).to(equal(electronicParkBrakeStatus));
+            expect(testResponse.emergencyEvent).to(equal(event));
+            expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
+            expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
+            expect(testResponse.fuelLevel).to(equal(@(fuelLevel)));
+            expect(testResponse.fuelLevel_State).to(equal(fuelLevel_State));
+            expect(testResponse.fuelRange).to(equal(fuelRangeArray));
+            expect(testResponse.gps).to(equal(gps));
+            expect(testResponse.handsOffSteering).to(equal(@(handsOffSteering)));
+            expect(testResponse.headLampStatus).to(equal(headLamp));
+            expect(testResponse.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
+            expect(testResponse.myKey).to(equal(myKey));
+            expect(testResponse.odometer).to(equal(@(odometer)));
+            expect(testResponse.prndl).to(equal(prndl));
+            expect(testResponse.rpm).to(equal(@(rpm)));
+            expect(testResponse.speed).to(equal(@(speed)));
+            expect(testResponse.steeringWheelAngle).to(equal((steeringWheelAngle)));
+            expect(testResponse.tirePressure).to(equal(tires));
+            expect(testResponse.turnSignal).to(equal(turnSignal));
+            expect(testResponse.vin).to(equal(vin));
+            expect(testResponse.wiperStatus).to(equal(wiperStatus));
+        });
+    });
+
+    it(@"should set and get OEM Custom Vehicle Data", ^{
         SDLGetVehicleDataResponse *testRequest = [[SDLGetVehicleDataResponse alloc] init];
 
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];

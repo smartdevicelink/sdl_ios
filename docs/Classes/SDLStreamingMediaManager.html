@@ -22,13 +22,13 @@
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithConnectionManager:configuration:">-initWithConnectionManager:configuration:</a></li>
   <li><a href="#section--initWithConnectionManager:configuration:systemCapabilityManager:">-initWithConnectionManager:configuration:systemCapabilityManager:</a></li>
+  <li><a href="#section--startWithProtocol:">-startWithProtocol:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--stopAudio">-stopAudio</a></li>
   <li><a href="#section--stopVideo">-stopVideo</a></li>
   <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
   <li><a href="#section--sendVideoData:presentationTimestamp:">-sendVideoData:presentationTimestamp:</a></li>
   <li><a href="#section--sendAudioData:">-sendAudioData:</a></li>
-  <li><a href="#section--startWithProtocol:">-startWithProtocol:</a></li>
   <li><a href="#section--startAudioWithProtocol:">-startAudioWithProtocol:</a></li>
   <li><a href="#section--startVideoWithProtocol:">-startVideoWithProtocol:</a></li>
 </ul>
@@ -412,6 +412,24 @@
       <dd><p>The system capability manager object for reading window capabilities</p></dd>
   </dl>
   
+  <h3 id="section--startWithProtocol:">
+      -startWithProtocol:
+  </h3>
+  
+  <p>Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on <code><a href="../Classes/SDLManager.html">SDLManager</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt">SDLProtocol</span><span class="p">)</span></code></pre>
+
+  
+  
+  
   <h3 id="section--stop">
       -stop
   </h3>
@@ -551,24 +569,6 @@
     <h4>Return Value</h4>
     <p>Whether or not the data was successfully sent.</p>
   </div>
-  
-  <h3 id="section--startWithProtocol:">
-      -startWithProtocol:
-  </h3>
-  
-  <p>Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on <code><a href="../Classes/SDLManager.html">SDLManager</a></code>.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt">SDLProtocol</span><span class="p">)</span></code></pre>
-
-  
-  
   
   <h3 id="section--startAudioWithProtocol:">
       -startAudioWithProtocol:

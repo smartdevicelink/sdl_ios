@@ -15,6 +15,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLSystemCapabilityTypePhoneCall).to(equal(@"PHONE_CALL"));
         expect(SDLSystemCapabilityTypeVideoStreaming).to(equal(@"VIDEO_STREAMING"));
         expect(SDLSystemCapabilityTypeRemoteControl).to(equal(@"REMOTE_CONTROL"));
+        expect(SDLSystemCapabilityTypeDisplays).to(equal(@"DISPLAYS"));
+        expect(SDLSystemCapabilityTypeSeatLocation).to(equal(@"SEAT_LOCATION"));
+        expect(SDLSystemCapabilityTypeDriverDistraction).to(equal(@"DRIVER_DISTRACTION"));
     });
 });
 

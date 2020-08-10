@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// An object containing the result status of a permission element request
 @interface SDLRPCPermissionStatus : NSObject
 
 /**

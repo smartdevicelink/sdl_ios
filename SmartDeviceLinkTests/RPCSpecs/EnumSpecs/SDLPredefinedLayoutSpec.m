@@ -34,6 +34,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLPredefinedLayoutLargeGraphicWithSoftButtons).to(equal(@"LARGE_GRAPHIC_WITH_SOFTBUTTONS"));
         expect(SDLPredefinedLayoutDoubleGraphicWithSoftButtons).to(equal(@"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS"));
         expect(SDLPredefinedLayoutLargeGraphicOnly).to(equal(@"LARGE_GRAPHIC_ONLY"));
+        expect(SDLPredefinedLayoutWebView).to(equal(@"WEB_VIEW"));
     });
 });
 

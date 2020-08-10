@@ -95,6 +95,7 @@
   <li><a href="#section-SDLPermissionRPCName">SDLPermissionRPCName</a></li>
   <li><a href="#section-SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></li>
   <li><a href="#section-SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></li>
+  <li><a href="#section-SDLRPCPermissionStatusChangedHandler">SDLRPCPermissionStatusChangedHandler</a></li>
   <li><a href="#section-SDLPermissionStatus">SDLPermissionStatus</a></li>
   <li><a href="#section-SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></li>
   <li><a href="#section-SDLPowerModeStatus">SDLPowerModeStatus</a></li>
@@ -102,6 +103,7 @@
   <li><a href="#section-SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></li>
   <li><a href="#section-SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></li>
   <li><a href="#section-SDLRPCFunctionName">SDLRPCFunctionName</a></li>
+  <li><a href="#section-SDLRPCMessageTypeName">SDLRPCMessageTypeName</a></li>
   <li><a href="#section-SDLRadioBand">SDLRadioBand</a></li>
   <li><a href="#section-SDLRadioState">SDLRadioState</a></li>
   <li><a href="#section-SDLRequestType">SDLRequestType</a></li>
@@ -109,6 +111,7 @@
   <li><a href="#section-SDLSamplingRate">SDLSamplingRate</a></li>
   <li><a href="#section-SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></li>
   <li><a href="#section-SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></li>
+  <li><a href="#section-SDLSubscribeButtonHandler">SDLSubscribeButtonHandler</a></li>
   <li><a href="#section-SDLSeatMemoryActionType">SDLSeatMemoryActionType</a></li>
   <li><a href="#section-SDLServiceUpdateReason">SDLServiceUpdateReason</a></li>
   <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
@@ -130,7 +133,6 @@
   <li><a href="#section-SDLTextAlignment">SDLTextAlignment</a></li>
   <li><a href="#section-SDLTextFieldName">SDLTextFieldName</a></li>
   <li><a href="#section-SDLTimerMode">SDLTimerMode</a></li>
-  <li><a href="#section-SDLTouchIdentifier">SDLTouchIdentifier</a></li>
   <li><a href="#section-SDLTouchEventHandler">SDLTouchEventHandler</a></li>
   <li><a href="#section-SDLTouchType">SDLTouchType</a></li>
   <li><a href="#section-SDLTriggerSource">SDLTriggerSource</a></li>
@@ -2126,7 +2128,7 @@ c = character <br></p>
       SDLPermissionsChangedHandler
   </h3>
   
-  <p>The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.</p>
+  <p>This is a block that is passed in to some methods that will be stored and called when specified permissions change.</p>
 
   
   
@@ -2143,10 +2145,37 @@ c = character <br></p>
   
   <h4>Parameters</h4>
   <dl>
-      <dt>change</dt>
-      <dd><p>A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed></p></dd>
+      <dt>updatedPermissionStatuses</dt>
+      <dd><p>A dictionary of the new current status of all subscription items; containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed></p></dd>
       <dt>status</dt>
-      <dd><p>The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed</p></dd>
+      <dd><p>The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLRPCPermissionStatusChangedHandler">
+      SDLRPCPermissionStatusChangedHandler
+  </h3>
+  
+  <p>A block that will be called when specified permissions change. It will return whether each RPC and its parameters are allowed as well as the permission group status of all the RPCs.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRPCPermissionStatusChangedHandler</span><span class="p">)(</span>
+    <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">,</span> <span class="n"><a href="Classes/SDLRPCPermissionStatus.html">SDLRPCPermissionStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
+    <span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLRPCPermissionStatusChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCPermissionStatus.html">SDLRPCPermissionStatus</a></span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updatedPermissionStatuses</dt>
+      <dd><p>A dictionary of the new current status of all subscription items; containing <key(String): SDLPermissionRPCName, object(SDLRPCPermissionStatus)></p></dd>
+      <dt>status</dt>
+      <dd><p>The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed</p></dd>
   </dl>
   
   <h3 id="section-SDLPermissionStatus">
@@ -2275,6 +2304,24 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRPCFunctionName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCMessageTypeName">
+      SDLRPCMessageTypeName
+  </h3>
+  
+  <p>A type of RPC message</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLRPCMessageTypeName</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRPCMessageTypeName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2415,6 +2462,35 @@ c = character <br></p>
   
   <h4>Parameters</h4>
   <dl>
+      <dt>error</dt>
+      <dd><p>The error if one occurred</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLSubscribeButtonHandler">
+      SDLSubscribeButtonHandler
+  </h3>
+  
+  <p>A handler run when the subscribe button has been selected</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLSubscribeButtonHandler</span><span class="p">)(</span><span class="n"><a href="Classes/SDLOnButtonPress.html">SDLOnButtonPress</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                          <span class="n"><a href="Classes/SDLOnButtonEvent.html">SDLOnButtonEvent</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                          <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLSubscribeButtonHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLOnButtonPress.html">SDLOnButtonPress</a></span><span class="p">?,</span> <span class="kt"><a href="Classes/SDLOnButtonEvent.html">SDLOnButtonEvent</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>buttonPress</dt>
+      <dd><p>Indicates whether this is a long or short button press event</p></dd>
+      <dt>buttonEvent</dt>
+      <dd><p>Indicates that the button has been depressed or released</p></dd>
       <dt>error</dt>
       <dd><p>The error if one occurred</p></dd>
   </dl>
@@ -2823,22 +2899,6 @@ c = character <br></p>
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTimerMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
-  
-  
-  
-  <h3 id="section-SDLTouchIdentifier">
-      SDLTouchIdentifier
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Type%20Definitions/SDLTouchIdentifier.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="k">enum</span> <span class="n">SDLTouchIdentifier</span> <span class="n">SDLTouchIdentifier</span></code></pre>
-
-  
   
   
   

@@ -11,13 +11,13 @@
 @class SDLTouchEvent;
 
 /// Identifies finger touch
-typedef enum {
+typedef NS_ENUM(NSUInteger, SDLTouchIdentifier) {
     /// Touch was first finger
     SDLTouchIdentifierFirstFinger = 0,
 
     /// Touch was second finger
     SDLTouchIdentifierSecondFinger = 1
-} SDLTouchIdentifier;
+};
 
 NS_ASSUME_NONNULL_BEGIN
 
