@@ -235,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([vehicleDataType isEqualToString:ACOdometerMenuName]) {
         vehicleDataDescription = vehicleData.odometer.description;
     } else if ([vehicleDataType isEqualToString:ACPRNDLMenuName]) {
-        vehicleDataDescription = vehicleData.prndl.description;
+        vehicleDataDescription = vehicleData.gearStatus.actualGear.description;
     } else if ([vehicleDataType isEqualToString:ACSpeedMenuName]) {
         vehicleDataDescription = vehicleData.speed.description;
     } else if ([vehicleDataType isEqualToString:ACSteeringWheelAngleMenuName]) {
