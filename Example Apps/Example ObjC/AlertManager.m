@@ -22,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self.class sdlex_okSoftButton]] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) cancelID:0];
 }
 
++ (SDLSubtleAlert *)subtleAlertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName {
+    return [[SDLSubtleAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) ttsChunks:nil duration:nil softButtons:@[[self.class sdlex_okSoftButton]] cancelID:0];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

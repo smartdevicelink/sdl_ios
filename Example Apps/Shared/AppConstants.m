@@ -19,13 +19,7 @@ NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";
 NSString * const ExampleAppText = @"Example App";
 
 #pragma mark - SDL Soft Buttons
-NSString * const ToggleSoftButton = @"ToggleSoftButton";
-NSString * const ToggleSoftButtonImageOnState = @"ToggleSoftButtonImageOnState";
-NSString * const ToggleSoftButtonImageOffState = @"ToggleSoftButtonImageOffState";
-NSString * const ToggleSoftButtonTextOnState = @"ToggleSoftButtonTextOnState";
-NSString * const ToggleSoftButtonTextOffState = @"ToggleSoftButtonTextOffState";
-NSString * const ToggleSoftButtonTextTextOnText = @"➖";
-NSString * const ToggleSoftButtonTextTextOffText = @"➕";
+NSString * const SubtleAlertSoftButton = @"ToggleSoftButton";
 
 NSString * const AlertSoftButton = @"AlertSoftButton";
 NSString * const AlertSoftButtonImageState = @"AlertSoftButtonImageState";
@@ -45,7 +39,11 @@ NSString * const ImagesVisibleSoftButtonImageOnText = @"➖Icons";
 NSString * const ImagesVisibleSoftButtonImageOffText = @"➕Icons";
 
 #pragma mark - Alert
+NSString * const AlertMessageText = @"You pressed the button!";
 NSString * const AlertOKButtonText = @"OK";
+NSString * const SubtleAlertHeaderText = @"Battery Level";
+NSString * const SubtleAlertSubheaderText = @"Almost empty";
+NSString * const SubtleAlertNotSupportedText = @"Subtle alert is not supported on this module";
 
 #pragma mark - SDL Text-To-Speech
 NSString * const TTSGoodJob = @"Good Job";
@@ -120,8 +118,8 @@ NSString * const MenuBWIconImageName = @"choice_set";
 NSString * const MicrophoneBWIconImageName = @"microphone";
 NSString * const PhoneBWIconImageName = @"phone";
 NSString * const SpeakBWIconImageName = @"speak";
-NSString * const ToggleOffBWIconName = @"toggle_off";
-NSString * const ToggleOnBWIconName = @"toggle_on";
+NSString * const BatteryEmptyBWIconName = @"toggle_off";
+NSString * const BatteryFullBWIconName = @"toggle_on";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";
