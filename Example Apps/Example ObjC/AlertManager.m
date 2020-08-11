@@ -26,6 +26,32 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLSubtleAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) ttsChunks:nil duration:nil softButtons:@[[self.class sdlex_okSoftButton]] cancelID:0];
 }
 
++ (void)sendAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager {
+    [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
+        SDLAlert *alert = [self.class alertWithMessageAndCloseButton:textField1 textField2:textField2 iconName:(success ? artworkName : nil)];
+        [sdlManager sendRequest:alert];
+    }];
+}
+
++ (void)sendSubtleAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager {
+    [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
+        SDLSubtleAlert *subtleAlert = [self.class subtleAlertWithMessageAndCloseButton:textField1 textField2:textField2 iconName:(success ? artworkName : nil)];
+        [sdlManager sendRequest:subtleAlert];
+    }];
+}
+
+/// Helper method for uploading an image before it is shown in an alert
+/// @param imageName The name of the image to upload
+/// @param sdlManager The SDLManager
+/// @param completionHandler Handler called when the artwork has finished uploading with the success of the upload and the name of the uploaded image.
++ (void)sdlex_sendImageWithName:(NSString *)imageName sdlManager:(SDLManager *)sdlManager completionHandler:(void (^)(BOOL success, NSString * _Nonnull artworkName))completionHandler {
+    SDLArtwork *artwork = [SDLArtwork artworkWithImage:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
+
+    [sdlManager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        return completionHandler(success, artworkName);
+    }];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -52,46 +52,31 @@ class ButtonManager: NSObject {
 
 extension ButtonManager {
     /// Returns a soft button that shows an alert when tapped.
-    ///
-    /// - Parameter manager: The SDL Manager for showing the alert
-    /// - Returns: A soft button
     private var softButtonAlert: SDLSoftButtonObject {
         let imageSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonImageState, text: nil, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
         return SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
-            self.sdlManager.fileManager.upload(artwork: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG), completionHandler: { [weak self] (success, artworkName, bytesAvailable, err) in
-                guard let self = self else { return }
-                let alert = AlertManager.alertWithMessageAndCloseButton(AlertMessageText, iconName: artworkName)
-                self.sdlManager.send(alert)
-            })
+
+            AlertManager.sendAlert(imageName: CarBWIconImageName, textField1: AlertMessageText, sdlManager: self.sdlManager)
         }
     }
 
-    /// Returns a soft button that shows a subtle alert when tapped.
-    ///
-    /// - Returns: A soft button
+    /// Returns a soft button that shows a subtle alert when tapped. If the subtle alert is not supported, then a regular alert is shown.
     private var softButtonSubtleAlert: SDLSoftButtonObject {
         return SDLSoftButtonObject(name: SubtleAlertSoftButton, text: nil, artwork: SDLArtwork(image: (UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))!, persistent: false, as: .PNG)) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
-            let subtleAlertImage = SDLArtwork(image: (UIImage(named: BatteryEmptyBWIconName)?.withRenderingMode(.alwaysTemplate))!, persistent: false, as: .PNG)
-            self.sdlManager.fileManager.upload(artwork: subtleAlertImage, completionHandler: { [weak self] (success, artworkName, bytesAvailable, err) in
-                guard let self = self else { return }
-
-                let subtleAlert = AlertManager.subtleAlertWithMessageAndCloseButton(SubtleAlertHeaderText, textField2: SubtleAlertSubheaderText, iconName: artworkName)
-                self.sdlManager.send(request: subtleAlert) { [weak self] (request, response, error) in
-                    guard let self = self, !(response?.success.boolValue ?? false) else { return }
-
-                    self.sdlManager.send(AlertManager.alertWithMessageAndCloseButton(SubtleAlertNotSupportedText))
-                }
-            })
+            let isSubtleAlertAllowed = self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.subtleAlert)
+            if (isSubtleAlertAllowed) {
+                AlertManager.sendSubtleAlert(imageName: BatteryEmptyBWIconName, textField1: SubtleAlertHeaderText, textField2: SubtleAlertSubheaderText, sdlManager: self.sdlManager)
+            } else {
+                AlertManager.sendAlert(imageName: BatteryEmptyBWIconName, textField1: SubtleAlertHeaderText, textField2: SubtleAlertSubheaderText, sdlManager: self.sdlManager)
+            }
         }
     }
 
-    /// Returns a soft button that toggles the textfield visibility state for the SDL UI. The button's text toggles based on the current text visibility.
-    ///
-    /// - Returns: A soft button
+    /// Returns a soft button that toggles the textfield visibility state.
     private var softButtonTextVisible: SDLSoftButtonObject {
         let textVisibleState = SDLSoftButtonState(stateName: TextVisibleSoftButtonTextOnState, text: TextVisibleSoftButtonTextOnText, artwork: nil)
         let textNotVisibleState = SDLSoftButtonState(stateName: TextVisibleSoftButtonTextOffState, text: TextVisibleSoftButtonTextOffText, image: nil)
@@ -105,9 +90,7 @@ extension ButtonManager {
         }
     }
 
-    /// Returns a soft button that toggles the image visibility state for the SDL UI. The button's text toggles based on the current image visibility.
-    ///
-    /// - Returns: A soft button
+    /// Returns a soft button that toggles the image visibility state.
     private var softButtonImagesVisible: SDLSoftButtonObject {
         let imagesVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOnState, text: ImagesVisibleSoftButtonImageOnText, image: nil)
         let imagesNotVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOffState, text: ImagesVisibleSoftButtonImageOffText, image: nil)

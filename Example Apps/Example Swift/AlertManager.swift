@@ -34,4 +34,42 @@ class AlertManager {
     class func subtleAlertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil, iconName: String? = nil) -> SDLSubtleAlert {
         return SDLSubtleAlert(alertText1: textField1, alertText2: textField2, alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil, ttsChunks: nil, duration: nil, softButtons: [okSoftButton], cancelID: NSNumber(0))
     }
+
+    ///  Sends an alert with an image.
+    /// - Parameters:
+    ///   - imageName: The name of the image to upload
+    ///   - textField1: The first line of text in the alert
+    ///   - textField2: The second line of text in the alert
+    ///   - sdlManager: The SDLManager
+    class func sendAlert(imageName: String, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
+        sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
+            let alert = alertWithMessageAndCloseButton(textField1, textField2: textField2, iconName: artworkName)
+            sdlManager.send(alert)
+        }
+    }
+
+    ///  Sends a subtle alert with an image.
+    /// - Parameters:
+    ///   - imageName: The name of the image to upload
+    ///   - textField1: The first line of text in the alert
+    ///   - textField2: The second line of text in the alert
+    ///   - sdlManager: The SDLManager
+    class func sendSubtleAlert(imageName: String, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
+        sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
+            let subtleAlert = subtleAlertWithMessageAndCloseButton(textField1, textField2: textField2, iconName: (success ? artworkName : nil))
+            sdlManager.send(subtleAlert)
+        }
+    }
+
+    /// Helper method for uploading an image before it is shown in an alert
+    /// - Parameters:
+    ///   - imageName: The name of the image to upload
+    ///   - sdlManager: The SDLManager
+    ///   - completionHandler: Handler called when the artwork has finished uploading with the success of the upload and the name of the uploaded image.
+    private class func sendImage(_ imageName: String, sdlManager: SDLManager, completionHandler: @escaping ((_ success: Bool, _ artwork: String) -> ())) {
+        let artwork = SDLArtwork(image: UIImage(named: imageName)!.withRenderingMode(.alwaysTemplate), persistent: false, as: .PNG)
+        sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAvailable, error) in
+            return completionHandler(success, artworkName)
+        }
+    }
 }

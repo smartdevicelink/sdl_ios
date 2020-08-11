@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLAlert;
+@class SDLManager;
 @class SDLSubtleAlert;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,6 +29,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param iconName An image to show in the alert
 /// @return An SDLSubtleAlert object
  + (SDLSubtleAlert *)subtleAlertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName;
+
+/// Sends an alert with an image.
+/// @param imageName The name of the image to upload
+/// @param textField1 The first line of text in the alert
+/// @param textField2 The second line of text in the alert
+/// @param sdlManager The SDLManager
++ (void)sendAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager;
+
+/// Sends a subtle alert with an image.
+/// @param imageName The name of the image to upload
+/// @param textField1 The first line of text in the alert
+/// @param textField2 The second line of text in the alert
+/// @param sdlManager The SDLManager
++ (void)sendSubtleAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager;
 
 @end
 
