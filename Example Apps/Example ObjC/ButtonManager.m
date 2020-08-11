@@ -133,10 +133,6 @@ NS_ASSUME_NONNULL_BEGIN
     return imagesButton;
 }
 
-#pragma mark - Helpers
-
-
-
 @end
 
 NS_ASSUME_NONNULL_END
