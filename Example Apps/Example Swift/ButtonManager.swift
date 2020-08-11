@@ -95,13 +95,17 @@ extension ButtonManager {
         let imagesVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOnState, text: ImagesVisibleSoftButtonImageOnText, image: nil)
         let imagesNotVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOffState, text: ImagesVisibleSoftButtonImageOffText, image: nil)
         return SDLSoftButtonObject(name: ImagesVisibleSoftButton, states: [imagesVisibleState, imagesNotVisibleState], initialStateName: imagesVisibleState.name) { [weak self] (buttonPress, buttonEvent) in
-            guard let self = self, let manager = self.sdlManager, buttonPress != nil, let alertSoftButton = manager.screenManager.softButtonObjectNamed(AlertSoftButton) else { return }
+            guard let self = self, let sdlManager = self.sdlManager, buttonPress != nil else { return }
+            
             self.imagesEnabled = !self.imagesEnabled
 
-            let imagesVisibleSoftButton = self.sdlManager.screenManager.softButtonObjectNamed(ImagesVisibleSoftButton)
-            imagesVisibleSoftButton?.transitionToNextState()
+            if let imagesVisibleSoftButton = sdlManager.screenManager.softButtonObjectNamed(ImagesVisibleSoftButton) {
+                imagesVisibleSoftButton.transitionToNextState()
+            }
 
-            alertSoftButton.transitionToNextState()
+            if let alertSoftButton = sdlManager.screenManager.softButtonObjectNamed(AlertSoftButton) {
+                alertSoftButton.transitionToNextState()
+            }
         }
     }
 }
