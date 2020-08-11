@@ -224,6 +224,8 @@ NS_ASSUME_NONNULL_BEGIN
         vehicleDataDescription = vehicleData.fuelLevel_State.description;
     } else if ([vehicleDataType isEqualToString:ACFuelRangeMenuName]) {
         vehicleDataDescription = vehicleData.fuelRange.description;
+    } else if ([vehicleDataType isEqualToString:ACGearStatusMenuName]) {
+        vehicleDataDescription = vehicleData.gearStatus.description;
     } else if ([vehicleDataType isEqualToString:ACGPSMenuName]) {
         vehicleDataDescription = vehicleData.gps.description;
     } else if ([vehicleDataType isEqualToString:ACHeadLampStatusMenuName]) {
@@ -235,7 +237,10 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([vehicleDataType isEqualToString:ACOdometerMenuName]) {
         vehicleDataDescription = vehicleData.odometer.description;
     } else if ([vehicleDataType isEqualToString:ACPRNDLMenuName]) {
-        vehicleDataDescription = vehicleData.gearStatus.actualGear.description;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        vehicleDataDescription = vehicleData.prndl.description;
+#pragma clang diagnostic pop
     } else if ([vehicleDataType isEqualToString:ACSpeedMenuName]) {
         vehicleDataDescription = vehicleData.speed.description;
     } else if ([vehicleDataType isEqualToString:ACSteeringWheelAngleMenuName]) {

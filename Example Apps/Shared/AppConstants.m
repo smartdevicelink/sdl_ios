@@ -98,6 +98,7 @@ NSString * const ACExternalTemperatureMenuName = @"External Temperature";
 NSString * const ACFuelLevelMenuName = @"Fuel Level";
 NSString * const ACFuelLevelStateMenuName = @"Fuel Level State";
 NSString * const ACFuelRangeMenuName = @"Fuel Range";
+NSString * const ACGearStatusMenuName = @"Gear Status";
 NSString * const ACGPSMenuName = @"GPS";
 NSString * const ACHeadLampStatusMenuName = @"Head Lamp Status";
 NSString * const ACInstantFuelConsumptionMenuName = @"Instant Fuel Consumption";
