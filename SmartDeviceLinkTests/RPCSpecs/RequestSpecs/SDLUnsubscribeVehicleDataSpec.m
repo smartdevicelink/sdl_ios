@@ -38,13 +38,17 @@ describe(@"getter/setter tests", ^{
         testRequest.fuelLevel_State = @YES;
 #pragma clang diagnostic pop
         testRequest.fuelRange = @YES;
+        testRequest.gearStatus = @YES;
         testRequest.gps = @YES;
         testRequest.handsOffSteering = @YES;
         testRequest.headLampStatus = @YES;
         testRequest.instantFuelConsumption = @YES;
         testRequest.myKey = @YES;
         testRequest.odometer = @YES;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRequest.prndl = @YES;
+#pragma clang diagnostic pop
         testRequest.rpm = @YES;
         testRequest.speed = @YES;
         testRequest.steeringWheelAngle = @YES;
@@ -72,13 +76,17 @@ describe(@"getter/setter tests", ^{
         expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
         expect(testRequest.fuelRange).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.gps).to(equal(@YES));
         expect(testRequest.handsOffSteering).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@YES));
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -104,22 +112,29 @@ describe(@"getter/setter tests", ^{
                                                            SDLRPCParameterNameEngineOilLife:@YES,
                                                            SDLRPCParameterNameEngineTorque:@YES,
                                                            SDLRPCParameterNameExternalTemperature:@YES,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                                                            SDLRPCParameterNameFuelLevel:@YES,
                                                            SDLRPCParameterNameFuelLevelState:@YES,
+#pragma clang diagnostic pop
                                                            SDLRPCParameterNameFuelRange:@YES,
+                                                           SDLRPCParameterNameGearStatus:@YES,
                                                            SDLRPCParameterNameGPS:@YES,
+                                                           SDLRPCParameterNameHandsOffSteering:@YES,
                                                            SDLRPCParameterNameHeadLampStatus:@YES,
                                                            SDLRPCParameterNameInstantFuelConsumption:@YES,
                                                            SDLRPCParameterNameMyKey:@YES,
                                                            SDLRPCParameterNameOdometer:@YES,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                                                            SDLRPCParameterNamePRNDL:@YES,
+#pragma clang diagnostic pop
                                                            SDLRPCParameterNameRPM:@YES,
                                                            SDLRPCParameterNameSpeed:@YES,
                                                            SDLRPCParameterNameSteeringWheelAngle:@YES,
                                                            SDLRPCParameterNameTirePressure:@YES,
                                                            SDLRPCParameterNameTurnSignal:@YES,
                                                            SDLRPCParameterNameWiperStatus:@YES,
-                                                           SDLRPCParameterNameHandsOffSteering:@YES
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
@@ -147,13 +162,17 @@ describe(@"getter/setter tests", ^{
         expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
         expect(testRequest.fuelRange).to(equal(@YES));
+        expect(testRequest.gearStatus).to(equal(@YES));
         expect(testRequest.gps).to(equal(@YES));
         expect(testRequest.handsOffSteering).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@YES));
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
         expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.rpm).to(equal(@YES));
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -188,13 +207,17 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(beNil());
+            expect(testRequest.gearStatus).to(beNil());
             expect(testRequest.gps).to(beNil());
             expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(beNil());
             expect(testRequest.instantFuelConsumption).to(beNil());
             expect(testRequest.myKey).to(beNil());
             expect(testRequest.odometer).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(beNil());
+#pragma clang diagnostic pop
             expect(testRequest.rpm).to(beNil());
             expect(testRequest.speed).to(beNil());
             expect(testRequest.steeringWheelAngle).to(beNil());
@@ -231,13 +254,17 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic push
             expect(testRequest.fuelRange).to(equal(@YES));
+            expect(testRequest.gearStatus).to(beNil());
             expect(testRequest.gps).to(equal(@YES));
             expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
             expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -270,17 +297,21 @@ describe(@"initializers", ^{
             expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-           expect(testRequest.fuelLevel).to(equal(@YES));
-           expect(testRequest.fuelLevel_State).to(equal(@YES));
+            expect(testRequest.fuelLevel).to(equal(@YES));
+            expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic push
             expect(testRequest.fuelRange).to(equal(@YES));
+            expect(testRequest.gearStatus).to(beNil());
             expect(testRequest.gps).to(equal(@YES));
             expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
             expect(testRequest.odometer).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -317,13 +348,17 @@ describe(@"initializers", ^{
             expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic push
             expect(testRequest.fuelRange).to(beNil());
+            expect(testRequest.gearStatus).to(beNil());
             expect(testRequest.gps).to(equal(@YES));
             expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(equal(@NO));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
             expect(testRequest.odometer).to(equal(@YES));
-            expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+             expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -333,10 +368,10 @@ describe(@"initializers", ^{
         });
     });
 
-    context (@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
+    context (@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
  #pragma clang diagnostic push
  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
+         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES gearStatus:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
  #pragma clang diagnostic pop
 
          it(@"expect all properties to be set properly", ^{
@@ -360,13 +395,17 @@ describe(@"initializers", ^{
              expect(testRequest.fuelLevel_State).to(beNil());
  #pragma clang diagnostic push
              expect(testRequest.fuelRange).to(equal(@YES));
+             expect(testRequest.gearStatus).to(equal(@YES));
              expect(testRequest.gps).to(equal(@YES));
              expect(testRequest.handsOffSteering).to(equal(@YES));
              expect(testRequest.headLampStatus).to(equal(@YES));
              expect(testRequest.instantFuelConsumption).to(equal(@YES));
              expect(testRequest.myKey).to(equal(@YES));
              expect(testRequest.odometer).to(equal(@YES));
-             expect(testRequest.prndl).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+             expect(testRequest.prndl).to(beNil());
+#pragma clang diagnostic pop
              expect(testRequest.rpm).to(equal(@YES));
              expect(testRequest.speed).to(equal(@YES));
              expect(testRequest.steeringWheelAngle).to(equal(@YES));

@@ -18,6 +18,7 @@
 @class SDLECallInfo;
 @class SDLEmergencyEvent;
 @class SDLFuelRange;
+@class SDLGearStatus;
 @class SDLGPSData;
 @class SDLHeadLampStatus;
 @class SDLMyKey;
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param externalTemperature - @(externalTemperature)
  * @param turnSignal - turnSignal
  * @param vin - vin
- * @param prndl - prndl
+ * @param gearStatus - gearStatus
  * @param tirePressure - tirePressure
  * @param odometer - odometer
  * @param beltStatus - beltStatus
@@ -68,7 +69,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param handsOffSteering - handsOffSteering
  * @return A SDLOnVehicleData object
  */
-- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering;
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin gearStatus:(nullable SDLGearStatus *)gearStatus tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering;
+
+/**
+ The car current Gear Status
+ */
+@property (nullable, strong, nonatomic) SDLGearStatus *gearStatus;
 
 /**
  The car current GPS coordinates
@@ -118,9 +124,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *vin;
 
 /**
- The current gear shift state of the user's vehicle
+ The current gear shift state of the user's vehicle. Please use gearStatus instead.
  */
-@property (nullable, strong, nonatomic) SDLPRNDL prndl;
+@property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus.actualGear instead");
 
 /**
  The current pressure warnings for the user's vehicle
