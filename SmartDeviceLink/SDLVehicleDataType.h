@@ -27,12 +27,12 @@ extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 /**
  Vehicle fuel level data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel __deprecated_msg("use SDLVehicleDataTypeFuelRange on RPC 7.0+ connections");
 
 /**
  Vehicle fuel level state data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState __deprecated_msg("use SDLVehicleDataTypeFuelRange on RPC 7.0+ connections");
 
 /**
  Vehicle fuel consumption data

@@ -14,8 +14,8 @@
 
 QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 
-describe(@"getter/setter tests", ^ {
-    it(@"should set and get correctly", ^ {
+describe(@"getter/setter tests", ^{
+    it(@"should set and get correctly", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
         testRequest.accPedalPosition = @YES;
@@ -32,10 +32,14 @@ describe(@"getter/setter tests", ^ {
         testRequest.engineOilLife = @YES;
         testRequest.engineTorque = @NO;
         testRequest.externalTemperature = @YES;
-        testRequest.fuelLevel = @NO;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testRequest.fuelLevel = @YES;
         testRequest.fuelLevel_State = @YES;
+#pragma clang diagnostic pop
         testRequest.fuelRange = @YES;
         testRequest.gps = @YES;
+        testRequest.handsOffSteering = @YES;
         testRequest.headLampStatus = @YES;
         testRequest.instantFuelConsumption = @NO;
         testRequest.myKey = @YES;
@@ -47,7 +51,6 @@ describe(@"getter/setter tests", ^ {
         testRequest.tirePressure = @NO;
         testRequest.turnSignal = @YES;
         testRequest.wiperStatus = @NO;
-        testRequest.handsOffSteering = @YES;
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
         expect(testRequest.airbagStatus).to(equal(@NO));
@@ -63,10 +66,14 @@ describe(@"getter/setter tests", ^ {
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@NO));
         expect(testRequest.externalTemperature).to(equal(@YES));
-        expect(testRequest.fuelLevel).to(equal(@NO));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testRequest.fuelLevel).to(equal(@YES));
         expect(testRequest.fuelLevel_State).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.fuelRange).to(equal(@YES));
         expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.handsOffSteering).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@YES));
         expect(testRequest.instantFuelConsumption).to(equal(@NO));
         expect(testRequest.myKey).to(equal(@YES));
@@ -78,7 +85,6 @@ describe(@"getter/setter tests", ^ {
         expect(testRequest.tirePressure).to(equal(@NO));
         expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@NO));
-        expect(testRequest.handsOffSteering).to(equal(@YES));
     });
     
     it(@"should get correctly when initialized with a dictionary", ^ {
@@ -120,7 +126,7 @@ describe(@"getter/setter tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
-        
+
         expect(testRequest.accPedalPosition).to(equal(@YES));
         expect(testRequest.airbagStatus).to(equal(@YES));
         expect(testRequest.beltStatus).to(equal(@YES));
@@ -135,8 +141,11 @@ describe(@"getter/setter tests", ^ {
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
         expect(testRequest.externalTemperature).to(equal(@NO));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.fuelLevel).to(equal(@YES));
         expect(testRequest.fuelLevel_State).to(equal(@YES));
+#pragma clang diagnostic pop
         expect(testRequest.fuelRange).to(equal(@YES));
         expect(testRequest.gps).to(equal(@YES));
         expect(testRequest.handsOffSteering).to(equal(@YES));
@@ -158,7 +167,7 @@ describe(@"initializers", ^{
     context(@"init", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
-        it(@"should set all the parameters to nil", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(beNil());
             expect(testRequest.airbagStatus).to(beNil());
             expect(testRequest.beltStatus).to(beNil());
@@ -173,8 +182,11 @@ describe(@"initializers", ^{
             expect(testRequest.engineOilLife).to(beNil());
             expect(testRequest.engineTorque).to(beNil());
             expect(testRequest.externalTemperature).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.fuelLevel).to(beNil());
             expect(testRequest.fuelLevel_State).to(beNil());
+#pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(beNil());
             expect(testRequest.gps).to(beNil());
             expect(testRequest.handsOffSteering).to(beNil());
@@ -198,12 +210,12 @@ describe(@"initializers", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"should set all the parameters properly", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
             expect(testRequest.bodyInformation).to(equal(@YES));
-            expect(testRequest.cloudAppVehicleID).to(equal(@NO));
+            expect(testRequest.cloudAppVehicleID).to(beNil());
             expect(testRequest.clusterModeStatus).to(equal(@YES));
             expect(testRequest.deviceStatus).to(equal(@YES));
             expect(testRequest.driverBraking).to(equal(@YES));
@@ -213,11 +225,14 @@ describe(@"initializers", ^{
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
             expect(testRequest.externalTemperature).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.fuelLevel).to(equal(@YES));
             expect(testRequest.fuelLevel_State).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(equal(@YES));
             expect(testRequest.gps).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(equal(@NO));
+            expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
@@ -229,15 +244,16 @@ describe(@"initializers", ^{
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
+
         });
     });
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:NO gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
 #pragma clang diagnostic pop
 
-        it(@"should set all the parameters properly", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -252,11 +268,14 @@ describe(@"initializers", ^{
             expect(testRequest.engineOilLife).to(equal(@NO));
             expect(testRequest.engineTorque).to(equal(@YES));
             expect(testRequest.externalTemperature).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.fuelLevel).to(equal(@YES));
-            expect(testRequest.fuelLevel_State).to(equal(@NO));
+            expect(testRequest.fuelLevel_State).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(equal(@NO));
             expect(testRequest.gps).to(equal(@YES));
-            expect(testRequest.handsOffSteering).to(equal(@NO));
+            expect(testRequest.handsOffSteering).to(beNil());
             expect(testRequest.headLampStatus).to(equal(@YES));
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
@@ -271,8 +290,8 @@ describe(@"initializers", ^{
         });
     });
 
-    context(@"initWithGps:speed:rpm:fuelLevel:fuelLevel_State:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
-        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES fuelLevel:@YES fuelLevel_State:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
+    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES prndl:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
 
         it(@"should set all the parameters properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -289,8 +308,11 @@ describe(@"initializers", ^{
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
             expect(testRequest.externalTemperature).to(equal(@YES));
-            expect(testRequest.fuelLevel).to(equal(@YES));
-            expect(testRequest.fuelLevel_State).to(equal(@YES));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testRequest.fuelLevel).to(beNil());
+            expect(testRequest.fuelLevel_State).to(beNil());
+#pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(equal(@YES));
             expect(testRequest.gps).to(equal(@YES));
             expect(testRequest.handsOffSteering).to(equal(@YES));
@@ -313,7 +335,7 @@ describe(@"initializers", ^{
         [testRequest setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:NO];
         [testRequest setOEMCustomVehicleData:@"customVehicleData1" withVehicleDataState:YES];
 
-        it(@"should set the custom data properly", ^{
+        it(@"expect OEM Custom Vehicle Data to be set properly", ^{
             expect([testRequest getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@NO));
             expect([testRequest getOEMCustomVehicleData:@"customVehicleData1"]).to(equal(@YES));
         });
