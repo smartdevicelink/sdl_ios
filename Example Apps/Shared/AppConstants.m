@@ -43,7 +43,6 @@ NSString * const AlertMessageText = @"You pressed the button!";
 NSString * const AlertOKButtonText = @"OK";
 NSString * const SubtleAlertHeaderText = @"Battery Level";
 NSString * const SubtleAlertSubheaderText = @"Almost empty";
-NSString * const SubtleAlertNotSupportedText = @"Subtle alert is not supported on this module";
 
 #pragma mark - SDL Text-To-Speech
 NSString * const TTSGoodJob = @"Good Job";

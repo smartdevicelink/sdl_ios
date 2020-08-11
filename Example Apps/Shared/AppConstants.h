@@ -46,7 +46,6 @@ extern NSString * const AlertMessageText;
 extern NSString * const AlertOKButtonText;
 extern NSString * const SubtleAlertHeaderText;
 extern NSString * const SubtleAlertSubheaderText;
-extern NSString * const SubtleAlertNotSupportedText;
 
 #pragma mark - SDL Text-To-Speech
 extern NSString * const TTSGoodJob;
