@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Optional
  */
-@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead");
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead on 7.0+ RPC version connections");
 
 /**
  The result of requesting to unsubscribe to the tireStatus.

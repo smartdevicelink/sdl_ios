@@ -18,8 +18,8 @@
 @class SDLECallInfo;
 @class SDLEmergencyEvent;
 @class SDLFuelRange;
-@class SDLGPSData;
 @class SDLGearStatus;
+@class SDLGPSData;
 @class SDLHeadLampStatus;
 @class SDLMyKey;
 @class SDLTireStatus;

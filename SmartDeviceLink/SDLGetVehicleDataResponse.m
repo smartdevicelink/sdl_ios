@@ -74,6 +74,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)setGearStatus:(nullable SDLGearStatus *)gearStatus {
+    [self.parameters sdl_setObject:gearStatus forName:SDLRPCParameterNameGearStatus];
+}
+
+- (nullable SDLGearStatus *)gearStatus {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:SDLGearStatus.class error:&error];
+}
+
 - (void)setGps:(nullable SDLGPSData *)gps {
     [self.parameters sdl_setObject:gps forName:SDLRPCParameterNameGPS];
 }
@@ -144,15 +153,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSString *)vin {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameVIN ofClass:NSString.class error:nil];
-}
-
-- (void)setGearStatus:(nullable SDLGearStatus *)gearStatus {
-    [self.parameters sdl_setObject:gearStatus forName:SDLRPCParameterNameGearStatus];
-}
-
-- (nullable SDLGearStatus *)gearStatus {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:SDLGearStatus.class error:&error];
 }
 
 - (void)setPrndl:(nullable SDLPRNDL)prndl {

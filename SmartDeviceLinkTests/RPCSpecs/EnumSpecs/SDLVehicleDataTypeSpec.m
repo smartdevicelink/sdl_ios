@@ -10,8 +10,8 @@
 
 QuickSpecBegin(SDLVehicleDataTypeSpec)
 
-describe(@"Individual Enum Value Tests", ^ {
-    it(@"Should match internal values", ^ {
+describe(@"individual enum value tests", ^{
+    it(@"should match internal values", ^{
         expect(SDLVehicleDataTypeAccelerationPedal).to(equal(@"VEHICLEDATA_ACCPEDAL"));
         expect(SDLVehicleDataTypeAirbagStatus).to(equal(@"VEHICLEDATA_AIRBAGSTATUS"));
         expect(SDLVehicleDataTypeBatteryVoltage).to(equal(@"VEHICLEDATA_BATTVOLTAGE"));
@@ -36,6 +36,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVehicleDataTypeHeadlampStatus).to(equal(@"VEHICLEDATA_HEADLAMPSTATUS"));
         expect(SDLVehicleDataTypeMyKey).to(equal(@"VEHICLEDATA_MYKEY"));
         expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
+#pragma clang diagnostic pop
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
         expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
@@ -43,10 +47,6 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
         expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
         expect(SDLVehicleDataTypeWiperStatus).to(equal(@"VEHICLEDATA_WIPERSTATUS"));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
-#pragma clang diagnostic pop
     });
 });
 
