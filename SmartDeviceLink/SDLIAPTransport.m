@@ -170,8 +170,8 @@ int const CreateSessionRetries = 3;
 - (void)sdl_closeSessions {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    [self.controlSession destroySession];
-    [self.dataSession destroySession];
+
+    [self sdl_closeSessionsWithCompletionHandler:nil];
 }
 
 /**
@@ -181,8 +181,11 @@ int const CreateSessionRetries = 3;
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
-    [self disconnect];
-    [self.delegate onTransportDisconnected];
+    __weak typeof(self) weakSelf = self;
+    [self disconnectWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.delegate onTransportDisconnected];
+    }];
 }
 
 #pragma mark - Stream Lifecycle
@@ -212,7 +215,8 @@ int const CreateSessionRetries = 3;
 /**
  *  Cleans up after a disconnected accessory by closing any open I/O streams.
  */
-- (void)disconnect {
+- (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    SDLLogD(@"Disconnecting IAP transport");
     // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
     [self sdl_stopEventListening];
 
@@ -220,8 +224,7 @@ int const CreateSessionRetries = 3;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
 
-    [self.controlSession destroySession];
-    [self.dataSession destroySession];
+    [self sdl_closeSessionsWithCompletionHandler:disconnectCompletionHandler];
 }
 
 
@@ -285,11 +288,46 @@ int const CreateSessionRetries = 3;
 - (void)sdl_retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
-    [self.controlSession destroySession];
-    [self.dataSession destroySession];
 
-    // Search connected accessories
-    [self sdl_connect:nil];
+    __weak typeof(self) weakSelf = self;
+    [self sdl_closeSessionsWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Search connected accessories
+        [strongSelf sdl_connect:nil];
+    }];
+}
+
+/// Helper method for closing both the data and control sessions.
+/// @param disconnectCompletionHandler Handler called when both the data and control sessions have been disconnected successfully
+- (void)sdl_closeSessionsWithCompletionHandler:(nullable void (^)(void))disconnectCompletionHandler {
+    dispatch_group_t endSessionsTask = dispatch_group_create();
+    dispatch_group_enter(endSessionsTask);
+
+    if (self.controlSession != nil) {
+        dispatch_group_enter(endSessionsTask);
+        [self.controlSession destroySessionWithCompletionHandler:^{
+            SDLLogV(@"Control session destroyed");
+            dispatch_group_leave(endSessionsTask);
+        }];
+    }
+
+    if (self.dataSession != nil) {
+        dispatch_group_enter(endSessionsTask);
+        [self.dataSession destroySessionWithCompletionHandler:^{
+            SDLLogV(@"Data session destroyed");
+            dispatch_group_leave(endSessionsTask);
+        }];
+    }
+
+    dispatch_group_leave(endSessionsTask);
+
+    // This will always run after all `leave` calls
+    dispatch_group_notify(endSessionsTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        SDLLogV(@"Both the data and control sessions are closed");
+        if (disconnectCompletionHandler != nil) {
+            disconnectCompletionHandler();
+        }
+    });
 }
 
 
@@ -517,19 +555,6 @@ int const CreateSessionRetries = 3;
     }
 
     return NO;
-}
-
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    SDLLogV(@"SDLIAPTransport dealloc");
-    [self disconnect];
-    self.controlSession = nil;
-    self.dataSession = nil;
-    self.delegate = nil;
-    self.sessionSetupInProgress = NO;
-    self.accessoryConnectDuringActiveSession = NO;
 }
 
 @end

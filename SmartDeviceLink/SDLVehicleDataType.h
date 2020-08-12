@@ -10,6 +10,11 @@
 typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
+ Vehicle Gear Status data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
+
+/**
  GPS vehicle data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
@@ -27,12 +32,12 @@ extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 /**
  Vehicle fuel level data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel __deprecated_msg("use SDLVehicleDataTypeFuelRange on RPC 7.0+ connections");
 
 /**
  Vehicle fuel level state data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState __deprecated_msg("use SDLVehicleDataTypeFuelRange on RPC 7.0+ connections");
 
 /**
  Vehicle fuel consumption data
@@ -52,7 +57,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 /**
  Vehicle PRNDL data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
+extern SDLVehicleDataType const SDLVehicleDataTypePrndl __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
 
 /**
  Vehicle tire pressure data
@@ -118,6 +123,12 @@ extern SDLVehicleDataType const SDLVehicleDataTypeBraking;
  Vehicle wiper status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeWiperStatus;
+
+/**
+ To indicate whether driver hands are off the steering wheel
+ Added in SDL 7.0.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeHandsOffSteering;
 
 /**
  Vehicle headlamp status

@@ -15,8 +15,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // VERSION DEPENDENT CODE
-NSString *const SDLMaxProxyProtocolVersion = @"5.2.0";
-NSString *const SDLMaxProxyRPCVersion =  @"6.0.0";
+NSString *const SDLMaxProxyProtocolVersion = @"5.3.0";
+NSString *const SDLMaxProxyRPCVersion =  @"7.0.0";
 
 NSUInteger const SDLDefaultMTUSize = UINT32_MAX;
 NSUInteger const SDLV1MTUSize = 1024;
@@ -71,6 +71,13 @@ typedef NSNumber *MTUBox;
     return self;
 }
 
++ (void)runSyncOnSerialSubQueue:(dispatch_queue_t)queue block:(void (^)(void))block {
+    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
+        block();
+    } else {
+        dispatch_sync(queue, block);
+    }
+}
 
 #pragma mark - Custom Getters / Setters
 

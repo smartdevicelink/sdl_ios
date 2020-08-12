@@ -6,7 +6,13 @@
 #import "SDLLockScreenStatusManager.h"
 
 #import "SDLLockScreenStatus.h"
+#import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
+#import "SDLNotificationDispatcher.h"
+#import "SDLOnDriverDistraction.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLRPCNotificationNotification.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,13 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
+- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher {
     self = [super init];
-    if (self) {
-        _userSelected = NO;
-        _driverDistracted = NO;
-        _haveDriverDistractionStatus = NO;
-    }
+    if (!self) { return nil; }
+
+    _userSelected = NO;
+    _driverDistracted = NO;
+    _haveDriverDistractionStatus = NO;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionDidUpdate:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
+
     return self;
 }
 
@@ -123,6 +133,35 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLLockScreenStatusOff;
 #pragma clang diagnostic pop
     }
+}
+
+#pragma mark - Utilities
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)sdl_postLockScreenStatus:(SDLOnLockScreenStatus *)statusNotification {
+    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:self rpcNotification:statusNotification];
+#pragma clang diagnostic pop
+
+    SDLLogD(@"Lock screen status changed. Sending new notification: %@", notification);
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+
+#pragma mark - Observers
+
+- (void)sdl_hmiStatusDidUpdate:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = notification.notification;
+
+    self.hmiLevel = hmiStatus.hmiLevel;
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
+}
+
+- (void)sdl_driverDistractionDidUpdate:(SDLRPCNotificationNotification *)notification {
+    SDLOnDriverDistraction *driverDistraction = notification.notification;
+
+    self.driverDistracted = [driverDistraction.state isEqualToEnum:SDLDriverDistractionStateOn];
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
 }
 
 @end

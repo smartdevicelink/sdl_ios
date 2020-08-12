@@ -46,8 +46,6 @@ describe(@"the streaming audio manager", ^{
         hmiStatus.hmiLevel = hmiLevel;
         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:self rpcNotification:hmiStatus];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-        [NSThread sleepForTimeInterval:0.3];
     };
 
     beforeEach(^{
@@ -113,11 +111,10 @@ describe(@"the streaming audio manager", ^{
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
-                [NSThread sleepForTimeInterval:0.1];
             });
 
             it(@"should should save the connected vehicle make", ^{
-                expect(streamingLifecycleManager.connectedVehicleMake).to(equal(testVehicleType.make));
+                expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
             });
         });
 
@@ -149,7 +146,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should close the streams", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -159,7 +156,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -169,7 +166,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
                             });
                         });
 
@@ -179,7 +176,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
                             });
                         });
                     });
@@ -208,7 +205,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should close the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -218,7 +215,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -228,7 +225,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
                         });
                     });
 
@@ -238,7 +235,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
                         });
                     });
                 });
@@ -260,7 +257,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStopped));
                         });
                     });
 
@@ -270,7 +267,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStopped));
                         });
                     });
 
@@ -280,7 +277,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStarting));
                         });
                     });
 
@@ -290,7 +287,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStarting));
                         });
                     });
                 });
@@ -314,7 +311,7 @@ describe(@"the streaming audio manager", ^{
 
                 testAudioStartServicePayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:testAudioStartServicePayload.data];
-                [streamingLifecycleManager handleProtocolStartServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testAudioMessage];
             });
 
             it(@"should have set all the right properties", ^{
@@ -338,7 +335,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testAudioMessage];
             });
 
             it(@"should have set all the right properties", ^{
@@ -360,7 +357,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testAudioMessage];
             });
 
             it(@"should have set all the right properties", ^{
@@ -382,7 +379,7 @@ describe(@"the streaming audio manager", ^{
                 testAudioHeader.serviceType = SDLServiceTypeAudio;
 
                 testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
-                [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+                [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testAudioMessage];
             });
 
             it(@"should have set all the right properties", ^{
@@ -392,7 +389,7 @@ describe(@"the streaming audio manager", ^{
     });
 
     describe(@"attempting to stop the manager", ^{
-        __block BOOL handlerCalled = nil;
+        __block BOOL handlerCalled = NO;
 
         beforeEach(^{
             handlerCalled = NO;
@@ -467,7 +464,7 @@ describe(@"the streaming audio manager", ^{
                     testAudioHeader.serviceType = SDLServiceTypeAudio;
                     testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testAudioMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{
@@ -487,7 +484,7 @@ describe(@"the streaming audio manager", ^{
                     testAudioHeader.serviceType = SDLServiceTypeAudio;
                     testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
 
-                    [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+                    [streamingLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testAudioMessage];
                 });
 
                 it(@"should transistion to the stopped state", ^{

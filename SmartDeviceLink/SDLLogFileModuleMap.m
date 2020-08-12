@@ -17,7 +17,6 @@
                                  [self sdl_tcpTransportModule],
                                  [self sdl_iapTransportModule],
                                  [self sdl_secondaryTransportModule],
-                                 [self sdl_proxyModule],
                                  [self sdl_protocolModule],
                                  [self sdl_rpcModule],
                                  [self sdl_dispatcherModule],
@@ -34,6 +33,7 @@
                                  [self sdl_screenManagerModule],
                                  [self sdl_screenManagerTextAndGraphicModule],
                                  [self sdl_screenManagerSoftButtonModule],
+                                 [self sdl_screenManagerSubscribeButtonModule],
                                  [self sdl_screenManagerMenuModule],
                                  [self sdl_screenManagerChoiceSetModule],
                                  [self sdl_utilitiesModule]]];
@@ -59,10 +59,6 @@
 
 #pragma mark Low-Level
 
-+ (SDLLogFileModule *)sdl_proxyModule {
-    return [SDLLogFileModule moduleWithName:@"Proxy" files:[NSSet setWithArray:@[@"SDLProxy", @"SDLPolicyDataParser", @"SDLCacheFileManager"]]];
-}
-
 + (SDLLogFileModule *)sdl_protocolModule {
     return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader", @"SDLGlobals"]]];
 }
@@ -86,7 +82,7 @@
 }
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager", @"SDLAsynchronousOperation", @"SDLBackgroundTaskManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager", @"SDLAsynchronousOperation", @"SDLBackgroundTaskManager", @"SDLPolicyDataParser", @"SDLLifecycleProtocolHandler", @"SDLLifecycleRPCAdapter", @"SDLLifecycleSyncPDataHandler", @"SDLLifecycleSystemRequestHandler", @"SDLLifecycleMobileHMIStateHandler"]]];
 }
 
 + (SDLLogFileModule *)sdl_systemCapabilityModule {
@@ -94,7 +90,7 @@
 }
 
 + (SDLLogFileModule *)sdl_lockscreenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager", @"SDLLockScreenViewController", @"SDLLockScreenPresenter"]]];
+    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager", @"SDLLockScreenViewController", @"SDLLockScreenPresenter", @"SDLCacheFileManager", @"SDLLockScreenStatusManager"]]];
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {
@@ -127,6 +123,10 @@
 
 + (SDLLogFileModule *)sdl_screenManagerSoftButtonModule {
     return [SDLLogFileModule moduleWithName:@"Screen/SoftButton" files:[NSSet setWithArray:@[@"SDLSoftButtonManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLSoftButtonTransitionOperation", @"SDLSoftButtonReplaceOperation"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerSubscribeButtonModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/SubscribeButton" files:[NSSet setWithArray:@[@"SDLSubscribeButtonManager", @"SDLSubscribeButtonObserver"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {

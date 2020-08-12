@@ -6,6 +6,7 @@
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenStatus.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
@@ -18,6 +19,7 @@
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+@property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -35,15 +37,16 @@ QuickSpecBegin(SDLLockScreenManagerSpec)
 describe(@"a lock screen manager", ^{
     __block SDLLockScreenManager *testManager = nil;
     __block SDLFakeViewControllerPresenter *fakeViewControllerPresenter = nil;
-    __block SDLNotificationDispatcher *testNotificationDispatcher = nil;
+    __block SDLNotificationDispatcher *dispatcherMock = nil;
     
     beforeEach(^{
         fakeViewControllerPresenter = [[SDLFakeViewControllerPresenter alloc] init];
+        dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
     });
     
     context(@"with a disabled configuration", ^{
         beforeEach(^{
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration disabledConfiguration] notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration disabledConfiguration] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
         
         it(@"should set properties correctly", ^{
@@ -70,7 +73,7 @@ describe(@"a lock screen manager", ^{
                 beforeEach(^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                    [testNotificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
+                    [dispatcherMock postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
 #pragma clang diagnostic pop
                 });
                 
@@ -83,7 +86,7 @@ describe(@"a lock screen manager", ^{
     
     context(@"with an enabled configuration", ^{
         beforeEach(^{
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfiguration] notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfiguration] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
         
         it(@"should set properties correctly", ^{
@@ -114,7 +117,7 @@ describe(@"a lock screen manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                    SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
+                    SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testRequiredStatus];
 #pragma clang diagnostic pop
                     [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                 });
@@ -134,7 +137,7 @@ describe(@"a lock screen manager", ^{
                         testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
                         testDriverDistraction.lockScreenDismissalEnabled = @YES;
                         
-                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:nil rpcNotification:testDriverDistraction];
+                        testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
                         
                         [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
                     });
@@ -221,7 +224,7 @@ describe(@"a lock screen manager", ^{
         it(@"should should set the vehicle icon on the default lockscreen if showDeviceLogo set to true", ^{
             testsConfig.showDeviceLogo = YES;
             fakeViewControllerPresenter.lockViewController = [[SDLLockScreenViewController alloc] init];
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
 
@@ -231,7 +234,7 @@ describe(@"a lock screen manager", ^{
         it(@"should should not set the vehicle icon on the default lockscreen if showDeviceLogo set to false", ^{
             testsConfig.showDeviceLogo = NO;
             fakeViewControllerPresenter.lockViewController = [[SDLLockScreenViewController alloc] init];
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
 
@@ -242,7 +245,7 @@ describe(@"a lock screen manager", ^{
             testsConfig.showDeviceLogo = YES;
             UIViewController *customLockScreen = [[UIViewController alloc] init];
             fakeViewControllerPresenter.lockViewController = customLockScreen;
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testsConfig notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
 
@@ -258,7 +261,7 @@ describe(@"a lock screen manager", ^{
             testColor = [UIColor blueColor];
             testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
             
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:testImage backgroundColor:testColor] notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:testImage backgroundColor:testColor] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
         
         it(@"should set properties correctly", ^{
@@ -286,7 +289,7 @@ describe(@"a lock screen manager", ^{
         
         beforeEach(^{
             testViewController = [[UIViewController alloc] init];
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithViewController:testViewController] notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithViewController:testViewController] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
         
         it(@"should set properties correctly", ^{
@@ -313,7 +316,7 @@ describe(@"a lock screen manager", ^{
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.enableDismissGesture = NO;
 
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
             [testManager start];
         });
 
@@ -362,7 +365,7 @@ describe(@"a lock screen manager", ^{
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.displayMode = SDLLockScreenConfigurationDisplayModeAlways;
 
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:nil presenter:fakeViewControllerPresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
             [testManager start];
         });
 
@@ -371,7 +374,7 @@ describe(@"a lock screen manager", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testStatus];
 #pragma clang diagnostic pop
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
@@ -387,7 +390,7 @@ describe(@"a lock screen manager", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testStatus.lockScreenStatus = SDLLockScreenStatusOff;
-                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testStatus];
+                testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testStatus];
 #pragma clang diagnostic pop
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
@@ -400,19 +403,12 @@ describe(@"a lock screen manager", ^{
     });
 
     describe(@"A lock screen status of OPTIONAL", ^{
-        __block SDLLockScreenManager *testLockScreenManager = nil;
         __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
         __block id mockViewControllerPresenter = nil;
         __block SDLRPCNotificationNotification *testLockStatusNotification = nil;
 
         beforeEach(^{
             mockViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
-            testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
-            testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
-#pragma clang diagnostic pop
             testLockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
         });
 
@@ -423,13 +419,20 @@ describe(@"a lock screen manager", ^{
                 testLockScreenConfig.showInOptionalState = true;
 #pragma clang diagnostic pop
 
-                testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
-                 testLockScreenManager.canPresent = YES;
+                testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:dispatcherMock presenter:mockViewControllerPresenter];
+                testManager.canPresent = YES;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
+            testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+            testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testOptionalStatus];
+#pragma clang diagnostic pop
             });
 
             it(@"should present the lock screen if not already presented", ^{
                 OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
-                OCMExpect([mockViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:nil]);
+                OCMExpect([mockViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]).ignoringNonObjectArgs();
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
 
@@ -444,13 +447,20 @@ describe(@"a lock screen manager", ^{
                 testLockScreenConfig.showInOptionalState = false;
 #pragma clang diagnostic pop
 
-                testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
-                testLockScreenManager.canPresent = YES;
+                testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:dispatcherMock presenter:mockViewControllerPresenter];
+                testManager.canPresent = YES;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
+            testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+            testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testOptionalStatus];
+#pragma clang diagnostic pop
             });
 
             it(@"should dismiss the lock screen if already presented", ^{
                 OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
-                OCMExpect([mockViewControllerPresenter updateLockScreenToShow:NO withCompletionHandler:nil]);
+                OCMExpect([mockViewControllerPresenter updateLockScreenToShow:NO withCompletionHandler:[OCMArg any]]).ignoringNonObjectArgs();
 
                 [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
 

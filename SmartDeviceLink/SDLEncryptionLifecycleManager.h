@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SDLConnectionManagerType.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 
-@class SDLEncryptionConfiguration;
+@class SDLConfiguration;
 @class SDLProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLEncryptionLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLEncryptionLifecycleManager : NSObject <SDLProtocolDelegate>
 
 /**
  *  Whether or not the encryption session is connected.
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration This session's configuration
  @return A new encryption lifecycle manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLEncryptionConfiguration *)configuration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration;
 
 /**
  *  Start the manager. This is used internally to get notified of the ACK message.

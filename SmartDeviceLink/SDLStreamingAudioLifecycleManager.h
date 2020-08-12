@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLHMILevel.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
@@ -25,7 +25,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
+@interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolDelegate, SDLStreamingAudioManagerType>
 
 @property (nonatomic, strong, readonly) SDLAudioStreamManager *audioTranscodingManager;
 
@@ -78,6 +78,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 2. We need to send an end audio service control frame to the module to ensure that the audio session is shut down correctly. In order to do this the protocol must be kept open and only destroyed after the module ACKs or NAKs our end audio service request.
 /// @param audioEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the audio service.
 - (void)endAudioServiceWithCompletionHandler:(void (^)(void))audioEndedCompletionHandler;
+
+/// This method is used internally to stop audio streaming when the secondary transport has been closed due to an connection error. The primary transport is still open.
+/// 1. Since the transport has been closed, we can not send an end audio service control frame to the module.
+/// 2. Since the primary transport is still open, we will not reset the `hmiLevel`. This lets us resume audio streaming if the secondary transport can be reestablished during the same app session.
+- (void)secondaryTransportDidDisconnect;
 
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback

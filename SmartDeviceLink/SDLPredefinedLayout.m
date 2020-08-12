@@ -24,3 +24,4 @@ SDLPredefinedLayout const SDLPredefinedLayoutTextButtonsWithGraphic = @"TEXTBUTT
 SDLPredefinedLayout const SDLPredefinedLayoutLargeGraphicWithSoftButtons = @"LARGE_GRAPHIC_WITH_SOFTBUTTONS";
 SDLPredefinedLayout const SDLPredefinedLayoutDoubleGraphicWithSoftButtons = @"DOUBLE_GRAPHIC_WITH_SOFTBUTTONS";
 SDLPredefinedLayout const SDLPredefinedLayoutLargeGraphicOnly = @"LARGE_GRAPHIC_ONLY";
+SDLPredefinedLayout const SDLPredefinedLayoutWebView = @"WEB_VIEW";

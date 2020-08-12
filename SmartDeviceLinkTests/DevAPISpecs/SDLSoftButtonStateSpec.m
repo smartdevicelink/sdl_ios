@@ -51,7 +51,7 @@ describe(@"soft button state", ^{
             SDLSoftButton *testSoftButton = testState.softButton;
 
             expect(testSoftButton.type).to(equal(SDLSoftButtonTypeBoth));
-//            expect(testSoftButton.handler).to(beNil());
+            expect((id)testSoftButton.handler).to(beNil());
             expect(testSoftButton.softButtonID).to(equal(0));
             expect(testSoftButton.isHighlighted).to(beFalsy());
             expect(testSoftButton.systemAction).to(equal(SDLSystemActionDefaultAction));

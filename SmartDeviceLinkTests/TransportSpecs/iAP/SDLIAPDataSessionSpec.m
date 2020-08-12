@@ -23,7 +23,6 @@
 
 @property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
-@property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
 
 @end
 
@@ -47,7 +46,6 @@ describe(@"SDLIAPDataSession", ^{
         it(@"Should init correctly", ^{
             expect(dataSession.delegate).to(equal(mockDelegate));
             expect(dataSession.sendDataQueue).toNot(beNil());
-            expect(dataSession.canceledSemaphore).toNot(beNil());
         });
 
         it(@"Should get correctly", ^{

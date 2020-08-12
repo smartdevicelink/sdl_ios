@@ -198,10 +198,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeviceStatus.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDriverDistractionCapability.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
 #import "SDLFuelRange.h"
 #import "SDLEqualizerSettings.h"
+#import "SDLGearStatus.h"
 #import "SDLGPSData.h"
 #import "SDLGrid.h"
 #import "SDLHapticRect.h"
@@ -268,6 +270,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchEventCapabilities.h"
+#import "SDLTransmissionType.h"
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
@@ -437,6 +440,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // Permissions
 #import "SDLPermissionConstants.h"
+#import "SDLPermissionElement.h"
+#import "SDLRPCPermissionStatus.h"
 #import "SDLPermissionManager.h"
 
 // Screen

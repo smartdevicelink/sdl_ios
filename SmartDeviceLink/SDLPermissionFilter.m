@@ -11,45 +11,58 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @implementation SDLPermissionFilter
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
-    return [self initWithRPCNames:@[]
-                        groupType:SDLPermissionGroupTypeAny
-                         observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
-                         }];
-}
-
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _identifier = [NSUUID UUID];
-    _rpcNames = rpcNames;
+    _permissionElements = rpcNames;
     _groupType = groupType;
     _handler = observer;
 
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
-    return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
+- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionStatusHandler:(SDLRPCPermissionStatusChangedHandler)permissionStatusHandler {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _identifier = [NSUUID UUID];
+    _permissionElements = rpcNames;
+    _groupType = groupType;
+    _rpcPermissionStatusHandler = permissionStatusHandler;
+
+    return self;
+}
+
+#pragma mark - Helpers
+
+- (NSArray<SDLPermissionRPCName> *)rpcNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements {
+    NSMutableArray *rpcNames = [[NSMutableArray alloc] init];
+    for (SDLPermissionElement *element in permissionElements) {
+        [rpcNames addObject:element.rpcName];
+    }
+
+    return [rpcNames copy];
 }
 
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] groupType:_groupType observer:[_handler copyWithZone:zone]];
+    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithPermissions:[_permissionElements copyWithZone:zone] groupType:_groupType permissionsHandler:[_handler copyWithZone:zone]];
     newFilter->_identifier = _identifier;
+    newFilter->_rpcPermissionStatusHandler = _rpcPermissionStatusHandler;
 
     return newFilter;
 }
+
 
 #pragma mark - Equality
 
@@ -73,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"identifier: %@, group type: %@, rpcs: %@", self.identifier, @(self.groupType), self.rpcNames];
+    return [NSString stringWithFormat:@"Permission Filter Identifier: %@, group type: %@, RPCs: %@", self.identifier, @(self.groupType), self.permissionElements];
 }
 
 @end

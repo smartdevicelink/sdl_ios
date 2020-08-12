@@ -12,6 +12,7 @@
 @interface SDLFakeViewControllerPresenter ()
 
 @property (assign, nonatomic) BOOL shouldShowLockScreen;
+@property (strong, nonatomic, nullable) UIViewController *lockVC;
 
 @end
 
@@ -45,5 +46,12 @@
     }
 }
 
+- (void)setLockViewController:(UIViewController *)lockViewController {
+    self.lockVC = lockViewController;
+}
+
+- (UIViewController *)lockViewController {
+    return self.lockVC;
+}
 
 @end

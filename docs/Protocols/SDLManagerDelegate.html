@@ -9,6 +9,7 @@
   <li><a href="#section--videoStreamingState:didChangetoState:">-videoStreamingState:didChangetoState:</a></li>
   <li><a href="#section--systemContext:didChangeToContext:">-systemContext:didChangeToContext:</a></li>
   <li><a href="#section--managerShouldUpdateLifecycleToLanguage:">-managerShouldUpdateLifecycleToLanguage:</a></li>
+  <li><a href="#section--managerShouldUpdateLifecycleToLanguage:hmiLanguage:">-managerShouldUpdateLifecycleToLanguage:hmiLanguage:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -163,6 +164,37 @@
   <dl>
       <dt>language</dt>
       <dd><p>The language of the connected head unit the manager is trying to update the configuration.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.</p>
+  </div>
+  
+  <h3 id="section--managerShouldUpdateLifecycleToLanguage:hmiLanguage:">
+      -managerShouldUpdateLifecycleToLanguage:hmiLanguage:
+  </h3>
+  
+  <p>Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the apps registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLifecycleConfigurationUpdate.html">SDLLifecycleConfigurationUpdate</a></span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">managerShouldUpdateLifecycleToLanguage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span>
+                               <span class="nf">hmiLanguage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiLanguage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">managerShouldUpdateLifecycle</span><span class="p">(</span><span class="n">toLanguage</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">hmiLanguage</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLLifecycleConfigurationUpdate.html">SDLLifecycleConfigurationUpdate</a></span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>language</dt>
+      <dd><p>The VR+TTS language of the connected head unit the manager is trying to update the configuration.</p></dd>
+      <dt>hmiLanguage</dt>
+      <dd><p>The HMI display language of the connected head unit the manager is trying to update the configuration.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
