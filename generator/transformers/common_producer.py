@@ -175,7 +175,7 @@ class InterfaceProducerCommon(ABC):
     def parentheses(self, item):
         """
         Used for wrapping appropriate initiator (constructor) parameter with '@({})'
-        :param item: named tup[le with initiator (constructor) parameter
+        :param item: named tuple with initiator (constructor) parameter
         :return: wrapped parameter
         """
         if re.match(r'\w*Int\d+|BOOL|float|double', item.type_native) or \
@@ -339,7 +339,26 @@ class InterfaceProducerCommon(ABC):
                 'modifier': 'strong'}
         if isinstance(param.param_type, (Integer, Float, String)):
             data['description'].append(json.dumps(vars(param.param_type), sort_keys=True))
+        if isinstance(param.param_type, (Array)):
+            data['description'].append(self.extract_struct_param(param.param_type, {}))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
+
+    def extract_struct_param(self, obj, parameterDocumentation):
+        for key, value in obj.__dict__.items():
+            if hasattr(value, '__dict__'):
+                if isinstance(value, Enum) or isinstance(value, Struct):
+                    # Skip adding documentation for the array's data type if it is a struct or enum
+                    continue
+                else:
+                    self.extract_struct_param(value, parameterDocumentation)
+            else:
+                if key == 'default_value' and value is None:
+                    # Do not add the default_value for the array unless it has been explicitly set in the RPC Spec
+                    continue
+                else:
+                    parameterDocumentation[key] = value
+
+        return json.dumps(parameterDocumentation, sort_keys=True)
