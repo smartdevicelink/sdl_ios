@@ -32,7 +32,7 @@ class AlertManager {
     ///   - iconName: An image to show in the alert
     /// - Returns: An SDLSubtleAlert object
     class func subtleAlertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil, iconName: String? = nil) -> SDLSubtleAlert {
-        return SDLSubtleAlert(alertText1: textField1, alertText2: textField2, alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil, ttsChunks: nil, duration: nil, softButtons: [okSoftButton], cancelID: NSNumber(0))
+        return SDLSubtleAlert(alertText1: textField1, alertText2: textField2, alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil, ttsChunks: nil, duration: nil, softButtons: nil, cancelID: NSNumber(0))
     }
 
     ///  Sends an alert with an image.
