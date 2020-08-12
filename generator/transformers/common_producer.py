@@ -337,9 +337,7 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
-        if isinstance(param.param_type, (Integer, Float, String)):
-            data['description'].append(json.dumps(vars(param.param_type), sort_keys=True))
-        if isinstance(param.param_type, (Array)):
+        if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.extract_struct_param(param.param_type, {}))
 
         data.update(self.extract_type(param))
