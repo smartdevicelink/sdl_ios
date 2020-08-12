@@ -338,25 +338,53 @@ class InterfaceProducerCommon(ABC):
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
         if isinstance(param.param_type, (Integer, Float, String, Array)):
-            data['description'].append(self.extract_struct_param(param.param_type, {}))
+            data['description'].append(self.create_param_descriptor(param.param_type, {}))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
 
-    def extract_struct_param(self, obj, parameterDocumentation):
-        for key, value in obj.__dict__.items():
+    def create_param_descriptor(self, param_type, parameterItems):
+        """
+        Recursively creates a documentation string of all the descriptors for a parameter.
+        :param param_type: param_type from the initial Model
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        for key, value in param_type.__dict__.items():
             if hasattr(value, '__dict__'):
                 if isinstance(value, Enum) or isinstance(value, Struct):
                     # Skip adding documentation for the array's data type if it is a struct or enum
                     continue
                 else:
-                    self.extract_struct_param(value, parameterDocumentation)
+                    self.create_param_descriptor(value, parameterItems)
             else:
                 if key == 'default_value' and value is None:
                     # Do not add the default_value for the array unless it has been explicitly set in the RPC Spec
                     continue
                 else:
-                    parameterDocumentation[key] = value
+                    parameterDescriptor = self.update_param_descriptor(key)
+                    parameterItems[parameterDescriptor] = value
 
-        return json.dumps(parameterDocumentation, sort_keys=True)
+        return json.dumps(parameterItems, sort_keys=True)
+
+    def update_param_descriptor(self, parameterName):
+        """
+        Updates the parameter's descriptor name for clarity. This is helpful for arrays as the descriptors can contain both the size of the array and the size of the array's data type. 
+        :param parameterName: The name of the parameter
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        if parameterName == 'min_size':
+            return 'array_min_size'
+        elif parameterName == 'max_size':
+            return 'array_max_size'
+        elif parameterName == 'min_length':
+            return 'string_min_length'
+        elif parameterName == 'max_length':
+            return 'string_max_length'
+        elif parameterName == 'max_value':
+            return 'num_max_value'
+        elif parameterName == 'min_value':
+            return 'num_min_value'
+        else:
+            return parameterName
+
