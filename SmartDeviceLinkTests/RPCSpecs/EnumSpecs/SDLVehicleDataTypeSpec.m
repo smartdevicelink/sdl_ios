@@ -12,8 +12,8 @@
 
 QuickSpecBegin(SDLVehicleDataTypeSpec)
 
-describe(@"Individual Enum Value Tests", ^ {
-    it(@"Should match internal values", ^ {
+describe(@"individual enum value tests", ^{
+    it(@"should match internal values", ^{
         expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
