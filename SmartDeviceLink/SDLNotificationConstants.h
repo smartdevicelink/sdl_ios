@@ -182,6 +182,8 @@ extern SDLNotificationName const SDLDidReceiveDeleteCommandResponse;
 
 /// Name for a DeleteFile response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteFileResponse;
+
+
 /// Name for a DeleteInteractionChoiceSet response RPC
 extern SDLNotificationName const SDLDidReceiveDeleteInteractionChoiceSetResponse;
 
