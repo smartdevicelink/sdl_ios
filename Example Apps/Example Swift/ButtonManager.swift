@@ -61,9 +61,9 @@ class ButtonManager: NSObject {
 extension ButtonManager {
     /// Returns a soft button that shows an alert when tapped.
     private var softButtonAlert: SDLSoftButtonObject {
-        let imageSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonImageState, text: nil, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
-        let textSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
-        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { [weak self] (buttonPress, buttonEvent) in
+        let imageAndTextState = SDLSoftButtonState(stateName: AlertSoftButtonImageAndTextState, text: AlertSoftButtonText, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
+        let textState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
+        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isAlertAllowed) {
@@ -78,7 +78,9 @@ extension ButtonManager {
 
     /// Returns a soft button that shows a subtle alert when tapped. If the subtle alert is not supported, then a regular alert is shown.
     private var softButtonSubtleAlert: SDLSoftButtonObject {
-        return SDLSoftButtonObject(name: SubtleAlertSoftButton, text: nil, artwork: SDLArtwork(image: (UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))!, persistent: false, as: .PNG)) { [weak self] (buttonPress, buttonEvent) in
+        let imageAndTextState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonImageAndTextState, text: SubtleAlertSoftButtonText, image: UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))
+        let textState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonTextState, text: SubtleAlertSoftButtonText, image: nil)
+        return SDLSoftButtonObject(name: SubtleAlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isSubtleAlertAllowed) {
@@ -120,6 +122,10 @@ extension ButtonManager {
 
             if let alertSoftButton = sdlManager.screenManager.softButtonObjectNamed(AlertSoftButton) {
                 alertSoftButton.transitionToNextState()
+            }
+
+            if let subtleAlertSoftButton = sdlManager.screenManager.softButtonObjectNamed(SubtleAlertSoftButton) {
+                subtleAlertSoftButton.transitionToNextState()
             }
         }
     }

@@ -73,11 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a soft button that shows an alert when tapped.
 /// @returns A SDLSoftButtonObject object
 - (SDLSoftButtonObject *)sdlex_softButtonAlert {
-    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText artwork:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] name:CarBWIconImageName asImageFormat:SDLArtworkImageFormatPNG]];
-    SDLSoftButtonState *alertTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
+    SDLSoftButtonState *imageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageAndTextState text:AlertSoftButtonText artwork:[SDLArtwork artworkWithImage:[[UIImage imageNamed:AlertBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG]];
+    SDLSoftButtonState *textState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[imageAndTextState, textState] initialStateName:imageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         if (self.sdlex_isAlertAllowed) {
@@ -95,18 +95,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a soft button that shows a subtle alert when tapped. If the subtle alert is not supported, then a regular alert is shown.
 /// @returns A SDLSoftButtonObject object
 - (SDLSoftButtonObject *)sdlex_softButtonSubtleAlert {
+    SDLSoftButtonState *imageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:SubtleAlertSoftButtonImageAndTextState text:SubtleAlertSoftButtonText artwork:[SDLArtwork artworkWithImage:[[UIImage imageNamed:BatteryFullBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG]];
+    SDLSoftButtonState *textState = [[SDLSoftButtonState alloc] initWithStateName:SubtleAlertSoftButtonTextState text:SubtleAlertSoftButtonText image:nil];
+
     __weak typeof(self) weakself = self;
-    return [[SDLSoftButtonObject alloc] initWithName:SubtleAlertSoftButton text:nil artwork: [SDLArtwork artworkWithImage:[[UIImage imageNamed:BatteryFullBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *subtleAlertSoftButton = [[SDLSoftButtonObject alloc] initWithName:SubtleAlertSoftButton states:@[imageAndTextState, textState] initialStateName:imageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         if (self.sdlex_isSubtleAlertAllowed) {
-            [AlertManager sendSubtleAlertWithManager:weakself.sdlManager image:BatteryEmptyBWIconName textField1:SubtleAlertSubheaderText textField2:SubtleAlertSubheaderText];
+            [AlertManager sendSubtleAlertWithManager:weakself.sdlManager image:BatteryEmptyBWIconName textField1:SubtleAlertHeaderText textField2:SubtleAlertSubheaderText];
         } else if (self.sdlex_isAlertAllowed) {
             [AlertManager sendAlertWithManager:weakself.sdlManager image:BatteryEmptyBWIconName textField1:SubtleAlertHeaderText textField2:SubtleAlertSubheaderText];
         } else {
             SDLLogW(@"The module does not support the Alert request or the Subtle Alert request");
         }
     }];
+
+    return subtleAlertSoftButton;
 }
 
 /// Returns a soft button that toggles the textfield visibility state.
@@ -145,6 +150,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLSoftButtonObject *alertSoftButton = [weakself.sdlManager.screenManager softButtonObjectNamed:AlertSoftButton];
         [alertSoftButton transitionToNextState];
+
+        SDLSoftButtonObject *subtleAlertSoftButton = [weakself.sdlManager.screenManager softButtonObjectNamed:SubtleAlertSoftButton];
+        [subtleAlertSoftButton transitionToNextState];
     }];
 
     return imagesButton;
