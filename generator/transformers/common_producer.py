@@ -346,8 +346,9 @@ class InterfaceProducerCommon(ABC):
 
     def create_param_descriptor(self, param_type, parameterItems):
         """
-        Recursively creates a documentation string of all the descriptors for a parameter.
+        Recursively creates a documentation string of all the descriptors for a parameter. The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
+        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params from param_type concatenated into one string
         """
         for key, value in param_type.__dict__.items():
@@ -369,7 +370,7 @@ class InterfaceProducerCommon(ABC):
 
     def update_param_descriptor(self, parameterName):
         """
-        Updates the parameter's descriptor name for clarity. This is helpful for array documentation as the descriptors can contain both the size of the array and the size of the array's data type.
+        Updates the parameter's descriptor name for clarity. This is helpful for array documentation as the descriptors can contain both the size of the array and the size of the array's data type
         :param parameterName: The name of the parameter
         :return: All the descriptor params from param_type concatenated into one string
         """
