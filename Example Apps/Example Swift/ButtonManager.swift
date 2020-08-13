@@ -32,6 +32,14 @@ class ButtonManager: NSObject {
         }
     }
 
+    fileprivate var isSubtleAlertAllowed: Bool {
+        return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.subtleAlert)
+    }
+
+    fileprivate var isAlertAllowed: Bool {
+        return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.alert)
+    }
+
     init(sdlManager: SDLManager, updateScreenHandler: RefreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = updateScreenHandler
@@ -58,7 +66,13 @@ extension ButtonManager {
         return SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
-            AlertManager.sendAlert(imageName: CarBWIconImageName, textField1: AlertMessageText, sdlManager: self.sdlManager)
+            if (self.isAlertAllowed) {
+                AlertManager.sendAlert(imageName: CarBWIconImageName, textField1: AlertMessageText, sdlManager: self.sdlManager)
+            } else if (self.isSubtleAlertAllowed) {
+                AlertManager.sendSubtleAlert(imageName: CarBWIconImageName, textField1: AlertMessageText, sdlManager: self.sdlManager)
+            } else {
+                SDLLog.w("The module does not support the Alert request or the Subtle Alert request")
+            }
         }
     }
 
@@ -67,11 +81,12 @@ extension ButtonManager {
         return SDLSoftButtonObject(name: SubtleAlertSoftButton, text: nil, artwork: SDLArtwork(image: (UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))!, persistent: false, as: .PNG)) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
-            let isSubtleAlertAllowed = self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.subtleAlert)
-            if (isSubtleAlertAllowed) {
+            if (self.isSubtleAlertAllowed) {
                 AlertManager.sendSubtleAlert(imageName: BatteryEmptyBWIconName, textField1: SubtleAlertHeaderText, textField2: SubtleAlertSubheaderText, sdlManager: self.sdlManager)
-            } else {
+            } else if (self.isAlertAllowed) {
                 AlertManager.sendAlert(imageName: BatteryEmptyBWIconName, textField1: SubtleAlertHeaderText, textField2: SubtleAlertSubheaderText, sdlManager: self.sdlManager)
+            } else {
+                SDLLog.w("The module does not support the Alert request or the Subtle Alert request")
             }
         }
     }

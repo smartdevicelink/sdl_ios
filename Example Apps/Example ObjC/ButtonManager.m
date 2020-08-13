@@ -54,6 +54,16 @@ NS_ASSUME_NONNULL_BEGIN
     self.refreshUIHandler();
 }
 
+#pragma mark - Getters
+
+- (BOOL)sdlex_isSubtleAlertAllowed {
+    return [self.sdlManager.permissionManager isRPCNameAllowed:SDLRPCFunctionNameSubtleAlert];
+}
+
+- (BOOL)sdlex_isAlertAllowed {
+    return [self.sdlManager.permissionManager isRPCNameAllowed:SDLRPCFunctionNameAlert];
+}
+
 #pragma mark - Custom Soft Buttons
 
 - (NSArray<SDLSoftButtonObject *> *)allScreenSoftButtons {
@@ -70,7 +80,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
-        [AlertManager sendAlertWithImage:CarBWIconImageName textField1:AlertMessageText textField2:nil sdlManager:weakself.sdlManager];
+        if (self.sdlex_isAlertAllowed) {
+            [AlertManager sendAlertWithManager:weakself.sdlManager image:CarBWIconImageName textField1:AlertMessageText textField2:nil];
+        } else if (self.sdlex_isSubtleAlertAllowed) {
+            [AlertManager sendSubtleAlertWithManager:weakself.sdlManager image:CarBWIconImageName textField1:AlertMessageText textField2:nil];
+        } else {
+            SDLLogW(@"The module does not support the Alert request or the Subtle Alert request");
+        }
     }];
 
     return alertSoftButton;
@@ -83,11 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLSoftButtonObject alloc] initWithName:SubtleAlertSoftButton text:nil artwork: [SDLArtwork artworkWithImage:[[UIImage imageNamed:BatteryFullBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
-        BOOL isSubtleAlertAllowed = [weakself.sdlManager.permissionManager isRPCNameAllowed:SDLRPCFunctionNameSubtleAlert];
-        if (isSubtleAlertAllowed) {
-            [AlertManager sendSubtleAlertWithImage:BatteryEmptyBWIconName textField1:SubtleAlertHeaderText textField2:SubtleAlertSubheaderText sdlManager:weakself.sdlManager];
+        if (self.sdlex_isSubtleAlertAllowed) {
+            [AlertManager sendSubtleAlertWithManager:weakself.sdlManager image:BatteryEmptyBWIconName textField1:SubtleAlertSubheaderText textField2:SubtleAlertSubheaderText];
+        } else if (self.sdlex_isAlertAllowed) {
+            [AlertManager sendAlertWithManager:weakself.sdlManager image:BatteryEmptyBWIconName textField1:SubtleAlertHeaderText textField2:SubtleAlertSubheaderText];
         } else {
-            [AlertManager sendAlertWithImage:BatteryEmptyBWIconName textField1:SubtleAlertHeaderText textField2:SubtleAlertSubheaderText sdlManager:weakself.sdlManager];
+            SDLLogW(@"The module does not support the Alert request or the Subtle Alert request");
         }
     }];
 }
