@@ -42,7 +42,7 @@ typedef SDLEnum SDLImageFieldName SDL_SWIFT_ENUM;
 /**
  * The image field for Alert
  *
- * @since SDL 6.0.0
+ * @since SDL 6.0
  */
 extern SDLImageFieldName const SDLImageFieldNameAlertIcon;
 
@@ -94,7 +94,7 @@ extern SDLImageFieldName const SDLImageFieldNameGraphic;
 /**
  * The secondary image field for Show
  *
- * @since SDL 5.0.0
+ * @since SDL 5.0
  */
 extern SDLImageFieldName const SDLImageFieldNameSecondaryGraphic;
 
@@ -111,7 +111,7 @@ extern SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon;
 /**
  * The optional image of a destination / location
  *
- * @since SDL 4.0.0
+ * @since SDL 4.0
  */
 extern SDLImageFieldName const SDLImageFieldNameLocationImage;
 
