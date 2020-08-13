@@ -338,7 +338,7 @@ class InterfaceProducerCommon(ABC):
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
         if isinstance(param.param_type, (Integer, Float, String, Array)):
-            data['description'].append(self.create_param_descriptor(param.param_type, {}))
+            data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
@@ -365,7 +365,7 @@ class InterfaceProducerCommon(ABC):
                     parameterDescriptor = self.update_param_descriptor(key)
                     parameterItems[parameterDescriptor] = value
 
-        return json.dumps(parameterItems, sort_keys=True)
+        return json.dumps(parameterItems, sort_keys=False)
 
     def update_param_descriptor(self, parameterName):
         """
