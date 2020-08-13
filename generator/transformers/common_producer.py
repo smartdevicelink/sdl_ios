@@ -353,13 +353,13 @@ class InterfaceProducerCommon(ABC):
         for key, value in param_type.__dict__.items():
             if hasattr(value, '__dict__'):
                 if isinstance(value, Enum) or isinstance(value, Struct):
-                    # Skip adding documentation for the array's data type if it is a struct or enum
+                    # Skip adding documentation for the data type if it is a struct or enum. This is unnecessary as each enum/struct has its own documentation.
                     continue
                 else:
                     self.create_param_descriptor(value, parameterItems)
             else:
                 if key == 'default_value' and value is None:
-                    # Do not add the default_value for the array unless it has been explicitly set in the RPC Spec
+                    # Do not add the default_value key/value pair unless it has been explicitly set in the RPC Spec
                     continue
                 else:
                     parameterDescriptor = self.update_param_descriptor(key)
@@ -369,7 +369,7 @@ class InterfaceProducerCommon(ABC):
 
     def update_param_descriptor(self, parameterName):
         """
-        Updates the parameter's descriptor name for clarity. This is helpful for arrays as the descriptors can contain both the size of the array and the size of the array's data type. 
+        Updates the parameter's descriptor name for clarity. This is helpful for array documentation as the descriptors can contain both the size of the array and the size of the array's data type.
         :param parameterName: The name of the parameter
         :return: All the descriptor params from param_type concatenated into one string
         """
