@@ -19,12 +19,15 @@ NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";
 NSString * const ExampleAppText = @"Example App";
 
 #pragma mark - SDL Soft Buttons
-NSString * const SubtleAlertSoftButton = @"ToggleSoftButton";
+NSString * const SubtleAlertSoftButton = @"SubtleAlertSoftButton";
+NSString * const SubtleAlertSoftButtonImageAndTextState = @"SubtleAlertSoftButtonImageAndTextState";
+NSString * const SubtleAlertSoftButtonTextState = @"SubtleAlertSoftButtonTextState";
+NSString * const SubtleAlertSoftButtonText = @"Check Battery";
 
 NSString * const AlertSoftButton = @"AlertSoftButton";
-NSString * const AlertSoftButtonImageState = @"AlertSoftButtonImageState";
+NSString * const AlertSoftButtonImageAndTextState = @"AlertSoftButtonImageAndTextState";
 NSString * const AlertSoftButtonTextState = @"AlertSoftButtonTextState";
-NSString * const AlertSoftButtonText = @"Tap Me";
+NSString * const AlertSoftButtonText = @"Show Alert";
 
 NSString * const TextVisibleSoftButton = @"TextVisibleSoftButton";
 NSString * const TextVisibleSoftButtonTextOnState = @"TextVisibleSoftButtonTextOnState";

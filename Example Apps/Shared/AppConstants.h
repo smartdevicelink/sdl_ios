@@ -23,9 +23,12 @@ extern NSString * const ExampleAppText;
 
 #pragma mark - SDL Soft Buttons
 extern NSString * const SubtleAlertSoftButton;
+extern NSString * const SubtleAlertSoftButtonImageAndTextState;
+extern NSString * const SubtleAlertSoftButtonTextState;
+extern NSString * const SubtleAlertSoftButtonText;
 
 extern NSString * const AlertSoftButton;
-extern NSString * const AlertSoftButtonImageState;
+extern NSString * const AlertSoftButtonImageAndTextState;
 extern NSString * const AlertSoftButtonTextState;
 extern NSString * const AlertSoftButtonText;
 
