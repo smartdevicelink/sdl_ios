@@ -18,26 +18,34 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:AlertOKButtonText image:nil highlighted:YES buttonId:1 systemAction:nil handler:nil];
 }
 
-+ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName {
-    return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self.class sdlex_okSoftButton]] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) cancelID:0];
-}
++ (void)sendAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
+    SDLAlert *alert = [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[[self.class sdlex_okSoftButton]] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:nil cancelID:0];
 
-+ (SDLSubtleAlert *)subtleAlertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName {
-    return [[SDLSubtleAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertIcon:((iconName != nil) ? [[SDLImage alloc] initWithName:iconName isTemplate:YES] : nil) ttsChunks:nil duration:nil softButtons:nil cancelID:0];
-}
-
-+ (void)sendAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager {
-    [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
-        SDLAlert *alert = [self.class alertWithMessageAndCloseButton:textField1 textField2:textField2 iconName:(success ? artworkName : nil)];
+    if (imageName == nil) {
         [sdlManager sendRequest:alert];
-    }];
+    } else {
+        [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
+            if (success) {
+                alert.alertIcon = [[SDLImage alloc] initWithName:artworkName isTemplate:YES];
+            }
+            [sdlManager sendRequest:alert];
+        }];
+    }
 }
 
-+ (void)sendSubtleAlertWithImage:(NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 sdlManager:(SDLManager *)sdlManager {
-    [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
-        SDLSubtleAlert *subtleAlert = [self.class subtleAlertWithMessageAndCloseButton:textField1 textField2:textField2 iconName:(success ? artworkName : nil)];
++ (void)sendSubtleAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
+    SDLSubtleAlert *subtleAlert = [[SDLSubtleAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertIcon:nil ttsChunks:nil duration:nil softButtons:nil cancelID:0];
+
+    if (imageName == nil) {
         [sdlManager sendRequest:subtleAlert];
-    }];
+    } else {
+        [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
+            if (success) {
+                subtleAlert.alertIcon = [[SDLImage alloc] initWithName:artworkName isTemplate:YES];
+            }
+            [sdlManager sendRequest:subtleAlert];
+        }];
+    }
 }
 
 /// Helper method for uploading an image before it is shown in an alert

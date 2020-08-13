@@ -14,49 +14,44 @@ class AlertManager {
         return SDLSoftButton(type: .text, text: AlertOKButtonText, image: nil, highlighted: true, buttonId: 1, systemAction: nil, handler: nil)
     }
 
-    /// Creates an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
-    /// - Parameters:
-    ///   - textField1: The first line of a message to display in the alert
-    ///   - textField2: The second line of a message to display in the alert
-    ///   - iconName: An image to show in the alert
-    /// - Returns: An SDLAlert object
-    class func alertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil, iconName: String? = nil) -> SDLAlert {
-        return SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, softButtons: [okSoftButton], playTone: true, ttsChunks: nil, duration: 5000, progressIndicator: false, alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil, cancelID: 0)
-    }
-
-
-    /// Creates as subtle alert with two lines of text, an image, and a close button that will dismiss the alert when tapped.
-    /// - Parameters:
-    ///   - textField1: The first line of a message to display in the alert
-    ///   - textField2: The second line of a message to display in the alert
-    ///   - iconName: An image to show in the alert
-    /// - Returns: An SDLSubtleAlert object
-    class func subtleAlertWithMessageAndCloseButton(_ textField1: String, textField2: String? = nil, iconName: String? = nil) -> SDLSubtleAlert {
-        return SDLSubtleAlert(alertText1: textField1, alertText2: textField2, alertIcon: (iconName != nil) ? SDLImage(name: iconName!, isTemplate: true) : nil, ttsChunks: nil, duration: nil, softButtons: nil, cancelID: NSNumber(0))
-    }
-
-    ///  Sends an alert with an image.
+    ///  Sends an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
     /// - Parameters:
     ///   - imageName: The name of the image to upload
     ///   - textField1: The first line of text in the alert
     ///   - textField2: The second line of text in the alert
     ///   - sdlManager: The SDLManager
-    class func sendAlert(imageName: String, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
-        sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
-            let alert = alertWithMessageAndCloseButton(textField1, textField2: textField2, iconName: artworkName)
+    class func sendAlert(imageName: String? = nil, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
+        let alert = SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, softButtons: [okSoftButton], playTone: true, ttsChunks: nil, duration: 5000, progressIndicator: false, alertIcon: nil, cancelID: 0)
+
+        if let imageName = imageName {
+            sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
+                if success {
+                    alert.alertIcon = SDLImage(name: artworkName, isTemplate: true)
+                }
+                sdlManager.send(alert)
+            }
+        } else {
             sdlManager.send(alert)
         }
     }
 
-    ///  Sends a subtle alert with an image.
+    ///  Sends a subtle alert with up to two lines of text, and an image.
     /// - Parameters:
     ///   - imageName: The name of the image to upload
     ///   - textField1: The first line of text in the alert
     ///   - textField2: The second line of text in the alert
     ///   - sdlManager: The SDLManager
-    class func sendSubtleAlert(imageName: String, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
-        sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
-            let subtleAlert = subtleAlertWithMessageAndCloseButton(textField1, textField2: textField2, iconName: (success ? artworkName : nil))
+    class func sendSubtleAlert(imageName: String? = nil, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
+        let subtleAlert = SDLSubtleAlert(alertText1: textField1, alertText2: textField2, alertIcon: nil, ttsChunks: nil, duration: nil, softButtons: nil, cancelID: NSNumber(0))
+        
+        if let imageName = imageName {
+            sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
+                if success {
+                    subtleAlert.alertIcon = SDLImage(name: artworkName, isTemplate: true)
+                }
+                sdlManager.send(subtleAlert)
+            }
+        } else {
             sdlManager.send(subtleAlert)
         }
     }

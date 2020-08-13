@@ -43,6 +43,17 @@ NSString * const AlertMessageText = @"You pressed the button!";
 NSString * const AlertOKButtonText = @"OK";
 NSString * const SubtleAlertHeaderText = @"Battery Level";
 NSString * const SubtleAlertSubheaderText = @"Almost empty";
+NSString * const AlertDialNumberPermissionsWarningText = @"This app does not have the required permissions to dial a number";
+NSString * const AlertDialNumberUnavailableWarningText = @"The dial number feature is unavailable for this head unit";
+NSString * const AlertSliderTimedOutWarningText = @"Slider timed out";
+NSString * const AlertSliderCancelledWarningText = @"Slider cancelled";
+NSString * const AlertSliderGeneralWarningText = @"Slider could not be displayed";
+NSString * const AlertScrollableMessageTimedOutWarningText = @"Scrollable Message timed out";
+NSString * const AlertScrollableMessageCancelledWarningText = @"Scrollable Message cancelled";
+NSString * const AlertScrollableMessageGeneralWarningText = @"Scrollable Message could not be displayed";
+NSString * const AlertVehicleDataPermissionsWarningText = @"This app does not have the required permissions to access vehicle data";
+NSString * const AlertVehicleDataGeneralWarningText = @"Something went wrong while getting vehicle data";
+NSString * const AlertSpeechPermissionsWarningText = @"You must give this app permission to access Speech Recognition";
 
 #pragma mark - SDL Text-To-Speech
 NSString * const TTSGoodJob = @"Good Job";

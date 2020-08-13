@@ -144,9 +144,7 @@ extension VehicleDataManager {
             if triggerSource == .menu {
                 let title = !alertTitle.isEmpty ? alertTitle : "No Vehicle Data Available"
                 let detailMessage = !alertMessage.isEmpty ? alertMessage : nil
-                let alert = AlertManager.alertWithMessageAndCloseButton(title,
-                    textField2: detailMessage)
-                manager.send(alert)
+                AlertManager.sendAlert(textField1: title, textField2: detailMessage, sdlManager: manager)
             } else {
                 let spokenAlert = !alertMessage.isEmpty ? alertMessage : alertTitle
                 manager.send(SDLSpeak(tts: spokenAlert))
@@ -233,8 +231,7 @@ extension VehicleDataManager {
         SDLLog.d("Checking if app has permission to access vehicle data...")
 
         guard manager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.getVehicleData) else {
-            let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
-            manager.send(request: alert)
+            AlertManager.sendAlert(textField1: AlertVehicleDataPermissionsWarningText, sdlManager: manager)
             return false
         }
 
@@ -252,8 +249,7 @@ extension VehicleDataManager {
         SDLLog.d("Checking if Core returned vehicle data")
 
         guard response != nil, error == nil else {
-            let alert = AlertManager.alertWithMessageAndCloseButton("Something went wrong while getting vehicle data")
-            manager.send(request: alert)
+            AlertManager.sendAlert(textField1: AlertVehicleDataGeneralWarningText, sdlManager: manager)
             return false
         }
 
@@ -272,14 +268,14 @@ extension VehicleDataManager {
         SDLLog.d("Checking phone call capability")
         manager.systemCapabilityManager.updateCapabilityType(.phoneCall, completionHandler: { (error, systemCapabilityManager) in
             guard let phoneCapability = systemCapabilityManager.phoneCapability else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("The head unit does not support the phone call capability"))
+                AlertManager.sendAlert(textField1: AlertDialNumberPermissionsWarningText, sdlManager: manager)
                 return
             }
             if phoneCapability.dialNumberEnabled?.boolValue ?? false {
                 SDLLog.d("Dialing phone number \(phoneNumber)...")
                 dialPhoneNumber(phoneNumber, manager: manager)
             } else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("A phone call can not be made"))
+                AlertManager.sendAlert(textField1: AlertDialNumberUnavailableWarningText, sdlManager: manager)
             }
         })
     }

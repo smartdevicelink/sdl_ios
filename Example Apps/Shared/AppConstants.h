@@ -46,6 +46,17 @@ extern NSString * const AlertMessageText;
 extern NSString * const AlertOKButtonText;
 extern NSString * const SubtleAlertHeaderText;
 extern NSString * const SubtleAlertSubheaderText;
+extern NSString * const AlertDialNumberPermissionsWarningText;
+extern NSString * const AlertDialNumberUnavailableWarningText;
+extern NSString * const AlertSliderTimedOutWarningText;
+extern NSString * const AlertSliderCancelledWarningText;
+extern NSString * const AlertSliderGeneralWarningText;
+extern NSString * const AlertScrollableMessageTimedOutWarningText;
+extern NSString * const AlertScrollableMessageCancelledWarningText;
+extern NSString * const AlertScrollableMessageGeneralWarningText;
+extern NSString * const AlertVehicleDataPermissionsWarningText;
+extern NSString * const AlertVehicleDataGeneralWarningText;
+extern NSString * const AlertSpeechPermissionsWarningText;
 
 #pragma mark - SDL Text-To-Speech
 extern NSString * const TTSGoodJob;
