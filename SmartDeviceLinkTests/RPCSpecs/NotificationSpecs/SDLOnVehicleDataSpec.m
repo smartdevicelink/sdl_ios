@@ -13,7 +13,7 @@
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
-// set up test constants
+// set up all test constants
 SDLGPSData* gps = [[SDLGPSData alloc] init];
 SDLTireStatus* tirePressure = [[SDLTireStatus alloc] init];
 SDLBeltStatus* beltStatus = [[SDLBeltStatus alloc] init];
@@ -25,28 +25,28 @@ SDLAirbagStatus* airbagStatus = [[SDLAirbagStatus alloc] init];
 SDLEmergencyEvent* emergencyEvent = [[SDLEmergencyEvent alloc] init];
 SDLClusterModeStatus* clusterModeStatus = [[SDLClusterModeStatus alloc] init];
 SDLMyKey* myKey = [[SDLMyKey alloc] init];
-SDLFuelRange* fuelRangeItem = [[SDLFuelRange alloc] init];
-NSArray<SDLFuelRange *>* fuelRangeArray = @[fuelRangeItem, fuelRangeItem];
+SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
+NSArray<SDLFuelRange *> *fuelRangeArray = @[fuelRange, fuelRange];
 NSString *const vin = @"6574839201a";
-NSString *const cloudAppVehicleID = @"cloudAppVehicleID";
-SDLGearStatus* gearStatus = [[SDLGearStatus alloc] init];
-const float accPedalPosition = 99.01;
-SDLVehicleDataEventStatus driverBraking = SDLVehicleDataEventStatusNoEvent;
-const float engineOilLife = 23.34;
-const float engineTorque = 34.45;
-const float externalTemperature = 45.56;
-const float fuelLevel = 56.67;
-SDLComponentVolumeStatus fuelLevel_State = SDLComponentVolumeStatusFault;
-const float instantFuelConsumption = 67.78;
-const NSUInteger odometer = 100500;
-SDLPRNDL prndl = SDLPRNDLPark;
-const NSInteger rpm = 3501;
-const float speed = 120.01;
-const float steeringWheelAngle = -180.5;
-SDLTurnSignal turnSignal = SDLTurnSignalBoth;
-SDLWiperStatus wiperStatus = SDLWiperStatusAutomaticHigh;
+NSString *const cloudAppVehicleID = @"cloud-6f56054e-d633-11ea-999a-14109fcf4b5b";
+const float speed = 123.45;
+const NSUInteger rpm = 3599;
+const float fuelLevel = 34.45;
+SDLComponentVolumeStatus fuelLevel_State = SDLComponentVolumeStatusLow;
+const float instantFuelConsumption = 45.67;
+const float externalTemperature = 56.67;
+SDLTurnSignal turnSignal = SDLTurnSignalLeft;
+SDLPRNDL prndl = SDLPRNDLReverse;
+const NSUInteger odometer = 100999;
+SDLVehicleDataEventStatus driverBraking = SDLVehicleDataEventStatusYes;
+SDLWiperStatus wiperStatus = SDLWiperStatusWash;
+const float steeringWheelAngle = 359.99;
+const float engineTorque = 999.123;
+const float accPedalPosition = 35.88;
+const float engineOilLife = 98.76;
 SDLElectronicParkBrakeStatus electronicParkBrakeStatus = SDLElectronicParkBrakeStatusTransition;
 const BOOL handsOffSteering = YES;
+SDLGearStatus *gearStatus = [[SDLGearStatus alloc] initWithUserSelectedGear:SDLPRNDLDrive actualGear:SDLPRNDLPark transmissionType:SDLTransmissionTypeAutomatic];
 
 describe(@"getter/setter tests", ^{
     context(@"init and assign", ^{
@@ -136,48 +136,47 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithDictionary:", ^{
         NSDictionary* dict = @{SDLRPCParameterNameNotification:
-                                           @{SDLRPCParameterNameParameters:
-                                                 @{
-                                                    SDLRPCParameterNameAccelerationPedalPosition:@(accPedalPosition),
-                                                    SDLRPCParameterNameAirbagStatus:airbagStatus,
-                                                    SDLRPCParameterNameBeltStatus:beltStatus,
-                                                    SDLRPCParameterNameBodyInformation:bodyInformation,
-                                                    SDLRPCParameterNameCloudAppVehicleID:cloudAppVehicleID,
-                                                    SDLRPCParameterNameClusterModeStatus:clusterModeStatus,
-                                                    SDLRPCParameterNameDeviceStatus:deviceStatus,
-                                                    SDLRPCParameterNameDriverBraking:driverBraking,
-                                                    SDLRPCParameterNameECallInfo:eCallInfo,
-                                                    SDLRPCParameterNameElectronicParkBrakeStatus:electronicParkBrakeStatus,
-                                                    SDLRPCParameterNameEmergencyEvent:emergencyEvent,
-                                                    SDLRPCParameterNameEngineOilLife:@(engineOilLife),
-                                                    SDLRPCParameterNameEngineTorque:@(engineTorque),
-                                                    SDLRPCParameterNameExternalTemperature:@(externalTemperature),
+                                    @{SDLRPCParameterNameParameters:@{
+                                        SDLRPCParameterNameAccelerationPedalPosition:@(accPedalPosition),
+                                        SDLRPCParameterNameAirbagStatus:airbagStatus,
+                                        SDLRPCParameterNameBeltStatus:beltStatus,
+                                        SDLRPCParameterNameBodyInformation:bodyInformation,
+                                        SDLRPCParameterNameCloudAppVehicleID:cloudAppVehicleID,
+                                        SDLRPCParameterNameClusterModeStatus:clusterModeStatus,
+                                        SDLRPCParameterNameDeviceStatus:deviceStatus,
+                                        SDLRPCParameterNameDriverBraking:driverBraking,
+                                        SDLRPCParameterNameECallInfo:eCallInfo,
+                                        SDLRPCParameterNameElectronicParkBrakeStatus:electronicParkBrakeStatus,
+                                        SDLRPCParameterNameEmergencyEvent:emergencyEvent,
+                                        SDLRPCParameterNameEngineOilLife:@(engineOilLife),
+                                        SDLRPCParameterNameEngineTorque:@(engineTorque),
+                                        SDLRPCParameterNameExternalTemperature:@(externalTemperature),
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                                                    SDLRPCParameterNameFuelLevel:@(fuelLevel),
-                                                    SDLRPCParameterNameFuelLevelState:fuelLevel_State,
+                                        SDLRPCParameterNameFuelLevel:@(fuelLevel),
+                                        SDLRPCParameterNameFuelLevelState:fuelLevel_State,
 #pragma clang diagnostic pop
-                                                    SDLRPCParameterNameFuelRange:fuelRangeArray,
-                                                    SDLRPCParameterNameGearStatus:gearStatus,
-                                                    SDLRPCParameterNameGPS:gps,
-                                                    SDLRPCParameterNameHandsOffSteering:@(handsOffSteering),
-                                                    SDLRPCParameterNameHeadLampStatus:headLampStatus,
-                                                    SDLRPCParameterNameInstantFuelConsumption:@(instantFuelConsumption),
-                                                    SDLRPCParameterNameMyKey:myKey,
-                                                    SDLRPCParameterNameOdometer:@(odometer),
+                                        SDLRPCParameterNameFuelRange:fuelRangeArray,
+                                        SDLRPCParameterNameGearStatus:gearStatus,
+                                        SDLRPCParameterNameGPS:gps,
+                                        SDLRPCParameterNameHandsOffSteering:@(handsOffSteering),
+                                        SDLRPCParameterNameHeadLampStatus:headLampStatus,
+                                        SDLRPCParameterNameInstantFuelConsumption:@(instantFuelConsumption),
+                                        SDLRPCParameterNameMyKey:myKey,
+                                        SDLRPCParameterNameOdometer:@(odometer),
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                                                    SDLRPCParameterNamePRNDL:prndl,
+                                        SDLRPCParameterNamePRNDL:prndl,
 #pragma clang diagnostic pop
-                                                    SDLRPCParameterNameRPM:@(rpm),
-                                                    SDLRPCParameterNameSpeed:@(speed),
-                                                    SDLRPCParameterNameSteeringWheelAngle:@(steeringWheelAngle),
-                                                    SDLRPCParameterNameTirePressure:tirePressure,
-                                                    SDLRPCParameterNameTurnSignal:turnSignal,
-                                                    SDLRPCParameterNameVIN:vin,
-                                                    SDLRPCParameterNameWiperStatus:wiperStatus,
-                                                 },
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
+                                        SDLRPCParameterNameRPM:@(rpm),
+                                        SDLRPCParameterNameSpeed:@(speed),
+                                        SDLRPCParameterNameSteeringWheelAngle:@(steeringWheelAngle),
+                                        SDLRPCParameterNameTirePressure:tirePressure,
+                                        SDLRPCParameterNameTurnSignal:turnSignal,
+                                        SDLRPCParameterNameVIN:vin,
+                                        SDLRPCParameterNameWiperStatus:wiperStatus,
+                                        },
+                                    SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnVehicleData* testResponse = [[SDLOnVehicleData alloc] initWithDictionary:dict];
@@ -214,7 +213,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(equal(prndl));
 #pragma clang diagnostic pop
-            expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));
             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
@@ -269,48 +267,48 @@ describe(@"getter/setter tests", ^{
         });
     });
 
-     context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
-         SDLOnVehicleData* testResponse = [[SDLOnVehicleData alloc] initWithGps:gps speed:speed rpm:@(rpm) instantFuelConsumption:instantFuelConsumption fuelRange:fuelRangeArray externalTemperature:externalTemperature turnSignal:turnSignal vin:vin gearStatus:gearStatus tirePressure:tirePressure odometer:@(odometer) beltStatus:beltStatus bodyInformation:bodyInformation deviceStatus:deviceStatus driverBraking:driverBraking wiperStatus:wiperStatus headLampStatus:headLampStatus engineTorque:engineTorque accPedalPosition:accPedalPosition steeringWheelAngle:steeringWheelAngle engineOilLife:engineOilLife electronicParkBrakeStatus:electronicParkBrakeStatus cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCallInfo airbagStatus:airbagStatus emergencyEvent:emergencyEvent clusterModeStatus:clusterModeStatus myKey:myKey handsOffSteering:@(handsOffSteering)];
-         it(@"expect all properties to be set properly", ^{
-             expect(testResponse.accPedalPosition).to(equal(@(accPedalPosition)));
-             expect(testResponse.airbagStatus).to(equal(airbagStatus));
-             expect(testResponse.beltStatus).to(equal(beltStatus));
-             expect(testResponse.bodyInformation).to(equal(bodyInformation));
-             expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
-             expect(testResponse.clusterModeStatus).to(equal(clusterModeStatus));
-             expect(testResponse.deviceStatus).to(equal(deviceStatus));
-             expect(testResponse.driverBraking).to(equal(driverBraking));
-             expect(testResponse.eCallInfo).to(equal(eCallInfo));
-             expect(testResponse.electronicParkBrakeStatus).to(equal(electronicParkBrakeStatus));
-             expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
-             expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
-             expect(testResponse.engineTorque).to(equal(@(engineTorque)));
-             expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
+    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering", ^{
+        SDLOnVehicleData* testResponse = [[SDLOnVehicleData alloc] initWithGps:gps speed:speed rpm:@(rpm) instantFuelConsumption:instantFuelConsumption fuelRange:fuelRangeArray externalTemperature:externalTemperature turnSignal:turnSignal vin:vin gearStatus:gearStatus tirePressure:tirePressure odometer:@(odometer) beltStatus:beltStatus bodyInformation:bodyInformation deviceStatus:deviceStatus driverBraking:driverBraking wiperStatus:wiperStatus headLampStatus:headLampStatus engineTorque:engineTorque accPedalPosition:accPedalPosition steeringWheelAngle:steeringWheelAngle engineOilLife:engineOilLife electronicParkBrakeStatus:electronicParkBrakeStatus cloudAppVehicleID:cloudAppVehicleID eCallInfo:eCallInfo airbagStatus:airbagStatus emergencyEvent:emergencyEvent clusterModeStatus:clusterModeStatus myKey:myKey handsOffSteering:@(handsOffSteering)];
+        it(@"expect all properties to be set properly", ^{
+            expect(testResponse.accPedalPosition).to(equal(@(accPedalPosition)));
+            expect(testResponse.airbagStatus).to(equal(airbagStatus));
+            expect(testResponse.beltStatus).to(equal(beltStatus));
+            expect(testResponse.bodyInformation).to(equal(bodyInformation));
+            expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
+            expect(testResponse.clusterModeStatus).to(equal(clusterModeStatus));
+            expect(testResponse.deviceStatus).to(equal(deviceStatus));
+            expect(testResponse.driverBraking).to(equal(driverBraking));
+            expect(testResponse.eCallInfo).to(equal(eCallInfo));
+            expect(testResponse.electronicParkBrakeStatus).to(equal(electronicParkBrakeStatus));
+            expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
+            expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
+            expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-             expect(testResponse.fuelLevel).to(beNil());
-             expect(testResponse.fuelLevel_State).to(beNil());
+            expect(testResponse.fuelLevel).to(beNil());
+            expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
-             expect(testResponse.fuelRange).to(equal(fuelRangeArray));
-             expect(testResponse.gearStatus).to(equal(gearStatus));
-             expect(testResponse.gps).to(equal(gps));
-             expect(testResponse.handsOffSteering).to(equal(handsOffSteering));
-             expect(testResponse.headLampStatus).to(equal(headLampStatus));
-             expect(testResponse.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
-             expect(testResponse.myKey).to(equal(myKey));
-             expect(testResponse.odometer).to(equal(@(odometer)));
+            expect(testResponse.fuelRange).to(equal(fuelRangeArray));
+            expect(testResponse.gearStatus).to(equal(gearStatus));
+            expect(testResponse.gps).to(equal(gps));
+            expect(testResponse.handsOffSteering).to(equal(handsOffSteering));
+            expect(testResponse.headLampStatus).to(equal(headLampStatus));
+            expect(testResponse.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
+            expect(testResponse.myKey).to(equal(myKey));
+            expect(testResponse.odometer).to(equal(@(odometer)));
  #pragma clang diagnostic push
  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-             expect(testResponse.prndl).to(beNil());
+            expect(testResponse.prndl).to(beNil());
  #pragma clang diagnostic pop
-             expect(testResponse.gearStatus).to(equal(gearStatus));
-             expect(testResponse.rpm).to(equal(@(rpm)));
-             expect(testResponse.speed).to(equal(@(speed)));
-             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
-             expect(testResponse.tirePressure).to(equal(tirePressure));
-             expect(testResponse.turnSignal).to(equal(turnSignal));
-             expect(testResponse.vin).to(equal(vin));
-             expect(testResponse.wiperStatus).to(equal(wiperStatus));
+            expect(testResponse.gearStatus).to(equal(gearStatus));
+            expect(testResponse.rpm).to(equal(@(rpm)));
+            expect(testResponse.speed).to(equal(@(speed)));
+            expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
+            expect(testResponse.tirePressure).to(equal(tirePressure));
+            expect(testResponse.turnSignal).to(equal(turnSignal));
+            expect(testResponse.vin).to(equal(vin));
+            expect(testResponse.wiperStatus).to(equal(wiperStatus));
          });
      });
 
