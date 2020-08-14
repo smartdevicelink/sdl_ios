@@ -186,6 +186,8 @@ SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notif
 SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notification.OnWayPointChange";
 @implementation SDLNotificationConstants
 
+
+
 + (NSArray<SDLNotificationName> *)allResponseNames {
     return @[SDLDidReceiveAddCommandResponse,
              SDLDidReceiveAddSubMenuResponse,
