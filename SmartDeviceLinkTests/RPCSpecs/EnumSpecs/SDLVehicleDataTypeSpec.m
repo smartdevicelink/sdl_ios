@@ -28,16 +28,20 @@ describe(@"individual enum value tests", ^{
         expect(SDLVehicleDataTypeEngineTorque).to(equal(@"VEHICLEDATA_ENGINETORQUE"));
         expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
         expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLVehicleDataTypeFuelLevel).to(equal(@"VEHICLEDATA_FUELLEVEL"));
         expect(SDLVehicleDataTypeFuelLevelState).to(equal(@"VEHICLEDATA_FUELLEVEL_STATE"));
+#pragma clang diagnostic pop
         expect(SDLVehicleDataTypeFuelRange).to(equal(@"VEHICLEDATA_FUELRANGE"));
         expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
         expect(SDLVehicleDataTypeGearStatus).to(equal(@"VEHICLEDATA_GEARSTATUS"));
+        expect(SDLVehicleDataTypeHandsOffSteering).to(equal(@"VEHICLEDATA_HANDSOFFSTEERING"));
         expect(SDLVehicleDataTypeHeadlampStatus).to(equal(@"VEHICLEDATA_HEADLAMPSTATUS"));
         expect(SDLVehicleDataTypeMyKey).to(equal(@"VEHICLEDATA_MYKEY"));
         expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
 #pragma clang diagnostic pop
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));

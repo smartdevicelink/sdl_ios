@@ -16,3 +16,4 @@ SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonFactory
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized = @"APP_UNAUTHORIZED";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonProtocolViolation = @"PROTOCOL_VIOLATION";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource = @"UNSUPPORTED_HMI_RESOURCE";
+SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonResourceConstraint = @"RESOURCE_CONSTRAINT";

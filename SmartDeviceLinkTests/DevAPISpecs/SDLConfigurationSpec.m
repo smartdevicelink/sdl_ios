@@ -79,7 +79,10 @@ describe(@"a configuration", ^{
         });
 
         it(@"configurationWithLifecycle:lockScreen:logging:fileManager", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig fileManager:someFileManagerConfig];
+            #pragma clang diagnostic pop
 
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
@@ -131,7 +134,10 @@ describe(@"a configuration", ^{
             });
 
             it(@"configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:", ^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig];
+                #pragma clang diagnostic pop
 
                 expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
                 expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));

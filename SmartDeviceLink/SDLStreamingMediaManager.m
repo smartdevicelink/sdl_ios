@@ -94,17 +94,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Secondary Transport
 
-- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol {
+- (void)startWithProtocol:(SDLProtocol *)protocol {
      [self didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
 }
 
-- (void)sdl_disconnectSecondaryTransport {
+- (void)sdl_disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler {
     if (self.secondaryTransportManager == nil) {
         SDLLogV(@"Attempting to disconnect a non-existent secondary transport. Returning.");
-        return;
+        return completionHandler();
     }
 
-    [self.secondaryTransportManager disconnectSecondaryTransport];
+    [self.secondaryTransportManager disconnectSecondaryTransportWithCompletionHandler:completionHandler];
 }
 
 # pragma mark SDLStreamingProtocolDelegate
@@ -149,22 +149,51 @@ NS_ASSUME_NONNULL_BEGIN
     // This will always run
     dispatch_group_notify(endServiceTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (oldVideoProtocol != nil || oldAudioProtocol != nil) {
-            SDLLogV(@"Disconnecting the secondary transport");
-            [self sdl_disconnectSecondaryTransport];
-
-            SDLLogD(@"Destroying the audio and video protocol and starting new audio and video protocols");
-            self.audioProtocol = nil;
-            self.videoProtocol = nil;
+            [self sdl_reconnectSecondaryTransportWithNewVideoProtocol:newVideoProtocol newAudioProtocol:newAudioProtocol transportDestroyed:false];
+        } else {
+            SDLLogV(@"No need to disconnect the secondary transport. Starting new audio and video protocols");
+            [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
         }
-
-        [self sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
     });
+}
+
+- (void)transportClosed {
+    [self sdl_reconnectSecondaryTransportWithNewVideoProtocol:nil newAudioProtocol:nil transportDestroyed:true];
+}
+
+/// Disconnects the secondary transport. If the transport is still open and a new video or audio protocol have been set, then a new video/audio sessions are attempted. If the transport has been closed, then the audio/video managers are stopped.
+/// @param newVideoProtocol The new video protocol
+/// @param newAudioProtocol The new audio protocol
+/// @param transportDestroyed Whether or not the transport is still open
+- (void)sdl_reconnectSecondaryTransportWithNewVideoProtocol:(nullable SDLProtocol *)newVideoProtocol newAudioProtocol:(nullable SDLProtocol *)newAudioProtocol transportDestroyed:(BOOL)transportDestroyed {
+    SDLLogV(@"Disconnecting the secondary transport");
+    __weak typeof(self) weakSelf = self;
+    [self sdl_disconnectSecondaryTransportWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (transportDestroyed) {
+            SDLLogD(@"Transport destroyed. Shutting down audio and video managers");
+            [strongSelf.audioLifecycleManager secondaryTransportDidDisconnect];
+            [strongSelf.videoLifecycleManager secondaryTransportDidDisconnect];
+            strongSelf.audioProtocol = nil;
+            strongSelf.videoProtocol = nil;
+        } else {
+            SDLLogD(@"Checking if new audio and video sessions need to be started on the transport");
+            strongSelf.audioProtocol = nil;
+            strongSelf.videoProtocol = nil;
+            [strongSelf sdl_startNewProtocolForAudio:newAudioProtocol forVideo:newVideoProtocol];
+        }
+    }];
 }
 
 /// Starts the audio and/or video services using the new protocol.
 /// @param newAudioProtocol The new audio protocol
 /// @param newVideoProtocol The new video protocol
 - (void)sdl_startNewProtocolForAudio:(nullable SDLProtocol *)newAudioProtocol forVideo:(nullable SDLProtocol *)newVideoProtocol {
+    if (newAudioProtocol == nil && newVideoProtocol == nil) {
+        SDLLogD(@"No new audio or video session will be started");
+        return;
+    }
+
     if (newAudioProtocol != nil) {
         self.audioProtocol = newAudioProtocol;
         [self.audioLifecycleManager startWithProtocol:newAudioProtocol];
@@ -177,16 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)startWithProtocol:(SDLProtocol *)protocol {
-    self.audioProtocol = protocol;
-    self.videoProtocol = protocol;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self startAudioWithProtocol:protocol];
-    [self startVideoWithProtocol:protocol];
-#pragma clang diagnostic pop
-}
+#pragma mark Deprecated
 
  - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
     self.audioProtocol = protocol;

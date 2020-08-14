@@ -1,3 +1,34 @@
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 //  SDLRPCParameterNames.h
 
 #import "NSMutableDictionary+Store.h"
@@ -85,6 +116,8 @@ SDLRPCParameterName const SDLRPCParameterNameButtonEventMode = @"buttonEventMode
 SDLRPCParameterName const SDLRPCParameterNameButtonName = @"buttonName";
 SDLRPCParameterName const SDLRPCParameterNameButtonPressMode = @"buttonPressMode";
 SDLRPCParameterName const SDLRPCParameterNameCancelID = @"cancelID";
+SDLRPCParameterName const SDLRPCParameterNameCapacity = @"capacity";
+SDLRPCParameterName const SDLRPCParameterNameCapacityUnit = @"capacityUnit";
 SDLRPCParameterName const SDLRPCParameterNameCoolingEnabled = @"coolingEnabled";
 SDLRPCParameterName const SDLRPCParameterNameCoolingEnabledAvailable = @"coolingEnabledAvailable";
 SDLRPCParameterName const SDLRPCParameterNameCoolingLevel = @"coolingLevel";
@@ -165,6 +198,8 @@ SDLRPCParameterName const SDLRPCParameterNameDriverBeltDeployed = @"driverBeltDe
 SDLRPCParameterName const SDLRPCParameterNameDriverBraking = @"driverBraking";
 SDLRPCParameterName const SDLRPCParameterNameDriverBuckleBelted = @"driverBuckleBelted";
 SDLRPCParameterName const SDLRPCParameterNameDriverCurtainAirbagDeployed = @"driverCurtainAirbagDeployed";
+SDLRPCParameterName const SDLRPCParameterNameDriverDistraction = @"driverDistraction";
+SDLRPCParameterName const SDLRPCParameterNameDriverDistractionCapability = @"driverDistractionCapability";
 SDLRPCParameterName const SDLRPCParameterNameDriverDistractionStatus = @"driverDistractionStatus";
 SDLRPCParameterName const SDLRPCParameterNameDriverDoorAjar = @"driverDoorAjar";
 SDLRPCParameterName const SDLRPCParameterNameDriverKneeAirbagDeployed = @"driverKneeAirbagDeployed";
@@ -226,6 +261,7 @@ SDLRPCParameterName const SDLRPCParameterNameGraphicSupported = @"graphicSupport
 SDLRPCParameterName const SDLRPCParameterNameGreen = @"green";
 SDLRPCParameterName const SDLRPCParameterNameGrid = @"grid";
 SDLRPCParameterName const SDLRPCParameterNameHandledRPCs = @"handledRPCs";
+SDLRPCParameterName const SDLRPCParameterNameHandsOffSteering = @"handsOffSteering";
 SDLRPCParameterName const SDLRPCParameterNameHapticRectData = @"hapticRectData";
 SDLRPCParameterName const SDLRPCParameterNameHapticSpatialDataSupported = @"hapticSpatialDataSupported";
 SDLRPCParameterName const SDLRPCParameterNameHardware = @"hardware";
@@ -319,6 +355,7 @@ SDLRPCParameterName const SDLRPCParameterNameLength = @"length";
 SDLRPCParameterName const SDLRPCParameterNameLevel = @"level";
 SDLRPCParameterName const SDLRPCParameterNameLevels = @"levels";
 SDLRPCParameterName const SDLRPCParameterNameLevelSpan = @"levelspan";
+SDLRPCParameterName const SDLRPCParameterNameLevelState = @"levelState";
 SDLRPCParameterName const SDLRPCParameterNameLightControlCapabilities = @"lightControlCapabilities";
 SDLRPCParameterName const SDLRPCParameterNameLightControlData = @"lightControlData";
 SDLRPCParameterName const SDLRPCParameterNameLightState = @"lightState";
@@ -375,6 +412,7 @@ SDLRPCParameterName const SDLRPCParameterNameMenuIcon = @"menuIcon";
 SDLRPCParameterName const SDLRPCParameterNameMenuId = @"menuID";
 SDLRPCParameterName const SDLRPCParameterNameMenuLayout = @"menuLayout";
 SDLRPCParameterName const SDLRPCParameterNameMenuLayoutsAvailable = @"menuLayoutsAvailable";
+SDLRPCParameterName const SDLRPCParameterNameMenuLength = @"menuLength";
 SDLRPCParameterName const SDLRPCParameterNameMenuName = @"menuName";
 SDLRPCParameterName const SDLRPCParameterNameMenuParams = @"menuParams";
 SDLRPCParameterName const SDLRPCParameterNameMenuTitle = @"menuTitle";
@@ -440,7 +478,7 @@ SDLRPCParameterName const SDLRPCParameterNameOS = @"os";
 SDLRPCParameterName const SDLRPCParameterNameOSVersion = @"osVersion";
 SDLRPCParameterName const SDLRPCParameterNameParameterPermissions = @"parameterPermissions";
 SDLRPCParameterName const SDLRPCParameterNameParameters = @"parameters";
-SDLRPCParameterName const SDLRPCParameterNameParentId = @"parentID";
+SDLRPCParameterName const SDLRPCParameterNameParentID = @"parentID";
 SDLRPCParameterName const SDLRPCParameterNameParkBrakeActive = @"parkBrakeActive";
 SDLRPCParameterName const SDLRPCParameterNamePassengerAirbagDeployed = @"passengerAirbagDeployed";
 SDLRPCParameterName const SDLRPCParameterNamePassengerBeltDeployed = @"passengerBeltDeployed";
@@ -604,6 +642,7 @@ SDLRPCParameterName const SDLRPCParameterNameSteeringWheelAngle = @"steeringWhee
 SDLRPCParameterName const SDLRPCParameterNameStereoAudioOutputMuted = @"stereoAudioOutputMuted";
 SDLRPCParameterName const SDLRPCParameterNameSubAdministrativeArea = @"subAdministrativeArea";
 SDLRPCParameterName const SDLRPCParameterNameSubLocality = @"subLocality";
+SDLRPCParameterName const SDLRPCParameterNameSubMenuDepth = @"subMenuDepth";
 SDLRPCParameterName const SDLRPCParameterNameSubscribe = @"subscribe";
 SDLRPCParameterName const SDLRPCParameterNameSubThoroughfare = @"subThoroughfare";
 SDLRPCParameterName const SDLRPCParameterNameSuccess = @"success";

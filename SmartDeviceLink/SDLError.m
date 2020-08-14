@@ -19,6 +19,7 @@ SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager = @"com.sdl.encry
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
+SDLErrorDomain *const SDLErrorDomainSubscribeButtonManager = @"com.sdl.subscribebuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
 SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
@@ -258,6 +259,15 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
     return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
 }
 
++ (NSError *)sdl_subscribeButtonManager_notSubscribed {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+        NSLocalizedDescriptionKey: @"Subscribe Button Manager error",
+        NSLocalizedFailureReasonErrorKey: @"The subscribe button manager has not yet subscribed to the button being unsubscribed.",
+        NSLocalizedRecoverySuggestionErrorKey: @"Make sure you have used the Subscribe Button Manager to subscribe to the button name that you are attempting to unsubscribe."
+    };
+    return [NSError errorWithDomain:SDLErrorDomainSubscribeButtonManager code:SDLSubscribeButtonManagerErrorNotSubscribed userInfo:userInfo];
+}
+
 #pragma mark Menu Manager
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo {
@@ -439,9 +449,15 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
                                  userInfo:nil];
 }
 
-+ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector {
++ (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector {
     return [NSException exceptionWithName:@"com.sdl.systemCapabilityManager.selectorException"
                                    reason:[NSString stringWithFormat:@"Capability observation selector: %@ does not match possible selectors, which must have between 0 and 3 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
+                                 userInfo:nil];
+}
+
++ (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector {
+    return [NSException exceptionWithName:@"com.sdl.subscribeButtonManager.selectorException"
+                                   reason:[NSString stringWithFormat:@"Subscribe button observation selector: %@ does not match possible selectors, which must have between 0 and 4 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
                                  userInfo:nil];
 }
 

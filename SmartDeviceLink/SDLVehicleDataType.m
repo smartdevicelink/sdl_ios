@@ -35,5 +35,6 @@ SDLVehicleDataType const SDLVehicleDataTypeSpeed = @"VEHICLEDATA_SPEED";
 SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel = @"VEHICLEDATA_STEERINGWHEEL";
 SDLVehicleDataType const SDLVehicleDataTypeTirePressure = @"VEHICLEDATA_TIREPRESSURE";
 SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
+SDLVehicleDataType const SDLVehicleDataTypeHandsOffSteering = @"VEHICLEDATA_HANDSOFFSTEERING";
 SDLVehicleDataType const SDLVehicleDataTypeVIN = @"VEHICLEDATA_VIN";
 SDLVehicleDataType const SDLVehicleDataTypeWiperStatus = @"VEHICLEDATA_WIPERSTATUS";

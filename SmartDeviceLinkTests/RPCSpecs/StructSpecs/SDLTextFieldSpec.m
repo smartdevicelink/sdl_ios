@@ -18,7 +18,7 @@ QuickSpecBegin(SDLTextFieldSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block SDLTextFieldName testName = SDLTextFieldNameETA;
-    __block SDLCharacterSet testCharacterSet = SDLCharacterSetCID1;
+    __block SDLCharacterSet testCharacterSet = SDLCharacterSetUtf8;
     __block NSUInteger testWidth = 100;
     __block NSUInteger testRows = 4;
 

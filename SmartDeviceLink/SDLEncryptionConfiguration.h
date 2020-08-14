@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A delegate callback that will tell you when an acknowledgement has occurred for starting as secure service.
  */
-@property (copy, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
+@property (weak, nonatomic, nullable) id<SDLServiceEncryptionDelegate> delegate;
 
 /**
  *  Creates a default encryption configuration.

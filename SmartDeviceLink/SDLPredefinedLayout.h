@@ -108,3 +108,12 @@ extern SDLPredefinedLayout const SDLPredefinedLayoutDoubleGraphicWithSoftButtons
  A layout with only a single large graphic
  */
 extern SDLPredefinedLayout const SDLPredefinedLayoutLargeGraphicOnly;
+
+
+/**
+ Custom root template allowing in-vehicle WebEngine applications with
+ appropriate permissions to show the application's own web view.
+
+ @since 7.0
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutWebView;

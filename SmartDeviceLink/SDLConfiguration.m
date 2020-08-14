@@ -24,11 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
-    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil encryption: nil];
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil encryption:nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig {
-    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:nil encryption: nil];
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:nil encryption:nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
@@ -36,18 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig encryption:(nullable SDLEncryptionConfiguration *)encryptionConfig {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    _lifecycleConfig = lifecycleConfig;
-    _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
-    _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
-    _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
-    _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration defaultConfiguration];
-
-    return self;
+    return [self initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig streamingMedia:nil fileManager:fileManagerConfig encryption:encryptionConfig];
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration {
@@ -55,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
-    return [self configurationWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil];
+    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:nil fileManager:nil encryption:nil];
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig {
@@ -63,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig fileManager:(nullable SDLFileManagerConfiguration *)fileManagerConfig {
-    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:fileManagerConfig encryption: nil];
+    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig fileManager:fileManagerConfig encryption:nil];
 }
 
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig {
@@ -96,6 +85,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     _fileManagerConfig = fileManagerConfig ?: [SDLFileManagerConfiguration defaultConfiguration];
     _encryptionConfig = encryptionConfig ?: [SDLEncryptionConfiguration defaultConfiguration];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (_encryptionConfig.securityManagers == nil && _streamingMediaConfig.securityManagers != nil) {
+        _encryptionConfig.securityManagers = _streamingMediaConfig.securityManagers;
+    }
+#pragma clang diagnostic pop
 
     return self;
 }

@@ -15,7 +15,6 @@
 #import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
-#import "SDLProxyListener.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLTimer.h"

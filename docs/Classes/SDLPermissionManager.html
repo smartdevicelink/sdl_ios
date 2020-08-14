@@ -7,12 +7,18 @@
   <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--isRPCAllowed:">-isRPCAllowed:</a></li>
+  <li><a href="#section--isRPCNameAllowed:">-isRPCNameAllowed:</a></li>
   <li><a href="#section--groupStatusOfRPCs:">-groupStatusOfRPCs:</a></li>
+  <li><a href="#section--groupStatusOfRPCPermissions:">-groupStatusOfRPCPermissions:</a></li>
   <li><a href="#section--statusOfRPCs:">-statusOfRPCs:</a></li>
+  <li><a href="#section--statusesOfRPCPermissions:">-statusesOfRPCPermissions:</a></li>
   <li><a href="#section--addObserverForRPCs:groupType:withHandler:">-addObserverForRPCs:groupType:withHandler:</a></li>
+  <li><a href="#section--subscribeToRPCPermissions:groupType:withHandler:">-subscribeToRPCPermissions:groupType:withHandler:</a></li>
   <li><a href="#section--removeAllObservers">-removeAllObservers</a></li>
   <li><a href="#section--removeObserverForIdentifier:">-removeObserverForIdentifier:</a></li>
   <li><a href="#section--rpcRequiresEncryption:">-rpcRequiresEncryption:</a></li>
+  <li><a href="#section--rpcNameRequiresEncryption:">-rpcNameRequiresEncryption:</a></li>
+  <li><a href="#section--isPermissionParameterAllowed:parameter:">-isPermissionParameterAllowed:parameter:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -108,6 +114,33 @@
     <p>YES if the RPC is allowed at the current HMI level, NO if not</p>
   </div>
   
+  <h3 id="section--isRPCNameAllowed:">
+      -isRPCNameAllowed:
+  </h3>
+  
+  <p>Determine if an individual RPC is allowed for the current HMI level</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isRPCNameAllowed</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isRPCNameAllowed</span><span class="p">(</span><span class="n">_</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcName</dt>
+      <dd><p>The name of the RPC to be tested, for example, SDLRPCFunctionNameShow</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>YES if the RPC is allowed at the current HMI level, NO if not</p>
+  </div>
+  
   <h3 id="section--groupStatusOfRPCs:">
       -groupStatusOfRPCs:
   </h3>
@@ -123,6 +156,34 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">groupStatus</span><span class="p">(</span><span class="n">ofRPCs</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcNames</dt>
+      <dd><p>The RPCs to check</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed</p>
+  </div>
+  
+  <h3 id="section--groupStatusOfRPCPermissions:">
+      -groupStatusOfRPCPermissions:
+  </h3>
+  
+  <p>Determine if all RPCs are allowed for the current HMI level</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span><span class="nf">groupStatusOfRPCPermissions</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">groupStatus</span><span class="p">(</span><span class="n">ofRPCPermissions</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span></code></pre>
 
   
   
@@ -164,6 +225,35 @@
     <p>A dictionary specifying if the passed in RPC names are currently allowed or not</p>
   </div>
   
+  <h3 id="section--statusesOfRPCPermissions:">
+      -statusesOfRPCPermissions:
+  </h3>
+  
+  <p>Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">,</span> <span class="n"><a href="../Classes/SDLRPCPermissionStatus.html">SDLRPCPermissionStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">statusesOfRPCPermissions</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">statuses</span><span class="p">(</span><span class="n">ofRPCPermissions</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCPermissionStatus.html">SDLRPCPermissionStatus</a></span><span class="p">]</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcNames</dt>
+      <dd><p>An array of permission elements to check</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A dictionary with specific RPC info contained in a SDLRPCPermissionStatus</p>
+  </div>
+  
   <h3 id="section--addObserverForRPCs:groupType:withHandler:">
       -addObserverForRPCs:groupType:withHandler:
   </h3>
@@ -197,6 +287,47 @@
   <dl>
       <dt>rpcNames</dt>
       <dd><p>The RPCs to be observed</p></dd>
+      <dt>groupType</dt>
+      <dd><p>Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. The observer is first set regardless of RPC status  2. Every RPC in rpcNames becomes allowed 3. The group of rpcNames goes from all being allowed to some or all being disallowed.</p></dd>
+      <dt>handler</dt>
+      <dd><p>The block that will be called whenever permissions change.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An identifier that can be passed to removeObserverForIdentifer: to remove the observer</p>
+  </div>
+  
+  <h3 id="section--subscribeToRPCPermissions:groupType:withHandler:">
+      -subscribeToRPCPermissions:groupType:withHandler:
+  </h3>
+  
+  <p>Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Unlike addObserverForRPCs:groupType:withHandler:, the callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send <code>nil</code> to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span><span class="p">)</span>
+    <span class="nf">subscribeToRPCPermissions</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">permissionElements</span>
+                    <span class="nf">groupType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">)</span><span class="nv">groupType</span>
+                  <span class="nf">withHandler</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLRPCPermissionStatusChangedHandler">SDLRPCPermissionStatusChangedHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">toRPCPermissions</span> <span class="nv">permissionElements</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLPermissionElement.html">SDLPermissionElement</a></span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLPermissionConstants.h@T@SDLRPCPermissionStatusChangedHandler">SDLRPCPermissionStatusChangedHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UUID</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>permissionElements</dt>
+      <dd><p>The permission elements to be observed</p></dd>
       <dt>groupType</dt>
       <dd><p>Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.</p></dd>
       <dt>handler</dt>
@@ -266,5 +397,53 @@
 
   
   
+  
+  <h3 id="section--rpcNameRequiresEncryption:">
+      -rpcNameRequiresEncryption:
+  </h3>
+  
+  <p>Check whether or not an RPC needs encryption.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">rpcNameRequiresEncryption</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">rpcNameRequiresEncryption</span><span class="p">(</span><span class="n">_</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isPermissionParameterAllowed:parameter:">
+      -isPermissionParameterAllowed:parameter:
+  </h3>
+  
+  <p>Check whether a parameter of an RPC is allowed</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isPermissionParameterAllowed</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">)</span><span class="nv">rpcName</span>
+                           <span class="nf">parameter</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">parameter</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isPermissionParameterAllowed</span><span class="p">(</span><span class="n">_</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span><span class="p">,</span> <span class="nv">parameter</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcName</dt>
+      <dd><p>The name of the RPC to be tested, for example, SDLRPCFunctionNameGetVehicleData</p></dd>
+      <dt>parameter</dt>
+      <dd><p>The name of the parameter to be tested, for example, rpm</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>True if the parameter is allowed, false if it is not</p>
+  </div>
   
 </section>

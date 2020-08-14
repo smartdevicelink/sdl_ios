@@ -4,19 +4,20 @@
 
 <ul>
   <li><a href="#section-SDLArtworkImageFormat">SDLArtworkImageFormat</a></li>
-  <li><a href="#section-SDLAudioStreamManagerError">SDLAudioStreamManagerError</a></li>
   <li><a href="#section-SDLChoiceSetLayout">SDLChoiceSetLayout</a></li>
   <li><a href="#section-SDLEncryptionLifecycleManagerError">SDLEncryptionLifecycleManagerError</a></li>
   <li><a href="#section-SDLManagerError">SDLManagerError</a></li>
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
   <li><a href="#section-SDLTextAndGraphicManagerError">SDLTextAndGraphicManagerError</a></li>
   <li><a href="#section-SDLSoftButtonManagerError">SDLSoftButtonManagerError</a></li>
+  <li><a href="#section-SDLSubscribeButtonManagerError">SDLSubscribeButtonManagerError</a></li>
   <li><a href="#section-SDLMenuManagerError">SDLMenuManagerError</a></li>
   <li><a href="#section-SDLChoiceSetManagerError">SDLChoiceSetManagerError</a></li>
   <li><a href="#section-SDLSystemCapabilityManagerError">SDLSystemCapabilityManagerError</a></li>
   <li><a href="#section-SDLTransportError">SDLTransportError</a></li>
   <li><a href="#section-SDLRPCStoreError">SDLRPCStoreError</a></li>
   <li><a href="#section-SDLCacheFileManagerError">SDLCacheFileManagerError</a></li>
+  <li><a href="#section-SDLAudioStreamManagerError">SDLAudioStreamManagerError</a></li>
   <li><a href="#section-SDLSecondaryTransports">SDLSecondaryTransports</a></li>
   <li><a href="#section-SDLLockScreenConfigurationDisplayMode">SDLLockScreenConfigurationDisplayMode</a></li>
   <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
@@ -34,6 +35,7 @@
   <li><a href="#section-SDLRPCMessageType">SDLRPCMessageType</a></li>
   <li><a href="#section-SDLCarWindowRenderingType">SDLCarWindowRenderingType</a></li>
   <li><a href="#section-SDLStreamingEncryptionFlag">SDLStreamingEncryptionFlag</a></li>
+  <li><a href="#section-SDLTouchIdentifier">SDLTouchIdentifier</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -57,25 +59,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLArtworkImageFormat</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLAudioStreamManagerError">
-      SDLAudioStreamManagerError
-  </h3>
-  
-  <p>AudioStreamManager errors</p>
-
-  <a href="Enums/SDLAudioStreamManagerError.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLAudioStreamManagerError</span> <span class="p">{}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLAudioStreamManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -179,7 +162,7 @@
       SDLSoftButtonManagerError
   </h3>
   
-  <p>Errors associated with the ScreenManager class</p>
+  <p>Errors associated with the Soft Button Manager class</p>
 
   <a href="Enums/SDLSoftButtonManagerError.html" class="slightly-smaller">See more</a>
   
@@ -190,6 +173,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLSoftButtonManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSubscribeButtonManagerError">
+      SDLSubscribeButtonManagerError
+  </h3>
+  
+  <p>Errors associated with the Subscribe Button Manager class</p>
+
+  <a href="Enums/SDLSubscribeButtonManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLSubscribeButtonManagerError</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLSubscribeButtonManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -236,17 +238,13 @@
       SDLSystemCapabilityManagerError
   </h3>
   
-  <p>Undocumented</p>
+  <p>Errors associated with the system capability manager</p>
 
   <a href="Enums/SDLSystemCapabilityManagerError.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLSystemCapabilityManagerError</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">SDLSystemCapabilityManagerErrorHMINone</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLSystemCapabilityManagerError</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -297,22 +295,36 @@
       SDLCacheFileManagerError
   </h3>
   
-  <p>Undocumented</p>
+  <p>Errors related to the cache file manager</p>
 
   <a href="Enums/SDLCacheFileManagerError.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLCacheFileManagerError</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/**
-     *  Failed to update archive file
-     */</span>
-    <span class="n">SDLCacheManagerErrorUpdateIconArchiveFileFailure</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLCacheFileManagerError</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLCacheFileManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAudioStreamManagerError">
+      SDLAudioStreamManagerError
+  </h3>
+  
+  <p>Errors related to the audio stream manager</p>
+
+  <a href="Enums/SDLAudioStreamManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLAudioStreamManagerError</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLAudioStreamManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -642,6 +654,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLStreamingEncryptionFlag</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTouchIdentifier">
+      SDLTouchIdentifier
+  </h3>
+  
+  <p>Identifies finger touch</p>
+
+  <a href="Enums/SDLTouchIdentifier.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLTouchIdentifier</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLTouchIdentifier</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
 
   
   

@@ -11,6 +11,7 @@
 #import "ProxyManager.h"
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
+#import "SubscribeButtonManager.h"
 #import "VehicleDataManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
+@property (strong, nonatomic) SubscribeButtonManager *subscribeButtonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
 
@@ -66,6 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.subscribeButtonManager = [[SubscribeButtonManager alloc] initWithManager:self.sdlManager];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
@@ -145,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
     SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
-    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AlertManager", @"AudioManager", @"ButtonManager", @"MenuManager", @"PerformInteractionManager", @"RPCPermissionsManager", @"VehicleDataManager"]]];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AlertManager", @"AudioManager", @"ButtonManager", @"SubscribeButtonManager", @"MenuManager", @"PerformInteractionManager", @"RPCPermissionsManager", @"VehicleDataManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelDebug;
@@ -225,6 +228,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLManagerDelegate
 
+/// Called when the connection beween this app and the module has closed.
 - (void)managerDidDisconnect {
     if (self.state != ProxyStateStopped) {
         [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
@@ -233,83 +237,68 @@ NS_ASSUME_NONNULL_BEGIN
     self.firstHMILevel = SDLHMILevelNone;
 }
 
+/// Called when the state of the SDL app has changed. The state limits the type of RPC that can be sent. Refer to the class documentation for each RPC to determine what state(s) the RPC can be sent.
+/// @param oldLevel The old HMI Level
+/// @param newLevel The new HMI Level
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
-        // Send AddCommands
+        // Send static menu items.
         [self sdlex_createMenus];
+
+        // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
-        // The SDL app is in the foreground
-        SDLLogD(@"The HMI level is full");
+        // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
+        [self sdlex_showInitialData];
+        [self.subscribeButtonManager subscribeToAllPresetButtons];
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
         // An active NAV or MEDIA SDL app is in the background
-        SDLLogD(@"The HMI level is limited");
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
         // The SDL app is not in the foreground
-        SDLLogD(@"The HMI level is background");
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
         // The SDL app is not yet running
-        SDLLogD(@"The HMI level is none");
-    }
-    
-    if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
-        // We're always going to try to show the initial state. because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
-        [self sdlex_showInitialData];
     }
 }
 
+/// Called when the SDL app's HMI context changes.
+/// @param oldContext The old HMI context
+/// @param newContext The new HMI context
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
     if ([newContext isEqualToEnum:SDLSystemContextAlert]) {
-        SDLLogD(@"The System Context is Alert");
+        // The SDL app's screen is obscured by an alert
     } else if ([newContext isEqualToEnum:SDLSystemContextHMIObscured]) {
-        SDLLogD(@"The System Context is HMI Obscured");
+        // The SDL app's screen is obscured
     } else if ([newContext isEqualToEnum:SDLSystemContextMain]) {
-        SDLLogD(@"The System Context is Main");
+        // The SDL app's main screen is open
     } else if ([newContext isEqualToEnum:SDLSystemContextMenu]) {
-        SDLLogD(@"The System Context is Menu");
+        // The SDL app's menu is open
     } else if ([newContext isEqualToEnum:SDLSystemContextVoiceRecognitionSession]) {
-        SDLLogD(@"The System Context is Voice Recognition Session");
+        // A voice recognition session is in progress
     }
 }
 
+/// Called when the audio state of the SDL app has changed. The audio state only needs to be monitored if the app is streaming audio.
+/// @param oldState The old audio streaming state
+/// @param newState The new audio streaming state
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
     if ([newState isEqualToEnum:SDLAudioStreamingStateAudible]) {
         // The SDL app's audio can be heard
-        SDLLogD(@"The Audio Streaming State is Audible");
     } else if ([newState isEqualToEnum:SDLAudioStreamingStateNotAudible]) {
         // The SDL app's audio cannot be heard
-        SDLLogD(@"The Audio Streaming State is Not Audible");
     } else if ([newState isEqualToEnum:SDLAudioStreamingStateAttenuated]) {
         // The SDL app's audio volume has been lowered to let the system speak over the audio. This usually happens with voice recognition commands.
-        SDLLogD(@"The Audio Streaming State is Not Attenuated");
     }
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
-    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
-
-    if ([language isEqualToEnum:SDLLanguageEnUs]) {
-        update.appName = ExampleAppName;
-    } else if ([language isEqualToString:SDLLanguageEsMx]) {
-        update.appName = ExampleAppNameSpanish;
-    } else if ([language isEqualToString:SDLLanguageFrCa]) {
-        update.appName = ExampleAppNameFrench;
-    } else {
-        return nil;
-    }
-
-    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
-    return update;
-}
-#pragma clang diagnostic pop
-
+/// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
+/// @param language The head unit's current VR+TTS language
+/// @param hmiLanguage The head unit's current HMI language
+/// @return A SDLLifecycleConfigurationUpdate object
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
@@ -323,7 +312,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    update.ttsName = @[[SDLTTSChunk textChunksFromString:update.appName]];
+    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
 
     return update;
 }

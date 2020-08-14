@@ -28,12 +28,20 @@ QuickSpecBegin(SDLPermissionsManagerSpec)
 
 describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
-    
+
     __block NSString *testRPCNameAllAllowed = nil;
     __block NSString *testRPCNameAllDisallowed = nil;
     __block NSString *testRPCNameFullLimitedAllowed = nil;
     __block NSString *testRPCNameFullLimitedBackgroundAllowed = nil;
-    
+
+    __block NSString *testRPCParameterNameAllAllowed = nil;
+    __block NSString *testRPCParameterNameAllDisallowed = nil;
+    __block NSString *testRPCParameterNameFullLimitedAllowed = nil;
+
+    __block SDLParameterPermissions *testParameterPermissionAllowed = nil;
+    __block SDLParameterPermissions *testParameterPermissionUserDisallowed = nil;
+    __block SDLParameterPermissions *testParameterPermissionFullLimitedAllowed = nil;
+
     __block SDLPermissionItem *testPermissionAllAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsAllAllowed = nil;
     __block SDLPermissionItem *testPermissionAllDisallowed = nil;
@@ -42,85 +50,109 @@ describe(@"SDLPermissionsManager", ^{
     __block SDLHMIPermissions *testHMIPermissionsFullLimitedAllowed = nil;
     __block SDLPermissionItem *testPermissionFullLimitedBackgroundAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsFullLimitedBackgroundAllowed = nil;
-    
+
     __block SDLOnPermissionsChange *testPermissionsChange = nil;
-    
+
     __block SDLOnHMIStatus *testLimitedHMIStatus = nil;
     __block SDLOnHMIStatus *testBackgroundHMIStatus = nil;
     __block SDLOnHMIStatus *testNoneHMIStatus = nil;
-    
+
     __block SDLRPCNotificationNotification *testPermissionsNotification = nil;
     __block SDLRPCNotificationNotification *limitedHMINotification = nil;
     __block SDLRPCNotificationNotification *backgroundHMINotification = nil;
     __block SDLRPCNotificationNotification *noneHMINotification = nil;
-    
+
+    __block SDLPermissionElement *testPermissionElementAllAllowed = nil;
+    __block SDLPermissionElement *testPermissionElementFullLimitedAllowed = nil;
+    __block SDLPermissionElement *testPermissionElementDisallowed = nil;
+
     beforeEach(^{
         // Permission Names
         testRPCNameAllAllowed = @"AllAllowed";
         testRPCNameAllDisallowed = @"AllDisallowed";
         testRPCNameFullLimitedAllowed = @"FullAndLimitedAllowed";
         testRPCNameFullLimitedBackgroundAllowed = @"FullAndLimitedAndBackgroundAllowed";
-        
+
+        // Parameter Permission Names
+        testRPCParameterNameAllAllowed = @"AllAllowed";
+        testRPCParameterNameAllDisallowed = @"AllDisallowed";
+        testRPCParameterNameFullLimitedAllowed = @"FullAndLimitedAllowed";
+
         // Create a manager
         testPermissionsManager = [[SDLPermissionManager alloc] init];
-        
+
         // Permission states
         testHMIPermissionsAllAllowed = [[SDLHMIPermissions alloc] init];
         testHMIPermissionsAllAllowed.allowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
-        
+
         testHMIPermissionsAllDisallowed = [[SDLHMIPermissions alloc] init];
         testHMIPermissionsAllDisallowed.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
-        
+
         testHMIPermissionsFullLimitedAllowed = [[SDLHMIPermissions alloc] init];
         testHMIPermissionsFullLimitedAllowed.allowed = @[SDLHMILevelFull, SDLHMILevelLimited];
         testHMIPermissionsFullLimitedAllowed.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelNone];
-        
+
         testHMIPermissionsFullLimitedBackgroundAllowed = [[SDLHMIPermissions alloc] init];
         testHMIPermissionsFullLimitedBackgroundAllowed.allowed = @[SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelBackground];
         testHMIPermissionsFullLimitedBackgroundAllowed.userDisallowed = @[SDLHMILevelNone];
-        
+
+        // Assemble Parameter Permissions
+        testParameterPermissionAllowed = [[SDLParameterPermissions alloc] init];
+        testParameterPermissionAllowed.allowed = @[testRPCParameterNameAllAllowed];
+
+        testParameterPermissionUserDisallowed = [[SDLParameterPermissions alloc] init];
+        testParameterPermissionUserDisallowed.userDisallowed = @[testRPCParameterNameAllDisallowed];
+
+        testParameterPermissionFullLimitedAllowed = [[SDLParameterPermissions alloc] init];
+        testParameterPermissionFullLimitedAllowed.allowed = @[testRPCParameterNameAllAllowed, testRPCParameterNameFullLimitedAllowed];
+
         // Assemble Permissions
         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-        
+
         testPermissionAllAllowed = [[SDLPermissionItem alloc] init];
         testPermissionAllAllowed.rpcName = testRPCNameAllAllowed;
         testPermissionAllAllowed.hmiPermissions = testHMIPermissionsAllAllowed;
-        testPermissionAllAllowed.parameterPermissions = testParameterPermissions;
-        
+        testPermissionAllAllowed.parameterPermissions = testParameterPermissionAllowed;
+
         testPermissionAllDisallowed = [[SDLPermissionItem alloc] init];
         testPermissionAllDisallowed.rpcName = testRPCNameAllDisallowed;
         testPermissionAllDisallowed.hmiPermissions = testHMIPermissionsAllDisallowed;
-        testPermissionAllDisallowed.parameterPermissions = testParameterPermissions;
-        
+        testPermissionAllDisallowed.parameterPermissions = testParameterPermissionUserDisallowed;
+
         testPermissionFullLimitedAllowed = [[SDLPermissionItem alloc] init];
         testPermissionFullLimitedAllowed.rpcName = testRPCNameFullLimitedAllowed;
         testPermissionFullLimitedAllowed.hmiPermissions = testHMIPermissionsFullLimitedAllowed;
-        testPermissionFullLimitedAllowed.parameterPermissions = testParameterPermissions;
-        
+        testPermissionFullLimitedAllowed.parameterPermissions = testParameterPermissionFullLimitedAllowed;
+
         testPermissionFullLimitedBackgroundAllowed = [[SDLPermissionItem alloc] init];
         testPermissionFullLimitedBackgroundAllowed.rpcName = testRPCNameFullLimitedBackgroundAllowed;
         testPermissionFullLimitedBackgroundAllowed.hmiPermissions = testHMIPermissionsFullLimitedBackgroundAllowed;
         testPermissionFullLimitedBackgroundAllowed.parameterPermissions = testParameterPermissions;
-        
+
         // Create OnHMIStatus objects
         testLimitedHMIStatus = [[SDLOnHMIStatus alloc] init];
         testLimitedHMIStatus.hmiLevel = SDLHMILevelLimited;
-        
+
         testBackgroundHMIStatus = [[SDLOnHMIStatus alloc] init];
         testBackgroundHMIStatus.hmiLevel = SDLHMILevelBackground;
-        
+
         testNoneHMIStatus = [[SDLOnHMIStatus alloc] init];
         testNoneHMIStatus.hmiLevel = SDLHMILevelNone;
-        
+
         // Create OnPermissionsChange object
         testPermissionsChange = [[SDLOnPermissionsChange alloc] init];
         testPermissionsChange.permissionItem = @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed];
-        
+
         // Permission Notifications
         testPermissionsNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionsChange];
         limitedHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testLimitedHMIStatus];
         backgroundHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testBackgroundHMIStatus];
         noneHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testNoneHMIStatus];
+
+        // Permission Elements
+        testPermissionElementAllAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllAllowed parameterPermissions:@[testRPCParameterNameAllAllowed]];
+        testPermissionElementFullLimitedAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedAllowed parameterPermissions:@[testRPCParameterNameFullLimitedAllowed]];
+        testPermissionElementDisallowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllDisallowed parameterPermissions:@[testRPCParameterNameAllDisallowed]];
     });
 
     it(@"should clear when stopped", ^{
@@ -131,7 +163,7 @@ describe(@"SDLPermissionsManager", ^{
         expect(testPermissionsManager.currentHMILevel).to(beNil());
         expect(testPermissionsManager.requiresEncryption).to(beFalse());
     });
-    
+
     describe(@"checking if a permission is allowed", ^{
         __block NSString *someRPCName = nil;
         __block SDLRPCFunctionName someRPCFunctionName = nil;
@@ -164,7 +196,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
         });
-        
+
         context(@"when permissions exist but no HMI level", ^{
             context(@"deprecated isRPCAllowed: method", ^{
                 beforeEach(^{
@@ -191,7 +223,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
         });
-        
+
         context(@"when permissions exist", ^{
             context(@"deprecated isRPCAllowed: method", ^{
                 context(@"and the permission is allowed", ^{
@@ -254,10 +286,10 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
     });
-    
+
     describe(@"checking the group status of RPCs", ^{
         __block SDLPermissionGroupStatus testResultStatus = SDLPermissionGroupStatusUnknown;
-        
+
         context(@"with no permissions data", ^{
             context(@"deprecated groupStatusOfRPCs: method", ^{
                 beforeEach(^{
@@ -272,9 +304,9 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"groupStatusOfRPCNames: method", ^{
+            context(@"groupStatusOfRPCPermissions: method", ^{
                 beforeEach(^{
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
                 });
 
                 it(@"should return unknown", ^{
@@ -282,7 +314,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
         });
-        
+
         context(@"for an all allowed group", ^{
             context(@"deprecated groupStatusOfRPCs: method", ^{
                 beforeEach(^{
@@ -299,12 +331,12 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"groupStatusOfRPCNames: method", ^{
+            context(@"groupStatusOfRPCPermissions: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
                 });
 
                 it(@"should return allowed", ^{
@@ -312,7 +344,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
         });
-        
+
         context(@"for an all disallowed group", ^{
             context(@"deprecated groupStatusOfRPCs: method", ^{
                 beforeEach(^{
@@ -329,12 +361,12 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"groupStatusOfRPCNames: method", ^{
+            context(@"groupStatusOfRPCPermissions: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementFullLimitedAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return disallowed", ^{
@@ -342,7 +374,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
         });
-        
+
         context(@"for a mixed group", ^{
             context(@"deprecated groupStatusOfRPCs: method", ^{
                 beforeEach(^{
@@ -359,12 +391,12 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"groupStatusOfRPCNames: method", ^{
+            context(@"groupStatusOfRPCPermissions: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
                 });
 
                 it(@"should return mixed", ^{
@@ -373,9 +405,18 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
     });
-    
+
     describe(@"checking the status of RPCs", ^{
         __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
+        __block NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *testResultRPCPermissionStatusDict = nil;
+        __block SDLRPCPermissionStatus *allowedResultStatus = nil;
+        __block SDLRPCPermissionStatus *disallowedResultStatus = nil;
+
+        __block NSDictionary *testAllowedDict = nil;
+        __block SDLRPCPermissionStatus *testAllowedStatus = nil;
+        __block NSDictionary *testDisallowedDict = nil;
+        __block SDLRPCPermissionStatus *testDisallowedStatus = nil;
+
         context(@"with no permissions data", ^{
             context(@"deprecated statusOfRPCs: method", ^{
                 beforeEach(^{
@@ -391,18 +432,30 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"statusesOfRPCNames: method", ^{
+            context(@"statusesOfRPCPermissions: method", ^{
                 beforeEach(^{
-                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                    allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
+                    disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
+
+                    testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllAllowed, nil];
+                    testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
+                    testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
+                    testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:YES rpcParameters:testDisallowedDict];
                 });
 
-                it(@"should return correct permission statuses", ^{
-                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
-                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                it(@"should return the correct permission statuses", ^{
+                    expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
+                    expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
+                    expect(allowedResultStatus.rpcAllowed).to(equal(@NO));
+
+                    expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
+                    expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
+                    expect(disallowedResultStatus.rpcAllowed).to(equal(@NO));
                 });
             });
         });
-        
+
         context(@"with permissions data", ^{
             context(@"deprecated statusOfRPCs: method", ^{
                 beforeEach(^{
@@ -420,17 +473,31 @@ describe(@"SDLPermissionsManager", ^{
                 });
             });
 
-            context(@"statusesOfRPCNames: method", ^{
+            context(@"statusesOfRPCPermissions: method", ^{
                 beforeEach(^{
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    testResultPermissionStatusDict = [testPermissionsManager statusesOfRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+
+                    allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
+                    disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
+
+                    testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(1), testRPCParameterNameAllAllowed, nil];
+                    testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
+
+                    testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
+                    testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:NO rpcParameters:testDisallowedDict];
                 });
 
-                it(@"should return correct permission statuses", ^{
-                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
-                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                it(@"should return the correct permission statuses", ^{
+                    expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
+                    expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
+                    expect(allowedResultStatus.rpcAllowed).to(equal(testAllowedStatus.rpcAllowed));
+
+                    expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
+                    expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
+                    expect(disallowedResultStatus.rpcAllowed).to(equal(testDisallowedStatus.rpcAllowed));
                 });
             });
         });
@@ -558,13 +625,13 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
 
-        describe(@"adding a new observer with subscribeToRPCNames:groupType:Handler", ^{
+        describe(@"adding a new observer with subscribeToRPCPermissions:groupType:Handler", ^{
             context(@"when no data is present", ^{
                 __block BOOL testObserverCalled = NO;
 
                 beforeEach(^{
                     testObserverCalled = NO;
-                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -586,7 +653,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
-                    [testPermissionsManager subscribeToRPCNames:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -1088,6 +1155,91 @@ describe(@"SDLPermissionsManager", ^{
                     it(@"should call the observer", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
+                    });
+                });
+            });
+        });
+    });
+
+    describe(@"checking parameter permissions", ^{
+        __block SDLRPCFunctionName someRPCFunctionName = nil;
+        __block NSString *someRPCParameterName = nil;
+        __block BOOL testResultBOOL = NO;
+
+        context(@"when no permissions exist", ^{
+            beforeEach(^{
+                someRPCFunctionName = @"SomeRPCFunctionName";
+                someRPCParameterName = @"SomeRPCParameterName";
+                testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:someRPCFunctionName parameter:someRPCParameterName];
+            });
+
+            it(@"should not be allowed", ^{
+                expect(testResultBOOL).to(beFalse());
+            });
+        });
+
+        context(@"when permissions exist but no HMI level", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameAllAllowed parameter:testRPCParameterNameAllAllowed];
+            });
+
+            it(@"should not be allowed", ^{
+                expect(testResultBOOL).to(beFalse());
+            });
+        });
+
+        context(@"when permissions exist and HMI level exists", ^{
+            context(@"and the parameter permission is allowed", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameAllAllowed parameter:testRPCParameterNameAllAllowed];
+                });
+
+                it(@"should be allowed", ^{
+                    expect(testResultBOOL).to(beTrue());
+                });
+            });
+
+            context(@"and the parameter permission is denied", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameAllDisallowed parameter:testRPCParameterNameAllDisallowed];
+                });
+
+                it(@"should not be allowed", ^{
+                    expect(testResultBOOL).to(beFalse());
+                });
+            });
+
+            context(@"when user disallowed parameter permissions is not nil", ^{
+                context(@"and the parameter is disallowed", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                    testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameFullLimitedAllowed parameter:testRPCParameterNameAllDisallowed];
+                    });
+
+                    it(@"should not be allowed", ^{
+                        expect(testResultBOOL).to(beFalse());
+                    });
+                });
+
+                context(@"and the parameter is allowed", ^{
+                    beforeEach(^{
+                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+
+                        testResultBOOL = [testPermissionsManager isPermissionParameterAllowed:testRPCNameFullLimitedAllowed parameter:testRPCParameterNameAllAllowed];
+                    });
+
+                    it(@"should be allowed", ^{
+                        expect(testResultBOOL).to(beTrue());
                     });
                 });
             });

@@ -10,7 +10,7 @@
 #import <VideoToolbox/VideoToolbox.h>
 
 #import "SDLHMILevel.h"
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingState.h"
@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolDelegate>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;
@@ -156,6 +156,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 3. Since the primary transport is still open, the video scale manager should not be reset because the default video dimensions are retrieved from the `RegisterAppInterfaceResponse`. Due to a bug with the video start service ACK sometimes returning a screen resolution of {0, 0} on subsequent request to start a video service, we need to keep the screen resolution from the very first start video service ACK. (This is not an issue if the head unit supports the `VideoStreamingCapability`).
 /// @param videoEndedCompletionHandler Called when the module ACKs or NAKs to the request to end the video service.
 - (void)endVideoServiceWithCompletionHandler:(void (^)(void))videoEndedCompletionHandler;
+
+/// This method is used internally to stop video streaming when the secondary transport has been closed due to an connection error. The primary transport is still open.
+/// 1. Since the transport has been closed, we can not send an end video service control frame to the module.
+/// 2. Since the primary transport is still open, we will not reset the `hmiLevel`, `videoStreamingState` or the video scale manager. This lets us resume video streaming if the secondary transport can be reestablished during the same app session.
+- (void)secondaryTransportDidDisconnect;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.

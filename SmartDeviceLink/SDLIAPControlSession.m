@@ -49,19 +49,18 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)startSession {
     if (self.accessory == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
-        if (self.delegate == nil) { return; }
         [self.delegate controlSessionShouldRetry];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.accessory.name);
-
         __weak typeof(self) weakSelf = self;
         [self sdl_startStreamsWithCompletionHandler:^(BOOL success) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (!success) {
                 SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", strongSelf.accessory);
-                [strongSelf destroySession];
-                if (strongSelf.delegate == nil) { return; }
-                [strongSelf.delegate controlSessionShouldRetry];
+                [strongSelf destroySessionWithCompletionHandler:^{
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [strongSelf.delegate controlSessionShouldRetry];
+                }];
             } else {
                 SDLLogD(@"Waiting for the protocol string from Core, setting timeout timer for %d seconds", ProtocolIndexTimeoutSeconds);
                 strongSelf.protocolIndexTimer = [strongSelf sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
@@ -91,27 +90,17 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark Stop
 
-- (void)destroySession {
+/// Makes sure the session is closed and destroyed on the main thread.
+/// @param disconnectCompletionHandler Handler called when the session has disconnected
+- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the control session");
-    [self sdl_destroySession];
-}
-
-/**
- *  Makes sure the session is closed and destroyed on the main thread.
- */
-- (void)sdl_destroySession {
-    if ([NSThread isMainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self sdl_stopAndDestroySession];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self sdl_stopAndDestroySession];
-        });
-    }
+        return disconnectCompletionHandler();
+    });
 }
 
-/**
- *  Closes the session streams and then destroys the session.
- */
+/// Closes the session streams and then destroys the session.
 - (void)sdl_stopAndDestroySession {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
@@ -184,10 +173,12 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     // End events come in pairs, only perform this once per set.
     [self.protocolIndexTimer cancel];
-    [self destroySession];
 
-    if (self.delegate == nil) { return; }
-    [self.delegate controlSessionShouldRetry];
+    __weak typeof(self) weakSelf = self;
+    [self destroySessionWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.delegate controlSessionShouldRetry];
+    }];
 }
 
 /**
@@ -209,14 +200,14 @@ int const ProtocolIndexTimeoutSeconds = 10;
     SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
 
     // Destroy the control session as it is no longer needed, and then create the data session.
-    [self destroySession];
-
-    if (self.accessory.isConnected) {
-        if (self.delegate != nil) {
-            [self.delegate controlSession:self didReceiveProtocolString:indexedProtocolString];
+    __weak typeof(self) weakSelf = self;
+    [self destroySessionWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.accessory.isConnected) {
+            [strongSelf.protocolIndexTimer cancel];
+            [strongSelf.delegate controlSession:strongSelf didReceiveProtocolString:indexedProtocolString];
         }
-        [self.protocolIndexTimer cancel];
-    }
+    }];
 }
 
 /**
@@ -226,10 +217,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
     SDLLogE(@"Control stream error");
 
     [self.protocolIndexTimer cancel];
-    [self destroySession];
-
-    if (self.delegate == nil) { return; }
-    [self.delegate controlSessionShouldRetry];
+    __weak typeof(self) weakSelf = self;
+    [self destroySessionWithCompletionHandler:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.delegate controlSessionShouldRetry];
+    }];
 }
 
 #pragma mark - Timer
@@ -246,10 +238,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf sdl_destroySession];
-
-        if (strongSelf.delegate == nil) { return; }
-        [strongSelf.delegate controlSessionShouldRetry];
+        [strongSelf destroySessionWithCompletionHandler:^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.delegate controlSessionShouldRetry];
+        }];
     };
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;
@@ -262,14 +254,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)sdl_startControlSessionProtocolIndexStringDataTimeoutTimer {
     if (self.protocolIndexTimer == nil) { return; }
     [self.protocolIndexTimer start];
-}
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    SDLLogV(@"SDLIAPControlSession dealloc");
-    [self destroySession];
-    _protocolIndexTimer = nil;
 }
 
 @end

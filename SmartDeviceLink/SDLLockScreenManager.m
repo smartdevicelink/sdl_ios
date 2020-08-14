@@ -11,9 +11,11 @@
 #import "NSBundle+SDLBundle.h"
 #import "SDLLogMacros.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
+#import "SDLNotificationDispatcher.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
@@ -27,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+@property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -42,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenManager
 
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(SDLNotificationDispatcher *)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
     self = [super init];
     if (!self) {
         return nil;
@@ -53,12 +56,13 @@ NS_ASSUME_NONNULL_BEGIN
     _config = config;
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
+    _statusManager = [[SDLLockScreenStatusManager alloc] initWithNotificationDispatcher:dispatcher];
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:_statusManager];
 #pragma clang diagnostic pop
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
@@ -144,7 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_lockScreenIconReceived:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[UIImage class]], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[UIImage class]]) {
         return;
     }

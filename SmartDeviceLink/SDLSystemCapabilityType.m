@@ -15,3 +15,4 @@ SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming = @"VIDEO_ST
 SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl = @"REMOTE_CONTROL";
 SDLSystemCapabilityType const SDLSystemCapabilityTypeSeatLocation = @"SEAT_LOCATION";
 SDLSystemCapabilityType const SDLSystemCapabilityTypeDisplays = @"DISPLAYS";
+SDLSystemCapabilityType const SDLSystemCapabilityTypeDriverDistraction = @"DRIVER_DISTRACTION";
