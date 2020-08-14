@@ -184,9 +184,9 @@ SDLNotificationName const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.no
 SDLNotificationName const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.OnTouchEvent";
 SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.OnVehicleData";
 SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notification.OnWayPointChange";
+
+
 @implementation SDLNotificationConstants
-
-
 
 + (NSArray<SDLNotificationName> *)allResponseNames {
     return @[SDLDidReceiveAddCommandResponse,
