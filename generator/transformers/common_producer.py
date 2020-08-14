@@ -32,7 +32,7 @@ class InterfaceProducerCommon(ABC):
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
                                       'method_suffix of_class type_native type_sdl modifier for_name description '
                                       'constructor_argument_override')
-        self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
+        self.constructor_named = namedtuple('constructor', 'init self arguments all')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
         self.names = self.struct_names + tuple(map(lambda e: self._replace_sync(e), enum_names))
 
@@ -199,6 +199,10 @@ class InterfaceProducerCommon(ABC):
         arguments = [self.argument_named(origin=first.origin, constructor_argument=self.parentheses(first),
                                          variable=first.constructor_argument, deprecated=first.deprecated)]
         for param in data:
+            if param.deprecated:
+                # Omit deprecated parameters from the constructors
+                continue
+
             arguments.append(self.argument_named(origin=param.origin, constructor_argument=self.parentheses(param),
                                                  variable=param.constructor_argument, deprecated=param.deprecated))
             init.append('{}:({}{}){}'.format(self.minimize_first(param.constructor_prefix),
@@ -215,7 +219,6 @@ class InterfaceProducerCommon(ABC):
         """
         mandatory = []
         not_mandatory = []
-        deprecated = any([m.deprecated for m in data.values() if getattr(m, 'deprecated', False)])
         for param in data.values():
             if param.mandatory:
                 mandatory.append(param)
@@ -225,13 +228,11 @@ class InterfaceProducerCommon(ABC):
         result = []
         if mandatory:
             mandatory = self.extract_constructor(mandatory, True)
-            mandatory['deprecated'] = deprecated
         else:
             mandatory = OrderedDict()
 
         if not_mandatory:
             not_mandatory = self.extract_constructor(not_mandatory, False)
-            not_mandatory['deprecated'] = deprecated
             if mandatory:
                 not_mandatory['init'] = '{} {}'.format(mandatory['init'], self.minimize_first(not_mandatory['init']))
                 not_mandatory['all'] = mandatory['arguments'] + not_mandatory['arguments']
