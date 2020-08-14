@@ -486,11 +486,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             NSInteger targetFramerate = ((NSNumber *)strongSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
             strongSelf.displayLink = [CADisplayLink displayLinkWithTarget:strongSelf selector:@selector(sdl_displayLinkFired:)];
-            if (@available(iOS 10, *)) {
-                strongSelf.displayLink.preferredFramesPerSecond = targetFramerate;
-            } else {
-                strongSelf.displayLink.frameInterval = (60 / targetFramerate);
-            }
+            strongSelf.displayLink.preferredFramesPerSecond = targetFramerate;
             [strongSelf.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         });
     } else {
