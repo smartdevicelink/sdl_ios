@@ -315,6 +315,7 @@ context(@"init", ^{
     context(@"init and set OEM Custom Vehicle Data", ^{
         SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+    
         it(@"expect OEM Custom Vehicle Data to be set properly", ^{
             expect([testResponse getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
         });

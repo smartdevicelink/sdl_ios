@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The current gear shift state of the user's vehicle. Please use gearStatus instead.
  */
-@property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus.actualGear instead");
+@property (strong, nonatomic, nullable) SDLPRNDL prndl __deprecated_msg("use gearStatus.actualGear instead on 7.0+ RPC version connections");
 
 /**
  The current pressure warnings for the user's vehicle
