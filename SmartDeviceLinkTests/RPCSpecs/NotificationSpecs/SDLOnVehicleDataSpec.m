@@ -297,10 +297,10 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.instantFuelConsumption).to(equal(@(instantFuelConsumption)));
             expect(testResponse.myKey).to(equal(myKey));
             expect(testResponse.odometer).to(equal(@(odometer)));
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(beNil());
- #pragma clang diagnostic pop
+#pragma clang diagnostic pop
             expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));

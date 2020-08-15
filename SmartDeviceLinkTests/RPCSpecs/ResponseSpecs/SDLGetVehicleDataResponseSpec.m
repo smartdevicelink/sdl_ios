@@ -83,7 +83,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testResponse.prndl = prndl;
 #pragma clang diagnostic pop
-        testResponse.gearStatus = gearStatus;
         testResponse.rpm = @(rpm);
         testResponse.speed = @(speed);
         testResponse.steeringWheelAngle = @(steeringWheelAngle);
@@ -124,7 +123,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(equal(prndl));
 #pragma clang diagnostic pop
-            expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));
             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
@@ -158,7 +156,6 @@ describe(@"getter/setter tests", ^{
                                             SDLRPCParameterNameFuelLevelState:fuelLevel_State,
 #pragma clang diagnostic pop
                                             SDLRPCParameterNameFuelRange:fuelRangeArray,
-                                            SDLRPCParameterNameGearStatus:gearStatus,
                                             SDLRPCParameterNameGearStatus:gearStatus,
                                             SDLRPCParameterNameGPS:gps,
                                             SDLRPCParameterNameHandsOffSteering:@(handsOffSteering),
@@ -216,7 +213,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(equal(prndl));
 #pragma clang diagnostic pop
-            expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));
             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));

@@ -49,7 +49,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testRequest.prndl = @YES;
 #pragma clang diagnostic pop
-        testRequest.gearStatus = @YES;
         testRequest.rpm = @YES;
         testRequest.speed = @YES;
         testRequest.steeringWheelAngle = @YES;
@@ -178,7 +177,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
-            expect(testRequest.gearStatus).to(equal(@YES));
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
