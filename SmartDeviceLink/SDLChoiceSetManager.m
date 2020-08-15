@@ -133,7 +133,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)stop {
     SDLLogD(@"Stopping manager");
     
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [self.stateMachine transitionToState:SDLChoiceManagerStateShutdown];
     }];
 }
@@ -231,7 +231,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
 
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [choicesToUpload minusSet:self.preloadedMutableChoices];
         [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
     }];
@@ -248,7 +248,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
     }];
 
@@ -275,7 +275,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
-        [strongSelf sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
             [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
@@ -307,7 +307,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     // Remove the cells from pending and delete choices
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
     }];
 
@@ -341,7 +341,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             return;
         }
 
-        [strongSelf sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
         }];
@@ -522,7 +522,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (NSSet<SDLChoiceCell *> *)preloadedChoices {
     __block NSSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         set = [self->_preloadedMutableChoices copy];
     }];
 
@@ -531,7 +531,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (NSSet<SDLChoiceCell *> *)pendingPreloadChoices {
     __block NSSet<SDLChoiceCell *> *set = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         set = [self->_pendingMutablePreloadChoices copy];
     }];
 
@@ -540,7 +540,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (UInt16)nextChoiceId {
     __block UInt16 choiceId = 0;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         choiceId = self->_nextChoiceId;
         self->_nextChoiceId = choiceId + 1;
     }];
@@ -550,7 +550,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (UInt16)nextCancelId {
     __block UInt16 cancelId = 0;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         cancelId = self->_nextCancelId;
         self->_nextCancelId = cancelId + 1;
     }];
@@ -560,19 +560,6 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 - (NSString *)currentState {
     return self.stateMachine.currentState;
-}
-
-#pragma mark Utilities
-
-/// Checks if we are already on a serial queue. If so, the block is added to the queue; if not, the block is dispatched to the serial `readWrite` queue.
-/// @discussion Used to synchronize access to class properties.
-/// @param block The block to be executed.
-- (void)sdl_runSyncOnQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.readWriteQueue, block);
-    }
 }
 
 #pragma mark - RPC Responses / Notifications

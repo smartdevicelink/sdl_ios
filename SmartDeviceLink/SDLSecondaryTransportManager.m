@@ -110,8 +110,14 @@ struct TransportProtocolUpdated {
 /// The current hmi level of the SDL app.
 @property (strong, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
+/// The current application state of the app on the phone. This information is tracked because TCP transport can only reliably work when the app on the phone is in the foreground. If the phone is locked or the app is put in the background for a long time, the OS can reclaim the socket.
+@property (assign, nonatomic) UIApplicationState currentApplicationState;
+
 /// A background task used to close the secondary transport before the app is suspended.
 @property (strong, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
+
+/// A handler called when the secondary transport has been shutdown
+@property (nonatomic, copy, nullable) void (^disconnectCompletionHandler)(void);
 
 @end
 
@@ -139,7 +145,16 @@ struct TransportProtocolUpdated {
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskSecondaryTransportName];
 
+    _currentApplicationState = UIApplicationStateInactive;
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.currentApplicationState = UIApplication.sharedApplication.applicationState;
+    });
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -166,7 +181,7 @@ struct TransportProtocolUpdated {
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
 }
 
-- (void)stop {
+- (void)stopWithCompletionHandler:(void (^)(void))completionHandler {
     SDLLogD(@"Stopping manager");
 
     // this method must be called in SDLLifecycleManager's state machine queue
@@ -178,32 +193,20 @@ struct TransportProtocolUpdated {
     SDLLogD(@"Stopping audio / video services on both transports");
     [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
 
+    if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateStopped]) {
+        return completionHandler();
+    }
+
+    // In order to stop the secondary transport
+    // 1. The observer must be told to shut down the services running on the transports. This can take a few moments since a request must be sent to the module a response must be awaited.
+    // 2. Once the services have been shutdown, the observer will notifiy this class by calling `disconnectSecondaryTransportWithCompletionHandler`. The secondary transport can now be shutdown. This can take a few memoments since the I/O streams must be closed on the thread they were opened on.
+    // 3. Once the secondary transport has shutdown successfully, the `disconnectCompletionHandler` will be called. 
+    self.disconnectCompletionHandler = completionHandler;
+
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
 }
 
 #pragma mark - Manager Lifecycle
-
-- (void)sdl_startManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
-}
-
-- (void)sdl_stopManager {
-    SDLLogD(@"SDLSecondaryTransportManager stop");
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-
-    self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
-                                @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
-    self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    self.transportsForAudioService = @[];
-    self.transportsForVideoService = @[];
-
-    self.ipAddress = nil;
-    self.tcpPort = TCPPortUnspecified;
-    self.currentHMILevel = nil;
-}
 
 - (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)availableSecondaryTransports
           availableTransportsForAudio:(nullable NSArray<SDLTransportClassBox *> *)availableTransportsForAudio
@@ -264,12 +267,25 @@ struct TransportProtocolUpdated {
 
 - (void)didEnterStateStopped {
     SDLLogD(@"Secondary transport manager stopped");
-    [self sdl_stopManager];
+
+    self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
+                                           @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
+    self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
+    self.transportsForAudioService = @[];
+    self.transportsForVideoService = @[];
+
+    self.ipAddress = nil;
+    self.tcpPort = TCPPortUnspecified;
+    self.currentHMILevel = nil;
+
+    if (self.disconnectCompletionHandler != nil) {
+        self.disconnectCompletionHandler();
+        self.disconnectCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateStarted {
     SDLLogD(@"Secondary transport manager started");
-    [self sdl_startManager];
 }
 
 - (void)didEnterStateConfigured {
@@ -280,6 +296,8 @@ struct TransportProtocolUpdated {
          || self.secondaryTransportType == SDLSecondaryTransportTypeIAP)
         && self.sdl_isHMILevelNonNone) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+    } else {
+        SDLLogD(@"The secondary transport manager is not ready to transition to connecting state. The app's application state needs to be Active in order to create a socket (current app state is %ld) and we need the socket address (current IP address: %@ and port: %d)", (long)self.currentApplicationState, self.ipAddress, self.tcpPort);
     }
 }
 
@@ -304,17 +322,12 @@ struct TransportProtocolUpdated {
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 }
 
-- (void)willTransitionFromStateRegisteredToStateReconnecting {
-    SDLLogD(@"Manger is closing transport but will try to reconnect if configured correctly. Stopping services on secondary transport");
-    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
-}
-
 - (void)didEnterStateReconnecting {
-    SDLLogD(@"Secondary transport is reconnecting");
+    SDLLogD(@"The secondary transport manager will try to reconnect in %.01f seconds", RetryConnectionDelay);
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
-            SDLLogD(@"Attempting reconnection");
+            SDLLogD(@"Attempting to reconnect");
             [weakSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
         }
     });
@@ -388,9 +401,11 @@ struct TransportProtocolUpdated {
 #pragma mark - Transport management
 
 #pragma mark Primary transport
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    if (startServiceACK.header.serviceType != SDLServiceTypeRPC) { return; }
-    SDLLogV(@"Received Start Service ACK header of RPC service on primary transport");
+
+- (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
+    if (startServiceACK.header.serviceType != SDLServiceTypeRPC || self.primaryProtocol != protocol) { return; }
+
+    SDLLogV(@"Received Start Service ACK header of RPC service on primary (%@) transport", protocol.transport);
 
     // Keep header to acquire Session ID
     self.primaryRPCHeader = startServiceACK.header;
@@ -400,9 +415,11 @@ struct TransportProtocolUpdated {
     [self sdl_onStartServiceAckReceived:payload];
 }
 
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+- (void)protocol:(SDLProtocol *)protocol didReceiveTransportEventUpdate:(SDLProtocolMessage *)transportEventUpdate {
+    if (self.primaryProtocol != protocol) { return; }
+
     SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
-    SDLLogV(@"Recieved transport event update on primary transport: %@", payload);
+    SDLLogV(@"Recieved transport event update on primary (%@) transport: %@", protocol.transport, payload);
 
     [self sdl_onTransportEventUpdateReceived:payload];
 }
@@ -427,20 +444,24 @@ struct TransportProtocolUpdated {
     }
 }
 
-- (BOOL)disconnectSecondaryTransport {
+- (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler {
     if (self.secondaryTransport == nil) {
         SDLLogW(@"Attempted to disconnect secondary transport but it's already stopped.");
-        return NO;
+        return completionHandler();
     }
 
-    SDLLogD(@"Disconnecting secondary transport");
-    [self.secondaryTransport disconnect];
-    self.secondaryTransport = nil;
-    self.secondaryProtocol = nil;
+    __weak typeof(self) weakSelf = self;
+    [self.secondaryTransport disconnectWithCompletionHandler:^{
+        SDLLogD(@"Disconnecting secondary transport manager");
 
-    [self.backgroundTaskManager endBackgroundTask];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.secondaryTransport = nil;
+        strongSelf.secondaryProtocol = nil;
+        [strongSelf.streamingServiceTransportMap removeAllObjects];
 
-    return YES;
+        [strongSelf.backgroundTaskManager endBackgroundTask];
+        return completionHandler();
+    }];
 }
 
 - (BOOL)sdl_startTCPSecondaryTransport {
@@ -454,9 +475,8 @@ struct TransportProtocolUpdated {
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] init];
     transport.hostName = self.ipAddress;
     transport.portNumber = [NSString stringWithFormat:@"%d", self.tcpPort];
-    SDLProtocol *protocol = [[SDLProtocol alloc] init];
-    transport.delegate = protocol;
-    protocol.transport = transport;
+
+    SDLProtocol *protocol = [[SDLProtocol alloc] initWithTransport:transport encryptionManager:self.primaryProtocol.encryptionLifecycleManager];
     protocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -479,9 +499,7 @@ struct TransportProtocolUpdated {
     SDLLogD(@"Starting Secondary Transport: iAP");
 
     SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
-    SDLProtocol *protocol = [[SDLProtocol alloc] init];
-    transport.delegate = protocol;
-    protocol.transport = transport;
+    SDLProtocol *protocol = [[SDLProtocol alloc] initWithTransport:transport encryptionManager:self.primaryProtocol.encryptionLifecycleManager];
     protocol.securityManager = self.primaryProtocol.securityManager;
     self.secondaryProtocol = protocol;
     self.secondaryTransport = transport;
@@ -514,7 +532,7 @@ struct TransportProtocolUpdated {
         return NO;
     }
 
-    if (self.sdl_getAppState != UIApplicationStateActive) {
+    if (self.currentApplicationState != UIApplicationStateActive) {
         SDLLogD(@"App state is not Active, TCP transport is not ready");
         return NO;
     }
@@ -522,23 +540,12 @@ struct TransportProtocolUpdated {
     return YES;
 }
 
-- (UIApplicationState)sdl_getAppState {
-    if ([NSThread isMainThread]) {
-        return [UIApplication sharedApplication].applicationState;
-    } else {
-        __block UIApplicationState appState;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            appState = [UIApplication sharedApplication].applicationState;
-        });
-        return appState;
-    }
-}
-
-
-#pragma mark - SDLProtocolListener Implementation
+#pragma mark - SDLProtocolDelegate Implementation
 
 // called on transport's thread, notifying that the transport is established
-- (void)onProtocolOpened {
+- (void)protocolDidOpen:(SDLProtocol *)protocol {
+    if (self.secondaryProtocol != protocol) { return; }
+
     SDLLogD(@"Secondary transport connected");
 
     self.registerTransportTimer = [[SDLTimer alloc] initWithDuration:RegisterTransportTime repeat:NO];
@@ -551,12 +558,12 @@ struct TransportProtocolUpdated {
                 return;
             }
 
-            // if the state is still Connecting, go back to Configured state and retry immediately
+            // If still in Connecting state, shutdown the transport and try to reconnect
             if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
-                SDLLogD(@"Retry secondary transport connection after registration timeout");
-                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+                SDLLogD(@"Shutting down and restarting the secondary transport connection after registration timeout");
+                [strongSelf sdl_transportClosed];
             } else {
-                SDLLogD(@"Will not retry secondary transport connection because current state is: %@", strongSelf.stateMachine.currentState);
+                SDLLogD(@"Could not register the secondary transport with the module. The services will not be started on the secondary transport.");
             }
         });
     };
@@ -565,27 +572,44 @@ struct TransportProtocolUpdated {
     [self.secondaryProtocol registerSecondaryTransport];
 }
 
-- (void)onTransportError:(NSError *)error {
-    SDLLogE(@"The transport errored. Disconnecting the transport");
-    [self disconnectSecondaryTransport];
+/// Called on the transport's thread, notifying that the transport has errored before a connection was established.
+/// @param error The error
+/// @param protocol The protocol
+- (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error {
+    if (self.secondaryProtocol != protocol) { return; }
+
+    SDLLogE(@"The secondary transport errored.");
+    [self sdl_transportClosed];
 }
 
-// called on transport's thread, notifying that the transport is disconnected
-// (Note: when transport's disconnect method is called, this method will not be called)
-- (void)onProtocolClosed {
-    SDLLogD(@"secondary transport disconnected");
+/// Called on transport's thread, notifying that the transport is disconnected.
+/// @discussion When the transport's disconnect method is called, this method will not be called.
+/// @param protocol The protocol
+- (void)protocolDidClose:(SDLProtocol *)protocol {
+    if (self.secondaryProtocol != protocol) { return; }
 
+    SDLLogE(@"The secondary transport disconnected.");
+    [self sdl_transportClosed];
+}
+
+/// Try to reconnect the secondary transport if the transport errored during the connection attempt or closed unexpectedly.
+- (void)sdl_transportClosed {
     dispatch_async(self.stateMachineQueue, ^{
         if ([self sdl_isTransportOpened]) {
+            SDLLogV(@"Secondary transport is ready to reconnect. Attempting to reconnect the secondary transport");
+            [self.streamingProtocolDelegate transportClosed];
             [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
+        } else {
+            SDLLogD(@"Secondary transport is not ready to reconnect. Will not attempt to reconnect the secondary transport");
         }
     });
 }
 
 // called from SDLProtocol's _receiveQueue of secondary transport
-- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
-    SDLLogD(@"Received Register Secondary Transport ACK frame");
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportACK:(SDLProtocolMessage *)registerSecondaryTransportACK {
+    if (self.secondaryProtocol != protocol) { return; }
 
+    SDLLogD(@"Received Register Secondary Transport ACK on the secondary (%@) transport", protocol.transport);
     dispatch_async(self.stateMachineQueue, ^{
         // secondary transport is now ready
         [self.stateMachine transitionToState:SDLSecondaryTransportStateRegistered];
@@ -593,10 +617,14 @@ struct TransportProtocolUpdated {
 }
 
 // called from SDLProtocol's _receiveQueue of secondary transport
-- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK {
-    SDLLogW(@"Received Register Secondary Transport NAK frame");
+- (void)protocol:(SDLProtocol *)protocol didReceiveRegisterSecondaryTransportNAK:(SDLProtocolMessage *)registerSecondaryTransportNAK {
+    if (self.secondaryProtocol != protocol) { return; }
 
+    SDLLogW(@"Received Register Secondary Transport NAK on the secondary (%@) transport", protocol.transport);
     dispatch_async(self.stateMachineQueue, ^{
+        if ([self.stateMachine.currentState isEqualToEnum:SDLSecondaryTransportStateRegistered]) {
+            [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
+        }
         [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
     });
 }
@@ -677,34 +705,42 @@ struct TransportProtocolUpdated {
 
 /// Closes and re-opens the the secondary transport when the app is backgrounded and foregrounded on the device respectively. This is done because sockets can be reclaimed by the system at anytime when the app is not in the foreground.
 /// @param notification Notification from the OS that the app's life-cycle state has changed
-- (void)sdl_onAppStateUpdated:(NSNotification *)notification {
+- (void)sdl_appStateDidBecomeActive:(NSNotification *)notification {
+    self.currentApplicationState = UIApplicationStateActive;
+
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.stateMachineQueue, ^{
         __strong typeof(self) strongSelf = weakSelf;
-        if (notification.name == UIApplicationWillResignActiveNotification) {
-            SDLLogD(@"App will enter the background");
-            if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
-                SDLLogD(@"Starting background task to keep TCP transport alive");
-                strongSelf.backgroundTaskManager.taskExpiringHandler = [strongSelf sdl_backgroundTaskEndedHandler];
-                [strongSelf.backgroundTaskManager startBackgroundTask];
-            } else {
-                SDLLogD(@"TCP transport already disconnected, will not start a background task.");
-            }
-        } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            SDLLogD(@"App entered the foreground");
-            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
-                SDLLogD(@"In the registered state; TCP transport has not yet been shutdown. Ending the background task.");
-                [strongSelf.backgroundTaskManager endBackgroundTask];
-            } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
-                && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
-                && [strongSelf sdl_isTCPReady]
-                && [strongSelf sdl_isHMILevelNonNone]) {
-                SDLLogD(@"In the configured state; restarting the TCP transport. Ending the background task.");
-                [strongSelf.backgroundTaskManager endBackgroundTask];
-                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
-            } else {
-                SDLLogD(@"TCP transport not ready to start, our current state is: %@", strongSelf.stateMachine.currentState);
-            }
+        SDLLogD(@"App entered the foreground");
+        if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered]) {
+            SDLLogD(@"In the registered state; TCP transport has not yet been shutdown. Ending the background task.");
+            [strongSelf.backgroundTaskManager endBackgroundTask];
+        } else if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured]
+                   && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP
+                   && [strongSelf sdl_isTCPReady]
+                   && [strongSelf sdl_isHMILevelNonNone]) {
+            SDLLogD(@"In the configured state; restarting the TCP transport. Ending the background task.");
+            [strongSelf.backgroundTaskManager endBackgroundTask];
+            [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+        } else {
+            SDLLogD(@"TCP transport not ready to start, secondary transport state must be in state Configured (currently in state: %@), the SDL app hmi level must be non-NONE (currently in state: %@), and the app must be ready to start a TCP socket (current app state: %ld, current IP address: %@, current port: %d)", strongSelf.stateMachine.currentState, strongSelf.currentHMILevel, self.currentApplicationState, self.ipAddress, self.tcpPort);
+        }
+    });
+}
+
+- (void)sdl_appStateDidBecomeInactive:(NSNotification *)notification {
+    self.currentApplicationState = UIApplicationStateInactive;
+
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.stateMachineQueue, ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        SDLLogD(@"App will enter the background");
+        if ([strongSelf sdl_isTransportOpened] && strongSelf.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
+            SDLLogD(@"Starting background task to keep TCP transport alive");
+            strongSelf.backgroundTaskManager.taskExpiringHandler = [strongSelf sdl_backgroundTaskEndedHandler];
+            [strongSelf.backgroundTaskManager startBackgroundTask];
+        } else {
+            SDLLogD(@"TCP transport already disconnected, will not start a background task.");
         }
     });
 }
@@ -715,7 +751,7 @@ struct TransportProtocolUpdated {
     __weak typeof(self) weakSelf = self;
     return ^{
         __strong typeof(self) strongSelf = weakSelf;
-        if (strongSelf.sdl_getAppState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+        if (strongSelf.currentApplicationState == UIApplicationStateActive || [strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
             // Return NO as we do not need to perform any cleanup and can end the background task immediately
             SDLLogV(@"No cleanup needed since app has been foregrounded.");
             return NO;
@@ -790,6 +826,7 @@ struct TransportProtocolUpdated {
 }
 
 #pragma mark - RPC Notifications
+
 /// Check and track the HMI status to ensure that the secondary transport only attempts a connection in non-NONE HMI states
 ///
 /// See: https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0214-secondary-transport-optimization.md

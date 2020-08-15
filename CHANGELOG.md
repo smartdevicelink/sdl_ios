@@ -1,4 +1,56 @@
 # Changelog
+## 6.7.0
+### Versions
+* Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Testing
+* Tested with Xcode 11.6
+* iOS 13.5 and 13.6
+* Core:
+  * Manticore (Core v6.1.1, Generic HMI v0.8.1)
+  * Ford Sync 3.4 (19353_DEVTEST)
+  * Ford Sync 3.0 (17276_DEVTEST)
+  * Ford Sync 4.0 (20016_DEVTEST)
+  * Core v5.1.0 with sdl_hmi v5.2.0
+  * Core v6.1.1
+
+### Enhancements
+* Added subscribe button features to the screen manager (https://github.com/smartdevicelink/sdl_ios/issues/1563).
+* Added a new `SDLManager` delegate method for updating the HMI and VR language separately (https://github.com/smartdevicelink/sdl_ios/issues/1593).
+* Added a new initializer to `SDLButtonPress` because the existing ones were missing a mandatory parameter (https://github.com/smartdevicelink/sdl_ios/issues/1635).
+* Aligned `SDLPermissionManager` methods with Java Suite and JavaScript Suite libraries, adding methods for parameter permissions and more (https://github.com/smartdevicelink/sdl_ios/issues/1661, https://github.com/smartdevicelink/sdl_ios/issues/1667, https://github.com/smartdevicelink/sdl_ios/issues/1682).
+
+### Bug Fixes
+* Fix the video background when the app goes into the background not always showing when it should (https://github.com/smartdevicelink/sdl_ios/issues/1620).
+* Improved `SDLAudioStreamManager` error messages (https://github.com/smartdevicelink/sdl_ios/issues/1622).
+* Better handling of head units sending a `nil` `displayCapabilities` in the `SystemCapabilityManager` (https://github.com/smartdevicelink/sdl_ios/issues/1623).
+* Fixed a deadlock that could happen on the lock screen due to some calls being asynchronous but handled synchronously (https://github.com/smartdevicelink/sdl_ios/issues/1629).
+* Stop and start `SDLFocusableItemLocator` when the video stream starts and stops (https://github.com/smartdevicelink/sdl_ios/issues/1631).
+* Fixed turning wifi off and back on causing secondary transport to fail (https://github.com/smartdevicelink/sdl_ios/issues/1631, https://github.com/smartdevicelink/sdl_ios/issues/1639).
+* Fixed using the permission manager in Swift would sometimes crash (https://github.com/smartdevicelink/sdl_ios/issues/1636).
+* Fixed Travis tests failing and moved to Github Actions CI (https://github.com/smartdevicelink/sdl_ios/issues/1640, https://github.com/smartdevicelink/sdl_ios/issues/1642, https://github.com/smartdevicelink/sdl_ios/issues/1678).
+* Fixed sending an empty VR array in an `SDLMenuCell` would fail (https://github.com/smartdevicelink/sdl_ios/issues/1648).
+* Fix a launch app should only happen on the main thread (https://github.com/smartdevicelink/sdl_ios/issues/1662).
+* Fixed some documentation for a permission manager method to be more specific (https://github.com/smartdevicelink/sdl_ios/issues/1665).
+* Fix the encryption manager not being shut down correctly after a disconnect / reconnect (https://github.com/smartdevicelink/sdl_ios/issues/1675).
+* Refactor the protocol layer and merge the proxy and lifecycle layers (https://github.com/smartdevicelink/sdl_ios/issues/1680).
+* Fix video session properties not being re-set upon reconnection (https://github.com/smartdevicelink/sdl_ios/issues/1683).
+* Fix soft button image uploads failing if the first state has no images but other states do (https://github.com/smartdevicelink/sdl_ios/issues/1698).
+* Fix a potential race condition in `SystemCapabilityManager` (https://github.com/smartdevicelink/sdl_ios/issues/1709).
+* Fix a deadlock that would occur when restarting the `SDLManager` in the `managerDidDisconnect` callback (https://github.com/smartdevicelink/sdl_ios/issues/1710).
+* Fix a crash that would occur when receiving an unknown RPC (https://github.com/smartdevicelink/sdl_ios/issues/1713).
+* Fix the secondary transport timer starting when a primary transport connects (https://github.com/smartdevicelink/sdl_ios/issues/1716).
+* Fix protocol delegates not always receiving an `EndServiceNAK` (https://github.com/smartdevicelink/sdl_ios/issues/1718).
+
+### Other
+* Use an `NSTimer` wrapper everywhere internally instead of the raw `NSTimer` (https://github.com/smartdevicelink/sdl_ios/issues/1611).
+* Add security manager tests to secondary transport unit tests (https://github.com/smartdevicelink/sdl_ios/issues/1653).
+* Fixed documentation for permission manager subscribe callbacks (https://github.com/smartdevicelink/sdl_ios/issues/1724).
+
+### Example Apps
+* Add icons to example app vehicle data menus (https://github.com/smartdevicelink/sdl_ios/issues/1580).
+* Fixed some small icons and replaced a few icons (https://github.com/smartdevicelink/sdl_ios/issues/1581).
+
 ## 6.6.0
 ### Versions
 * Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).

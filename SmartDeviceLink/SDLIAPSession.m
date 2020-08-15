@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startSession {}
 
-- (void)destroySession {}
+- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {}
 
 #pragma mark - Private Stream Lifecycle Helpers
 

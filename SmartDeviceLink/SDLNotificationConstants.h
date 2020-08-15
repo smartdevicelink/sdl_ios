@@ -118,6 +118,15 @@ extern SDLNotificationName const SDLTransportDidConnect;
 /// Name for a error during connection notification
 extern SDLNotificationName const SDLTransportConnectError;
 
+/// Name for a disconnection notification
+extern SDLNotificationName const SDLRPCServiceDidDisconnect;
+
+/// Name for a connection notification
+extern SDLNotificationName const SDLRPCServiceDidConnect;
+
+/// Name for a error during connection notification
+extern SDLNotificationName const SDLRPCServiceConnectionDidError;
+
 /// Name for a general error notification
 extern SDLNotificationName const SDLDidReceiveError;
 
@@ -129,6 +138,9 @@ extern SDLNotificationName const SDLDidBecomeReady;
 
 /// Name for a notification sent by the user when their CarWindow view has been updated
 extern SDLNotificationName const SDLDidUpdateProjectionView;
+
+/// Name for a LockScreenStatus notification RPC
+extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification __deprecated_msg("This will be replaced in a future version where a fake RPC is not sent");
 
 /**
  *  NSNotification names associated with specific RPC responses.
@@ -305,6 +317,9 @@ extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
 
 /// Name for a SyncPData response RPC
 extern SDLNotificationName const SDLDidReceiveSyncPDataResponse __deprecated;
+
+/// Name for a SystemRequest response RPC
+extern SDLNotificationName const SDLDidReceiveSystemRequestResponse;
 
 /// Name for an UpdateTurnList response RPC
 extern SDLNotificationName const SDLDidReceiveUpdateTurnListResponse;
@@ -547,7 +562,7 @@ extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 /// Name for a Command notification RPC
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
 
-/// Name for a EncodedData notification RPC
+/// Name for a EncodedSyncPData notification RPC
 extern SDLNotificationName const SDLDidReceiveEncodedDataNotification __deprecated;
 
 /// Name for a InteriorVehicleData notification RPC
@@ -558,9 +573,6 @@ extern SDLNotificationName const SDLDidReceiveKeyboardInputNotification;
 
 /// Name for a Language notification RPC
 extern SDLNotificationName const SDLDidChangeLanguageNotification;
-
-/// Name for a LockScreenStatus notification RPC
-extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification __deprecated;
 
 /// Name for a NewHash notification RPC
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;

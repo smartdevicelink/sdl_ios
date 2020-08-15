@@ -1,12 +1,7 @@
 name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
-on:
-    push:
-        # Runs the workflow when someone pushes to any repository branch.
-    pull_request:
-         # Runs the workflow only when someone opens a pull request (there are a bunch of activity types that can trigger a workflow that we don't want - like labeling, assigning, and locking the PR). The "push" trigger will generate a new workflow if a push is made to a pull request branch.
-        types: [opened]
+on: [push, pull_request]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
@@ -22,7 +17,7 @@ jobs:
                 scheme: ['SmartDeviceLink-Example-ObjC', 'SmartDeviceLink-Example-Swift']
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v2.3.1
               with:
                   submodules: true
 
@@ -46,7 +41,7 @@ jobs:
                 scheme: ['SmartDeviceLink']
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v2.3.1
               with:
                   submodules: true
 
@@ -79,4 +74,6 @@ jobs:
 
             # Upload coverage reports to Codecov
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@v1.0.10
+              with: 
+                yml: ./codecov.yml

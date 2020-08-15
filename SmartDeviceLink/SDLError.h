@@ -62,9 +62,10 @@ extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 + (NSError *)sdl_fileManager_dataMissingError;
 + (NSError *)sdl_fileManager_staticIconError;
 
-#pragma mark Show Managers
+#pragma mark Screen Managers
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
++ (NSError *)sdl_subscribeButtonManager_notSubscribed;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
 
 #pragma mark Menu Manager
@@ -115,7 +116,8 @@ extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;
-+ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector;
 
 @end
 

@@ -11,6 +11,7 @@
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
 #import "SDLSoftButtonManager.h"
+#import "SDLSubscribeButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVoiceCommandManager.h"
 
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLMenuManager *menuManager;
 @property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 @property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
+@property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -42,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _subscribeButtonManager = [[SDLSubscribeButtonManager alloc] initWithConnectionManager:connectionManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
     _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
@@ -54,6 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.softButtonManager start];
     [self.menuManager start];
     [self.choiceSetManager start];
+    [self.subscribeButtonManager start];
 
     handler(nil);
 }
@@ -64,10 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.menuManager stop];
     [self.voiceCommandMenuManager stop];
     [self.choiceSetManager stop];
-}
-
-- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
-    return [self.softButtonManager softButtonObjectNamed:name];
+    [self.subscribeButtonManager stop];
 }
 
 #pragma mark - Setters
@@ -257,6 +258,26 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = NO;
 
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
+}
+
+#pragma mark - Subscribe Buttons
+
+- (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler {
+    return [self.subscribeButtonManager subscribeButton:buttonName withUpdateHandler:updateHandler];
+}
+
+- (void)subscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer selector:(SEL)selector {
+    [self.subscribeButtonManager subscribeButton:buttonName withObserver:observer selector:selector];
+}
+
+- (void)unsubscribeButton:(SDLButtonName)buttonName withObserver:(id<NSObject>)observer withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)completionHandler {
+    [self.subscribeButtonManager unsubscribeButton:buttonName withObserver:observer withCompletionHandler:completionHandler];
+}
+
+#pragma mark - Soft Buttons
+
+- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
+    return [self.softButtonManager softButtonObjectNamed:name];
 }
 
 #pragma mark - Choice Sets

@@ -50,39 +50,42 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    // Check the state of our images
+    // Check if soft buttons have images and, if so, if the images need to be uploaded
     if (![self sdl_supportsSoftButtonImages]) {
-        // We don't support images at all
+        // The module does not support images
         SDLLogW(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
 
-        // Send text buttons if all the soft buttons have text
+        // Send text-only buttons if all current states for the soft buttons have text
         __weak typeof(self) weakself = self;
         [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {
+            __strong typeof(weakself) strongself = weakself;
             if (!success) {
-                SDLLogE(@"Head unit does not support images and some of the soft buttons do not have text, so none of the buttons will be sent.");
+                SDLLogE(@"Buttons will not be sent because the module does not support images and some of the buttons do not have text");
             }
-            [weakself finishOperation];
+            [strongself finishOperation];
         }];
-    } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
-        // If there are images that aren't uploaded
-        // Send text buttons if all the soft buttons have text
+    } else if (![self sdl_allStateImagesAreUploaded]) {
+        // If there are images in the first soft button state that have not yet been uploaded, send a text-only version of the soft buttons (the text-only buttons will only be sent if all the first button states have text)
         [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {}];
 
-        // Upload initial images
+        // Upload images used in the first soft button state
         __weak typeof(self) weakself = self;
         [self sdl_uploadInitialStateImagesWithCompletionHandler:^{
-            // Send initial soft buttons w/ images
-            [weakself sdl_sendCurrentStateSoftButtonsWithCompletionHandler:^{
-                // Upload other images
-                [weakself sdl_uploadOtherStateImagesWithCompletionHandler:^{
+            SDLLogV(@"Finished sending images for the first soft button states");
+            // Now that the images have been uploaded, send the soft buttons with images
+            __strong typeof(weakself) strongself = weakself;
+            [strongself sdl_sendCurrentStateSoftButtonsWithCompletionHandler:^{
+                // Finally, upload the images used in the other button states
+                __strong typeof(weakself) strongself = weakself;
+                [strongself sdl_uploadOtherStateImagesWithCompletionHandler:^{
                     __strong typeof(weakself) strongself = weakself;
-                    SDLLogV(@"Finished sending other images for soft buttons");
+                    SDLLogV(@"Finished sending images for the other soft button states");
                     [strongself finishOperation];
                 }];
             }];
         }];
     } else {
-        // All the images are already uploaded. Send initial soft buttons w/ images.
+        // All the images have been uploaded. Send initial soft buttons with images.
         __weak typeof(self) weakself = self;
         [self sdl_sendCurrentStateSoftButtonsWithCompletionHandler:^{
             __strong typeof(weakself) strongself = weakself;
@@ -95,8 +98,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Uploading Images
 
+/// Upload the initial state images.
+/// @param handler Called when all images have been uploaded
 - (void)sdl_uploadInitialStateImagesWithCompletionHandler:(void (^)(void))handler {
-    // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         if ([self sdl_artworkNeedsUpload:object.currentState.artwork]) {
@@ -104,41 +108,13 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
-    if (initialStatesToBeUploaded.count == 0) {
-        SDLLogV(@"No initial state artworks to upload");
-        handler();
-        return;
-    }
-
-    SDLLogD(@"Uploading soft button initial artworks");
-    NSMutableArray<NSString *> *failedArtworkNames = [NSMutableArray array];
-    __weak typeof(self) weakself = self;
-    [self.fileManager uploadArtworks:[initialStatesToBeUploaded copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
-        SDLLogV(@"Uploaded initial state artwork: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
-        if (error != nil) {
-            [failedArtworkNames addObject:artworkName];
-        }
-
-        if (weakself.isCancelled) {
-            [weakself finishOperation];
-            return NO;
-        }
-
-        return YES;
-    } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Error uploading soft button artworks: %@", error);
-        } else {
-            SDLLogD(@"Soft button initial state artworks uploaded");
-        }
-
-        handler();
-    }];
+    [self sdl_uploadImages:initialStatesToBeUploaded forStateName:@"Initial" completionHandler:handler];
 }
 
+/// Upload the other state images.
+/// @param handler Called when all images have been uploaded
 - (void)sdl_uploadOtherStateImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *otherStatesToBeUploaded = [NSMutableArray array];
-    // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         for (SDLSoftButtonState *state in object.states) {
             if ([state.name isEqualToString:object.currentState.name]) { continue; }
@@ -148,35 +124,39 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
-    if (otherStatesToBeUploaded.count == 0) {
-        SDLLogV(@"No other state artworks to upload");
-        handler();
+    [self sdl_uploadImages:otherStatesToBeUploaded forStateName:@"Other" completionHandler:handler];
+}
+
+/// Helper method for uploading images
+/// @param images The images to upload
+/// @param stateName The name of the button states for which the images are being uploaded. Used for logs.
+/// @param completionHandler Called when all images have been uploaded
+- (void)sdl_uploadImages:(NSArray<SDLArtwork *> *)images forStateName:(NSString *)stateName completionHandler:(void (^)(void))completionHandler {
+    if (images.count == 0) {
+        SDLLogV(@"No images to upload for %@ states", stateName);
+        completionHandler();
         return;
     }
 
-    SDLLogD(@"Uploading soft button other state artworks");
-    NSMutableArray<NSString *> *failedArtworkNames = [NSMutableArray array];
+    SDLLogD(@"Uploading images for %@ states", stateName);
     __weak typeof(self) weakself = self;
-    [self.fileManager uploadArtworks:[otherStatesToBeUploaded copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
-        SDLLogV(@"Uploaded other state artwork: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
-        if (error != nil) {
-            [failedArtworkNames addObject:artworkName];
-        }
-
-        if (weakself.isCancelled) {
-            [weakself finishOperation];
+    [self.fileManager uploadArtworks:[images copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
+        SDLLogV(@"Uploaded %@ states images: %@, error: %@, percent complete: %f.2%%", stateName, artworkName, error, uploadPercentage * 100);
+        if (strongself.isCancelled) {
+            [strongself finishOperation];
             return NO;
         }
 
         return YES;
     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"Error uploading soft button artworks: %@", error);
+            SDLLogE(@"Error uploading %@ states images: %@", stateName, error);
         } else {
-            SDLLogD(@"Soft button other state artworks uploaded");
+            SDLLogD(@"All %@ states images uploaded", stateName);
         }
 
-        handler();
+        completionHandler();
     }];
 }
 
@@ -251,20 +231,13 @@ NS_ASSUME_NONNULL_BEGIN
     return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && self.softButtonCapabilities.imageSupported.boolValue && !artwork.isStaticIcon);
 }
 
-- (BOOL)sdl_currentStateHasImages {
-    for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if (object.currentState.artwork != nil) {
-            return YES;
-        }
-    }
-
-    return NO;
-}
-
-- (BOOL)sdl_allCurrentStateImagesAreUploaded {
+/// Checks all the button states for images that need to be uploaded.
+/// @return True if all images have been uploaded; false at least one image needs to be uploaded
+- (BOOL)sdl_allStateImagesAreUploaded {
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
-        SDLArtwork *artwork = button.currentState.artwork;
-        if ([self sdl_artworkNeedsUpload:artwork]) {
+        for (SDLSoftButtonState *state in button.states) {
+            SDLArtwork *artwork = state.artwork;
+            if (![self sdl_artworkNeedsUpload:artwork]) { continue; }
             return NO;
         }
     }

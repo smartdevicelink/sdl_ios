@@ -48,7 +48,6 @@ describe(@"SDLTCPTransport", ^ {
         transport.delegate = nil;
         server.delegate = nil;
 
-        [transport disconnect];
         transport = nil;
         transportDelegateMock = nil;
 
@@ -73,11 +72,15 @@ describe(@"SDLTCPTransport", ^ {
         expect(transport.inputStream != nil);
         expect(transport.outputStream != nil);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
 
-        expect(transport.ioThread == nil);
-        expect(transport.inputStream == nil);
-        expect(transport.outputStream == nil);
+                done();
+            }];
+        });
     });
 
     it(@"Should invoke onError delegate when connection is refused", ^ {
@@ -101,11 +104,15 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
 
-        expect(transport.ioThread == nil);
-        expect(transport.inputStream == nil);
-        expect(transport.outputStream == nil);
+                done();
+            }];
+        });
     });
 
     it(@"Should invoke onError delegate when connection is timed out", ^ {
@@ -121,13 +128,17 @@ describe(@"SDLTCPTransport", ^ {
         [transport connect];
 
         // timeout value should be longer than 'ConnectionTimeoutSecs' in SDLTCPTransport
-        OCMVerifyAllWithDelay(transportDelegateMock, 60.0);
+        OCMVerifyAllWithDelay(transportDelegateMock, 30.5);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
 
-        expect(transport.ioThread == nil);
-        expect(transport.inputStream == nil);
-        expect(transport.outputStream == nil);
+                done();
+            }];
+        });
     });
 
     it(@"Should invoke onError delegate when input parameter is invalid", ^ {
@@ -144,11 +155,15 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
 
-        expect(transport.ioThread == nil);
-        expect(transport.inputStream == nil);
-        expect(transport.outputStream == nil);
+                done();
+            }];
+        });
     });
 
     it(@"Should send out data when send is called", ^ {
@@ -175,11 +190,17 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(serverDelegateMock, 0.5);
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:testData]);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
+
+                done();
+            }];
+        });
     });
 
     it(@"Should send out data even if send is called some time after", ^ {
@@ -209,20 +230,25 @@ describe(@"SDLTCPTransport", ^ {
         [transport connect];
 
         // check that transport still sends out data long after NSStreamEventHasSpaceAvailable event
-        [NSThread sleepForTimeInterval:1.0];
         [transport sendData:testData1];
         [transport sendData:testData2];
 
         OCMVerifyAllWithDelay(serverDelegateMock, 0.5);
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:expectedData]);
 
         // don't receive further delegate events
         server.delegate = nil;
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
+
+                done();
+            }];
+        });
     });
 
     it(@"Should invoke onDataReceived delegate when received some data", ^ {
@@ -257,11 +283,17 @@ describe(@"SDLTCPTransport", ^ {
         [server send:testData2];
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
-
-        [NSThread sleepForTimeInterval:0.5];
         expect([receivedData isEqualToData:expectedData]);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
+
+                done();
+            }];
+        });
     });
 
     it(@"Should generate disconnected event after peer closed connection", ^ {
@@ -284,7 +316,15 @@ describe(@"SDLTCPTransport", ^ {
 
         OCMVerifyAllWithDelay(transportDelegateMock, 0.5);
 
-        [transport disconnect];
+        waitUntilTimeout(1, ^(void (^done)(void)){
+            [transport disconnectWithCompletionHandler:^{
+                expect(transport.ioThread.isCancelled).to(beTrue());
+                expect(transport.inputStream).to(beNil());
+                expect(transport.outputStream).to(beNil());
+
+                done();
+            }];
+        });
     });
 });
 

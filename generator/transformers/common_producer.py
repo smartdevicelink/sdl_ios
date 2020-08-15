@@ -147,7 +147,7 @@ class InterfaceProducerCommon(ABC):
         return name[:1].lower() + name[1:]
 
     @staticmethod
-    def extract_description(data, length: int = 113) -> list:
+    def extract_description(data, length: int = 2048) -> list:
         """
         Evaluate, align and delete @TODO
         :param data: list with description

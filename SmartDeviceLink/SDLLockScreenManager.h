@@ -10,6 +10,8 @@
 
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenViewController;
+@class SDLNotificationDispatcher;
+
 @protocol SDLViewControllerPresentable;
 
 
@@ -61,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLLockScreenManager`.
  */
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter;
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(SDLNotificationDispatcher *)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter;
 
 /**
  *  Start the manager. This is used internally.
