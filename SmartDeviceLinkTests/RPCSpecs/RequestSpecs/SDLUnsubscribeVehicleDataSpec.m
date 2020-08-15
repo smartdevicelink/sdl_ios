@@ -372,7 +372,7 @@ context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformat
         });
     });
 
-    context (@"initWithGpsspeedrpminstantFuelConsumptionfuelRangeexternalTemperatureturnSignalgearStatustirePressureodometerbeltStatusbodyInformationdeviceStatusdriverBrakingwiperStatusheadLampStatusengineTorqueaccPedalPositionsteeringWheelAngleengineOilLifeelectronicParkBrakeStatuscloudAppVehicleIDeCallInfoairbagStatusemergencyEventclusterModeStatusmyKeyhandsOffSteering:", ^{
+    context (@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES gearStatus:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
