@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return A SDLCancelInteraction object
  */
-+ (instancetype)performInteraction;
++ (instancetype)performInteraction NS_SWIFT_NAME(performInteraction());
 
 /**
  Convenience init for dismissing the currently presented subtle alert.
