@@ -32,11 +32,11 @@ class ButtonManager: NSObject {
         }
     }
 
-    fileprivate var isSubtleAlertAllowed: Bool {
+    private var isSubtleAlertAllowed: Bool {
         return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.subtleAlert)
     }
 
-    fileprivate var isAlertAllowed: Bool {
+    private var isAlertAllowed: Bool {
         return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.alert)
     }
 
