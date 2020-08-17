@@ -64,6 +64,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -104,7 +105,7 @@ describe(@"System capability manager", ^{
 #pragma clang diagnostic pop
         SDLTextField *textField = [[SDLTextField alloc] init];
         textField.name = SDLTextFieldNameMainField1;
-        textField.characterSet = SDLCharacterSetCID1;
+        textField.characterSet = SDLCharacterSetUtf8;
         textField.width = @(123);
         textField.rows = @(1);
         testDisplayCapabilities.textFields = @[textField];
@@ -172,6 +173,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
+        expect(testSystemCapabilityManager.driverDistractionCapability).to(beNil());
         expect(testSystemCapabilityManager.currentHMILevel).to(equal(SDLHMILevelNone));
     });
 
@@ -911,6 +913,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
             expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.driverDistractionCapability).to(beNil());
             expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
         });
     });

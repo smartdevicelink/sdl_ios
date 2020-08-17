@@ -30,28 +30,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLCharacterSet.h"
+#import "SDLDriverDistractionCapability.h"
+#import "NSMutableDictionary+Store.h"
+#import "SDLRPCParameterNames.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType2 = @"TYPE2SET";
-#pragma clang diagnostic pop
+NS_ASSUME_NONNULL_BEGIN
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType5 = @"TYPE5SET";
-#pragma clang diagnostic pop
+@implementation SDLDriverDistractionCapability
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID1 = @"CID1SET";
-#pragma clang diagnostic pop
+- (instancetype)initWithMenuLength:(nullable NSNumber<SDLInt> *)menuLength subMenuDepth:(nullable NSNumber<SDLUInt> *)subMenuDepth {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.menuLength = menuLength;
+    self.subMenuDepth = subMenuDepth;
+    return self;
+}
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID2 = @"CID2SET";
-#pragma clang diagnostic pop
+- (void)setMenuLength:(nullable NSNumber<SDLInt> *)menuLength {
+    [self.store sdl_setObject:menuLength forName:SDLRPCParameterNameMenuLength];
+}
 
-SDLCharacterSet const SDLCharacterSetAscii = @"ASCII";
-SDLCharacterSet const SDLCharacterSetIso88591 = @"ISO_8859_1";
-SDLCharacterSet const SDLCharacterSetUtf8 = @"UTF_8";
+- (nullable NSNumber<SDLInt> *)menuLength {
+    return [self.store sdl_objectForName:SDLRPCParameterNameMenuLength ofClass:NSNumber.class error:nil];
+}
+
+- (void)setSubMenuDepth:(nullable NSNumber<SDLUInt> *)subMenuDepth {
+    [self.store sdl_setObject:subMenuDepth forName:SDLRPCParameterNameSubMenuDepth];
+}
+
+- (nullable NSNumber<SDLUInt> *)subMenuDepth {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSubMenuDepth ofClass:NSNumber.class error:nil];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

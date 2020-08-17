@@ -30,28 +30,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLCharacterSet.h"
+#import "SDLEnum.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType2 = @"TYPE2SET";
-#pragma clang diagnostic pop
+NS_ASSUME_NONNULL_BEGIN
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetType5 = @"TYPE5SET";
-#pragma clang diagnostic pop
+/**
+ * @since SDL 7.0.0
+ */
+typedef SDLEnum SDLCapacityUnit SDL_SWIFT_ENUM;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID1 = @"CID1SET";
-#pragma clang diagnostic pop
+extern SDLCapacityUnit const SDLCapacityUnitKilograms;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLCharacterSet const SDLCharacterSetCID2 = @"CID2SET";
-#pragma clang diagnostic pop
+extern SDLCapacityUnit const SDLCapacityUnitKilowatthours;
 
-SDLCharacterSet const SDLCharacterSetAscii = @"ASCII";
-SDLCharacterSet const SDLCharacterSetIso88591 = @"ISO_8859_1";
-SDLCharacterSet const SDLCharacterSetUtf8 = @"UTF_8";
+extern SDLCapacityUnit const SDLCapacityUnitLiters;
+
+NS_ASSUME_NONNULL_END
