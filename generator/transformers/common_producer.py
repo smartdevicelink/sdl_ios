@@ -199,10 +199,6 @@ class InterfaceProducerCommon(ABC):
         arguments = [self.argument_named(origin=first.origin, constructor_argument=self.parentheses(first),
                                          variable=first.constructor_argument, deprecated=first.deprecated)]
         for param in data:
-            if param.deprecated:
-                # Omit deprecated parameters from the constructors
-                continue
-
             arguments.append(self.argument_named(origin=param.origin, constructor_argument=self.parentheses(param),
                                                  variable=param.constructor_argument, deprecated=param.deprecated))
             init.append('{}:({}{}){}'.format(self.minimize_first(param.constructor_prefix),
@@ -220,6 +216,9 @@ class InterfaceProducerCommon(ABC):
         mandatory = []
         not_mandatory = []
         for param in data.values():
+            if param.deprecated:
+                # Omit deprecated parameters from the constructors
+                continue
             if param.mandatory:
                 mandatory.append(param)
             else:
