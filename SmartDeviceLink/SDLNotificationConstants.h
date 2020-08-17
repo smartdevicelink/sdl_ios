@@ -601,11 +601,18 @@ extern SDLNotificationName const SDLDidChangeTurnByTurnStateNotification;
 /// Name for a TouchEvent notification RPC
 extern SDLNotificationName const SDLDidReceiveTouchEventNotification;
 
+/// Name for an OnUpdateFile notification RPC
+extern SDLNotificationName const SDLDidReceiveUpdateFileNotification;
+
+/// Name for an OnUpdateSubMenu notification RPC
+extern SDLNotificationName const SDLDidReceiveUpdateSubMenuNotification;
+
 /// Name for a VehicleData notification RPC
 extern SDLNotificationName const SDLDidReceiveVehicleDataNotification;
 
 /// Name for a Waypoint notification RPC
 extern SDLNotificationName const SDLDidReceiveWaypointNotification;
+
 
 /// This class defines methods for getting groups of notifications
 @interface SDLNotificationConstants : NSObject
