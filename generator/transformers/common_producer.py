@@ -346,21 +346,20 @@ class InterfaceProducerCommon(ABC):
 
     def create_param_descriptor(self, param_type, parameterItems):
         """
-        Recursively creates a documentation string of all the descriptors for a parameter (i.e. {"string_min_length": 1, string_min_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        Recursively creates a documentation string of all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params from param_type concatenated into one string
         """
-        # The key is a descriptor (i.e. `max_size`) and value is the associated value (i.e. 100). Some values will be dictionaries that have to be parsed to get additional descriptors (e.g. the value for an array of strings' data type will be sub-dictionary describing the min_length, max_length, and default value for the strings used in the array)
+        # The key is a descriptor (i.e. max_value) and value is the associated value (i.e. 100). Some values will be dictionaries that have to be parsed to get additional descriptors (e.g. the value for an array of strings' data type will be sub-dictionary describing the min_length, max_length, and default value for the strings used in the array)
         for key, value in param_type.__dict__.items():
-            # If a value contains a dictionary, recurse until all the descriptors have been found
+            # If a value contains a dictionary, recurse until all the descriptors have been found. Once a descriptor (i.e. `max_size`) has been found along with its associated value (i.e. 100), add the descriptor/value pair to the parameterItems dictionary
             if hasattr(value, '__dict__'):
                 if isinstance(value, Enum) or isinstance(value, Struct):
                     # Skip adding documentation for the data type if it is a struct or enum. This is unnecessary as each enum or struct has its own documentation
                     continue
                 else:
                     self.create_param_descriptor(value, parameterItems)
-            # A descriptor (i.e. `max_size`) has been found along with its associated value (i.e. 100). Add the pair to the parameterItems dictionary
             else:
                 if key == 'default_value' and value is None:
                     # Do not add the default_value key/value pair unless it has been explicitly set in the RPC Spec
