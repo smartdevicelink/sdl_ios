@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  The scale manager that scales from the display screen coordinate system to the app's viewport coordinate system
 */
 @property (strong, nonatomic) SDLStreamingVideoScaleManager *videoScaleManager;
+@property (assign, nonatomic) BOOL isSubscribed;
 
 @end
 
@@ -53,11 +54,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     SDLLogD(@"Starting");
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
+    if (!self.isSubscribed) {
+        self.isSubscribed = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateInterfaceLayout];
+        });
+    }
 }
 
 - (void)stop {
     SDLLogD(@"Stopping");
+    self.isSubscribed = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.focusableViews removeAllObjects];
 }
@@ -87,34 +96,19 @@ NS_ASSUME_NONNULL_BEGIN
  @param currentView is the view hierarchy to be processed
  */
 - (void)sdl_parseViewHierarchy:(UIView *)currentView {
-    if (currentView == nil) {
-        SDLLogW(@"Error: Cannot parse nil view");
-        return;
-    }
-
-    SDLLogD(@"Parsing UIView heirarchy");
-    SDLLogV(@"UIView: %@", currentView);
-    if (@available(iOS 9.0, *)) {
-        // Finding focusable subviews
-        NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-            return (evaluatedObject.canBecomeFocused || [evaluatedObject isKindOfClass:[UIButton class]]);
-        }]];
-        SDLLogV(@"Found focusable subviews: %@", focusableSubviews);
-
-        BOOL isButton = [currentView isKindOfClass:[UIButton class]];
-        if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
-            //if current view is focusable and it doesn't have any focusable sub views then add the current view and return
+    if (currentView) {
+        SDLLogV(@"Parsing UIView heirarchy: %@", currentView);
+        // Finding focusable subviews recursevly
+        BOOL focusable = NO;
+        if (@available(iOS 9.0, *)) {
+            focusable = currentView.canBecomeFocused;
+        }
+        if (focusable || [currentView isKindOfClass:[UIControl class]]) {
             [self.focusableViews addObject:currentView];
-            return;
-        } else if (currentView.subviews.count > 0) {
-            // if current view has focusable sub views parse them recursively
-            NSArray<UIView *> *subviews = currentView.subviews;
-
-            for (UIView *childView in subviews) {
-                [self sdl_parseViewHierarchy:childView];
-            }
         } else {
-            return;
+            for (UIView *nextView in currentView.subviews) {
+                [self sdl_parseViewHierarchy:nextView];
+            }
         }
     }
 }
@@ -153,23 +147,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark SDLFocusableItemHitTester functions
 - (nullable UIView *)viewForPoint:(CGPoint)point {
-    UIView *selectedView = nil;
-
-    for (UIView *view in self.focusableViews) {
-        //Convert the absolute location to local location and check if that falls within view boundary
-        CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
-        if ([view pointInside:localPoint withEvent:nil]) {
-            if (selectedView != nil) {
-                selectedView = nil;
-                break;
-                //the point has been indentified in two views. We cannot identify which with confidence.
-            } else {
-                selectedView = view;
+    UIView *selectedView = [self.viewController.view hitTest:point withEvent:nil];
+    if (selectedView) {
+        BOOL focusable = [selectedView isKindOfClass:[UIControl class]];
+        if (!focusable) {
+            if (@available(iOS 9.0, *)) {
+                focusable = selectedView.canBecomeFocused;
             }
+        }
+        if (!focusable) {
+            selectedView = nil;
         }
     }
 
-    SDLLogD(@"Found a focusable view: %@, for point: %@", selectedView, NSStringFromCGPoint(point));
+    if (selectedView) {
+        SDLLogD(@"Found a focusable view: %@:%@, at point: %@",
+            NSStringFromClass(selectedView.class), NSStringFromCGRect(selectedView.frame), NSStringFromCGPoint(point));
+    } else {
+        SDLLogD(@"Found no focusable view at point: %@", NSStringFromCGPoint(point));
+    }
     return selectedView;
 }
 

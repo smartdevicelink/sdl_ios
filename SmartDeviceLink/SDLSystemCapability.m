@@ -217,6 +217,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameDriverDistractionCapability ofClass:SDLDriverDistractionCapability.class error:nil];
 }
 
+// for debugging only
+- (NSString *)description {
+    if ([self.systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+        return [NSString stringWithFormat:@"<%@:%p>type:VIDEO_STREAMING {%@}", NSStringFromClass(self.class), self,
+                self.videoStreamingCapability];
+    }
+    return [super description];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

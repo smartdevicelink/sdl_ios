@@ -42,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.store sdl_setObject:codec forName:SDLRPCParameterNameVideoCodec];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"{codec:protocol=[%@:%@]}", self.codec, self.protocol];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

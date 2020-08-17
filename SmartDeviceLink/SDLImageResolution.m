@@ -39,6 +39,24 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
+- (CGSize)makeSize {
+    return CGSizeMake(self.resolutionWidth.floatValue, self.resolutionHeight.floatValue);
+}
+
+- (float)normalizedAspectRatio {
+    const float width = self.resolutionWidth.floatValue;
+    const float height = self.resolutionHeight.floatValue;
+    return (0 == width || 0 == height) ? 0 : fabsf(fmaxf(width, height)/fminf(width, height));
+}
+
+- (NSString*)stringValue {
+    return [NSString stringWithFormat:@"[%@ x %@]", self.resolutionWidth, self.resolutionHeight];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@:%p> {%@ x %@}", NSStringFromClass(self.class), self, self.resolutionWidth, self.resolutionHeight];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

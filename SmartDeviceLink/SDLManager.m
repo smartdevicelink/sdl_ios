@@ -22,6 +22,7 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLStreamingMediaManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -118,6 +119,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.rpcOperationQueue.operations;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (nullable SDLProxy *)proxy {
+    return self.lifecycleManager.proxy;
+}
+#pragma clang diagnostic pop
+
+- (void)setSdlMsgVersionString:(nullable NSString *)versionString {
+    self.lifecycleManager.sdlMsgVersionString = versionString;
+}
+
+- (nullable NSString *)sdlMsgVersionString {
+    return self.lifecycleManager.sdlMsgVersionString;
+}
 
 #pragma mark SDLConnectionManager Protocol
 

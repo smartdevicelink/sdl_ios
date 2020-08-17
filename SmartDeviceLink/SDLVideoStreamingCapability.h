@@ -95,6 +95,15 @@ Convenience init for creating a video streaming capability.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
+// note: it can be a recursion under certain circumstances
+@property (nullable, strong, nonatomic) NSArray <SDLVideoStreamingCapability*> *additionalVideoStreamingCapabilities;
+
+// this returns a copy array of all capabilities including itself but with no recursion
+// in the result objects the .additionalVideoStreamingCapabilities will be nil
+- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain;
+
+- (SDLImageResolution *)makeImageResolution;
+
 @end
 
 NS_ASSUME_NONNULL_END

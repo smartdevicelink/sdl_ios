@@ -7,6 +7,7 @@
 //
 
 #import "SDLStreamingVideoScaleManager.h"
+#import <simd/simd.h>
 
 #import "SDLOnTouchEvent.h"
 #import "SDLRectangle.h"
@@ -14,22 +15,20 @@
 #import "SDLTouchEvent.h"
 #import "SDLHapticRect.h"
 #import "SDLNotificationConstants.h"
+#import "SDLImageResolution.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingVideoScaleManager ()
-
-@property (assign, nonatomic, readwrite) CGRect appViewportFrame;
-
-@end
-
 @implementation SDLStreamingVideoScaleManager
 
-const float SDLDefaultScaleValue = 1.0;
+//TODO: use CGFloat instead
+const float SDLDefaultScaleValue = 1.0f;
+const float SDLMaxScaleValue = 10.0f;
+const float SDLMinScaleValue = 1.0f/SDLMaxScaleValue;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
-    return [[self.class alloc] initWithScale:SDLDefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
+    return [self initWithScale:SDLDefaultScaleValue displayViewportResolution:SDLDefaultDisplayViewportResolution];
 }
 
 - (void)stop {
@@ -74,23 +73,33 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (CGRect)appViewportFrame {
     // Screen capture in the CarWindow API only works if the width and height are integer values
-    return CGRectMake(0, 0, roundf((float)self.displayViewportResolution.width / self.scale), roundf((float)self.displayViewportResolution.height / self.scale));
+    return (CGRect){CGPointZero, [self.class scale:self.scale size:self.displayViewportResolution]};
 }
 
 - (void)setScale:(float)scale {
     _scale = [self.class validateScale:scale];
 }
 
+- (SDLImageResolution *)makeScaledResolution {
+    const CGSize size = [self.class scale:self.scale size:self.displayViewportResolution];
+    return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
+}
+
 #pragma mark - Helpers
 
 /**
- Validates the scale value. Returns the default scale value for 1.0 if the scale value is less than 1.0
+ Validates the scale value. Returns a clamped scale value in the range [SDLMinScaleValue...SDLMaxScaleValue]
 
  @param scale The scale value to be validated.
  @return The validated scale value
  */
 + (float)validateScale:(float)scale {
-    return (scale > SDLDefaultScaleValue) ? scale : SDLDefaultScaleValue;
+    return simd_clamp(scale, SDLMinScaleValue, SDLMaxScaleValue);
+}
+
++ (CGSize)scale:(float)scale size:(CGSize)size {
+    const float validScale = [self validateScale:scale];
+    return CGSizeMake(roundf((float)size.width / validScale), roundf((float)size.height / validScale));
 }
 
 @end

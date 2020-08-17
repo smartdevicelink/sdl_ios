@@ -102,6 +102,20 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+/**
+* Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
+* All the other functionality exists on managers in sdl_ios 4.3+.
+*/
+@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+#pragma clang diagnostic pop
+
+/**
+ * The version number of the SDL V4 interface, string representation
+ * Optional
+ */
+@property (nonatomic, nullable) NSString *sdlMsgVersionString;
 
 #pragma mark Lifecycle
 

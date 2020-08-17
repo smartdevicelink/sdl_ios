@@ -68,6 +68,8 @@ extern SDLRPCParameterName const SDLRPCParameterNameApparentTemperature;
 extern SDLRPCParameterName const SDLRPCParameterNameApparentTemperatureHigh;
 extern SDLRPCParameterName const SDLRPCParameterNameApparentTemperatureLow;
 extern SDLRPCParameterName const SDLRPCParameterNameAppBundleId;
+extern SDLRPCParameterName const SDLRPCParameterNameAppCapability;
+extern SDLRPCParameterName const SDLRPCParameterNameAppCapabilityType;
 extern SDLRPCParameterName const SDLRPCParameterNameAppDisplayName;
 extern SDLRPCParameterName const SDLRPCParameterNameAppHMIType;
 extern SDLRPCParameterName const SDLRPCParameterNameAppId;

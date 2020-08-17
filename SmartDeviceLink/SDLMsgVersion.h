@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLMsgVersion : SDLRPCStruct
 
 /**
+ *  Convenience init with a version string
+ *
+ *  @param versionString A version string in the following format: @"majorVersion.minorVersion.patchVersion" Example: @"6.0.0"
+ *  @return A SDLMsgVersion object
+*/
++ (instancetype)versionWithString:(NSString *)versionString;
+
+/**
  *  Convenience init for all parameters.
  *
  *  @param majorVersion         Major version

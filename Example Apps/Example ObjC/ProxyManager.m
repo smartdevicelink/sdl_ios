@@ -13,6 +13,9 @@
 #import "SmartDeviceLink.h"
 #import "SubscribeButtonManager.h"
 #import "VehicleDataManager.h"
+#import "SDLCarWindow.h"
+#import "SDLStreamingMediaDelegate.h"
+#import "VideoStreamSettings.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (strong, nonatomic) SubscribeButtonManager *subscribeButtonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
+@end
+
+//#Touch_Input:
+@interface ProxyManager (SDLTouchManagerDelegate) <SDLTouchManagerDelegate>
+- (void)touchEventAvailable:(SDLRPCNotificationNotification *)notification;
 @end
 
 
@@ -53,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
 
+    //#Touch_Input: Pre sdl_ios v6.3
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchEventAvailable:) name:SDLDidReceiveTouchEventNotification object:nil];
+
+
     return self;
 }
 
@@ -74,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
         [weakSelf sdlex_showInitialData];
 
-        SDLLogD(@"SDL file manager storage: %lu mb", self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
+        SDLLogD(@"SDL file manager storage: %lu mb", (long)self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
 
@@ -96,6 +108,87 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDL Configuration
 
+- (void)startProxyTCP:(SDLTCPConfig*)tcpConfig {
+    assert(nil != tcpConfig);
+    if (self.sdlManager) {
+        [self.sdlManager stop];
+        self.sdlManager = nil;
+    }
+
+    SDLLifecycleConfiguration *lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:tcpConfig.ipAddress port:tcpConfig.port];
+
+    UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:appLogo asImageFormat:SDLArtworkImageFormatPNG];
+
+    lifecycleConfiguration.shortAppName = ExampleAppNameShort;
+    lifecycleConfiguration.appIcon = appIconArt;
+    lifecycleConfiguration.voiceRecognitionCommandNames = @[ExampleAppNameTTS];
+    lifecycleConfiguration.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
+    lifecycleConfiguration.language = SDLLanguageEnUs;
+    lifecycleConfiguration.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
+    lifecycleConfiguration.appType = SDLAppHMITypeNavigation;
+
+    SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
+    SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
+    SDLRGBColor *darkGrey = [[SDLRGBColor alloc] initWithRed:57 green:78 blue:96];
+    SDLRGBColor *grey = [[SDLRGBColor alloc] initWithRed:186 green:198 blue:210];
+    lifecycleConfiguration.dayColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:white];
+    lifecycleConfiguration.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
+
+    SDLLockScreenConfiguration *lockScreenConfiguration = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil];
+    SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
+
+
+
+
+    SDLEncryptionConfiguration *encryptionConfig = [SDLEncryptionConfiguration defaultConfiguration];//[[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[OEMSecurityManager.self] delegate:self];
+    SDLStreamingMediaConfiguration *streamingConfig = nil;
+//    SDLStreamingMediaConfiguration *streamingConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
+
+    if (self.videoVC) {
+        streamingConfig = [SDLStreamingMediaConfiguration autostreamingInsecureConfigurationWithInitialViewController:self.videoVC];
+        streamingConfig.delegate = self.videoVC;
+        streamingConfig.supportedPortraitStreamingRange = self.videoStreamSettings.supportedPortraitStreamingRange;
+        streamingConfig.supportedLandscapeStreamingRange = self.videoStreamSettings.supportedLandscapeStreamingRange;
+    } else {
+        streamingConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
+    }
+
+    SDLConfiguration *config2 = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] streamingMedia:streamingConfig fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:encryptionConfig];
+
+
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config2 delegate:self];
+    self.sdlManager.sdlMsgVersionString = self.videoStreamSettings.SDLVersion;
+
+    __weak typeof (self) weakSelf = self;
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            NSLog(@"SDL start error: %@", error);
+            [weakSelf sdlex_updateProxyState:ProxyStateStopped];
+            return;
+        }
+
+        weakSelf.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:weakSelf.sdlManager refreshUIHandler:weakSelf.refreshUIHandler];
+        weakSelf.performManager = [[PerformInteractionManager alloc] initWithManager:weakSelf.sdlManager];
+        weakSelf.buttonManager = [[ButtonManager alloc] initWithManager:weakSelf.sdlManager refreshUIHandler:weakSelf.refreshUIHandler];
+
+        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
+        [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
+        [weakSelf sdlex_showInitialData];
+
+        //#Touch_Input, decide who is the delegate
+        if ([weakSelf.videoVC conformsToProtocol:@protocol(SDLTouchManagerDelegate)]) {
+            weakSelf.sdlManager.streamManager.touchManager.touchEventDelegate = (id<SDLTouchManagerDelegate>) weakSelf.videoVC;
+        } else {
+            weakSelf.sdlManager.streamManager.touchManager.touchEventDelegate = self;
+        }
+
+
+
+        NSLog(@"SDL started, file manager storage: %lu mb", (long)weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
+    }];
+}
+
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
 
@@ -114,6 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     if (self.sdlManager != nil) {
         // Manager already created, just start it again.
+        //TODO: the ip might change but we still start it with the old config
         [self sdlex_startManager];
         return;
     }
@@ -153,6 +247,9 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelDebug;
 
+    //TODO: fix it when done
+//    logConfig.globalLogLevel = SDLLogLevelVerbose;
+    
     return logConfig;
 }
 
@@ -241,6 +338,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param oldLevel The old HMI Level
 /// @param newLevel The new HMI Level
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+    NSLog(@"hmiLevel:changed:HMI[%@-->%@]", oldLevel, newLevel);
+
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
@@ -263,12 +362,19 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
         // The SDL app is not yet running
     }
+
+    // Preventing Device Sleep
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].idleTimerDisabled = ![newLevel isEqualToEnum:SDLHMILevelNone];
+    });
 }
 
 /// Called when the SDL app's HMI context changes.
 /// @param oldContext The old HMI context
 /// @param newContext The new HMI context
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
+    NSLog(@"systemContext:changed:[%@-->%@]", oldContext, newContext);
+
     if ([newContext isEqualToEnum:SDLSystemContextAlert]) {
         // The SDL app's screen is obscured by an alert
     } else if ([newContext isEqualToEnum:SDLSystemContextHMIObscured]) {
@@ -286,6 +392,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param oldState The old audio streaming state
 /// @param newState The new audio streaming state
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
+    NSLog(@"audioStreamingState:changed:[%@-->%@]", oldState, newState);
+
     if ([newState isEqualToEnum:SDLAudioStreamingStateAudible]) {
         // The SDL app's audio can be heard
     } else if ([newState isEqualToEnum:SDLAudioStreamingStateNotAudible]) {
@@ -300,6 +408,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param hmiLanguage The head unit's current HMI language
 /// @return A SDLLifecycleConfigurationUpdate object
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage {
+>>>>>>> develop
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
     if ([hmiLanguage isEqualToEnum:SDLLanguageEnUs]) {
@@ -318,5 +427,69 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @end
+
+//#Touch_Input:
+@implementation ProxyManager (SDLTouchManagerDelegate)
+
+- (void)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@:%@ > %@", __PRETTY_FUNCTION__, NSStringFromClass(view.class), NSStringFromCGRect(view.frame), NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceiveDoubleTapForView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+// panning
+- (void)touchManager:(SDLTouchManager *)manager panningDidStartInView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePanningFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint {
+    NSLog(@"%s: %@-->%@", __PRETTY_FUNCTION__, NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager panningDidEndInView:(UIView *_Nullable)view atPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager panningCanceledAtPoint:(CGPoint)point {
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGPoint(point));
+}
+
+// pinch
+- (void)touchManager:(SDLTouchManager *)manager pinchDidStartInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchAtCenterPoint:(CGPoint)point withScale:(CGFloat)scale {
+    NSLog(@"%s: %@ : %2.2f", __PRETTY_FUNCTION__, NSStringFromCGPoint(point), scale);
+}
+
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point withScale:(CGFloat)scale {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager pinchDidEndInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@ > %@", __PRETTY_FUNCTION__, view, NSStringFromCGPoint(point));
+}
+
+- (void)touchManager:(SDLTouchManager *)manager pinchCanceledAtCenterPoint:(CGPoint)point {
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGPoint(point));
+}
+
+/// touch notification
+- (void)touchEventAvailable:(SDLRPCNotificationNotification *)notification {
+    if (![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
+      return;
+    }
+//    SDLOnTouchEvent *touchEvent = (SDLOnTouchEvent *)notification.notification;
+//
+//    // Grab something like type
+//    SDLTouchType type = touchEvent.type;
+//    NSLog(@"%s > %@ : %@", __PRETTY_FUNCTION__, type, touchEvent);
+}
+
+@end
+
 
 NS_ASSUME_NONNULL_END

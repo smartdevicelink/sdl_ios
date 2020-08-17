@@ -1,7 +1,7 @@
 //  SDLImageResolution.h
 //
 
-
+#import <UIKit/UIKit.h>
 #import "SDLRPCMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,6 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param height Resolution height
 /// @return An SDLImageResolution object
 - (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height;
+
+- (CGSize)makeSize;
+
+- (float)normalizedAspectRatio;
+
+// string representation, for debug only
+- (NSString*)stringValue;
 
 @end
 

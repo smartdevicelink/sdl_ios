@@ -273,6 +273,23 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeControl];
 }
 
+#pragma mark - Register/Unregister Listeners
+
+- (void)addListener:(id<SDLProtocolListener>)listener {
+    @synchronized(self.protocolDelegateTable) {
+        if (![self.protocolDelegateTable containsObject:listener]) {
+            [self.protocolDelegateTable addObject:listener];
+        }
+    }
+}
+
+- (void)removeListener:(id<SDLProtocolListener>)listener {
+    @synchronized(self.protocolDelegateTable) {
+        if ([self.protocolDelegateTable containsObject:listener]) {
+            [self.protocolDelegateTable removeObject:listener];
+        }
+    }
+}
 
 #pragma mark - Send Data
 

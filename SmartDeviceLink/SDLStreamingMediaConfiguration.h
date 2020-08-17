@@ -12,7 +12,8 @@
 
 @protocol SDLSecurityType;
 @protocol SDLStreamingMediaManagerDataSource;
-
+@protocol SDLStreamingMediaDelegate;
+@class SDLSupportedStreamingRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -86,6 +87,10 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  When YES, the StreamingMediaManager will disable its internal checks that the `rootViewController` only has one `supportedOrientation`. Having multiple orientations can cause streaming issues. If you wish to disable this check, set it to YES. Defaults to NO.
  */
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
+
+@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
+@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

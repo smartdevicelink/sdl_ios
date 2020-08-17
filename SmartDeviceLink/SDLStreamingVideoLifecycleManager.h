@@ -20,7 +20,6 @@
 @class SDLImageResolution;
 @class SDLProtocol;
 @class SDLStateMachine;
-@class SDLStreamingMediaConfiguration;
 @class SDLStreamingVideoScaleManager;
 @class SDLSystemCapabilityManager;
 @class SDLTouchManager;
@@ -180,6 +179,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return Whether or not the data was successfully encoded and sent.
  */
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
+
+- (void)suspendVideo;
+- (void)resumeVideo;
 
 @end
 

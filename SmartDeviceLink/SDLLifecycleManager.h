@@ -25,12 +25,12 @@
 @class SDLPermissionManager;
 @class SDLProxy;
 @class SDLPutFile;
-@class SDLRegisterAppInterfaceResponse;
-@class SDLResponseDispatcher;
 @class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLRegisterAppInterfaceResponse;
+@class SDLResponseDispatcher;
 @class SDLScreenManager;
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
@@ -86,6 +86,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
 
+/**
+ * The version number of the SDL V4 interface, string representation
+ * Optional
+ */
+@property (copy, nonatomic, nullable) NSString *sdlMsgVersionString;
 
 #pragma mark Lifecycle
 /**

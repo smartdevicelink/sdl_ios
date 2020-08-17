@@ -12,6 +12,17 @@
 
 @implementation SDLMsgVersion
 
++ (instancetype)versionWithString:(NSString *)versionString {
+    NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
+    if (3 != components.count) {
+        return nil;
+    }
+    const UInt8 majorVersion = (UInt8)components[0].intValue;
+    const UInt8 minorVersion = (UInt8)components[1].intValue;
+    const UInt8 patchVersion = (UInt8)components[2].intValue;
+    return [[self alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
+}
+
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion {
     self = [self init];
     if (!self) {

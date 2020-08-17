@@ -12,6 +12,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLStreamingVideoScaleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -96,6 +97,51 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLFloat> *)scale {
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+}
+
+// note: it does not copy .additionalVideoStreamingCapabilities
+- (instancetype)copy {
+    return [[self.class alloc] initWithPreferredResolution:self.preferredResolution maxBitrate:self.maxBitrate supportedFormats:self.supportedFormats hapticDataSupported:self.hapticSpatialDataSupported diagonalScreenSize:self.diagonalScreenSize ppi:self.pixelPerInch scale:self.scale];
+}
+
+- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain {
+    NSMutableArray *capabilitiesArray = [NSMutableArray arrayWithObject:[self copy]];
+    for (SDLVideoStreamingCapability *capability in self.additionalVideoStreamingCapabilities) {
+        NSArray* childCapabilities = [capability allVideoStreamingCapabilitiesPlain];
+        if (childCapabilities.count) {
+            [capabilitiesArray addObjectsFromArray:childCapabilities];
+        }
+    }
+    return capabilitiesArray;
+}
+
+- (SDLImageResolution *)makeImageResolution {
+    const CGSize size = [SDLStreamingVideoScaleManager scale:self.scale.floatValue size:self.preferredResolution.makeSize];
+    return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
+}
+
+
+- (NSString *)description {
+    NSMutableString *formats = [NSMutableString string];
+    for (SDLVideoStreamingFormat * f in self.supportedFormats) {
+        [formats appendFormat:@"%@; ", f];
+    }
+    return [NSString stringWithFormat:@"<%@:%p>{\n"
+@"\tsupportedFormats:%@\n"
+@"\tpreferredResolution:%@\n"
+@"\tmaxBitrate:%@\n"
+@"\thapticSpatialDataSupported:%@\n"
+@"\tdiagonalScreenSize:%@\n"
+@"\tpixelPerInch:%@\n"
+@"\tscale:%@ }",
+            NSStringFromClass(self.class), self,
+            formats,
+            self.preferredResolution,
+            self.maxBitrate,
+            self.hapticSpatialDataSupported,
+            self.diagonalScreenSize,
+            self.pixelPerInch,
+            self.scale];
 }
 
 @end
