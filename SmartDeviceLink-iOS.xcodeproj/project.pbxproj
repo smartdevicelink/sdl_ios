@@ -497,7 +497,6 @@
 		5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */; };
 		5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */; };
 		5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29421304513000EB9B4 /* MenuManager.m */; };
-		5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29621304514000EB9B4 /* ProxyManager.m */; };
 		5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29721304514000EB9B4 /* AudioManager.m */; };
 		5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29921304514000EB9B4 /* VehicleDataManager.m */; };
 		5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29B21304515000EB9B4 /* ButtonManager.m */; };
@@ -1569,34 +1568,57 @@
 		9FE2471522D77AD500F8D2FC /* SDLWindowType.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471322D77AD500F8D2FC /* SDLWindowType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FE2471622D77AD500F8D2FC /* SDLWindowType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE2471422D77AD500F8D2FC /* SDLWindowType.m */; };
 		9FE2471922D77AED00F8D2FC /* SDLPredefinedWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32B7C0624EAEA32009670C1 /* SDLSupportedStreamingRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */; };
+		B32B7C0724EAEBDD009670C1 /* SDLStreamingMediaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32B7C3724EB91DC009670C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
+		B32B7C3C24EB91DC009670C1 /* RPCPermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */; };
+		B32B7C3E24EB91DC009670C1 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29921304514000EB9B4 /* VehicleDataManager.m */; };
+		B32B7C4024EB91DC009670C1 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */; };
+		B32B7C4224EB91DC009670C1 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A421304531000EB9B4 /* Preferences.m */; };
+		B32B7C4424EB91DC009670C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
+		B32B7C4624EB91DC009670C1 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */; };
+		B32B7C4724EB91DC009670C1 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */; };
+		B32B7C4924EB91DC009670C1 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29B21304515000EB9B4 /* ButtonManager.m */; };
+		B32B7C4A24EB91DC009670C1 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29721304514000EB9B4 /* AudioManager.m */; };
+		B32B7C4B24EB91DC009670C1 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29421304513000EB9B4 /* MenuManager.m */; };
+		B32B7C4C24EB91DC009670C1 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
+		B32B7C4E24EB91DC009670C1 /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */; };
+		B32B7C5024EB91DC009670C1 /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A621304531000EB9B4 /* TextValidator.m */; };
+		B32B7C5124EB91DC009670C1 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF28C213044F9000EB9B4 /* AlertManager.m */; };
+		B32B7C5324EB91DC009670C1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
+		B32B7C5424EB91DC009670C1 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
+		B32B7C5524EB91DC009670C1 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B32B7C5724EB91DC009670C1 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
+		B32B7C5924EB91DC009670C1 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
+		B32B7C5B24EB91DC009670C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
+		B32B7C5D24EB91DC009670C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
+		B32B7C5E24EB91DC009670C1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
+		B32B7C6024EB91DC009670C1 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B32B7C6C24EB9701009670C1 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C6A24EB9701009670C1 /* ProxyManager.m */; };
+		B32B7C7124EB9744009670C1 /* VideoStreamSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C6E24EB9743009670C1 /* VideoStreamSettings.m */; };
+		B32B7C7224EB9744009670C1 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C6F24EB9744009670C1 /* SDLTCPConfig.m */; };
+		B32B7C7524EB98A3009670C1 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C7324EB98A3009670C1 /* ConnectionTCPTableViewController.m */; };
+		B32B7C7824EB9900009670C1 /* VideoStreamingSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C7724EB9900009670C1 /* VideoStreamingSettingsViewController.m */; };
+		B32B7C7B24EB99A4009670C1 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C7924EB99A3009670C1 /* ConnectionContainerViewController.m */; };
+		B32B7C8324EB9DD8009670C1 /* VideoSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C7F24EB9DD7009670C1 /* VideoSourceView.m */; };
+		B32B7C8424EB9DD8009670C1 /* TouchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C8024EB9DD8009670C1 /* TouchModel.m */; };
+		B32B7C8724EB9E4B009670C1 /* VideoSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C8524EB9E4A009670C1 /* VideoSourceViewController.m */; };
+		B32B7C8A24EBA0DF009670C1 /* ExampleVideoApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32B7C8924EBA0DF009670C1 /* ExampleVideoApp.storyboard */; };
+		B32B7C8D24EBA275009670C1 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C8C24EBA275009670C1 /* ConnectionIAPTableViewController.m */; };
 		B3332F2624C10F9100A2EEC8 /* SDLAppCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2424C10F9000A2EEC8 /* SDLAppCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3332F2724C10F9100A2EEC8 /* SDLAppCapabilityType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2524C10F9000A2EEC8 /* SDLAppCapabilityType.m */; };
 		B3332F2A24C10FDF00A2EEC8 /* SDLAppCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2824C10FDE00A2EEC8 /* SDLAppCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3332F2B24C10FDF00A2EEC8 /* SDLAppCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */; };
 		B3332F2E24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3332F2F24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2D24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m */; };
-		B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */; };
-		B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
-		B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B3476E122474356C0025DC99 /* sdl_video.mp4 */; };
 		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
 		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
-		B34D698924D0241D00FE7B40 /* VideoStreamingSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B34D698824D0241D00FE7B40 /* VideoStreamingSettingsViewController.m */; };
-		B34D698C24D0298C00FE7B40 /* VideoStreamSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = B34D698B24D0298C00FE7B40 /* VideoStreamSettings.m */; };
 		B34D698D24D03DFB00FE7B40 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
-		B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC220B247C05C8008D372A /* TestUIAppViewController.m */; };
-		B3AC220F247C0677008D372A /* ExampleApps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3AC220E247C0676008D372A /* ExampleApps.storyboard */; };
-		B3AC2210247C0677008D372A /* ExampleApps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3AC220E247C0676008D372A /* ExampleApps.storyboard */; };
-		B3AC2214247C28F3008D372A /* SimpleAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2213247C28F3008D372A /* SimpleAppViewController.m */; };
-		B3AC2218247C3224008D372A /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC2217247C3224008D372A /* GameViewController.m */; };
-		B3AC221A247C3236008D372A /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B3AC2219247C3236008D372A /* art.scnassets */; };
-		B3AC221D247EBB1F008D372A /* SimpleRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC221C247EBB1F008D372A /* SimpleRootView.m */; };
-		B3AC2220247EBB59008D372A /* TouchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AC221F247EBB59008D372A /* TouchModel.m */; };
-		B3E049412492237F00D8CBE1 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */; };
-		B3E049422492237F00D8CBE1 /* SDLSupportedStreamingRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */; };
-		B3E0494524923AF800D8CBE1 /* SDLStreamingMediaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */; };
 		B38D8E61249FE28500B977D0 /* SDLCapacityUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E62249FE28500B977D0 /* SDLCapacityUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3CD23D724EBB42A00F76A61 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CD23D624EBB42A00F76A61 /* ProxyManager.m */; };
+		B3E049412492237F00D8CBE1 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1736,6 +1758,13 @@
 			remoteGlobalIDString = 88802CD720853AE600E9EBC6;
 			remoteInfo = SmartDeviceLinkSwift;
 		};
+		B32B7C3524EB91DC009670C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D4019A71A76EC350006B0C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D61FA1B1A84237100846EE7;
+			remoteInfo = SmartDeviceLink;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1772,6 +1801,17 @@
 			files = (
 				88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */,
 				88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B32B7C5F24EB91DC009670C1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B32B7C6024EB91DC009670C1 /* SmartDeviceLink.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2286,11 +2326,9 @@
 		5D1FF29321304513000EB9B4 /* PerformInteractionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerformInteractionManager.h; path = "Example Apps/Example ObjC/PerformInteractionManager.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF29421304513000EB9B4 /* MenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuManager.m; path = "Example Apps/Example ObjC/MenuManager.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF29521304514000EB9B4 /* ButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonManager.h; path = "Example Apps/Example ObjC/ButtonManager.h"; sourceTree = SOURCE_ROOT; };
-		5D1FF29621304514000EB9B4 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF29721304514000EB9B4 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioManager.m; path = "Example Apps/Example ObjC/AudioManager.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF29821304514000EB9B4 /* RPCPermissionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPCPermissionsManager.h; path = "Example Apps/Example ObjC/RPCPermissionsManager.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF29921304514000EB9B4 /* VehicleDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VehicleDataManager.m; path = "Example Apps/Example ObjC/VehicleDataManager.m"; sourceTree = SOURCE_ROOT; };
-		5D1FF29A21304514000EB9B4 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "Example Apps/Example ObjC/ProxyManager.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF29B21304515000EB9B4 /* ButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonManager.m; path = "Example Apps/Example ObjC/ButtonManager.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2A321304530000EB9B4 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = "Example Apps/Example ObjC/Preferences.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2A421304531000EB9B4 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Example Apps/Example ObjC/Preferences.m"; sourceTree = SOURCE_ROOT; };
@@ -2357,7 +2395,7 @@
 		5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotificationNotification.m; sourceTree = "<group>"; };
 		5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SDLBundle.h"; sourceTree = "<group>"; };
 		5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
-		5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL0296_VidStr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogFileModuleSpec.m; path = LoggingSpecs/SDLLogFileModuleSpec.m; sourceTree = "<group>"; };
 		5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogConfigurationSpec.m; path = LoggingSpecs/SDLLogConfigurationSpec.m; sourceTree = "<group>"; };
 		5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLinkSwift.h; sourceTree = "<group>"; };
@@ -3385,39 +3423,46 @@
 		9FE2471322D77AD500F8D2FC /* SDLWindowType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWindowType.h; sourceTree = "<group>"; };
 		9FE2471422D77AD500F8D2FC /* SDLWindowType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowType.m; sourceTree = "<group>"; };
 		9FE2471722D77AED00F8D2FC /* SDLPredefinedWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPredefinedWindows.h; sourceTree = "<group>"; };
+		B32B7C6424EB91DC009670C1 /* SDL Video Strm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Video Strm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B32B7C6824EB936F009670C1 /* SmartDeviceLink-Example-Video-ObjC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SmartDeviceLink-Example-Video-ObjC.plist"; sourceTree = "<group>"; };
+		B32B7C6A24EB9701009670C1 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyManager.m; sourceTree = "<group>"; };
+		B32B7C6B24EB9701009670C1 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyManager.h; sourceTree = "<group>"; };
+		B32B7C6D24EB9743009670C1 /* SDLTCPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
+		B32B7C6E24EB9743009670C1 /* VideoStreamSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamSettings.m; sourceTree = "<group>"; };
+		B32B7C6F24EB9744009670C1 /* SDLTCPConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
+		B32B7C7024EB9744009670C1 /* VideoStreamSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamSettings.h; sourceTree = "<group>"; };
+		B32B7C7324EB98A3009670C1 /* ConnectionTCPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionTCPTableViewController.m; sourceTree = "<group>"; };
+		B32B7C7424EB98A3009670C1 /* ConnectionTCPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionTCPTableViewController.h; sourceTree = "<group>"; };
+		B32B7C7624EB9900009670C1 /* VideoStreamingSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamingSettingsViewController.h; sourceTree = "<group>"; };
+		B32B7C7724EB9900009670C1 /* VideoStreamingSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamingSettingsViewController.m; sourceTree = "<group>"; };
+		B32B7C7924EB99A3009670C1 /* ConnectionContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionContainerViewController.m; sourceTree = "<group>"; };
+		B32B7C7A24EB99A3009670C1 /* ConnectionContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionContainerViewController.h; sourceTree = "<group>"; };
+		B32B7C7C24EB9DD7009670C1 /* VideoSourceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSourceView.h; sourceTree = "<group>"; };
+		B32B7C7F24EB9DD7009670C1 /* VideoSourceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSourceView.m; sourceTree = "<group>"; };
+		B32B7C8024EB9DD8009670C1 /* TouchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchModel.m; sourceTree = "<group>"; };
+		B32B7C8124EB9DD8009670C1 /* TouchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchModel.h; sourceTree = "<group>"; };
+		B32B7C8524EB9E4A009670C1 /* VideoSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSourceViewController.m; sourceTree = "<group>"; };
+		B32B7C8624EB9E4A009670C1 /* VideoSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSourceViewController.h; sourceTree = "<group>"; };
+		B32B7C8924EBA0DF009670C1 /* ExampleVideoApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleVideoApp.storyboard; sourceTree = "<group>"; };
+		B32B7C8B24EBA275009670C1 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionIAPTableViewController.h; sourceTree = "<group>"; };
+		B32B7C8C24EBA275009670C1 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionIAPTableViewController.m; sourceTree = "<group>"; };
 		B3332F2424C10F9000A2EEC8 /* SDLAppCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppCapabilityType.h; sourceTree = "<group>"; };
 		B3332F2524C10F9000A2EEC8 /* SDLAppCapabilityType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapabilityType.m; sourceTree = "<group>"; };
 		B3332F2824C10FDE00A2EEC8 /* SDLAppCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppCapability.h; sourceTree = "<group>"; };
 		B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapability.m; sourceTree = "<group>"; };
 		B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnAppCapabilityUpdated.h; sourceTree = "<group>"; };
 		B3332F2D24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdated.m; sourceTree = "<group>"; };
-		B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
-		B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
-		B3476E122474356C0025DC99 /* sdl_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sdl_video.mp4; sourceTree = "<group>"; };
 		B3476E19247437470025DC99 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B34D698724D0241D00FE7B40 /* VideoStreamingSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoStreamingSettingsViewController.h; sourceTree = SOURCE_ROOT; };
-		B34D698824D0241D00FE7B40 /* VideoStreamingSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoStreamingSettingsViewController.m; sourceTree = SOURCE_ROOT; };
-		B34D698A24D0298C00FE7B40 /* VideoStreamSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VideoStreamSettings.h; path = "Example Apps/Example ObjC/Models/VideoStreamSettings.h"; sourceTree = SOURCE_ROOT; };
-		B34D698B24D0298C00FE7B40 /* VideoStreamSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VideoStreamSettings.m; path = "Example Apps/Example ObjC/Models/VideoStreamSettings.m"; sourceTree = SOURCE_ROOT; };
-		B3AC220A247C05C8008D372A /* TestUIAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUIAppViewController.h; sourceTree = "<group>"; };
-		B3AC220B247C05C8008D372A /* TestUIAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestUIAppViewController.m; sourceTree = "<group>"; };
-		B3AC220E247C0676008D372A /* ExampleApps.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleApps.storyboard; sourceTree = "<group>"; };
-		B3AC2212247C28F3008D372A /* SimpleAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAppViewController.h; sourceTree = "<group>"; };
-		B3AC2213247C28F3008D372A /* SimpleAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAppViewController.m; sourceTree = "<group>"; };
-		B3AC2216247C3224008D372A /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		B3AC2217247C3224008D372A /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
-		B3AC2219247C3236008D372A /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		B3AC221B247EBB1F008D372A /* SimpleRootView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleRootView.h; sourceTree = "<group>"; };
-		B3AC221C247EBB1F008D372A /* SimpleRootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleRootView.m; sourceTree = "<group>"; };
-		B3AC221E247EBB59008D372A /* TouchModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TouchModel.h; sourceTree = "<group>"; };
-		B3AC221F247EBB59008D372A /* TouchModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TouchModel.m; sourceTree = "<group>"; };
-		B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedStreamingRange.h; sourceTree = "<group>"; };
-		B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
-		B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaDelegate.h; sourceTree = "<group>"; };
 		B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCapacityUnit.h; sourceTree = "<group>"; };
 		B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnit.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
+		B3CD23D524EBB42A00F76A61 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "../Example Apps/Example ObjC/ProxyManager.h"; sourceTree = "<group>"; };
+		B3CD23D624EBB42A00F76A61 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
+		B3CD23D824EBC17500F76A61 /* SDLOnAppCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
+		B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedStreamingRange.h; sourceTree = "<group>"; };
+		B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
+		B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaDelegate.h; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -3560,6 +3605,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B32B7C5224EB91DC009670C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B32B7C5324EB91DC009670C1 /* AVFoundation.framework in Frameworks */,
+				B32B7C5424EB91DC009670C1 /* AVKit.framework in Frameworks */,
+				B32B7C5524EB91DC009670C1 /* SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3767,6 +3822,7 @@
 		162E82281A9BDE8A00906325 /* NotificationSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				B3CD23D824EBC17500F76A61 /* SDLOnAppCapabilityUpdatedSpec.m */,
 				162E82291A9BDE8A00906325 /* SDLOnAppInterfaceUnregisteredSpec.m */,
 				8855F9E5220CB60700A5C897 /* SDLOnAppServiceDataSpec.m */,
 				162E822A1A9BDE8A00906325 /* SDLOnAudioPassThruSpec.m */,
@@ -4193,7 +4249,6 @@
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				B3476E1D247471580025DC99 /* VideoTest */,
 				5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */,
 				5D0218EC1A8E796100D1BF62 /* Connection */,
 			);
@@ -4211,8 +4266,6 @@
 				5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */,
 				5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */,
 				5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */,
-				B34D698724D0241D00FE7B40 /* VideoStreamingSettingsViewController.h */,
-				B34D698824D0241D00FE7B40 /* VideoStreamingSettingsViewController.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -4435,11 +4488,12 @@
 		5D4019B01A76EC350006B0C2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */,
+				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
 				88295697207CF68800EF056C /* SDL Example Swift.app */,
 				88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */,
+				B32B7C6424EB91DC009670C1 /* SDL Video Strm.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4567,8 +4621,8 @@
 				5D1FF29421304513000EB9B4 /* MenuManager.m */,
 				5D1FF29321304513000EB9B4 /* PerformInteractionManager.h */,
 				5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */,
-				5D1FF29A21304514000EB9B4 /* ProxyManager.h */,
-				5D1FF29621304514000EB9B4 /* ProxyManager.m */,
+				B3CD23D524EBB42A00F76A61 /* ProxyManager.h */,
+				B3CD23D624EBB42A00F76A61 /* ProxyManager.m */,
 				5D1FF29821304514000EB9B4 /* RPCPermissionsManager.h */,
 				5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */,
 				889E7BB0249D0877002E4BE1 /* SubscribeButtonManager.h */,
@@ -6462,8 +6516,7 @@
 		88295677207CF46C00EF056C /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
-				B3AC2203247C035C008D372A /* ExampleApps */,
-				B3476E0D24741C490025DC99 /* Models */,
+				B32B7C6724EB936F009670C1 /* Example Video ObjC */,
 				5D48329E1A92865900252386 /* SDL */,
 				5D48329A1A8EA31500252386 /* Utilities */,
 				5D0218EB1A8E795700D1BF62 /* UI */,
@@ -6666,22 +6719,36 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
-		B3476E0D24741C490025DC99 /* Models */ = {
+		B32B7C6724EB936F009670C1 /* Example Video ObjC */ = {
 			isa = PBXGroup;
 			children = (
-				B34D698A24D0298C00FE7B40 /* VideoStreamSettings.h */,
-				B34D698B24D0298C00FE7B40 /* VideoStreamSettings.m */,
-				B3476E0E24741C5C0025DC99 /* SDLTCPConfig.h */,
-				B3476E0F24741C5C0025DC99 /* SDLTCPConfig.m */,
+				B3CD23D424EBB30700F76A61 /* UI */,
+				B3CD23D324EBB2AC00F76A61 /* Supporting Files */,
+				B32B7C8824EBA0DF009670C1 /* Resources */,
+				B32B7C8124EB9DD8009670C1 /* TouchModel.h */,
+				B32B7C8024EB9DD8009670C1 /* TouchModel.m */,
+				B32B7C6D24EB9743009670C1 /* SDLTCPConfig.h */,
+				B32B7C6F24EB9744009670C1 /* SDLTCPConfig.m */,
+				B32B7C6B24EB9701009670C1 /* ProxyManager.h */,
+				B32B7C6A24EB9701009670C1 /* ProxyManager.m */,
+				B32B7C7024EB9744009670C1 /* VideoStreamSettings.h */,
+				B32B7C6E24EB9743009670C1 /* VideoStreamSettings.m */,
 			);
-			name = Models;
-			path = "Example Apps/Example ObjC/Models";
+			name = "Example Video ObjC";
+			path = "Example Apps/Example Video ObjC";
 			sourceTree = SOURCE_ROOT;
+		};
+		B32B7C8824EBA0DF009670C1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B32B7C8924EBA0DF009670C1 /* ExampleVideoApp.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
 		};
 		B3476E112474356C0025DC99 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				B3476E122474356C0025DC99 /* sdl_video.mp4 */,
 			);
 			name = resources;
 			path = "Example Apps/Shared/resources";
@@ -6696,72 +6763,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B3476E1D247471580025DC99 /* VideoTest */ = {
+		B3CD23D324EBB2AC00F76A61 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B32B7C6824EB936F009670C1 /* SmartDeviceLink-Example-Video-ObjC.plist */,
 			);
-			name = VideoTest;
-			path = "Example Apps/Example ObjC/UI/VideoTest";
-			sourceTree = SOURCE_ROOT;
-		};
-		B3AC2203247C035C008D372A /* ExampleApps */ = {
-			isa = PBXGroup;
-			children = (
-				B3AC2211247C28C2008D372A /* OldStyleApp */,
-				B3AC220D247C0676008D372A /* Resources */,
-				B3AC2204247C035C008D372A /* SC3DApp */,
-				B3AC2205247C035C008D372A /* UIApp */,
-				B3AC2206247C035C008D372A /* VideoPlayerApp */,
-			);
-			name = ExampleApps;
-			path = "Example Apps/Example ObjC/ExampleApps";
-			sourceTree = SOURCE_ROOT;
-		};
-		B3AC2204247C035C008D372A /* SC3DApp */ = {
-			isa = PBXGroup;
-			children = (
-				B3AC2216247C3224008D372A /* GameViewController.h */,
-				B3AC2217247C3224008D372A /* GameViewController.m */,
-			);
-			path = SC3DApp;
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B3AC2205247C035C008D372A /* UIApp */ = {
+		B3CD23D424EBB30700F76A61 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				B3AC220A247C05C8008D372A /* TestUIAppViewController.h */,
-				B3AC220B247C05C8008D372A /* TestUIAppViewController.m */,
+				B32B7C7A24EB99A3009670C1 /* ConnectionContainerViewController.h */,
+				B32B7C7924EB99A3009670C1 /* ConnectionContainerViewController.m */,
+				B32B7C8B24EBA275009670C1 /* ConnectionIAPTableViewController.h */,
+				B32B7C8C24EBA275009670C1 /* ConnectionIAPTableViewController.m */,
+				B32B7C7424EB98A3009670C1 /* ConnectionTCPTableViewController.h */,
+				B32B7C7324EB98A3009670C1 /* ConnectionTCPTableViewController.m */,
+				B32B7C7C24EB9DD7009670C1 /* VideoSourceView.h */,
+				B32B7C7F24EB9DD7009670C1 /* VideoSourceView.m */,
+				B32B7C7624EB9900009670C1 /* VideoStreamingSettingsViewController.h */,
+				B32B7C7724EB9900009670C1 /* VideoStreamingSettingsViewController.m */,
+				B32B7C8624EB9E4A009670C1 /* VideoSourceViewController.h */,
+				B32B7C8524EB9E4A009670C1 /* VideoSourceViewController.m */,
 			);
-			path = UIApp;
-			sourceTree = "<group>";
-		};
-		B3AC2206247C035C008D372A /* VideoPlayerApp */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = VideoPlayerApp;
-			sourceTree = "<group>";
-		};
-		B3AC220D247C0676008D372A /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B3AC2219247C3236008D372A /* art.scnassets */,
-				B3AC220E247C0676008D372A /* ExampleApps.storyboard */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		B3AC2211247C28C2008D372A /* OldStyleApp */ = {
-			isa = PBXGroup;
-			children = (
-				B3AC2212247C28F3008D372A /* SimpleAppViewController.h */,
-				B3AC2213247C28F3008D372A /* SimpleAppViewController.m */,
-				B3AC221B247EBB1F008D372A /* SimpleRootView.h */,
-				B3AC221C247EBB1F008D372A /* SimpleRootView.m */,
-				B3AC221E247EBB59008D372A /* TouchModel.h */,
-				B3AC221F247EBB59008D372A /* TouchModel.m */,
-			);
-			path = OldStyleApp;
+			name = UI;
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -6913,6 +6939,7 @@
 				9FE2471122D77AA400F8D2FC /* SDLCreateWindowResponse.h in Headers */,
 				9FD334E022DC6E7500F62736 /* SDLCreateWindow.h in Headers */,
 				8BA12B1122DCCE1F00371E82 /* SDLUnpublishAppService.h in Headers */,
+				B32B7C0724EAEBDD009670C1 /* SDLStreamingMediaDelegate.h in Headers */,
 				8BA12B1522DCEACB00371E82 /* SDLUnpublishAppServiceResponse.h in Headers */,
 				1EB59CBF202DA26000343A61 /* SDLSeatControlData.h in Headers */,
 				1EB59CB3202D9B5F00343A61 /* SDLSeatMemoryActionType.h in Headers */,
@@ -7241,7 +7268,6 @@
 				E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */,
 				88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */,
 				1FF7DAB81F75B28E00B46C30 /* SDLFocusableItemHitTester.h in Headers */,
-				B3E0494524923AF800D8CBE1 /* SDLStreamingMediaDelegate.h in Headers */,
 				5D61FC3D1A84238C00846EE7 /* SDLAlertResponse.h in Headers */,
 				5D61FDAD1A84238C00846EE7 /* SDLSubscribeButton.h in Headers */,
 				5D61FCF41A84238C00846EE7 /* SDLMaintenanceModeStatus.h in Headers */,
@@ -7491,7 +7517,7 @@
 			);
 			name = "SmartDeviceLink-Example-ObjC";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 5D4019AF1A76EC350006B0C2 /* SDL0296_VidStr.app */;
+			productReference = 5D4019AF1A76EC350006B0C2 /* SDL Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5D61FA1B1A84237100846EE7 /* SmartDeviceLink */ = {
@@ -7571,6 +7597,25 @@
 			productReference = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		B32B7C3324EB91DC009670C1 /* SmartDeviceLink-Example-Video-ObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B32B7C6124EB91DC009670C1 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */;
+			buildPhases = (
+				B32B7C3624EB91DC009670C1 /* Sources */,
+				B32B7C5224EB91DC009670C1 /* Frameworks */,
+				B32B7C5624EB91DC009670C1 /* Resources */,
+				B32B7C5F24EB91DC009670C1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B32B7C3424EB91DC009670C1 /* PBXTargetDependency */,
+			);
+			name = "SmartDeviceLink-Example-Video-ObjC";
+			productName = "SmartDeviceLink-iOS";
+			productReference = B32B7C6424EB91DC009670C1 /* SDL Video Strm.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -7606,6 +7651,9 @@
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
+					B32B7C3324EB91DC009670C1 = {
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = 5D4019AA1A76EC350006B0C2 /* Build configuration list for PBXProject "SmartDeviceLink-iOS" */;
@@ -7631,6 +7679,7 @@
 				5D4019AE1A76EC350006B0C2 /* SmartDeviceLink-Example-ObjC */,
 				8829567D207CF68800EF056C /* SmartDeviceLink-Example-Swift */,
 				88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */,
+				B32B7C3324EB91DC009670C1 /* SmartDeviceLink-Example-Video-ObjC */,
 			);
 		};
 /* End PBXProject section */
@@ -7641,11 +7690,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
-				B3AC221A247C3236008D372A /* art.scnassets in Resources */,
 				5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
-				B3AC220F247C0677008D372A /* ExampleApps.storyboard in Resources */,
 				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
-				B3476E132474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
 			);
@@ -7684,9 +7730,7 @@
 			files = (
 				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
-				B3AC2210247C0677008D372A /* ExampleApps.storyboard in Resources */,
 				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
-				B3476E142474356D0025DC99 /* sdl_video.mp4 in Resources */,
 				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
 				5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
@@ -7702,6 +7746,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B32B7C5624EB91DC009670C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B32B7C5724EB91DC009670C1 /* ConnectionIAPTableViewController.storyboard in Resources */,
+				B32B7C5924EB91DC009670C1 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				B32B7C8A24EBA0DF009670C1 /* ExampleVideoApp.storyboard in Resources */,
+				B32B7C5B24EB91DC009670C1 /* Images.xcassets in Resources */,
+				B32B7C5D24EB91DC009670C1 /* Main.storyboard in Resources */,
+				B32B7C5E24EB91DC009670C1 /* LaunchScreen.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -7711,29 +7768,21 @@
 			files = (
 				5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */,
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
-				B3AC220C247C05C8008D372A /* TestUIAppViewController.m in Sources */,
+				B3CD23D724EBB42A00F76A61 /* ProxyManager.m in Sources */,
 				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
-				B3AC221D247EBB1F008D372A /* SimpleRootView.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
-				B3476E1024741C5C0025DC99 /* SDLTCPConfig.m in Sources */,
 				5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */,
-				5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */,
 				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
-				B34D698924D0241D00FE7B40 /* VideoStreamingSettingsViewController.m in Sources */,
 				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
-				B3AC2220247EBB59008D372A /* TouchModel.m in Sources */,
 				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
-				B34D698C24D0298C00FE7B40 /* VideoStreamSettings.m in Sources */,
 				889E7BB2249D0877002E4BE1 /* SubscribeButtonManager.m in Sources */,
 				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
-				B3AC2218247C3224008D372A /* GameViewController.m in Sources */,
 				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
 				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
 				5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */,
 				5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */,
 				5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */,
 				5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */,
-				B3AC2214247C28F3008D372A /* SimpleAppViewController.m in Sources */,
 				5D1FF2A821304531000EB9B4 /* TextValidator.m in Sources */,
 				5D1FF28D213044F9000EB9B4 /* AlertManager.m in Sources */,
 			);
@@ -7821,6 +7870,7 @@
 				1EB59CC4202DB40400343A61 /* SDLSeatControlCapabilities.m in Sources */,
 				5D61FD261A84238C00846EE7 /* SDLPerformAudioPassThru.m in Sources */,
 				1EAA471E203410BB000FE74B /* SDLAudioControlCapabilities.m in Sources */,
+				B32B7C0624EAEA32009670C1 /* SDLSupportedStreamingRange.m in Sources */,
 				88BCEA932266250B00BB7E70 /* SDLIAPControlSession.m in Sources */,
 				5D61FC971A84238C00846EE7 /* SDLECallConfirmationStatus.m in Sources */,
 				8816772D222097C3001FACFF /* SDLNavigationServiceData.m in Sources */,
@@ -7927,7 +7977,6 @@
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,
 				5DB9965D1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m in Sources */,
 				5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */,
-				B3E049422492237F00D8CBE1 /* SDLSupportedStreamingRange.m in Sources */,
 				883468F8234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.m in Sources */,
 				5D61FD7C1A84238C00846EE7 /* SDLScrollableMessage.m in Sources */,
 				5D4D67B11D2FE2F900468B4A /* SDLResponseDispatcher.m in Sources */,
@@ -8813,6 +8862,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B32B7C3624EB91DC009670C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B32B7C3724EB91DC009670C1 /* AppDelegate.m in Sources */,
+				B32B7C3C24EB91DC009670C1 /* RPCPermissionsManager.m in Sources */,
+				B32B7C3E24EB91DC009670C1 /* VehicleDataManager.m in Sources */,
+				B32B7C7524EB98A3009670C1 /* ConnectionTCPTableViewController.m in Sources */,
+				B32B7C4024EB91DC009670C1 /* ConnectionAnimatedTransition.m in Sources */,
+				B32B7C4224EB91DC009670C1 /* Preferences.m in Sources */,
+				B32B7C7124EB9744009670C1 /* VideoStreamSettings.m in Sources */,
+				B32B7C4424EB91DC009670C1 /* main.m in Sources */,
+				B32B7C8D24EBA275009670C1 /* ConnectionIAPTableViewController.m in Sources */,
+				B32B7C7B24EB99A4009670C1 /* ConnectionContainerViewController.m in Sources */,
+				B32B7C4624EB91DC009670C1 /* SubscribeButtonManager.m in Sources */,
+				B32B7C4724EB91DC009670C1 /* ConnectionTransitionContext.m in Sources */,
+				B32B7C4924EB91DC009670C1 /* ButtonManager.m in Sources */,
+				B32B7C4A24EB91DC009670C1 /* AudioManager.m in Sources */,
+				B32B7C7224EB9744009670C1 /* SDLTCPConfig.m in Sources */,
+				B32B7C7824EB9900009670C1 /* VideoStreamingSettingsViewController.m in Sources */,
+				B32B7C8724EB9E4B009670C1 /* VideoSourceViewController.m in Sources */,
+				B32B7C4B24EB91DC009670C1 /* MenuManager.m in Sources */,
+				B32B7C8324EB9DD8009670C1 /* VideoSourceView.m in Sources */,
+				B32B7C4C24EB91DC009670C1 /* AppConstants.m in Sources */,
+				B32B7C4E24EB91DC009670C1 /* PerformInteractionManager.m in Sources */,
+				B32B7C5024EB91DC009670C1 /* TextValidator.m in Sources */,
+				B32B7C6C24EB9701009670C1 /* ProxyManager.m in Sources */,
+				B32B7C5124EB91DC009670C1 /* AlertManager.m in Sources */,
+				B32B7C8424EB9DD8009670C1 /* TouchModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -8845,6 +8926,11 @@
 			isa = PBXTargetDependency;
 			target = 88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */;
 			targetProxy = 88802FF720853CD500E9EBC6 /* PBXContainerItemProxy */;
+		};
+		B32B7C3424EB91DC009670C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
+			targetProxy = B32B7C3524EB91DC009670C1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9016,7 +9102,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
-				PRODUCT_NAME = SDL0296_VidStr;
+				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
 				SWIFT_VERSION = 5.0;
 			};
@@ -9035,7 +9121,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
-				PRODUCT_NAME = SDL0296_VidStr;
+				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
 				SWIFT_VERSION = 5.0;
 			};
@@ -9345,6 +9431,44 @@
 			};
 			name = Release;
 		};
+		B32B7C6224EB91DC009670C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = G99VP5HXV7;
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 6.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_NAME = "SDL Video Strm";
+				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B32B7C6324EB91DC009670C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = G99VP5HXV7;
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 6.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_NAME = "SDL Video Strm";
+				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -9398,6 +9522,15 @@
 			buildConfigurations = (
 				88802FED20853AE600E9EBC6 /* Debug */,
 				88802FEE20853AE600E9EBC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B32B7C6124EB91DC009670C1 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B32B7C6224EB91DC009670C1 /* Debug */,
+				B32B7C6324EB91DC009670C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

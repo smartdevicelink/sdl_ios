@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
     const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
     if (1 > displSize.width) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
-        SDLLogW(@"The the display screen dimensions are unknown. The CarWindow will not resize.");
+        SDLLogW(@"The display screen dimensions are unknown. The CarWindow will not resize.");
         return;
     }
 

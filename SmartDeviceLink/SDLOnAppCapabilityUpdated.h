@@ -24,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The app capability that has been updated.
- *
- *  SDLAppCapability, Required
  */
 @property (strong, nonatomic) SDLAppCapability *appCapability;
 

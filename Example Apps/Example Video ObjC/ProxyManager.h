@@ -2,7 +2,8 @@
 //  ProxyManager.h
 //  SmartDeviceLink-iOS
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "SDLTCPConfig.h"
 
 @class SDLManager;
 
@@ -17,15 +18,22 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
     ProxyStateConnected
 };
 
+@protocol SDLStreamingMediaDelegate;
+@class VideoStreamSettings;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProxyManager : NSObject
 
 @property (assign, nonatomic, readonly) ProxyState state;
-@property (strong, nonatomic) SDLManager *sdlManager;
+@property (strong, nonatomic, nullable) SDLManager *sdlManager;
+
+@property (strong, nonatomic, nullable) UIViewController<SDLStreamingMediaDelegate> *videoSourceViewController;
+@property (strong, nonatomic, nullable) VideoStreamSettings *videoStreamSettings;
 
 + (instancetype)sharedManager;
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType;
+- (void)startProxyTCP:(SDLTCPConfig*)tcpConfig;
 - (void)stopConnection;
 
 @end

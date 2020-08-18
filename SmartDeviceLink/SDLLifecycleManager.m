@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLLifecycleManager.h"
+
 #import "NSMapTable+Subscripting.h"
 #import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
@@ -17,8 +19,9 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLEncryptionConfiguration.h"
-#import "SDLEncryptionLifecycleManager.h"
+#import "SDLLogMacros.h"
 #import "SDLError.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
@@ -26,7 +29,6 @@
 #import "SDLIAPTransport.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
-#import "SDLLifecycleManager.h"
 #import "SDLLifecycleMobileHMIStateHandler.h"
 #import "SDLLifecycleSyncPDataHandler.h"
 #import "SDLLifecycleSystemRequestHandler.h"
@@ -35,7 +37,6 @@
 #import "SDLLockScreenPresenter.h"
 #import "SDLLogConfiguration.h"
 #import "SDLLogFileModuleMap.h"
-#import "SDLLogMacros.h"
 #import "SDLLogManager.h"
 #import "SDLManagerDelegate.h"
 #import "SDLMsgVersion.h"
@@ -67,17 +68,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
-SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
+SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
 SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
+SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
+SDLLifecycleState *const SDLLifecycleStateUpdatingConfiguration = @"UpdatingConfiguration";
+SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
 SDLLifecycleState *const SDLLifecycleStateSettingUpAppIcon = @"SettingUpAppIcon";
 SDLLifecycleState *const SDLLifecycleStateSettingUpHMI = @"SettingUpHMI";
-SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
-SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
-SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
 SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
-SDLLifecycleState *const SDLLifecycleStateUpdatingConfiguration = @"UpdatingConfiguration";
+SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask";
 

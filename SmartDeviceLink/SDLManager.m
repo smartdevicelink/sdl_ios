@@ -119,13 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.rpcOperationQueue.operations;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (nullable SDLProxy *)proxy {
-    return self.lifecycleManager.proxy;
-}
-#pragma clang diagnostic pop
-
 - (void)setSdlMsgVersionString:(nullable NSString *)versionString {
     self.lifecycleManager.sdlMsgVersionString = versionString;
 }

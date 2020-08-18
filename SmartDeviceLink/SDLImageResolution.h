@@ -1,7 +1,7 @@
 //  SDLImageResolution.h
 //
 
-#import <UIKit/UIKit.h>
+#import <CoreGraphics/CGGeometry.h>
 #import "SDLRPCMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (float)normalizedAspectRatio;
 
 // string representation, for debug only
-- (NSString*)stringValue;
+- (NSString *)stringValue;
 
 @end
 

@@ -1,34 +1,29 @@
 //
-//  SimpleAppViewController.m
+//  VideoSourceViewController.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Leonid Lokhmatov on 5/25/20.
-//  Copyright © 2018 Luxoft. All rights reserved
+//  Copyright © 2020 Luxoft. All rights reserved
 //
 
-#import "SimpleAppViewController.h"
+#import "VideoSourceViewController.h"
 #import "SDLTouchManagerDelegate.h"
-#import "SimpleRootView.h"
+#import "VideoSourceView.h"
 #import "TouchModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
 
-@interface SimpleAppViewController ()
+@interface VideoSourceViewController ()
 @property (strong, nonatomic, nullable) IBOutletCollection(UIButton) NSArray *buttons;
 @end
 
 
-@interface SimpleAppViewController (SDLTouchManagerDelegate) <SDLTouchManagerDelegate>
-@end
+@implementation VideoSourceViewController
 
-
-@implementation SimpleAppViewController
-
-+ (SimpleAppViewController*)createViewController {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"ExampleApps" bundle:nil];
-    SimpleAppViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"idSimpleAppViewController"];
++ (VideoSourceViewController *)createInstance {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"ExampleVideoApp" bundle:nil];
+    VideoSourceViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"idVideoSourceViewController"];
     return vc;
 }
 
@@ -40,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (SimpleRootView *)rootView {
-    return (SimpleRootView *)self.view;
+- (VideoSourceView *)rootView {
+    return (VideoSourceView *)self.view;
 }
 
 - (void)updateOnTouchButton:(UIView * _Nullable)viewCandidate {
@@ -57,11 +52,21 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma mark - SDLStreamingMediaDelegate
+
+- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize {
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGSize(displaySize));
+}
+
+- (void)videoStreamingSizeDoesNotMatch {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 @end
 
 
 //#Touch_Input:
-@implementation SimpleAppViewController (SDLTouchManagerDelegate)
+@implementation VideoSourceViewController (SDLTouchManagerDelegate)
 
 static const CGFloat MinSz = -8.0;
 
@@ -123,16 +128,6 @@ static const CGFloat MinSz = -8.0;
 
 - (void)touchManager:(SDLTouchManager *)manager pinchCanceledAtCenterPoint:(CGPoint)point {
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGPoint(point));
-}
-
-#pragma mark - SDLStreamingMediaDelegate
-
-- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize {
-    NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGSize(displaySize));
-}
-
-- (void)videoStreamingSizeDoesNotMatch {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 @end

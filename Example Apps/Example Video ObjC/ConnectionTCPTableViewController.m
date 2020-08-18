@@ -4,12 +4,16 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-
 #import "ConnectionTCPTableViewController.h"
-
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLManager.h"
+#import "SDLStreamingMediaDelegate.h"
+#import "SDLTCPConfig.h"
+#import "VideoSourceViewController.h"
+#import "VideoStreamSettings.h"
+
 
 @interface ConnectionTCPTableViewController ()
 
@@ -18,9 +22,11 @@
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *appSelector;
+
+@property (strong, nonatomic, nullable) VideoSourceViewController *videoSourceViewController;
 
 @end
-
 
 
 @implementation ConnectionTCPTableViewController
@@ -52,11 +58,13 @@
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
     [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
     [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
-    
+
+    [self.view endEditing:YES]; // hide keyboard
+
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeTCP];
+            [self startProxy];
         } break;
         case ProxyStateSearchingForConnection: {
             [[ProxyManager sharedManager] stopConnection];
@@ -67,7 +75,6 @@
         default: break;
     }
 }
-
 
 #pragma mark - Table view delegate
 
@@ -93,7 +100,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
         ProxyState newState = [change[NSKeyValueChangeNewKey] unsignedIntegerValue];
-        [self proxyManagerDidChangeState:newState];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self proxyManagerDidChangeState:newState];
+        });
     }
 }
 
@@ -105,6 +114,7 @@
         case ProxyStateStopped: {
             newColor = [UIColor redColor];
             newTitle = @"Connect";
+            [self finishApp];
         } break;
         case ProxyStateSearchingForConnection: {
             newColor = [UIColor blueColor];
@@ -113,6 +123,7 @@
         case ProxyStateConnected: {
             newColor = [UIColor greenColor];
             newTitle = @"Disconnect";
+            [self presentVideoApp];
         } break;
         default: break;
     }
@@ -122,6 +133,31 @@
             [self.connectTableViewCell setBackgroundColor:newColor];
             [self.connectButton setTitle:newTitle forState:UIControlStateNormal];
         });
+    }
+}
+
+- (void)startProxy {
+    SDLTCPConfig *tcpConfig = [SDLTCPConfig configWithHost:self.ipAddressTextField.text port:self.portTextField.text.integerValue];
+
+    if (!self.videoSourceViewController) {
+        self.videoSourceViewController = [VideoSourceViewController createInstance];
+    }
+    ProxyManager *proxy = [ProxyManager sharedManager];
+    proxy.videoSourceViewController = self.videoSourceViewController;
+    proxy.videoStreamSettings = self.videoStreamSettings;
+
+    [proxy startProxyTCP:tcpConfig];
+}
+
+// start & show / stop & hide video app
+
+- (void)presentVideoApp {
+    [self.navigationController pushViewController:self.videoSourceViewController animated:YES];
+}
+
+- (void)finishApp {
+    if (self.videoSourceViewController) {
+        [self.navigationController popToViewController:self.parentViewController animated:YES];
     }
 }
 

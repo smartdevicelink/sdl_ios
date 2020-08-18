@@ -9,13 +9,13 @@
 #import "SDLStreamingVideoScaleManager.h"
 #import <simd/simd.h>
 
+#import "SDLImageResolution.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLRectangle.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLHapticRect.h"
 #import "SDLNotificationConstants.h"
-#import "SDLImageResolution.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

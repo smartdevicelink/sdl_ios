@@ -2,18 +2,17 @@
 //  SimpleRootView.m
 //  SmartDeviceLink-Example-ObjC
 //
-//  Created by Leonid Lokhmatov on 5/27/20.
-//  Copyright © 2018 Luxoft. All rights reserved
+//  Copyright © 2020 Luxoft. All rights reserved
 //
 
-#import "SimpleRootView.h"
+#import "VideoSourceView.h"
 
-@interface SimpleRootView ()
+@interface VideoSourceView ()
 @property (strong, nonatomic, nullable) IBOutlet UIView *singleTapView;
 @property (strong, nonatomic, nullable) IBOutlet UIView *doubleTapView;
 @end
 
-@implementation SimpleRootView
+@implementation VideoSourceView
 
 - (void)awakeFromNib {
     [super awakeFromNib];

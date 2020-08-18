@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param versionString A version string in the following format: @"majorVersion.minorVersion.patchVersion" Example: @"6.0.0"
  *  @return A SDLMsgVersion object
 */
-+ (instancetype)versionWithString:(NSString *)versionString;
++ (nullable instancetype)versionWithString:(NSString *)versionString;
 
 /**
  *  Convenience init for all parameters.

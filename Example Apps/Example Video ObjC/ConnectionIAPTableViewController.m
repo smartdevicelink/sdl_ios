@@ -1,20 +1,13 @@
 //
-//  ConnectionTCPTableViewController.m
+//  ConnectionIAPTableViewController.m
 //  SmartDeviceLink-iOS
 
-#import <AVFoundation/AVFoundation.h>
-#import <MobileCoreServices/MobileCoreServices.h>
+#import "ConnectionIAPTableViewController.h"
 
-#import "ConnectionTCPTableViewController.h"
-
-#import "Preferences.h"
 #import "ProxyManager.h"
-#import "SDLStreamingMediaManager.h"
 
-@interface ConnectionTCPTableViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextField *ipAddressTextField;
-@property (weak, nonatomic) IBOutlet UITextField *portTextField;
+@interface ConnectionIAPTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
@@ -22,9 +15,7 @@
 @end
 
 
-
-@implementation ConnectionTCPTableViewController
-
+@implementation ConnectionIAPTableViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -33,8 +24,6 @@
     
     // Tableview setup
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    self.ipAddressTextField.text = [Preferences sharedPreferences].ipAddress;
-    self.portTextField.text = [@([Preferences sharedPreferences].port) stringValue];
     
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
@@ -50,38 +39,16 @@
 #pragma mark - IBActions
 
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
-    [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
-    [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
-    
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeTCP];
+            [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeIAP];
         } break;
         case ProxyStateSearchingForConnection: {
             [[ProxyManager sharedManager] stopConnection];
         } break;
         case ProxyStateConnected: {
             [[ProxyManager sharedManager] stopConnection];
-        } break;
-        default: break;
-    }
-}
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section != 0) {
-        return;
-    }
-    
-    switch (indexPath.row) {
-        case 0: {
-            [self.ipAddressTextField becomeFirstResponder];
-        } break;
-        case 1: {
-            [self.portTextField becomeFirstResponder];
         } break;
         default: break;
     }
@@ -97,10 +64,13 @@
     }
 }
 
+
+#pragma mark - Private Methods
+
 - (void)proxyManagerDidChangeState:(ProxyState)newState {
     UIColor* newColor = nil;
     NSString* newTitle = nil;
-    
+
     switch (newState) {
         case ProxyStateStopped: {
             newColor = [UIColor redColor];
@@ -116,7 +86,7 @@
         } break;
         default: break;
     }
-    
+
     if (newColor || newTitle) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.connectTableViewCell setBackgroundColor:newColor];
@@ -124,5 +94,6 @@
         });
     }
 }
+
 
 @end

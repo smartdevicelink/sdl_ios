@@ -2,9 +2,8 @@
 //
 
 
-#import "SDLImageResolution.h"
-
 #import "NSMutableDictionary+Store.h"
+#import "SDLImageResolution.h"
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (0 == width || 0 == height) ? 0 : fabsf(fmaxf(width, height)/fminf(width, height));
 }
 
-- (NSString*)stringValue {
+- (NSString *)stringValue {
     return [NSString stringWithFormat:@"[%@ x %@]", self.resolutionWidth, self.resolutionHeight];
 }
 

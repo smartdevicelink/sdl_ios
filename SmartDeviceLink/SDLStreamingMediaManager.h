@@ -198,6 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
   */
 - (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
+
 @end
 
 NS_ASSUME_NONNULL_END

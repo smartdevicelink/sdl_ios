@@ -151,18 +151,10 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;
 
-#pragma mark - Recieving
+#pragma mark - Delegate
 
-/**
- *  Turns received bytes into message objects.
- *
- *  @param receivedData The data received from Core
- */
-- (void)handleBytesFromTransport:(NSData *)receivedData;
-
-
-- (void)addListener:(id<SDLProtocolListener>)listener;
-- (void)removeListener:(id<SDLProtocolListener>)listener;
+- (void)addDelegate:(id<SDLProtocolDelegate>)delegate;
+- (void)removeDelegate:(id<SDLProtocolDelegate>)delegate;
 
 @end
 

@@ -9,6 +9,8 @@
 #import "ConnectionTransitionContext.h"
 #import "ConnectionAnimatedTransition.h"
 #import "Preferences.h"
+#import "VideoStreamSettings.h"
+#import "VideoStreamingSettingsViewController.h"
 
 
 @interface ConnectionContainerViewController ()
@@ -18,6 +20,10 @@
 @property (strong, nonatomic) UIViewController *currentViewController;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
+
+@property (strong, nonatomic) ConnectionTCPTableViewController *tcpController;
+@property (strong, nonatomic) ConnectionIAPTableViewController *iapController;
+@property (strong, nonatomic) VideoStreamSettings *videoStreamSettings;
 
 @end
 
@@ -29,13 +35,19 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.translucent = NO;
+
+    self.videoStreamSettings = [VideoStreamSettings new];
     
     // Setup the child VCs
-    UIStoryboard *tcpControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionTCPTableViewController" bundle:[NSBundle mainBundle]];
-    UIStoryboard *iapControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionIAPTableViewController" bundle:[NSBundle mainBundle]];
-    ConnectionTCPTableViewController *tcpController = [tcpControllerStoryboard instantiateInitialViewController];
-    ConnectionIAPTableViewController *iapController = [iapControllerStoryboard instantiateInitialViewController];
-    self.viewControllers = @[tcpController, iapController];
+    UIStoryboard *tcpControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionTCPTableViewController" bundle:nil];
+    self.tcpController = [tcpControllerStoryboard instantiateInitialViewController];
+    self.tcpController.videoStreamSettings = self.videoStreamSettings;
+
+    UIStoryboard *iapControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionIAPTableViewController" bundle:nil];
+    self.iapController = [iapControllerStoryboard instantiateInitialViewController];
+    self.iapController.videoStreamSettings = self.videoStreamSettings;
+
+    self.viewControllers = @[self.tcpController, self.iapController];
     
     // Setup the pan gesture
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognizerDidFire:)];
@@ -84,6 +96,16 @@
     }
 }
 
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    NSLog(@"%s: %@", __PRETTY_FUNCTION__, segue);
+
+    VideoStreamingSettingsViewController *settingsController = [[segue destinationViewController] isKindOfClass:[VideoStreamingSettingsViewController class]] ? [segue destinationViewController] : nil;
+    settingsController.videoStreamSettings = self.videoStreamSettings;
+}
 
 #pragma mark - Private API
 

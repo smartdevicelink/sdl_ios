@@ -25,12 +25,12 @@
 @class SDLPermissionManager;
 @class SDLProxy;
 @class SDLPutFile;
+@class SDLRegisterAppInterfaceResponse;
+@class SDLResponseDispatcher;
 @class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
-@class SDLRegisterAppInterfaceResponse;
-@class SDLResponseDispatcher;
 @class SDLScreenManager;
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;

@@ -9,7 +9,6 @@
 #import "SDLStreamingMediaConfiguration.h"
 
 #import "SDLStreamingMediaManagerDataSource.h"
-#import "SDLSupportedStreamingRange.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

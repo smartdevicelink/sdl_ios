@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLProtocol *videoProtocol;
 
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+
 @end
 
 
@@ -92,10 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Secondary Transport
-
-//- (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol {
-//    [self didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];
-//}
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
      [self didUpdateFromOldVideoProtocol:nil toNewVideoProtocol:protocol fromOldAudioProtocol:nil toNewAudioProtocol:protocol];

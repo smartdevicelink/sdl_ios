@@ -12,7 +12,7 @@
 
 @implementation SDLMsgVersion
 
-+ (instancetype)versionWithString:(NSString *)versionString {
++ (nullable instancetype)versionWithString:(NSString *)versionString {
     NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
     if (3 != components.count) {
         return nil;

@@ -30,6 +30,7 @@
 #import "SDLLogMacros.h"
 #import "SDLOnAppCapabilityUpdated.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
 #import "SDLPredefinedWindows.h"
@@ -38,19 +39,18 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaDelegate.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLSupportedStreamingRange.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
-#import "SDLOnSystemCapabilityUpdated.h"
-#import "SDLStreamingMediaDelegate.h"
-#import "SDLSupportedStreamingRange.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
@@ -205,7 +205,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     SDLLogD(@"Starting with protocol: %@", protocol);
     _protocol = protocol;
-    [self.protocol addListener:self];
+    [self.protocol addDelegate:self];
     [self.focusableItemManager start];
 
     // attempt to start streaming since we may already have necessary conditions met
@@ -225,7 +225,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.focusableItemManager stop];
     _connectedVehicleMake = nil;
 
-    [self.protocol removeListener:self];
+    [self.protocol removeDelegate:self];
     _protocol = nil;
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
