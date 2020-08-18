@@ -32,7 +32,7 @@ class InterfaceProducerCommon(ABC):
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
                                       'method_suffix of_class type_native type_sdl modifier for_name description '
                                       'constructor_argument_override')
-        self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
+        self.constructor_named = namedtuple('constructor', 'init self arguments all')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
         self.names = self.struct_names + tuple(map(lambda e: self._replace_sync(e), enum_names))
 
@@ -215,8 +215,10 @@ class InterfaceProducerCommon(ABC):
         """
         mandatory = []
         not_mandatory = []
-        deprecated = any([m.deprecated for m in data.values() if getattr(m, 'deprecated', False)])
         for param in data.values():
+            if param.deprecated:
+                # Omit deprecated parameters from the constructors
+                continue
             if param.mandatory:
                 mandatory.append(param)
             else:
@@ -225,13 +227,11 @@ class InterfaceProducerCommon(ABC):
         result = []
         if mandatory:
             mandatory = self.extract_constructor(mandatory, True)
-            mandatory['deprecated'] = deprecated
         else:
             mandatory = OrderedDict()
 
         if not_mandatory:
             not_mandatory = self.extract_constructor(not_mandatory, False)
-            not_mandatory['deprecated'] = deprecated
             if mandatory:
                 not_mandatory['init'] = '{} {}'.format(mandatory['init'], self.minimize_first(not_mandatory['init']))
                 not_mandatory['all'] = mandatory['arguments'] + not_mandatory['arguments']
