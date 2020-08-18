@@ -24,7 +24,6 @@
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLWindowCapability *currentCapabilities;
-@property (strong, nonatomic) SDLShow *currentScreenData;
 @property (strong, nonatomic) SDLTextAndGraphicState *updatedState;
 
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler updateCompletionHandler;
@@ -35,7 +34,7 @@
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(nonnull SDLTextAndGraphicState *)newState {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(nonnull SDLTextAndGraphicState *)newState updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -44,6 +43,7 @@
     _currentCapabilities = currentCapabilities;
     _currentScreenData = currentData;
     _updatedState = newState;
+    _updateCompletionHandler = updateCompletionHandler;
 
     return self;
 }
@@ -59,73 +59,84 @@
     fullShow = [self sdl_assembleShowText:fullShow];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
-    SDLShow *showToSend = nil;
-
+    __weak typeof(self) weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
-        showToSend = [self sdl_extractTextFromShow:fullShow];
+        [self sdl_sendShow:[self sdl_extractTextFromShow:fullShow] withHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (error != nil) {
+                strongSelf.internalError = error;
+            }
+            [strongSelf finishOperation];
+        }];
     } else if (![self sdl_artworkNeedsUpload:self.updatedState.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.updatedState.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
-        showToSend = fullShow;
+        [self sdl_sendShow:fullShow withHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (error != nil) {
+                strongSelf.internalError = error;
+            }
+            [strongSelf finishOperation];
+        }];
     } else {
         SDLLogV(@"Images need to be uploaded, sending text and uploading images");
 
         // We need to upload or queue the upload of the images
         // Send the text immediately
-        showToSend = [self sdl_extractTextFromShow:fullShow];
-    }
+        [self sdl_sendShow:[self sdl_extractTextFromShow:fullShow] withHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (self.cancelled) {
+                [strongSelf finishOperation];
+            }
 
-    // Send the initial, and potentially only, Show request
+            [strongSelf sdl_uploadImagesAndSendWhenDone:^(NSError * _Nullable error) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (error != nil) {
+                    strongSelf.internalError = error;
+                }
+                [strongSelf finishOperation];
+            }];
+        }];
+    }
+}
+
+#pragma mark - Send Show
+
+- (void)sdl_sendShow:(SDLShow *)show withHandler:(void (^)(NSError *_Nullable error))handler {
     __weak typeof(self)weakSelf = self;
-    [self.connectionManager sendConnectionRequest:showToSend withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Text and Graphic update completed");
 
-        // TODO: Monitor and delete old images when space is low?
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
-            [self sdl_uploadImagesAndSendWhenDone];
-        } else {
-            // It failed, store the error and pass it along
-            self.internalError = error;
         }
+
+        handler(error);
     }];
 }
 
-- (void)sdl_uploadImagesAndSendWhenDone {
-    // Start uploading the images
+#pragma mark - Uploading Images
+
+- (void)sdl_uploadImagesAndSendWhenDone:(void (^)(NSError *_Nullable error))handler {
     __weak typeof(self)weakSelf = self;
     [self sdl_uploadImagesWithCompletionHandler:^(NSError *_Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        if (error != nil) {
-            SDLShow *showWithGraphics = [self sdl_createImageOnlyShowWithPrimaryArtwork:self.newState.primaryGraphic secondaryArtwork:self.newState.secondaryGraphic];
-            if (showWithGraphics != nil) {
-                SDLLogW(@"Some images failed to upload. Sending update with the successfully uploaded images");
-                self.inProgressUpdate = showWithGraphics;
-            } else {
-                SDLLogE(@"All images failed to upload. No graphics to show, skipping update.");
-                self.inProgressUpdate = nil;
-            }
-            return;
-        }
-
-        // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
-        // TODO: Send delete if it doesn't?
-        if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
-            SDLLogV(@"Queued image update matches the images we need, sending update");
-            return [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
+        SDLShow *showWithGraphics = [self sdl_createImageOnlyShowWithPrimaryArtwork:self.updatedState.primaryGraphic secondaryArtwork:self.updatedState.secondaryGraphic];
+        if (showWithGraphics != nil) {
+            SDLLogD(@"Sending update with the successfully uploaded images");
+            [strongSelf sdl_sendShow:showWithGraphics withHandler:^(NSError * _Nullable error) {
+                return handler(error);
+            }];
         } else {
-            SDLLogV(@"Queued image update does not match the images we need, skipping update");
+            SDLLogW(@"All images failed to upload. No graphics to show, skipping update.");
+            return handler(error);
         }
     }];
-    // When the images are done uploading, send another show with the images
-    self.queuedImageUpdate = fullShow;
 }
-
-#pragma mark - Uploading Images
 
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *_Nullable error))handler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
@@ -141,6 +152,7 @@
         return handler(nil);
     }
 
+    // TODO: Use progress handler
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Text and graphic manager artwork failed to upload with error: %@", error.localizedDescription);
@@ -168,6 +180,19 @@
     }
 
     return show;
+}
+
+- (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
+    SDLShow *newShow = [[SDLShow alloc] init];
+    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
+
+    if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
+        SDLLogV(@"No graphics to upload");
+        return nil;
+    }
+
+    return newShow;
 }
 
 #pragma mark Text
@@ -422,6 +447,26 @@
     (self.updatedState.textField4Type.length) > 0 ? [array addObject:self.updatedState.textField4Type] : nil;
 
     return [array copy];
+}
+
+#pragma mark - Operation Overrides
+
+- (void)finishOperation {
+    SDLLogV(@"Finishing text and graphic update operation");
+    self.updateCompletionHandler(self.error);
+    [super finishOperation];
+}
+
+- (nullable NSString *)name {
+    return @"com.sdl.textandgraphic.update";
+}
+
+- (NSOperationQueuePriority)queuePriority {
+    return NSOperationQueuePriorityNormal;
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

@@ -172,8 +172,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] updateCompletionHandler:handler];
+
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(updateOperation) weakOp = updateOperation;
     updateOperation.completionBlock = ^{
-        // Check for error and `sentShow` and update our own current state, then update other pending transactions
+        // TODO: Update other pending transactions
+        if (weakOp.sentShow != nil) {
+            weakSelf.currentScreenData = weakOp.sentShow;
+        }
+
+        if (weakOp.error != nil) {
+            SDLLogE(@"Update operation failed with error: %@", weakOp.error);
+        }
     };
     [self.transactionQueue addOperation:updateOperation];
 }
@@ -184,44 +194,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type];
 }
 
-#pragma mark - Extraction
-
-- (SDLShow *)sdl_extractImageFromShow:(SDLShow *)show {
-    SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = show.graphic;
-    newShow.secondaryGraphic = show.secondaryGraphic;
-
-    return newShow;
-}
-
-- (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
-    SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
-    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
-
-    if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
-        SDLLogV(@"No graphics to upload");
-        return nil;
-    }
-
-    return newShow;
-}
-
-- (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
-    // If the items are nil, they were not updated, so we can't just set it directly
-    self.currentScreenData.mainField1 = show.mainField1 ?: self.currentScreenData.mainField1;
-    self.currentScreenData.mainField2 = show.mainField2 ?: self.currentScreenData.mainField2;
-    self.currentScreenData.mainField3 = show.mainField3 ?: self.currentScreenData.mainField3;
-    self.currentScreenData.mainField4 = show.mainField4 ?: self.currentScreenData.mainField4;
-    self.currentScreenData.mediaTrack = show.mediaTrack ?: self.currentScreenData.mediaTrack;
-    self.currentScreenData.templateTitle = show.templateTitle ?: self.currentScreenData.templateTitle;
-    self.currentScreenData.metadataTags = show.metadataTags ?: self.currentScreenData.metadataTags;
-    self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
-    self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
-    self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
-}
-
 #pragma mark - Helpers
+
+- (NSArray<NSString *> *)sdl_findNonNilTextFields {
+    NSMutableArray *array = [NSMutableArray array];
+    (self.textField1.length > 0) ? [array addObject:self.textField1] : nil;
+    (self.textField2.length > 0) ? [array addObject:self.textField2] : nil;
+    (self.textField3.length > 0) ? [array addObject:self.textField3] : nil;
+    (self.textField4.length > 0) ? [array addObject:self.textField4] : nil;
+
+    return [array copy];
+}
 
 - (BOOL)sdl_hasData {
     BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0) || (self.title.length > 0) || (self.mediaTrackTextField.length > 0);
@@ -230,23 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
     return hasTextFields || hasImageFields;
 }
 
-#pragma mark - Equality
-
-- (BOOL)sdl_showImages:(SDLShow *)show isEqualToShowImages:(SDLShow *)show2 {
-    BOOL same = NO;
-    same = ((show.graphic.value == nil && show.graphic.value == nil)
-            || [show.graphic.value isEqualToString:show2.graphic.value]);
-    if (!same) { return NO; }
-
-    same = ((show.secondaryGraphic.value == nil && show.secondaryGraphic.value == nil)
-            || [show.secondaryGraphic.value isEqualToString:show2.secondaryGraphic.value]);
-
-    return same;
-}
-
 #pragma mark - Getters / Setters
-
-#pragma mark - Setters
 
 - (void)setTextField1:(nullable NSString *)textField1 {
     _textField1 = textField1;
@@ -351,10 +318,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self.isBatchingUpdates) {
         [self updateWithCompletionHandler:nil];
     }
-}
-
-- (BOOL)hasQueuedUpdate {
-    return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
 - (nullable SDLArtwork *)blankArtwork {
