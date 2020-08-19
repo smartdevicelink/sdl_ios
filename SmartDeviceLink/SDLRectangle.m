@@ -64,4 +64,19 @@
     return [self.store sdl_objectForName:SDLRPCParameterNameHeight ofClass:NSNumber.class error:&error];
 }
 
+- (BOOL)isEqual:(id)object {
+    if (!object) {
+        return NO;
+    }
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+    typeof(self) rect2 = object;
+    return [self.x isEqualToNumber:rect2.x] && [self.y isEqualToNumber:rect2.y] && [self.width isEqualToNumber:rect2.width] && [self.height isEqualToNumber:rect2.height];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@{%@, %@, {%@ x %@}}", NSStringFromClass(self.class), self.x, self.y, self.width, self.height];
+}
+
 @end
