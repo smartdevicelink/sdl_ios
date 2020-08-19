@@ -33,7 +33,7 @@
 #import "SDLEnum.h"
 
 /**
- The name that identifies the filed. Used in DisplayCapabilities.
+ The name that identifies the field. Used in DisplayCapabilities.
 
  @since SmartDeviceLink 3.0
  */
