@@ -9,7 +9,6 @@
 @class SDLAppInfo;
 @class SDLDeviceInfo;
 @class SDLLifecycleConfiguration;
-@class SDLSyncMsgVersion;
 @class SDLMsgVersion;
 @class SDLTemplateColorScheme;
 @class SDLTTSChunk;
@@ -98,15 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return                          A SDLRegisterAppInterface object
  */
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
-
-/**
- * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
- *
- * SDLSyncMsgVersion, Required
- *
- * @since SDL 1.0
- */
-@property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion __deprecated_msg(("Use sdlMsgVersion instead"));
 
 /**
  * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.

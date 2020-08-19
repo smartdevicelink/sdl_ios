@@ -382,7 +382,6 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSubscribeWaypoints.h',
 'SmartDeviceLink/SDLSubscribeWaypointsResponse.h',
 'SmartDeviceLink/SDLSupportedSeat.h',
-'SmartDeviceLink/SDLSyncMsgVersion.h',
 'SmartDeviceLink/SDLMsgVersion.h',
 'SmartDeviceLink/SDLSyncPData.h',
 'SmartDeviceLink/SDLSyncPDataResponse.h',

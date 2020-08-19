@@ -13,7 +13,6 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-#import "SDLSyncMsgVersion.h"
 #import "SDLMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
 #import "SDLTTSChunk.h"
@@ -119,19 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Getters and Setters
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)syncMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)syncMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)syncMsgVersion.patchVersion.unsignedIntValue];
-    [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
-}
-
-- (SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLMsgVersion.class error:nil];
-    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)sdlMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)sdlMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)sdlMsgVersion.patchVersion.unsignedIntValue];
-}
-#pragma clang diagnostic pop
 
 - (void)setSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion {
     [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
