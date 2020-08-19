@@ -19,14 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRemoteControlCapabilities : SDLRPCStruct
 
-/// Constructs a newly allocated SDLRemoteControlCapabilities object
-///
-/// @param climateControlCapabilities Array of SDLClimateControlCapabilities
-/// @param radioControlCapabilities Array of SDLRadioControlCapabilities
-/// @param buttonCapabilities Array of SDLButtonCapabilities
-/// @return An instance of the SDLRemoteControlCapabilities class
-- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities __deprecated_msg("Use initWithClimateControlCapabilities:climateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities: instead");
-
 /**
  Constructs a newly allocated SDLRemoteControlCapabilities object with given parameters
  
